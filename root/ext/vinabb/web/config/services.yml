@@ -1,0 +1,29 @@
+services:
+    vinabb.web.decorated.text_formatter.s9e.factory:
+        class: vinabb\web\decorated\textformatter\s9e\factory
+        decorates: text_formatter.s9e.factory
+        arguments:
+            - '@text_formatter.data_access'
+            - '@cache.driver'
+            - '@dispatcher'
+            - '@config'
+            - '@language'
+            - '@text_formatter.s9e.link_helper'
+            - '%text_formatter.cache.dir%'
+            - '%text_formatter.cache.parser.key%'
+            - '%text_formatter.cache.renderer.key%'
+    vinabb.web.listener:
+        class: vinabb\web\event\listener
+        arguments:
+            - '@dbal.conn'
+            - '@config'
+            - '@controller.helper'
+            - '@template'
+            - '@user'
+            - '@language'
+            - '@request'
+            - '%core.root_path%'
+            - '%core.adm_relative_path%'
+            - '%core.php_ext%'
+        tags:
+            - { name: event.listener }
