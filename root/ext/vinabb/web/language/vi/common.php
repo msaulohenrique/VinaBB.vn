@@ -29,5 +29,9 @@ $lang = array_merge($lang, array(
 		'HAPPY'	=> 'Ha ha',
 	),
 
+	'G_MANAGEMENT_TEAM'	=> 'Nhóm quản lý',
+	'G_MODERATOR_TEAM'	=> 'Điều hành viên',
+	'G_SUPPORT_TEAM'	=> 'Nhóm hỗ trợ',
+
 	'VINABB'	=> 'VinaBB',
 ));
