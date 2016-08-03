@@ -9,6 +9,7 @@
 namespace vinabb\web\event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use vinabb\web\includes\constants;
 
 class listener implements EventSubscriberInterface
 {
@@ -81,17 +82,75 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'core.user_setup'	=> 'add_lang',
+			'core.user_setup'			=> 'user_setup',
+			'core.page_header_after'	=> 'page_header_after',
 		);
 	}
 
 	/**
-	* Add our common language variables
+	* core.user_setup
 	*
 	* @param $event
 	*/
-	public function add_lang($event)
+	public function user_setup($event)
 	{
+		// Display the forum list on every page
+		if (!in_array($this->user->page['page_name'], array("viewforum.{$this->php_ext}", "viewtopic.{$this->php_ext}", "viewonline.{$this->php_ext}", "memberlist.{$this->php_ext}", "app.{$this->php_ext}/help/faq")))
+		{
+			make_jumpbox(append_sid("{$this->phpbb_root_path}viewforum.{$this->php_ext}"));
+		}
+
+		// Add our common language variables
 		$this->language->add_lang('common', 'vinabb/web');
+	}
+
+	/**
+	* core.user_setup_after
+	*
+	* @param $event
+	*/
+	public function page_header_after($event)
+	{
+		// Maintenance mode
+		if ($this->config['vinabb_web_maintenance_mode'])
+		{
+			$error_message = '';
+			$error_type = ($this->config['vinabb_web_maintenance_tpl']) ? E_USER_WARNING : E_USER_ERROR;
+
+			switch ($this->config['vinabb_web_maintenance_mode'])
+			{
+				case constants::MAINTENANCE_MODE_SERVER:
+					trigger_error($error_message, $error_type);
+				break;
+
+				case constants::MAINTENANCE_MODE_FOUNDER:
+					if ($this->user->data['user_type'] != USER_FOUNDER)
+					{
+						trigger_error($error_message, $error_type);
+					}
+				break;
+
+				case constants::MAINTENANCE_MODE_ADMIN:
+					if (!$this->auth->acl_gets('a_'))
+					{
+						trigger_error($error_message, $error_type);
+					}
+				break;
+
+				case constants::MAINTENANCE_MODE_MOD:
+					if (!$this->auth->acl_gets('a_', 'm_') && !$this->auth->acl_getf_global('m_'))
+					{
+						trigger_error($error_message, $error_type);
+					}
+				break;
+
+				case constants::MAINTENANCE_MODE_USER:
+					if ($this->user->data['user_id'] == ANONYMOUS || $this->user->data['is_bot'])
+					{
+						trigger_error($error_message, $error_type);
+					}
+				break;
+			}
+		}
 	}
 }
