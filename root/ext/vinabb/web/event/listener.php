@@ -82,8 +82,11 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'core.user_setup'			=> 'user_setup',
-			'core.page_header_after'	=> 'page_header_after',
+			'core.user_setup'						=> 'user_setup',
+			'core.page_header_after'				=> 'page_header_after',
+			'core.make_jumpbox_modify_tpl_ary'		=> 'make_jumpbox_modify_tpl_ary',
+			'core.memberlist_prepare_profile_data'	=> 'memberlist_prepare_profile_data',
+			'core.memberlist_memberrow_before'		=> 'memberlist_memberrow_before',
 		);
 	}
 
@@ -95,7 +98,7 @@ class listener implements EventSubscriberInterface
 	public function user_setup($event)
 	{
 		// Display the forum list on every page
-		if (!in_array($this->user->page['page_name'], array("viewforum.{$this->php_ext}", "viewtopic.{$this->php_ext}", "viewonline.{$this->php_ext}", "memberlist.{$this->php_ext}", "app.{$this->php_ext}/help/faq")))
+		if (!in_array($this->user->page['page_name'], array("viewforum.{$this->php_ext}", "viewtopic.{$this->php_ext}", "viewonline.{$this->php_ext}", "memberlist.{$this->php_ext}", "ucp.{$this->php_ext}", "app.{$this->php_ext}/help/faq")))
 		{
 			make_jumpbox(append_sid("{$this->phpbb_root_path}viewforum.{$this->php_ext}"));
 		}
@@ -152,5 +155,47 @@ class listener implements EventSubscriberInterface
 				break;
 			}
 		}
+	}
+
+	/**
+	* core.make_jumpbox_modify_tpl_ary
+	*
+	* @param $event
+	*/
+	public function make_jumpbox_modify_tpl_ary($event)
+	{
+		// Add PARENT_ID and HAS_SUBFORUM
+		$row = $event['row'];
+		$tpl_ary = $event['tpl_ary'];
+		$i = isset($tpl_ary[1]) ? 1 : 0;
+		$tpl_ary[$i]['PARENT_ID'] = $row['parent_id'];
+		$tpl_ary[$i]['HAS_SUBFORUM'] = ($row['left_id'] != $row['right_id'] - 1) ? true : false;
+		$event['tpl_ary'] = $tpl_ary;
+	}
+
+	/**
+	* core.memberlist_prepare_profile_data
+	*
+	* @param $event
+	*/
+	public function memberlist_prepare_profile_data($event)
+	{
+		// Add USER_ID and the translated rank title RANK_TITLE_LANG
+		$data = $event['data'];
+		$template_data = $event['template_data'];
+		$template_data['USER_ID'] = $data['user_id'];
+		$template_data['RANK_TITLE_LANG'] = ($this->language->is_set(['RANK_TITLES', strtoupper($template_data['RANK_TITLE'])])) ? $this->language->lang(['RANK_TITLES', strtoupper($template_data['RANK_TITLE'])]) : $template_data['RANK_TITLE'];
+		$event['template_data'] = $template_data;
+	}
+
+	/**
+	* core.memberlist_memberrow_before
+	*
+	* @param $event
+	*/
+	public function memberlist_memberrow_before($event)
+	{
+		// Enable contact fields on the member list
+		$event['use_contact_fields'] = true;
 	}
 }

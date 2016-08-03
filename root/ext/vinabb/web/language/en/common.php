@@ -25,6 +25,10 @@ if (empty($lang) || !is_array($lang))
 */
 
 $lang = array_merge($lang, array(
+	'BOARD'	=> 'Board',
+
+	'COMMUNITY'	=> 'Community',
+
 	'EMOTICON_TEXT'	=> array(
 		'ALIEN'				=> 'Alien',
 		'ANGEL'				=> 'Angel',
@@ -92,9 +96,32 @@ $lang = array_merge($lang, array(
 		'WTF'				=> 'WTF',
 	),
 
+	'FORUM_WAR'	=> 'Forum War',
+
 	'G_MANAGEMENT_TEAM'	=> 'Managers',
 	'G_MODERATOR_TEAM'	=> 'Moderators',
 	'G_SUPPORT_TEAM'	=> 'Supporters',
+	'GENDER'			=> 'Gender',
+	'GENDER_FEMALE'		=> 'Female',
+	'GENDER_MALE'		=> 'Male',
+	'GITHUB'			=> 'GitHub',
+	'GITHUB_PROFILE'	=> 'GitHub',
+
+	'NEWS'	=> 'News',
+
+	'RANK_TITLES'	=> array(
+		'ADMINISTRATOR'		=> 'Administrator',
+		'DEVELOPER'			=> 'Development Team',
+		'FOUNDER'			=> 'Founder',
+		'GLOBAL_MODERATOR'	=> 'Global Moderator',
+		'MANAGER'			=> 'Management Team',
+		'MEMBER'			=> 'Member',
+		'MODERATOR'			=> 'Moderator',
+		'SUPPORTER'			=> 'Support Team',
+	),
+	'RESOURCES'		=> 'Resources',
+
+	'USER_ID'	=> 'User ID',
 
 	'VINABB'	=> 'VinaBB',
 ));

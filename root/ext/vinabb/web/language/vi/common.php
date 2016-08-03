@@ -25,6 +25,10 @@ if (empty($lang) || !is_array($lang))
 */
 
 $lang = array_merge($lang, array(
+	'BOARD'	=> 'Diễn đàn',
+
+	'COMMUNITY'	=> 'Cộng đồng',
+
 	'EMOTICON_TEXT'	=> array(
 		'ALIEN'				=> '!@#$%',
 		'ANGEL'				=> 'Sẽ có thiên thần sửa lỗi cho em',
@@ -92,9 +96,32 @@ $lang = array_merge($lang, array(
 		'WTF'				=> 'Cậu làm gì thế?',
 	),
 
+	'FORUM_WAR'	=> 'Trò chơi',
+
 	'G_MANAGEMENT_TEAM'	=> 'Nhóm quản lý',
 	'G_MODERATOR_TEAM'	=> 'Điều hành viên',
 	'G_SUPPORT_TEAM'	=> 'Nhóm hỗ trợ',
+	'GENDER'			=> 'Gender',
+	'GENDER_FEMALE'		=> 'Female',
+	'GENDER_MALE'		=> 'Male',
+	'GITHUB'			=> 'GitHub',
+	'GITHUB_PROFILE'	=> 'GitHub',
+
+	'NEWS'	=> 'Tin tức',
+
+	'RANK_TITLES'	=> array(
+		'ADMINISTRATOR'		=> 'Quản trị viên',
+		'DEVELOPER'			=> 'Nhóm phát triển',
+		'FOUNDER'			=> 'Sáng lập viên',
+		'GLOBAL_MODERATOR'	=> 'Điều hành viên chính',
+		'MANAGER'			=> 'Nhóm quản lý',
+		'MEMBER'			=> 'Thành viên',
+		'MODERATOR'			=> 'Điều hành viên',
+		'SUPPORTER'			=> 'Nhóm hỗ trợ',
+	),
+	'RESOURCES'		=> 'Tài nguyên',
+
+	'USER_ID'	=> 'ID tài khoản',
 
 	'VINABB'	=> 'VinaBB',
 ));
