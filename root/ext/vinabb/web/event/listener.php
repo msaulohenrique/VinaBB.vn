@@ -13,6 +13,9 @@ use vinabb\web\includes\constants;
 
 class listener implements EventSubscriberInterface
 {
+	/** @var \phpbb\auth\auth */
+	protected $auth;
+
 	/** @var \phpbb\db\driver\driver_interface */
     protected $db;
 
@@ -46,6 +49,7 @@ class listener implements EventSubscriberInterface
 	/**
 	* Constructor
 	*
+	* @param \phpbb\auth\auth $auth
 	* @param \phpbb\db\driver\driver_interface $db
 	* @param \phpbb\config\config $config
 	* @param \phpbb\controller\helper $helper
@@ -56,7 +60,8 @@ class listener implements EventSubscriberInterface
 	* @param string $phpbb_root_path
 	* @param string $php_ext
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db,
+	public function __construct(\phpbb\auth\auth $auth,
+								\phpbb\db\driver\driver_interface $db,
 								\phpbb\config\config $config,
 								\phpbb\controller\helper $helper,
 								\phpbb\template\template $template,
@@ -67,6 +72,7 @@ class listener implements EventSubscriberInterface
 								$phpbb_admin_path,
 								$php_ext)
 	{
+		$this->auth = $auth;
 		$this->db = $db;
 		$this->config = $config;
 		$this->helper = $helper;
@@ -180,11 +186,12 @@ class listener implements EventSubscriberInterface
 	*/
 	public function memberlist_prepare_profile_data($event)
 	{
-		// Add USER_ID and the translated rank title RANK_TITLE_LANG
+		// Add USER_ID, the translated rank title RANK_TITLE_LANG and U_PM_ALT without checking $can_receive_pm
 		$data = $event['data'];
 		$template_data = $event['template_data'];
 		$template_data['USER_ID'] = $data['user_id'];
 		$template_data['RANK_TITLE_LANG'] = ($this->language->is_set(['RANK_TITLES', strtoupper($template_data['RANK_TITLE'])])) ? $this->language->lang(['RANK_TITLES', strtoupper($template_data['RANK_TITLE'])]) : $template_data['RANK_TITLE'];
+		$template_data['U_PM_ALT'] = ($this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm')) ? append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'i=pm&amp;mode=compose&amp;u=' . $data['user_id']) : '';
 		$event['template_data'] = $template_data;
 	}
 

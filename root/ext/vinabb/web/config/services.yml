@@ -15,6 +15,7 @@ services:
     vinabb.web.listener:
         class: vinabb\web\event\listener
         arguments:
+            - '@auth'
             - '@dbal.conn'
             - '@config'
             - '@controller.helper'
