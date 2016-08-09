@@ -95,6 +95,10 @@ class listener implements EventSubscriberInterface
 			'core.memberlist_memberrow_before'		=> 'memberlist_memberrow_before',
 			'core.viewtopic_modify_post_row'		=> 'viewtopic_modify_post_row',
 			'core.ucp_pm_view_messsage'				=> 'ucp_pm_view_messsage',
+
+			'core.adm_page_header'						=> 'adm_page_header',
+			'core.add_log'								=> 'add_log',
+			'core.acp_manage_forums_update_data_after'	=> 'acp_manage_forums_update_data_after',
 		);
 	}
 
@@ -167,6 +171,7 @@ class listener implements EventSubscriberInterface
 		// Add template variables
 		$this->template->assign_vars(array(
 			'CONFIG_TOTAL_USERS'	=> $this->config['num_users'],
+			'CONFIG_TOTAL_FORUMS'	=> $this->config['num_forums'],
 			'CONFIG_TOTAL_TOPICS'	=> $this->config['num_topics'],
 			'CONFIG_TOTAL_POSTS'	=> $this->config['num_posts'],
 
@@ -247,5 +252,48 @@ class listener implements EventSubscriberInterface
 		$msg_data['RANK_TITLE_RAW'] = $msg_data['RANK_TITLE'];
 		$msg_data['RANK_TITLE'] = ($this->language->is_set(['RANK_TITLES', strtoupper($msg_data['RANK_TITLE'])])) ? $this->language->lang(['RANK_TITLES', strtoupper($msg_data['RANK_TITLE'])]) : $msg_data['RANK_TITLE'];
 		$event['msg_data'] = $msg_data;
+	}
+
+	/**
+	* core.adm_page_header
+	*
+	* @param $event
+	*/
+	public function adm_page_header($event)
+	{
+		// Add our ACP common language variables
+		$this->language->add_lang('acp_common', 'vinabb/web');
+	}
+
+	/**
+	* core.acp_manage_forums_update_data_after
+	*
+	* @param $event
+	*/
+	public function acp_manage_forums_update_data_after($event)
+	{
+		if ($event['is_new_forum'])
+		{
+			$this->config->increment('num_forums', 1, true);
+		}
+	}
+
+	/**
+	* core.add_log
+	*
+	* @param $event
+	*/
+	public function add_log($event)
+	{
+		if (substr($event['log_operation'], 0, 14) == 'LOG_FORUM_DEL_')
+		{
+			$sql = 'SELECT COUNT(forum_id) AS num_forums
+				FROM ' . FORUMS_TABLE;
+			$result = $this->db->sql_query($sql);
+			$num_forums = $this->db->sql_fetchfield('num_forums');
+			$this->db->sql_freeresult($result);
+
+			$this->config->set('num_forums', $num_forums, true);
+		}
 	}
 }

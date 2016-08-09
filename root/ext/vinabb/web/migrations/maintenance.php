@@ -6,12 +6,11 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\stylesdemo\migrations;
+namespace vinabb\web\migrations;
 
 use phpbb\db\migration\migration;
-use vinabb\stylesdemo\includes\constants;
 
-class release_1_0_0 extends migration
+class maintenance extends migration
 {
 	public function update_data()
 	{
@@ -25,15 +24,21 @@ class release_1_0_0 extends migration
 			// Modules
 			array('module.add', array(
 				'acp',
+				'',
+				'ACP_CAT_VINABB'
+			)),
+
+			array('module.add', array(
+				'acp',
 				'ACP_CAT_VINABB',
 				'ACP_CAT_VINABB_SETTINGS'
 			)),
 
 			array('module.add', array(
 				'acp',
-				'ACP_CAT_STYLES_DEMO',
+				'ACP_CAT_VINABB_SETTINGS',
 				array(
-					'module_basename'	=> '\vinabb\stylesdemo\acp\settings_module',
+					'module_basename'	=> '\vinabb\web\acp\settings_module',
 					'modes'				=> array('settings'),
 				),
 			)),
