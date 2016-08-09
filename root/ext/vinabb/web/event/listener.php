@@ -169,6 +169,10 @@ class listener implements EventSubscriberInterface
 			'CONFIG_TOTAL_USERS'	=> $this->config['num_users'],
 			'CONFIG_TOTAL_TOPICS'	=> $this->config['num_topics'],
 			'CONFIG_TOTAL_POSTS'	=> $this->config['num_posts'],
+
+			'U_LOGIN_ACTION'	=> append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'mode=login'),
+			'U_SEND_PASSWORD'	=> ($this->config['email_enable']) ? append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'mode=sendpassword') : '',
+			'U_MCP'				=> ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? append_sid("{$this->phpbb_root_path}mcp.{$this->php_ext}", 'i=main&amp;mode=front', true, $this->user->session_id) : '',
 		));
 	}
 
