@@ -93,6 +93,8 @@ class listener implements EventSubscriberInterface
 			'core.make_jumpbox_modify_tpl_ary'		=> 'make_jumpbox_modify_tpl_ary',
 			'core.memberlist_prepare_profile_data'	=> 'memberlist_prepare_profile_data',
 			'core.memberlist_memberrow_before'		=> 'memberlist_memberrow_before',
+			'core.viewtopic_modify_post_row'		=> 'viewtopic_modify_post_row',
+			'core.ucp_pm_view_messsage'				=> 'ucp_pm_view_messsage',
 		);
 	}
 
@@ -161,6 +163,13 @@ class listener implements EventSubscriberInterface
 				break;
 			}
 		}
+
+		// Add template variables
+		$this->template->assign_vars(array(
+			'CONFIG_TOTAL_USERS'	=> $this->config['num_users'],
+			'CONFIG_TOTAL_TOPICS'	=> $this->config['num_topics'],
+			'CONFIG_TOTAL_POSTS'	=> $this->config['num_posts'],
+		));
 	}
 
 	/**
@@ -186,11 +195,13 @@ class listener implements EventSubscriberInterface
 	*/
 	public function memberlist_prepare_profile_data($event)
 	{
-		// Add USER_ID, the translated rank title RANK_TITLE_LANG and U_PM_ALT without checking $can_receive_pm
+		// Add USER_ID and U_PM_ALT without checking $can_receive_pm
+		// Also translate the rank title RANK_TITLE with the original value RANK_TITLE_RAW
 		$data = $event['data'];
 		$template_data = $event['template_data'];
 		$template_data['USER_ID'] = $data['user_id'];
-		$template_data['RANK_TITLE_LANG'] = ($this->language->is_set(['RANK_TITLES', strtoupper($template_data['RANK_TITLE'])])) ? $this->language->lang(['RANK_TITLES', strtoupper($template_data['RANK_TITLE'])]) : $template_data['RANK_TITLE'];
+		$template_data['RANK_TITLE_RAW'] = $template_data['RANK_TITLE'];
+		$template_data['RANK_TITLE'] = ($this->language->is_set(['RANK_TITLES', strtoupper($template_data['RANK_TITLE'])])) ? $this->language->lang(['RANK_TITLES', strtoupper($template_data['RANK_TITLE'])]) : $template_data['RANK_TITLE'];
 		$template_data['U_PM_ALT'] = ($this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm')) ? append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'i=pm&amp;mode=compose&amp;u=' . $data['user_id']) : '';
 		$event['template_data'] = $template_data;
 	}
@@ -204,5 +215,33 @@ class listener implements EventSubscriberInterface
 	{
 		// Enable contact fields on the member list
 		$event['use_contact_fields'] = true;
+	}
+
+	/**
+	* core.viewtopic_modify_post_row
+	*
+	* @param $event
+	*/
+	public function viewtopic_modify_post_row($event)
+	{
+		// Translate the rank title RANK_TITLE with the original value RANK_TITLE_RAW
+		$post_row = $event['post_row'];
+		$post_row['RANK_TITLE_RAW'] = $post_row['RANK_TITLE'];
+		$post_row['RANK_TITLE'] = ($this->language->is_set(['RANK_TITLES', strtoupper($post_row['RANK_TITLE'])])) ? $this->language->lang(['RANK_TITLES', strtoupper($post_row['RANK_TITLE'])]) : $post_row['RANK_TITLE'];
+		$event['post_row'] = $post_row;
+	}
+
+	/**
+	* core.ucp_pm_view_messsage
+	*
+	* @param $event
+	*/
+	public function ucp_pm_view_messsage($event)
+	{
+		// Translate the rank title RANK_TITLE with the original value RANK_TITLE_RAW
+		$msg_data = $event['msg_data'];
+		$msg_data['RANK_TITLE_RAW'] = $msg_data['RANK_TITLE'];
+		$msg_data['RANK_TITLE'] = ($this->language->is_set(['RANK_TITLES', strtoupper($msg_data['RANK_TITLE'])])) ? $this->language->lang(['RANK_TITLES', strtoupper($msg_data['RANK_TITLE'])]) : $msg_data['RANK_TITLE'];
+		$event['msg_data'] = $msg_data;
 	}
 }
