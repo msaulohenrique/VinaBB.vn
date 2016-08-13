@@ -117,7 +117,7 @@ class listener implements EventSubscriberInterface
 	public function user_setup($event)
 	{
 		// Display the forum list on every page
-		if (!in_array($this->user->page['page_name'], array("viewforum.{$this->php_ext}", "viewtopic.{$this->php_ext}", "viewonline.{$this->php_ext}", "memberlist.{$this->php_ext}", "ucp.{$this->php_ext}", "app.{$this->php_ext}/help/faq")))
+		if (!defined('ADMIN_START') && !in_array($this->user->page['page_name'], array("viewforum.{$this->php_ext}", "viewtopic.{$this->php_ext}", "viewonline.{$this->php_ext}", "memberlist.{$this->php_ext}", "ucp.{$this->php_ext}", "app.{$this->php_ext}/help/faq")))
 		{
 			make_jumpbox(append_sid("{$this->phpbb_root_path}viewforum.{$this->php_ext}"));
 		}
