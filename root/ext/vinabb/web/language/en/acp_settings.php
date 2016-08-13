@@ -38,7 +38,6 @@ $lang = array_merge($lang, array(
 	'MAINTENANCE_MODE_FOUNDER'	=> 'Founder',
 	'MAINTENANCE_MODE_MOD'		=> 'Moderator',
 	'MAINTENANCE_MODE_NONE'		=> 'None',
-	'MAINTENANCE_MODE_SERVER'	=> 'Server',
 	'MAINTENANCE_MODE_USER'		=> 'User',
 	'MAINTENANCE_TEXT'			=> 'Maintenance text (English)',
 	'MAINTENANCE_TEXT_EXPLAIN'	=> 'Leave this field blank to use the default text from language file.',

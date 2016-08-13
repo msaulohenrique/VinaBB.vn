@@ -38,7 +38,6 @@ $lang = array_merge($lang, array(
 	'MAINTENANCE_MODE_FOUNDER'	=> 'Sáng lập viên',
 	'MAINTENANCE_MODE_MOD'		=> 'Điều hành viên',
 	'MAINTENANCE_MODE_NONE'		=> 'Không',
-	'MAINTENANCE_MODE_SERVER'	=> 'Máy chủ',
 	'MAINTENANCE_MODE_USER'		=> 'Người dùng',
 	'MAINTENANCE_TEXT'			=> 'Thông báo bảo trì (Tiếng Anh)',
 	'MAINTENANCE_TEXT_EXPLAIN'	=> 'Để trống để dùng thông báo mặc định từ tập tin ngôn ngữ.',

@@ -5,7 +5,7 @@
 
 <form id="acp_vinabb_settings" method="post" action="{{ U_ACTION }}">
 	<fieldset>
-		<legend>{{ lang('SETTINGS') }}</legend>
+		<legend>{{ lang('ACP_LANGUAGE') }}</legend>
 		<dl>
 			<dt><label for="lang_enable">{{ lang('LANG_ENABLE') }}{{ lang('COLON') }}</label></dt>
 			<dd>
@@ -23,11 +23,13 @@
 				<dd>{% if LANG_SWITCH_OPTIONS is not empty %}<select name="lang_switch" id="lang_switch">{{ LANG_SWITCH_OPTIONS }}</select>{% else %}{{ lang('NO_EXTRA_LANG_TO_SELECT') }}{% endif %}</dd>
 			</dl>
 		</div>
+	</fieldset>
+	<fieldset>
+		<legend>{{ lang('ACP_CAT_MAINTENANCE') }}</legend>
 		<dl>
 			<dt><label for="maintenance_mode">{{ lang('MAINTENANCE_MODE') }}{{ lang('COLON') }}</label></dt>
 			<dd>
 				<label><input type="radio" class="radio" name="maintenance_mode" value="{{ MAINTENANCE_MODE_NONE }}" id="maintenance_mode"{% if MAINTENANCE_MODE == MAINTENANCE_MODE_NONE %} checked{% endif %} onclick="phpbb.toggleDisplay('maintenance_options', -1)"> {{ lang('MAINTENANCE_MODE_NONE') }}</label>
-				<label><input type="radio" class="radio" name="maintenance_mode" value="{{ MAINTENANCE_MODE_SERVER }}"{% if MAINTENANCE_MODE == MAINTENANCE_MODE_SERVER %} checked{% endif %} onclick="phpbb.toggleDisplay('maintenance_options', 1)"> {{ lang('MAINTENANCE_MODE_SERVER') }}</label>
 				<label><input type="radio" class="radio" name="maintenance_mode" value="{{ MAINTENANCE_MODE_FOUNDER }}"{% if MAINTENANCE_MODE == MAINTENANCE_MODE_FOUNDER %} checked{% endif %} onclick="phpbb.toggleDisplay('maintenance_options', 1)"> {{ lang('MAINTENANCE_MODE_FOUNDER') }}</label>
 				<label><input type="radio" class="radio" name="maintenance_mode" value="{{ MAINTENANCE_MODE_ADMIN }}"{% if MAINTENANCE_MODE == MAINTENANCE_MODE_ADMIN %} checked{% endif %} onclick="phpbb.toggleDisplay('maintenance_options', 1)"> {{ lang('MAINTENANCE_MODE_ADMIN') }}</label>
 				<label><input type="radio" class="radio" name="maintenance_mode" value="{{ MAINTENANCE_MODE_MOD }}"{% if MAINTENANCE_MODE == MAINTENANCE_MODE_MOD %} checked{% endif %} onclick="phpbb.toggleDisplay('maintenance_options', 1)"> {{ lang('MAINTENANCE_MODE_MOD') }}</label>
@@ -61,11 +63,13 @@
 				<dd><textarea name="maintenance_text_vi" id="maintenance_text_vi" rows="10" cols="60" style="width: 95%;">{{ MAINTENANCE_TEXT_VI }}</textarea></dd>
 			</dl>
 		</div>
-
-		 <p class="submit-buttons">
+	</fieldset>
+	<fieldset>
+		<legend>{{ lang('ACP_SUBMIT_CHANGES') }}</legend>
+		<p class="submit-buttons">
 			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}">
 			<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}">
-		 </p>
+		</p>
 		{{ S_FORM_TOKEN }}
 	</fieldset>
 </form>

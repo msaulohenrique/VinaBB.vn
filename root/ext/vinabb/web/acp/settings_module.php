@@ -77,6 +77,7 @@ class settings_module
 
 			if (empty($errors))
 			{
+				$this->config->set('vinabb_web_lang_enable', $lang_enable);
 				$this->config->set('vinabb_web_lang_switch', $lang_switch);
 				$this->config->set('vinabb_web_maintenance_mode', $maintenance_mode);
 				$this->config->set('vinabb_web_maintenance_tpl', $maintenance_tpl);
@@ -139,6 +140,7 @@ class settings_module
 
 		// Output
 		$this->template->assign_vars(array(
+			'LANG_ENABLE'				=> isset($lang_enable) ? $lang_enable : $this->config['vinabb_web_lang_enable'],
 			'DEFAULT_LANG'				=> $default_lang_name,
 			'MAINTENANCE_MODE'			=> isset($maintenance_mode) ? $maintenance_mode : $this->config['vinabb_web_maintenance_mode'],
 			'MAINTENANCE_TPL'			=> isset($maintenance_tpl) ? $maintenance_tpl : $this->config['vinabb_web_maintenance_tpl'],
@@ -148,7 +150,6 @@ class settings_module
 			'MAINTENANCE_TEXT_VI'		=> (isset($maintenance_text_vi) && !empty($maintenance_text_vi)) ? $maintenance_text_vi : $data['vinabb_web_maintenance_text_vi'],
 
 			'MAINTENANCE_MODE_NONE'		=> constants::MAINTENANCE_MODE_NONE,
-			'MAINTENANCE_MODE_SERVER'	=> constants::MAINTENANCE_MODE_SERVER,
 			'MAINTENANCE_MODE_FOUNDER'	=> constants::MAINTENANCE_MODE_FOUNDER,
 			'MAINTENANCE_MODE_ADMIN'	=> constants::MAINTENANCE_MODE_ADMIN,
 			'MAINTENANCE_MODE_MOD'		=> constants::MAINTENANCE_MODE_MOD,

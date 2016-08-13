@@ -126,17 +126,16 @@ class listener implements EventSubscriberInterface
 	}
 
 	/**
-	* core.user_setup_after
+	* core.page_header_after
 	*
 	* @param $event
 	*/
 	public function page_header_after($event)
 	{
+		// Maintenance mode
 		global $msg_title;
 
-		// Maintenance mode
-		if ($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_SERVER
-			|| ($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_FOUNDER && $this->user->data['user_type'] != USER_FOUNDER)
+		if (($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_FOUNDER && $this->user->data['user_type'] != USER_FOUNDER)
 			|| ($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_ADMIN && !$this->auth->acl_gets('a_'))
 			|| ($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_MOD && !$this->auth->acl_gets('a_', 'm_') && !$this->auth->acl_getf_global('m_'))
 			|| ($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_USER && ($this->user->data['user_id'] == ANONYMOUS || $this->user->data['is_bot']))
