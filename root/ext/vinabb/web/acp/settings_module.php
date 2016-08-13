@@ -54,6 +54,7 @@ class settings_module
 			$maintenance_mode = $this->request->variable('maintenance_mode', constants::MAINTENANCE_MODE_ADMIN);
 			$maintenance_tpl = $this->request->variable('maintenance_tpl', true);
 			$maintenance_time = $this->request->variable('maintenance_time', 0);
+			$maintenance_time_reset = $this->request->variable('maintenance_time_reset', false);
 			$maintenance_text = $this->request->variable('maintenance_text', '', true);
 			$maintenance_text_vi = $this->request->variable('maintenance_text_vi', '', true);
 
@@ -84,7 +85,7 @@ class settings_module
 					'vinabb_web_maintenance_text_vi'	=> $maintenance_text_vi
 				));
 
-				if ($maintenance_time)
+				if ($maintenance_time || $maintenance_time_reset)
 				{
 					$this->config->set('vinabb_web_maintenance_time', $maintenance_time);
 				}

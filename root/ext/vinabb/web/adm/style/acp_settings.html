@@ -45,7 +45,7 @@
 			{% if MAINTENANCE_TIME_REMAIN %}
 			<dl>
 				<dt><label>{{ lang('MAINTENANCE_TIME_REMAIN') }}{{ lang('COLON') }}</label></dt>
-				<dd>{{ MAINTENANCE_TIME_REMAIN }}</dd>
+				<dd>{{ MAINTENANCE_TIME_REMAIN }} <label><input type="checkbox" class="radio" name="maintenance_time_reset" value="1"> {{ lang('MAINTENANCE_TIME_RESET') }}</label></dd>
 			</dl>
 			{% endif %}
 			<dl>
