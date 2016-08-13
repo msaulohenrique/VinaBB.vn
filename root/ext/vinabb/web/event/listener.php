@@ -96,6 +96,7 @@ class listener implements EventSubscriberInterface
 		return array(
 			'core.user_setup'						=> 'user_setup',
 			'core.page_header_after'				=> 'page_header_after',
+			'core.login_box_redirect'				=> 'login_box_redirect',
 			'core.make_jumpbox_modify_tpl_ary'		=> 'make_jumpbox_modify_tpl_ary',
 			'core.memberlist_prepare_profile_data'	=> 'memberlist_prepare_profile_data',
 			'core.memberlist_memberrow_before'		=> 'memberlist_memberrow_before',
@@ -135,11 +136,12 @@ class listener implements EventSubscriberInterface
 		// Maintenance mode
 		global $msg_title;
 
-		if (($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_FOUNDER && $this->user->data['user_type'] != USER_FOUNDER)
+		if (!defined('IN_LOGIN') && (
+			($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_FOUNDER && $this->user->data['user_type'] != USER_FOUNDER)
 			|| ($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_ADMIN && !$this->auth->acl_gets('a_'))
 			|| ($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_MOD && !$this->auth->acl_gets('a_', 'm_') && !$this->auth->acl_getf_global('m_'))
 			|| ($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_USER && ($this->user->data['user_id'] == ANONYMOUS || $this->user->data['is_bot']))
-		)
+		))
 		{
 			// Get current time
 			$now = time();
@@ -215,6 +217,20 @@ class listener implements EventSubscriberInterface
 			'U_SEND_PASSWORD'	=> ($this->config['email_enable']) ? append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'mode=sendpassword') : '',
 			'U_MCP'				=> ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? append_sid("{$this->phpbb_root_path}mcp.{$this->php_ext}", 'i=main&amp;mode=front', true, $this->user->session_id) : '',
 		));
+	}
+
+	/**
+	* core.login_box_redirect
+	*
+	* @param $event
+	*/
+	public function login_box_redirect($event)
+	{
+		// Prevent standard administrators to login successfully if the maintenance mode is enabled with founder level
+		if ($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_FOUNDER && $this->user->data['user_type'] != USER_FOUNDER)
+		{
+			$this->user->unset_admin();
+		}
 	}
 
 	/**

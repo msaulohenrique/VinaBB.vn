@@ -83,6 +83,33 @@ class settings_module
 
 			if (empty($errors))
 			{
+				//
+				if ($maintenance_mode == constants::MAINTENANCE_MODE_FOUNDER)
+				{
+					$founder_user_ids = array();
+
+					$sql = 'SELECT user_id
+						FROM ' . USERS_TABLE . '
+						WHERE user_type = ' . USER_FOUNDER;
+					$result = $this->db->sql_query($sql);
+					$rows = $this->db->sql_fetchrowset($result);
+					$this->db->sql_freeresult($result);
+
+					foreach ($rows as $row)
+					{
+						$founder_user_ids[] = $row['user_id'];
+					}
+
+					if (sizeof($founder_user_ids))
+					{
+						$sql = 'UPDATE ' . SESSIONS_TABLE . '
+							SET session_admin = 0
+							WHERE session_admin = 1
+								AND ' . $this->db->sql_in_set('session_user_id', $founder_user_ids, true);
+						$this->db->sql_query($sql);
+					}
+				}
+
 				$this->config->set('vinabb_web_lang_enable', $lang_enable);
 				$this->config->set('vinabb_web_lang_switch', $lang_switch);
 				$this->config->set('vinabb_web_maintenance_mode', $maintenance_mode);
