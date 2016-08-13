@@ -29,6 +29,8 @@ $lang = array_merge($lang, array(
 
 	'DEFAULT_LANGUAGE'	=> 'Ngôn ngữ mặc định',
 
+	'ERROR_MAINTENANCE_MODE_FOUNDER'	=> 'Không được phép đổi chế độ bảo trì thành “Sáng lập viên”.',
+
 	'LANG_ENABLE'			=> 'Cho phép chuyển ngôn ngữ',
 	'LANG_SWITCH'			=> 'Ngôn ngữ chuyển',
 	'LANG_SWITCH_EXPLAIN'	=> 'Ngôn ngữ chuyển và mặc định phải khác nhau.',

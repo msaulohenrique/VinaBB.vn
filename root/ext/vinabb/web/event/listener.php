@@ -299,6 +299,11 @@ class listener implements EventSubscriberInterface
 	{
 		// Add our ACP common language variables
 		$this->language->add_lang('acp_common', 'vinabb/web');
+
+		// Add template variables
+		$this->template->assign_vars(array(
+			'S_FOUNDER'	=> ($this->user->data['user_type'] == USER_FOUNDER) ? true : false
+		));
 	}
 
 	/**

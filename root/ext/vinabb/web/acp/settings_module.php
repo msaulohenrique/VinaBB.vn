@@ -65,6 +65,12 @@ class settings_module
 				$lang_switch = '';
 			}
 
+			// Check maintenance mode
+			if ($maintenance_mode == constants::MAINTENANCE_MODE_FOUNDER && $this->user->data['user_type'] != USER_FOUNDER)
+			{
+				$errors[] = $this->language->lang('ERROR_MAINTENANCE_MODE_FOUNDER');
+			}
+
 			// Check and convert $maintenance_time
 			if ($maintenance_time && is_numeric($maintenance_time))
 			{

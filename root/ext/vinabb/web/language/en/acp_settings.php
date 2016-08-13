@@ -29,6 +29,8 @@ $lang = array_merge($lang, array(
 
 	'DEFAULT_LANGUAGE'	=> 'Default language',
 
+	'ERROR_MAINTENANCE_MODE_FOUNDER'	=> 'You are not authorized to change the maintenance mode to “Founder”.',
+
 	'LANG_ENABLE'			=> 'Enable language switcher',
 	'LANG_SWITCH'			=> 'Switch language',
 	'LANG_SWITCH_EXPLAIN'	=> 'The switch and default language must be different.',
