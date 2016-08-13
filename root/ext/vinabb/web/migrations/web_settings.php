@@ -26,7 +26,8 @@ class web_settings extends migration
 			array('config.add', array('vinabb_web_maintenance_mode', 0)),
 			array('config.add', array('vinabb_web_maintenance_tpl', 1)),
 			array('config.add', array('vinabb_web_maintenance_time', 0)),
-			array('config.add', array('vinabb_web_maintenance_text', '')),
+			array('config_text.add', array('vinabb_web_maintenance_text', '')),
+			array('config_text.add', array('vinabb_web_maintenance_text_vi', '')),
 
 			// Modules
 			array('module.add', array(

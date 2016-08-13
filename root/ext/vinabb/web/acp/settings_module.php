@@ -21,6 +21,7 @@ class settings_module
 
 		$this->auth = $phpbb_container->get('auth');
 		$this->config = $phpbb_container->get('config');
+		$this->config_text = $phpbb_container->get('config_text');
 		$this->db = $phpbb_container->get('dbal.conn');
 		$this->log = $phpbb_container->get('log');
 		$this->request = $phpbb_container->get('request');
@@ -48,12 +49,13 @@ class settings_module
 			}
 
 			// Get from the form
-			$lang_enable = $this->request->variable('lang_switch', '');
+			$lang_enable = $this->request->variable('lang_enable', false);
 			$lang_switch = $this->request->variable('lang_switch', '');
 			$maintenance_mode = $this->request->variable('maintenance_mode', constants::MAINTENANCE_MODE_ADMIN);
 			$maintenance_tpl = $this->request->variable('maintenance_tpl', true);
 			$maintenance_time = $this->request->variable('maintenance_time', 0);
-			$maintenance_text = $this->request->variable('maintenance_text', '');
+			$maintenance_text = $this->request->variable('maintenance_text', '', true);
+			$maintenance_text_vi = $this->request->variable('maintenance_text_vi', '', true);
 
 			// Check switch lang
 			if ($lang_enable && (empty($lang_switch) || $lang_switch == $this->config['default_lang']))
@@ -77,7 +79,10 @@ class settings_module
 				$this->config->set('vinabb_web_lang_switch', $lang_switch);
 				$this->config->set('vinabb_web_maintenance_mode', $maintenance_mode);
 				$this->config->set('vinabb_web_maintenance_tpl', $maintenance_tpl);
-				$this->config->set('vinabb_web_maintenance_text', $maintenance_text);
+				$this->config_text->set_array(array(
+					'vinabb_web_maintenance_text'		=> $maintenance_text,
+					'vinabb_web_maintenance_text_vi'	=> $maintenance_text_vi
+				));
 
 				if ($maintenance_time)
 				{
@@ -125,6 +130,12 @@ class settings_module
 			}
 		}
 
+		// Get data from the config_text table
+		$data = $this->config_text->get_array(array(
+			'vinabb_web_maintenance_text',
+			'vinabb_web_maintenance_text_vi'
+		));
+
 		// Output
 		$this->template->assign_vars(array(
 			'DEFAULT_LANG'				=> $default_lang_name,
@@ -132,7 +143,8 @@ class settings_module
 			'MAINTENANCE_TPL'			=> isset($maintenance_tpl) ? $maintenance_tpl : $this->config['vinabb_web_maintenance_tpl'],
 			'MAINTENANCE_TIME'			=> isset($maintenance_time) ? $maintenance_time : 0,
 			'MAINTENANCE_TIME_REMAIN'	=> ($this->config['vinabb_web_maintenance_time'] > time()) ? $this->user->format_date($this->config['vinabb_web_maintenance_time']) : '',
-			'MAINTENANCE_TEXT'			=> (isset($maintenance_text) && !empty($maintenance_text)) ? $maintenance_text : $this->config['vinabb_web_maintenance_text'],
+			'MAINTENANCE_TEXT'			=> (isset($maintenance_text) && !empty($maintenance_text)) ? $maintenance_text : $data['vinabb_web_maintenance_text'],
+			'MAINTENANCE_TEXT_VI'		=> (isset($maintenance_text_vi) && !empty($maintenance_text_vi)) ? $maintenance_text_vi : $data['vinabb_web_maintenance_text_vi'],
 
 			'MAINTENANCE_MODE_NONE'		=> constants::MAINTENANCE_MODE_NONE,
 			'MAINTENANCE_MODE_SERVER'	=> constants::MAINTENANCE_MODE_SERVER,

@@ -1,7 +1,5 @@
 {% include 'overall_header.html' %}
 
-<a href="{{ STYLES_DEMO_URL }}" style="float: {{ S_CONTENT_FLOW_END }};">&raquo; {{ lang('STYLES_DEMO_URL') }}</a>
-
 <h1>{{ lang('ACP_VINABB_SETTINGS') }}</h1>
 <p>{{ lang('ACP_VINABB_SETTINGS_EXPLAIN') }}</p>
 
@@ -17,7 +15,7 @@
 		</dl>
 		<div id="lang_enable_options"{% if not LANG_ENABLE %} style="display: none;"{% endif %}>
 			<dl>
-				<dt><label for="default_lang">{{ lang('DEFAULT_LANGUAGE') }}{{ lang('COLON') }}</label></dt>
+				<dt><label>{{ lang('DEFAULT_LANGUAGE') }}{{ lang('COLON') }}</label></dt>
 				<dd><strong>{{ DEFAULT_LANG }}</strong></dd>
 			</dl>
 			<dl>
@@ -46,7 +44,7 @@
 			</dl>
 			{% if MAINTENANCE_TIME_REMAIN %}
 			<dl>
-				<dt><label for="maintenance_time_remain">{{ lang('MAINTENANCE_TIME_REMAIN') }}{{ lang('COLON') }}</label></dt>
+				<dt><label>{{ lang('MAINTENANCE_TIME_REMAIN') }}{{ lang('COLON') }}</label></dt>
 				<dd>{{ MAINTENANCE_TIME_REMAIN }}</dd>
 			</dl>
 			{% endif %}
@@ -56,7 +54,11 @@
 			</dl>
 			<dl>
 				<dt><label for="maintenance_text">{{ lang('MAINTENANCE_TEXT') }}{{ lang('COLON') }}</label><br /><span>{{ lang('MAINTENANCE_TEXT_EXPLAIN') }}</span></dt>
-				<dd><input id="maintenance_text" type="text" size="40" maxlength="255" name="maintenance_text" value="{{ MAINTENANCE_TEXT }}"></dd>
+				<dd><textarea name="maintenance_text" id="maintenance_text" rows="10" cols="60" style="width: 95%;">{{ MAINTENANCE_TEXT }}</textarea></dd>
+			</dl>
+			<dl>
+				<dt><label for="maintenance_text_vi">{{ lang('MAINTENANCE_TEXT_VI') }}{{ lang('COLON') }}</label><br /><span>{{ lang('MAINTENANCE_TEXT_EXPLAIN') }}</span></dt>
+				<dd><textarea name="maintenance_text_vi" id="maintenance_text_vi" rows="10" cols="60" style="width: 95%;">{{ MAINTENANCE_TEXT_VI }}</textarea></dd>
 			</dl>
 		</div>
 

@@ -22,6 +22,9 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\config\config */
     protected $config;
 
+	/** @var \phpbb\config\db_text */
+	protected $config_text;
+
 	/** @var \phpbb\controller\helper */
     protected $helper;
 
@@ -52,6 +55,7 @@ class listener implements EventSubscriberInterface
 	* @param \phpbb\auth\auth $auth
 	* @param \phpbb\db\driver\driver_interface $db
 	* @param \phpbb\config\config $config
+	* @param \phpbb\config\db_text $config_text
 	* @param \phpbb\controller\helper $helper
 	* @param \phpbb\template\template $template
 	* @param \phpbb\user $user
@@ -63,6 +67,7 @@ class listener implements EventSubscriberInterface
 	public function __construct(\phpbb\auth\auth $auth,
 								\phpbb\db\driver\driver_interface $db,
 								\phpbb\config\config $config,
+								\phpbb\config\db_text $config_text,
 								\phpbb\controller\helper $helper,
 								\phpbb\template\template $template,
 								\phpbb\user $user,
@@ -75,6 +80,7 @@ class listener implements EventSubscriberInterface
 		$this->auth = $auth;
 		$this->db = $db;
 		$this->config = $config;
+		$this->config_text = $config_text;
 		$this->helper = $helper;
 		$this->template = $template;
 		$this->user = $user;
@@ -129,70 +135,74 @@ class listener implements EventSubscriberInterface
 		global $msg_title;
 
 		// Maintenance mode
-		$now = time();
-
-		if ($this->config['vinabb_web_maintenance_mode'])
+		if ($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_SERVER
+			|| ($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_FOUNDER && $this->user->data['user_type'] != USER_FOUNDER)
+			|| ($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_ADMIN && !$this->auth->acl_gets('a_'))
+			|| ($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_MOD && !$this->auth->acl_gets('a_', 'm_') && !$this->auth->acl_getf_global('m_'))
+			|| ($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_USER && ($this->user->data['user_id'] == ANONYMOUS || $this->user->data['is_bot']))
+		)
 		{
-			$msg_title = $this->language->lang('MAINTENANCE_TITLE');
-			$error_type = ($this->config['vinabb_web_maintenance_tpl']) ? E_USER_WARNING : E_USER_ERROR;
+			// Get current time
+			$now = time();
+			$in_maintenance_time = ($this->config['vinabb_web_maintenance_time'] > $now) ? true : false;
 
-			if (empty($this->config['vinabb_web_maintenance_text']))
+			// Get data from the config_text table
+			$data = $this->config_text->get_array(array(
+				'vinabb_web_maintenance_text',
+				'vinabb_web_maintenance_text_vi'
+			));
+
+			// Get maintenance text with/without the end time
+			if (empty($data['vinabb_web_maintenance_text']) || empty($data['vinabb_web_maintenance_text_vi']))
 			{
-				if ($this->config['vinabb_web_maintenance_time'] > $now)
+				if ($in_maintenance_time)
 				{
+					// Short maintenance time: 12 hours
 					if (($this->config['vinabb_web_maintenance_time'] - $now) > (12 * 60 * 60))
 					{
-						$message = $this->language->lang('MAINTENANCE_TEXT_TIME_LONG', $this->user->format_date($this->config['vinabb_web_maintenance_time']));
+						$message = $this->language->lang('MAINTENANCE_TEXT_TIME_LONG', $this->user->format_date($this->config['vinabb_web_maintenance_time'], 'd/m/Y H:i'));
 					}
 					else
 					{
-						$message = $this->language->lang('MAINTENANCE_TEXT_TIME', $this->user->format_date($this->config['vinabb_web_maintenance_time'], 'H:i'));
+						$message = $this->language->lang('MAINTENANCE_TEXT_TIME_SHORT', $this->user->format_date($this->config['vinabb_web_maintenance_time'], 'H:i'));
 					}
 				}
 				else
 				{
 					$message = $this->language->lang('MAINTENANCE_TEXT');
 				}
+
+				$message .= '<br>';
 			}
 			else
 			{
-				$message = $this->config['vinabb_web_maintenance_text'];
+				$message = ($this->user->lang_name == 'vi') ? $data['vinabb_web_maintenance_text_vi'] : $data['vinabb_web_maintenance_text'];
+				$message = str_replace("\n", '<br>', $message);
+
+				if ($in_maintenance_time)
+				{
+					$message .= '<br ><br >' . $this->language->lang('MAINTENANCE_TEXT_TIME_END', $this->user->format_date($this->config['vinabb_web_maintenance_time'], 'd/m/Y H:i'));
+				}
 			}
 
-			switch ($this->config['vinabb_web_maintenance_mode'])
+			// Get timezone data
+			$dt = $this->user->create_datetime();
+			$timezone_offset = $this->language->lang(['timezones', 'UTC_OFFSET'], phpbb_format_timezone_offset($dt->getOffset()));
+			$timezone_name = $this->user->timezone->getName();
+
+			if ($this->language->is_set(['timezones', $timezone_name]))
 			{
-				case constants::MAINTENANCE_MODE_SERVER:
-					trigger_error($message, $error_type);
-				break;
-
-				case constants::MAINTENANCE_MODE_FOUNDER:
-					if ($this->user->data['user_type'] != USER_FOUNDER)
-					{
-						trigger_error($message, $error_type);
-					}
-				break;
-
-				case constants::MAINTENANCE_MODE_ADMIN:
-					if (!$this->auth->acl_gets('a_'))
-					{
-						trigger_error($message, $error_type);
-					}
-				break;
-
-				case constants::MAINTENANCE_MODE_MOD:
-					if (!$this->auth->acl_gets('a_', 'm_') && !$this->auth->acl_getf_global('m_'))
-					{
-						trigger_error($message, $error_type);
-					}
-				break;
-
-				case constants::MAINTENANCE_MODE_USER:
-					if ($this->user->data['user_id'] == ANONYMOUS || $this->user->data['is_bot'])
-					{
-						trigger_error($message, $error_type);
-					}
-				break;
+				$timezone_name = $this->language->lang(['timezones', $timezone_name]);
 			}
+
+			if ($in_maintenance_time)
+			{
+				$message .= '<br>' . $this->language->lang('MAINTENANCE_TEXT_TIMEZONE', $timezone_offset, $timezone_name);
+			}
+
+			// Display the maintenance text
+			$msg_title = $this->language->lang('MAINTENANCE_TITLE');
+			trigger_error($message, ($this->config['vinabb_web_maintenance_tpl']) ? E_USER_WARNING : E_USER_ERROR);
 		}
 
 		// Add template variables

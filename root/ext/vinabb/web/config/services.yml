@@ -18,6 +18,7 @@ services:
             - '@auth'
             - '@dbal.conn'
             - '@config'
+            - '@config_text'
             - '@controller.helper'
             - '@template'
             - '@user'
