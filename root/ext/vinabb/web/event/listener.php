@@ -116,14 +116,13 @@ class listener implements EventSubscriberInterface
 	*/
 	public function user_setup($event)
 	{
-		// Display the forum list on every page
-		if (!defined('ADMIN_START') && !in_array($this->user->page['page_name'], array("viewforum.{$this->php_ext}", "viewtopic.{$this->php_ext}", "viewonline.{$this->php_ext}", "memberlist.{$this->php_ext}", "ucp.{$this->php_ext}", "app.{$this->php_ext}/help/faq")))
-		{
-			make_jumpbox(append_sid("{$this->phpbb_root_path}viewforum.{$this->php_ext}"));
-		}
-
 		// Add our common language variables
-		$this->language->add_lang('common', 'vinabb/web');
+		$lang_set_ext = $event['lang_set_ext'];
+		$lang_set_ext[] = array(
+			'ext_name' => 'vinabb/web',
+			'lang_set' => 'common',
+		);
+		$event['lang_set_ext'] = $lang_set_ext;
 	}
 
 	/**
@@ -204,6 +203,12 @@ class listener implements EventSubscriberInterface
 			// Display the maintenance text
 			$msg_title = $this->language->lang('MAINTENANCE_TITLE');
 			trigger_error($message, ($this->config['vinabb_web_maintenance_tpl']) ? E_USER_WARNING : E_USER_ERROR);
+		}
+
+		// Display the forum list on every page
+		if (!defined('ADMIN_START') && !in_array($this->user->page['page_name'], array("viewforum.{$this->php_ext}", "viewtopic.{$this->php_ext}", "viewonline.{$this->php_ext}", "memberlist.{$this->php_ext}", "ucp.{$this->php_ext}", "app.{$this->php_ext}/help/faq")))
+		{
+			make_jumpbox(append_sid("{$this->phpbb_root_path}viewforum.{$this->php_ext}"));
 		}
 
 		// Add template variables
