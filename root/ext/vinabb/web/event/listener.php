@@ -126,43 +126,70 @@ class listener implements EventSubscriberInterface
 	*/
 	public function page_header_after($event)
 	{
+		global $msg_title;
+
 		// Maintenance mode
+		$now = time();
+
 		if ($this->config['vinabb_web_maintenance_mode'])
 		{
-			$error_message = '';
+			$msg_title = $this->language->lang('MAINTENANCE_TITLE');
 			$error_type = ($this->config['vinabb_web_maintenance_tpl']) ? E_USER_WARNING : E_USER_ERROR;
+
+			if (empty($this->config['vinabb_web_maintenance_text']))
+			{
+				if ($this->config['vinabb_web_maintenance_time'] > $now)
+				{
+					if (($this->config['vinabb_web_maintenance_time'] - $now) > (12 * 60 * 60))
+					{
+						$message = $this->language->lang('MAINTENANCE_TEXT_TIME_LONG', $this->user->format_date($this->config['vinabb_web_maintenance_time']));
+					}
+					else
+					{
+						$message = $this->language->lang('MAINTENANCE_TEXT_TIME', $this->user->format_date($this->config['vinabb_web_maintenance_time'], 'H:i'));
+					}
+				}
+				else
+				{
+					$message = $this->language->lang('MAINTENANCE_TEXT');
+				}
+			}
+			else
+			{
+				$message = $this->config['vinabb_web_maintenance_text'];
+			}
 
 			switch ($this->config['vinabb_web_maintenance_mode'])
 			{
 				case constants::MAINTENANCE_MODE_SERVER:
-					trigger_error($error_message, $error_type);
+					trigger_error($message, $error_type);
 				break;
 
 				case constants::MAINTENANCE_MODE_FOUNDER:
 					if ($this->user->data['user_type'] != USER_FOUNDER)
 					{
-						trigger_error($error_message, $error_type);
+						trigger_error($message, $error_type);
 					}
 				break;
 
 				case constants::MAINTENANCE_MODE_ADMIN:
 					if (!$this->auth->acl_gets('a_'))
 					{
-						trigger_error($error_message, $error_type);
+						trigger_error($message, $error_type);
 					}
 				break;
 
 				case constants::MAINTENANCE_MODE_MOD:
 					if (!$this->auth->acl_gets('a_', 'm_') && !$this->auth->acl_getf_global('m_'))
 					{
-						trigger_error($error_message, $error_type);
+						trigger_error($message, $error_type);
 					}
 				break;
 
 				case constants::MAINTENANCE_MODE_USER:
 					if ($this->user->data['user_id'] == ANONYMOUS || $this->user->data['is_bot'])
 					{
-						trigger_error($error_message, $error_type);
+						trigger_error($message, $error_type);
 					}
 				break;
 			}

@@ -25,7 +25,4 @@ if (empty($lang) || !is_array($lang))
 */
 
 $lang = array_merge($lang, array(
-	'ACP_CAT_VINABB'			=> 'VinaBB',
-	'ACP_CAT_VINABB_SETTINGS'	=> 'Thiết lập',
-	'ACP_VINABB_SETTINGS'		=> 'Thiết lập chung',
 ));

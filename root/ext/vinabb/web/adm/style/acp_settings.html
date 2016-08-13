@@ -1,0 +1,71 @@
+{% include 'overall_header.html' %}
+
+<a href="{{ STYLES_DEMO_URL }}" style="float: {{ S_CONTENT_FLOW_END }};">&raquo; {{ lang('STYLES_DEMO_URL') }}</a>
+
+<h1>{{ lang('ACP_VINABB_SETTINGS') }}</h1>
+<p>{{ lang('ACP_VINABB_SETTINGS_EXPLAIN') }}</p>
+
+<form id="acp_vinabb_settings" method="post" action="{{ U_ACTION }}">
+	<fieldset>
+		<legend>{{ lang('SETTINGS') }}</legend>
+		<dl>
+			<dt><label for="lang_enable">{{ lang('LANG_ENABLE') }}{{ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="lang_enable" value="1" id="lang_enable"{% if LANG_ENABLE %} checked{% endif %} onclick="phpbb.toggleDisplay('lang_enable_options', 1)"> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="lang_enable" value="0"{% if not LANG_ENABLE %} checked{% endif %} onclick="phpbb.toggleDisplay('lang_enable_options', -1)"> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<div id="lang_enable_options"{% if not LANG_ENABLE %} style="display: none;"{% endif %}>
+			<dl>
+				<dt><label for="default_lang">{{ lang('DEFAULT_LANGUAGE') }}{{ lang('COLON') }}</label></dt>
+				<dd><strong>{{ DEFAULT_LANG }}</strong></dd>
+			</dl>
+			<dl>
+				<dt><label for="lang_switch">{{ lang('LANG_SWITCH') }}{{ lang('COLON') }}</label><br /><span>{{ lang('LANG_SWITCH_EXPLAIN') }}</span></dt>
+				<dd>{% if LANG_SWITCH_OPTIONS is not empty %}<select name="lang_switch" id="lang_switch">{{ LANG_SWITCH_OPTIONS }}</select>{% else %}{{ lang('NO_EXTRA_LANG_TO_SELECT') }}{% endif %}</dd>
+			</dl>
+		</div>
+		<dl>
+			<dt><label for="maintenance_mode">{{ lang('MAINTENANCE_MODE') }}{{ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="maintenance_mode" value="{{ MAINTENANCE_MODE_NONE }}" id="maintenance_mode"{% if MAINTENANCE_MODE == MAINTENANCE_MODE_NONE %} checked{% endif %} onclick="phpbb.toggleDisplay('maintenance_options', -1)"> {{ lang('MAINTENANCE_MODE_NONE') }}</label>
+				<label><input type="radio" class="radio" name="maintenance_mode" value="{{ MAINTENANCE_MODE_SERVER }}"{% if MAINTENANCE_MODE == MAINTENANCE_MODE_SERVER %} checked{% endif %} onclick="phpbb.toggleDisplay('maintenance_options', 1)"> {{ lang('MAINTENANCE_MODE_SERVER') }}</label>
+				<label><input type="radio" class="radio" name="maintenance_mode" value="{{ MAINTENANCE_MODE_FOUNDER }}"{% if MAINTENANCE_MODE == MAINTENANCE_MODE_FOUNDER %} checked{% endif %} onclick="phpbb.toggleDisplay('maintenance_options', 1)"> {{ lang('MAINTENANCE_MODE_FOUNDER') }}</label>
+				<label><input type="radio" class="radio" name="maintenance_mode" value="{{ MAINTENANCE_MODE_ADMIN }}"{% if MAINTENANCE_MODE == MAINTENANCE_MODE_ADMIN %} checked{% endif %} onclick="phpbb.toggleDisplay('maintenance_options', 1)"> {{ lang('MAINTENANCE_MODE_ADMIN') }}</label>
+				<label><input type="radio" class="radio" name="maintenance_mode" value="{{ MAINTENANCE_MODE_MOD }}"{% if MAINTENANCE_MODE == MAINTENANCE_MODE_MOD %} checked{% endif %} onclick="phpbb.toggleDisplay('maintenance_options', 1)"> {{ lang('MAINTENANCE_MODE_MOD') }}</label>
+				<label><input type="radio" class="radio" name="maintenance_mode" value="{{ MAINTENANCE_MODE_USER }}"{% if MAINTENANCE_MODE == MAINTENANCE_MODE_USER %} checked{% endif %} onclick="phpbb.toggleDisplay('maintenance_options', 1)"> {{ lang('MAINTENANCE_MODE_USER') }}</label>
+			</dd>
+		</dl>
+		<div id="maintenance_options"{% if MAINTENANCE_MODE == MAINTENANCE_MODE_NONE %} style="display: none;"{% endif %}>
+			<dl>
+				<dt><label for="maintenance_tpl">{{ lang('MAINTENANCE_TPL') }}{{ lang('COLON') }}</label></dt>
+				<dd>
+					<label><input type="radio" class="radio" name="maintenance_tpl" value="1" id="maintenance_tpl"{% if MAINTENANCE_TPL %} checked{% endif %}> {{ lang('YES') }}</label>
+					<label><input type="radio" class="radio" name="maintenance_tpl" value="0"{% if not MAINTENANCE_TPL %} checked{% endif %}> {{ lang('NO') }}</label>
+				</dd>
+			</dl>
+			{% if MAINTENANCE_TIME_REMAIN %}
+			<dl>
+				<dt><label for="maintenance_time_remain">{{ lang('MAINTENANCE_TIME_REMAIN') }}{{ lang('COLON') }}</label></dt>
+				<dd>{{ MAINTENANCE_TIME_REMAIN }}</dd>
+			</dl>
+			{% endif %}
+			<dl>
+				<dt><label for="maintenance_time">{{ lang('MAINTENANCE_TIME') }}{{ lang('COLON') }}</label><br /><span>{{ lang('MAINTENANCE_TIME_EXPLAIN') }}</span></dt>
+				<dd><input id="maintenance_time" type="number" min="0" name="maintenance_time" value="{{ MAINTENANCE_TIME }}"> {{ lang('MINUTES') }}</dd>
+			</dl>
+			<dl>
+				<dt><label for="maintenance_text">{{ lang('MAINTENANCE_TEXT') }}{{ lang('COLON') }}</label><br /><span>{{ lang('MAINTENANCE_TEXT_EXPLAIN') }}</span></dt>
+				<dd><input id="maintenance_text" type="text" size="40" maxlength="255" name="maintenance_text" value="{{ MAINTENANCE_TEXT }}"></dd>
+			</dl>
+		</div>
+
+		 <p class="submit-buttons">
+			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}">
+			<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}">
+		 </p>
+		{{ S_FORM_TOKEN }}
+	</fieldset>
+</form>
+
+{% include 'overall_footer.html' %}

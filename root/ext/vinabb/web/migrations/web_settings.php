@@ -10,30 +10,25 @@ namespace vinabb\web\migrations;
 
 use phpbb\db\migration\migration;
 
-class maintenance extends migration
+class web_settings extends migration
 {
+	static public function depends_on()
+	{
+		return array('\vinabb\web\migrations\module_categories');
+	}
+
 	public function update_data()
 	{
 		return array(
 			// Config
+			array('config.add', array('vinabb_web_lang_enable', 0)),
+			array('config.add', array('vinabb_web_lang_switch', '')),
 			array('config.add', array('vinabb_web_maintenance_mode', 0)),
 			array('config.add', array('vinabb_web_maintenance_tpl', 1)),
 			array('config.add', array('vinabb_web_maintenance_time', 0)),
 			array('config.add', array('vinabb_web_maintenance_text', '')),
 
 			// Modules
-			array('module.add', array(
-				'acp',
-				'',
-				'ACP_CAT_VINABB'
-			)),
-
-			array('module.add', array(
-				'acp',
-				'ACP_CAT_VINABB',
-				'ACP_CAT_VINABB_SETTINGS'
-			)),
-
 			array('module.add', array(
 				'acp',
 				'ACP_CAT_VINABB_SETTINGS',

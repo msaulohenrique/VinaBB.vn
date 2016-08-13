@@ -107,6 +107,11 @@ $lang = array_merge($lang, array(
 	'GITHUB'			=> 'GitHub',
 	'GITHUB_PROFILE'	=> 'GitHub',
 
+	'MAINTENANCE_TEXT'				=> 'Zzz… Our server is now sleeping and dreaming about new features in phpBB 4.x. You can not wake up this lazy boy but his mother can. We are looking for her. Love you!',
+	'MAINTENANCE_TEXT_TIME'			=> 'Zzz… Our server is now sleeping and dreaming about new features in phpBB 4.x. Please come back at <strong>%s</strong> and this lazy boy can be woken. Love you!',
+	'MAINTENANCE_TEXT_TIME_LONG'	=> 'Zzz… Our server is now sleeping and dreaming about new features in phpBB 4.x. You can not wake up this lazy boy until <strong>%s</strong>. Thanks for participating. Love you!',
+	'MAINTENANCE_TITLE'				=> 'Sorry, we are down for maintenance',
+
 	'NEWS'	=> 'News',
 
 	'RANK_TITLES'	=> array(
