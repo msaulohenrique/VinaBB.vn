@@ -107,6 +107,8 @@ $lang = array_merge($lang, array(
 	'GITHUB'			=> 'GitHub',
 	'GITHUB_PROFILE'	=> 'GitHub',
 
+	'LANG_SWITCH'	=> '%1$s » %2$s',
+
 	'MAINTENANCE_TEXT'				=> 'Zzz… The administrator is now sleeping and dreaming about new features in phpBB 4.x. You can not wake up this lazy boy but his mother can. We are looking for her. Love you!',
 	'MAINTENANCE_TEXT_TIME_END'		=> 'Estimated end time: <strong>%s</strong>.',
 	'MAINTENANCE_TEXT_TIME_LONG'	=> 'Zzz… The administrator is now sleeping and dreaming about new features in phpBB 4.x. You can not wake up this lazy boy until <strong>%s</strong>. Thanks for participating. Love you!',

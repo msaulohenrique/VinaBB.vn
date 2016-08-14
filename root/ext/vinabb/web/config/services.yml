@@ -17,6 +17,7 @@ services:
         arguments:
             - '@auth'
             - '@dbal.conn'
+            - '@cache.driver'
             - '@config'
             - '@config_text'
             - '@controller.helper'

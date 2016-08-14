@@ -19,6 +19,9 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\db\driver\driver_interface */
     protected $db;
 
+	/** @var \phpbb\cache\driver\driver_interface */
+	protected $cache;
+
 	/** @var \phpbb\config\config */
     protected $config;
 
@@ -54,6 +57,7 @@ class listener implements EventSubscriberInterface
 	*
 	* @param \phpbb\auth\auth $auth
 	* @param \phpbb\db\driver\driver_interface $db
+	* @param \phpbb\cache\driver\driver_interface $cache
 	* @param \phpbb\config\config $config
 	* @param \phpbb\config\db_text $config_text
 	* @param \phpbb\controller\helper $helper
@@ -66,6 +70,7 @@ class listener implements EventSubscriberInterface
 	*/
 	public function __construct(\phpbb\auth\auth $auth,
 								\phpbb\db\driver\driver_interface $db,
+								\phpbb\cache\driver\driver_interface $cache,
 								\phpbb\config\config $config,
 								\phpbb\config\db_text $config_text,
 								\phpbb\controller\helper $helper,
@@ -79,6 +84,7 @@ class listener implements EventSubscriberInterface
 	{
 		$this->auth = $auth;
 		$this->db = $db;
+		$this->cache = $cache;
 		$this->config = $config;
 		$this->config_text = $config_text;
 		$this->helper = $helper;
@@ -211,6 +217,30 @@ class listener implements EventSubscriberInterface
 			make_jumpbox(append_sid("{$this->phpbb_root_path}viewforum.{$this->php_ext}"));
 		}
 
+		// Get language data from cache
+		$lang_data = $this->cache->get('_lang_data');
+
+		if ($lang_data === false)
+		{
+			$sql = 'SELECT *
+				FROM ' . LANG_TABLE;
+			$result = $this->db->sql_query($sql);
+
+			$lang_data = array();
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$lang_data[$row['lang_iso']] = $row['lang_local_name'];
+			}
+			$this->db->sql_freeresult($result);
+
+			// Cache language data
+			$this->cache->put('_lang_data', $lang_data);
+		}
+
+		// Language switcher for guests
+		$lang_switch = ($this->user->lang_name == $this->config['default_lang']) ? $this->config['vinabb_web_lang_switch'] : $this->config['default_lang'];
+		$lang_switch_title = ($this->user->lang_name == $this->config['default_lang']) ? $this->language->lang('LANG_SWITCH', $lang_data[$this->config['default_lang']], $lang_data[$this->config['vinabb_web_lang_switch']]) : $this->language->lang('LANG_SWITCH', $lang_data[$this->config['vinabb_web_lang_switch']], $lang_data[$this->config['default_lang']]);
+
 		// Add template variables
 		$this->template->assign_vars(array(
 			'CONFIG_TOTAL_USERS'	=> $this->config['num_users'],
@@ -218,9 +248,15 @@ class listener implements EventSubscriberInterface
 			'CONFIG_TOTAL_TOPICS'	=> $this->config['num_topics'],
 			'CONFIG_TOTAL_POSTS'	=> $this->config['num_posts'],
 
+			'LANG_SWITCH_CURRENT'	=> $this->user->lang_name,
+			'LANG_SWITCH_DEFAULT'	=> $this->config['default_lang'],
+			'LANG_SWITCH_NEW'		=> $lang_data[$lang_switch],
+			'LANG_SWITCH_TITLE'		=> $lang_switch_title,
+
 			'U_LOGIN_ACTION'	=> append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'mode=login'),
 			'U_SEND_PASSWORD'	=> ($this->config['email_enable']) ? append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'mode=sendpassword') : '',
 			'U_MCP'				=> ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? append_sid("{$this->phpbb_root_path}mcp.{$this->php_ext}", 'i=main&amp;mode=front', true, $this->user->session_id) : '',
+			'U_LANG'			=> ($this->user->data['user_id'] == ANONYMOUS) ? append_sid("{$this->phpbb_root_path}index.{$this->php_ext}", "language=$lang_switch") : '',
 		));
 	}
 
@@ -334,6 +370,7 @@ class listener implements EventSubscriberInterface
 	*/
 	public function acp_manage_forums_update_data_after($event)
 	{
+		// Update forum counter
 		if ($event['is_new_forum'])
 		{
 			$this->config->increment('num_forums', 1, true);
@@ -347,6 +384,7 @@ class listener implements EventSubscriberInterface
 	*/
 	public function add_log($event)
 	{
+		// Update forum counter
 		if (substr($event['log_operation'], 0, 14) == 'LOG_FORUM_DEL_')
 		{
 			$sql = 'SELECT COUNT(forum_id) AS num_forums
@@ -356,6 +394,11 @@ class listener implements EventSubscriberInterface
 			$this->db->sql_freeresult($result);
 
 			$this->config->set('num_forums', $num_forums, true);
+		}
+		// Clear language data cache
+		else if ($event['log_operation'] == 'LOG_LANGUAGE_PACK_INSTALLED' || $event['log_operation'] == 'LOG_LANGUAGE_PACK_DELETED')
+		{
+			$this->cache->destroy('_lang_data');
 		}
 	}
 }
