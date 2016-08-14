@@ -104,6 +104,7 @@ class listener implements EventSubscriberInterface
 			'core.page_header_after'				=> 'page_header_after',
 			'core.login_box_redirect'				=> 'login_box_redirect',
 			'core.make_jumpbox_modify_tpl_ary'		=> 'make_jumpbox_modify_tpl_ary',
+			'core.generate_smilies_after'			=> 'generate_smilies_after',
 			'core.memberlist_prepare_profile_data'	=> 'memberlist_prepare_profile_data',
 			'core.memberlist_memberrow_before'		=> 'memberlist_memberrow_before',
 			'core.viewtopic_modify_post_row'		=> 'viewtopic_modify_post_row',
@@ -288,6 +289,17 @@ class listener implements EventSubscriberInterface
 		$tpl_ary[$i]['PARENT_ID'] = $row['parent_id'];
 		$tpl_ary[$i]['HAS_SUBFORUM'] = ($row['left_id'] != $row['right_id'] - 1) ? true : false;
 		$event['tpl_ary'] = $tpl_ary;
+	}
+
+	/**
+	* core.generate_smilies_after
+	*
+	* @param $event
+	*/
+	public function generate_smilies_after($event)
+	{
+		// Do not display the "More smilies" link
+		$event['display_link'] = false;
 	}
 
 	/**
