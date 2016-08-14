@@ -163,7 +163,7 @@ class listener implements EventSubscriberInterface
 					'vinabb_web_maintenance_text_vi'
 				));
 
-				// Cache language data
+				// Cache maintenance text data
 				$this->cache->put('_maintenance_text_data', $maintenance_text_data);
 			}
 
