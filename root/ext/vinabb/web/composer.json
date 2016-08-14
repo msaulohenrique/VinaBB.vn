@@ -3,8 +3,8 @@
 	"type": "phpbb-extension",
 	"description": "VinaBB.vn source code.",
 	"homepage": "http://vinabb.vn/",
-	"version": "0.0.1",
-	"time": "2016-07-28",
+	"version": "0.0.2",
+	"time": "2016-08-14",
 	"license": "GPL-2.0",
 	"authors": [{
 		"name": "nedka",
