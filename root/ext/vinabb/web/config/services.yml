@@ -25,6 +25,11 @@ services:
             - [configure_quote_helper, ['@text_formatter.s9e.quote_helper']]
             - [configure_smilies_path, ['@config', '@path_helper']]
             - [configure_user, ['@user', '@config', '@auth']]
+    vinabb.web.user:
+        class: vinabb\web\controller\user
+        arguments:
+            - '%core.root_path%'
+            - '%core.php_ext%'
     vinabb.web.listener:
         class: vinabb\web\event\listener
         arguments:
