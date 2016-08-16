@@ -1,0 +1,23 @@
+vinabb_web_bb_route:
+    path: /{bb}
+    defaults: { _controller: vinabb.web.bb:index }
+    requirements:
+        bb: (bb|bb\/)
+vinabb_web_bb_type_route:
+    path: /bb/{type}
+    defaults: { _controller: vinabb.web.bb:cats }
+    requirements:
+        type: (extension|extension\/|extensions|extensions\/|style|style\/|styles|styles\/|ivn|ivn\/|tool|tool\/|tools|tools\/)
+vinabb_web_bb_cat_route:
+    path: /bb/{type}/{cat}
+    defaults: { _controller: vinabb.web.bb:items }
+    requirements:
+        type: (extension|extension\/|extensions|extensions\/|style|style\/|styles|styles\/|ivn|ivn\/|tool|tool\/|tools|tools\/)
+        cat: (A-Za-z0-9-)+
+vinabb_web_bb_item_route:
+    path: /bb/{type}/{cat}/{item}
+    defaults: { _controller: vinabb.web.bb:details }
+    requirements:
+        type: (extension|extension\/|extensions|extensions\/|style|style\/|styles|styles\/|ivn|ivn\/|tool|tool\/|tools|tools\/)
+        cat: (A-Za-z0-9-)+
+        item: (A-Za-z0-9-)+

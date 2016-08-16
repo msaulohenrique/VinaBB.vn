@@ -22,4 +22,10 @@ class constants
 	const BB_TYPE_STYLE = 2;
 	const BB_TYPE_LANG = 3;
 	const BB_TYPE_TOOL = 4;
+
+	// Resource type varnames
+	const BB_TYPE_VARNAME_EXT = 'extensions';
+	const BB_TYPE_VARNAME_STYLE = 'styles';
+	const BB_TYPE_VARNAME_LANG = 'ivn';
+	const BB_TYPE_VARNAME_TOOL = 'tools';
 }
