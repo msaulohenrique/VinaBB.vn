@@ -12,6 +12,19 @@ services:
             - '%text_formatter.cache.dir%'
             - '%text_formatter.cache.parser.key%'
             - '%text_formatter.cache.renderer.key%'
+    vinabb.web.decorated.text_formatter.s9e.renderer:
+        class: vinabb\web\decorated\textformatter\s9e\renderer
+        decorates: text_formatter.s9e.renderer
+        arguments:
+            - '@cache.driver'
+            - '%text_formatter.cache.dir%'
+            - '%text_formatter.cache.renderer.key%'
+            - '@text_formatter.s9e.factory'
+            - '@dispatcher'
+        calls:
+            - [configure_quote_helper, ['@text_formatter.s9e.quote_helper']]
+            - [configure_smilies_path, ['@config', '@path_helper']]
+            - [configure_user, ['@user', '@config', '@auth']]
     vinabb.web.listener:
         class: vinabb\web\event\listener
         arguments:

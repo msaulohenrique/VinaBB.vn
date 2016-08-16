@@ -25,6 +25,9 @@ class factory extends \phpbb\textformatter\s9e\factory
 	/**
 	* Constructor
 	*
+	* Copied from phpBB 3.2.0-RC1
+	* Changes: Add the $language
+	*
 	* @param \phpbb\textformatter\data_access $data_access
 	* @param \phpbb\cache\driver\driver_interface $cache
 	* @param \phpbb\event\dispatcher_interface $dispatcher
@@ -35,7 +38,7 @@ class factory extends \phpbb\textformatter\s9e\factory
 	* @param string $cache_key_parser   Cache key used for the parser
 	* @param string $cache_key_renderer Cache key used for the renderer
 	*/
-	public function __construct(	\phpbb\textformatter\data_access $data_access,
+	public function __construct(\phpbb\textformatter\data_access $data_access,
 								\phpbb\cache\driver\driver_interface $cache,
 								\phpbb\event\dispatcher_interface $dispatcher,
 								\phpbb\config\config $config,
@@ -58,6 +61,7 @@ class factory extends \phpbb\textformatter\s9e\factory
 
 	/**
 	* Generate and return a new configured instance of s9e\TextFormatter\Configurator
+	*
 	* Copied from phpBB 3.2.0-RC1
 	* Changes: Add smiley width/height and set emoticon by language variables
 	*
@@ -185,7 +189,7 @@ class factory extends \phpbb\textformatter\s9e\factory
 		{
 			if ($this->language->is_set(['EMOTICON_TEXT', strtoupper($row['emotion'])]))
 			{
-				$emotion_text = $this->language->lang(['EMOTICON_TEXT', strtoupper($row['emotion'])]);
+				$emotion_text = '{$LE_' . strtoupper($row['emotion']) . '}';
 			}
 			else
 			{
