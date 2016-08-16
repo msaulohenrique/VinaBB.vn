@@ -8,8 +8,6 @@
 
 namespace vinabb\web\controller;
 
-use Symfony\Component\HttpFoundation\Response;
-
 class user
 {
 	/** @var string */
@@ -34,7 +32,6 @@ class user
 	* Controller for route /user/{username}
 	*
 	* @param string $username
-	* @return Response A Symfony Response object
 	*/
 	public function info($username)
 	{
