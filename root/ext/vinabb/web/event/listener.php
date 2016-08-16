@@ -100,15 +100,16 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'core.user_setup'						=> 'user_setup',
-			'core.page_header_after'				=> 'page_header_after',
-			'core.login_box_redirect'				=> 'login_box_redirect',
-			'core.make_jumpbox_modify_tpl_ary'		=> 'make_jumpbox_modify_tpl_ary',
-			'core.generate_smilies_after'			=> 'generate_smilies_after',
-			'core.memberlist_prepare_profile_data'	=> 'memberlist_prepare_profile_data',
-			'core.memberlist_memberrow_before'		=> 'memberlist_memberrow_before',
-			'core.viewtopic_modify_post_row'		=> 'viewtopic_modify_post_row',
-			'core.ucp_pm_view_messsage'				=> 'ucp_pm_view_messsage',
+			'core.user_setup'							=> 'user_setup',
+			'core.page_header_after'					=> 'page_header_after',
+			'core.login_box_redirect'					=> 'login_box_redirect',
+			'core.make_jumpbox_modify_tpl_ary'			=> 'make_jumpbox_modify_tpl_ary',
+			'core.generate_smilies_after'				=> 'generate_smilies_after',
+			'core.memberlist_prepare_profile_data'		=> 'memberlist_prepare_profile_data',
+			'core.memberlist_memberrow_before'			=> 'memberlist_memberrow_before',
+			'core.memberlist_team_modify_template_vars'	=> 'memberlist_team_modify_template_vars',
+			'core.viewtopic_modify_post_row'			=> 'viewtopic_modify_post_row',
+			'core.ucp_pm_view_messsage'					=> 'ucp_pm_view_messsage',
 
 			'core.adm_page_header'						=> 'adm_page_header',
 			'core.add_log'								=> 'add_log',
@@ -337,6 +338,20 @@ class listener implements EventSubscriberInterface
 	{
 		// Enable contact fields on the member list
 		$event['use_contact_fields'] = true;
+	}
+
+	/**
+	* core.memberlist_team_modify_template_vars
+	*
+	* @param $event
+	*/
+	public function memberlist_team_modify_template_vars($event)
+	{
+		// Translate the rank title RANK_TITLE with the original value RANK_TITLE_RAW
+		$template_vars = $event['template_vars'];
+		$template_vars['RANK_TITLE_RAW'] = $template_vars['RANK_TITLE'];
+		$template_vars['RANK_TITLE'] = ($this->language->is_set(['RANK_TITLES', strtoupper($template_vars['RANK_TITLE'])])) ? $this->language->lang(['RANK_TITLES', strtoupper($template_vars['RANK_TITLE'])]) : $template_vars['RANK_TITLE'];
+		$event['template_vars'] = $template_vars;
 	}
 
 	/**
