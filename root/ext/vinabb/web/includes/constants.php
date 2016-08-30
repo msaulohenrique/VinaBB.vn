@@ -20,12 +20,14 @@ class constants
 	// Resource types
 	const BB_TYPE_EXT = 1;
 	const BB_TYPE_STYLE = 2;
-	const BB_TYPE_LANG = 3;
-	const BB_TYPE_TOOL = 4;
+	const BB_TYPE_ACP_STYLE = 3;
+	const BB_TYPE_LANG = 4;
+	const BB_TYPE_TOOL = 5;
 
 	// Resource type varnames
 	const BB_TYPE_VARNAME_EXT = 'extensions';
 	const BB_TYPE_VARNAME_STYLE = 'styles';
+	const BB_TYPE_VARNAME_ACP_STYLE = 'acp';
 	const BB_TYPE_VARNAME_LANG = 'ivn';
 	const BB_TYPE_VARNAME_TOOL = 'tools';
 }
