@@ -58,6 +58,10 @@ class settings_module
 			$maintenance_time_reset = $this->request->variable('maintenance_time_reset', false);
 			$maintenance_text = $this->request->variable('maintenance_text', '', true);
 			$maintenance_text_vi = $this->request->variable('maintenance_text_vi', '', true);
+			$facebook_url = $this->request->variable('facebook_url', '');
+			$twitter_url = $this->request->variable('twitter_url', '');
+			$google_plus_url = $this->request->variable('google_plus_url', '');
+			$github_url = $this->request->variable('github_url', '');
 
 			// Check switch lang
 			if ($lang_enable && (empty($lang_switch) || $lang_switch == $this->config['default_lang']))
@@ -119,6 +123,10 @@ class settings_module
 					'vinabb_web_maintenance_text'		=> $maintenance_text,
 					'vinabb_web_maintenance_text_vi'	=> $maintenance_text_vi
 				));
+				$this->config->set('vinabb_web_facebook_url', $facebook_url);
+				$this->config->set('vinabb_web_twitter_url', $twitter_url);
+				$this->config->set('vinabb_web_google_plus_url', $google_plus_url);
+				$this->config->set('vinabb_web_github_url', $github_url);
 
 				if ($maintenance_time || $maintenance_time_reset)
 				{
@@ -184,6 +192,10 @@ class settings_module
 			'MAINTENANCE_TIME_REMAIN'	=> ($this->config['vinabb_web_maintenance_time'] > time()) ? $this->user->format_date($this->config['vinabb_web_maintenance_time']) : '',
 			'MAINTENANCE_TEXT'			=> (isset($maintenance_text) && !empty($maintenance_text)) ? $maintenance_text : $data['vinabb_web_maintenance_text'],
 			'MAINTENANCE_TEXT_VI'		=> (isset($maintenance_text_vi) && !empty($maintenance_text_vi)) ? $maintenance_text_vi : $data['vinabb_web_maintenance_text_vi'],
+			'FACEBOOK_URL'				=> (isset($facebook_url) && !empty($facebook_url)) ? $facebook_url : $this->config['vinabb_web_facebook_url'],
+			'TWITTER_URL'				=> (isset($twitter_url) && !empty($twitter_url)) ? $twitter_url : $this->config['vinabb_web_twitter_url'],
+			'GOOGLE_PLUS_URL'			=> (isset($google_plus_url) && !empty($google_plus_url)) ? $google_plus_url : $this->config['vinabb_web_google_plus_url'],
+			'GITHUB_URL'				=> (isset($github_url) && !empty($github_url)) ? $github_url : $this->config['vinabb_web_github_url'],
 
 			'MAINTENANCE_MODE_NONE'		=> constants::MAINTENANCE_MODE_NONE,
 			'MAINTENANCE_MODE_FOUNDER'	=> constants::MAINTENANCE_MODE_FOUNDER,

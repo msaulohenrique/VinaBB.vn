@@ -263,6 +263,11 @@ class listener implements EventSubscriberInterface
 			'LANG_SWITCH_NEW'		=> $lang_data[$lang_switch],
 			'LANG_SWITCH_TITLE'		=> $lang_switch_title,
 
+			'FACEBOOK_URL'		=> $this->config['vinabb_web_facebook_url'],
+			'TWITTER_URL'		=> $this->config['vinabb_web_twitter_url'],
+			'GOOGLE_PLUS_URL'	=> $this->config['vinabb_web_google_plus_url'],
+			'GITHUB_URL'		=> $this->config['vinabb_web_github_url'],
+
 			'U_LOGIN_ACTION'	=> append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'mode=login'),
 			'U_SEND_PASSWORD'	=> ($this->config['email_enable']) ? append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'mode=sendpassword') : '',
 			'U_MCP'				=> ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? append_sid("{$this->phpbb_root_path}mcp.{$this->php_ext}", 'i=main&amp;mode=front', true, $this->user->session_id) : '',

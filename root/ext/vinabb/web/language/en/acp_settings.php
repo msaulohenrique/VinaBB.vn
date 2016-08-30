@@ -53,6 +53,7 @@ $lang = array_merge($lang, array(
 	'NO_EXTRA_LANG_TO_SELECT'	=> 'No extra languages to select.',
 
 	'SELECT_LANGUAGE'	=> 'Select a language',
+	'SOCIAL_LINKS'		=> 'Social links',
 
 	'VINABB_SETTINGS_UPDATED'	=> 'The VinaBB.vn settings have been updated.',
 ));

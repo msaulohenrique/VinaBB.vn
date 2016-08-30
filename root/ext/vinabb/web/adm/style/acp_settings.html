@@ -65,6 +65,25 @@
 		</div>
 	</fieldset>
 	<fieldset>
+		<legend>{{ lang('SOCIAL_LINKS') }}</legend>
+		<dl>
+			<dt><label for="facebook_url">{{ lang('FACEBOOK') }}{{ lang('COLON') }}</label></dt>
+			<dd><input type="url" name="facebook_url" id="facebook_url" size="40" maxlength="255" value="{{ FACEBOOK_URL }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="twitter_url">{{ lang('TWITTER') }}{{ lang('COLON') }}</label></dt>
+			<dd><input type="url" name="twitter_url" id="twitter_url" size="40" maxlength="255" value="{{ TWITTER_URL }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="google_plus_url">{{ lang('GOOGLEPLUS') }}{{ lang('COLON') }}</label></dt>
+			<dd><input type="url" name="google_plus_url" id="google_plus_url" size="40" maxlength="255" value="{{ GOOGLE_PLUS_URL }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="github_url">{{ lang('GITHUB') }}{{ lang('COLON') }}</label></dt>
+			<dd><input type="url" name="github_url" id="github_url" size="40" maxlength="255" value="{{ GITHUB_URL }}"></dd>
+		</dl>
+	</fieldset>
+	<fieldset>
 		<legend>{{ lang('ACP_SUBMIT_CHANGES') }}</legend>
 		<p class="submit-buttons">
 			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}">
