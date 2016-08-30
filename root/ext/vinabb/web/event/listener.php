@@ -9,6 +9,7 @@
 namespace vinabb\web\event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use s9e\TextFormatter\Bundles\MediaPack;
 use vinabb\web\includes\constants;
 
 class listener implements EventSubscriberInterface
@@ -126,7 +127,13 @@ class listener implements EventSubscriberInterface
 			'core.memberlist_memberrow_before'			=> 'memberlist_memberrow_before',
 			'core.memberlist_prepare_profile_data'		=> 'memberlist_prepare_profile_data',
 			'core.memberlist_team_modify_template_vars'	=> 'memberlist_team_modify_template_vars',
+			'core.modify_format_display_text_after'		=> 'modify_format_display_text_after',
+			'core.modify_submit_post_data'				=> 'modify_submit_post_data',
 			'core.modify_text_for_display_after'		=> 'modify_text_for_display_after',
+			'core.modify_text_for_edit_before'			=> 'modify_text_for_edit_before',
+			'core.modify_text_for_storage_after'		=> 'modify_text_for_storage_after',
+			'core.submit_pm_before'						=> 'submit_pm_before',
+			'core.text_formatter_s9e_configure_before'	=> 'text_formatter_s9e_configure_before',
 			'core.ucp_pm_view_messsage'					=> 'ucp_pm_view_messsage',
 			'core.viewtopic_modify_post_row'			=> 'viewtopic_modify_post_row',
 
@@ -420,16 +427,87 @@ class listener implements EventSubscriberInterface
 	}
 
 	/**
+	* core.modify_format_display_text_after
+	*
+	* @param $event
+	*/
+	public function modify_format_display_text_after($event)
+	{
+		$event['text'] = $this->render($this->parse($event['text']));
+	}
+
+	/**
+	* core.modify_submit_post_data
+	*
+	* @param $event
+	*/
+	public function modify_submit_post_data($event)
+	{
+		$data = $event['data'];
+		$data['message'] = $this->parse($data['message']);
+		$event['data'] = $data;
+	}
+
+	/**
 	* core.modify_text_for_display_after
 	*
 	* @param $event
 	*/
 	public function modify_text_for_display_after($event)
 	{
+		$event['text'] = $this->render($event['text']);
+
 		// Load highlight.js
 		$this->template->assign_vars(array(
 			'S_LOAD_HIGHLIGHT'	=> true,
 		));
+	}
+
+	/**
+	* core.modify_text_for_edit_before
+	*
+	* @param $event
+	*/
+	public function modify_text_for_edit_before($event)
+	{
+		$event['text'] = $this->unparse($event['text']);
+	}
+
+	/**
+	* core.modify_text_for_storage_after
+	*
+	* @param $event
+	*/
+	public function modify_text_for_storage_after($event)
+	{
+		$event['text'] = $this->parse($event['text']);
+	}
+
+	/**
+	* core.submit_pm_before
+	*
+	* @param $event
+	*/
+	public function submit_pm_before($event)
+	{
+		$data = $event['data'];
+		$data['message'] = $this->parse($data['message']);
+		$event['data'] = $data;
+	}
+
+	/**
+	* core.text_formatter_s9e_configure_before
+	*
+	* @param $event
+	*/
+	public function text_formatter_s9e_configure_before($event)
+	{
+		$configurator = $event['configurator'];
+
+		foreach ($configurator->MediaEmbed->defaultSites->getIds() as $site_id)
+		{
+			$configurator->MediaEmbed->add($site_id);
+		}
 	}
 
 	/**
@@ -472,5 +550,72 @@ class listener implements EventSubscriberInterface
 		{
 			$this->config->increment('num_forums', 1, true);
 		}
+	}
+
+	/**
+	* Render MediaEmbed markup tags when displaying text
+	* @copyright Copyright (c) 2014-2016 The s9e Authors
+	*
+	* @param $text
+	* @return mixed
+	*/
+	private function render($text)
+	{
+		if (strpos($text, '<!-- s9e:mediaembed') === false)
+		{
+			return $text;
+		}
+
+		return preg_replace_callback(
+			'(<!-- s9e:mediaembed:([^ ]+) --><!-- m -->.*?<!-- m -->)',
+			function ($m)
+			{
+				return MediaPack::render(base64_decode($m[1]));
+			},
+			$text
+		);
+	}
+
+	/**
+	* Insert MediaEmbed markup tags when saving text
+	* @copyright Copyright (c) 2014-2016 The s9e Authors
+	*
+	* @param $text
+	* @return mixed
+	*/
+	private function parse($text)
+	{
+		if (strpos($text, '<!-- m -->') === false)
+		{
+			return $text;
+		}
+
+		return preg_replace_callback(
+			'(<!-- m -->.*?href="([^"]+).*?<!-- m -->)',
+			function ($m)
+			{
+				$xml = MediaPack::parse(htmlspecialchars_decode($m[1]));
+
+				return ($xml[1] === 'r') ? '<!-- s9e:mediaembed:' . base64_encode($xml) . ' -->' . $m[0] : $m[0];
+			},
+			$text
+		);
+	}
+
+	/**
+	* Remove MediaEmbed markup tags when editing text
+	* @copyright Copyright (c) 2014-2016 The s9e Authors
+	*
+	* @param $text
+	* @return mixed
+	*/
+	private function unparse($text)
+	{
+		if (strpos($text, '<!-- s9e:mediaembed') === false)
+		{
+			return $text;
+		}
+
+		return preg_replace('(<!-- s9e:mediaembed:([^ ]+) -->)', '', $text);
 	}
 }
