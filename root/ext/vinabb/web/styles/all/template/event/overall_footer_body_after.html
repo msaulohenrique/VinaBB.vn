@@ -1,4 +1,4 @@
-{% if SCRIPT_NAME == 'viewtopic' or S_LOAD_HIGHLIGHT %}
+{% if S_IN_POSTING or S_COMPOSE_PM or S_LOAD_HIGHLIGHT %}
 <link rel="stylesheet" href="{{ EXT_ASSETS_PATH }}/css/github-gist.min.css?v={{ T_ASSETS_VERSION }}">
 <script src="{{ EXT_ASSETS_PATH }}/js/highlight.min.js?v={{ T_ASSETS_VERSION }}"></script>
 

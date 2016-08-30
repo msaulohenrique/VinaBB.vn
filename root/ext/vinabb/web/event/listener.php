@@ -115,19 +115,21 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'core.user_setup'							=> 'user_setup',
-			'core.page_header_after'					=> 'page_header_after',
+			'core.user_setup'			=> 'user_setup',
+			'core.page_header_after'	=> 'page_header_after',
+			'core.adm_page_header'		=> 'adm_page_header',
+
+			'core.add_log'								=> 'add_log',
+			'core.generate_smilies_after'				=> 'generate_smilies_after',
 			'core.login_box_redirect'					=> 'login_box_redirect',
 			'core.make_jumpbox_modify_tpl_ary'			=> 'make_jumpbox_modify_tpl_ary',
-			'core.generate_smilies_after'				=> 'generate_smilies_after',
-			'core.memberlist_prepare_profile_data'		=> 'memberlist_prepare_profile_data',
 			'core.memberlist_memberrow_before'			=> 'memberlist_memberrow_before',
+			'core.memberlist_prepare_profile_data'		=> 'memberlist_prepare_profile_data',
 			'core.memberlist_team_modify_template_vars'	=> 'memberlist_team_modify_template_vars',
-			'core.viewtopic_modify_post_row'			=> 'viewtopic_modify_post_row',
+			'core.modify_text_for_display_after'		=> 'modify_text_for_display_after',
 			'core.ucp_pm_view_messsage'					=> 'ucp_pm_view_messsage',
+			'core.viewtopic_modify_post_row'			=> 'viewtopic_modify_post_row',
 
-			'core.adm_page_header'						=> 'adm_page_header',
-			'core.add_log'								=> 'add_log',
 			'core.acp_manage_forums_update_data_after'	=> 'acp_manage_forums_update_data_after',
 		);
 	}
@@ -293,6 +295,58 @@ class listener implements EventSubscriberInterface
 	}
 
 	/**
+	* core.adm_page_header
+	*
+	* @param $event
+	*/
+	public function adm_page_header($event)
+	{
+		// Add our ACP common language variables
+		$this->language->add_lang('acp_common', 'vinabb/web');
+
+		// Add template variables
+		$this->template->assign_vars(array(
+			'S_FOUNDER'	=> ($this->user->data['user_type'] == USER_FOUNDER) ? true : false
+		));
+	}
+
+	/**
+	* core.add_log
+	*
+	* @param $event
+	*/
+	public function add_log($event)
+	{
+		// Update forum counter
+		if (substr($event['log_operation'], 0, 14) == 'LOG_FORUM_DEL_')
+		{
+			$sql = 'SELECT COUNT(forum_id) AS num_forums
+				FROM ' . FORUMS_TABLE;
+			$result = $this->db->sql_query($sql);
+			$num_forums = $this->db->sql_fetchfield('num_forums');
+			$this->db->sql_freeresult($result);
+
+			$this->config->set('num_forums', $num_forums, true);
+		}
+		// Clear language data cache
+		else if ($event['log_operation'] == 'LOG_LANGUAGE_PACK_INSTALLED' || $event['log_operation'] == 'LOG_LANGUAGE_PACK_DELETED')
+		{
+			$this->cache->destroy('_lang_data');
+		}
+	}
+
+	/**
+	* core.generate_smilies_after
+	*
+	* @param $event
+	*/
+	public function generate_smilies_after($event)
+	{
+		// Do not display the "More smilies" link
+		$event['display_link'] = false;
+	}
+
+	/**
 	* core.login_box_redirect
 	*
 	* @param $event
@@ -323,14 +377,14 @@ class listener implements EventSubscriberInterface
 	}
 
 	/**
-	* core.generate_smilies_after
+	* core.memberlist_memberrow_before
 	*
 	* @param $event
 	*/
-	public function generate_smilies_after($event)
+	public function memberlist_memberrow_before($event)
 	{
-		// Do not display the "More smilies" link
-		$event['display_link'] = false;
+		// Enable contact fields on the member list
+		$event['use_contact_fields'] = true;
 	}
 
 	/**
@@ -352,17 +406,6 @@ class listener implements EventSubscriberInterface
 	}
 
 	/**
-	* core.memberlist_memberrow_before
-	*
-	* @param $event
-	*/
-	public function memberlist_memberrow_before($event)
-	{
-		// Enable contact fields on the member list
-		$event['use_contact_fields'] = true;
-	}
-
-	/**
 	* core.memberlist_team_modify_template_vars
 	*
 	* @param $event
@@ -377,17 +420,16 @@ class listener implements EventSubscriberInterface
 	}
 
 	/**
-	* core.viewtopic_modify_post_row
+	* core.modify_text_for_display_after
 	*
 	* @param $event
 	*/
-	public function viewtopic_modify_post_row($event)
+	public function modify_text_for_display_after($event)
 	{
-		// Translate the rank title RANK_TITLE with the original value RANK_TITLE_RAW
-		$post_row = $event['post_row'];
-		$post_row['RANK_TITLE_RAW'] = $post_row['RANK_TITLE'];
-		$post_row['RANK_TITLE'] = ($this->language->is_set(['RANK_TITLES', strtoupper($post_row['RANK_TITLE'])])) ? $this->language->lang(['RANK_TITLES', strtoupper($post_row['RANK_TITLE'])]) : $post_row['RANK_TITLE'];
-		$event['post_row'] = $post_row;
+		// Load highlight.js
+		$this->template->assign_vars(array(
+			'S_LOAD_HIGHLIGHT'	=> true,
+		));
 	}
 
 	/**
@@ -405,19 +447,17 @@ class listener implements EventSubscriberInterface
 	}
 
 	/**
-	* core.adm_page_header
+	* core.viewtopic_modify_post_row
 	*
 	* @param $event
 	*/
-	public function adm_page_header($event)
+	public function viewtopic_modify_post_row($event)
 	{
-		// Add our ACP common language variables
-		$this->language->add_lang('acp_common', 'vinabb/web');
-
-		// Add template variables
-		$this->template->assign_vars(array(
-			'S_FOUNDER'	=> ($this->user->data['user_type'] == USER_FOUNDER) ? true : false
-		));
+		// Translate the rank title RANK_TITLE with the original value RANK_TITLE_RAW
+		$post_row = $event['post_row'];
+		$post_row['RANK_TITLE_RAW'] = $post_row['RANK_TITLE'];
+		$post_row['RANK_TITLE'] = ($this->language->is_set(['RANK_TITLES', strtoupper($post_row['RANK_TITLE'])])) ? $this->language->lang(['RANK_TITLES', strtoupper($post_row['RANK_TITLE'])]) : $post_row['RANK_TITLE'];
+		$event['post_row'] = $post_row;
 	}
 
 	/**
@@ -431,31 +471,6 @@ class listener implements EventSubscriberInterface
 		if ($event['is_new_forum'])
 		{
 			$this->config->increment('num_forums', 1, true);
-		}
-	}
-
-	/**
-	* core.add_log
-	*
-	* @param $event
-	*/
-	public function add_log($event)
-	{
-		// Update forum counter
-		if (substr($event['log_operation'], 0, 14) == 'LOG_FORUM_DEL_')
-		{
-			$sql = 'SELECT COUNT(forum_id) AS num_forums
-				FROM ' . FORUMS_TABLE;
-			$result = $this->db->sql_query($sql);
-			$num_forums = $this->db->sql_fetchfield('num_forums');
-			$this->db->sql_freeresult($result);
-
-			$this->config->set('num_forums', $num_forums, true);
-		}
-		// Clear language data cache
-		else if ($event['log_operation'] == 'LOG_LANGUAGE_PACK_INSTALLED' || $event['log_operation'] == 'LOG_LANGUAGE_PACK_DELETED')
-		{
-			$this->cache->destroy('_lang_data');
 		}
 	}
 }
