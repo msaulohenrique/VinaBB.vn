@@ -8,11 +8,11 @@ vinabb_web_bb_cat_route:
     defaults: { _controller: vinabb.web.bb:items }
     requirements:
         type: (extensions|styles|acp|ivn|tools)
-        cat: [A-Za-z0-9-]+
+        cat: (A-Za-z0-9-)+
 vinabb_web_bb_item_route:
     path: /{type}/{cat}/{item}
     defaults: { _controller: vinabb.web.bb:details }
     requirements:
         type: (extensions|styles|acp|ivn|tools)
-        cat: [A-Za-z0-9-]+
-        item: [A-Za-z0-9-]+
+        cat: (A-Za-z0-9-)+
+        item: (A-Za-z0-9-)+
