@@ -10,33 +10,20 @@ namespace vinabb\web\migrations;
 
 use phpbb\db\migration\migration;
 
-class module_categories extends migration
+class bb_categories extends migration
 {
+	static public function depends_on()
+	{
+		return array('\vinabb\web\migrations\module_categories');
+	}
+
 	public function update_data()
 	{
 		return array(
-			// Categories
-			array('module.add', array(
-				'acp',
-				'',
-				'ACP_CAT_VINABB'
-			)),
-
-			// Sub-categories
-			array('module.add', array(
-				'acp',
-				'ACP_CAT_VINABB',
-				'ACP_CAT_VINABB_SETTINGS'
-			)),
 			array('module.add', array(
 				'acp',
 				'ACP_CAT_VINABB',
 				'ACP_CAT_VINABB_BB'
-			)),
-			array('module.add', array(
-				'acp',
-				'ACP_CAT_VINABB',
-				'ACP_CAT_VINABB_CMS'
 			)),
 		);
 	}
