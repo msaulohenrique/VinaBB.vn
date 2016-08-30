@@ -1,0 +1,29 @@
+<script>
+	(
+		function(document)
+		{
+			if (!document.getElementsByTagName("pre").length)
+			{
+				return;
+			}
+
+			var head = document.getElementsByTagName("head")[0],
+				script = document.createElement("script"),
+				link = document.createElement("link");
+
+			script.type = "text/javascript";
+			script.onload = function()
+			{
+				hljs.initHighlighting();
+			};
+			script.async = true;
+			script.src = "{{ EXT_ASSETS_PATH }}/js/highlight.min.js?v={{ T_ASSETS_VERSION }}";
+			head.appendChild(script);
+
+			link.type = "text/css";
+			link.rel = "stylesheet";
+			link.href = "{{ EXT_ASSETS_PATH }}/css/github-gist.min.css?v={{ T_ASSETS_VERSION }}";
+			head.appendChild(link);
+		}
+	)(document);
+</script>
