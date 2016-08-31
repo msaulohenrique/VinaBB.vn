@@ -30,6 +30,16 @@ services:
         arguments:
             - '%core.root_path%'
             - '%core.php_ext%'
+    vinabb.web.embed:
+        class: vinabb\web\controller\embed
+        arguments:
+            - '@auth'
+            - '@dbal.conn'
+            - '@template'
+            - '@request'
+            - '@controller.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
     vinabb.web.listener:
         class: vinabb\web\event\listener
         arguments:

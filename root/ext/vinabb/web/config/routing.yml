@@ -1,6 +1,9 @@
 vinabb_web_user_route:
     path: /user/{username}
     defaults: { _controller: vinabb.web.user:info }
+vinabb_web_embed_routing:
+    resource: routing_embed.yml
+    prefix: /embed
 vinabb_web_bb_route:
     path: /{bb}
     defaults: { _controller: vinabb.web.bb:index }
