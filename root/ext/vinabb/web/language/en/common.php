@@ -25,7 +25,8 @@ if (empty($lang) || !is_array($lang))
 */
 
 $lang = array_merge($lang, array(
-	'BOARD'	=> 'Board',
+	'BBCODE_C_HELP'	=> 'Insert code: [code]block code[/code] or `inline code`',
+	'BOARD'			=> 'Board',
 
 	'COMMUNITY'	=> 'Community',
 

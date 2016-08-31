@@ -25,7 +25,8 @@ if (empty($lang) || !is_array($lang))
 */
 
 $lang = array_merge($lang, array(
-	'BOARD'	=> 'Diễn đàn',
+	'BBCODE_C_HELP'	=> 'Chèn mã: [code]đoạn mã[/code] hay `mã một dòng`',
+	'BOARD'			=> 'Diễn đàn',
 
 	'COMMUNITY'	=> 'Cộng đồng',
 
