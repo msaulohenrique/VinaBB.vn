@@ -10,6 +10,10 @@ namespace vinabb\web\includes;
 
 class constants
 {
+	// Languages
+	const LANG_VIETNAMESE = 'vi';
+	const LANG_ENGLISH = 'en';
+
 	// Maintenance mode
 	const MAINTENANCE_MODE_NONE = 0;
 	const MAINTENANCE_MODE_FOUNDER = 1;

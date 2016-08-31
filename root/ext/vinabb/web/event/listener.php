@@ -295,6 +295,8 @@ class listener implements EventSubscriberInterface
 
 			'EXT_ASSETS_PATH'	=> "{$this->ext_web_path}assets",
 
+			'S_VIETNAMESE'	=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? true : false,
+
 			'U_LOGIN_ACTION'	=> append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'mode=login'),
 			'U_SEND_PASSWORD'	=> ($this->config['email_enable']) ? append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'mode=sendpassword') : '',
 			'U_MCP'				=> ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? append_sid("{$this->phpbb_root_path}mcp.{$this->php_ext}", 'i=main&amp;mode=front', true, $this->user->session_id) : '',
