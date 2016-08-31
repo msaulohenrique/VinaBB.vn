@@ -35,6 +35,8 @@ services:
         arguments:
             - '@auth'
             - '@dbal.conn'
+            - '@user'
+            - '@language'
             - '@template'
             - '@request'
             - '@controller.helper'

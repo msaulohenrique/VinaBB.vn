@@ -16,6 +16,12 @@ class embed
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \phpbb\language\language */
+	protected $language;
+
+	/** @var \phpbb\user */
+	protected $user;
+
 	/** @var \phpbb\template\template */
 	protected $template;
 
@@ -36,6 +42,8 @@ class embed
 	*
 	* @param \phpbb\auth\auth $auth
 	* @param \phpbb\db\driver\driver_interface $db
+	* @param \phpbb\user $user
+	* @param \phpbb\language\language $language
 	* @param \phpbb\template\template $template
 	* @param \phpbb\request\request $request
 	* @param \phpbb\controller\helper $helper
@@ -44,6 +52,8 @@ class embed
 	*/
 	public function __construct(\phpbb\auth\auth $auth,
 								\phpbb\db\driver\driver_interface $db,
+								\phpbb\user $user,
+								\phpbb\language\language $language,
 								\phpbb\template\template $template,
 								\phpbb\request\request $request,
 								\phpbb\controller\helper $helper,
@@ -52,6 +62,8 @@ class embed
 	{
 		$this->auth = $auth;
 		$this->db = $db;
+		$this->user = $user;
+		$this->language = $language;
 		$this->template = $template;
 		$this->request = $request;
 		$this->helper = $helper;
@@ -59,6 +71,10 @@ class embed
 		$this->php_ext = $php_ext;
 	}
 
+	/**
+	* Embed page of a post, rediect to the first post
+	* @param $topic_id
+	*/
 	public function topic($topic_id)
 	{
 		if (!$topic_id)
@@ -68,7 +84,7 @@ class embed
 
 		$sql = 'SELECT topic_first_post_id
 			FROM ' . TOPICS_TABLE . "
-			WHERE topic_first_post_id = $topic_id";
+			WHERE topic_id = $topic_id";
 		$result = $this->db->sql_query($sql);
 		$post_id = (int) $this->db->sql_fetchfield('topic_first_post_id');
 		$this->db->sql_freeresult($result);
@@ -84,9 +100,10 @@ class embed
 	}
 
 	/**
-	* Generate simple topic info for embed content
+	* Embed page of a post
 	*
-	* @param int $topic_id
+	* @param $post_id
+	* @return \Symfony\Component\HttpFoundation\Response
 	*/
 	public function post($post_id)
 	{
@@ -107,9 +124,23 @@ class embed
 			$enable_magic_url = ($row['enable_magic_url']) ? OPTION_FLAG_LINKS : 0;
 			$bbcode_options = $enable_bbcode ^ $enable_smilies ^ $enable_magic_url;
 
+			if ($row['poster_id'])
+			{
+				$sql2 = 'SELECT username
+					FROM ' . USERS_TABLE . '
+					WHERE user_id = ' . $row['poster_id'];
+				$result2 = $this->db->sql_query($sql2);
+				$poster_username = $this->db->sql_fetchfield('username');
+				$this->db->sql_freeresult($result2);
+			}
+
 			$this->template->assign_vars(array(
-				'POST_SUBJECT'	=> $row['post_subject'],
-				'POST_TEXT'		=> generate_text_for_display($row['post_text'], $row['bbcode_uid'], $row['bbcode_bitfield'], $bbcode_options),
+				'POST_SUBJECT'	=>truncate_string(generate_text_for_display($row['post_subject'], $row['bbcode_uid'], $row['bbcode_bitfield'], $bbcode_options), 40, 255, false, $this->language->lang('ELLIPSIS')),
+				'POST_TEXT'		=> truncate_string(strip_tags(generate_text_for_display($row['post_text'], $row['bbcode_uid'], $row['bbcode_bitfield'], $bbcode_options)), 200, 255, false, $this->language->lang('ELLIPSIS')),
+				'POST_URL'		=> append_sid("{$this->phpbb_root_path}viewtopic.{$this->php_ext}", 'f=' . $row['forum_id'] . '&t=' . $row['topic_id'] . '&p=' . $row['post_id'] . '#p' . $row['post_id']),
+				'POSTER'		=> $poster_username,
+				'POSTER_URL'	=> append_sid("{$this->phpbb_root_path}memberlist.{$this->php_ext}", 'mode=viewprofile&u=' . $row['poster_id']),
+				'POST_TIME'		=> $this->user->format_date($row['post_time'], 'd/m/Y H:i')
 			));
 		}
 		$this->db->sql_freeresult($result);
