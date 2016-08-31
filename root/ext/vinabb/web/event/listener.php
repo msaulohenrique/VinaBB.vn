@@ -133,6 +133,7 @@ class listener implements EventSubscriberInterface
 			'core.modify_text_for_edit_before'			=> 'modify_text_for_edit_before',
 			'core.modify_text_for_storage_after'		=> 'modify_text_for_storage_after',
 			'core.submit_pm_before'						=> 'submit_pm_before',
+			'core.text_formatter_s9e_configure_after'	=> 'text_formatter_s9e_configure_after',
 			'core.text_formatter_s9e_configure_before'	=> 'text_formatter_s9e_configure_before',
 			'core.ucp_pm_view_messsage'					=> 'ucp_pm_view_messsage',
 			'core.viewtopic_modify_post_row'			=> 'viewtopic_modify_post_row',
@@ -496,6 +497,31 @@ class listener implements EventSubscriberInterface
 	}
 
 	/**
+	* core.text_formatter_s9e_configure_after
+	*
+	* @param $event
+	*/
+	public function text_formatter_s9e_configure_after($event)
+	{
+		/**
+		* Use backticks to post inline code: `$phpBB`
+		*
+		* https://github.com/s9e/phpbb-ext-incode
+		* @copyright Copyright (c) 2015 The s9e Authors
+		*/
+		$configurator = $event['configurator'];
+		$action = $configurator->tags->onDuplicate('ignore');
+
+		$configurator->Preg->replace(
+			'/`(.*?)`/',
+			'<code class="inline">$1</code>',
+			'C'
+		);
+
+		$configurator->tags->onDuplicate($action);
+	}
+
+	/**
 	* core.text_formatter_s9e_configure_before
 	*
 	* @param $event
@@ -554,6 +580,8 @@ class listener implements EventSubscriberInterface
 
 	/**
 	* Render MediaEmbed markup tags when displaying text
+	*
+	* https://github.com/s9e/phpbb-ext-mediaembed
 	* @copyright Copyright (c) 2014-2016 The s9e Authors
 	*
 	* @param $text
@@ -578,6 +606,8 @@ class listener implements EventSubscriberInterface
 
 	/**
 	* Insert MediaEmbed markup tags when saving text
+	*
+	* https://github.com/s9e/phpbb-ext-mediaembed
 	* @copyright Copyright (c) 2014-2016 The s9e Authors
 	*
 	* @param $text
@@ -604,6 +634,8 @@ class listener implements EventSubscriberInterface
 
 	/**
 	* Remove MediaEmbed markup tags when editing text
+	*
+	* https://github.com/s9e/phpbb-ext-mediaembed
 	* @copyright Copyright (c) 2014-2016 The s9e Authors
 	*
 	* @param $text
