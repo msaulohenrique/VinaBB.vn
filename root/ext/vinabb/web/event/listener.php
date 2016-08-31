@@ -532,7 +532,10 @@ class listener implements EventSubscriberInterface
 
 		foreach ($configurator->MediaEmbed->defaultSites->getIds() as $site_id)
 		{
-			$configurator->MediaEmbed->add($site_id);
+			if (in_array($site_id, array('facebook', 'twitter', 'googleplus', 'youtube', 'flickr', 'instagram', 'gist')))
+			{
+				$configurator->MediaEmbed->add($site_id);
+			}
 		}
 
 		// http://vinabb.vn/viewtopic.php?f=16&t=13
@@ -540,10 +543,13 @@ class listener implements EventSubscriberInterface
 		$configurator->MediaEmbed->add('vinabb', array(
 				'host'		=> 'vinabb.vn',
 				//'extract'	=> "!vinabb\\.vn/memberlist\\.php\\?mode=viewprofile\\&un=(?'username'[A-Za-z0-9-_]+)!",
-				'extract'	=> "!vinabb\\.vn/viewtopic\\.php\\?f=(?'f'[0-9]+)\\&t=(?'t'[0-9]+)!",
+				'extract'	=> array(
+					"!vinabb\\.vn/viewtopic\\.php\\?f=(?'f'[0-9]+)\\&t=(?'t'[0-9]+)!",
+					"!vinabb\\.vn/viewtopic\\.php\\?t=(?'t'[0-9]+)!",
+				),
 				'iframe'	=> array(
 					'width'		=> 560,
-					'height'	=> 250,
+					'height'	=> 260,
 					'src'		=> 'http://localhost/vinabb/embed/topic/{@t}',
 				),
 			)
