@@ -72,30 +72,103 @@ class embed
 	}
 
 	/**
-	* Embed page of a post, rediect to the first post
-	* @param $topic_id
+	* Embed page of a forum
+	*
+	* @param $forum_id
+	*
+	* @return \Symfony\Component\HttpFoundation\Response
 	*/
-	public function topic($topic_id)
+	public function forum($forum_id)
 	{
-		if (!$topic_id)
-		{
-			trigger_error('NO_TOPIC');
-		}
+		$error = false;
+		$no_auth = false;
 
-		$sql = 'SELECT topic_first_post_id
-			FROM ' . TOPICS_TABLE . "
-			WHERE topic_id = $topic_id";
-		$result = $this->db->sql_query($sql);
-		$post_id = (int) $this->db->sql_fetchfield('topic_first_post_id');
-		$this->db->sql_freeresult($result);
-
-		if ($post_id)
+		if (!$forum_id)
 		{
-			redirect($this->helper->route('vinabb_web_embed_post_route', array('post_id' => $post_id)));
+			$error = true;
 		}
 		else
 		{
-			trigger_error('NO_TOPIC');
+			$sql = 'SELECT *
+				FROM ' . FORUMS_TABLE . "
+				WHERE forum_id = $forum_id";
+			$result = $this->db->sql_query($sql);
+			$forum_data = $this->db->sql_fetchrow($result);
+			$this->db->sql_freeresult($result);
+
+			if ($forum_data)
+			{
+				// Ok forum exists, but check forum permissions
+				if (!$this->auth->acl_gets('f_list', 'f_read', $forum_id) || ($forum_data['forum_type'] == FORUM_LINK && $forum_data['forum_link'] && !$this->auth->acl_get('f_read', $forum_id)))
+				{
+					$no_auth = true;
+				}
+				else
+				{
+					$this->template->assign_vars(array(
+						'FORUM_NAME'	=> $forum_data['forum_name'],
+						'FORUM_DESC'	=> truncate_string(strip_tags(generate_text_for_display($forum_data['forum_desc'], $forum_data['forum_desc_uid'], $forum_data['forum_desc_bitfield'], $forum_data['forum_desc_options'])), 200, 255, false, $this->language->lang('ELLIPSIS')),
+						'FORUM_URL'		=> append_sid("{$this->phpbb_root_path}viewforum.{$this->php_ext}", "f=$forum_id"),
+					));
+				}
+			}
+			else
+			{
+				$error = true;
+			}
+		}
+
+		if ($error)
+		{
+			$this->template->assign_vars(array(
+				'ERROR'	=> ($no_auth) ? $this->language->lang('SORRY_AUTH_READ') : $this->language->lang('NO_FORUM'),
+			));
+		}
+
+		return $this->helper->render(($error) ? 'embed_error.html' : 'embed_forum.html', '');
+	}
+
+	/**
+	* Embed page of a post, rediect to the first post
+	*
+	* @param $topic_id
+	*
+	* @return \Symfony\Component\HttpFoundation\Response
+	*/
+	public function topic($topic_id)
+	{
+		$error = false;
+
+		if (!$topic_id)
+		{
+			$error = true;
+		}
+		else
+		{
+			$sql = 'SELECT topic_first_post_id
+				FROM ' . TOPICS_TABLE . "
+				WHERE topic_id = $topic_id";
+			$result = $this->db->sql_query($sql);
+			$post_id = (int) $this->db->sql_fetchfield('topic_first_post_id');
+			$this->db->sql_freeresult($result);
+
+			if ($post_id)
+			{
+				redirect($this->helper->route('vinabb_web_embed_post_route', array('post_id' => $post_id)));
+			}
+			else
+			{
+				$error = true;
+			}
+		}
+
+		if ($error)
+		{
+			$this->template->assign_vars(array(
+				'ERROR'	=> $this->language->lang('NO_TOPIC'),
+			));
+
+			return $this->helper->render('embed_error.html', '');
 		}
 	}
 
@@ -103,48 +176,65 @@ class embed
 	* Embed page of a post
 	*
 	* @param $post_id
+	*
 	* @return \Symfony\Component\HttpFoundation\Response
 	*/
 	public function post($post_id)
 	{
+		$error = false;
+
 		if (!$post_id)
 		{
-			trigger_error('NO_POST');
+			$error = true;
+		}
+		else
+		{
+			$sql = 'SELECT *
+				FROM ' . POSTS_TABLE . "
+				WHERE post_id = $post_id";
+			$result = $this->db->sql_query($sql);
+			$post_data = $this->db->sql_fetchrow($result);
+			$this->db->sql_freeresult($result);
+
+			if ($post_data)
+			{
+				$enable_bbcode = ($post_data['enable_bbcode']) ? OPTION_FLAG_BBCODE : 0;
+				$enable_smilies = ($post_data['enable_smilies']) ? OPTION_FLAG_SMILIES : 0;
+				$enable_magic_url = ($post_data['enable_magic_url']) ? OPTION_FLAG_LINKS : 0;
+				$bbcode_options = $enable_bbcode ^ $enable_smilies ^ $enable_magic_url;
+
+				if ($post_data['poster_id'])
+				{
+					$sql = 'SELECT username, user_avatar
+						FROM ' . USERS_TABLE . '
+						WHERE user_id = ' . $post_data['poster_id'];
+					$result = $this->db->sql_query($sql);
+					$poster_data = $this->db->sql_fetchrow($result);
+					$this->db->sql_freeresult($result);
+				}
+
+				$this->template->assign_vars(array(
+					'POST_SUBJECT'	=>truncate_string(generate_text_for_display($post_data['post_subject'], $post_data['bbcode_uid'], $post_data['bbcode_bitfield'], $bbcode_options), 40, 255, false, $this->language->lang('ELLIPSIS')),
+					'POST_TEXT'		=> truncate_string(strip_tags(generate_text_for_display($post_data['post_text'], $post_data['bbcode_uid'], $post_data['bbcode_bitfield'], $bbcode_options)), 189, 255, false, $this->language->lang('ELLIPSIS')),
+					'POST_URL'		=> append_sid("{$this->phpbb_root_path}viewtopic.{$this->php_ext}", 'f=' . $post_data['forum_id'] . '&t=' . $post_data['topic_id'] . '&p=' . $post_data['post_id'] . '#p' . $post_data['post_id']),
+					'POSTER'		=> ($post_data['poster_id']) ? $poster_data['username'] : ((!empty($post_data['post_username'])) ? $post_data['post_username'] : $this->language->lang('GUEST')),
+					'POSTER_URL'	=> ($post_data['poster_id']) ? append_sid("{$this->phpbb_root_path}memberlist.{$this->php_ext}", 'mode=viewprofile&u=' . $post_data['poster_id']) : '',
+					'POST_TIME'		=> $this->user->format_date($post_data['post_time'], 'd/m/Y H:i')
+				));
+			}
+			else
+			{
+				$error = true;
+			}
 		}
 
-		$sql = 'SELECT *
-			FROM ' . POSTS_TABLE . "
-			WHERE post_id = $post_id";
-		$result = $this->db->sql_query($sql);
-
-		if ($row = $this->db->sql_fetchrow($result))
+		if ($error)
 		{
-			$enable_bbcode = ($row['enable_bbcode']) ? OPTION_FLAG_BBCODE : 0;
-			$enable_smilies = ($row['enable_smilies']) ? OPTION_FLAG_SMILIES : 0;
-			$enable_magic_url = ($row['enable_magic_url']) ? OPTION_FLAG_LINKS : 0;
-			$bbcode_options = $enable_bbcode ^ $enable_smilies ^ $enable_magic_url;
-
-			if ($row['poster_id'])
-			{
-				$sql2 = 'SELECT username
-					FROM ' . USERS_TABLE . '
-					WHERE user_id = ' . $row['poster_id'];
-				$result2 = $this->db->sql_query($sql2);
-				$poster_username = $this->db->sql_fetchfield('username');
-				$this->db->sql_freeresult($result2);
-			}
-
 			$this->template->assign_vars(array(
-				'POST_SUBJECT'	=>truncate_string(generate_text_for_display($row['post_subject'], $row['bbcode_uid'], $row['bbcode_bitfield'], $bbcode_options), 40, 255, false, $this->language->lang('ELLIPSIS')),
-				'POST_TEXT'		=> truncate_string(strip_tags(generate_text_for_display($row['post_text'], $row['bbcode_uid'], $row['bbcode_bitfield'], $bbcode_options)), 200, 255, false, $this->language->lang('ELLIPSIS')),
-				'POST_URL'		=> append_sid("{$this->phpbb_root_path}viewtopic.{$this->php_ext}", 'f=' . $row['forum_id'] . '&t=' . $row['topic_id'] . '&p=' . $row['post_id'] . '#p' . $row['post_id']),
-				'POSTER'		=> $poster_username,
-				'POSTER_URL'	=> append_sid("{$this->phpbb_root_path}memberlist.{$this->php_ext}", 'mode=viewprofile&u=' . $row['poster_id']),
-				'POST_TIME'		=> $this->user->format_date($row['post_time'], 'd/m/Y H:i')
+				'ERROR'	=> $this->language->lang('NO_POST'),
 			));
 		}
-		$this->db->sql_freeresult($result);
 
-		return $this->helper->render('embed_post.html', '');
+		return $this->helper->render(($error) ? 'embed_error.html' : 'embed_post.html', '');
 	}
 }
