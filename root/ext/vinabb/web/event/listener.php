@@ -133,12 +133,13 @@ class listener implements EventSubscriberInterface
 			'core.modify_text_for_edit_before'			=> 'modify_text_for_edit_before',
 			'core.modify_text_for_storage_after'		=> 'modify_text_for_storage_after',
 			'core.submit_pm_before'						=> 'submit_pm_before',
-			'core.text_formatter_s9e_configure_after'	=> 'text_formatter_s9e_configure_after',
-			'core.text_formatter_s9e_configure_before'	=> 'text_formatter_s9e_configure_before',
 			'core.ucp_pm_view_messsage'					=> 'ucp_pm_view_messsage',
 			'core.viewtopic_modify_post_row'			=> 'viewtopic_modify_post_row',
 
 			'core.acp_manage_forums_update_data_after'	=> 'acp_manage_forums_update_data_after',
+
+			'vinabb.web.text_formatter_s9e_configure_after'		=> 'text_formatter_s9e_configure_after',
+			'vinabb.web.text_formatter_s9e_configure_before'	=> 'text_formatter_s9e_configure_before',
 		);
 	}
 
@@ -499,7 +500,49 @@ class listener implements EventSubscriberInterface
 	}
 
 	/**
-	* core.text_formatter_s9e_configure_after
+	* core.ucp_pm_view_messsage
+	*
+	* @param $event
+	*/
+	public function ucp_pm_view_messsage($event)
+	{
+		// Translate the rank title RANK_TITLE with the original value RANK_TITLE_RAW
+		$msg_data = $event['msg_data'];
+		$msg_data['RANK_TITLE_RAW'] = $msg_data['RANK_TITLE'];
+		$msg_data['RANK_TITLE'] = ($this->language->is_set(['RANK_TITLES', strtoupper($msg_data['RANK_TITLE'])])) ? $this->language->lang(['RANK_TITLES', strtoupper($msg_data['RANK_TITLE'])]) : $msg_data['RANK_TITLE'];
+		$event['msg_data'] = $msg_data;
+	}
+
+	/**
+	* core.viewtopic_modify_post_row
+	*
+	* @param $event
+	*/
+	public function viewtopic_modify_post_row($event)
+	{
+		// Translate the rank title RANK_TITLE with the original value RANK_TITLE_RAW
+		$post_row = $event['post_row'];
+		$post_row['RANK_TITLE_RAW'] = $post_row['RANK_TITLE'];
+		$post_row['RANK_TITLE'] = ($this->language->is_set(['RANK_TITLES', strtoupper($post_row['RANK_TITLE'])])) ? $this->language->lang(['RANK_TITLES', strtoupper($post_row['RANK_TITLE'])]) : $post_row['RANK_TITLE'];
+		$event['post_row'] = $post_row;
+	}
+
+	/**
+	* core.acp_manage_forums_update_data_after
+	*
+	* @param $event
+	*/
+	public function acp_manage_forums_update_data_after($event)
+	{
+		// Update forum counter
+		if ($event['is_new_forum'])
+		{
+			$this->config->increment('num_forums', 1, true);
+		}
+	}
+
+	/**
+	* vinabb.web.text_formatter_s9e_configure_after
 	*
 	* @param $event
 	*/
@@ -524,7 +567,7 @@ class listener implements EventSubscriberInterface
 	}
 
 	/**
-	* core.text_formatter_s9e_configure_before
+	* vinabb.web.text_formatter_s9e_configure_before
 	*
 	* @param $event
 	*/
@@ -597,48 +640,6 @@ class listener implements EventSubscriberInterface
 				),
 			)
 		);
-	}
-
-	/**
-	* core.ucp_pm_view_messsage
-	*
-	* @param $event
-	*/
-	public function ucp_pm_view_messsage($event)
-	{
-		// Translate the rank title RANK_TITLE with the original value RANK_TITLE_RAW
-		$msg_data = $event['msg_data'];
-		$msg_data['RANK_TITLE_RAW'] = $msg_data['RANK_TITLE'];
-		$msg_data['RANK_TITLE'] = ($this->language->is_set(['RANK_TITLES', strtoupper($msg_data['RANK_TITLE'])])) ? $this->language->lang(['RANK_TITLES', strtoupper($msg_data['RANK_TITLE'])]) : $msg_data['RANK_TITLE'];
-		$event['msg_data'] = $msg_data;
-	}
-
-	/**
-	* core.viewtopic_modify_post_row
-	*
-	* @param $event
-	*/
-	public function viewtopic_modify_post_row($event)
-	{
-		// Translate the rank title RANK_TITLE with the original value RANK_TITLE_RAW
-		$post_row = $event['post_row'];
-		$post_row['RANK_TITLE_RAW'] = $post_row['RANK_TITLE'];
-		$post_row['RANK_TITLE'] = ($this->language->is_set(['RANK_TITLES', strtoupper($post_row['RANK_TITLE'])])) ? $this->language->lang(['RANK_TITLES', strtoupper($post_row['RANK_TITLE'])]) : $post_row['RANK_TITLE'];
-		$event['post_row'] = $post_row;
-	}
-
-	/**
-	* core.acp_manage_forums_update_data_after
-	*
-	* @param $event
-	*/
-	public function acp_manage_forums_update_data_after($event)
-	{
-		// Update forum counter
-		if ($event['is_new_forum'])
-		{
-			$this->config->increment('num_forums', 1, true);
-		}
 	}
 
 	/**

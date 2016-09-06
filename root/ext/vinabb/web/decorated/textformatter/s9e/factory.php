@@ -75,12 +75,12 @@ class factory extends \phpbb\textformatter\s9e\factory
 		/**
 		* Modify the s9e\TextFormatter configurator before the default settings are set
 		*
-		* @event core.text_formatter_s9e_configure_before
+		* @event vinabb.web.text_formatter_s9e_configure_before
 		* @var \s9e\TextFormatter\Configurator configurator Configurator instance
 		* @since 3.2.0-a1
 		*/
 		$vars = array('configurator');
-		extract($this->dispatcher->trigger_event('core.text_formatter_s9e_configure_before', compact($vars)));
+		extract($this->dispatcher->trigger_event('vinabb.web.text_formatter_s9e_configure_before', compact($vars)));
 
 		// Reset the list of allowed schemes
 		foreach ($configurator->urlConfig->getAllowedSchemes() as $scheme)
@@ -242,12 +242,12 @@ class factory extends \phpbb\textformatter\s9e\factory
 		/**
 		* Modify the s9e\TextFormatter configurator after the default settings are set
 		*
-		* @event core.text_formatter_s9e_configure_after
+		* @event vinabb.web.text_formatter_s9e_configure_after
 		* @var \s9e\TextFormatter\Configurator configurator Configurator instance
 		* @since 3.2.0-a1
 		*/
 		$vars = array('configurator');
-		extract($this->dispatcher->trigger_event('core.text_formatter_s9e_configure_after', compact($vars)));
+		extract($this->dispatcher->trigger_event('vinabb.web.text_formatter_s9e_configure_after', compact($vars)));
 
 		return $configurator;
 	}
