@@ -118,7 +118,8 @@ $lang = array_merge($lang, array(
 	'MAINTENANCE_TITLE'				=> 'Sorry, VinaBB is down for maintenance',
 	'MEMBERS'						=> 'Members',
 
-	'NEWS'	=> 'News',
+	'NEWS'		=> 'News',
+	'NO_POST'	=> 'The post does not exist.',
 
 	'RANK_TITLES'	=> array(
 		'ADMINISTRATOR'		=> 'Administrator',

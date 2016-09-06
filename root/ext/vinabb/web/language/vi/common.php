@@ -118,7 +118,8 @@ $lang = array_merge($lang, array(
 	'MAINTENANCE_TITLE'				=> 'Xin lỗi, VinaBB đang bảo trì',
 	'MEMBERS'						=> 'Thành viên',
 
-	'NEWS'	=> 'Tin tức',
+	'NEWS'		=> 'Tin tức',
+	'NO_POST'	=> 'Bài viết không tồn tại.',
 
 	'RANK_TITLES'	=> array(
 		'ADMINISTRATOR'		=> 'Quản trị viên',
