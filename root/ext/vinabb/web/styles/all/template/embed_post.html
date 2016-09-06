@@ -8,7 +8,7 @@
 	<ul class="timeline">
 		<li>
 			<div class="avatar">
-				<img src="http://www.croop.cl/UI/twitter/images/doug.jpg">
+				<img src="http://vinabb.vn/download/file.php?avatar=8_1469723457.jpg">
 				<div class="hover">
 					<div class="logo"><i class="fa fa-vimeo"></i></div>
 				</div>
@@ -34,12 +34,14 @@
 	$(document).ready(
 		function()
 		{
+			{% if POSTER_URL %}
 			$('.avatar').on('click',
 				function()
 				{
 					window.open('{{ POSTER_URL }}');
 				}
 			);
+			{% endif %}
 
 			$('.bubble-container').on('click',
 				function()
