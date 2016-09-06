@@ -193,12 +193,12 @@ class factory extends \phpbb\textformatter\s9e\factory
 			}
 			else
 			{
-				$emotion_text = htmlspecialchars($row['emotion']);
+				$emotion_text = $row['emotion'];
 			}
 
 			$configurator->Emoticons->add(
 				$row['code'],
-				'<img class="smilies" src="{$T_SMILIES_PATH}/' . htmlspecialchars($row['smiley_url']) . '" width="' . $row['smiley_width'] . '" height="' . $row['smiley_height'] . '" alt="{.}" title="' . $emotion_text . '"/>'
+				'<img class="smilies" src="{$T_SMILIES_PATH}/' . $row['smiley_url'] . '" width="' . $row['smiley_width'] . '" height="' . $row['smiley_height'] . '" alt="{.}" title="' . $emotion_text . '"/>'
 			);
 		}
 
