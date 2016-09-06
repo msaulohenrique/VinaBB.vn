@@ -531,6 +531,7 @@ class listener implements EventSubscriberInterface
 	public function text_formatter_s9e_configure_before($event)
 	{
 		$configurator = $event['configurator'];
+		//$configurator->MediaEmbed->createIndividualBBCodes = true;
 
 		foreach ($configurator->MediaEmbed->defaultSites->getIds() as $site_id)
 		{
@@ -540,11 +541,51 @@ class listener implements EventSubscriberInterface
 			}
 		}
 
-		// http://vinabb.vn/viewtopic.php?f=16&t=13
-		// vinabb.vn/memberlist.php?mode=viewprofile&un=nedka
+		// Add our site
+		/*$vinabb_urls = array(
+			'forum'	=> array(
+				'host'		=> 'vinabb.vn',
+				'extract'	=> "!vinabb\\.vn/viewforum\\.php\\?f=(?'f'[0-9]+)!",
+				'iframe'	=> array(
+					'width'		=> 560,
+					'height'	=> 260,
+					'src'		=> 'http://localhost/vinabb/embed/forum/{@f}',
+				),
+			),
+			'topic'	=> array(
+				'host'		=> 'vinabb.vn',
+				'extract'	=> array(
+					"!vinabb\\.vn/viewtopic\\.php\\?f=(?'f'[0-9]+)\\&t=(?'t'[0-9]+)!",
+					"!vinabb\\.vn/viewtopic\\.php\\?t=(?'t'[0-9]+)!",
+				),
+				'iframe'	=> array(
+					'width'		=> 560,
+					'height'	=> 260,
+					'src'		=> 'http://localhost/vinabb/embed/topic/{@t}',
+				),
+			),
+			'post'	=> array(
+				'host'		=> 'vinabb.vn',
+				'extract'	=> array(
+					"!vinabb\\.vn/viewtopic\\.php\\?f=(?'f'[0-9]+)\\&p=(?'p'[0-9]+)!",
+					"!vinabb\\.vn/viewtopic\\.php\\?p=(?'p'[0-9]+)!",
+				),
+				'iframe'	=> array(
+					'width'		=> 560,
+					'height'	=> 260,
+					'src'		=> 'http://localhost/vinabb/embed/post/{@p}',
+				),
+			),
+		);
+
+		foreach ($vinabb_urls as $url_type => $url_data)
+		{
+			$configurator->MediaEmbed->add('vinabb' . $url_type, $url_data);
+		}*/
+
+
 		$configurator->MediaEmbed->add('vinabb', array(
 				'host'		=> 'vinabb.vn',
-				//'extract'	=> "!vinabb\\.vn/memberlist\\.php\\?mode=viewprofile\\&un=(?'username'[A-Za-z0-9-_]+)!",
 				'extract'	=> array(
 					"!vinabb\\.vn/viewtopic\\.php\\?f=(?'f'[0-9]+)\\&t=(?'t'[0-9]+)!",
 					"!vinabb\\.vn/viewtopic\\.php\\?t=(?'t'[0-9]+)!",
