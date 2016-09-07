@@ -518,12 +518,26 @@ class board
 			'a'	=> 't.topic_first_poster_name',
 			't'	=> array('t.topic_last_post_time', 't.topic_last_post_id'),
 			'r'	=> (($this->auth->acl_get('m_approve', $forum_id)) ? 't.topic_posts_approved + t.topic_posts_unapproved + t.topic_posts_softdeleted' : 't.topic_posts_approved'),
-			's'	=> 'LOWER(t.topic_title)',
+			's'	=> $this->db->sql_lower_text('t.topic_title'),
 			'v'	=> 't.topic_views'
 		);
 		$s_limit_days = $s_sort_key = $s_sort_dir = $u_sort_param = '';
 
 		gen_sort_selects($limit_days, $sort_by_text, $sort_days, $sort_key, $sort_dir, $s_limit_days, $s_sort_key, $s_sort_dir, $u_sort_param, $default_sort_days, $default_sort_key, $default_sort_dir);
+
+		// Convert $u_sort_param from string to array
+		$u_sort_param_ary = array();
+		if (!empty($u_sort_param))
+		{
+			$u_sort_param = htmlspecialchars_decode($u_sort_param);
+			$u_sort_param_raw_ary = explode('&', $u_sort_param);
+
+			foreach ($u_sort_param_raw_ary as $u_sort_param_raw)
+			{
+				list($u_sort_param_raw_key, $u_sort_param_raw_value) = explode('=', $u_sort_param_raw);
+				$u_sort_param_ary[$u_sort_param_raw_key] = $u_sort_param_raw_value;
+			}
+		}
 
 		// Limit topics to certain time frame, obtain correct topic count
 		if ($sort_days)
@@ -591,7 +605,7 @@ class board
 		$s_display_active = ($forum_data['forum_type'] == FORUM_CAT && ($forum_data['forum_flags'] & FORUM_FLAG_ACTIVE_TOPICS)) ? true : false;
 
 		$s_search_hidden_fields = array('fid' => array($forum_id));
-		if ($_SID)
+		if (!empty($_SID))
 		{
 			$s_search_hidden_fields['sid'] = $_SID;
 		}
@@ -603,6 +617,21 @@ class board
 				$url_param = explode('=', $url_param, 2);
 				$s_search_hidden_fields[$url_param[0]] = $url_param[1];
 			}
+		}
+
+		// Build forum URL with parameters
+		$forum_url_params = array('forum_id' => $forum_id);
+
+		if ($start)
+		{
+			$forum_url_params['start'] = $start;
+		}
+
+		$forum_url_sort_params = $forum_url_params;
+
+		if (sizeof($u_sort_param_ary))
+		{
+			$forum_url_sort_params = array_merge($forum_url_sort_params, $u_sort_param_ary);
 		}
 
 		$this->template->assign_vars(array(
@@ -632,30 +661,30 @@ class board
 
 			'S_DISPLAY_POST_INFO'	=> ($forum_data['forum_type'] == FORUM_POST && ($this->auth->acl_get('f_post', $forum_id) || $this->user->data['user_id'] == ANONYMOUS)) ? true : false,
 
-			'S_IS_POSTABLE'			=> ($forum_data['forum_type'] == FORUM_POST) ? true : false,
-			'S_USER_CAN_POST'		=> ($this->auth->acl_get('f_post', $forum_id)) ? true : false,
-			'S_DISPLAY_ACTIVE'		=> $s_display_active,
-			'S_SELECT_SORT_DIR'		=> $s_sort_dir,
-			'S_SELECT_SORT_KEY'		=> $s_sort_key,
-			'S_SELECT_SORT_DAYS'	=> $s_limit_days,
-			'S_TOPIC_ICONS'			=> ($s_display_active && sizeof($active_forum_ary)) ? max($active_forum_ary['enable_icons']) : (($forum_data['enable_icons']) ? true : false),
-			'U_WATCH_FORUM_LINK'	=> $s_watching_forum['link'],
-			'U_WATCH_FORUM_TOGGLE'	=> $s_watching_forum['link_toggle'],
-			'S_WATCH_FORUM_TITLE'	=> $s_watching_forum['title'],
-			'S_WATCH_FORUM_TOGGLE'	=> $s_watching_forum['title_toggle'],
-			'S_WATCHING_FORUM'		=> $s_watching_forum['is_watching'],
-			'S_FORUM_ACTION'		=> $this->helper->route('vinabb_web_board_forum_route', ($start == 0) ? array('forum_id' => $forum_id) : array('forum_id' => $forum_id, 'start' => $start)),
-			'S_DISPLAY_SEARCHBOX'	=> ($this->auth->acl_get('u_search') && $this->auth->acl_get('f_search', $forum_id) && $this->config['load_search']) ? true : false,
-			'S_SEARCHBOX_ACTION'	=> append_sid("{$this->phpbb_root_path}search.{$this->php_ext}"),
+			'S_IS_POSTABLE'					=> ($forum_data['forum_type'] == FORUM_POST) ? true : false,
+			'S_USER_CAN_POST'				=> ($this->auth->acl_get('f_post', $forum_id)) ? true : false,
+			'S_DISPLAY_ACTIVE'				=> $s_display_active,
+			'S_SELECT_SORT_DIR'				=> $s_sort_dir,
+			'S_SELECT_SORT_KEY'				=> $s_sort_key,
+			'S_SELECT_SORT_DAYS'			=> $s_limit_days,
+			'S_TOPIC_ICONS'					=> ($s_display_active && sizeof($active_forum_ary)) ? max($active_forum_ary['enable_icons']) : (($forum_data['enable_icons']) ? true : false),
+			'U_WATCH_FORUM_LINK'			=> $s_watching_forum['link'],
+			'U_WATCH_FORUM_TOGGLE'			=> $s_watching_forum['link_toggle'],
+			'S_WATCH_FORUM_TITLE'			=> $s_watching_forum['title'],
+			'S_WATCH_FORUM_TOGGLE'			=> $s_watching_forum['title_toggle'],
+			'S_WATCHING_FORUM'				=> $s_watching_forum['is_watching'],
+			'S_FORUM_ACTION'				=> $this->helper->route('vinabb_web_board_forum_route', $forum_url_params),
+			'S_DISPLAY_SEARCHBOX'			=> ($this->auth->acl_get('u_search') && $this->auth->acl_get('f_search', $forum_id) && $this->config['load_search']) ? true : false,
+			'S_SEARCHBOX_ACTION'			=> append_sid("{$this->phpbb_root_path}search.{$this->php_ext}"),
 			'S_SEARCH_LOCAL_HIDDEN_FIELDS'	=> build_hidden_fields($s_search_hidden_fields),
-			'S_SINGLE_MODERATOR'	=> (!empty($moderators[$forum_id]) && sizeof($moderators[$forum_id]) > 1) ? false : true,
-			'S_IS_LOCKED'			=> ($forum_data['forum_status'] == ITEM_LOCKED) ? true : false,
-			'S_VIEWFORUM'			=> true,
+			'S_SINGLE_MODERATOR'			=> (!empty($moderators[$forum_id]) && sizeof($moderators[$forum_id]) > 1) ? false : true,
+			'S_IS_LOCKED'					=> ($forum_data['forum_status'] == ITEM_LOCKED) ? true : false,
+			'S_VIEWFORUM'					=> true,
 
 			'U_MCP'				=> ($this->auth->acl_get('m_', $forum_id)) ? append_sid("{$this->phpbb_root_path}mcp.{$this->php_ext}", "f=$forum_id&i=main&mode=forum_view", true, $this->user->session_id) : '',
-			'U_POST_NEW_TOPIC'	=> ($this->auth->acl_get('f_post', $forum_id) || $user->data['user_id'] == ANONYMOUS) ? append_sid("{$this->phpbb_root_path}posting.{$this->php_ext}", 'mode=post&f=' . $forum_id) : '',
-			'U_VIEW_FORUM'		=> append_sid("{$phpbb_root_path}viewforum.$phpEx", "f=$forum_id" . ((strlen($u_sort_param)) ? "&amp;$u_sort_param" : '') . (($start == 0) ? '' : "&amp;start=$start")),
-			'U_CANONICAL'		=> generate_board_url() . '/' . append_sid("viewforum.$phpEx", "f=$forum_id" . (($start) ? "&amp;start=$start" : ''), true, ''),
+			'U_POST_NEW_TOPIC'	=> ($this->auth->acl_get('f_post', $forum_id) || $this->user->data['user_id'] == ANONYMOUS) ? append_sid("{$this->phpbb_root_path}posting.{$this->php_ext}", 'mode=post&f=' . $forum_id) : '',
+			'U_VIEW_FORUM'		=> $this->helper->route('vinabb_web_board_forum_route', $forum_url_sort_params),
+			'U_CANONICAL'		=> generate_board_url(true) . htmlspecialchars_decode($this->helper->route('vinabb_web_board_forum_route', $forum_url_params)),
 			'U_MARK_TOPICS'		=> ($this->user->data['is_registered'] || $this->config['load_anon_lastread']) ? $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $forum_id, 'hash' => generate_link_hash('global'), 'mark' => 'topics', 'mark_time' => time())) : '',
 		));
 
@@ -783,7 +812,7 @@ class board
 				$sql = 'SELECT forum_id, mark_time
 					FROM ' . FORUMS_TRACK_TABLE . '
 					WHERE ' . $this->db->sql_in_set('forum_id', $global_announce_forums) . '
-						AND user_id = ' . $user->data['user_id'];
+						AND user_id = ' . $this->user->data['user_id'];
 				$result = $this->db->sql_query($sql);
 
 				while ($row = $this->db->sql_fetchrow($result))
@@ -1002,8 +1031,9 @@ class board
 		// otherwise the number is different from the one on the forum list
 		$total_topic_count = $topics_count - sizeof($announcement_list);
 
-		$base_url = append_sid("{$phpbb_root_path}viewforum.$phpEx", "f=$forum_id" . ((strlen($u_sort_param)) ? "&amp;$u_sort_param" : ''));
-		$this->pagination->generate_template_pagination($base_url, 'pagination', 'start', $total_topic_count, $this->config['topics_per_page'], $start);
+		// Remove start=...
+		unset($forum_url_sort_params['start']);
+		$this->pagination->generate_template_pagination($this->helper->route('vinabb_web_board_forum_route', $forum_url_sort_params), 'pagination', 'start', $total_topic_count, $this->config['topics_per_page'], $start);
 
 		$this->template->assign_vars(array(
 			'TOTAL_TOPICS'	=> ($s_display_active) ? false : $this->language->lang('VIEW_FORUM_TOPICS', (int) $total_topic_count),
@@ -1106,8 +1136,8 @@ class board
 				topic_status($row, $replies, $unread_topic, $folder_img, $folder_alt, $topic_type);
 
 				// Generate all the URIs ...
-				$view_topic_url_params = 'f=' . $row['forum_id'] . '&amp;t=' . $topic_id;
-				$view_topic_url = append_sid("{$phpbb_root_path}viewtopic.$phpEx", $view_topic_url_params);
+				$view_topic_url_params = 'f=' . $row['forum_id'] . '&t=' . $topic_id;
+				$view_topic_url = append_sid("{$this->phpbb_root_path}viewtopic.{$this->php_ext}", $view_topic_url_params);
 
 				$topic_unapproved = (($row['topic_visibility'] == ITEM_UNAPPROVED || $row['topic_visibility'] == ITEM_REAPPROVE) && $this->auth->acl_get('m_approve', $row['forum_id']));
 				$posts_unapproved = ($row['topic_visibility'] == ITEM_APPROVED && $row['topic_posts_unapproved'] && $this->auth->acl_get('m_approve', $row['forum_id']));
@@ -1161,12 +1191,12 @@ class board
 					'S_TOPIC_LOCKED'		=> ($row['topic_status'] == ITEM_LOCKED) ? true : false,
 					'S_TOPIC_MOVED'			=> ($row['topic_status'] == ITEM_MOVED) ? true : false,
 
-					'U_NEWEST_POST'			=> append_sid("{$phpbb_root_path}viewtopic.$phpEx", $view_topic_url_params . '&amp;view=unread') . '#unread',
-					'U_LAST_POST'			=> append_sid("{$phpbb_root_path}viewtopic.$phpEx", $view_topic_url_params . '&amp;p=' . $row['topic_last_post_id']) . '#p' . $row['topic_last_post_id'],
+					'U_NEWEST_POST'			=> append_sid("{$this->phpbb_root_path}viewtopic.{$this->php_ext}", $view_topic_url_params . '&view=unread') . '#unread',
+					'U_LAST_POST'			=> append_sid("{$this->phpbb_root_path}viewtopic.{$this->php_ext}", $view_topic_url_params . '&p=' . $row['topic_last_post_id']) . '#p' . $row['topic_last_post_id'],
 					'U_LAST_POST_AUTHOR'	=> get_username_string('profile', $row['topic_last_poster_id'], $row['topic_last_poster_name'], $row['topic_last_poster_colour']),
 					'U_TOPIC_AUTHOR'		=> get_username_string('profile', $row['topic_poster'], $row['topic_first_poster_name'], $row['topic_first_poster_colour']),
 					'U_VIEW_TOPIC'			=> $view_topic_url,
-					'U_VIEW_FORUM'			=> append_sid("{$phpbb_root_path}viewforum.$phpEx", 'f=' . $row['forum_id']),
+					'U_VIEW_FORUM'			=> $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $row['forum_id'])),
 					'U_MCP_REPORT'			=> append_sid("{$this->phpbb_root_path}mcp.{$this->php_ext}", 'i=reports&mode=reports&f=' . $row['forum_id'] . '&t=' . $topic_id, true, $this->user->session_id),
 					'U_MCP_QUEUE'			=> $u_mcp_queue,
 
