@@ -62,6 +62,11 @@ services:
             - '@controller.helper'
             - '%core.root_path%'
             - '%core.php_ext%'
+    vinabb.web.portal:
+        class: vinabb\web\controller\portal
+        arguments:
+            - '%core.root_path%'
+            - '%core.php_ext%'
     vinabb.web.listener:
         class: vinabb\web\event\listener
         arguments:

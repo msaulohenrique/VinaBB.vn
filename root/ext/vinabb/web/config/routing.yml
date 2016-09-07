@@ -12,6 +12,9 @@ vinabb_web_board_routing:
 vinabb_web_embed_routing:
     resource: routing_embed.yml
     prefix: /embed
+vinabb_web_portal_route:
+    path: /news
+    defaults: { _controller: vinabb.web.portal:index }
 vinabb_web_bb_route:
     path: /{bb}
     defaults: { _controller: vinabb.web.bb:index }
