@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the VinaBB.vn package.
- *
- * @copyright (c) VinaBB <vinabb.vn>
- * @license GNU General Public License, version 2 (GPL-2.0)
- */
+* This file is part of the VinaBB.vn package.
+*
+* @copyright (c) VinaBB <vinabb.vn>
+* @license GNU General Public License, version 2 (GPL-2.0)
+*/
 
 namespace vinabb\web\controller;
 
@@ -106,6 +106,8 @@ class board
 		$board = 'board';
 
 		include "{$this->phpbb_root_path}includes/functions_display.{$this->php_ext}";
+
+		$this->language->add_lang('viewforum');
 
 		// Mark notifications read
 		if (($mark_notification = $this->request->variable('mark_notification', 0)))
