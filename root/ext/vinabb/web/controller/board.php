@@ -19,8 +19,8 @@ class board
 	/** @var \phpbb\content_visibility */
 	protected $content_visibility;
 
-	/** @var \phpbb\cache\driver\driver_interface */
-	protected $cache;
+	/** @var \phpbb\cache\service */
+	protected $cache_service;
 
 	/** @var \phpbb\config\config */
 	protected $config;
@@ -67,7 +67,7 @@ class board
 	* @param \phpbb\auth\auth $auth
 	* @param \phpbb\db\driver\driver_interface $db
 	* @param \phpbb\content_visibility $content_visibility
-	* @param \phpbb\cache\driver\driver_interface $cache
+	* @param \phpbb\cache\service $cache_service
 	* @param \phpbb\config\config $config
 	* @param \phpbb\user $user
 	* @param \phpbb\language\language $language
@@ -86,7 +86,7 @@ class board
 		\phpbb\auth\auth $auth,
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\content_visibility $content_visibility,
-		\phpbb\cache\driver\driver_interface $cache,
+		\phpbb\cache\service $cache_service,
 		\phpbb\config\config $config,
 		\phpbb\user $user,
 		\phpbb\language\language $language,
@@ -105,7 +105,7 @@ class board
 		$this->auth = $auth;
 		$this->db = $db;
 		$this->content_visibility = $content_visibility;
-		$this->cache = $cache;
+		$this->cache_service = $cache_service;
 		$this->config = $config;
 		$this->user = $user;
 		$this->language = $language;
@@ -119,6 +119,9 @@ class board
 		$this->group_helper = $group_helper;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
+
+		// Common functions
+		include "{$this->phpbb_root_path}includes/functions_display.{$this->php_ext}";
 	}
 
 	/**
@@ -128,8 +131,6 @@ class board
 	{
 		// 'board' or 'board/'
 		$board = 'board';
-
-		include "{$this->phpbb_root_path}includes/functions_display.{$this->php_ext}";
 
 		$this->language->add_lang('viewforum');
 
@@ -260,11 +261,10 @@ class board
 
 		return $this->helper->render('index_body.html', $page_title);
 	}
-	
+
 	public function forum($forum_id)
 	{
 		// Start initial var setup
-		$forum_id = $this->request->variable('f', 0);
 		$mark_read = $this->request->variable('mark', '');
 		$start = $this->request->variable('start', 0);
 
@@ -660,7 +660,7 @@ class board
 		));
 
 		// Grab icons
-		$icons = $this->cache->obtain_icons();
+		$icons = $this->cache_service->obtain_icons();
 
 		// Grab all topic data
 		$rowset = $announcement_list = $topic_list = $global_announce_forums = array();
