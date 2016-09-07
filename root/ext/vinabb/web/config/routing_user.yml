@@ -1,15 +1,5 @@
-vinabb_web_board_forum_route:
-    path: /forum/{forum_id}
-    defaults: { _controller: vinabb.web.board:forum }
+vinabb_web_user_profile_route:
+    path: /profile/{user_id}
+    defaults: { _controller: vinabb.web.user:profile }
     requirements:
-        forum_id: \d+
-vinabb_web_board_topic_route:
-    path: /topic/{topic_id}
-    defaults: { _controller: vinabb.web.board:topic }
-    requirements:
-        topic_id: \d+
-vinabb_web_board_post_route:
-    path: /post/{post_id}
-    defaults: { _controller: vinabb.web.board:post }
-    requirements:
-        post_id: \d+
+        user_id: '\d+'

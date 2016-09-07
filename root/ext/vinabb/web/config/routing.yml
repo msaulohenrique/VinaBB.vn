@@ -5,7 +5,7 @@ vinabb_web_board_route:
     path: /{board}
     defaults: { _controller: vinabb.web.board:index }
     requirements:
-        board: (board|board\/)
+        board: '(board|board\/)'
 vinabb_web_board_routing:
     resource: routing_board.yml
     prefix: /board
@@ -16,7 +16,7 @@ vinabb_web_bb_route:
     path: /{bb}
     defaults: { _controller: vinabb.web.bb:index }
     requirements:
-        bb: (bb|bb\/)
+        bb: '(bb|bb\/)'
 vinabb_web_bb_routing:
     resource: routing_bb.yml
     prefix: /bb
