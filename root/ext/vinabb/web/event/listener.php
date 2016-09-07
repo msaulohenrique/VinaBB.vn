@@ -29,9 +29,6 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\config\db_text */
 	protected $config_text;
 
-	/** @var \phpbb\controller\helper */
-    protected $helper;
-
 	/** @var \phpbb\template\template */
     protected $template;
 
@@ -46,6 +43,9 @@ class listener implements EventSubscriberInterface
 
 	/** @var \phpbb\extension\manager */
 	protected $ext_manager;
+
+	/** @var \phpbb\controller\helper */
+	protected $helper;
 
 	/** @var \phpbb\path_helper */
 	protected $path_helper;
@@ -67,12 +67,12 @@ class listener implements EventSubscriberInterface
 	* @param \phpbb\cache\driver\driver_interface $cache
 	* @param \phpbb\config\config $config
 	* @param \phpbb\config\db_text $config_text
-	* @param \phpbb\controller\helper $helper
 	* @param \phpbb\template\template $template
 	* @param \phpbb\user $user
 	* @param \phpbb\language\language $language
 	* @param \phpbb\request\request $request
 	* @param \phpbb\extension\manager $ext_manager
+	* @param \phpbb\controller\helper $helper
 	* @param \phpbb\path_helper $path_helper
 	* @param string $phpbb_root_path
 	* @param string $php_ext
@@ -82,12 +82,12 @@ class listener implements EventSubscriberInterface
 								\phpbb\cache\driver\driver_interface $cache,
 								\phpbb\config\config $config,
 								\phpbb\config\db_text $config_text,
-								\phpbb\controller\helper $helper,
 								\phpbb\template\template $template,
 								\phpbb\user $user,
 								\phpbb\language\language $language,
 								\phpbb\request\request $request,
 								\phpbb\extension\manager $ext_manager,
+								\phpbb\controller\helper $helper,
 								\phpbb\path_helper $path_helper,
 								$phpbb_root_path,
 								$phpbb_admin_path,
@@ -98,12 +98,12 @@ class listener implements EventSubscriberInterface
 		$this->cache = $cache;
 		$this->config = $config;
 		$this->config_text = $config_text;
-		$this->helper = $helper;
 		$this->template = $template;
 		$this->user = $user;
 		$this->language = $language;
 		$this->request = $request;
 		$this->ext_manager = $ext_manager;
+		$this->helper = $helper;
 		$this->path_helper = $path_helper;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->phpbb_admin_path = $phpbb_admin_path;
@@ -298,10 +298,11 @@ class listener implements EventSubscriberInterface
 
 			'S_VIETNAMESE'	=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? true : false,
 
+			'U_BOARD'			=> $this->helper->route('vinabb_web_board_route', array('board' => 'board')),
+			'U_MCP'				=> ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? append_sid("{$this->phpbb_root_path}mcp.{$this->php_ext}", 'i=main&mode=front', true, $this->user->session_id) : '',
+			'U_LANG'			=> ($this->user->data['user_id'] == ANONYMOUS) ? append_sid("{$this->phpbb_root_path}index.{$this->php_ext}", "language=$lang_switch") : '',
 			'U_LOGIN_ACTION'	=> append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'mode=login'),
 			'U_SEND_PASSWORD'	=> ($this->config['email_enable']) ? append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'mode=sendpassword') : '',
-			'U_MCP'				=> ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? append_sid("{$this->phpbb_root_path}mcp.{$this->php_ext}", 'i=main&amp;mode=front', true, $this->user->session_id) : '',
-			'U_LANG'			=> ($this->user->data['user_id'] == ANONYMOUS) ? append_sid("{$this->phpbb_root_path}index.{$this->php_ext}", "language=$lang_switch") : '',
 		));
 	}
 
