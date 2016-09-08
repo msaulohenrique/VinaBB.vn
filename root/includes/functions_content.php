@@ -148,9 +148,10 @@ function gen_sort_selects(&$limit_days, &$sort_by_text, &$sort_days, &$sort_key,
 /**
 * Generate Jumpbox
 */
-function make_jumpbox($action, $forum_id = false, $select_all = false, $acl_list = false, $force_display = false)
+function make_jumpbox($action = '', $forum_id = false, $select_all = false, $acl_list = false, $force_display = false)
 {
 	global $config, $auth, $template, $user, $db, $phpbb_path_helper, $phpbb_dispatcher;
+	global $controller_helper;
 
 	// We only return if the jumpbox is not forced to be displayed (in case it is needed for functionality)
 	if (!$config['load_jumpbox'] && $force_display === false)
@@ -212,7 +213,7 @@ function make_jumpbox($action, $forum_id = false, $select_all = false, $acl_list
 				'FORUM_ID'		=> ($select_all) ? 0 : -1,
 				'FORUM_NAME'	=> ($select_all) ? $user->lang['ALL_FORUMS'] : $user->lang['SELECT_FORUM'],
 				'S_FORUM_COUNT'	=> $iteration,
-				'LINK'			=> $phpbb_path_helper->append_url_params($action, array('f' => $forum_id)),
+				'LINK'			=> $controller_helper->route('vinabb_web_board_forum_route', array('forum_id' => $forum_id)),
 			);
 
 			$iteration++;
@@ -227,7 +228,7 @@ function make_jumpbox($action, $forum_id = false, $select_all = false, $acl_list
 			'S_IS_CAT'		=> ($row['forum_type'] == FORUM_CAT) ? true : false,
 			'S_IS_LINK'		=> ($row['forum_type'] == FORUM_LINK) ? true : false,
 			'S_IS_POST'		=> ($row['forum_type'] == FORUM_POST) ? true : false,
-			'LINK'			=> $phpbb_path_helper->append_url_params($action, array('f' => $row['forum_id'])),
+			'LINK'			=> $controller_helper->route('vinabb_web_board_forum_route', array('forum_id' => $row['forum_id'])),
 		);
 
 		/**
