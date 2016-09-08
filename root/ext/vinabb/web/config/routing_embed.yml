@@ -1,15 +1,18 @@
 vinabb_web_embed_forum_route:
     path: /forum/{forum_id}
-    defaults: { _controller: vinabb.web.embed:forum }
+    defaults:
+        _controller: vinabb.web.embed:forum
     requirements:
         forum_id: '\d+'
 vinabb_web_embed_topic_route:
     path: /topic/{topic_id}
-    defaults: { _controller: vinabb.web.embed:topic }
+    defaults:
+        _controller: vinabb.web.embed:topic
     requirements:
         topic_id: '\d+'
 vinabb_web_embed_post_route:
     path: /post/{post_id}
-    defaults: { _controller: vinabb.web.embed:post }
+    defaults:
+        _controller: vinabb.web.embed:post
     requirements:
         post_id: '\d+'

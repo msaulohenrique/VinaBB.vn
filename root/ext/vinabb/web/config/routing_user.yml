@@ -1,5 +1,6 @@
 vinabb_web_user_profile_route:
     path: /profile/{user_id}
-    defaults: { _controller: vinabb.web.user:profile }
+    defaults:
+        _controller: vinabb.web.user:profile
     requirements:
         user_id: '\d+'

@@ -1,18 +1,21 @@
 vinabb_web_bb_type_route:
     path: /{type}
-    defaults: { _controller: vinabb.web.bb:cats }
+    defaults:
+        _controller: vinabb.web.bb:cats
     requirements:
-        type: (extensions|extensions\/|styles|styles\/|acp|acp\/|ivn|ivn\/|tools|tools\/)
+        type: '(extensions|extensions\/|styles|styles\/|acp|acp\/|ivn|ivn\/|tools|tools\/)'
 vinabb_web_bb_cat_route:
     path: /{type}/{cat}
-    defaults: { _controller: vinabb.web.bb:items }
+    defaults:
+        _controller: vinabb.web.bb:items
     requirements:
-        type: (extensions|styles|acp|ivn|tools)
-        cat: (A-Za-z0-9-)+
+        type: '(extensions|styles|acp|ivn|tools)'
+        cat: '(A-Za-z0-9-)+'
 vinabb_web_bb_item_route:
     path: /{type}/{cat}/{item}
-    defaults: { _controller: vinabb.web.bb:details }
+    defaults:
+        _controller: vinabb.web.bb:details
     requirements:
-        type: (extensions|styles|acp|ivn|tools)
-        cat: (A-Za-z0-9-)+
-        item: (A-Za-z0-9-)+
+        type: '(extensions|styles|acp|ivn|tools)'
+        cat: '(A-Za-z0-9-)+'
+        item: '(A-Za-z0-9-)+'
