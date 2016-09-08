@@ -1,4 +1,24 @@
 services:
+    vinabb.web.decorated.help.controller.faq:
+        class: vinabb\web\decorated\help\controller\faq
+        decorates: phpbb.help.controller.faq
+        arguments:
+            - '@controller.helper'
+            - '@phpbb.help.manager'
+            - '@template'
+            - '@language'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+    vinabb.web.decorated.help.controller.bbcode:
+        class: vinabb\web\decorated\help\controller\bbcode
+        decorates: phpbb.help.controller.bbcode
+        arguments:
+            - '@controller.helper'
+            - '@phpbb.help.manager'
+            - '@template'
+            - '@language'
+            - '%core.root_path%'
+            - '%core.php_ext%'
     vinabb.web.decorated.text_formatter.s9e.factory:
         class: vinabb\web\decorated\textformatter\s9e\factory
         decorates: text_formatter.s9e.factory
