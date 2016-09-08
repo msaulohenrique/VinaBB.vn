@@ -4355,7 +4355,7 @@ function page_header($page_title = '', $display_online_list = false, $item_id = 
 		'U_REGISTER'			=> $controller_helper->route('vinabb_web_ucp_route', array('id' => 'front', 'mode' => 'register')),
 		'U_PROFILE'				=> $controller_helper->route('vinabb_web_ucp_route'),
 		'U_USER_PROFILE'		=> get_username_string('profile', $user->data['user_id'], $user->data['username'], $user->data['user_colour']),
-		'U_MODCP'				=> $controller_helper->route('vinabb_web_mcp_route', false, true, $user->session_id),
+		'U_MODCP'				=> $controller_helper->route('vinabb_web_mcp_route', array(), true, $user->session_id),
 		'U_FAQ'					=> $controller_helper->route('phpbb_help_faq_controller'),
 		'U_SEARCH_SELF'			=> $controller_helper->route('vinabb_web_search_route', array('mode' => 'egosearch')),
 		'U_SEARCH_NEW'			=> $controller_helper->route('vinabb_web_search_route', array('mode' => 'newposts')),
