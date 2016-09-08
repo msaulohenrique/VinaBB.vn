@@ -1,6 +1,49 @@
-vinabb_web_user_profile_route:
-    path: /profile/{user_id}
+vinabb_web_user_list_route:
+    path: /list
+    defaults:
+        _controller: vinabb.web.user:memberlist
+vinabb_web_user_profile_id_route:
+    path: /profile/id/{id}
     defaults:
         _controller: vinabb.web.user:profile
     requirements:
-        user_id: '\d+'
+        id: '\d+'
+vinabb_web_user_profile_route:
+    path: /profile/{username}
+    defaults:
+        _controller: vinabb.web.user:profile
+    requirements:
+        username: '.+'
+vinabb_web_user_contact_admin_route:
+    path: /contact/admin
+    defaults:
+        _controller: vinabb.web.user:contact_admin
+vinabb_web_user_email_route:
+    path: /contact/email
+    defaults:
+        _controller: vinabb.web.user:email
+vinabb_web_user_contact_route:
+    path: /contact/{action}/{id}
+    defaults:
+        _controller: vinabb.web.user:contact
+        action: 'jabber'
+    requirements:
+        id: '\d+'
+vinabb_web_user_team_route:
+    path: /team
+    defaults:
+        _controller: vinabb.web.user:team
+vinabb_web_user_group_route:
+    path: /group/{id}
+    defaults:
+        _controller: vinabb.web.user:group
+    requirements:
+        id: '\d+'
+vinabb_web_user_search_route:
+    path: /search
+    defaults:
+        _controller: vinabb.web.user:search
+vinabb_web_user_livesearch_route:
+    path: /search/live
+    defaults:
+        _controller: vinabb.web.user:livesearch
