@@ -30,6 +30,21 @@ services:
         arguments:
             - '%core.root_path%'
             - '%core.php_ext%'
+    vinabb.web.ucp:
+        class: vinabb\web\controller\ucp
+        arguments:
+            - '@auth'
+            - '@dbal.conn'
+            - '@config'
+            - '@user'
+            - '@language'
+            - '@template'
+            - '@request'
+            - '@log'
+            - '@dispatcher'
+            - '@controller.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
     vinabb.web.board:
         class: vinabb\web\controller\board
         arguments:
