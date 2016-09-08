@@ -29,7 +29,6 @@ vinabb_web_board_route:
     path: /{board}
     defaults:
         _controller: vinabb.web.board:index
-        board: 'board'
     requirements:
         board: '(board|board\/)'
 vinabb_web_board_routing:

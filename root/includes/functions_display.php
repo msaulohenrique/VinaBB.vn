@@ -71,7 +71,7 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 				$data = array(
 					'NO_UNREAD_POSTS'	=> $user->lang['NO_UNREAD_POSTS'],
 					'UNREAD_POSTS'		=> $user->lang['UNREAD_POSTS'],
-					'U_MARK_FORUMS'		=> ($user->data['is_registered'] || $config['load_anon_lastread']) ? $controller_helper->route('vinabb_web_board_route', array('hash' => generate_link_hash('global'), 'mark' => 'forums', 'mark_time' => time())) : '',
+					'U_MARK_FORUMS'		=> ($user->data['is_registered'] || $config['load_anon_lastread']) ? $controller_helper->route('vinabb_web_board_route', array('board' => 'board', 'hash' => generate_link_hash('global'), 'mark' => 'forums', 'mark_time' => time())) : '',
 					'MESSAGE_TITLE'		=> $user->lang['INFORMATION'],
 					'MESSAGE_TEXT'		=> $user->lang['FORUMS_MARKED']
 				);
@@ -355,7 +355,7 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 				$data = array(
 					'NO_UNREAD_POSTS'	=> $user->lang['NO_UNREAD_POSTS'],
 					'UNREAD_POSTS'		=> $user->lang['UNREAD_POSTS'],
-					'U_MARK_FORUMS'		=> ($user->data['is_registered'] || $config['load_anon_lastread']) ? $controller_helper->route('vinabb_web_board_forum_route', array('forum_id' => $root_data['forum_id'], 'hash' => generate_link_hash('global'), 'mark' => 'forums', 'mark_time' => time())) : '',
+					'U_MARK_FORUMS'		=> ($user->data['is_registered'] || $config['load_anon_lastread']) ? htmlspecialchars_decode($controller_helper->route('vinabb_web_board_forum_route', array('forum_id' => $root_data['forum_id'], 'hash' => generate_link_hash('global'), 'mark' => 'forums', 'mark_time' => time()))) : '',
 					'MESSAGE_TITLE'		=> $user->lang['INFORMATION'],
 					'MESSAGE_TEXT'		=> $user->lang['FORUMS_MARKED']
 				);

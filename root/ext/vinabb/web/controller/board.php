@@ -438,7 +438,7 @@ class board
 				$data = array(
 					'NO_UNREAD_POSTS'	=> $this->language->lang('NO_UNREAD_POSTS'),
 					'UNREAD_POSTS'		=> $this->language->lang('UNREAD_POSTS'),
-					'U_MARK_TOPICS'		=> ($this->user->data['is_registered'] || $this->config['load_anon_lastread']) ? $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $forum_id, 'hash' => generate_link_hash('global'), 'mark' => 'topics', 'mark_time' => time())) : '',
+					'U_MARK_TOPICS'		=> ($this->user->data['is_registered'] || $this->config['load_anon_lastread']) ? htmlspecialchars_decode($this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $forum_id, 'hash' => generate_link_hash('global'), 'mark' => 'topics', 'mark_time' => time()))) : '',
 					'MESSAGE_TITLE'		=> $this->language->lang('INFORMATION'),
 					'MESSAGE_TEXT'		=> $this->language->lang('TOPICS_MARKED')
 				);
