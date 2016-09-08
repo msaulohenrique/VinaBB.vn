@@ -45,6 +45,11 @@ services:
             - '@controller.helper'
             - '%core.root_path%'
             - '%core.php_ext%'
+    vinabb.web.mcp:
+        class: vinabb\web\controller\mcp
+        arguments:
+            - '%core.root_path%'
+            - '%core.php_ext%'
     vinabb.web.board:
         class: vinabb\web\controller\board
         arguments:
