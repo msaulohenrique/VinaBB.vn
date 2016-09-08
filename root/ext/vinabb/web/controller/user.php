@@ -28,13 +28,48 @@ class user
 		$this->php_ext = $php_ext;
 	}
 
-	/**
-	* Controller for route /user/{username}
-	*
-	* @param string $username
-	*/
-	public function info($username)
+	public function memberlist()
 	{
-		redirect(append_sid("{$this->phpbb_root_path}memberlist.{$this->php_ext}", "mode=viewprofile&amp;un=$username"));
+
+	}
+
+	public function profile()
+	{
+
+	}
+
+	public function contact_admin()
+	{
+
+	}
+
+	public function email()
+	{
+
+	}
+
+	public function contact()
+	{
+
+	}
+
+	public function team()
+	{
+
+	}
+
+	public function group()
+	{
+
+	}
+
+	public function search()
+	{
+
+	}
+
+	public function livesearch()
+	{
+		
 	}
 }
