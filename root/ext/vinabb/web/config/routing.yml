@@ -1,6 +1,12 @@
 vinabb_web_user_routing:
     resource: routing_user.yml
     prefix: /user
+vinabb_web_ucp_default_route:
+    path: /ucp
+    defaults:
+        _controller: vinabb.web.ucp:main
+        id: 'main'
+        mode: 'front'
 vinabb_web_ucp_route:
     path: /ucp/{id}/{mode}
     defaults:
