@@ -77,6 +77,11 @@ services:
             - '@controller.helper'
             - '%core.root_path%'
             - '%core.php_ext%'
+    vinabb.web.search:
+        class: vinabb\web\controller\search
+        arguments:
+            - '%core.root_path%'
+            - '%core.php_ext%'
     vinabb.web.online:
         class: vinabb\web\controller\online
         arguments:

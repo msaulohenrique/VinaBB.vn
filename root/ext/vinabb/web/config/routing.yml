@@ -23,10 +23,17 @@ vinabb_web_board_routing:
 vinabb_web_embed_routing:
     resource: routing_embed.yml
     prefix: /embed
+vinabb_web_search_route:
+    path: /search/{mode}
+    defaults:
+        _controller: vinabb.web.search:index
+        mode: ''
+    requirements:
+        mode: '[a-z]+'
 vinabb_web_online_route:
     path: /online/{mode}
     defaults:
-        _controller: vinabb.web.online:main
+        _controller: vinabb.web.online:index
         mode: ''
     requirements:
         mode: '(|whois|whois\/)'
