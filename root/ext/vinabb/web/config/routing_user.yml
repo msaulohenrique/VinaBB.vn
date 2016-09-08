@@ -19,9 +19,11 @@ vinabb_web_user_contact_admin_route:
     defaults:
         _controller: vinabb.web.user:contact_admin
 vinabb_web_user_email_route:
-    path: /contact/email
+    path: /contact/email/{id}
     defaults:
         _controller: vinabb.web.user:email
+    requirements:
+        id: '\d+'
 vinabb_web_user_contact_route:
     path: /contact/{action}/{id}
     defaults:
