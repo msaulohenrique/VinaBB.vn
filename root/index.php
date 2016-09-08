@@ -18,11 +18,5 @@ include $phpbb_root_path . 'common.' . $phpEx;
 $user->session_begin();
 $auth->acl($user->data);
 
-/** @var \phpbb\controller\helper $controller_helper */
-$controller_helper = $phpbb_container->get('controller.helper');
-
-$response = new \Symfony\Component\HttpFoundation\RedirectResponse(
-	$controller_helper->route('vinabb_web_portal_route'),
-	301
-);
-$response->send();
+$portal = $phpbb_container->get('vinabb.web.portal');
+$portal->index();
