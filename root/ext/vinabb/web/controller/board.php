@@ -264,6 +264,8 @@ class board
 
 	public function forum($forum_id)
 	{
+		global $_SID, $_EXTRA_URL;
+
 		// Start initial var setup
 		$mark_read = $this->request->variable('mark', '');
 		$start = $this->request->variable('start', 0);
