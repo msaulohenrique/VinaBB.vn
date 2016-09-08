@@ -426,7 +426,7 @@ class ucp
 		$module->load_active();
 
 		// Assign data to the template engine for the list of modules
-		$module->assign_tpl_vars($this->helper->route('vinabb_web_ucp_route'));
+		$module->assign_tpl_vars(append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}"));
 
 		// Generate the page, do not display/query online list
 		$module->display($module->get_page_title());
