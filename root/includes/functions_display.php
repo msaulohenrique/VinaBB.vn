@@ -956,7 +956,7 @@ function get_moderators(&$forum_moderators, $forum_id = false)
 			}
 			else
 			{
-				$forum_moderators[$f_id][] = '<a' . (($row['group_colour']) ? ' style="color:#' . $row['group_colour'] . ';"' : '') . ' href="' . $controller_helper->route('vinabb_web_user_route', array('mode' => 'group', 'id' => 'id/' . $row['group_id'])) . '">' . $group_name . '</a>';
+				$forum_moderators[$f_id][] = '<a' . (($row['group_colour']) ? ' style="color:#' . $row['group_colour'] . ';"' : '') . ' href="' . $controller_helper->route('vinabb_web_user_group_route', array('id' => $row['group_id'])) . '">' . $group_name . '</a>';
 			}
 		}
 	}
@@ -1568,7 +1568,7 @@ function phpbb_show_profile($data, $user_notes_enabled = false, $warn_user_enabl
 
 	if ((!empty($data['user_allow_viewemail']) && $auth->acl_get('u_sendemail')) || $auth->acl_get('a_user'))
 	{
-		$email = ($config['board_email_form'] && $config['email_enable']) ? $controller_helper->route('vinabb_web_user_route', array('mode' => 'email', 'id' => 'id/' . $user_id)) : (($config['board_hide_emails'] && !$auth->acl_get('a_user')) ? '' : 'mailto:' . $data['user_email']);
+		$email = ($config['board_email_form'] && $config['email_enable']) ? $controller_helper->route('vinabb_web_user_email_route', array('id' => $user_id)) : (($config['board_hide_emails'] && !$auth->acl_get('a_user')) ? '' : 'mailto:' . $data['user_email']);
 	}
 	else
 	{
@@ -1672,7 +1672,7 @@ function phpbb_show_profile($data, $user_notes_enabled = false, $warn_user_enabl
 		'U_WARN'		=> ($warn_user_enabled && $auth->acl_get('m_warn')) ? $controller_helper->route('vinabb_web_mcp_route', array('id' => 'warn', 'mode' => 'warn_user', 'u' => $user_id), true, $user->session_id) : '',
 		'U_PM'			=> ($config['allow_privmsg'] && $auth->acl_get('u_sendpm') && $can_receive_pm) ? $controller_helper->route('vinabb_web_ucp_route', array('id' => 'pm', 'mode' => 'compose', 'u' => $user_id)) : '',
 		'U_EMAIL'		=> $email,
-		'U_JABBER'		=> ($data['user_jabber'] && $auth->acl_get('u_sendim')) ? $controller_helper->route('vinabb_web_user_route', array('mode' => 'contact', 'action' => 'jabber', 'id' => 'id/' . $user_id)) : '',
+		'U_JABBER'		=> ($data['user_jabber'] && $auth->acl_get('u_sendim')) ? $controller_helper->route('vinabb_web_user_contact_route', array('action' => 'jabber', 'id' => $user_id)) : '',
 
 		'USER_JABBER'		=> ($config['jab_enable']) ? $data['user_jabber'] : '',
 		'USER_JABBER_IMG'	=> ($config['jab_enable'] && $data['user_jabber']) ? $user->img('icon_contact_jabber', $data['user_jabber']) : '',

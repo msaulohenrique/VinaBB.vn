@@ -2393,7 +2393,7 @@ function login_box($redirect = '', $l_explain = '', $l_success = '', $admin = fa
 				// Assign admin contact to some error messages
 				if ($result['error_msg'] == 'LOGIN_ERROR_USERNAME' || $result['error_msg'] == 'LOGIN_ERROR_PASSWORD')
 				{
-					$err = sprintf($user->lang[$result['error_msg']], '<a href="' . $controller_helper->route('vinabb_web_user_route', array('mode' => 'contactadmin')) . '">', '</a>');
+					$err = sprintf($user->lang[$result['error_msg']], '<a href="' . $controller_helper->route('vinabb_web_user_contact_admin_route') . '">', '</a>');
 				}
 
 			break;
@@ -4346,7 +4346,7 @@ function page_header($page_title = '', $display_online_list = false, $item_id = 
 
 		'U_PRIVATEMSGS'			=> $controller_helper->route('vinabb_web_ucp_route', array('id' => 'pm', 'folder' => 'inbox')),
 		'U_RETURN_INBOX'		=> $controller_helper->route('vinabb_web_ucp_route', array('id' => 'pm', 'folder' => 'inbox')),
-		'U_MEMBERLIST'			=> $controller_helper->route('vinabb_web_user_route'),
+		'U_MEMBERLIST'			=> $controller_helper->route('vinabb_web_user_list_route'),
 		'U_VIEWONLINE'			=> ($auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel')) ? $controller_helper->route('vinabb_web_online_route') : '',
 		'U_LOGIN_LOGOUT'		=> $u_login_logout,
 		'U_INDEX'				=> append_sid("{$phpbb_root_path}index.$phpEx"),
@@ -4363,8 +4363,8 @@ function page_header($page_title = '', $display_online_list = false, $item_id = 
 		'U_SEARCH_UNREAD'		=> $controller_helper->route('vinabb_web_search_route', array('mode' => 'unreadposts')),
 		'U_SEARCH_ACTIVE_TOPICS'=> $controller_helper->route('vinabb_web_search_route', array('mode' => 'active_topics')),
 		'U_DELETE_COOKIES'		=> $controller_helper->route('vinabb_web_ucp_route', array('id' => 'front', 'mode' => 'delete_cookies')),
-		'U_CONTACT_US'			=> ($config['contact_admin_form_enable'] && $config['email_enable']) ? $controller_helper->route('vinabb_web_user_route', array('mode' => 'contactadmin')) : '',
-		'U_TEAM'				=> ($user->data['user_id'] != ANONYMOUS && !$auth->acl_get('u_viewprofile')) ? '' : $controller_helper->route('vinabb_web_user_route', array('mode' => 'team')),
+		'U_CONTACT_US'			=> ($config['contact_admin_form_enable'] && $config['email_enable']) ? $controller_helper->route('vinabb_web_user_contact_admin_route') : '',
+		'U_TEAM'				=> ($user->data['user_id'] != ANONYMOUS && !$auth->acl_get('u_viewprofile')) ? '' : $controller_helper->route('vinabb_web_user_team_route'),
 		'U_TERMS_USE'			=> $controller_helper->route('vinabb_web_ucp_route', array('id' => 'front', 'mode' => 'terms')),
 		'U_PRIVACY'				=> $controller_helper->route('vinabb_web_ucp_route', array('id' => 'front', 'mode' => 'privacy')),
 		'U_RESTORE_PERMISSIONS'	=> ($user->data['user_perm_from'] && $auth->acl_get('a_switchperm')) ? $controller_helper->route('vinabb_web_ucp_route', array('id' => 'front', 'mode' => 'restore_perm')) : '',

@@ -1467,7 +1467,7 @@ function get_username_string($mode, $user_id, $username, $username_colour = '', 
 		global $phpbb_root_path, $phpEx;
 		global $controller_helper;
 
-		$_profile_cache['base_url'] = $controller_helper->route('vinabb_web_user_route', array('mode' => 'profile', 'id' => '{USERNAME}'));
+		$_profile_cache['base_url'] = $controller_helper->route('vinabb_web_user_profile_route', array('username' => '{USERNAME}'));
 		$_profile_cache['tpl_noprofile'] = '<span class="username">{USERNAME}</span>';
 		$_profile_cache['tpl_noprofile_colour'] = '<span style="color: {USERNAME_COLOUR};" class="username-coloured">{USERNAME}</span>';
 		$_profile_cache['tpl_profile'] = '<a href="{PROFILE_URL}" class="username">{USERNAME}</a>';
