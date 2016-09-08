@@ -248,9 +248,9 @@ class listener implements EventSubscriberInterface
 		}
 
 		// Display the forum list on every page
-		if (!defined('ADMIN_START') && !in_array($this->user->page['page_name'], array("viewforum.{$this->php_ext}", "viewtopic.{$this->php_ext}", "viewonline.{$this->php_ext}", "memberlist.{$this->php_ext}", "ucp.{$this->php_ext}", "app.{$this->php_ext}/help/faq")))
+		if (!defined('ADMIN_START'))
 		{
-			make_jumpbox(append_sid("{$this->phpbb_root_path}viewforum.{$this->php_ext}"));
+			make_jumpbox();
 		}
 
 		// Get language data from cache
@@ -299,10 +299,10 @@ class listener implements EventSubscriberInterface
 			'S_VIETNAMESE'	=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? true : false,
 
 			'U_BOARD'			=> $this->helper->route('vinabb_web_board_route', array('board' => 'board')),
-			'U_MCP'				=> ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? append_sid("{$this->phpbb_root_path}mcp.{$this->php_ext}", 'i=main&mode=front', true, $this->user->session_id) : '',
+			'U_MCP'				=> ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? $this->helper->route('vinabb_web_mcp_route', array('id' => 'main', 'mode' => 'front'), true, $this->user->session_id) : '',
 			'U_LANG'			=> ($this->user->data['user_id'] == ANONYMOUS) ? append_sid("{$this->phpbb_root_path}index.{$this->php_ext}", "language=$lang_switch") : '',
-			'U_LOGIN_ACTION'	=> append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'mode=login'),
-			'U_SEND_PASSWORD'	=> ($this->config['email_enable']) ? append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'mode=sendpassword') : '',
+			'U_LOGIN_ACTION'	=> $this->helper->route('vinabb_web_ucp_route', array('id' => 'front', 'mode' => 'login')),
+			'U_SEND_PASSWORD'	=> ($this->config['email_enable']) ? $this->helper->route('vinabb_web_ucp_route', array('id' => 'front', 'mode' => 'sendpassword')) : '',
 		));
 	}
 
@@ -413,7 +413,7 @@ class listener implements EventSubscriberInterface
 		$template_data['USER_ID'] = $data['user_id'];
 		$template_data['RANK_TITLE_RAW'] = $template_data['RANK_TITLE'];
 		$template_data['RANK_TITLE'] = ($this->language->is_set(['RANK_TITLES', strtoupper($template_data['RANK_TITLE'])])) ? $this->language->lang(['RANK_TITLES', strtoupper($template_data['RANK_TITLE'])]) : $template_data['RANK_TITLE'];
-		$template_data['U_PM_ALT'] = ($this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm')) ? append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'i=pm&amp;mode=compose&amp;u=' . $data['user_id']) : '';
+		$template_data['U_PM_ALT'] = ($this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm')) ? $this->helper->route('vinabb_web_ucp_route', array('id' => 'pm', 'mode' => 'compose', 'u' => $data['user_id'])) : '';
 		$event['template_data'] = $template_data;
 	}
 

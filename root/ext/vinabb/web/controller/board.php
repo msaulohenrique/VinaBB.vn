@@ -396,8 +396,6 @@ class board
 			'body'	=> 'viewforum_body.html'
 		));
 
-		make_jumpbox($this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $forum_id)));
-
 		$this->template->assign_vars(array(
 			'U_VIEW_FORUM'	=> $this->helper->route('vinabb_web_board_forum_route', ($start == 0) ? array('forum_id' => $forum_id) : array('forum_id' => $forum_id, 'start' => $start))
 		));
