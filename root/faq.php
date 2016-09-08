@@ -14,10 +14,12 @@ $phpbb_root_path = (defined('PHPBB_ROOT_PATH')) ? PHPBB_ROOT_PATH : './';
 $phpEx = substr(strrchr(__FILE__, '.'), 1);
 require "{$phpbb_root_path}common.{$phpEx}";
 
-$forum_id = $request->variable('f', 0);
+$mode = $request->variable('mode', '');
 
 $response = new \Symfony\Component\HttpFoundation\RedirectResponse(
-	$controller_helper->route('vinabb_web_board_forum_route', array('forum_id' => $forum_id)),
+	$controller_helper->route(
+		($mode == 'bbcode') ? 'phpbb_help_bbcode_controller' : 'phpbb_help_faq_controller'
+	),
 	301
 );
 $response->send();
