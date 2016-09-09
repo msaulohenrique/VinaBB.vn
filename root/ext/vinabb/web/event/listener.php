@@ -120,6 +120,7 @@ class listener implements EventSubscriberInterface
 			'core.page_header_after'	=> 'page_header_after',
 			'core.adm_page_header'		=> 'adm_page_header',
 
+			'core.append_sid'							=> 'append_sid',
 			'core.add_log'								=> 'add_log',
 			'core.generate_smilies_after'				=> 'generate_smilies_after',
 			'core.login_box_redirect'					=> 'login_box_redirect',
@@ -248,10 +249,7 @@ class listener implements EventSubscriberInterface
 		}
 
 		// Display the forum list on every page
-		if (!defined('ADMIN_START'))
-		{
-			make_jumpbox();
-		}
+		// Write a new function as soon...
 
 		// Get language data from cache
 		$lang_data = $this->cache->get('_lang_data');
@@ -299,10 +297,10 @@ class listener implements EventSubscriberInterface
 			'S_VIETNAMESE'	=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? true : false,
 
 			'U_BOARD'			=> $this->helper->route('vinabb_web_board_route', array('board' => 'board')),
-			'U_MCP'				=> ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? $this->helper->route('vinabb_web_mcp_route', array('id' => 'main', 'mode' => 'front'), true, $this->user->session_id) : '',
+			'U_MCP'				=> ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? append_sid("{$this->phpbb_root_path}mcp.{$this->php_ext}", 'i=main&mode=front', true, $this->user->session_id) : '',
 			'U_LANG'			=> ($this->user->data['user_id'] == ANONYMOUS) ? append_sid("{$this->phpbb_root_path}index.{$this->php_ext}", "language=$lang_switch") : '',
-			'U_LOGIN_ACTION'	=> $this->helper->route('vinabb_web_ucp_route', array('id' => 'front', 'mode' => 'login')),
-			'U_SEND_PASSWORD'	=> ($this->config['email_enable']) ? $this->helper->route('vinabb_web_ucp_route', array('id' => 'front', 'mode' => 'sendpassword')) : '',
+			'U_LOGIN_ACTION'	=> append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'mode=login'),
+			'U_SEND_PASSWORD'	=> ($this->config['email_enable']) ? append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'mode=sendpassword') : '',
 		));
 	}
 
@@ -320,6 +318,61 @@ class listener implements EventSubscriberInterface
 		$this->template->assign_vars(array(
 			'S_FOUNDER'	=> ($this->user->data['user_type'] == USER_FOUNDER) ? true : false
 		));
+	}
+
+	/**
+	* core.append_sid
+	*
+	* @param $event
+	*/
+	public function append_sid($event)
+	{
+		// Always to convert '&amp;' into '&'
+		$event['is_amp'] = false;
+
+		if (!$event['is_route'])
+		{
+			// Get parameters
+			$params_ary = array();
+
+			if ($event['params'] === false)
+			{
+				$has_params = false;
+			}
+			else
+			{
+				$has_params = true;
+				$params = explode('&', str_replace(array('&amp;', '?'), array('&', ''), $event['params']));
+
+				foreach ($params as $param)
+				{
+					list($param_key, $param_value) = explode('=', $param);
+					$params_ary[$param_key] = $param_value;
+				}
+			}
+
+			// Detect URLs
+			if (strpos($event['url'], "viewforum.{$this->php_ext}") !== false)
+			{
+				if (!$has_params)
+				{
+					$params_ary['f'] = '';
+				}
+
+				if (isset($params_ary['mark']))
+				{
+					$event['append_sid_overwrite'] = $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $params_ary['f'], 'hash' => $params_ary['hash'], 'mark' => $params_ary['mark'], 'mark_time' => $params_ary['mark_time']));
+				}
+				else
+				{
+					$event['append_sid_overwrite'] = $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $params_ary['f']));
+				}
+			}
+			else if (strpos($event['url'], "x.{$this->php_ext}") !== false)
+			{
+				echo $event['params'] . "<br>";
+			}
+		}
 	}
 
 	/**
@@ -413,7 +466,7 @@ class listener implements EventSubscriberInterface
 		$template_data['USER_ID'] = $data['user_id'];
 		$template_data['RANK_TITLE_RAW'] = $template_data['RANK_TITLE'];
 		$template_data['RANK_TITLE'] = ($this->language->is_set(['RANK_TITLES', strtoupper($template_data['RANK_TITLE'])])) ? $this->language->lang(['RANK_TITLES', strtoupper($template_data['RANK_TITLE'])]) : $template_data['RANK_TITLE'];
-		$template_data['U_PM_ALT'] = ($this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm')) ? $this->helper->route('vinabb_web_ucp_route', array('id' => 'pm', 'mode' => 'compose', 'u' => $data['user_id'])) : '';
+		$template_data['U_PM_ALT'] = ($this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm')) ? append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'i=pm&amp;mode=compose&amp;u=' . $data['user_id']) : '';
 		$event['template_data'] = $template_data;
 	}
 

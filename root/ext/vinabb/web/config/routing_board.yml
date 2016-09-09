@@ -1,9 +1,11 @@
 vinabb_web_board_forum_route:
-    path: /forum/{forum_id}
+    path: /forum/{forum_id}/{seo}
     defaults:
         _controller: vinabb.web.board:forum
+        seo: ''
     requirements:
         forum_id: '\d*'
+        seo: '([a-zA-Z0-9-]*)(\/{0,1})'
 vinabb_web_board_topic_route:
     path: /topic/{topic_id}
     defaults:
