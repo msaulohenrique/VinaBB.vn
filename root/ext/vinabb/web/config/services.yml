@@ -52,6 +52,8 @@ services:
             - '@user'
             - '@controller.helper'
             - '@dispatcher'
+    vinabb.web.helper:
+        class: vinabb\web\controller\helper
     vinabb.web.user:
         class: vinabb\web\controller\user
         arguments:
