@@ -21,6 +21,8 @@ $forum_id = $request->variable('f', 0);
 $topic_id = $request->variable('t', 0);
 $mode = $request->variable('mode', '');
 
+$controller_helper = $phpbb_container->get('controller.helper');
+
 if ($forum_id)
 {
 	$url = $controller_helper->route('phpbb_feed_forum', array('forum_id' => $forum_id));

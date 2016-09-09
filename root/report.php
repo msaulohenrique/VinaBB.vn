@@ -18,7 +18,7 @@ $post_id = $request->variable('p', 0);
 $pm_id = $request->variable('pm', 0);
 
 $response = new \Symfony\Component\HttpFoundation\RedirectResponse(
-	$controller_helper->route(($post_id) ? 'phpbb_report_post_controller' : 'phpbb_report_pm_controller', array('id' => ($post_id) ? $post_id : $pm_id)),
+	$phpbb_container->get('controller.helper')->route(($post_id) ? 'phpbb_report_post_controller' : 'phpbb_report_pm_controller', array('id' => ($post_id) ? $post_id : $pm_id)),
 	301
 );
 $response->send();

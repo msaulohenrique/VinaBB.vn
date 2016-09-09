@@ -17,7 +17,7 @@ require "{$phpbb_root_path}common.{$phpEx}";
 $mode = $request->variable('mode', '');
 
 $response = new \Symfony\Component\HttpFoundation\RedirectResponse(
-	$controller_helper->route(
+	$phpbb_container->get('controller.helper')->route(
 		($mode == 'bbcode') ? 'phpbb_help_bbcode_controller' : 'phpbb_help_faq_controller'
 	),
 	301

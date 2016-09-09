@@ -19,11 +19,11 @@ $mode = $request->variable('mode', '');
 
 if (empty($id) && in_array($mode, array('activate', 'resend_act', 'sendpassword', 'register', 'confirm', 'login', 'login_link', 'logout', 'terms', 'privacy', 'delete_cookies', 'switch_perm', 'restore_perm')))
 {
-	$mode = 'front';
+	$id = 'front';
 }
 
 $response = new \Symfony\Component\HttpFoundation\RedirectResponse(
-	$controller_helper->route('vinabb_web_ucp_route', array('id' => $id, 'mode' => $mode)),
+	$phpbb_container->get('controller.helper')->route('vinabb_web_ucp_route', array('id' => $id, 'mode' => $mode)),
 	301
 );
 $response->send();

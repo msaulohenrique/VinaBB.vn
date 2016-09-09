@@ -17,7 +17,7 @@ require "{$phpbb_root_path}common.{$phpEx}";
 $forum_id = $request->variable('f', 0);
 
 $response = new \Symfony\Component\HttpFoundation\RedirectResponse(
-	$controller_helper->route('vinabb_web_board_forum_route', array('forum_id' => $forum_id)),
+	$phpbb_container->get('controller.helper')->route('vinabb_web_board_forum_route', array('forum_id' => $forum_id)),
 	301
 );
 $response->send();
