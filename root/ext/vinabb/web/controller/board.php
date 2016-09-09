@@ -8,6 +8,8 @@
 
 namespace vinabb\web\controller;
 
+use vinabb\web\includes\constants;
+
 class board
 {
 	/** @var \phpbb\auth\auth */
@@ -265,11 +267,12 @@ class board
 	/**
 	* @param $forum_id
 	*/
-	public function forum($forum_id, $page)
+	public function forum($forum_id, $page, $seo)
 	{
 		global $_SID, $_EXTRA_URL;
 
-		$page = max(1, floor(str_replace('/page-', '', $page)));
+		$page = max(1, floor(str_replace(constants::REWRITE_URL_PAGE, '', $page)));
+		$seo = (substr($seo, -1) == '.') ? substr($seo, 0, -1) : $seo;
 
 		// Start initial var setup
 		$mark_read = $this->request->variable('mark', '');
@@ -402,7 +405,7 @@ class board
 		));
 
 		$this->template->assign_vars(array(
-			'U_VIEW_FORUM'	=> $this->helper->route('vinabb_web_board_forum_route', ($start == 0) ? array('forum_id' => $forum_id) : array('forum_id' => $forum_id, 'page' => '/page-' . $this->pagination->get_on_page($this->config['topics_per_page'], $start)))
+			'U_VIEW_FORUM'	=> $this->helper->route('vinabb_web_board_forum_route', ($start == 0) ? array('forum_id' => $forum_id) : array('forum_id' => $forum_id, 'page' => constants::REWRITE_URL_PAGE . $this->pagination->get_on_page($this->config['topics_per_page'], $start)))
 		));
 
 		// Not postable forum or showing active topics?
@@ -629,9 +632,10 @@ class board
 
 		if ($start)
 		{
-			$forum_url_params['page'] = '/page-' . $this->pagination->get_on_page($this->config['topics_per_page'], $start);
+			$forum_url_params['page'] = constants::REWRITE_URL_PAGE . $this->pagination->get_on_page($this->config['topics_per_page'], $start);
 		}
 
+		$forum_url_params['seo'] = $forum_data['forum_name_seo'] . constants::REWRITE_URL_SEO;
 		$forum_url_sort_params = $forum_url_params;
 
 		if (sizeof($u_sort_param_ary))
@@ -690,7 +694,7 @@ class board
 			'U_POST_NEW_TOPIC'	=> ($this->auth->acl_get('f_post', $forum_id) || $this->user->data['user_id'] == ANONYMOUS) ? $this->helper->route('vinabb_web_posting_route', array('mode' => 'post', 'forum_id' => $forum_id)) : '',
 			'U_VIEW_FORUM'		=> $this->helper->route('vinabb_web_board_forum_route', $forum_url_sort_params),
 			'U_CANONICAL'		=> generate_board_url(true) . htmlspecialchars_decode($this->helper->route('vinabb_web_board_forum_route', $forum_url_params)),
-			'U_MARK_TOPICS'		=> ($this->user->data['is_registered'] || $this->config['load_anon_lastread']) ? $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $forum_id, 'hash' => generate_link_hash('global'), 'mark' => 'topics', 'mark_time' => time())) : '',
+			'U_MARK_TOPICS'		=> ($this->user->data['is_registered'] || $this->config['load_anon_lastread']) ? $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $forum_id, 'seo' => $forum_data['forum_name_seo'] . constants::REWRITE_URL_SEO, 'hash' => generate_link_hash('global'), 'mark' => 'topics', 'mark_time' => time())) : '',
 		));
 
 		// Grab icons

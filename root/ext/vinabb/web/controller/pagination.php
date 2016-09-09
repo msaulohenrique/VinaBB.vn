@@ -8,6 +8,8 @@
 
 namespace vinabb\web\controller;
 
+use vinabb\web\includes\constants;
+
 class pagination
 {
 	/** @var \phpbb\template\template */
@@ -55,10 +57,8 @@ class pagination
 	{
 		if ($on_page > 1)
 		{
-			$route_params['page'] = '/page-' . $on_page;
+			$route_params['page'] = constants::REWRITE_URL_PAGE . $on_page;
 		}
-
-		$route_params['seo'] = 'x';
 
 		return $this->helper->route($route_name, $route_params);
 	}
