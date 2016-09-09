@@ -1191,8 +1191,8 @@ class board
 					'S_TOPIC_LOCKED'		=> ($row['topic_status'] == ITEM_LOCKED) ? true : false,
 					'S_TOPIC_MOVED'			=> ($row['topic_status'] == ITEM_MOVED) ? true : false,
 
-					'U_NEWEST_POST'			=> $this->helper->route('vinabb_web_board_topic_route', array('topic_id' => $topic_id, 'view' => 'unread')) . '#unread',
-					'U_LAST_POST'			=> $this->helper->route('vinabb_web_board_post_route', array('post_id' => $row['topic_last_post_id'])),
+					'U_NEWEST_POST'			=> $this->helper->route('vinabb_web_board_topic_route', array('topic_id' => $topic_id, 'view' => 'unread', '#' => 'unread')),
+					'U_LAST_POST'			=> $this->helper->route('vinabb_web_board_topic_route', array('topic_id' => $topic_id, '#' => 'p' . $row['topic_last_post_id'])),
 					'U_LAST_POST_AUTHOR'	=> get_username_string('profile', $row['topic_last_poster_id'], $row['topic_last_poster_name'], $row['topic_last_poster_colour']),
 					'U_TOPIC_AUTHOR'		=> get_username_string('profile', $row['topic_poster'], $row['topic_first_poster_name'], $row['topic_first_poster_colour']),
 					'U_VIEW_TOPIC'			=> $view_topic_url,
