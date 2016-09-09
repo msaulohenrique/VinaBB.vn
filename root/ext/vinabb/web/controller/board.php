@@ -1588,7 +1588,7 @@ class board
 		 * Event to apply extra permissions and to override original phpBB's f_read permission and forum password check
 		 * on viewtopic access
 		 *
-		 * @event core.viewtopic_before_f_read_check
+		 * @event vinabb.web.viewtopic_before_f_read_check
 		 * @var	int		forum_id						The forum id from where the topic belongs
 		 * @var	int		topic_id						The id of the topic the user tries to access
 		 * @var	int		post_id							The id of the post the user tries to start viewing at.
@@ -1611,7 +1611,7 @@ class board
 			'overrides_forum_password_check',
 			'topic_tracking_info',
 		);
-		extract($this->dispatcher->trigger_event('core.viewtopic_before_f_read_check', compact($vars)));
+		extract($this->dispatcher->trigger_event('vinabb.web.viewtopic_before_f_read_check', compact($vars)));
 
 // Start auth check
 		if (!$overrides_f_read_check && !$this->auth->acl_get('f_read', $forum_id))
@@ -1836,7 +1836,7 @@ class board
 		 * Event to modify data in the quickmod_array before it gets sent to the
 		 * phpbb_add_quickmod_option function.
 		 *
-		 * @event core.viewtopic_add_quickmod_option_before
+		 * @event vinabb.web.viewtopic_add_quickmod_option_before
 		 * @var	int				forum_id				Forum ID
 		 * @var	int				post_id					Post ID
 		 * @var	array			quickmod_array			Array with quick moderation options data
@@ -1857,7 +1857,7 @@ class board
 			'viewtopic_url',
 			'allow_change_type',
 		);
-		extract($this->dispatcher->trigger_event('core.viewtopic_add_quickmod_option_before', compact($vars)));
+		extract($this->dispatcher->trigger_event('vinabb.web.viewtopic_add_quickmod_option_before', compact($vars)));
 
 		foreach ($quickmod_array as $option => $qm_ary)
 		{
@@ -1910,7 +1910,7 @@ class board
 		/**
 		 * Event to modify data before template variables are being assigned
 		 *
-		 * @event core.viewtopic_assign_template_vars_before
+		 * @event vinabb.web.viewtopic_assign_template_vars_before
 		 * @var	string	base_url			URL to be passed to generate pagination
 		 * @var	int		forum_id			Forum ID
 		 * @var	int		post_id				Post ID
@@ -1936,7 +1936,7 @@ class board
 			'total_posts',
 			'viewtopic_url',
 		);
-		extract($this->dispatcher->trigger_event('core.viewtopic_assign_template_vars_before', compact($vars)));
+		extract($this->dispatcher->trigger_event('vinabb.web.viewtopic_assign_template_vars_before', compact($vars)));
 
 		$this->pagination->generate_template_pagination($base_url, 'pagination', 'start', $total_posts, $this->config['posts_per_page'], $start);
 
@@ -2078,7 +2078,7 @@ class board
 			/**
 			 * Event to manipulate the poll data
 			 *
-			 * @event core.viewtopic_modify_poll_data
+			 * @event vinabb.web.viewtopic_modify_poll_data
 			 * @var	array	cur_voted_id				Array with options' IDs current user has voted for
 			 * @var	int		forum_id					The topic's forum id
 			 * @var	array	poll_info					Array with the poll information
@@ -2103,7 +2103,7 @@ class board
 				'vote_counts',
 				'voted_id',
 			);
-			extract($this->dispatcher->trigger_event('core.viewtopic_modify_poll_data', compact($vars)));
+			extract($this->dispatcher->trigger_event('vinabb.web.viewtopic_modify_poll_data', compact($vars)));
 
 			if ($update && $s_can_vote)
 			{
@@ -2283,7 +2283,7 @@ class board
 			/**
 			 * Event to add/modify poll template data
 			 *
-			 * @event core.viewtopic_modify_poll_template_data
+			 * @event vinabb.web.viewtopic_modify_poll_template_data
 			 * @var	array	cur_voted_id					Array with options' IDs current user has voted for
 			 * @var	int		poll_end						The poll end time
 			 * @var	array	poll_info						Array with the poll information
@@ -2310,7 +2310,7 @@ class board
 				'vote_counts',
 				'voted_id',
 			);
-			extract($this->dispatcher->trigger_event('core.viewtopic_modify_poll_template_data', compact($vars)));
+			extract($this->dispatcher->trigger_event('vinabb.web.viewtopic_modify_poll_template_data', compact($vars)));
 
 			$this->template->assign_block_vars_array('poll_option', $poll_options_template_data);
 
@@ -2411,7 +2411,7 @@ class board
 		/**
 		 * Event to modify the SQL query before the post and poster data is retrieved
 		 *
-		 * @event core.viewtopic_get_post_data
+		 * @event vinabb.web.viewtopic_get_post_data
 		 * @var	int		forum_id	Forum ID
 		 * @var	int		topic_id	Topic ID
 		 * @var	array	topic_data	Array with topic data
@@ -2435,7 +2435,7 @@ class board
 			'start',
 			'sql_ary',
 		);
-		extract($this->dispatcher->trigger_event('core.viewtopic_get_post_data', compact($vars)));
+		extract($this->dispatcher->trigger_event('vinabb.web.viewtopic_get_post_data', compact($vars)));
 
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query($sql);
@@ -2508,13 +2508,13 @@ class board
 			/**
 			 * Modify the post rowset containing data to be displayed with posts
 			 *
-			 * @event core.viewtopic_post_rowset_data
+			 * @event vinabb.web.viewtopic_post_rowset_data
 			 * @var	array	rowset_data	Array with the rowset data for this post
 			 * @var	array	row			Array with original user and post data
 			 * @since 3.1.0-a1
 			 */
 			$vars = array('rowset_data', 'row');
-			extract($this->dispatcher->trigger_event('core.viewtopic_post_rowset_data', compact($vars)));
+			extract($this->dispatcher->trigger_event('vinabb.web.viewtopic_post_rowset_data', compact($vars)));
 
 			$rowset[$row['post_id']] = $rowset_data;
 
@@ -2556,14 +2556,14 @@ class board
 					/**
 					 * Modify the guest user's data displayed with the posts
 					 *
-					 * @event core.viewtopic_cache_guest_data
+					 * @event vinabb.web.viewtopic_cache_guest_data
 					 * @var	array	user_cache_data	Array with the user's data
 					 * @var	int		poster_id		Poster's user id
 					 * @var	array	row				Array with original user and post data
 					 * @since 3.1.0-a1
 					 */
 					$vars = array('user_cache_data', 'poster_id', 'row');
-					extract($this->dispatcher->trigger_event('core.viewtopic_cache_guest_data', compact($vars)));
+					extract($this->dispatcher->trigger_event('vinabb.web.viewtopic_cache_guest_data', compact($vars)));
 
 					$user_cache[$poster_id] = $user_cache_data;
 
@@ -2623,14 +2623,14 @@ class board
 					/**
 					 * Modify the users' data displayed with their posts
 					 *
-					 * @event core.viewtopic_cache_user_data
+					 * @event vinabb.web.viewtopic_cache_user_data
 					 * @var	array	user_cache_data	Array with the user's data
 					 * @var	int		poster_id		Poster's user id
 					 * @var	array	row				Array with original user and post data
 					 * @since 3.1.0-a1
 					 */
 					$vars = array('user_cache_data', 'poster_id', 'row');
-					extract($this->dispatcher->trigger_event('core.viewtopic_cache_user_data', compact($vars)));
+					extract($this->dispatcher->trigger_event('vinabb.web.viewtopic_cache_user_data', compact($vars)));
 
 					$user_cache[$poster_id] = $user_cache_data;
 
@@ -2810,7 +2810,7 @@ class board
 		/**
 		 * Event to modify the post, poster and attachment data before assigning the posts
 		 *
-		 * @event core.viewtopic_modify_post_data
+		 * @event vinabb.web.viewtopic_modify_post_data
 		 * @var	int		forum_id	Forum ID
 		 * @var	int		topic_id	Topic ID
 		 * @var	array	topic_data	Array with topic data
@@ -2845,7 +2845,7 @@ class board
 			'has_approved_attachments',
 			'attachments',
 		);
-		extract($this->dispatcher->trigger_event('core.viewtopic_modify_post_data', compact($vars)));
+		extract($this->dispatcher->trigger_event('vinabb.web.viewtopic_modify_post_data', compact($vars)));
 
 // Output the posts
 		$first_unread = $post_unread = false;
@@ -3055,7 +3055,7 @@ class board
 			/**
 			 * This event allows you to modify the conditions for the "can edit post" and "can delete post" checks
 			 *
-			 * @event core.viewtopic_modify_post_action_conditions
+			 * @event vinabb.web.viewtopic_modify_post_action_conditions
 			 * @var	array	row			Array with post data
 			 * @var	array	topic_data	Array with topic data
 			 * @var	bool	force_edit_allowed		Allow the user to edit the post (all permissions and conditions are ignored)
@@ -3082,7 +3082,7 @@ class board
 				's_cannot_delete_locked',
 				's_cannot_delete_time',
 			);
-			extract($this->dispatcher->trigger_event('core.viewtopic_modify_post_action_conditions', compact($vars)));
+			extract($this->dispatcher->trigger_event('vinabb.web.viewtopic_modify_post_action_conditions', compact($vars)));
 
 			$edit_allowed = $force_edit_allowed || ($this->user->data['is_registered'] && ($this->auth->acl_get('m_edit', $forum_id) || (
 							!$s_cannot_edit &&
@@ -3222,7 +3222,7 @@ class board
 			/**
 			 * Modify the posts template block
 			 *
-			 * @event core.viewtopic_modify_post_row
+			 * @event vinabb.web.viewtopic_modify_post_row
 			 * @var	int		start				Start item of this page
 			 * @var	int		current_row_number	Number of the post on this page
 			 * @var	int		end					Number of posts on this page
@@ -3252,7 +3252,7 @@ class board
 				'post_row',
 				'topic_data',
 			);
-			extract($this->dispatcher->trigger_event('core.viewtopic_modify_post_row', compact($vars)));
+			extract($this->dispatcher->trigger_event('vinabb.web.viewtopic_modify_post_row', compact($vars)));
 
 			$i = $current_row_number;
 
@@ -3323,7 +3323,7 @@ class board
 			/**
 			 * Event after the post data has been assigned to the template
 			 *
-			 * @event core.viewtopic_post_row_after
+			 * @event vinabb.web.viewtopic_post_row_after
 			 * @var	int		start				Start item of this page
 			 * @var	int		current_row_number	Number of the post on this page
 			 * @var	int		end					Number of posts on this page
@@ -3349,7 +3349,7 @@ class board
 				'post_row',
 				'topic_data',
 			);
-			extract($this->dispatcher->trigger_event('core.viewtopic_post_row_after', compact($vars)));
+			extract($this->dispatcher->trigger_event('vinabb.web.viewtopic_post_row_after', compact($vars)));
 
 			$i = $current_row_number;
 
