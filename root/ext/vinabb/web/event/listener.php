@@ -370,7 +370,7 @@ class listener implements EventSubscriberInterface
 			}
 			else if (strpos($event['url'], "x.{$this->php_ext}") !== false)
 			{
-				echo $event['params'] . "<br>";
+				//echo $event['params'] . "<br>";
 			}
 		}
 	}
