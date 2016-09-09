@@ -34,4 +34,8 @@ class constants
 	const BB_TYPE_VARNAME_ACP_STYLE = 'acp';
 	const BB_TYPE_VARNAME_LANG = 'ivn';
 	const BB_TYPE_VARNAME_TOOL = 'tools';
+
+	// Rewrite URLs
+	const REWRITE_URL_PAGE = 'page-';
+	const REWRITE_URL_SEO = '.';
 }
