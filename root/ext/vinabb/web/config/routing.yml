@@ -37,6 +37,16 @@ vinabb_web_board_routing:
 vinabb_web_embed_routing:
     resource: routing_embed.yml
     prefix: /embed
+vinabb_web_posting_route:
+    path: /posting/{mode}/{forum_id}/{topic_id}
+    defaults:
+        _controller: vinabb.web.posting:main
+        mode: ''
+        topic_id: '0'
+    requirements:
+        mode: '(post|reply)'
+        forum_id: '\d+'
+        topic_id: '\d*'
 vinabb_web_search_route:
     path: /search/{mode}
     defaults:

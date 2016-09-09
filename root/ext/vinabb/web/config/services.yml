@@ -102,6 +102,11 @@ services:
             - '@controller.helper'
             - '%core.root_path%'
             - '%core.php_ext%'
+    vinabb.web.posting:
+        class: vinabb\web\controller\posting
+        arguments:
+            - '%core.root_path%'
+            - '%core.php_ext%'
     vinabb.web.search:
         class: vinabb\web\controller\search
         arguments:
