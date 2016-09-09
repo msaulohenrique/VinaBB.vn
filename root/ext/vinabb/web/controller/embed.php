@@ -108,7 +108,7 @@ class embed
 					$this->template->assign_vars(array(
 						'FORUM_NAME'	=> $forum_data['forum_name'],
 						'FORUM_DESC'	=> truncate_string(strip_tags(generate_text_for_display($forum_data['forum_desc'], $forum_data['forum_desc_uid'], $forum_data['forum_desc_bitfield'], $forum_data['forum_desc_options'])), 200, 255, false, $this->language->lang('ELLIPSIS')),
-						'FORUM_URL'		=> append_sid("{$this->phpbb_root_path}viewforum.{$this->php_ext}", "f=$forum_id"),
+						'FORUM_URL'		=> $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $forum_id)),
 					));
 				}
 			}
@@ -216,9 +216,9 @@ class embed
 				$this->template->assign_vars(array(
 					'POST_SUBJECT'	=>truncate_string(generate_text_for_display($post_data['post_subject'], $post_data['bbcode_uid'], $post_data['bbcode_bitfield'], $bbcode_options), 40, 255, false, $this->language->lang('ELLIPSIS')),
 					'POST_TEXT'		=> truncate_string(strip_tags(generate_text_for_display($post_data['post_text'], $post_data['bbcode_uid'], $post_data['bbcode_bitfield'], $bbcode_options)), 189, 255, false, $this->language->lang('ELLIPSIS')),
-					'POST_URL'		=> append_sid("{$this->phpbb_root_path}viewtopic.{$this->php_ext}", 'f=' . $post_data['forum_id'] . '&t=' . $post_data['topic_id'] . '&p=' . $post_data['post_id'] . '#p' . $post_data['post_id']),
+					'POST_URL'		=> $this->helper->route('vinabb_web_board_topic_route', array('topic_id' => $post_data['topic_id'], '#' => 'p' . $post_data['post_id'])),
 					'POSTER'		=> ($post_data['poster_id']) ? $poster_data['username'] : ((!empty($post_data['post_username'])) ? $post_data['post_username'] : $this->language->lang('GUEST')),
-					'POSTER_URL'	=> ($post_data['poster_id']) ? append_sid("{$this->phpbb_root_path}memberlist.{$this->php_ext}", 'mode=viewprofile&u=' . $post_data['poster_id']) : '',
+					'POSTER_URL'	=> ($post_data['poster_id']) ? $this->helper->route('vinabb_web_user_profile_route', array('username' => $post_data['username'])) : '',
 					'POST_TIME'		=> $this->user->format_date($post_data['post_time'], 'd/m/Y H:i')
 				));
 			}
