@@ -405,7 +405,7 @@ class board
 		));
 
 		$this->template->assign_vars(array(
-			'U_VIEW_FORUM'	=> $this->helper->route('vinabb_web_board_forum_route', ($start == 0) ? array('forum_id' => $forum_id) : array('forum_id' => $forum_id, 'page' => constants::REWRITE_URL_PAGE . $this->pagination->get_on_page($this->config['topics_per_page'], $start)))
+			'U_VIEW_FORUM'	=> $this->helper->route('vinabb_web_board_forum_route', ($start == 0) ? array('forum_id' => $forum_id) : array('forum_id' => $forum_id, 'seo' => $forum_data['forum_name_seo'] . constants::REWRITE_URL_SEO, 'page' => constants::REWRITE_URL_PAGE . $this->pagination->get_on_page($this->config['topics_per_page'], $start)))
 		));
 
 		// Not postable forum or showing active topics?
@@ -435,7 +435,7 @@ class board
 				markread('topics', array($forum_id), false, $this->request->variable('mark_time', 0));
 			}
 
-			$redirect_url = $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $forum_id));
+			$redirect_url = $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $forum_id, 'seo' => $forum_data['forum_name_seo'] . constants::REWRITE_URL_SEO));
 			meta_refresh(3, $redirect_url);
 
 			if ($this->request->is_ajax())
@@ -444,7 +444,7 @@ class board
 				$data = array(
 					'NO_UNREAD_POSTS'	=> $this->language->lang('NO_UNREAD_POSTS'),
 					'UNREAD_POSTS'		=> $this->language->lang('UNREAD_POSTS'),
-					'U_MARK_TOPICS'		=> ($this->user->data['is_registered'] || $this->config['load_anon_lastread']) ? htmlspecialchars_decode($this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $forum_id, 'hash' => generate_link_hash('global'), 'mark' => 'topics', 'mark_time' => time()))) : '',
+					'U_MARK_TOPICS'		=> ($this->user->data['is_registered'] || $this->config['load_anon_lastread']) ? htmlspecialchars_decode($this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $forum_id, 'seo' => $forum_data['forum_name_seo'] . constants::REWRITE_URL_SEO, 'hash' => generate_link_hash('global'), 'mark' => 'topics', 'mark_time' => time()))) : '',
 					'MESSAGE_TITLE'		=> $this->language->lang('INFORMATION'),
 					'MESSAGE_TEXT'		=> $this->language->lang('TOPICS_MARKED')
 				);
@@ -1042,7 +1042,6 @@ class board
 
 		// Remove start=...
 		unset($forum_url_sort_params['page']);
-		//$this->pagination->generate_template_pagination($this->helper->route('vinabb_web_board_forum_route', $forum_url_sort_params), 'pagination', 'start', $total_topic_count, $this->config['topics_per_page'], $start);
 		$this->pagination->generate_template_pagination('vinabb_web_board_forum_route', $forum_url_sort_params, 'pagination', 'start', $total_topic_count, $this->config['topics_per_page'], $start);
 
 		$this->template->assign_vars(array(
@@ -1206,7 +1205,7 @@ class board
 					'U_LAST_POST_AUTHOR'	=> get_username_string('profile', $row['topic_last_poster_id'], $row['topic_last_poster_name'], $row['topic_last_poster_colour']),
 					'U_TOPIC_AUTHOR'		=> get_username_string('profile', $row['topic_poster'], $row['topic_first_poster_name'], $row['topic_first_poster_colour']),
 					'U_VIEW_TOPIC'			=> $view_topic_url,
-					'U_VIEW_FORUM'			=> $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $row['forum_id'])),
+					'U_VIEW_FORUM'			=> $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $row['forum_id'], 'seo' => $row['forum_name_seo'] . constants::REWRITE_URL_SEO)),
 					'U_MCP_REPORT'			=> $this->helper->route('vinabb_web_mcp_route', array('id' => 'reports', 'mode' => 'reports', 'f' => $row['forum_id'], 't' => $topic_id), true, $this->user->session_id),
 					'U_MCP_QUEUE'			=> $u_mcp_queue,
 
