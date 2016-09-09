@@ -217,7 +217,7 @@ class board
 			}
 			else
 			{
-				$legend[] = '<a' . $colour_text . ' href="' . append_sid("{$this->phpbb_root_path}memberlist.{$this->php_ext}", 'mode=group&g=' . $row['group_id']) . '">' . $group_name . '</a>';
+				$legend[] = '<a' . $colour_text . ' href="' . $this->helper->route('vinabb_web_user_group_route', array('id' => $row['group_id'])) . '">' . $group_name . '</a>';
 			}
 		}
 		$this->db->sql_freeresult($result);
@@ -239,13 +239,13 @@ class board
 				'FORUM_LOCKED_IMG'			=> $this->user->img('forum_read_locked', 'NO_UNREAD_POSTS_LOCKED'),
 				'FORUM_UNREAD_LOCKED_IMG'	=> $this->user->img('forum_unread_locked', 'UNREAD_POSTS_LOCKED'),
 
-				'S_LOGIN_ACTION'	=> append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'mode=login'),
-				'U_SEND_PASSWORD'	=> ($this->config['email_enable']) ? append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'mode=sendpassword') : '',
+				'S_LOGIN_ACTION'	=> $this->helper->route('vinabb_web_ucp_route', array('id' => 'front', 'mode' => 'login')),
+				'U_SEND_PASSWORD'	=> ($this->config['email_enable']) ? $this->helper->route('vinabb_web_ucp_route', array('id' => 'front', 'mode' => 'sendpassword')) : '',
 				'S_INDEX'			=> true,
 
 				'U_MARK_FORUMS'		=> ($this->user->data['is_registered'] || $this->config['load_anon_lastread']) ? $this->helper->route('vinabb_web_board_route', array('board' => $board, 'hash' => generate_link_hash('global'), 'mark' => 'forums', 'mark_time' => time())) : '',
-				'U_MCP'				=> ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? append_sid("{$this->phpbb_root_path}mcp.{$this->php_ext}", 'i=main&mode=front', true, $this->user->session_id) : '')
-		);
+				'U_MCP'				=> ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? $this->helper->route('vinabb_web_mcp_route', array('id' => 'main', 'mode' => 'front'), true, $this->user->session_id) : ''
+		));
 
 		$page_title = $this->language->lang('BOARD');
 
@@ -675,14 +675,14 @@ class board
 			'S_WATCHING_FORUM'				=> $s_watching_forum['is_watching'],
 			'S_FORUM_ACTION'				=> $this->helper->route('vinabb_web_board_forum_route', $forum_url_params),
 			'S_DISPLAY_SEARCHBOX'			=> ($this->auth->acl_get('u_search') && $this->auth->acl_get('f_search', $forum_id) && $this->config['load_search']) ? true : false,
-			'S_SEARCHBOX_ACTION'			=> append_sid("{$this->phpbb_root_path}search.{$this->php_ext}"),
+			'S_SEARCHBOX_ACTION'			=> $this->helper->route('vinabb_web_search_route'),
 			'S_SEARCH_LOCAL_HIDDEN_FIELDS'	=> build_hidden_fields($s_search_hidden_fields),
 			'S_SINGLE_MODERATOR'			=> (!empty($moderators[$forum_id]) && sizeof($moderators[$forum_id]) > 1) ? false : true,
 			'S_IS_LOCKED'					=> ($forum_data['forum_status'] == ITEM_LOCKED) ? true : false,
 			'S_VIEWFORUM'					=> true,
 
-			'U_MCP'				=> ($this->auth->acl_get('m_', $forum_id)) ? append_sid("{$this->phpbb_root_path}mcp.{$this->php_ext}", "f=$forum_id&i=main&mode=forum_view", true, $this->user->session_id) : '',
-			'U_POST_NEW_TOPIC'	=> ($this->auth->acl_get('f_post', $forum_id) || $this->user->data['user_id'] == ANONYMOUS) ? append_sid("{$this->phpbb_root_path}posting.{$this->php_ext}", 'mode=post&f=' . $forum_id) : '',
+			'U_MCP'				=> ($this->auth->acl_get('m_', $forum_id)) ? $this->helper->route('vinabb_web_mcp_route', array('id' => 'main', 'mode' => 'forum_view', 'f' => $forum_id), true, $this->user->session_id) : '',
+			'U_POST_NEW_TOPIC'	=> ($this->auth->acl_get('f_post', $forum_id) || $this->user->data['user_id'] == ANONYMOUS) ? $this->helper->route('vinabb_web_posting_route', array('mode' => 'post', 'forum_id' => $forum_id)) : '',
 			'U_VIEW_FORUM'		=> $this->helper->route('vinabb_web_board_forum_route', $forum_url_sort_params),
 			'U_CANONICAL'		=> generate_board_url(true) . htmlspecialchars_decode($this->helper->route('vinabb_web_board_forum_route', $forum_url_params)),
 			'U_MARK_TOPICS'		=> ($this->user->data['is_registered'] || $this->config['load_anon_lastread']) ? $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $forum_id, 'hash' => generate_link_hash('global'), 'mark' => 'topics', 'mark_time' => time())) : '',
@@ -1137,14 +1137,14 @@ class board
 
 				// Generate all the URIs ...
 				$view_topic_url_params = 'f=' . $row['forum_id'] . '&t=' . $topic_id;
-				$view_topic_url = append_sid("{$this->phpbb_root_path}viewtopic.{$this->php_ext}", $view_topic_url_params);
+				$view_topic_url = $this->helper->route('vinabb_web_board_topic_route', array('topic_id' => $topic_id));
 
 				$topic_unapproved = (($row['topic_visibility'] == ITEM_UNAPPROVED || $row['topic_visibility'] == ITEM_REAPPROVE) && $this->auth->acl_get('m_approve', $row['forum_id']));
 				$posts_unapproved = ($row['topic_visibility'] == ITEM_APPROVED && $row['topic_posts_unapproved'] && $this->auth->acl_get('m_approve', $row['forum_id']));
 				$topic_deleted = $row['topic_visibility'] == ITEM_DELETED;
 
-				$u_mcp_queue = ($topic_unapproved || $posts_unapproved) ? append_sid("{$this->phpbb_root_path}mcp.{$this->php_ext}", 'i=queue&mode=' . (($topic_unapproved) ? 'approve_details' : 'unapproved_posts') . "&t=$topic_id", true, $this->user->session_id) : '';
-				$u_mcp_queue = (!$u_mcp_queue && $topic_deleted) ? append_sid("{$this->phpbb_root_path}mcp.{$this->php_ext}", 'i=queue&mode=deleted_topics&t=' . $topic_id, true, $this->user->session_id) : $u_mcp_queue;
+				$u_mcp_queue = ($topic_unapproved || $posts_unapproved) ? $this->helper->route('vinabb_web_mcp_route', array('id' => 'queue', 'mode' => (($topic_unapproved) ? 'approve_details' : 'unapproved_posts'), 't' => $topic_id), true, $this->user->session_id) : '';
+				$u_mcp_queue = (!$u_mcp_queue && $topic_deleted) ? $this->helper->route('vinabb_web_mcp_route', array('id' => 'queue', 'mode' => 'deleted_topics', 't' => $topic_id), true, $this->user->session_id) : $u_mcp_queue;
 
 				// Send vars to template
 				$topic_row = array(
@@ -1191,13 +1191,13 @@ class board
 					'S_TOPIC_LOCKED'		=> ($row['topic_status'] == ITEM_LOCKED) ? true : false,
 					'S_TOPIC_MOVED'			=> ($row['topic_status'] == ITEM_MOVED) ? true : false,
 
-					'U_NEWEST_POST'			=> append_sid("{$this->phpbb_root_path}viewtopic.{$this->php_ext}", $view_topic_url_params . '&view=unread') . '#unread',
-					'U_LAST_POST'			=> append_sid("{$this->phpbb_root_path}viewtopic.{$this->php_ext}", $view_topic_url_params . '&p=' . $row['topic_last_post_id']) . '#p' . $row['topic_last_post_id'],
+					'U_NEWEST_POST'			=> $this->helper->route('vinabb_web_board_topic_route', array('topic_id' => $topic_id, 'view' => 'unread')) . '#unread',
+					'U_LAST_POST'			=> $this->helper->route('vinabb_web_board_post_route', array('post_id' => $row['topic_last_post_id'])),
 					'U_LAST_POST_AUTHOR'	=> get_username_string('profile', $row['topic_last_poster_id'], $row['topic_last_poster_name'], $row['topic_last_poster_colour']),
 					'U_TOPIC_AUTHOR'		=> get_username_string('profile', $row['topic_poster'], $row['topic_first_poster_name'], $row['topic_first_poster_colour']),
 					'U_VIEW_TOPIC'			=> $view_topic_url,
 					'U_VIEW_FORUM'			=> $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $row['forum_id'])),
-					'U_MCP_REPORT'			=> append_sid("{$this->phpbb_root_path}mcp.{$this->php_ext}", 'i=reports&mode=reports&f=' . $row['forum_id'] . '&t=' . $topic_id, true, $this->user->session_id),
+					'U_MCP_REPORT'			=> $this->helper->route('vinabb_web_mcp_route', array('id' => 'reports', 'mode' => 'reports', 'f' => $row['forum_id'], 't' => $topic_id), true, $this->user->session_id),
 					'U_MCP_QUEUE'			=> $u_mcp_queue,
 
 					'S_TOPIC_TYPE_SWITCH'	=> ($s_type_switch == $s_type_switch_test) ? -1 : $s_type_switch_test,
