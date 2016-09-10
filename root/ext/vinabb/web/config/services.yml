@@ -124,7 +124,19 @@ services:
     vinabb.web.online:
         class: vinabb\web\controller\online
         arguments:
+            - '@auth'
+            - '@dbal.conn'
+            - '@config'
+            - '@user'
+            - '@language'
+            - '@template'
+            - '@pagination'
+            - '@request'
+            - '@dispatcher'
+            - '@controller.helper'
+            - '@group_helper'
             - '%core.root_path%'
+            - '%core.adm_relative_path%'
             - '%core.php_ext%'
     vinabb.web.portal:
         class: vinabb\web\controller\portal

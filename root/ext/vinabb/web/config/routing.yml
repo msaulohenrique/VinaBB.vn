@@ -57,10 +57,10 @@ vinabb_web_search_route:
 vinabb_web_online_route:
     path: /online/{mode}
     defaults:
-        _controller: vinabb.web.online:index
+        _controller: vinabb.web.online:main
         mode: ''
     requirements:
-        mode: '(|whois|whois\/)'
+        mode: '(|whois|lookup)(\/{0,1})'
 vinabb_web_portal_route:
     path: /news
     defaults:
