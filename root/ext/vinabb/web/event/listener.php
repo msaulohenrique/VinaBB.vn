@@ -336,11 +336,12 @@ class listener implements EventSubscriberInterface
 	*/
 	public function append_sid($event)
 	{
-		// Always to convert '&amp;' into '&'
-		$event['is_amp'] = false;
-
-		if (!$event['is_route'])
+		// Add checking our extension, unless it causes errors when disabling the extension
+		if (!$event['is_route'] && $this->ext_manager->is_enabled('vinabb/web'))
 		{
+			// Do not use &amp;
+			$event['is_amp'] = false;
+
 			// Get parameters
 			$params_ary = array();
 
