@@ -335,13 +335,8 @@ class listener implements EventSubscriberInterface
 			// Get parameters
 			$params_ary = array();
 
-			if ($event['params'] === false)
+			if ($event['params'] !== false)
 			{
-				$has_params = false;
-			}
-			else
-			{
-				$has_params = true;
 				$params = explode('&', str_replace(array('&amp;', '?'), array('&', ''), $event['params']));
 
 				foreach ($params as $param)
@@ -352,25 +347,36 @@ class listener implements EventSubscriberInterface
 			}
 
 			// Detect URLs
+			$route_name = '';
+
 			if (strpos($event['url'], "viewforum.{$this->php_ext}") !== false)
 			{
-				if (!$has_params)
+				if (!sizeof($params_ary))
 				{
 					$params_ary['f'] = '';
 				}
 
-				if (isset($params_ary['mark']))
+				if (isset($params_ary['f']))
 				{
-					$event['append_sid_overwrite'] = $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $params_ary['f'], 'hash' => $params_ary['hash'], 'mark' => $params_ary['mark'], 'mark_time' => $params_ary['mark_time']));
+					$params_ary['forum_id'] = $params_ary['f'];
+					unset($params_ary['f']);
 				}
-				else
-				{
-					$event['append_sid_overwrite'] = $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $params_ary['f']));
-				}
+
+				$route_name = 'vinabb_web_board_forum_route';
+			}
+			else if (strpos($event['url'], "viewonline.{$this->php_ext}") !== false)
+			{
+				$route_name = 'vinabb_web_online_route';
 			}
 			else if (strpos($event['url'], "x.{$this->php_ext}") !== false)
 			{
 				//echo $event['params'] . "<br>";
+			}
+
+			// Replace by routes
+			if (!empty($route_name))
+			{
+				$event['append_sid_overwrite'] = $this->helper->route($route_name, $params_ary);
 			}
 		}
 	}
