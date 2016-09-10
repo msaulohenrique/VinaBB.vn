@@ -25,7 +25,6 @@ class service extends \phpbb\cache\service
 			}
 			$this->db->sql_freeresult($result);
 
-			// Cache maintenance text data
 			$this->driver->put('_config_text_data', $config_text_data);
 		}
 	}
@@ -33,6 +32,35 @@ class service extends \phpbb\cache\service
 	function clear_config_text_data()
 	{
 		$this->driver->destroy('_config_text_data');
+	}
+
+	function get_lang_data()
+	{
+		if (($lang_data = $this->driver->get('_lang_data')) === false)
+		{
+			$sql = 'SELECT *
+				FROM ' . LANG_TABLE;
+			$result = $this->db->sql_query($sql);
+
+			$lang_data = array();
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$lang_data[$row['lang_iso']] = array(
+					'dir'			=> $row['lang_dir'],
+					'english_name'	=> $row['lang_english_name'],
+					'local_name'	=> $row['lang_local_name'],
+					'author'		=> $row['lang_author'],
+				);
+			}
+			$this->db->sql_freeresult($result);
+
+			$this->driver->put('_lang_data', $lang_data);
+		}
+	}
+
+	function clear_lang_data()
+	{
+		$this->driver->destroy('_lang_data');
 	}
 
 	function get_forum_data()
