@@ -400,6 +400,20 @@ class listener implements EventSubscriberInterface
 			{
 				$route_name = 'vinabb_web_online_route';
 			}
+			else if (strpos($event['url'], "ucp.{$this->php_ext}") !== false)
+			{
+				if (isset($params_ary['i']))
+				{
+					$params_ary['id'] = (substr($params_ary['i'], 0, 4) == 'ucp_') ? substr($params_ary['i'], 4) : $params_ary['i'];
+					unset($params_ary['i']);
+				}
+				else if (isset($params_ary['mode']) && in_array($params_ary['mode'], array('activate', 'resend_act', 'sendpassword', 'register', 'confirm', 'login', 'login_link', 'logout', 'terms', 'privacy', 'delete_cookies', 'switch_perm', 'restore_perm')))
+				{
+					$params_ary['id'] = 'front';
+				}
+
+				$route_name = 'vinabb_web_ucp_route';
+			}
 			else if (strpos($event['url'], "x.{$this->php_ext}") !== false)
 			{
 				//echo $event['params'] . "<br>";
