@@ -109,6 +109,7 @@ class listener implements EventSubscriberInterface
 		$this->phpbb_admin_path = $phpbb_admin_path;
 		$this->php_ext = $php_ext;
 
+		$this->config_text = $this->cache->get_config_text_data();
 		$this->ext_root_path = $this->ext_manager->get_extension_path('vinabb/web', true);
 		$this->ext_web_path = $this->path_helper->update_web_root_path($this->ext_root_path);
 	}
@@ -184,11 +185,8 @@ class listener implements EventSubscriberInterface
 			$now = time();
 			$in_maintenance_time = ($this->config['vinabb_web_maintenance_time'] > $now) ? true : false;
 
-			// Get maintenance text data from cache
-			$config_text_cache_data = $this->cache->get_config_text_data();
-
 			// Get maintenance text with/without the end time
-			if (empty($config_text_cache_data['vinabb_web_maintenance_text']) || empty($config_text_cache_data['vinabb_web_maintenance_text_vi']))
+			if (empty($this->config_text['vinabb_web_maintenance_text']) || empty($this->config_text['vinabb_web_maintenance_text_vi']))
 			{
 				if ($in_maintenance_time)
 				{
@@ -211,7 +209,7 @@ class listener implements EventSubscriberInterface
 			}
 			else
 			{
-				$message = ($this->user->lang_name == 'vi') ? $config_text_cache_data['vinabb_web_maintenance_text_vi'] : $config_text_cache_data['vinabb_web_maintenance_text'];
+				$message = ($this->user->lang_name == 'vi') ? $this->config_text['vinabb_web_maintenance_text_vi'] : $this->config_text['vinabb_web_maintenance_text'];
 				$message = str_replace("\n", '<br>', $message);
 
 				if ($in_maintenance_time)
