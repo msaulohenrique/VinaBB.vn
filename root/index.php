@@ -14,5 +14,11 @@ $phpbb_root_path = (defined('PHPBB_ROOT_PATH')) ? PHPBB_ROOT_PATH : './';
 $phpEx = substr(strrchr(__FILE__, '.'), 1);
 require "{$phpbb_root_path}common.{$phpEx}";
 
-$portal = $phpbb_container->get('vinabb.web.portal');
-$portal->index();
+if ($phpbb_extension_manager->is_enabled('vinabb/web'))
+{
+	$phpbb_container->get('vinabb.web.portal')->index();
+}
+else
+{
+	trigger_error('Please replace front files by original phpBB files ;)');
+}
