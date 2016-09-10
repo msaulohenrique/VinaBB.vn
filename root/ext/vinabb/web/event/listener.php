@@ -702,6 +702,31 @@ class listener implements EventSubscriberInterface
 		// Adjust the column 'forum_name_seo' based on 'forum_name'
 		$forum_data_sql = $event['forum_data_sql'];
 		$forum_data_sql['forum_name_seo'] = $this->ext_helper->clean_url($forum_data_sql['forum_name']);
+
+		// If there have more than 2 same forum SEO names, add parent forum SEO name as prefix
+		if ($forum_data_sql['parent_id'])
+		{
+			$sql = 'SELECT forum_id, forum_name_seo
+				FROM ' . FORUMS_TABLE . '
+				WHERE forum_id <> ' . $forum_data_sql['forum_id'] . "
+					AND (forum_name_seo = '" . $this->db->sql_escape($forum_data_sql['forum_name_seo']) . "'
+						OR forum_id = " . $forum_data_sql['parent_id'] . '
+					)';
+			$result = $this->db->sql_query($sql);
+
+			$found_forums = array();
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$found_forums[$row['forum_id']] = $row['forum_name_seo'];
+			}
+			$this->db->sql_freeresult($result);
+
+			if (sizeof($found_forums) > 1)
+			{
+				$forum_data_sql['forum_name_seo'] = $found_forums[$forum_data_sql['parent_id']] . constants::REWRITE_URL_FORUM_CAT . $forum_data_sql['forum_name_seo'];
+			}
+		}
+
 		$event['forum_data_sql'] = $forum_data_sql;
 	}
 
