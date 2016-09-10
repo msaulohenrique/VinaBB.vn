@@ -128,6 +128,7 @@ class listener implements EventSubscriberInterface
 
 			'core.append_sid'							=> 'append_sid',
 			'core.add_log'								=> 'add_log',
+			'core.update_username'						=> 'update_username',
 			'core.generate_smilies_after'				=> 'generate_smilies_after',
 			'core.login_box_redirect'					=> 'login_box_redirect',
 			'core.make_jumpbox_modify_tpl_ary'			=> 'make_jumpbox_modify_tpl_ary',
@@ -446,6 +447,22 @@ class listener implements EventSubscriberInterface
 		{
 			$this->cache->destroy('_lang_data');
 		}
+	}
+
+	/**
+	* core.update_username
+	*
+	* @param $event
+	*/
+	public function update_username($event)
+	{
+		// Update SEO username again when changed
+		$username_seo = $this->ext_helper->clean_url($event['new_name']);
+
+		$sql = 'UPDATE ' . USERS_TABLE . "
+			SET username_seo = '$username_seo'
+			WHERE username = '" . $this->db->sql_escape($event['new_name']) . "'";
+		$this->db->sql_query($sql);
 	}
 
 	/**
