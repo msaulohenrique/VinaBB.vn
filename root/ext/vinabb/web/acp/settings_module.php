@@ -20,7 +20,7 @@ class settings_module
 		global $phpbb_container, $phpEx;
 
 		$this->auth = $phpbb_container->get('auth');
-		$this->cache = $phpbb_container->get('cache.driver');
+		$this->cache = $phpbb_container->get('cache');
 		$this->config = $phpbb_container->get('config');
 		$this->config_text = $phpbb_container->get('config_text');
 		$this->db = $phpbb_container->get('dbal.conn');
@@ -135,7 +135,7 @@ class settings_module
 
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_SETTINGS');
 
-				$this->cache->destroy('_maintenance_text_data');
+				$this->cache->clear_config_text_data();
 
 				trigger_error($this->language->lang('VINABB_SETTINGS_UPDATED') . adm_back_link($this->u_action));
 			}

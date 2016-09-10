@@ -26,9 +26,6 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\config\config */
     protected $config;
 
-	/** @var \phpbb\config\db_text */
-	protected $config_text;
-
 	/** @var \phpbb\template\template */
     protected $template;
 
@@ -69,7 +66,6 @@ class listener implements EventSubscriberInterface
 	* @param \phpbb\db\driver\driver_interface $db
 	* @param \phpbb\cache\service $cache
 	* @param \phpbb\config\config $config
-	* @param \phpbb\config\db_text $config_text
 	* @param \phpbb\template\template $template
 	* @param \phpbb\user $user
 	* @param \phpbb\language\language $language
@@ -85,7 +81,6 @@ class listener implements EventSubscriberInterface
 								\phpbb\db\driver\driver_interface $db,
 								\phpbb\cache\service $cache,
 								\phpbb\config\config $config,
-								\phpbb\config\db_text $config_text,
 								\phpbb\template\template $template,
 								\phpbb\user $user,
 								\phpbb\language\language $language,
@@ -102,7 +97,6 @@ class listener implements EventSubscriberInterface
 		$this->db = $db;
 		$this->cache = $cache;
 		$this->config = $config;
-		$this->config_text = $config_text;
 		$this->template = $template;
 		$this->user = $user;
 		$this->language = $language;
@@ -191,21 +185,10 @@ class listener implements EventSubscriberInterface
 			$in_maintenance_time = ($this->config['vinabb_web_maintenance_time'] > $now) ? true : false;
 
 			// Get maintenance text data from cache
-			$maintenance_text_data = $this->cache->get('_maintenance_text_data');
-
-			if ($maintenance_text_data === false)
-			{
-				$maintenance_text_data = $this->config_text->get_array(array(
-					'vinabb_web_maintenance_text',
-					'vinabb_web_maintenance_text_vi'
-				));
-
-				// Cache maintenance text data
-				$this->cache->put('_maintenance_text_data', $maintenance_text_data);
-			}
+			$config_text_cache_data = $this->cache->get_config_text_data();
 
 			// Get maintenance text with/without the end time
-			if (empty($maintenance_text_data['vinabb_web_maintenance_text']) || empty($maintenance_text_data['vinabb_web_maintenance_text_vi']))
+			if (empty($config_text_cache_data['vinabb_web_maintenance_text']) || empty($config_text_cache_data['vinabb_web_maintenance_text_vi']))
 			{
 				if ($in_maintenance_time)
 				{
@@ -228,7 +211,7 @@ class listener implements EventSubscriberInterface
 			}
 			else
 			{
-				$message = ($this->user->lang_name == 'vi') ? $maintenance_text_data['vinabb_web_maintenance_text_vi'] : $maintenance_text_data['vinabb_web_maintenance_text'];
+				$message = ($this->user->lang_name == 'vi') ? $config_text_cache_data['vinabb_web_maintenance_text_vi'] : $config_text_cache_data['vinabb_web_maintenance_text'];
 				$message = str_replace("\n", '<br>', $message);
 
 				if ($in_maintenance_time)

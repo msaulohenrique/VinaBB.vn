@@ -174,7 +174,6 @@ services:
             - '@dbal.conn'
             - '@cache'
             - '@config'
-            - '@config_text'
             - '@template'
             - '@user'
             - '@language'
