@@ -128,6 +128,7 @@ class listener implements EventSubscriberInterface
 
 			'core.append_sid'							=> 'append_sid',
 			'core.add_log'								=> 'add_log',
+			'core.user_add_modify_data'					=> 'user_add_modify_data',
 			'core.update_username'						=> 'update_username',
 			'core.generate_smilies_after'				=> 'generate_smilies_after',
 			'core.login_box_redirect'					=> 'login_box_redirect',
@@ -450,6 +451,19 @@ class listener implements EventSubscriberInterface
 	}
 
 	/**
+	* core.user_add_modify_data
+	*
+	* @param $event
+	*/
+	public function user_add_modify_data($event)
+	{
+		// Add SEO username for newly registered users
+		$sql_ary = $event['sql_ary'];
+		$sql_ary['username_seo'] = $this->ext_helper->clean_url($sql_ary['username']);
+		$event['sql_ary'] = $sql_ary;
+	}
+
+	/**
 	* core.update_username
 	*
 	* @param $event
@@ -654,9 +668,8 @@ class listener implements EventSubscriberInterface
 	public function acp_manage_forums_update_data_before($event)
 	{
 		// Adjust the column 'forum_name_seo' based on 'forum_name'
-		$forum_data = $event['forum_data'];
 		$forum_data_sql = $event['forum_data_sql'];
-		$forum_data_sql['forum_name_seo'] = $this->ext_helper->clean_url($forum_data['forum_name']);
+		$forum_data_sql['forum_name_seo'] = $this->ext_helper->clean_url($forum_data_sql['forum_name']);
 		$event['forum_data_sql'] = $forum_data_sql;
 	}
 
