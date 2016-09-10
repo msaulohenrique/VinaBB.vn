@@ -20,5 +20,5 @@ if ($phpbb_extension_manager->is_enabled('vinabb/web'))
 }
 else
 {
-	trigger_error('Please replace front files by original phpBB files ;)');
+	trigger_error('BOARD_UNAVAILABLE');
 }

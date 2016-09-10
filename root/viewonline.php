@@ -17,7 +17,7 @@ require "{$phpbb_root_path}common.{$phpEx}";
 $mode = $request->variable('mode', '');
 
 $response = new \Symfony\Component\HttpFoundation\RedirectResponse(
-	$phpbb_container->get('controller.helper')->route('vinabb_web_online_route', (!empty($mode)) ? array('mode' => $mode) : array()),
+	($phpbb_extension_manager->is_enabled('vinabb/web')) ? $phpbb_container->get('controller.helper')->route('vinabb_web_online_route', (!empty($mode)) ? array('mode' => $mode) : array()) : "{$phpbb_root_path}index.{$phpEx}",
 	301
 );
 $response->send();

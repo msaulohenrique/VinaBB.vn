@@ -21,7 +21,7 @@ $start = $request->variable('start', 0);
 $page = floor($start / $config['topics_per_page']) + 1;
 
 $response = new \Symfony\Component\HttpFoundation\RedirectResponse(
-	$phpbb_container->get('controller.helper')->route('vinabb_web_board_forum_route', ($start) ? array('forum_id' => $forum_id, 'page' => constants::REWRITE_URL_PAGE . $page) : array('forum_id' => $forum_id)),
+	($phpbb_extension_manager->is_enabled('vinabb/web')) ? $phpbb_container->get('controller.helper')->route('vinabb_web_board_forum_route', ($start) ? array('forum_id' => $forum_id, 'page' => constants::REWRITE_URL_PAGE . $page) : array('forum_id' => $forum_id)) : "{$phpbb_root_path}index.{$phpEx}",
 	301
 );
 $response->send();

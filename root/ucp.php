@@ -23,7 +23,7 @@ if (empty($id) && in_array($mode, array('activate', 'resend_act', 'sendpassword'
 }
 
 $response = new \Symfony\Component\HttpFoundation\RedirectResponse(
-	$phpbb_container->get('controller.helper')->route('vinabb_web_ucp_route', array('id' => $id, 'mode' => $mode)),
+	($phpbb_extension_manager->is_enabled('vinabb/web')) ? $phpbb_container->get('controller.helper')->route('vinabb_web_ucp_route', array('id' => $id, 'mode' => $mode)) : "{$phpbb_root_path}index.{$phpEx}",
 	301
 );
 $response->send();
