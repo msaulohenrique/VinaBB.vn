@@ -343,7 +343,7 @@ class listener implements EventSubscriberInterface
 			if (strpos($event['url'], "viewforum.{$this->php_ext}") !== false)
 			{
 				// Get forum SEO names from cache
-				$forum_cache_data = $this->cache->get_forum_data();
+				$forum_data = $this->cache->get_forum_data();
 
 				if (!sizeof($params_ary))
 				{
@@ -355,7 +355,7 @@ class listener implements EventSubscriberInterface
 					$params_ary['forum_id'] = $params_ary['f'];
 					unset($params_ary['f']);
 
-					$params_ary['seo'] = $forum_cache_data[$params_ary['forum_id']] . constants::REWRITE_URL_SEO;
+					$params_ary['seo'] = $forum_data[$params_ary['forum_id']] . constants::REWRITE_URL_SEO;
 				}
 
 				$route_name = 'vinabb_web_board_forum_route';
@@ -670,25 +670,24 @@ class listener implements EventSubscriberInterface
 		// If there have more than 2 same forum SEO names, add parent forum SEO name as prefix
 		if ($forum_data_sql['parent_id'])
 		{
-			$sql = 'SELECT forum_id, forum_name_seo
+			$forum_data = $this->cache->get_forum_data();
+
+			$sql = 'SELECT forum_id, parent_id, forum_name_seo
 				FROM ' . FORUMS_TABLE . '
 				WHERE forum_id <> ' . $forum_data_sql['forum_id'] . "
-					AND (forum_name_seo = '" . $this->db->sql_escape($forum_data_sql['forum_name_seo']) . "'
-						OR forum_id = " . $forum_data_sql['parent_id'] . '
-					)';
+					AND forum_name = '" . $this->db->sql_escape($forum_data_sql['forum_name']) . "'";
 			$result = $this->db->sql_query($sql);
 
-			$found_forums = array();
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				$found_forums[$row['forum_id']] = $row['forum_name_seo'];
+				$sql = 'UPDATE ' . FORUMS_TABLE . "
+					SET forum_name_seo = '" . $forum_data[$row['parent_id']]['name_seo'] . constants::REWRITE_URL_FORUM_CAT . $row['forum_name_seo'] . "'
+					WHERE forum_id = " . $row['forum_id'];
+				$this->sql_query($sql);
 			}
 			$this->db->sql_freeresult($result);
 
-			if (sizeof($found_forums) > 1)
-			{
-				$forum_data_sql['forum_name_seo'] = $found_forums[$forum_data_sql['parent_id']] . constants::REWRITE_URL_FORUM_CAT . $forum_data_sql['forum_name_seo'];
-			}
+			$forum_data_sql['forum_name_seo'] = $forum_data[$forum_data_sql['parent_id']]['name_seo'] . constants::REWRITE_URL_FORUM_CAT . $forum_data_sql['forum_name_seo'];
 		}
 
 		$event['forum_data_sql'] = $forum_data_sql;
