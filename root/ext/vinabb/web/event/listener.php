@@ -242,24 +242,7 @@ class listener implements EventSubscriberInterface
 		// Write a new function as soon...
 
 		// Get language data from cache
-		$lang_data = $this->cache->get('_lang_data');
-
-		if ($lang_data === false)
-		{
-			$sql = 'SELECT *
-				FROM ' . LANG_TABLE;
-			$result = $this->db->sql_query($sql);
-
-			$lang_data = array();
-			while ($row = $this->db->sql_fetchrow($result))
-			{
-				$lang_data[$row['lang_iso']] = $row['lang_local_name'];
-			}
-			$this->db->sql_freeresult($result);
-
-			// Cache language data
-			$this->cache->put('_lang_data', $lang_data);
-		}
+		$lang_data = $this->cache->get_lang_data();
 
 		// Language switcher for guests
 		$lang_switch = ($this->user->lang_name == $this->config['default_lang']) ? $this->config['vinabb_web_lang_switch'] : $this->config['default_lang'];
@@ -426,7 +409,7 @@ class listener implements EventSubscriberInterface
 		// Clear language data cache
 		else if ($event['log_operation'] == 'LOG_LANGUAGE_PACK_INSTALLED' || $event['log_operation'] == 'LOG_LANGUAGE_PACK_DELETED')
 		{
-			$this->cache->destroy('_lang_data');
+			$this->cache->clear_lang_data();
 		}
 	}
 
