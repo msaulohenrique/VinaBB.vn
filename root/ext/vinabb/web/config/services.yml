@@ -158,6 +158,7 @@ services:
             - '@ext.manager'
             - '@controller.helper'
             - '@path_helper'
+            - '@vinabb.web.helper'
             - '%core.root_path%'
             - '%core.adm_relative_path%'
             - '%core.php_ext%'

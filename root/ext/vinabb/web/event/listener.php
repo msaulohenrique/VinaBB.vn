@@ -50,6 +50,9 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\path_helper */
 	protected $path_helper;
 
+	/** @var \vinabb\web\controller\helper */
+	protected $ext_helper;
+
 	/** @var string */
 	protected $phpbb_root_path;
 
@@ -74,6 +77,7 @@ class listener implements EventSubscriberInterface
 	* @param \phpbb\extension\manager $ext_manager
 	* @param \phpbb\controller\helper $helper
 	* @param \phpbb\path_helper $path_helper
+	* @param \vinabb\web\controller\helper $ext_helper
 	* @param string $phpbb_root_path
 	* @param string $php_ext
 	*/
@@ -89,6 +93,7 @@ class listener implements EventSubscriberInterface
 								\phpbb\extension\manager $ext_manager,
 								\phpbb\controller\helper $helper,
 								\phpbb\path_helper $path_helper,
+								\vinabb\web\controller\helper $ext_helper,
 								$phpbb_root_path,
 								$phpbb_admin_path,
 								$php_ext)
@@ -105,6 +110,7 @@ class listener implements EventSubscriberInterface
 		$this->ext_manager = $ext_manager;
 		$this->helper = $helper;
 		$this->path_helper = $path_helper;
+		$this->ext_helper = $ext_helper;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->phpbb_admin_path = $phpbb_admin_path;
 		$this->php_ext = $php_ext;
@@ -137,7 +143,7 @@ class listener implements EventSubscriberInterface
 			'core.ucp_pm_view_messsage'					=> 'ucp_pm_view_messsage',
 			'core.viewtopic_modify_post_row'			=> 'viewtopic_modify_post_row',
 
-			'core.acp_manage_forums_update_data_after'	=> 'acp_manage_forums_update_data_after',
+			'core.acp_manage_forums_update_data_before'	=> 'acp_manage_forums_update_data_before',
 
 			'vinabb.web.text_formatter_s9e_configure_after'		=> 'text_formatter_s9e_configure_after',
 			'vinabb.web.text_formatter_s9e_configure_before'	=> 'text_formatter_s9e_configure_before',
@@ -351,6 +357,26 @@ class listener implements EventSubscriberInterface
 
 			if (strpos($event['url'], "viewforum.{$this->php_ext}") !== false)
 			{
+				// Get forum SEO names from cache
+				$forum_name_seo_data = $this->cache->get('_forum_name_seo_data');
+
+				if ($forum_name_seo_data === false)
+				{
+					$sql = 'SELECT forum_id, forum_name_seo
+						FROM ' . FORUMS_TABLE;
+					$result = $this->db->sql_query($sql);
+
+					$forum_name_seo_data = array();
+					while ($row = $this->db->sql_fetchrow($result))
+					{
+						$forum_name_seo_data[$row['forum_id']] = $row['forum_name_seo'];
+					}
+					$this->db->sql_freeresult($result);
+
+					// Cache language data
+					$this->cache->put('_forum_name_seo_data', $forum_name_seo_data);
+				}
+
 				if (!sizeof($params_ary))
 				{
 					$params_ary['f'] = '';
@@ -360,6 +386,8 @@ class listener implements EventSubscriberInterface
 				{
 					$params_ary['forum_id'] = $params_ary['f'];
 					unset($params_ary['f']);
+
+					$params_ary['seo'] = $forum_name_seo_data[$params_ary['forum_id']] . constants::REWRITE_URL_SEO;
 				}
 
 				$route_name = 'vinabb_web_board_forum_route';
@@ -388,9 +416,9 @@ class listener implements EventSubscriberInterface
 	*/
 	public function add_log($event)
 	{
-		// Update forum counter
 		if (substr($event['log_operation'], 0, 14) == 'LOG_FORUM_DEL_')
 		{
+			// Update forum counter
 			$sql = 'SELECT COUNT(forum_id) AS num_forums
 				FROM ' . FORUMS_TABLE;
 			$result = $this->db->sql_query($sql);
@@ -398,6 +426,20 @@ class listener implements EventSubscriberInterface
 			$this->db->sql_freeresult($result);
 
 			$this->config->set('num_forums', $num_forums, true);
+
+			// Clear forum SEO names cache
+			$this->cache->destroy('_forum_name_seo_data');
+		}
+		else if ($event['log_operation'] == 'LOG_FORUM_ADD' || $event['log_operation'] == 'LOG_FORUM_EDIT')
+		{
+			// Update forum counter
+			if ($event['log_operation'] == 'LOG_FORUM_ADD')
+			{
+				$this->config->increment('num_forums', 1, true);
+			}
+
+			// Clear forum SEO names cache
+			$this->cache->destroy('_forum_name_seo_data');
 		}
 		// Clear language data cache
 		else if ($event['log_operation'] == 'LOG_LANGUAGE_PACK_INSTALLED' || $event['log_operation'] == 'LOG_LANGUAGE_PACK_DELETED')
@@ -588,17 +630,17 @@ class listener implements EventSubscriberInterface
 	}
 
 	/**
-	* core.acp_manage_forums_update_data_after
+	* core.acp_manage_forums_update_data_before
 	*
 	* @param $event
 	*/
-	public function acp_manage_forums_update_data_after($event)
+	public function acp_manage_forums_update_data_before($event)
 	{
-		// Update forum counter
-		if ($event['is_new_forum'])
-		{
-			$this->config->increment('num_forums', 1, true);
-		}
+		// Adjust the column 'forum_name_seo' based on 'forum_name'
+		$forum_data = $event['forum_data'];
+		$forum_data_sql = $event['forum_data_sql'];
+		$forum_data_sql['forum_name_seo'] = $this->ext_helper->clean_url($forum_data['forum_name']);
+		$event['forum_data_sql'] = $forum_data_sql;
 	}
 
 	/**
