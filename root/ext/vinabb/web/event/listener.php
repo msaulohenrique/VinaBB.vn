@@ -130,6 +130,7 @@ class listener implements EventSubscriberInterface
 			'core.add_log'								=> 'add_log',
 			'core.user_add_modify_data'					=> 'user_add_modify_data',
 			'core.update_username'						=> 'update_username',
+			'core.submit_post_modify_sql_data'			=> 'submit_post_modify_sql_data',
 			'core.generate_smilies_after'				=> 'generate_smilies_after',
 			'core.login_box_redirect'					=> 'login_box_redirect',
 			'core.make_jumpbox_modify_tpl_ary'			=> 'make_jumpbox_modify_tpl_ary',
@@ -477,6 +478,22 @@ class listener implements EventSubscriberInterface
 			SET username_seo = '$username_seo'
 			WHERE username = '" . $this->db->sql_escape($event['new_name']) . "'";
 		$this->db->sql_query($sql);
+	}
+
+	/**
+	* core.submit_post_modify_sql_data
+	*
+	* @param $event
+	*/
+	public function submit_post_modify_sql_data($event)
+	{
+		// Adjust topic SEO title based on topic title
+		if ($event['post_mode'] == 'post' || $event['post_mode'] == 'edit_topic' || $event['post_mode'] == 'edit_first_post')
+		{
+			$sql_data = $event['sql_data'];
+			$sql_data[TOPICS_TABLE]['sql']['topic_title_seo'] = $this->ext_helper->clean_url($sql_data[TOPICS_TABLE]['sql']['topic_title']);
+			$event['sql_data'] = $sql_data;
+		}
 	}
 
 	/**
