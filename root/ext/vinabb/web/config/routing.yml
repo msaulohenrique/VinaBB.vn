@@ -15,7 +15,7 @@ vinabb_web_ucp_route:
         mode: ''
     requirements:
         id: '[a-z0-9-_]*'
-        mode: '([a-z0-9-_]*)([\/]{0,1})'
+        mode: '([a-z0-9-_]*)(\/{0,1})'
 vinabb_web_mcp_route:
     path: /mcp/{id}/{mode}
     defaults:
@@ -24,7 +24,7 @@ vinabb_web_mcp_route:
         mode: ''
     requirements:
         id: '[a-z0-9-_]*'
-        mode: '([a-z0-9-_]*)([\/]{0,1})'
+        mode: '([a-z0-9-_]*)(\/{0,1})'
 vinabb_web_board_route:
     path: /{board}
     defaults:
@@ -38,15 +38,11 @@ vinabb_web_embed_routing:
     resource: routing_embed.yml
     prefix: /embed
 vinabb_web_posting_route:
-    path: /posting/{mode}/{forum_id}/{topic_id}
+    path: /posting/{mode}
     defaults:
         _controller: vinabb.web.posting:main
-        mode: ''
-        topic_id: '0'
     requirements:
-        mode: '(post|reply)'
-        forum_id: '\d+'
-        topic_id: '\d*'
+        mode: '([a-z0-9-_]*)(\/{0,1})'
 vinabb_web_search_route:
     path: /search/{mode}
     defaults:
