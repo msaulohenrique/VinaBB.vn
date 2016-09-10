@@ -114,6 +114,21 @@ services:
     vinabb.web.posting:
         class: vinabb\web\controller\posting
         arguments:
+            - '@auth'
+            - '@dbal.conn'
+            - '@content.visibility'
+            - '@cache'
+            - '@config'
+            - '@user'
+            - '@language'
+            - '@template'
+            - '@vinabb.web.pagination'
+            - '@request'
+            - '@notification_manager'
+            - '@cron.manager'
+            - '@dispatcher'
+            - '@controller.helper'
+            - '@group_helper'
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.search:
