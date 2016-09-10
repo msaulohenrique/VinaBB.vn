@@ -20,7 +20,7 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\db\driver\driver_interface */
     protected $db;
 
-	/** @var \phpbb\cache\driver\driver_interface */
+	/** @var \phpbb\cache\service */
 	protected $cache;
 
 	/** @var \phpbb\config\config */
@@ -67,7 +67,7 @@ class listener implements EventSubscriberInterface
 	*
 	* @param \phpbb\auth\auth $auth
 	* @param \phpbb\db\driver\driver_interface $db
-	* @param \phpbb\cache\driver\driver_interface $cache
+	* @param \phpbb\cache\service $cache
 	* @param \phpbb\config\config $config
 	* @param \phpbb\config\db_text $config_text
 	* @param \phpbb\template\template $template
@@ -83,7 +83,7 @@ class listener implements EventSubscriberInterface
 	*/
 	public function __construct(\phpbb\auth\auth $auth,
 								\phpbb\db\driver\driver_interface $db,
-								\phpbb\cache\driver\driver_interface $cache,
+								\phpbb\cache\service $cache,
 								\phpbb\config\config $config,
 								\phpbb\config\db_text $config_text,
 								\phpbb\template\template $template,
@@ -362,24 +362,7 @@ class listener implements EventSubscriberInterface
 			if (strpos($event['url'], "viewforum.{$this->php_ext}") !== false)
 			{
 				// Get forum SEO names from cache
-				$forum_name_seo_data = $this->cache->get('_forum_name_seo_data');
-
-				if ($forum_name_seo_data === false)
-				{
-					$sql = 'SELECT forum_id, forum_name_seo
-						FROM ' . FORUMS_TABLE;
-					$result = $this->db->sql_query($sql);
-
-					$forum_name_seo_data = array();
-					while ($row = $this->db->sql_fetchrow($result))
-					{
-						$forum_name_seo_data[$row['forum_id']] = $row['forum_name_seo'];
-					}
-					$this->db->sql_freeresult($result);
-
-					// Cache language data
-					$this->cache->put('_forum_name_seo_data', $forum_name_seo_data);
-				}
+				$forum_cache_data = $this->cache->get_forum_data();
 
 				if (!sizeof($params_ary))
 				{
@@ -391,7 +374,7 @@ class listener implements EventSubscriberInterface
 					$params_ary['forum_id'] = $params_ary['f'];
 					unset($params_ary['f']);
 
-					$params_ary['seo'] = $forum_name_seo_data[$params_ary['forum_id']] . constants::REWRITE_URL_SEO;
+					$params_ary['seo'] = $forum_cache_data[$params_ary['forum_id']] . constants::REWRITE_URL_SEO;
 				}
 
 				$route_name = 'vinabb_web_board_forum_route';
@@ -445,8 +428,8 @@ class listener implements EventSubscriberInterface
 
 			$this->config->set('num_forums', $num_forums, true);
 
-			// Clear forum SEO names cache
-			$this->cache->destroy('_forum_name_seo_data');
+			// Clear forum cache
+			$this->cache->clear_forum_data();
 		}
 		else if ($event['log_operation'] == 'LOG_FORUM_ADD' || $event['log_operation'] == 'LOG_FORUM_EDIT')
 		{
@@ -456,8 +439,8 @@ class listener implements EventSubscriberInterface
 				$this->config->increment('num_forums', 1, true);
 			}
 
-			// Clear forum SEO names cache
-			$this->cache->destroy('_forum_name_seo_data');
+			// Clear forum cache
+			$this->cache->clear_forum_data();
 		}
 		// Clear language data cache
 		else if ($event['log_operation'] == 'LOG_LANGUAGE_PACK_INSTALLED' || $event['log_operation'] == 'LOG_LANGUAGE_PACK_DELETED')
