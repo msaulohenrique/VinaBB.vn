@@ -10,6 +10,31 @@ namespace vinabb\web\controller;
 
 class service extends \phpbb\cache\service
 {
+	function get_config_text_data()
+	{
+		if (($config_text_data = $this->driver->get('_config_text_data')) === false)
+		{
+			$sql = 'SELECT *
+				FROM ' . CONFIG_TEXT_TABLE;
+			$result = $this->db->sql_query($sql);
+
+			$config_text_data = array();
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$config_text_data[$row['config_name']] = $row['config_value'];
+			}
+			$this->db->sql_freeresult($result);
+
+			// Cache maintenance text data
+			$this->driver->put('_config_text_data', $config_text_data);
+		}
+	}
+
+	function clear_config_text_data()
+	{
+		$this->driver->destroy('_config_text_data');
+	}
+
 	function get_forum_data()
 	{
 		if (($forum_data = $this->driver->get('_forum_data')) === false)
