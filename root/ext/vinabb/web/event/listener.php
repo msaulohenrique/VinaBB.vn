@@ -338,7 +338,7 @@ class listener implements EventSubscriberInterface
 					$params_ary['forum_id'] = $params_ary['f'];
 					unset($params_ary['f']);
 
-					$params_ary['seo'] = $forum_data[$params_ary['forum_id']] . constants::REWRITE_URL_SEO;
+					$params_ary['seo'] = $forum_data[$params_ary['forum_id']]['name_seo'] . constants::REWRITE_URL_SEO;
 				}
 
 				$route_name = 'vinabb_web_board_forum_route';
@@ -660,17 +660,21 @@ class listener implements EventSubscriberInterface
 				WHERE forum_id <> ' . $forum_data_sql['forum_id'] . "
 					AND forum_name = '" . $this->db->sql_escape($forum_data_sql['forum_name']) . "'";
 			$result = $this->db->sql_query($sql);
-
-			while ($row = $this->db->sql_fetchrow($result))
-			{
-				$sql = 'UPDATE ' . FORUMS_TABLE . "
-					SET forum_name_seo = '" . $forum_data[$row['parent_id']]['name_seo'] . constants::REWRITE_URL_FORUM_CAT . $row['forum_name_seo'] . "'
-					WHERE forum_id = " . $row['forum_id'];
-				$this->sql_query($sql);
-			}
+			$rows = $this->db->sql_fetchrowset($result);
 			$this->db->sql_freeresult($result);
 
-			$forum_data_sql['forum_name_seo'] = $forum_data[$forum_data_sql['parent_id']]['name_seo'] . constants::REWRITE_URL_FORUM_CAT . $forum_data_sql['forum_name_seo'];
+			if (sizeof($rows))
+			{
+				foreach ($rows as $row)
+				{
+					$sql = 'UPDATE ' . FORUMS_TABLE . "
+						SET forum_name_seo = '" . $forum_data[$row['parent_id']]['name_seo'] . constants::REWRITE_URL_FORUM_CAT . $row['forum_name_seo'] . "'
+						WHERE forum_id = " . $row['forum_id'];
+					$this->sql_query($sql);
+				}
+
+				$forum_data_sql['forum_name_seo'] = $forum_data[$forum_data_sql['parent_id']]['name_seo'] . constants::REWRITE_URL_FORUM_CAT . $forum_data_sql['forum_name_seo'];
+			}
 		}
 
 		$event['forum_data_sql'] = $forum_data_sql;
