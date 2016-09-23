@@ -9,11 +9,17 @@ vinabb_web_board_forum_route:
         seo: '(|([a-zA-Z0-9-]*)(\.*))'
         page: '(|((page-)(\d+)))'
 vinabb_web_board_topic_route:
-    path: /topic/{topic_id}
+    path: /f{forum_id}/topic/{seo}{topic_id}/{page}
     defaults:
         _controller: vinabb.web.board:topic
+        forum_id: 'x'
+        seo: ''
+        page: ''
     requirements:
-        topic_id: '\d+'
+        forum_id: '(x|\d+)'
+        topic_id: '\d*'
+        seo: '(|([a-zA-Z0-9-]*)(\.*))'
+        page: '(|((page-)(\d+)))'
 vinabb_web_board_post_route:
     path: /post/{post_id}
     defaults:

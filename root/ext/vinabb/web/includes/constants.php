@@ -39,4 +39,5 @@ class constants
 	const REWRITE_URL_PAGE = 'page-';
 	const REWRITE_URL_SEO = '.';
 	const REWRITE_URL_FORUM_CAT = '-';
+	const REWRITE_URL_FORUM_ZERO = 'x';
 }
