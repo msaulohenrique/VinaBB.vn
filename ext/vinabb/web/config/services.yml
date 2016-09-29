@@ -165,6 +165,13 @@ services:
     vinabb.web.portal:
         class: vinabb\web\controller\portal
         arguments:
+            - '@auth'
+            - '@dbal.conn'
+            - '@user'
+            - '@language'
+            - '@template'
+            - '@request'
+            - '@controller.helper'
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.listener:

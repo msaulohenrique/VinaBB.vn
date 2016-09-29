@@ -1,0 +1,228 @@
+{% include 'overall_header.html' %}
+
+<div class="row">
+	<div class="col-sm-6">
+		<ol class="breadcrumb">
+			<li><a href="javascript: void(0);"><i class="fa fa-home"></i></a></li>
+			<li>UI Elements</li>
+			<li>typography</li>
+		</ol>
+	</div>
+	<div class="col-sm-6 text-right">
+		<h4>Typography</h4>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-default">
+			<div id="myCarousel" class="carousel slide" data-ride="carousel">
+				<!-- Indicators -->
+				<ol class="carousel-indicators">
+					<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+					<li data-target="#myCarousel" data-slide-to="1"></li>
+					<li data-target="#myCarousel" data-slide-to="2"></li>
+					<li data-target="#myCarousel" data-slide-to="3"></li>
+				</ol>
+
+				<!-- Wrapper for slides -->
+				<div class="carousel-inner" role="listbox">
+					<div class="item active">
+						<a href=""><img src="{{ T_THEME_PATH }}/images/1.jpg" alt="" class="img-responsive"></a>
+						<div class="carousel-caption">
+							<h3>ABCDE - Any Body Can Develop Extensions</h3>
+							<p>Ai cũng có thể viết gói mở rộng cho phpBB, từ gà mờ dến gà béo.</p>
+						</div>
+					</div>
+
+					<div class="item">
+						<img src="{{ T_THEME_PATH }}/images/1.jpg" alt="" class="img-responsive">
+						<div class="carousel-caption">
+							<h3>sss</h3>
+							<p>The atmosphere in Chania has a touch of Florence and Venice.</p>
+						</div>
+					</div>
+
+					<div class="item">
+						<img src="{{ T_THEME_PATH }}/images/1.jpg" alt="" class="img-responsive">
+						<div class="carousel-caption">
+							<h3>sss</h3>
+							<p>The atmosphere in Chania has a touch of Florence and Venice.</p>
+						</div>
+					</div>
+
+					<div class="item">
+						<img src="{{ T_THEME_PATH }}/images/1.jpg" alt="" class="img-responsive">
+						<div class="carousel-caption">
+							<h3>sss</h3>
+							<p>The atmosphere in Chania has a touch of Florence and Venice.</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- Left and right controls -->
+				<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+					<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+					<span class="sr-only">Previous</span>
+				</a>
+				<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+					<span class="sr-only">Next</span>
+				</a>
+			</div>
+		</div>
+	</div><!--col-md-6-->
+</div>
+
+<div class="row">
+	<div class="col-lg-3 col-md-6 col-sm-12">
+		<div class="widget bg-success padding-0">
+			<div class="row row-table" role="button" data-target="http://phpbb.com/">
+				<div class="col-xs-4 text-center pv-15 bg-light-dark">
+					<em class="icon-cloud-download fa-3x"></em>
+				</div>
+				<div class="col-xs-8 pv-15 text-center">
+					<h2 class="mv-0">3.2.0</h2>
+					<div class="text-uppercase">Phiên bản mới nhất</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-3 col-md-6 col-sm-12">
+		<div class="widget bg-danger padding-0">
+			<div class="row row-table">
+				<div class="col-xs-4 text-center pv-15 bg-light-dark">
+					<em class="icon-arrow-down-circle fa-3x"></em>
+				</div>
+				<div class="col-xs-8 pv-15 text-center">
+					<h2 class="mv-0">3.2.0</h2>
+					<div class="text-uppercase">Gói Việt hóa</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-3 col-md-6 col-sm-12">
+		<div class="widget bg-teal padding-0">
+			<div class="row row-table">
+				<div class="col-xs-4 text-center pv-15 bg-light-dark">
+					<em class="icon-rocket fa-3x"></em>
+				</div>
+				<div class="col-xs-8 pv-15 text-center">
+					<h2 class="mv-0">{{ CONFIG_TOTAL_TOPICS|number_format }}</h2>
+					<div class="text-uppercase">Gói mở rộng</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-3 col-md-6 col-sm-12">
+		<div class="widget bg-indigo padding-0">
+			<div class="row row-table">
+				<div class="col-xs-4 text-center pv-15 bg-light-dark">
+					<em class="icon-layers fa-3x"></em>
+				</div>
+				<div class="col-xs-8 pv-15 text-center">
+					<h2 class="mv-0">{{ CONFIG_TOTAL_POSTS|number_format }}</h2>
+					<div class="text-uppercase">Giao diện</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 mailbox-sidenav">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<ul class="nav nav-pills nav-stacked">
+					<li class="side-nav-header">
+						<small class="text-muted">MAILBOXES</small>
+					</li>
+					<li class="active">
+						<a href="#">
+							<span class="label label-success pull-right">153</span>
+							<em class="fa fa-inbox"></em>
+							<span>Inbox</span>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<span class="label label-success pull-right">3</span>
+							<em class="fa fa-star"></em>
+							<span>Starred</span>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<span class="label label-success pull-right">55</span>
+							<em class="fa fa-paper-plane-o"></em>
+							<span>Sent</span>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<span class="label label-success pull-right">0</span>
+							<em class="fa fa-edit"></em>
+							<span>Draft</span>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<span class="label label-success pull-right">21</span>
+							<em class="fa fa-trash"></em>
+							<span>Trash</span>
+						</a>
+					</li>
+					<li class="side-nav-header">
+						<small class="text-muted">LABELS</small>
+					</li>
+					<li>
+						<a href="#">
+							<span class="badge badge-danger"></span>
+							<span>Red</span>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<span class="badge badge-teal"></span>
+							<span>Teal</span>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<span class="badge badge-info"></span>
+							<span>Blue</span>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<span class="badge badge-warning"></span>
+							<span>Yellow</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-8">
+		<div class="panel panel-default blog-box">
+			<div class="panel-img">
+				<img src="http://static.new.tuoitre.vn/tto/i/s626/2016/09/28/aea594e0.jpg" alt="" class="img-responsive">
+			</div>
+			<div class="panel-body">
+				<a href="page-blog-article.html"> <h4>Standard post with image</h4></a>
+				<p>
+					There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in
+					some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum...
+				</p>
+			</div>
+			<div class="panel-footer">
+                            <span class="pull-right">
+                                <i class="fa fa-comments-o"> </i> 58 comments
+                            </span>
+				<i class="fa fa-eye"> </i> 356 views
+			</div>
+		</div>
+	</div>
+</div>
+
+{% include 'overall_footer.html' %}

@@ -50,15 +50,17 @@ class embed
 	* @param string $phpbb_root_path
 	* @param string $php_ext
 	*/
-	public function __construct(\phpbb\auth\auth $auth,
-								\phpbb\db\driver\driver_interface $db,
-								\phpbb\user $user,
-								\phpbb\language\language $language,
-								\phpbb\template\template $template,
-								\phpbb\request\request $request,
-								\phpbb\controller\helper $helper,
-								$phpbb_root_path,
-								$php_ext)
+	public function __construct(
+		\phpbb\auth\auth $auth,
+		\phpbb\db\driver\driver_interface $db,
+		\phpbb\user $user,
+		\phpbb\language\language $language,
+		\phpbb\template\template $template,
+		\phpbb\request\request $request,
+		\phpbb\controller\helper $helper,
+		$phpbb_root_path,
+		$php_ext
+	)
 	{
 		$this->auth = $auth;
 		$this->db = $db;
