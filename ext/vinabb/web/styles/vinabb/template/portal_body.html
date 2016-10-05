@@ -1,9 +1,10 @@
 {% include 'overall_header.html' %}
 
+<!-- Navigation -->
 <div class="row">
 	<div class="col-sm-6">
 		<ol class="breadcrumb">
-			<li><a href="javascript: void(0);"><i class="fa fa-home"></i></a></li>
+			<li><a href="#"><i class="fa fa-home"></i></a></li>
 			<li>UI Elements</li>
 			<li>typography</li>
 		</ol>
@@ -13,6 +14,7 @@
 	</div>
 </div>
 
+<!-- Carousel -->
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel panel-default">
@@ -28,34 +30,34 @@
 				<!-- Wrapper for slides -->
 				<div class="carousel-inner" role="listbox">
 					<div class="item active">
-						<a href=""><img src="{{ T_THEME_PATH }}/images/1.jpg" alt="" class="img-responsive"></a>
+						<a href=""><img src="{{ T_THEME_PATH }}/images/headlines/vinabb.jpg" alt="" class="img-responsive"></a>
+						<div class="carousel-caption">
+							<h3>VinaBB trở lại</h3>
+							<p>Người xưa còn đó, tình yêu còn đó, mãi mãi phpBB...</p>
+						</div>
+					</div>
+
+					<div class="item">
+						<img src="{{ T_THEME_PATH }}/images/headlines/stylesdemo.jpg" alt="" class="img-responsive">
+						<div class="carousel-caption">
+							<h3>styles.vinabb.vn</h3>
+							<p>The atmosphere in Chania has a touch of Florence and Venice.</p>
+						</div>
+					</div>
+
+					<div class="item">
+						<img src="{{ T_THEME_PATH }}/images/headlines/abcde.jpg" alt="" class="img-responsive">
+						<div class="carousel-caption">
+							<h3>sss</h3>
+							<p>The atmosphere in Chania has a touch of Florence and Venice.</p>
+						</div>
+					</div>
+
+					<div class="item">
+						<img src="{{ T_THEME_PATH }}/images/headlines/abcde.jpg" alt="" class="img-responsive">
 						<div class="carousel-caption">
 							<h3>ABCDE - Any Body Can Develop Extensions</h3>
-							<p>Ai cũng có thể viết gói mở rộng cho phpBB, từ gà mờ dến gà béo.</p>
-						</div>
-					</div>
-
-					<div class="item">
-						<img src="{{ T_THEME_PATH }}/images/1.jpg" alt="" class="img-responsive">
-						<div class="carousel-caption">
-							<h3>sss</h3>
-							<p>The atmosphere in Chania has a touch of Florence and Venice.</p>
-						</div>
-					</div>
-
-					<div class="item">
-						<img src="{{ T_THEME_PATH }}/images/1.jpg" alt="" class="img-responsive">
-						<div class="carousel-caption">
-							<h3>sss</h3>
-							<p>The atmosphere in Chania has a touch of Florence and Venice.</p>
-						</div>
-					</div>
-
-					<div class="item">
-						<img src="{{ T_THEME_PATH }}/images/1.jpg" alt="" class="img-responsive">
-						<div class="carousel-caption">
-							<h3>sss</h3>
-							<p>The atmosphere in Chania has a touch of Florence and Venice.</p>
+							<p>Ai cũng có thể viết gói mở rộng cho phpBB, từ gà mờ dến gà béo, chỉ cần biết nhấp chuột.</p>
 						</div>
 					</div>
 				</div>
@@ -74,8 +76,9 @@
 	</div><!--col-md-6-->
 </div>
 
+<!-- phpBB Info -->
 <div class="row">
-	<div class="col-lg-3 col-md-6 col-sm-12">
+	<div class="col-lg-3 col-md-6 col-sm-6">
 		<div class="widget bg-success padding-0">
 			<div class="row row-table" role="button" data-target="http://phpbb.com/">
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
@@ -88,8 +91,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-lg-3 col-md-6 col-sm-12">
-		<div class="widget bg-danger padding-0">
+	<div class="col-lg-3 col-md-6 col-sm-6">
+		<div class="widget bg-warning padding-0">
 			<div class="row row-table">
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
 					<em class="icon-arrow-down-circle fa-3x"></em>
@@ -101,43 +104,46 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-lg-3 col-md-6 col-sm-12">
-		<div class="widget bg-teal padding-0">
-			<div class="row row-table">
+	<div class="col-lg-3 col-md-6 col-sm-6">
+		<div class="widget bg-primary padding-0">
+			<div class="row row-table" role="button" data-target="http://phpbb.com/">
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
-					<em class="icon-rocket fa-3x"></em>
+					<em class="icon-cloud-download fa-3x"></em>
 				</div>
 				<div class="col-xs-8 pv-15 text-center">
-					<h2 class="mv-0">{{ CONFIG_TOTAL_TOPICS|number_format }}</h2>
-					<div class="text-uppercase">Gói mở rộng</div>
+					<h2 class="mv-0">3.1.9</h2>
+					<div class="text-uppercase">phpBB 3.1.x</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="col-lg-3 col-md-6 col-sm-12">
-		<div class="widget bg-indigo padding-0">
+	<div class="col-lg-3 col-md-6 col-sm-6">
+		<div class="widget bg-danger padding-0">
 			<div class="row row-table">
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
-					<em class="icon-layers fa-3x"></em>
+					<em class="icon-heart fa-3x"></em>
 				</div>
 				<div class="col-xs-8 pv-15 text-center">
-					<h2 class="mv-0">{{ CONFIG_TOTAL_POSTS|number_format }}</h2>
-					<div class="text-uppercase">Giao diện</div>
+					<h2 class="mv-0">phpBB</h2>
+					<div class="text-uppercase">Từ năm 2003</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 
+<!-- Main page -->
 <div class="row">
+	<!-- Left column -->
 	<div class="col-md-4 mailbox-sidenav">
+		<!-- News categories -->
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<ul class="nav nav-pills nav-stacked">
 					<li class="side-nav-header">
-						<small class="text-muted">MAILBOXES</small>
+						<span class="text-muted">{{ lang('NEWS')|upper }}</span>
 					</li>
-					<li class="active">
+					<li>
 						<a href="#">
 							<span class="label label-success pull-right">153</span>
 							<em class="fa fa-inbox"></em>
@@ -173,7 +179,7 @@
 						</a>
 					</li>
 					<li class="side-nav-header">
-						<small class="text-muted">LABELS</small>
+						<span class="text-muted">{{ lang('BOARD')|upper }}</span>
 					</li>
 					<li>
 						<a href="#">
@@ -183,35 +189,271 @@
 					</li>
 					<li>
 						<a href="#">
-							<span class="badge badge-teal"></span>
-							<span>Teal</span>
-						</a>
-					</li>
-					<li>
-						<a href="#">
 							<span class="badge badge-info"></span>
 							<span>Blue</span>
-						</a>
-					</li>
-					<li>
-						<a href="#">
-							<span class="badge badge-warning"></span>
-							<span>Yellow</span>
 						</a>
 					</li>
 				</ul>
 			</div>
 		</div>
+
+		<div class="widget bg-teal padding-0">
+			<div class="row row-table">
+				<div class="col-xs-4 text-center pv-15 bg-light-dark">
+					<em class="icon-rocket fa-3x"></em>
+				</div>
+				<div class="col-xs-8 pv-15 text-center">
+					<h2 class="mv-0">999</h2>
+					<div class="text-uppercase">Gói mở rộng</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="widget bg-pink padding-0">
+			<div class="row row-table">
+				<div class="col-xs-4 text-center pv-15 bg-light-dark">
+					<em class="icon-layers fa-3x"></em>
+				</div>
+				<div class="col-xs-8 pv-15 text-center">
+					<h2 class="mv-0">999</h2>
+					<div class="text-uppercase">Giao diện</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Last updated extensions/styles -->
+		<div class="panel panel-default">
+			<div class="panel-heading">Vừa cập nhật</div>
+			<div class="panel-body">
+				<div class="tabs">
+					<div class="tab-content padding-0">
+						<div role="tabpanel" class="tab-pane active" id="newExts">
+							<table class="table table-striped">
+								<thead>
+								<tr>
+									<th>#</th>
+									<th>Gói mở rộng</th>
+								</tr>
+								</thead>
+								<tbody>
+								{% for row in 1..10 %}
+								<tr>
+									<td>{{ loop.index }}</td>
+									<td><a href="#">Styles Demo 1.2.4</a>{% if loop.index == 7 %}<span class="label label-success pull-right">Mới</span>{% endif %}</td>
+								</tr>
+								{% endfor %}
+								</tbody>
+							</table>
+						</div>
+						<div role="tabpanel" class="tab-pane" id="newStyles">
+							<table class="table table-striped">
+								<thead>
+								<tr>
+									<th>#</th>
+									<th>Giao diện</th>
+								</tr>
+								</thead>
+								<tbody>
+								{% for row in 1..10 %}
+								<tr>
+									<td>{{ loop.index }}</td>
+									<td><a href="#">BBoots 1.2.0</a>{% if loop.index == 7 %}<span class="label label-success pull-right">Mới</span>{% endif %}</td>
+								</tr>
+								{% endfor %}
+								</tbody>
+							</table>
+						</div>
+						<div role="tabpanel" class="tab-pane" id="newTools">
+							<table class="table table-striped">
+								<thead>
+								<tr>
+									<th>#</th>
+									<th>Công cụ</th>
+								</tr>
+								</thead>
+								<tbody>
+								{% for row in 1..10 %}
+								<tr>
+									<td>{{ loop.index }}</td>
+									<td><a href="#">Extension Pre Validator 0.0.7</a>{% if loop.index == 7 %}<span class="label label-success pull-right">Mới</span>{% endif %}</td>
+								</tr>
+								{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<!-- Nav tabs -->
+					<ul class="list-inline tabs-nav tabs-bottom" role="tablist">
+						<li role="presentation" class="active"><a href="#newExts" aria-controls="newExts" role="tab" data-toggle="tab"><i class="fa fa-rocket fa-2x"></i></a></li>
+						<li role="presentation"><a href="#newStyles" aria-controls="newStyles" role="tab" data-toggle="tab"><i class="fa fa-paint-brush fa-2x"></i></a></li>
+						<li role="presentation"><a href="#newTools" aria-controls="newTools" role="tab" data-toggle="tab"><i class="fa fa-wrench fa-2x"></i></a></li>
+					</ul>
+					<!-- Tab panes -->
+				</div>
+			</div>
+		</div>
+
+		<div class="widget bg-info padding-0">
+			<div class="row row-table">
+				<div class="col-xs-4 text-center pv-15 bg-light-dark">
+					<em class="icon-organization fa-3x"></em>
+				</div>
+				<div class="col-xs-8 pv-15 text-center">
+					<h2 class="mv-0">{{ CONFIG_TOTAL_FORUMS|number_format }}</h2>
+					<div class="text-uppercase">{{ lang('FORUMS') }}</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="widget bg-indigo padding-0">
+			<div class="row row-table">
+				<div class="col-xs-4 text-center pv-15 bg-light-dark">
+					<em class="icon-notebook fa-3x"></em>
+				</div>
+				<div class="col-xs-8 pv-15 text-center">
+					<h2 class="mv-0">{{ CONFIG_TOTAL_TOPICS|number_format }}</h2>
+					<div class="text-uppercase">{{ lang('TOPICS') }}</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="widget bg-dark padding-0">
+			<div class="row row-table">
+				<div class="col-xs-4 text-center pv-15 bg-light-dark">
+					<em class="icon-docs fa-3x"></em>
+				</div>
+				<div class="col-xs-8 pv-15 text-center">
+					<h2 class="mv-0">{{ CONFIG_TOTAL_POSTS|number_format }}</h2>
+					<div class="text-uppercase">{{ lang('POSTS') }}</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- New topics/posts -->
+		<div class="panel panel-default">
+			<div class="panel-heading">Vừa cập nhật</div>
+			<div class="panel-body">
+				<div class="tabs">
+					<div class="tab-content padding-0">
+						<div role="tabpanel" class="tab-pane active" id="newTopics">
+							<table class="table table-striped">
+								<thead>
+								<tr>
+									<th>#</th>
+									<th>Gói mở rộng</th>
+								</tr>
+								</thead>
+								<tbody>
+								{% for row in 1..10 %}
+								<tr>
+									<td>{{ loop.index }}</td>
+									<td><a href="#">Styles Demo 1.2.4</a>{% if loop.index == 7 %}<span class="label label-success pull-right">Mới</span>{% endif %}</td>
+								</tr>
+								{% endfor %}
+								</tbody>
+							</table>
+						</div>
+						<div role="tabpanel" class="tab-pane" id="newPosts">
+							<table class="table table-striped">
+								<thead>
+								<tr>
+									<th>#</th>
+									<th>Giao diện</th>
+								</tr>
+								</thead>
+								<tbody>
+								{% for row in 1..10 %}
+								<tr>
+									<td>{{ loop.index }}</td>
+									<td><a href="#">BBoots 1.2.0</a>{% if loop.index == 7 %}<span class="label label-success pull-right">Mới</span>{% endif %}</td>
+								</tr>
+								{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<!-- Nav tabs -->
+					<ul class="list-inline tabs-nav tabs-bottom" role="tablist">
+						<li role="presentation" class="active"><a href="#newTopics" aria-controls="newTopics" role="tab" data-toggle="tab"><i class="fa fa-file-text-o fa-2x"></i></a></li>
+						<li role="presentation"><a href="#newPosts" aria-controls="newPosts" role="tab" data-toggle="tab"><i class="fa fa-commenting-o fa-2x"></i></a></li>
+					</ul>
+					<!-- Tab panes -->
+				</div>
+			</div>
+		</div>
+
+		<div class="widget bg-grey padding-0">
+			<div class="row row-table">
+				<div class="col-xs-4 text-center pv-15 bg-light-dark">
+					<em class="icon-people fa-3x"></em>
+				</div>
+				<div class="col-xs-8 pv-15 text-center">
+					<h2 class="mv-0">{{ CONFIG_TOTAL_USERS|number_format }}</h2>
+					<div class="text-uppercase">{{ lang('MEMBERS') }}</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="widget bg-success padding-0">
+			<div class="row row-table">
+				<div class="col-xs-4 text-center pv-15 bg-light-dark">
+					<em class="icon-energy fa-3x"></em>
+				</div>
+				<div class="col-xs-8 pv-15 text-center">
+					<h2 class="mv-0">{{ CONFIG_TOTAL_USERS|number_format }}</h2>
+					<div class="text-uppercase">{{ lang('ONLINE') }}</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="widget bg-brown padding-0">
+			<div class="row row-table">
+				<div class="col-xs-4 text-center pv-15 bg-light-dark">
+					<em class="icon-present fa-3x"></em>
+				</div>
+				<div class="col-xs-8 pv-15 text-center">
+					<h2 class="mv-0">{{ CONFIG_TOTAL_USERS|number_format }}</h2>
+					<div class="text-uppercase">{{ lang('BIRTHDAYS') }}</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="widget white-bg">
+			<div>
+				<h4>Kinh phí hoạt động</h4>
+				<div>
+					<span>Năm 2017</span>
+					<small class="pull-right">Đã thanh toán</small>
+				</div>
+				<div class="progress progress-mini">
+					<div style="width: 100%;" class="progress-bar"></div>
+				</div>
+
+				<div>
+					<span>Năm 2018</span>
+					<small class="pull-right">0 / 8,500,000 VND</small>
+				</div>
+				<div class="progress progress-mini">
+					<div style="width: 1%;" class="progress-bar progress-bar-danger"></div>
+				</div>
+				<div class="text-center">
+					<button data-toggle="modal" data-target="#mapModal" class="btn btn-danger"><i class="fa fa-tint"></i> Tiếp thêm máu</button>
+				</div>
+			</div>
+		</div>
+
 	</div>
+
+	<!-- Right column -->
 	<div class="col-md-8">
+		{% for row in 1..5 %}
 		<div class="panel panel-default blog-box">
 			<div class="panel-img">
-				<img src="http://static.new.tuoitre.vn/tto/i/s626/2016/09/28/aea594e0.jpg" alt="" class="img-responsive">
+				<img src="{{ T_THEME_PATH }}/images/2.jpg" alt="" class="img-responsive">
 			</div>
 			<div class="panel-body">
-				<a href="page-blog-article.html"> <h4>Standard post with image</h4></a>
-				<p>
-					There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in
+				<a href="#"><h4>phpBB iVN 3.2.0 đã phát hành</h4></a>
+				<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in
 					some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum...
 				</p>
 			</div>
@@ -222,6 +464,7 @@
 				<i class="fa fa-eye"> </i> 356 views
 			</div>
 		</div>
+		{% endfor %}
 	</div>
 </div>
 
