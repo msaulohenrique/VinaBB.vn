@@ -87,19 +87,6 @@ class bb_schema extends migration
 						'a_id'	=> array('INDEX', 'author_id'),
 					),
 				),
-				$this->table_prefix . 'bb_phpbb_versions' => array(
-					'COLUMNS' => array(
-						'version'			=> array('VCHAR', ''),
-						'version_is_branch'	=> array('BOOL', 0),
-						'version_branch'	=> array('VCHAR', ''),
-						'version_day'		=> array('INT:2', 0),
-						'version_month'		=> array('INT:2', 0),
-						'version_year'		=> array('INT:4', 0),
-					),
-					'KEYS' => array(
-						'version'	=> array('UNIQUE', 'version'),
-					),
-				),
 			),
 		);
 	}
@@ -111,7 +98,6 @@ class bb_schema extends migration
 				$this->table_prefix . 'bb_categories',
 				$this->table_prefix . 'bb_items',
 				$this->table_prefix . 'bb_authors',
-				$this->table_prefix . 'bb_phpbb_versions',
 			),
 		);
 	}

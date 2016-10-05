@@ -23,7 +23,7 @@ class bb_categories extends migration
 			array('module.add', array(
 				'acp',
 				'ACP_CAT_VINABB',
-				'ACP_CAT_VINABB_BB'
+				'ACP_CAT_BB'
 			)),
 		);
 	}
