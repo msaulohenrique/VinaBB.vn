@@ -28,16 +28,6 @@ class module_categories extends migration
 				'ACP_CAT_VINABB',
 				'ACP_CAT_VINABB_SETTINGS'
 			)),
-			array('module.add', array(
-				'acp',
-				'ACP_CAT_VINABB',
-				'ACP_CAT_VINABB_BB'
-			)),
-			array('module.add', array(
-				'acp',
-				'ACP_CAT_VINABB',
-				'ACP_CAT_VINABB_CMS'
-			)),
 		);
 	}
 }

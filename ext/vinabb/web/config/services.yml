@@ -1,3 +1,6 @@
+imports:
+    - { resource: tables.yml }
+
 services:
     vinabb.web.decorated.cache:
         class: vinabb\web\decorated\cache\service
@@ -8,6 +11,7 @@ services:
              - '@dbal.conn'
              - '%core.root_path%'
              - '%core.php_ext%'
+             - '%vinabb.web.tables.bb_categories%'
     vinabb.web.decorated.help.controller.faq:
         class: vinabb\web\decorated\help\controller\faq
         decorates: phpbb.help.controller.faq

@@ -1,0 +1,3 @@
+parameters:
+    vinabb.web.tables.bb_categories: '%core.table_prefix%bb_categories'
+    vinabb.web.tables.bb_items: '%core.table_prefix%bb_items'

@@ -40,4 +40,12 @@ class constants
 	const REWRITE_URL_SEO = '.';
 	const REWRITE_URL_FORUM_CAT = '-';
 	const REWRITE_URL_FORUM_ZERO = 'x';
+
+	// Pagination
+	const BB_CATS_PER_PAGE = 20;
+	const BB_ITEMS_PER_PAGE = 10;
+
+	// Table names
+	const BB_CATEGORIES_TABLE = 'bb_categories';
+	const BB_ITEMS_TABLE = 'bb_items';
 }

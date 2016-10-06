@@ -1,0 +1,88 @@
+{% include 'overall_header.html' %}
+
+{% if S_EDIT %}
+
+	<a href="{{ U_BACK }}" style="float: {{ S_CONTENT_FLOW_END }};">&laquo; {{ lang('BACK') }}</a>
+
+	<h1>{{ PAGE_TITLE }}</h1>
+	<p>{{ lang('ACP_MANAGE_STYLE_DATA_EXPLAIN') }}</p>
+
+	<form id="acp_bb_categories_edit" method="post" action="{{ U_ACTION }}">
+		<fieldset>
+			<legend>{{ lang('EDIT_STYLE_DATA') }}</legend>
+			<dl>
+				<dt><label for="cat_name">{{ lang('BB_CAT_NAME') }}{{ lang('COLON') }}</label></dt>
+				<dd><input type="text" name="cat_name" id="cat_name" value="{{ CAT_NAME }}" maxlength="255"></dd>
+			</dl>
+			<dl>
+				<dt><label for="cat_name_vi">{{ lang('BB_CAT_NAME_VI') }}{{ lang('COLON') }}</label></dt>
+				<dd><input type="text" name="cat_name_vi" id="cat_name_vi" value="{{ CAT_NAME_VI }}" maxlength="255"></dd>
+			</dl>
+			<dl>
+				<dt><label for="cat_varname">{{ lang('BB_CAT_VARNAME') }}{{ lang('COLON') }}</label></dt>
+				<dd><input type="text" name="cat_varname" id="cat_varname" value="{{ CAT_VARNAME }}" maxlength="255"></dd>
+			</dl>
+			{{ S_HIDDEN_FIELDS }}
+
+			<p class="submit-buttons">
+				<input class="button1" type="submit" name="save" id="save" value="{{ lang('SUBMIT') }}">
+				<input class="button2" type="reset" name="reset" id="reset" value="{{ lang('RESET') }}">
+				{{ S_FORM_TOKEN }}
+			</p>
+		</fieldset>
+	</form>
+
+{% else %}
+
+	<h1>{{ PAGE_TITLE }}</h1>
+	<p>{{ lang('ACP_MANAGE_STYLE_DATA_EXPLAIN') }}</p>
+
+	<form id="acp_bb_categories" method="post" action="{{ U_ACTION }}">
+		<p class="quick">
+			{{ S_HIDDEN_FIELDS }}
+			<input class="button2" name="add" type="submit" value="{{ lang('ADD_BB_CAT') }}">
+		</p>
+	</form>
+
+	{% if pagination %}
+	<div class="pagination">
+		<span style="float: {{ S_CONTENT_FLOW_BEGIN }};">&raquo; {{ lang('TOTAL_BB_CATS', TOTAL_CATS) }}</span>
+		{% include 'pagination.html' %}
+	</div>
+	{% endif %}
+
+	<table class="table1 zebra-table">
+		<thead>
+		<tr>
+			<th>{{ lang('BB_CAT_NAME') }}</th>
+			<th>{{ lang('BB_CAT_NAME_VI') }}</th>
+			<th>{{ lang('BB_CAT_VARNAME') }}</th>
+			<th>{{ lang('ACTION') }}</th>
+		</tr>
+		</thead>
+		<tbody>
+		{% for cat in cats %}
+		<tr>
+			<td style="text-align: center;">{{ cat.NAME }}</td>
+			<td style="text-align: center;">{{ cat.NAME_VI }}</td>
+			<td style="text-align: center;">{{ cat.VARNAME }}</td>
+			<td>&nbsp;<a href="{{ cat.U_EDIT }}">{{ ICON_EDIT }}</a> <a href="{{ cat.U_DELETE }}" data-ajax="row_delete">{{ ICON_DELETE }}</a>&nbsp;</td>
+		</tr>
+		{% else %}
+		<tr class="row3">
+			<td colspan="4">{{ lang('ACP_NO_ITEMS') }}</td>
+		</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+
+	{% if pagination %}
+	<div class="pagination">
+		<span style="float: {{ S_CONTENT_FLOW_BEGIN }};">&raquo; {{ lang('TOTAL_BB_CATS', TOTAL_CATS) }}</span>
+		{% include 'pagination.html' %}
+	</div>
+	{% endif %}
+
+{% endif %}
+
+{% include 'overall_footer.html' %}

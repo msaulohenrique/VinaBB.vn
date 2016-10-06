@@ -17,24 +17,22 @@ class settings_module
 
 	public function main($id, $mode)
 	{
-		global $phpbb_container, $phpEx;
+		global $phpbb_container;
 
 		$this->auth = $phpbb_container->get('auth');
 		$this->cache = $phpbb_container->get('cache');
 		$this->config = $phpbb_container->get('config');
 		$this->config_text = $phpbb_container->get('config_text');
 		$this->db = $phpbb_container->get('dbal.conn');
+		$this->ext_manager = $phpbb_container->get('ext.manager');
+		$this->language = $phpbb_container->get('language');
 		$this->log = $phpbb_container->get('log');
 		$this->request = $phpbb_container->get('request');
 		$this->template = $phpbb_container->get('template');
 		$this->user = $phpbb_container->get('user');
-		$this->language = $phpbb_container->get('language');
-		$this->ext_manager = $phpbb_container->get('ext.manager');
-		$this->filesystem = $phpbb_container->get('filesystem');
 
 		$this->tpl_name = 'acp_settings';
 		$this->page_title = $this->language->lang('ACP_VINABB_SETTINGS');
-		$this->ext_root_path = $this->ext_manager->get_extension_path('vinabb/web', true);
 		$this->language->add_lang('acp_settings', 'vinabb/web');
 
 		add_form_key('vinabb/web');
