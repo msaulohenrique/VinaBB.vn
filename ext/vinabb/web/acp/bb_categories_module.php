@@ -187,6 +187,18 @@ class bb_categories_module
 
 				if (confirm_box(true))
 				{
+					$sql = 'SELECT COUNT(item_id) AS item_count
+						FROM ' . $this->bb_items_table . "
+						WHERE cat_id = $cat_id";
+					$result = $this->db->sql_query($sql);
+					$item_count = $this->db->sql_fetchfield('item_count');
+					$this->db->sql_freeresult($result);
+
+					if ($item_count)
+					{
+						trigger_error($this->language->lang('ERROR_BB_CAT_DELETE') . adm_back_link($this->u_action), E_USER_WARNING);
+					}
+
 					$sql = 'SELECT cat_name
 						FROM ' . $this->bb_categories_table . "
 						WHERE cat_id = $cat_id";
@@ -216,6 +228,19 @@ class bb_categories_module
 			break;
 		}
 
+		// Item counter
+		$sql = 'SELECT cat_id, COUNT(item_id) AS item_count
+			FROM ' . $this->bb_items_table . '
+			GROUP BY cat_id';
+		$result = $this->db->sql_query($sql);
+
+		$item_count = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$item_count[$row['cat_id']] = $row['item_count'];
+		}
+		$this->db->sql_freeresult($result);
+
 		// Manage categories
 		$cats = array();
 		$cat_count = 0;
@@ -227,6 +252,7 @@ class bb_categories_module
 				'NAME'		=> $row['cat_name'],
 				'NAME_VI'	=> $row['cat_name_vi'],
 				'VARNAME'	=> $row['cat_varname'],
+				'ITEMS'		=> isset($item_count[$row['cat_id']]) ? $item_count[$row['cat_id']] : 0,
 
 				'U_EDIT'	=> $this->u_action . '&action=edit&id=' . $row['cat_id'],
 				'U_DELETE'	=> $this->u_action . '&action=delete&id=' . $row['cat_id'],
@@ -237,7 +263,9 @@ class bb_categories_module
 
 		// Output
 		$this->template->assign_vars(array(
-			'TOTAL_CATS'	=> $cat_count,
+			'TOTAL_CATS'			=> $cat_count,
+			'PAGE_TITLE_EXPLAIN'	=> $this->language->lang('ACP_BB_' . strtoupper($mode) . 'S_EXPLAIN'),
+			'TOTAL_ITEMS_LANG'		=> $this->language->lang('TOTAL_' . strtoupper($mode) . 'S'),
 
 			'U_ACTION'	=> $this->u_action . "&action=$action&start=$start",
 

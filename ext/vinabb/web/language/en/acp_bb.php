@@ -25,7 +25,12 @@ if (empty($lang) || !is_array($lang))
 */
 
 $lang = array_merge($lang, array(
-	'ADD_BB_CAT'	=> 'Create new category',
+	'ACP_BB_ACP_STYLES_EXPLAIN'	=> '',
+	'ACP_BB_EXTS_EXPLAIN'		=> '',
+	'ACP_BB_LANGS_EXPLAIN'		=> '',
+	'ACP_BB_STYLES_EXPLAIN'		=> '',
+	'ACP_BB_TOOLS_EXPLAIN'		=> '',
+	'ADD_BB_CAT'				=> 'Create new category',
 
 	'BB_CAT_NAME'		=> 'Category name',
 	'BB_CAT_NAME_VI'	=> 'Category name (Vietnamese)',
@@ -33,6 +38,7 @@ $lang = array_merge($lang, array(
 
 	'CONFIRM_BB_CAT_DELETE'	=> 'Are you sure you want to delete this category?',
 
+	'ERROR_BB_CAT_DELETE'				=> 'Could not delete this category while it is still in use.',
 	'ERROR_BB_CAT_NAME_EMPTY'			=> 'You must enter a category name.',
 	'ERROR_BB_CAT_VARNAME_DUPLICATE'	=> 'The category varname “%s” already exists.',
 	'ERROR_BB_CAT_VARNAME_EMPTY'		=> 'You must enter a category varname.',

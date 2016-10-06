@@ -137,6 +137,12 @@ $lang = array_merge($lang, array(
 	),
 	'RESOURCES'		=> 'Resources',
 
+	'TOTAL_ACP_STYLES'	=> 'Total styles',
+	'TOTAL_EXTS'		=> 'Total extensions',
+	'TOTAL_LANGS'		=> 'Total language packages',
+	'TOTAL_STYLES'		=> 'Total styles',
+	'TOTAL_TOOLS'		=> 'Total tools',
+
 	'USER_ID'	=> 'User ID',
 
 	'VINABB'	=> 'VinaBB',

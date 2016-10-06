@@ -25,7 +25,12 @@ if (empty($lang) || !is_array($lang))
 */
 
 $lang = array_merge($lang, array(
-	'ADD_BB_CAT'	=> 'Tạo danh mục mới',
+	'ACP_BB_ACP_STYLES_EXPLAIN'	=> '',
+	'ACP_BB_EXTS_EXPLAIN'		=> '',
+	'ACP_BB_LANGS_EXPLAIN'		=> '',
+	'ACP_BB_STYLES_EXPLAIN'		=> '',
+	'ACP_BB_TOOLS_EXPLAIN'		=> '',
+	'ADD_BB_CAT'				=> 'Tạo danh mục mới',
 
 	'BB_CAT_NAME'		=> 'Tên danh mục',
 	'BB_CAT_NAME_VI'	=> 'Tên danh mục (Tiếng Việt)',
@@ -33,6 +38,7 @@ $lang = array_merge($lang, array(
 
 	'CONFIRM_BB_CAT_DELETE'	=> 'Bạn chắc chắn muốn xóa danh mục này?',
 
+	'ERROR_BB_CAT_DELETE'				=> 'Không thể xóa danh mục đang được dùng.',
 	'ERROR_BB_CAT_NAME_EMPTY'			=> 'Chưa nhập tên danh mục.',
 	'ERROR_BB_CAT_VARNAME_DUPLICATE'	=> 'Tên biến danh mục “%s” bị trùng.',
 	'ERROR_BB_CAT_VARNAME_EMPTY'		=> 'Chưa nhập tên biến danh mục.',

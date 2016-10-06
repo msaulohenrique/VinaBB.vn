@@ -137,6 +137,12 @@ $lang = array_merge($lang, array(
 	),
 	'RESOURCES'		=> 'Tài nguyên',
 
+	'TOTAL_ACP_STYLES'	=> 'Số giao diện',
+	'TOTAL_EXTS'		=> 'Số gói mở rộng',
+	'TOTAL_LANGS'		=> 'Số gói ngôn ngữ',
+	'TOTAL_STYLES'		=> 'Số giao diện',
+	'TOTAL_TOOLS'		=> 'Số công cụ',
+
 	'USER_ID'	=> 'ID tài khoản',
 
 	'VINABB'	=> 'VinaBB',
