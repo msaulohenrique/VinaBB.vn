@@ -8,12 +8,16 @@
 
 namespace vinabb\web\decorated\cache;
 
+use phpbb\db\migration\data\v320\default_data_type_ids;
 use vinabb\web\includes\constants;
 
 class service extends \phpbb\cache\service
 {
 	/** @var string */
 	protected $bb_categories_table;
+
+	/** @var string */
+	protected $bb_items_table;
 
 	/**
 	* Constructor
@@ -24,6 +28,7 @@ class service extends \phpbb\cache\service
 	* @param string $root_path
 	* @param string $php_ext
 	* @param string $bb_categories_table
+	* @param string $bb_items_table
 	*/
 	public function __construct(
 		\phpbb\cache\driver\driver_interface $driver,
@@ -31,7 +36,8 @@ class service extends \phpbb\cache\service
 		\phpbb\db\driver\driver_interface $db,
 		$root_path,
 		$php_ext,
-		$bb_categories_table
+		$bb_categories_table,
+		$bb_items_table
 	)
 	{
 		$this->set_driver($driver);
@@ -40,6 +46,7 @@ class service extends \phpbb\cache\service
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 		$this->bb_categories_table = $bb_categories_table;
+		$this->bb_items_table = $bb_items_table;
 	}
 
 	function get_config_text_data()
@@ -139,7 +146,7 @@ class service extends \phpbb\cache\service
 		{
 			$sql = 'SELECT *
 				FROM ' . $this->bb_categories_table . '
-				WHERE bb_type = ' . constants::BB_TYPE_ . strtoupper($bb_type);
+				WHERE bb_type = ' . $this->get_bb_type_constants($bb_type);
 			$result = $this->db->sql_query($sql);
 
 			$bb_cat_data = array();
@@ -160,5 +167,41 @@ class service extends \phpbb\cache\service
 	function clear_bb_cat_data($bb_type)
 	{
 		$this->driver->destroy('_bb_' . strtolower($bb_type) . '_cat_data');
+	}
+
+	/**
+	* Convert BB type from string to constant value
+	*
+	* @param $bb_type
+	* @return int
+	*/
+	private function get_bb_type_constants($bb_type)
+	{
+		switch ($bb_type)
+		{
+			case 'ext':
+				return constants::BB_TYPE_EXT;
+			break;
+
+			case 'style':
+				return constants::BB_TYPE_STYLE;
+			break;
+
+			case 'acp_style':
+				return constants::BB_TYPE_ACP_STYLE;
+			break;
+
+			case 'lang':
+				return constants::BB_TYPE_LANG;
+			break;
+
+			case 'tool':
+				return constants::BB_TYPE_TOOL;
+			break;
+
+			default:
+				return 0;
+			break;
+		}
 	}
 }
