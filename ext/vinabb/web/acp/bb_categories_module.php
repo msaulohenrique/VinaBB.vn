@@ -15,6 +15,7 @@ class bb_categories_module
 	/** @var string */
 	public $u_action;
 
+	/** @var string */
 	public $bb_type;
 
 	public function main($id, $mode)
@@ -40,7 +41,7 @@ class bb_categories_module
 		$this->language->add_lang('acp_bb', 'vinabb/web');
 
 		$action = $this->request->variable('action', '');
-		$action = (isset($_POST['add'])) ? 'add' : ((isset($_POST['save'])) ? 'save' : $action);
+		$action = $this->request->is_set_post('add') ? 'add' : ($this->request->is_set_post('save') ? 'save' : $action);
 
 		// Pagination
 		$start = $this->request->variable('start', 0);
