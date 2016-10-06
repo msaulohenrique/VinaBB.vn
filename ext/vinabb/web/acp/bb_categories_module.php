@@ -25,6 +25,7 @@ class bb_categories_module
 		$this->auth = $phpbb_container->get('auth');
 		$this->cache = $phpbb_container->get('cache');
 		$this->db = $phpbb_container->get('dbal.conn');
+		$this->ext_helper = $phpbb_container->get('vinabb.web.helper');
 		$this->language = $phpbb_container->get('language');
 		$this->log = $phpbb_container->get('log');
 		$this->pagination= $phpbb_container->get('pagination');
@@ -38,6 +39,7 @@ class bb_categories_module
 
 		$this->tpl_name = 'acp_bb_categories';
 		$this->page_title = $this->language->lang('ACP_BB_' . strtoupper($mode) . '_CATS');
+		$this->bb_type = $this->ext_helper->get_bb_type_constants($mode);
 		$this->language->add_lang('acp_bb', 'vinabb/web');
 
 		$action = $this->request->variable('action', '');
@@ -51,29 +53,6 @@ class bb_categories_module
 
 		$s_hidden_fields = '';
 		$errors = array();
-
-		switch ($mode)
-		{
-			case 'ext':
-				$this->bb_type = constants::BB_TYPE_EXT;
-			break;
-
-			case 'style':
-				$this->bb_type = constants::BB_TYPE_STYLE;
-			break;
-
-			case 'acp_style':
-				$this->bb_type = constants::BB_TYPE_ACP_STYLE;
-			break;
-
-			case 'lang':
-				$this->bb_type = constants::BB_TYPE_LANG;
-			break;
-
-			case 'tool':
-				$this->bb_type = constants::BB_TYPE_TOOL;
-			break;
-		}
 
 		switch ($action)
 		{

@@ -9,9 +9,11 @@ services:
              - '@cache.driver'
              - '@config'
              - '@dbal.conn'
+             - '@vinabb.web.helper'
              - '%core.root_path%'
              - '%core.php_ext%'
              - '%vinabb.web.tables.bb_categories%'
+             - '%vinabb.web.tables.bb_items%'
     vinabb.web.decorated.help.controller.faq:
         class: vinabb\web\decorated\help\controller\faq
         decorates: phpbb.help.controller.faq

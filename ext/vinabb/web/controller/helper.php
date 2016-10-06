@@ -8,6 +8,8 @@
 
 namespace vinabb\web\controller;
 
+use vinabb\web\includes\constants;
+
 class helper
 {
 	/**
@@ -166,5 +168,41 @@ class helper
 		}
 
 		return $text;
+	}
+
+	/**
+	* Convert BB type from string to constant value
+	*
+	* @param $bb_type
+	* @return int
+	*/
+	public function get_bb_type_constants($bb_type)
+	{
+		switch ($bb_type)
+		{
+			case 'ext':
+				return constants::BB_TYPE_EXT;
+			break;
+
+			case 'style':
+				return constants::BB_TYPE_STYLE;
+			break;
+
+			case 'acp_style':
+				return constants::BB_TYPE_ACP_STYLE;
+			break;
+
+			case 'lang':
+				return constants::BB_TYPE_LANG;
+			break;
+
+			case 'tool':
+				return constants::BB_TYPE_TOOL;
+			break;
+
+			default:
+				return 0;
+			break;
+		}
 	}
 }
