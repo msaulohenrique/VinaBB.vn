@@ -1,0 +1,45 @@
+<div class="tabs">
+	<ul class="list-inline tabs-nav" role="tablist">
+		{% for row in forumrow if row.S_IS_CAT %}
+		<li role="presentation"{% if row.S_FIRST_ROW %} class="active"{% endif %}><a href="#cat_{{ row.FORUM_ID }}" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="{% if row.S_FIRST_ROW %}true{% else %}false{% endif %}"><i class="fa fa-{% if row.S_FIRST_ROW %}star{% else %}globe{% endif %}"></i> {{ row.FORUM_NAME }}</a></li>
+		{% endfor %}
+	</ul>
+
+	<div class="tab-content">
+		{% for row in forumrow %}
+		{% if (row.S_IS_CAT and not row.S_FIRST_ROW) or row.S_NO_CAT %}
+				</ul>
+			</div>
+		</div>
+		{% endif %}
+		{% if row.S_IS_CAT or row.S_FIRST_ROW or row.S_NO_CAT %}
+		<div role="tabpanel" class="tab-pane{% if row.S_FIRST_ROW %} active{% endif %}" id="cat_{{ row.FORUM_ID }}">
+			<div class="widget white-bg">
+				<ul class="comments-list list-unstyled clearfix">
+		{% endif %}
+					{% if not row.S_IS_CAT %}
+					<li class="clearfix">
+						<img src="{{ T_THEME_PATH }}/images/forum_icons/{{ row.FORUM_ID }}.png" alt="" width="64" class="img-circle">
+						<div class="content">
+							<div class="comments-header">
+								<strong class="text-primary">{{ row.FORUM_NAME }}</strong>
+								<small class="text-muted">30 Minutes Ago</small>
+							</div>
+							<div>
+								<span class="hidden-xs hidden-sm">{% if row.subforum and row.S_LIST_SUBFORUMS %}{% for sub in row.subforum %}<a href="{{ sub.U_SUBFORUM }}" class="btn btn-primary btn-icon"><i>{{ loop.index }}</i> {{ sub.SUBFORUM_NAME }}</a> {% endfor %}{% elseif row.MODERATORS %}{row.L_MODERATOR_STR}{{ lang('COLON') }} {{ row.MODERATORS }}{% endif %}</span>
+								<ul class="list-inline pull-right">
+									<li><a data-toggle="tooltip" data-placement="bottom" title="{{ lang('TOPICS') }}"><i class="icon-notebook fa-2x"></i> {{ row.TOPICS }}</a></li>
+									<li><a data-toggle="tooltip" data-placement="bottom" title="{{ lang('POSTS') }}"><i class="icon-docs fa-2x"></i> {{ row.POSTS }}</a></li>
+								</ul>
+							</div>
+						</div>
+					</li>
+					{% endif %}
+		{% if loop.last %}
+				</ul>
+			</div>
+		</div>
+		{% endif %}
+		{% endfor %}
+	</div>
+</div>

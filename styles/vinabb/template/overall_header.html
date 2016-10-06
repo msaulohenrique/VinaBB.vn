@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html dir="{{ S_CONTENT_DIRECTION }}" lang="{{ S_USER_LANG }}">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>{{ PAGE_TITLE }}</title>
+
+	<link rel="apple-touch-icon" href="{{ T_THEME_PATH }}/images/apple-touch-icon.png">
+	<link rel="shortcut icon" href="{{ T_THEME_PATH }}/images/favicon.png">
+
+	<link href="{{ T_THEME_PATH }}/css/bootstrap.min.css?v={{ T_ASSETS_VERSION }}" rel="stylesheet">
+	<link href="{{ T_THEME_PATH }}/css/simple-line-icons.css?v={{ T_ASSETS_VERSION }}" rel="stylesheet">
+	<link href="{{ T_THEME_PATH }}/css/font-awesome.min.css?v={{ T_ASSETS_VERSION }}" rel="stylesheet">
+	<link href="{{ T_THEME_PATH }}/css/pace.css?v={{ T_ASSETS_VERSION }}" rel="stylesheet">
+	<link href="{{ T_THEME_PATH }}/css/jasny-bootstrap.min.css?v={{ T_ASSETS_VERSION }}" rel="stylesheet">
+	<link href="{{ T_THEME_PATH }}/css/nanoscroller.css?v={{ T_ASSETS_VERSION }}" rel="stylesheet">
+	<link href="{{ T_THEME_PATH }}/css/icheck-blue.css?v={{ T_ASSETS_VERSION }}" rel="stylesheet">
+	<link href="{{ T_THEME_PATH }}/css/jquery.dataTables.min.css?v={{ T_ASSETS_VERSION }}" rel="stylesheet">
+	<link href="{{ T_THEME_PATH }}/css/responsive.bootstrap.min.css?v={{ T_ASSETS_VERSION }}" rel="stylesheet">
+	<link href="{{ T_THEME_PATH }}/css/style.css?v={{ T_ASSETS_VERSION }}" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Prompt:300,400,500,600,700,800" rel="stylesheet">
+
+	<!--[if lt IE 9]>
+	<script src="{{ T_THEME_PATH }}/js/html5shiv.min.js?v={{ T_ASSETS_VERSION }}"></script>
+	<script src="{{ T_THEME_PATH }}/js/respond.min.js?v={{ T_ASSETS_VERSION }}"></script>
+	<![endif]-->
+</head>
+
+<body class="layout-horizontal">
+	<!-- Top panel -->
+	<div class="top-bar bg-blue">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-6">
+					<a href="{{ U_INDEX }}" class="admin-logo">
+						<h1><img src="{{ T_THEME_PATH }}/images/logo.png" alt=""></h1>
+					</a>
+					<div class="search-form hidden-xs">
+						<form action="{{ U_SEARCH }}" method="get" id="search">
+							<input type="text" name="keywords" id="keywords" class="form-control" placeholder="{{ lang('SEARCH_MINI') }}">
+							<button type="button" class="btn-search"><i class="fa fa-search"></i></button>
+						</form>
+					</div>
+				</div>
+				<div class="col-xs-6">
+					<ul class="list-inline top-right-nav">
+						<!-- Messages -->
+						<li class="dropdown hidden-xs icon-dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								<i class="fa fa-comments"></i>
+								<span class="badge badge-warning">4</span>
+							</a>
+							<ul class="dropdown-menu top-dropdown lg-dropdown notification-dropdown">
+								<li>
+									<div class="dropdown-header"><a href="#" class="pull-right text-muted"><small>View All</small></a> Messages </div>
+									<div class="scrollDiv">
+										<div class="notification-list">
+											<a href="#" class="clearfix">
+												<span class="notification-icon">
+													<img src="{{ T_THEME_PATH }}/images/no_avatar.png" alt="" class="img-circle" width="50">
+												</span>
+												<span class="notification-title">John Doe <label class="label label-primary pull-right">Office</label></span>
+												<span class="notification-description">Praesent dictum nisl non est sagittis luctus.</span>
+												<span class="notification-time">40 minutes ago</span>
+											</a>
+											<a href="#" class="clearfix">
+												<span class="notification-icon">
+													<img src="{{ T_THEME_PATH }}/images/no_avatar.png" alt="" class="img-circle" width="50">
+												</span>
+												<span class="notification-title">Emily Doe  <label class="label label-info pull-right">Marketing</label></span>
+												<span class="notification-description">Praesent dictum nisl non est sagittis luctus.</span>
+												<span class="notification-time">40 minutes ago</span>
+											</a>
+											<a href="#" class="clearfix">
+												<span class="notification-icon">
+													<img src="{{ T_THEME_PATH }}/images/no_avatar.png" alt="" class="img-circle" width="50">
+												</span>
+												<span class="notification-title">Michael Clark <label class="label label-warning pull-right">Support</label> </span>
+												<span class="notification-description">Praesent dictum nisl non est sagittis luctus.</span>
+												<span class="notification-time">40 minutes ago</span>
+											</a>
+											<a href="#" class="clearfix">
+												<span class="notification-icon">
+													<img src="{{ T_THEME_PATH }}/images/no_avatar.png" alt="" class="img-circle" width="50">
+												</span>
+												<span class="notification-title">Ronaldo <label class="label label-success pull-right">Metting</label> </span>
+												<span class="notification-description">Praesent dictum nisl non est sagittis luctus.</span>
+												<span class="notification-time">40 minutes ago</span>
+											</a>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</li>
+
+						<!-- Notifications -->
+						<li class="dropdown hidden-xs icon-dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								<i class="fa fa-dot-circle-o"></i>
+								<span class="badge badge-danger">6</span>
+							</a>
+							<ul class="dropdown-menu top-dropdown lg-dropdown notification-dropdown">
+								<li>
+									<div class="dropdown-header"><a href="{{ U_VIEW_ALL_NOTIFICATIONS }}" class="pull-right text-muted"><small>{{ lang('SEE_ALL') }}</small></a> Notifications </div>
+									<div class="scrollDiv">
+										<div class="notification-list">
+											{% for notification in notifications %}
+											<a{% if notification.URL %} href="{{ notification.URL }}"{% endif %} class="clearfix">
+												<span class="notification-icon"><i class="icon-info text-warning"></i></span>
+												<span class="notification-title">{{ notification.FORMATTED_TITLE }}</span>
+												<span class="notification-description">Praesent dictum nisl non est sagittis luctus.</span>
+												<span class="notification-time">{{ notification.TIME }}</span>
+											</a>
+											{% else %}
+											<a class="clearfix">
+												<span class="notification-icon"><i class="icon-check text-success"></i></span>
+												<span class="notification-title">Project Task Complete </span>
+												<span class="notification-description">Praesent dictum nisl non est sagittis luctus.</span>
+												<span class="notification-time">40 minutes ago</span>
+											</a>
+											{% endfor %}
+										</div>
+									</div>
+								</li>
+							</ul>
+						</li>
+
+						<!-- Right panel toggle -->
+						<li class="dropdown">
+							<a href="#" class="right-sidebar-toggle"><i class="fa fa-outdent"></i></a>
+						</li>
+
+						<!-- User avatar -->
+						<li class="dropdown avtar-dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								<img src="{{ T_THEME_PATH }}/images/no_avatar.png" class="img-circle" width="30" alt="">
+							</a>
+							<ul class="dropdown-menu top-dropdown">
+								<li><a href="{{ U_ACP }}"><i class="icon-bell"></i> {{ lang('ACP_SHORT') }}</a></li>
+								<li><a href="{{ U_PROFILE }}"><i class="icon-user"></i> {{ lang('PROFILE') }}</a></li>
+								<li><a href="{{ U_USER_PROFILE }}"><i class="icon-settings"></i> {{ lang('READ_PROFILE') }}</a></li>
+								<li class="divider"></li>
+								<li><a href="{{ U_LOGIN_LOGOUT }}"><i class="icon-logout"></i> {{ L_LOGIN_LOGOUT }}</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Right panel -->
+	<nav id="right-sidebar-toggle" class="right_sidebar">
+		<div class="nano">
+			<div class="nano-content">
+				<div>
+					<!-- Nav tabs -->
+					<ul class="list-inline nav-tab-panel clearfix" role="tablist">
+						<li role="presentation" class="active"><a href="#projects" aria-controls="projects" role="tab" data-toggle="tab">Projects</a></li>
+						<li role="presentation"><a href="#contacts" aria-controls="contacts" role="tab" data-toggle="tab">Contacts</a></li>
+
+					</ul>
+
+					<!-- Tab panes -->
+					<div class="tab-content">
+						<div role="tabpanel" class="tab-pane active" id="projects">
+							<ul class="sidebar-list">
+								<li class="sidebar-title">
+									<h3 class="font-100"> Current projects</h3>
+									<small>There are <strong>7</strong> Current project</small>
+								</li>
+								<li>
+									<a href="#">
+										<span class="label label-primary pull-right">New</span>
+										<h4>YII with material design</h4>
+										<p>
+											It is a long established fact that a reader will be distracted.
+										</p>
+
+										<div class="small">Completion with: 42%</div>
+										<div class="progress progress-mini">
+											<div style="width: 42%;" class="progress-bar progress-bar-warning"></div>
+										</div>
+										<div class="small text-danger">Deadline - September 15, 2016</div>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<span class="label label-primary pull-right">New</span>
+										<h4>HTML to AngularJs</h4>
+										<p>
+											It is a long established fact that a reader will be distracted.
+										</p>
+
+										<div class="small">Completion with: 12%</div>
+										<div class="progress progress-mini">
+											<div style="width: 12%;" class="progress-bar progress-bar-danger"></div>
+										</div>
+										<div class="small text-danger">Deadline - September 15, 2016</div>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<span class="label label-success pull-right">Company</span>
+										<h4>Website Re-design</h4>
+										<p>
+											It is a long established fact that a reader will be distracted.
+										</p>
+
+										<div class="small">Completion with: 84%</div>
+										<div class="progress progress-mini">
+											<div style="width: 84%;" class="progress-bar progress-bar-success"></div>
+										</div>
+										<div class="small text-danger">Deadline - September 15, 2016</div>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<span class="label label-success pull-right">Metting</span>
+										<h4>Business Consultancy</h4>
+										<p>
+											It is a long established fact that a reader will be distracted.
+										</p>
+
+										<div class="small">Completion with: 54%</div>
+										<div class="progress progress-mini">
+											<div style="width: 54%;" class="progress-bar progress-bar-info"></div>
+										</div>
+										<div class="small text-danger">Deadline - September 15, 2016</div>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<span class="label label-primary pull-right">New</span>
+										<h4>YII with material design</h4>
+										<p>
+											It is a long established fact that a reader will be distracted.
+										</p>
+
+										<div class="small">Completion with: 42%</div>
+										<div class="progress progress-mini">
+											<div style="width: 42%;" class="progress-bar progress-bar-warning"></div>
+										</div>
+										<div class="small text-danger">Deadline - September 15, 2016</div>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<span class="label label-primary pull-right">New</span>
+										<h4>HTML to AngularJs</h4>
+										<p>
+											It is a long established fact that a reader will be distracted.
+										</p>
+
+										<div class="small">Completion with: 12%</div>
+										<div class="progress progress-mini">
+											<div style="width: 12%;" class="progress-bar progress-bar-danger"></div>
+										</div>
+										<div class="small text-danger">Deadline - September 15, 2016</div>
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div role="tabpanel" class="tab-pane" id="contacts">
+
+							<ul class="list-unstyled sidebar-contact-list">
+								<li class="clearfix">
+									<a href="#" class="media-box">
+												<span class="pull-right">
+													<span class="circle circle-success circle-lg"></span>
+												</span>
+												<span class="pull-left">
+													<!-- Contact avatar-->
+													<img src="{{ T_THEME_PATH }}/images/no_avatar.png" alt="user" class="media-box-object img-circle" width="50">
+												</span>
+										<!-- Contact info-->
+												<span class="media-box-body">
+													<span class="media-box-heading">
+														<strong>Angelina</strong>
+														<br>
+														<small class="text-muted">Designer</small>
+													</span>
+												</span>
+									</a>
+								</li><!--li end-->
+								<li class="clearfix">
+									<a href="#" class="media-box">
+												<span class="pull-right">
+													<span class="circle circle-success circle-lg"></span>
+												</span>
+												<span class="pull-left">
+													<!-- Contact avatar-->
+													<img src="{{ T_THEME_PATH }}/images/no_avatar.png" alt="user" class="media-box-object img-circle" width="50">
+												</span>
+										<!-- Contact info-->
+												<span class="media-box-body">
+													<span class="media-box-heading">
+														<strong>John doe</strong>
+														<br>
+														<small class="text-muted">Designer</small>
+													</span>
+												</span>
+									</a>
+								</li><!--li end-->
+								<li class="clearfix">
+									<a href="#" class="media-box">
+												<span class="pull-right">
+													<span class="circle circle-danger circle-lg"></span>
+												</span>
+												<span class="pull-left">
+													<!-- Contact avatar-->
+													<img src="{{ T_THEME_PATH }}/images/no_avatar.png" alt="user" class="media-box-object img-circle" width="50">
+												</span>
+										<!-- Contact info-->
+												<span class="media-box-body">
+													<span class="media-box-heading">
+														<strong>Eluga Smith</strong>
+														<br>
+														<small class="text-muted">Designer</small>
+													</span>
+												</span>
+									</a>
+								</li><!--li end-->
+								<li class="clearfix">
+									<a href="#" class="media-box">
+												<span class="pull-right">
+													<span class="circle circle-lg"></span>
+												</span>
+												<span class="pull-left">
+													<!-- Contact avatar-->
+													<img src="{{ T_THEME_PATH }}/images/no_avatar.png" alt="user" class="media-box-object img-circle" width="50">
+												</span>
+										<!-- Contact info-->
+												<span class="media-box-body">
+													<span class="media-box-heading">
+														<strong>Jonathan Doe</strong>
+														<br>
+														<small class="text-muted">Designer</small>
+													</span>
+												</span>
+									</a>
+								</li><!--li end-->
+								<li class="clearfix">
+									<a href="#" class="media-box">
+												<span class="pull-right">
+													<span class="circle circle-success circle-lg"></span>
+												</span>
+												<span class="pull-left">
+													<!-- Contact avatar-->
+													<img src="{{ T_THEME_PATH }}/images/no_avatar.png" alt="user" class="media-box-object img-circle" width="50">
+												</span>
+										<!-- Contact info-->
+												<span class="media-box-body">
+													<span class="media-box-heading">
+														<strong>Angelina</strong>
+														<br>
+														<small class="text-muted">Designer</small>
+													</span>
+												</span>
+									</a>
+								</li><!--li end-->
+								<li>
+									<div class=" text-center">
+										<!-- Optional link to list more users-->
+										<a href="javascript:void(0);" title="See more contacts" class="btn btn-teal">
+											Load more..
+										</a>
+									</div>
+								</li>
+							</ul><!--end sidebar contacts-list-->
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</nav>
+
+	<!-- Menu -->
+	<nav class="navbar navbar-default navbar-static-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li class="dropdown active">
+						<a href="{{ U_INDEX }}" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-home"></i> {{ lang('HOME') }}</a>
+					</li>
+					<li class="dropdown">
+						<a href="{{ U_BOARD }}" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-bubbles"></i> {{ lang('BOARD') }}</a>
+						<ul class="dropdown-menu dropdown-main">
+							<li><a href="#"><i class="icon-graph"></i> Dashboard Alpha</a></li>
+							<li><a href="#"><i class="icon-graph"></i> Dashboard beta</a></li>
+						</ul>
+					</li>
+					<li class="dropdown">
+						<a href="http://vinabb.vn/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-settings"></i> UI elements</a>
+						<ul class="dropdown-menu dropdown-main dropdown-mega">
+							<li>
+								<div class="row">
+									<div class="col-sm-6">
+										<ul class="list-unstyled">
+											<li><a href="#x"><i class="icon-graph"></i> Typography</a></li>
+										</ul>
+									</div>
+									<div class="col-sm-6">
+										<ul class="list-unstyled">
+											<li><a href="#y"><i class="icon-graph"></i> Grid system</a></li>
+										</ul>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-mouse"></i> Components</a>
+						<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+							<li class="dropdown-submenu">
+								<a tabindex="-1" href="#"><i class="icon-graph"></i> Charts</a>
+								<ul class="dropdown-menu">
+									<li><a href="#">Flot</a></li>
+									<li><a href="#">Morris</a></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<!-- Page content -->
+	<div class="h-main-content">
+		<div class="container">

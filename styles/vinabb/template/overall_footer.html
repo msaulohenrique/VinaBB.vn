@@ -1,0 +1,95 @@
+			<div class="row">
+				<div class="col-md-6">
+					<div class="panel">
+						<div class="panel-body">
+							<h4>Quan điểm <i data-toggle="tooltip" data-placement="right" title="Chúng tôi không thích viết nội quy dài dòng. Bạn tự hiểu những gì đúng đắn nên làm và chúng tôi tự xử những gì vi phạm." class="fa fa-question-circle-o"></i></h4>
+							<ul>
+								<li>Không đề cập chính trị, tôn giáo, nội dung đồi trụy.</li>
+								<li>Giữ gìn sự trong sáng của Tiếng Việt.</li>
+								<li>Không chia sẻ phần mềm vi phạm bản quyền.</li>
+								<li>Không rao vặt và không nhận đặt quảng cáo.</li>
+								<li>Dù trong túi hết tiền thì diễn đàn phpBB của anh cũng phải ngay ngắn.</li>
+							</ul>
+							<h4>Chuyện tình VinaBB</h4>
+							<p class="text-justify"><i class="icon-heart padding-5"></i> 17/07/2004: Yêu phpBB từ phiên bản 2.0.10.<br><i class="icon-emotsmile padding-5"></i> 22/10/2006: Cất tiếng cười chào đời.<br><i class="icon-rocket padding-5"></i> 11/06/2007: Chính thức định cư trên Olympus, Sao Hỏa.<br><i class="icon-feed padding-5"></i> 11/06/2009: Mất liên lạc với Trái Đất. [ <a href="http://2007.vinabb.vn/">Phiên bản 2007</a> ]<br><i class="icon-graph padding-5"></i> 28/07/2016: Trôi dạt đến mặt trăng Rhea, Sao Thổ.<br><i class="icon-star padding-5"></i> 08/10/2016: Cuộc hành trình mới lại bắt đầu...</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6">
+					<div class="widget bg-danger text-center">
+						<h3 class="font-300">Made in Viet Nam</h3>
+						<h1 class="font-300 font-lg text-yellow"><i class="fa fa-star"></i></h1>
+						<p class="margin-b-0">Cống hiến hết mình vì Tổ Quốc Việt Nam Xã Hội Chủ Nghĩa</p>
+					</div>
+					<div class="widget text-center bg-teal">
+						<h1 class="font-300"><i class="icon-ghost"></i></h1>
+						<h4 class="font-400 margin-b-10">{{ lang('ADMINISTRATOR') }}</h4>
+						<p class="margin-b-0">nedka</p>
+						<ul class="list-inline text-center margin-b-0">
+							<li><a href="http://vinabb.vn/ucp.php?i=pm&mode=compose&u=17" data-toggle="tooltip" data-placement="bottom" title="{{ lang('PM') }}"><i class="fa fa-comment"></i></a></li>
+							<li><a href="#" data-toggle="tooltip" data-placement="bottom" title="{{ lang('SEND_EMAIL') }}"><i class="fa fa-envelope"></i></a></li>
+							<li><a href="#" data-toggle="tooltip" data-placement="bottom" title="{{ lang('PHONE') }}"><i class="fa fa-phone"></i></a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6">
+					<div class="widget padding-0 white-bg">
+						<div class="bg-blue" style="height: 105px"></div>
+						<div class="thumb-over">
+							<img src="{{ T_THEME_PATH }}/images/nedka.png" alt="" width="100" class="img-circle">
+						</div>
+						<div class="padding-20 text-center">
+							<p class="lead font-500 margin-b-0">NEDKA Solutions</p>
+							<p class="text-muted">Đơn vị chủ quản</p>
+							<p>Chúng tôi <strong class="text-danger">chịu trách nhiệm</strong> toàn bộ nội dung có trên <strong class="text-info">VinaBB.vn</strong> trước pháp luật.</p>
+							<button data-toggle="modal" data-target="#mapModal" class="btn btn-primary"><i class="fa fa-map-marker"></i> Liên hệ</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer class="footer">
+			<div class="container">
+				<span class="pull-{{ S_CONTENT_FLOW_BEGIN }}"><i class="fa fa-code"></i> {{ CREDIT_LINE }}</span>
+				<span class="pull-{{ S_CONTENT_FLOW_END }} hidden-xs">
+					<a href="{{ FACEBOOK_URL }}" data-toggle="tooltip" title="{{ lang('FACEBOOK') }}"><i class="fa fa-facebook-square fa-2x btn-icon-facebook media-middle"></i></a>
+					<a href="{{ TWITTER_URL }}" data-toggle="tooltip" title="{{ lang('TWITTER') }}"><i class="fa fa-twitter-square fa-2x btn-icon-twitter media-middle"></i></a>
+					<a href="{{ GOOGLE_PLUS_URL }}" data-toggle="tooltip" title="{{ lang('GOOGLEPLUS') }}"><i class="fa fa-google-plus-square fa-2x btn-icon-googleplus media-middle"></i></a>
+					<a href="{{ GITHUB_URL }}" data-toggle="tooltip" title="{{ lang('GITHUB') }}"><i class="fa fa-github-square fa-2x btn-icon-github media-middle"></i></a>
+				</span>
+			</div>
+		</footer>
+	</div>
+
+	<!-- Map -->
+	<div class="modal fade bs-example-modal-lg" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="mapModal">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" class="fa fa-times-circle"></span></button>
+					<h3 class="modal-title">Số 3 - 5, Lô 2, Hưng Phú P.10 Q.8 Tp.HCM - 0908.864.804 (Khoa)</h3>
+				</div>
+				<div class="modal-body">
+					<div id="markermap" style="width: 100%; height: 450px;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="{{ T_THEME_PATH }}/js/jquery.min.js?v={{ T_ASSETS_VERSION }}"></script>
+	<script src="{{ T_THEME_PATH }}/js/bootstrap.min.js?v={{ T_ASSETS_VERSION }}"></script>
+	<script src="{{ T_THEME_PATH }}/js/pace.min.js?v={{ T_ASSETS_VERSION }}"></script>
+	<script src="{{ T_THEME_PATH }}/js/jasny-bootstrap.min.js?v={{ T_ASSETS_VERSION }}"></script>
+	<script src="{{ T_THEME_PATH }}/js/jquery.slimscroll.min.js?v={{ T_ASSETS_VERSION }}"></script>
+	<script src="{{ T_THEME_PATH }}/js/jquery.nanoscroller.min.js?v={{ T_ASSETS_VERSION }}"></script>
+	<script src="{{ T_THEME_PATH }}/js/metisMenu.min.js?v={{ T_ASSETS_VERSION }}"></script>
+	<script src="{{ T_THEME_PATH }}/js/float-custom.js?v={{ T_ASSETS_VERSION }}"></script>
+	<script src="{{ T_THEME_PATH }}/js/icheck.min.js?v={{ T_ASSETS_VERSION }}"></script>
+	<script src="{{ T_THEME_PATH }}/js/jquery.dataTables.min.js?v={{ T_ASSETS_VERSION }}"></script>
+	<script src="{{ T_THEME_PATH }}/js/dataTables.responsive.min.js?v={{ T_ASSETS_VERSION }}"></script>
+	<script src="{{ T_THEME_PATH }}/js/dashboard-alpha.js?v={{ T_ASSETS_VERSION }}"></script>
+	<script src="http://maps.google.com/maps/api/js?key=AIzaSyB8axvQHO8iq6iiXPRZUIpNHW4Niiu4Y2o"></script>
+	<script src="{{ T_THEME_PATH }}/js/gmaps.min.js?v={{ T_ASSETS_VERSION }}"></script>
+</body>
+</html>

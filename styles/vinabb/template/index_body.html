@@ -1,0 +1,73 @@
+{% include 'overall_header.html' %}
+
+<div class="row">
+	<div class="col-sm-6">
+		<ol class="breadcrumb">
+			<li><a href="javascript: void(0);"><i class="fa fa-home"></i></a></li>
+			<li>UI Elements</li>
+			<li>typography</li>
+		</ol>
+	</div>
+	<div class="col-sm-6 text-right">
+		<h4>Typography</h4>
+	</div>
+</div>
+
+{% include 'forumlist_body.html' %}
+
+<div class="row">
+	<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+		<div class="widget bg-success padding-0">
+			<div class="row row-table">
+				<div class="col-xs-4 text-center pv-15 bg-light-dark">
+					<em class="icon-people fa-3x"></em>
+				</div>
+				<div class="col-xs-8 pv-15 text-center">
+					<h2 class="mv-0">{{ CONFIG_TOTAL_USERS|number_format }}</h2>
+					<div class="text-uppercase">{{ lang('MEMBERS') }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+		<div class="widget bg-primary padding-0">
+			<div class="row row-table">
+				<div class="col-xs-4 text-center pv-15 bg-light-dark">
+					<em class="icon-organization fa-3x"></em>
+				</div>
+				<div class="col-xs-8 pv-15 text-center">
+					<h2 class="mv-0">{{ CONFIG_TOTAL_FORUMS|number_format }}</h2>
+					<div class="text-uppercase">{{ lang('FORUMS') }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+		<div class="widget bg-indigo padding-0">
+			<div class="row row-table">
+				<div class="col-xs-4 text-center pv-15 bg-light-dark">
+					<em class="icon-notebook fa-3x"></em>
+				</div>
+				<div class="col-xs-8 pv-15 text-center">
+					<h2 class="mv-0">{{ CONFIG_TOTAL_TOPICS|number_format }}</h2>
+					<div class="text-uppercase">{{ lang('TOPICS') }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+		<div class="widget bg-warning padding-0">
+			<div class="row row-table">
+				<div class="col-xs-4 text-center pv-15 bg-light-dark">
+					<em class="icon-docs fa-3x"></em>
+				</div>
+				<div class="col-xs-8 pv-15 text-center">
+					<h2 class="mv-0">{{ CONFIG_TOTAL_POSTS|number_format }}</h2>
+					<div class="text-uppercase">{{ lang('POSTS') }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% include 'overall_footer.html' %}
