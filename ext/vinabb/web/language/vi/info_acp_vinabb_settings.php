@@ -25,9 +25,7 @@ if (empty($lang) || !is_array($lang))
 */
 
 $lang = array_merge($lang, array(
-	'ACP_CAT_VINABB'			=> 'VinaBB',
-	'ACP_CAT_VINABB_SETTINGS'	=> 'Thiết lập',
-	'ACP_VINABB_SETTINGS'		=> 'Thiết lập VinaBB.vn',
+	'ACP_VINABB_SETTINGS'	=> 'Thiết lập VinaBB.vn',
 
 	'LOG_VINABB_SETTINGS'	=> '<strong>Đã chỉnh thiết lập VinaBB.vn</strong>',
 ));

@@ -25,6 +25,10 @@ if (empty($lang) || !is_array($lang))
 */
 
 $lang = array_merge($lang, array(
+	'ACP_CAT_BB'				=> 'Thư viện phpBB',
+	'ACP_CAT_VINABB'			=> 'VinaBB',
+	'ACP_CAT_VINABB_SETTINGS'	=> 'Thiết lập',
+
 	'BBCODE_C_HELP'	=> 'Chèn mã: [code]đoạn mã[/code] hay `mã một dòng`',
 	'BOARD'			=> 'Diễn đàn',
 
