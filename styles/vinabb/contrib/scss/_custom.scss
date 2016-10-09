@@ -1,0 +1,97 @@
+/* CUSTOM */
+
+/* New background colors */
+.bg-pink {
+	background-color: #CC66FF !important;
+	border-color: #CC66FF !important;
+	color: #fff;
+}
+
+.bg-grey {
+	background-color: #909fa7 !important;
+	border-color: #909fa7 !important;
+	color: #fff;
+}
+
+.bg-brown {
+	background-color: #926239 !important;
+	border-color: #926239 !important;
+	color: #fff;
+}
+
+/* New text colors */
+.text-yellow {
+	color: #ffff00;
+}
+
+/* Social icons on footer */
+.btn-icon-facebook {
+	color: #3b5998 !important;
+	&:hover {
+		opacity: 0.8;
+	}
+}
+
+.btn-icon-twitter {
+	color: #55acee !important;
+	&:hover {
+		opacity: 0.8;
+	}
+}
+
+.btn-icon-googleplus {
+	color: #dd4b39 !important;
+	&:hover {
+		opacity: 0.8;
+	}
+}
+
+.btn-icon-github {
+	color: #171515 !important;
+	&:hover {
+		opacity: 0.8;
+	}
+}
+
+/* Auto-hover on large devices */
+@media (min-width: 979px) {
+	ul.nav li.dropdown:hover > ul.dropdown-menu {
+		display: block;
+	}
+}
+
+/* Carousel */
+.carousel-caption {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 10;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 20px;
+	color: #fff;
+	text-align: left;
+	background: rgba(0,0,0,0.4);
+}
+
+.carousel-indicators {
+	display:  none;
+}
+
+/* OVERRIDE */
+
+/* _base.scss */
+h1, h2, h3, h4, h5, h6 {
+	margin-top: 0px;
+	font-weight: 600;
+}
+
+strong, b {
+	font-weight: 600 !important;
+}
+
+/* _layout-horizontal.scss */
+.dropdown-submenu:hover > a:after {
+	border-left-color: $bg-primary;
+}
