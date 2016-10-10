@@ -32,7 +32,8 @@ $lang = array_merge($lang, array(
 	'BBCODE_C_HELP'	=> 'Chèn mã: [code]đoạn mã[/code] hay `mã một dòng`',
 	'BOARD'			=> 'Diễn đàn',
 
-	'COMMUNITY'	=> 'Cộng đồng',
+	'COMMUNITY'		=> 'Cộng đồng',
+	'COORDINATES'	=> 'Tọa độ',
 
 	'EMOTICON_TEXT'	=> array(
 		'ALIEN'				=> '!@#$%',
@@ -113,6 +114,8 @@ $lang = array_merge($lang, array(
 	'GITHUB_PROFILE'	=> 'GitHub',
 
 	'LANG_SWITCH'	=> '%1$s » %2$s',
+	'LATITUDE'		=> 'Vĩ độ',
+	'LONGITUDE'		=> 'Kinh độ',
 
 	'MAINTENANCE_TEXT'				=> 'Zzz… Người quản trị đã chìm sâu vào giấc ngủ cùng với giấc mơ đẹp về ngày mai tươi sáng của phpBB. Bạn không thể đánh thức tên sống ảo này nhưng mẹ hắn thì có thể. Chúng tôi đang đi tìm bà ấy. Yêu bạn!',
 	'MAINTENANCE_TEXT_TIME_END'		=> 'Thời gian kết thúc dự kiến: <strong>%s</strong>.',
@@ -120,6 +123,7 @@ $lang = array_merge($lang, array(
 	'MAINTENANCE_TEXT_TIME_SHORT'	=> 'Zzz… Người quản trị đã chìm sâu vào giấc ngủ cùng với giấc mơ đẹp về ngày mai tươi sáng của phpBB. Hãy vui lòng trở lại vào lúc <strong>%s</strong> và tên sống ảo này có thể tỉnh giấc. Yêu bạn!',
 	'MAINTENANCE_TEXT_TIMEZONE'		=> 'Múi giờ: %1$s (%2$s).',
 	'MAINTENANCE_TITLE'				=> 'Xin lỗi, VinaBB đang bảo trì',
+	'MAP'							=> 'Bản đồ',
 	'MEMBERS'						=> 'Thành viên',
 
 	'NEWS'		=> 'Tin tức',

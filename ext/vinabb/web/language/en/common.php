@@ -32,7 +32,8 @@ $lang = array_merge($lang, array(
 	'BBCODE_C_HELP'	=> 'Insert code: [code]block code[/code] or `inline code`',
 	'BOARD'			=> 'Board',
 
-	'COMMUNITY'	=> 'Community',
+	'COMMUNITY'		=> 'Community',
+	'COORDINATES'	=> 'Coordinates',
 
 	'EMOTICON_TEXT'	=> array(
 		'ALIEN'				=> 'Alien',
@@ -113,6 +114,8 @@ $lang = array_merge($lang, array(
 	'GITHUB_PROFILE'	=> 'GitHub',
 
 	'LANG_SWITCH'	=> '%1$s » %2$s',
+	'LATITUDE'		=> 'Latitude',
+	'LONGITUDE'		=> 'Longitude',
 
 	'MAINTENANCE_TEXT'				=> 'Zzz… The administrator is now sleeping and dreaming about new features in phpBB 4.x. You can not wake up this lazy boy but his mother can. We are looking for her. Love you!',
 	'MAINTENANCE_TEXT_TIME_END'		=> 'Estimated end time: <strong>%s</strong>.',
@@ -120,6 +123,7 @@ $lang = array_merge($lang, array(
 	'MAINTENANCE_TEXT_TIME_SHORT'	=> 'Zzz… The administrator is now sleeping and dreaming about new features in phpBB 4.x. Please come back at <strong>%s</strong> and this lazy boy can be woken. Love you!',
 	'MAINTENANCE_TEXT_TIMEZONE'		=> 'Timezone: %1$s (%2$s).',
 	'MAINTENANCE_TITLE'				=> 'Sorry, VinaBB is down for maintenance',
+	'MAP'							=> 'Map',
 	'MEMBERS'						=> 'Members',
 
 	'NEWS'		=> 'News',

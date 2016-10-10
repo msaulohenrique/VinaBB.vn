@@ -49,6 +49,11 @@ $lang = array_merge($lang, array(
 	'MAINTENANCE_TIME_REMAIN'	=> 'Thời gian còn lại',
 	'MAINTENANCE_TIME_RESET'	=> 'Tạo mới thời gian',
 	'MAINTENANCE_TPL'			=> 'Dùng khuôn mẫu để hiển thị',
+	'MAP_ADDRESS'				=> 'Địa chỉ (Tiếng Anh)',
+	'MAP_ADDRESS_VI'			=> 'Địa chỉ (Tiếng Việt)',
+	'MAP_API'					=> 'Khóa Google Maps JavaScript API',
+	'MAP_PHONE'					=> 'Số điện thoại',
+	'MAP_PHONE_NAME'			=> 'Tên liên hệ',
 
 	'NO_EXTRA_LANG_TO_SELECT'	=> 'Không có thêm ngôn ngữ khác để chọn.',
 
