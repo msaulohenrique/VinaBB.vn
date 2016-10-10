@@ -32,6 +32,7 @@ $lang = array_merge($lang, array(
 	'BBCODE_C_HELP'	=> 'Insert code: [code]block code[/code] or `inline code`',
 	'BOARD'			=> 'Board',
 
+	'CLOSE'			=> 'Close',
 	'COMMUNITY'		=> 'Community',
 	'COORDINATES'	=> 'Coordinates',
 

@@ -32,6 +32,7 @@ $lang = array_merge($lang, array(
 	'BBCODE_C_HELP'	=> 'Chèn mã: [code]đoạn mã[/code] hay `mã một dòng`',
 	'BOARD'			=> 'Diễn đàn',
 
+	'CLOSE'			=> 'Đóng',
 	'COMMUNITY'		=> 'Cộng đồng',
 	'COORDINATES'	=> 'Tọa độ',
 
