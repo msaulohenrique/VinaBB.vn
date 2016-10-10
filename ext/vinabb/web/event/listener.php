@@ -260,6 +260,17 @@ class listener implements EventSubscriberInterface
 			'LANG_SWITCH_NEW'		=> $lang_data[$lang_switch],
 			'LANG_SWITCH_TITLE'		=> $lang_switch_title,
 
+			'FORUM_ID_VIETNAMESE'				=> constants::FORUM_ID_VIETNAMESE,
+			'FORUM_ID_VIETNAMESE_SUPPORT'		=> constants::FORUM_ID_VIETNAMESE_SUPPORT,
+			'FORUM_ID_VIETNAMESE_EXT'			=> constants::FORUM_ID_VIETNAMESE_EXT,
+			'FORUM_ID_VIETNAMESE_STYLE'			=> constants::FORUM_ID_VIETNAMESE_STYLE,
+			'FORUM_ID_VIETNAMESE_TUTORIAL'		=> constants::FORUM_ID_VIETNAMESE_TUTORIAL,
+			'FORUM_ID_VIETNAMESE_DISCUSSION'	=> constants::FORUM_ID_VIETNAMESE_DISCUSSION,
+			'FORUM_ID_ENGLISH'					=> constants::FORUM_ID_ENGLISH,
+			'FORUM_ID_ENGLISH_SUPPORT'			=> constants::FORUM_ID_ENGLISH_SUPPORT,
+			'FORUM_ID_ENGLISH_TUTORIAL'			=> constants::FORUM_ID_ENGLISH_TUTORIAL,
+			'FORUM_ID_ENGLISH_DISCUSSION'		=> constants::FORUM_ID_ENGLISH_DISCUSSION,
+
 			'FACEBOOK_URL'		=> $this->config['vinabb_web_facebook_url'],
 			'TWITTER_URL'		=> $this->config['vinabb_web_twitter_url'],
 			'GOOGLE_PLUS_URL'	=> $this->config['vinabb_web_google_plus_url'],

@@ -1,18 +1,44 @@
 <div class="tabs">
 	<ul class="list-inline tabs-nav" role="tablist">
 		{% for row in forumrow if row.S_IS_CAT %}
-		<li role="presentation"{% if row.S_FIRST_ROW %} class="active"{% endif %}><a href="#cat_{{ row.FORUM_ID }}" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="{% if row.S_FIRST_ROW %}true{% else %}false{% endif %}"><i class="fa fa-{% if row.S_FIRST_ROW %}star{% else %}globe{% endif %}"></i> {{ row.FORUM_NAME }}</a></li>
+
+		{# Category icon #}
+		{% if row.FORUM_ID == FORUM_ID_VIETNAMESE %}
+			{% set CAT_ICON = 'star' %}
+		{% elseif row.FORUM_ID == FORUM_ID_VIETNAMESE_SUPPORT %}
+			{% set CAT_ICON = 'heart' %}
+		{% elseif row.FORUM_ID == FORUM_ID_VIETNAMESE_EXT %}
+			{% set CAT_ICON = 'rocket' %}
+		{% elseif row.FORUM_ID == FORUM_ID_VIETNAMESE_STYLE %}
+			{% set CAT_ICON = 'paint-brush' %}
+		{% elseif row.FORUM_ID == FORUM_ID_VIETNAMESE_TUTORIAL %}
+			{% set CAT_ICON = 'check-square-o' %}
+		{% elseif row.FORUM_ID == FORUM_ID_VIETNAMESE_DISCUSSION %}
+			{% set CAT_ICON = 'comments' %}
+		{% elseif row.FORUM_ID == FORUM_ID_ENGLISH %}
+			{% set CAT_ICON = 'globe' %}
+		{% elseif row.FORUM_ID == FORUM_ID_ENGLISH_SUPPORT %}
+			{% set CAT_ICON = 'heart' %}
+		{% elseif row.FORUM_ID == FORUM_ID_ENGLISH_TUTORIAL %}
+			{% set CAT_ICON = 'check-square-o' %}
+		{% elseif row.FORUM_ID == FORUM_ID_ENGLISH_DISCUSSION %}
+			{% set CAT_ICON = 'comments' %}
+		{% else %}
+			{% set CAT_ICON = 'chevron-circle-right' %}
+		{% endif %}
+
+		<li role="presentation"{% if loop.first %} class="active"{% endif %}><a href="#cat_{{ row.FORUM_ID }}" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="{% if loop.first %}true{% else %}false{% endif %}"><i class="fa fa-{{ CAT_ICON }}"></i> {{ row.FORUM_NAME }}</a></li>
 		{% endfor %}
 	</ul>
 
 	<div class="tab-content">
 		{% for row in forumrow %}
-		{% if (row.S_IS_CAT and not row.S_FIRST_ROW) or row.S_NO_CAT %}
+		{% if (row.S_IS_CAT and not loop.first) or row.S_NO_CAT %}
 				</ul>
 			</div>
 		</div>
 		{% endif %}
-		{% if row.S_IS_CAT or row.S_FIRST_ROW or row.S_NO_CAT %}
+		{% if row.S_IS_CAT or loop.first or row.S_NO_CAT %}
 		<div role="tabpanel" class="tab-pane{% if row.S_FIRST_ROW %} active{% endif %}" id="cat_{{ row.FORUM_ID }}">
 			<div class="widget white-bg">
 				<ul class="comments-list list-unstyled clearfix">
