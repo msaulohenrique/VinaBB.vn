@@ -53,10 +53,10 @@
 			<div class="container">
 				<span class="pull-{{ S_CONTENT_FLOW_BEGIN }}"><i class="fa fa-code"></i> {{ CREDIT_LINE }}</span>
 				<span class="pull-{{ S_CONTENT_FLOW_END }} hidden-xs">
-					<a href="{{ FACEBOOK_URL }}" data-toggle="tooltip" title="{{ lang('FACEBOOK') }}"><i class="fa fa-facebook-square fa-2x btn-icon-facebook media-middle"></i></a>
-					<a href="{{ TWITTER_URL }}" data-toggle="tooltip" title="{{ lang('TWITTER') }}"><i class="fa fa-twitter-square fa-2x btn-icon-twitter media-middle"></i></a>
-					<a href="{{ GOOGLE_PLUS_URL }}" data-toggle="tooltip" title="{{ lang('GOOGLEPLUS') }}"><i class="fa fa-google-plus-square fa-2x btn-icon-googleplus media-middle"></i></a>
-					<a href="{{ GITHUB_URL }}" data-toggle="tooltip" title="{{ lang('GITHUB') }}"><i class="fa fa-github-square fa-2x btn-icon-github media-middle"></i></a>
+					{% if FACEBOOK_URL %}<a href="{{ FACEBOOK_URL }}" data-toggle="tooltip" title="{{ lang('FACEBOOK') }}"><i class="fa fa-facebook-square fa-2x btn-icon-facebook media-middle"></i></a>{% endif %}
+					{% if TWITTER_URL %}<a href="{{ TWITTER_URL }}" data-toggle="tooltip" title="{{ lang('TWITTER') }}"><i class="fa fa-twitter-square fa-2x btn-icon-twitter media-middle"></i></a>{% endif %}
+					{% if GOOGLE_PLUS_URL %}<a href="{{ GOOGLE_PLUS_URL }}" data-toggle="tooltip" title="{{ lang('GOOGLEPLUS') }}"><i class="fa fa-google-plus-square fa-2x btn-icon-googleplus media-middle"></i></a>{% endif %}
+					{% if GITHUB_URL %}<a href="{{ GITHUB_URL }}" data-toggle="tooltip" title="{{ lang('GITHUB') }}"><i class="fa fa-github-square fa-2x btn-icon-github media-middle"></i></a>{% endif %}
 				</span>
 			</div>
 		</footer>
