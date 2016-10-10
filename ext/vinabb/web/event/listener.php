@@ -271,6 +271,14 @@ class listener implements EventSubscriberInterface
 			'FORUM_ID_ENGLISH_TUTORIAL'			=> constants::FORUM_ID_ENGLISH_TUTORIAL,
 			'FORUM_ID_ENGLISH_DISCUSSION'		=> constants::FORUM_ID_ENGLISH_DISCUSSION,
 
+			'MAP_API'			=> $this->config['vinabb_web_map_api'],
+			'MAP_LAT'			=> $this->config['vinabb_web_map_lat'],
+			'MAP_LNG'			=> $this->config['vinabb_web_map_lng'],
+			'MAP_ADDRESS'		=> $this->config['vinabb_web_map_address'],
+			'MAP_ADDRESS_VI'	=> $this->config['vinabb_web_map_address_vi'],
+			'MAP_PHONE'			=> $this->config['vinabb_web_map_phone'],
+			'MAP_PHONE_NAME'	=> $this->config['vinabb_web_map_phone_name'],
+
 			'FACEBOOK_URL'		=> $this->config['vinabb_web_facebook_url'],
 			'TWITTER_URL'		=> $this->config['vinabb_web_twitter_url'],
 			'GOOGLE_PLUS_URL'	=> $this->config['vinabb_web_google_plus_url'],

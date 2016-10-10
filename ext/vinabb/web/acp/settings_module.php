@@ -56,6 +56,13 @@ class settings_module
 			$maintenance_time_reset = $this->request->variable('maintenance_time_reset', false);
 			$maintenance_text = $this->request->variable('maintenance_text', '', true);
 			$maintenance_text_vi = $this->request->variable('maintenance_text_vi', '', true);
+			$map_api = $this->request->variable('map_api', '');
+			$map_lat = $this->request->variable('map_lat', 0.0);
+			$map_lng = $this->request->variable('map_lng', 0.0);
+			$map_address = $this->request->variable('map_address', '', true);
+			$map_address_vi = $this->request->variable('map_address_vi', '', true);
+			$map_phone = $this->request->variable('map_phone', '');
+			$map_phone_name = $this->request->variable('map_phone_name', '', true);
 			$facebook_url = $this->request->variable('facebook_url', '');
 			$twitter_url = $this->request->variable('twitter_url', '');
 			$google_plus_url = $this->request->variable('google_plus_url', '');
@@ -86,7 +93,7 @@ class settings_module
 
 			if (empty($errors))
 			{
-				//
+				// Kill out all normal administrators from the ACP
 				if ($maintenance_mode == constants::MAINTENANCE_MODE_FOUNDER)
 				{
 					$founder_user_ids = array();
@@ -121,6 +128,13 @@ class settings_module
 					'vinabb_web_maintenance_text'		=> $maintenance_text,
 					'vinabb_web_maintenance_text_vi'	=> $maintenance_text_vi
 				));
+				$this->config->set('vinabb_web_map_api', $map_api);
+				$this->config->set('vinabb_web_map_lat', $map_lat);
+				$this->config->set('vinabb_web_map_lng', $map_lng);
+				$this->config->set('vinabb_web_map_address', $map_address);
+				$this->config->set('vinabb_web_map_address_vi', $map_address_vi);
+				$this->config->set('vinabb_web_map_phone', $map_phone);
+				$this->config->set('vinabb_web_map_phone_name', $map_phone_name);
 				$this->config->set('vinabb_web_facebook_url', $facebook_url);
 				$this->config->set('vinabb_web_twitter_url', $twitter_url);
 				$this->config->set('vinabb_web_google_plus_url', $google_plus_url);
@@ -190,6 +204,13 @@ class settings_module
 			'MAINTENANCE_TIME_REMAIN'	=> ($this->config['vinabb_web_maintenance_time'] > time()) ? $this->user->format_date($this->config['vinabb_web_maintenance_time']) : '',
 			'MAINTENANCE_TEXT'			=> (isset($maintenance_text) && !empty($maintenance_text)) ? $maintenance_text : $data['vinabb_web_maintenance_text'],
 			'MAINTENANCE_TEXT_VI'		=> (isset($maintenance_text_vi) && !empty($maintenance_text_vi)) ? $maintenance_text_vi : $data['vinabb_web_maintenance_text_vi'],
+			'MAP_API'					=> (isset($map_api) && !empty($map_api)) ? $map_api : $this->config['vinabb_web_map_api'],
+			'MAP_LAT'					=> isset($map_lat) ? $map_lat : $this->config['vinabb_web_map_lat'],
+			'MAP_LNG'					=> isset($map_lng) ? $map_lng : $this->config['vinabb_web_map_lng'],
+			'MAP_ADDRESS'				=> (isset($map_address) && !empty($map_address)) ? $map_address : $this->config['vinabb_web_map_address'],
+			'MAP_ADDRESS_VI'			=> (isset($map_address_vi) && !empty($map_address_vi)) ? $map_address_vi : $this->config['vinabb_web_map_address_vi'],
+			'MAP_PHONE'					=> (isset($map_phone) && !empty($map_phone)) ? $map_phone : $this->config['vinabb_web_map_phone'],
+			'MAP_PHONE_NAME'			=> (isset($map_phone_name) && !empty($map_phone_name)) ? $map_phone_name : $this->config['vinabb_web_map_phone_name'],
 			'FACEBOOK_URL'				=> (isset($facebook_url) && !empty($facebook_url)) ? $facebook_url : $this->config['vinabb_web_facebook_url'],
 			'TWITTER_URL'				=> (isset($twitter_url) && !empty($twitter_url)) ? $twitter_url : $this->config['vinabb_web_twitter_url'],
 			'GOOGLE_PLUS_URL'			=> (isset($google_plus_url) && !empty($google_plus_url)) ? $google_plus_url : $this->config['vinabb_web_google_plus_url'],

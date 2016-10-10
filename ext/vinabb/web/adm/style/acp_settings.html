@@ -65,6 +65,36 @@
 		</div>
 	</fieldset>
 	<fieldset>
+		<legend>{{ lang('MAP') }}</legend>
+		<dl>
+			<dt><label for="map_api">{{ lang('MAP_API') }}{{ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="map_api" id="map_api" size="40" maxlength="255" value="{{ MAP_API }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="map_api">{{ lang('FACEBOOK') }}{{ lang('COLON') }}</label></dt>
+			<dd>
+				<input type="number" name="map_lat" id="map_lat" step="0.000001" placeholder="{{ lang('LATITUDE') ~ lang('COLON') }}" style="width: 100px;" value="{{ MAP_LAT }}">
+				<input type="number" name="map_lng" id="map_lng" step="0.000001" placeholder="{{ lang('LONGITUDE') ~ lang('COLON') }}" style="width: 100px;" value="{{ MAP_LNG }}">
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="map_address">{{ lang('MAP_ADDRESS') }}{{ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="map_address" id="map_address" size="40" maxlength="255" value="{{ MAP_ADDRESS }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="map_address_vi">{{ lang('MAP_ADDRESS_VI') }}{{ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="map_address_vi" id="map_address_vi" size="40" maxlength="255" value="{{ MAP_ADDRESS_VI }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="map_phone">{{ lang('MAP_PHONE') }}{{ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="map_phone" id="map_phone" size="40" maxlength="255" value="{{ MAP_PHONE }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="map_phone_name">{{ lang('MAP_PHONE_NAME') }}{{ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="map_phone_name" id="map_phone_name" maxlength="255" value="{{ MAP_PHONE_NAME }}"></dd>
+		</dl>
+	</fieldset>
+	<fieldset>
 		<legend>{{ lang('SOCIAL_LINKS') }}</legend>
 		<dl>
 			<dt><label for="facebook_url">{{ lang('FACEBOOK') }}{{ lang('COLON') }}</label></dt>
