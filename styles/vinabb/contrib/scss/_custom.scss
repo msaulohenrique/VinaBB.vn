@@ -91,6 +91,11 @@ strong, b {
 	font-weight: 600 !important;
 }
 
+/* _buttons.scss */
+.btn {
+	text-transform: none;
+}
+
 /* _layout-horizontal.scss */
 .dropdown-submenu:hover > a:after {
 	border-left-color: $bg-primary;
