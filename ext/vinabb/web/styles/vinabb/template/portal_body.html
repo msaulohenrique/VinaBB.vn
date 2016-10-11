@@ -231,14 +231,12 @@
 							<table class="table table-striped">
 								<thead>
 								<tr>
-									<th>#</th>
-									<th>Gói mở rộng</th>
+									<th>{{ lang('LATEST_EXTS') }}</th>
 								</tr>
 								</thead>
 								<tbody>
 								{% for row in 1..10 %}
 								<tr>
-									<td>{{ loop.index }}</td>
 									<td><a href="#">Styles Demo 1.2.4</a>{% if loop.index == 7 %}<span class="label label-success pull-right">Mới</span>{% endif %}</td>
 								</tr>
 								{% endfor %}
@@ -249,14 +247,12 @@
 							<table class="table table-striped">
 								<thead>
 								<tr>
-									<th>#</th>
-									<th>Giao diện</th>
+									<th>{{ lang('LATEST_STYLES') }}</th>
 								</tr>
 								</thead>
 								<tbody>
 								{% for row in 1..10 %}
 								<tr>
-									<td>{{ loop.index }}</td>
 									<td><a href="#">BBoots 1.2.0</a>{% if loop.index == 7 %}<span class="label label-success pull-right">Mới</span>{% endif %}</td>
 								</tr>
 								{% endfor %}
@@ -267,14 +263,12 @@
 							<table class="table table-striped">
 								<thead>
 								<tr>
-									<th>#</th>
-									<th>Công cụ</th>
+									<th>{{ lang('LATEST_TOOLS') }}</th>
 								</tr>
 								</thead>
 								<tbody>
 								{% for row in 1..10 %}
 								<tr>
-									<td>{{ loop.index }}</td>
 									<td><a href="#">Extension Pre Validator 0.0.7</a>{% if loop.index == 7 %}<span class="label label-success pull-right">Mới</span>{% endif %}</td>
 								</tr>
 								{% endfor %}
@@ -340,7 +334,7 @@
 								<thead>
 								<tr>
 									<th>#</th>
-									<th>Gói mở rộng</th>
+									<th>{{ lang('LATEST_TOPICS') }}</th>
 								</tr>
 								</thead>
 								<tbody>
@@ -357,15 +351,13 @@
 							<table class="table table-striped">
 								<thead>
 								<tr>
-									<th>#</th>
-									<th>Giao diện</th>
+									<th>{{ lang('LATEST_POSTS') }}</th>
 								</tr>
 								</thead>
 								<tbody>
-								{% for row in 1..10 %}
+								{% for post in latest_posts %}
 								<tr>
-									<td>{{ loop.index }}</td>
-									<td><a href="#">BBoots 1.2.0</a>{% if loop.index == 7 %}<span class="label label-success pull-right">Mới</span>{% endif %}</td>
+									<td><a href="#">{{ post.SUBJECT }}</a></td>
 								</tr>
 								{% endfor %}
 								</tbody>

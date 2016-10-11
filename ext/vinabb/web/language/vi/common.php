@@ -139,9 +139,16 @@ $lang = array_merge($lang, array(
 	'GITHUB'				=> 'GitHub',
 	'GITHUB_PROFILE'		=> 'GitHub',
 
-	'LANG_SWITCH'	=> '%1$s » %2$s',
-	'LATITUDE'		=> 'Vĩ độ',
-	'LONGITUDE'		=> 'Kinh độ',
+	'LANG_SWITCH'		=> '%1$s » %2$s',
+	'LATEST_ACP_STYLES'	=> 'Giao diện quản trị mới',
+	'LATEST_EXTS'		=> 'Gói mở rộng mới',
+	'LATEST_POSTS'		=> 'Bài viết mới',
+	'LATEST_STYLES'		=> 'Giao diện mới',
+	'LATEST_TOOLS'		=> 'Công cụ mới',
+	'LATEST_TOPICS'		=> 'Chủ đề mới',
+	'LATEST_USERS'		=> 'Thành viên mới',
+	'LATITUDE'			=> 'Vĩ độ',
+	'LONGITUDE'			=> 'Kinh độ',
 
 	'MAINTENANCE_TEXT'				=> 'Zzz… Người quản trị đã chìm sâu vào giấc ngủ cùng với giấc mơ đẹp về ngày mai tươi sáng của phpBB. Bạn không thể đánh thức tên sống ảo này nhưng mẹ hắn thì có thể. Chúng tôi đang đi tìm bà ấy. Yêu bạn!',
 	'MAINTENANCE_TEXT_TIME_END'		=> 'Thời gian kết thúc dự kiến: <strong>%s</strong>.',
@@ -156,7 +163,7 @@ $lang = array_merge($lang, array(
 	'NO_POST'	=> 'Bài viết không tồn tại.',
 
 	'PHONE'			=> 'Điện thoại',
-	'POWERED_BY'	=> 'Sử dụng phần mềm <a href="https://www.phpbb.com/" data-toggle="tooltip" title="&copy; phpBB Limited">phpBB</a><span class="hidden-xs hidden-sm">. Trang web còn nhỏ bé, chờ ngày to lớn để xin giấy phép mạng xã hội.</span>',
+	'POWERED_BY'	=> 'Sử dụng phần mềm <a href="https://www.phpbb.com/" data-toggle="tooltip" title="&copy; phpBB Limited">phpBB</a> <a href="http://ivn.vinabb.vn/" data-toggle="tooltip" title="&copy; VinaBB">tiếng Việt</a><span class="hidden-xs hidden-sm">. Trang web còn nhỏ bé, chờ ngày to lớn để xin giấy phép mạng xã hội.</span>',
 
 	'RANK_TITLES'	=> array(
 		'ADMINISTRATOR'		=> 'Quản trị viên',

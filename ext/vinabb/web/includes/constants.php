@@ -53,6 +53,10 @@ class constants
 	const REWRITE_URL_FORUM_CAT = '-';
 	const REWRITE_URL_FORUM_ZERO = 'x';
 
+	// Number of display items
+	const NUM_NEW_ITEMS_ON_INDEX = 10;
+	const NUM_ARTICLES_ON_INDEX = 5;
+
 	// Pagination
 	const BB_CATS_PER_PAGE = 20;
 	const BB_ITEMS_PER_PAGE = 10;

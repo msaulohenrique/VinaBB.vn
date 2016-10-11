@@ -8,6 +8,8 @@
 
 namespace vinabb\web\controller;
 
+use vinabb\web\includes\constants;
+
 class portal
 {
 	/** @var \phpbb\auth\auth */
@@ -103,7 +105,22 @@ class portal
 
 
 		// Latest posts
+		$sql_ary = $this->get_latest_posts_sql();
 
+		if ($sql_ary !== false)
+		{
+			$sql = $this->db->sql_build_query('SELECT', $sql_ary);
+			$result = $this->db->sql_query_limit($sql, constants::NUM_NEW_ITEMS_ON_INDEX);
+			$rows = $this->db->sql_fetchrowset($result);
+			$this->db->sql_freeresult($result);
+
+			foreach ($rows as $row)
+			{
+				$this->template->assign_block_vars('latest_posts', array(
+					'SUBJECT'	=> truncate_string($row['post_subject'], 50, 255, false, $this->language->lang('ELLIPSIS')),
+				));
+			}
+		}
 
 		// Group legend for online users
 		$order_legend = ($this->config['legend_sort_groupname']) ? 'group_name' : 'group_legend';
@@ -234,7 +251,7 @@ class portal
 	}
 
 	/**
-	* Returns the ids of the forums readable by the current user.
+	* Returns the IDs of the forums readable by the current user
 	*
 	* @return int[]
 	*/
@@ -250,6 +267,11 @@ class portal
 		return $forum_ids;
 	}
 
+	/**
+	* Build query for latest posts
+	*
+	* @return array|bool
+	*/
 	protected function get_latest_posts_sql()
 	{
 		$forum_ids = array_diff($this->get_readable_forums(), $this->user->get_passworded_forums());
@@ -264,15 +286,16 @@ class portal
 			FROM ' . TOPICS_TABLE . '
 			WHERE topic_moved_id = 0
 				AND ' . $this->content_visibility->get_forums_visibility_sql('topic', $forum_ids) . '
+				AND topic_first_post_id <> topic_last_post_id
 			ORDER BY topic_last_post_time DESC, topic_last_post_id DESC';
-		$result = $this->db->sql_query_limit($sql, $this->num_items);
+		$result = $this->db->sql_query_limit($sql, constants::NUM_NEW_ITEMS_ON_INDEX);
 
 		$topic_ids = array();
 		$min_post_time = 0;
+
 		while ($row = $this->db->sql_fetchrow())
 		{
 			$topic_ids[] = (int) $row['topic_id'];
-
 			$min_post_time = (int) $row['topic_last_post_time'];
 		}
 		$this->db->sql_freeresult($result);
@@ -283,7 +306,7 @@ class portal
 		}
 
 		// Get the actual data
-		$this->sql = array(
+		$sql_ary = array(
 			'SELECT'	=>	'f.forum_id, f.forum_name, ' .
 				'p.post_id, p.topic_id, p.post_time, p.post_edit_time, p.post_visibility, p.post_subject, p.post_text, p.bbcode_bitfield, p.bbcode_uid, p.enable_bbcode, p.enable_smilies, p.enable_magic_url, p.post_attachment, ' .
 				'u.username, u.user_id',
@@ -298,12 +321,12 @@ class portal
 				),
 			),
 			'WHERE'		=> $this->db->sql_in_set('p.topic_id', $topic_ids) . '
-							AND ' . $this->content_visibility->get_forums_visibility_sql('post', $forum_ids, 'p.') . '
-							AND p.post_time >= ' . $min_post_time . '
-							AND u.user_id = p.poster_id',
+				AND ' . $this->content_visibility->get_forums_visibility_sql('post', $forum_ids, 'p.') . '
+				AND p.post_time >= ' . $min_post_time . '
+				AND u.user_id = p.poster_id',
 			'ORDER_BY'	=> 'p.post_time DESC, p.post_id DESC',
 		);
 
-		return true;
+		return $sql_ary;
 	}
 }

@@ -172,6 +172,7 @@ services:
         arguments:
             - '@auth'
             - '@config'
+            - '@content.visibility'
             - '@dbal.conn'
             - '@dispatcher'
             - '@language'
