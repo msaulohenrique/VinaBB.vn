@@ -103,7 +103,28 @@ $lang = array_merge($lang, array(
 		'WTF'				=> 'WTF',
 	),
 
-	'FORUM_WAR'	=> 'Forum War',
+	'FOOTER_FLAG_TEXT'		=> 'VinaBB - The Vietnamese phpBB Community since 2006',
+	'FOOTER_FLAG_TITLE'		=> 'Code in Viet Nam',
+	'FOOTER_HISTORY_TEXT'	=> '
+		<i class="icon-heart padding-5"></i> 17 Jul 2004: Found phpBB 2.0.10 on the Internet.<br>
+		<i class="icon-emotsmile padding-5"></i> 22 Oct 2006: Born with a smile.<br>
+		<i class="icon-rocket padding-5"></i> 11 Jun 2007: Set data on Olympus, Mars.<br>
+		<i class="icon-feed padding-5"></i> 11 Jun 2009: Lost connection to Earth. [ <a href="http://2007.vinabb.vn/">Time Machine</a> ]<br>
+		<i class="icon-graph padding-5"></i> 28 Jul 2016: Set new base on the Rhea moon, Saturn.<br>
+		<i class="icon-star padding-5"></i> 22 Oct 2016: The new adventure begins…
+	',
+	'FOOTER_HISTORY_TITLE'	=> 'History',
+	'FOOTER_MANAGER_ROLE'	=> 'General Manager',
+	'FOOTER_MANAGER_TEXT'	=> 'We <strong class="text-danger">are responsible</strong> for all content on <strong class="text-info">VinaBB.vn</strong> under the law of the Socialist Republic of Viet Nam.',
+	'FOOTER_RULE_EXPLAIN'	=> 'We do not like to write rules too long. You should understand and do the right thing.',
+	'FOOTER_RULE_TEXT'		=> '
+		<li>No political, religious and sexual content.</li>
+		<li>Use only Vietnamese or English in appropriate forums.</li>
+		<li>Warez are not welcome.</li>
+		<li>You do not spam and then we do not advertise.</li>
+		<li>Never confuse the size of your wallet with the size of your phpBB forum.</li>
+	',
+	'FOOTER_RULE_TITLE'		=> 'Rules',
 
 	'G_DEVELOPMENT_TEAM'	=> 'Developers',
 	'G_MANAGEMENT_TEAM'		=> 'Managers',
@@ -130,6 +151,9 @@ $lang = array_merge($lang, array(
 
 	'NEWS'		=> 'News',
 	'NO_POST'	=> 'The post does not exist.',
+
+	'PHONE'			=> 'Phone',
+	'POWERED_BY'	=> 'Powered by <a href="https://www.phpbb.com/" data-toggle="tooltip" title="Forum software &copy; phpBB Limited">phpBB</a> with <i class="fa fa-heart text-danger"></i>',
 
 	'RANK_TITLES'	=> array(
 		'ADMINISTRATOR'		=> 'Administrator',

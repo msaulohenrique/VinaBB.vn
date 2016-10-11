@@ -2,24 +2,18 @@
 				<div class="col-md-6">
 					<div class="panel">
 						<div class="panel-body">
-							<h4>Quan điểm <i data-toggle="tooltip" data-placement="right" title="Chúng tôi không thích viết nội quy dài dòng. Bạn tự hiểu những gì đúng đắn nên làm và chúng tôi tự xử những gì vi phạm." class="fa fa-question-circle-o"></i></h4>
-							<ul>
-								<li>Không đề cập chính trị, tôn giáo, nội dung đồi trụy.</li>
-								<li>Giữ gìn sự trong sáng của Tiếng Việt.</li>
-								<li>Không chia sẻ phần mềm vi phạm bản quyền.</li>
-								<li>Không rao vặt và không nhận đặt quảng cáo.</li>
-								<li>Dù trong túi hết tiền thì diễn đàn phpBB của anh cũng phải ngay ngắn.</li>
-							</ul>
-							<h4>Chuyện tình VinaBB</h4>
-							<p class="text-justify"><i class="icon-heart padding-5"></i> 17/07/2004: Yêu phpBB từ phiên bản 2.0.10.<br><i class="icon-emotsmile padding-5"></i> 22/10/2006: Cất tiếng cười chào đời.<br><i class="icon-rocket padding-5"></i> 11/06/2007: Chính thức định cư trên Olympus, Sao Hỏa.<br><i class="icon-feed padding-5"></i> 11/06/2009: Mất liên lạc với Trái Đất. [ <a href="http://2007.vinabb.vn/">Phiên bản 2007</a> ]<br><i class="icon-graph padding-5"></i> 28/07/2016: Trôi dạt đến mặt trăng Rhea, Sao Thổ.<br><i class="icon-star padding-5"></i> 08/10/2016: Cuộc hành trình mới lại bắt đầu...</p>
+							<h4>{{ lang('FOOTER_RULE_TITLE') }} <i data-toggle="tooltip" data-placement="right" title="{{ lang('FOOTER_RULE_EXPLAIN') }}" class="fa fa-question-circle-o"></i></h4>
+							<ul>{{ lang('FOOTER_RULE_TEXT') }}</ul>
+							<h4>{{ lang('FOOTER_HISTORY_TITLE') }}</h4>
+							<p class="text-justify">{{ lang('FOOTER_HISTORY_TEXT') }}</p>
 						</div>
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-6">
 					<div class="widget bg-danger text-center">
-						<h3 class="font-300">Made in Viet Nam</h3>
+						<h3 class="font-300">{{ lang('FOOTER_FLAG_TITLE') }}</h3>
 						<h1 class="font-300 font-lg text-yellow"><i class="fa fa-star"></i></h1>
-						<p class="margin-b-0">Cống hiến hết mình vì Tổ Quốc Việt Nam Xã Hội Chủ Nghĩa</p>
+						<p class="margin-b-0">{{ lang('FOOTER_FLAG_TEXT') }}</p>
 					</div>
 					<div class="widget text-center bg-teal">
 						<h1 class="font-300"><i class="icon-ghost"></i></h1>
@@ -40,8 +34,8 @@
 						</div>
 						<div class="padding-20 text-center">
 							<p class="lead font-500 margin-b-0">NEDKA Solutions</p>
-							<p class="text-muted">Đơn vị chủ quản</p>
-							<p>Chúng tôi <strong class="text-danger">chịu trách nhiệm</strong> toàn bộ nội dung có trên <strong class="text-info">VinaBB.vn</strong> trước pháp luật.</p>
+							<p class="text-muted">{{ lang('FOOTER_MANAGER_ROLE') }}</p>
+							<p>{{ lang('FOOTER_MANAGER_TEXT') }}</p>
 							{% if MAP_API and MAP_LAT and MAP_LNG %}<button data-toggle="modal" data-target="#mapModal" class="btn btn-primary"><i class="fa fa-map-marker"></i> {{ lang('CONTACT') }}</button>{% endif %}
 						</div>
 					</div>

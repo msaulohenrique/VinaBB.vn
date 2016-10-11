@@ -103,7 +103,28 @@ $lang = array_merge($lang, array(
 		'WTF'				=> 'Biến tìm muốn tắt tiếng',
 	),
 
-	'FORUM_WAR'	=> 'Trò chơi',
+	'FOOTER_FLAG_TEXT'		=> 'Cống hiến hết mình vì Tổ Quốc Việt Nam Xã Hội Chủ Nghĩa',
+	'FOOTER_FLAG_TITLE'		=> 'Code in Viet Nam',
+	'FOOTER_HISTORY_TEXT'	=> '
+		<i class="icon-heart padding-5"></i> 17/07/2004: Yêu phpBB từ phiên bản 2.0.10.<br>
+		<i class="icon-emotsmile padding-5"></i> 22/10/2006: Cất tiếng cười chào đời.<br>
+		<i class="icon-rocket padding-5"></i> 11/06/2007: Chính thức định cư trên Olympus, Sao Hỏa.<br>
+		<i class="icon-feed padding-5"></i> 11/06/2009: Mất liên lạc với Trái Đất. [ <a href="http://2007.vinabb.vn/">Phiên bản 2007</a> ]<br>
+		<i class="icon-graph padding-5"></i> 28/07/2016: Trôi dạt đến mặt trăng Rhea, Sao Thổ.<br>
+		<i class="icon-star padding-5"></i> 22/10/2016: Cuộc hành trình mới lại bắt đầu…
+	',
+	'FOOTER_HISTORY_TITLE'	=> 'Chuyện tình VinaBB',
+	'FOOTER_MANAGER_ROLE'	=> 'Đơn vị chủ quản',
+	'FOOTER_MANAGER_TEXT'	=> 'Chúng tôi <strong class="text-danger">chịu trách nhiệm</strong> toàn bộ nội dung có trên <strong class="text-info">VinaBB.vn</strong> trước pháp luật.',
+	'FOOTER_RULE_EXPLAIN'	=> 'Chúng tôi không thích viết nội quy dài dòng. Bạn tự hiểu những gì đúng đắn nên làm và chúng tôi tự xử những gì vi phạm.',
+	'FOOTER_RULE_TEXT'		=> '
+		<li>Không đề cập chính trị, tôn giáo, nội dung đồi trụy.</li>
+		<li>Giữ gìn sự trong sáng của Tiếng Việt.</li>
+		<li>Không chia sẻ phần mềm vi phạm bản quyền.</li>
+		<li>Không rao vặt và không nhận đặt quảng cáo.</li>
+		<li>Dù trong túi hết tiền thì diễn đàn phpBB của anh cũng phải ngay ngắn.</li>
+	',
+	'FOOTER_RULE_TITLE'		=> 'Quan điểm',
 
 	'G_DEVELOPMENT_TEAM'	=> 'Nhóm phát triển',
 	'G_MANAGEMENT_TEAM'		=> 'Nhóm quản lý',
@@ -130,6 +151,9 @@ $lang = array_merge($lang, array(
 
 	'NEWS'		=> 'Tin tức',
 	'NO_POST'	=> 'Bài viết không tồn tại.',
+
+	'PHONE'			=> 'Điện thoại',
+	'POWERED_BY'	=> 'Sử dụng phần mềm <a href="https://www.phpbb.com/" data-toggle="tooltip" title="&copy; phpBB Limited">phpBB</a><span class="hidden-xs hidden-sm">. Trang web còn nhỏ bé, chờ ngày to lớn để xin giấy phép mạng xã hội.</span>',
 
 	'RANK_TITLES'	=> array(
 		'ADMINISTRATOR'		=> 'Quản trị viên',
