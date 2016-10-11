@@ -16,6 +16,9 @@ class portal
 	/** @var \phpbb\config\config */
 	protected $config;
 
+	/** @var \phpbb\content_visibility */
+	protected $content_visibility;
+
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
@@ -51,6 +54,7 @@ class portal
 	*
 	* @param \phpbb\auth\auth $auth
 	* @param \phpbb\config\config $config
+	* @param \phpbb\content_visibility $content_visibility
 	* @param \phpbb\db\driver\driver_interface $db
 	* @param \phpbb\event\dispatcher_interface $dispatcher
 	* @param \phpbb\language\language $language
@@ -65,6 +69,7 @@ class portal
 	public function __construct(
 		\phpbb\auth\auth $auth,
 		\phpbb\config\config $config,
+		\phpbb\content_visibility $content_visibility,
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\event\dispatcher_interface $dispatcher,
 		\phpbb\language\language $language,
@@ -79,6 +84,7 @@ class portal
 	{
 		$this->auth = $auth;
 		$this->config = $config;
+		$this->content_visibility = $content_visibility;
 		$this->db = $db;
 		$this->dispatcher = $dispatcher;
 		$this->language = $language;
@@ -93,6 +99,12 @@ class portal
 
 	public function index()
 	{
+		// Latest topics
+
+
+		// Latest posts
+
+
 		// Group legend for online users
 		$order_legend = ($this->config['legend_sort_groupname']) ? 'group_name' : 'group_legend';
 
@@ -219,5 +231,79 @@ class portal
 
 			'S_DISPLAY_BIRTHDAY_LIST'	=> $this->config['load_birthdays'],
 		));
+	}
+
+	/**
+	* Returns the ids of the forums readable by the current user.
+	*
+	* @return int[]
+	*/
+	protected function get_readable_forums()
+	{
+		static $forum_ids;
+
+		if (!isset($forum_ids))
+		{
+			$forum_ids = array_keys($this->auth->acl_getf('f_read', true));
+		}
+
+		return $forum_ids;
+	}
+
+	protected function get_latest_posts_sql()
+	{
+		$forum_ids = array_diff($this->get_readable_forums(), $this->user->get_passworded_forums());
+
+		if (empty($forum_ids))
+		{
+			return false;
+		}
+
+		// Determine topics with recent activity
+		$sql = 'SELECT topic_id, topic_last_post_time
+			FROM ' . TOPICS_TABLE . '
+			WHERE topic_moved_id = 0
+				AND ' . $this->content_visibility->get_forums_visibility_sql('topic', $forum_ids) . '
+			ORDER BY topic_last_post_time DESC, topic_last_post_id DESC';
+		$result = $this->db->sql_query_limit($sql, $this->num_items);
+
+		$topic_ids = array();
+		$min_post_time = 0;
+		while ($row = $this->db->sql_fetchrow())
+		{
+			$topic_ids[] = (int) $row['topic_id'];
+
+			$min_post_time = (int) $row['topic_last_post_time'];
+		}
+		$this->db->sql_freeresult($result);
+
+		if (empty($topic_ids))
+		{
+			return false;
+		}
+
+		// Get the actual data
+		$this->sql = array(
+			'SELECT'	=>	'f.forum_id, f.forum_name, ' .
+				'p.post_id, p.topic_id, p.post_time, p.post_edit_time, p.post_visibility, p.post_subject, p.post_text, p.bbcode_bitfield, p.bbcode_uid, p.enable_bbcode, p.enable_smilies, p.enable_magic_url, p.post_attachment, ' .
+				'u.username, u.user_id',
+			'FROM'		=> array(
+				USERS_TABLE		=> 'u',
+				POSTS_TABLE		=> 'p',
+			),
+			'LEFT_JOIN'	=> array(
+				array(
+					'FROM'	=> array(FORUMS_TABLE	=> 'f'),
+					'ON'	=> 'f.forum_id = p.forum_id',
+				),
+			),
+			'WHERE'		=> $this->db->sql_in_set('p.topic_id', $topic_ids) . '
+							AND ' . $this->content_visibility->get_forums_visibility_sql('post', $forum_ids, 'p.') . '
+							AND p.post_time >= ' . $min_post_time . '
+							AND u.user_id = p.poster_id',
+			'ORDER_BY'	=> 'p.post_time DESC, p.post_id DESC',
+		);
+
+		return true;
 	}
 }
