@@ -89,7 +89,6 @@
 
 /* _base.scss */
 h1, h2, h3, h4, h5, h6 {
-	margin-top: 0px;
 	font-weight: 600;
 }
 
@@ -103,6 +102,16 @@ strong, b {
 }
 
 /* _layout-horizontal.scss */
+body.layout-horizontal {
+	.navbar-default {
+		.navbar-nav > li > a {
+			i {
+				font-size: 24px;
+			}
+		}
+	}
+}
+
 .dropdown-submenu:hover > a:after {
 	border-left-color: $bg-primary;
 }
