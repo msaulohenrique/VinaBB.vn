@@ -102,11 +102,13 @@ strong, b {
 }
 
 /* _layout-horizontal.scss */
-body.layout-horizontal {
-	.navbar-default {
-		.navbar-nav > li > a {
-			i {
-				font-size: 24px;
+@media(min-width: 767px) {
+	body.layout-horizontal {
+		.navbar-default {
+			.navbar-nav > li > a {
+				i {
+					font-size: 24px;
+				}
 			}
 		}
 	}
