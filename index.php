@@ -25,7 +25,7 @@ if ($phpbb_extension_manager->is_enabled('vinabb/web'))
 	$phpbb_container->get('vinabb.web.portal')->index();
 
 	// Output the page
-	page_header($phpbb_container->get('language')->lang('VINABB'));
+	page_header($phpbb_container->get('language')->lang('VINABB'), true);
 	
 	$template->set_filenames(array(
 		'body' => '@vinabb_web/portal_body.html'
