@@ -130,6 +130,8 @@
 							<a href="#" class="right-sidebar-toggle"><i class="fa fa-outdent"></i></a>
 						</li>
 
+						{% if U_LANG %}<li><a href="{{ U_LANG }}" data-toggle="tooltip" data-placement="bottom" title="{{ LANG_SWITCH_TITLE }}"><img src="{{ T_THEME_PATH }}/images/forum_icons/{% if LANG_SWITCH_CURRENT == LANG_SWITCH_DEFAULT %}{{ FORUM_ID_ENGLISH }}{% else %}{{ FORUM_ID_VIETNAMESE }}{% endif %}.png" class="img-circle" width="30" alt=""></a></li>{% endif %}
+
 						<!-- User avatar -->
 						<li class="dropdown avtar-dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
