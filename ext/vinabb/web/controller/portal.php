@@ -137,6 +137,22 @@ class portal
 			}
 		}
 
+		// Latest users
+		$sql = 'SELECT user_id, username, user_colour
+			FROM ' . USERS_TABLE . '
+			WHERE ' . $this->db->sql_in_set('user_type', array(USER_NORMAL, USER_FOUNDER)) . '
+			ORDER BY user_regdate DESC';
+		$result = $this->db->sql_query_limit($sql, constants::NUM_NEW_ITEMS_ON_INDEX);
+		$rows = $this->db->sql_fetchrowset($result);
+		$this->db->sql_freeresult($result);
+
+		foreach ($rows as $row)
+		{
+			$this->template->assign_block_vars('latest_users', array(
+				'NAME'	=> get_username_string('full', $row['user_id'], $row['username'], $row['user_colour']),
+			));
+		}
+
 		// Group legend for online users
 		$order_legend = ($this->config['legend_sort_groupname']) ? 'group_name' : 'group_legend';
 

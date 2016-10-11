@@ -361,11 +361,28 @@
 								</tbody>
 							</table>
 						</div>
+						<div role="tabpanel" class="tab-pane" id="newUsers">
+							<table class="table table-striped">
+								<thead>
+								<tr>
+									<th>{{ lang('LATEST_USERS') }}</th>
+								</tr>
+								</thead>
+								<tbody>
+								{% for user in latest_users %}
+								<tr>
+									<td>{{ user.NAME }}</td>
+								</tr>
+								{% endfor %}
+								</tbody>
+							</table>
+						</div>
 					</div>
 					<!-- Nav tabs -->
 					<ul class="list-inline tabs-nav tabs-bottom" role="tablist">
 						<li role="presentation" class="active"><a href="#newTopics" aria-controls="newTopics" role="tab" data-toggle="tab"><i class="fa fa-file-text-o fa-2x"></i></a></li>
 						<li role="presentation"><a href="#newPosts" aria-controls="newPosts" role="tab" data-toggle="tab"><i class="fa fa-commenting-o fa-2x"></i></a></li>
+						<li role="presentation"><a href="#newUsers" aria-controls="newUsers" role="tab" data-toggle="tab"><i class="fa fa-user-plus fa-2x"></i></a></li>
 					</ul>
 					<!-- Tab panes -->
 				</div>
