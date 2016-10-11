@@ -392,7 +392,7 @@
 					<li class="dropdown{% if S_INDEX %} active{% endif %}">
 						<a href="{{ U_INDEX }}" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-home"></i> {{ lang('HOME') }}</a>
 					</li>
-					<li class="dropdown{% if S_BOARD %} active{% endif %}">
+					<li class="dropdown{% if S_BOARD or S_VIEWFORUM or S_VIEWTOPIC %} active{% endif %}">
 						<a href="{{ U_BOARD }}" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-bubbles"></i> {{ lang('BOARD') }}</a>
 						<ul class="dropdown-menu dropdown-main">
 							<li><a href="#"><i class="icon-graph"></i> Dashboard Alpha</a></li>
