@@ -140,6 +140,7 @@ class listener implements EventSubscriberInterface
 			'core.submit_pm_before'						=> 'submit_pm_before',
 			'core.ucp_pm_view_messsage'					=> 'ucp_pm_view_messsage',
 			'core.viewtopic_modify_post_row'			=> 'viewtopic_modify_post_row',
+			'core.obtain_users_online_string_sql'		=> 'obtain_users_online_string_sql',
 
 			'core.acp_manage_forums_update_data_before'	=> 'acp_manage_forums_update_data_before',
 
@@ -653,6 +654,21 @@ class listener implements EventSubscriberInterface
 		$post_row['RANK_TITLE_RAW'] = $post_row['RANK_TITLE'];
 		$post_row['RANK_TITLE'] = ($this->language->is_set(['RANK_TITLES', strtoupper($post_row['RANK_TITLE'])])) ? $this->language->lang(['RANK_TITLES', strtoupper($post_row['RANK_TITLE'])]) : $post_row['RANK_TITLE'];
 		$event['post_row'] = $post_row;
+	}
+
+	/**
+	* core.obtain_users_online_string_sql
+	*
+	* @param $event
+	*/
+	public function obtain_users_online_string_sql($event)
+	{
+		// Get total online users (only number)
+		$online_users = $event['online_users'];
+
+		$this->template->assign_vars(array(
+			'TOTAL_ONLINE_USERS'	=> $online_users['total_online']
+		));
 	}
 
 	/**

@@ -394,17 +394,19 @@
 			</div>
 		</div>
 
-		<div class="widget bg-success padding-0">
+		{% if S_DISPLAY_ONLINE_LIST %}
+		<div class="widget bg-success padding-0" role="button" data-toggle="modal" data-target="#onlineModal">
 			<div class="row row-table">
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
 					<em class="icon-energy fa-3x"></em>
 				</div>
 				<div class="col-xs-8 pv-15 text-center">
-					<h2 class="mv-0">{{ CONFIG_TOTAL_USERS|number_format }}</h2>
+					<h2 class="mv-0">{{ TOTAL_ONLINE_USERS|number_format }}</h2>
 					<div class="text-uppercase">{{ lang('ONLINE') }}</div>
 				</div>
 			</div>
 		</div>
+		{% endif %}
 
 		<div class="widget bg-brown padding-0">
 			<div class="row row-table">
@@ -467,5 +469,27 @@
 		{% endfor %}
 	</div>
 </div>
+
+{# Online modal #}
+{% if S_DISPLAY_ONLINE_LIST %}
+<div class="modal fade" id="onlineModal" tabindex="-1" role="dialog" aria-labelledby="onlineModal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="{{ lang('CLOSE') }}"><span aria-hidden="true" class="fa fa-times-circle"></span></button>
+				<h3 class="modal-title">{{ lang('WHO_IS_ONLINE') }}</h3>
+			</div>
+			<div class="modal-body">
+				<p>{{ TOTAL_USERS_ONLINE }} ({{ L_ONLINE_EXPLAIN }})<br>{{ RECORD_USERS }}<br><br>{{ LOGGED_IN_USER_LIST }}{% if LEGEND %}<br><em>{{ lang('LEGEND') ~ lang('COLON') }} {{ LEGEND }}</em>{% endif %}</p>
+				{% if U_VIEWONLINE %}
+				<div class="text-center">
+					<a href="{{ U_VIEWONLINE }}" class="btn btn-primary">{{ lang('VIEW_DETAILS') }}</a>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
 
 {% include 'overall_footer.html' %}

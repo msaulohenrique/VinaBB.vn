@@ -175,5 +175,6 @@ $lang = array_merge($lang, array(
 
 	'USER_ID'	=> 'User ID',
 
-	'VINABB'	=> 'VinaBB',
+	'VIEW_DETAILS'	=> 'View details',
+	'VINABB'		=> 'VinaBB',
 ));

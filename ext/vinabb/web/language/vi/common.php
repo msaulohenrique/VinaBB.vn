@@ -175,5 +175,6 @@ $lang = array_merge($lang, array(
 
 	'USER_ID'	=> 'ID tài khoản',
 
-	'VINABB'	=> 'VinaBB',
+	'VIEW_DETAILS'	=> 'Xem chi tiết',
+	'VINABB'		=> 'VinaBB',
 ));
