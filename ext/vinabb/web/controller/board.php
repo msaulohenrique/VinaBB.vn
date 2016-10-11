@@ -178,11 +178,6 @@ class board
 
 		// Assign index specific vars
 		$this->template->assign_vars(array(
-			'TOTAL_POSTS'	=> $this->language->lang('TOTAL_POSTS_COUNT', (int) $this->config['num_posts']),
-			'TOTAL_TOPICS'	=> $this->language->lang('TOTAL_TOPICS', (int) $this->config['num_topics']),
-			'TOTAL_USERS'	=> $this->language->lang('TOTAL_USERS', (int) $this->config['num_users']),
-			'NEWEST_USER'	=> $this->language->lang('NEWEST_USER', get_username_string('full', $this->config['newest_user_id'], $this->config['newest_username'], $this->config['newest_user_colour'])),
-
 			'FORUM_IMG'					=> $this->user->img('forum_read', 'NO_UNREAD_POSTS'),
 			'FORUM_UNREAD_IMG'			=> $this->user->img('forum_unread', 'UNREAD_POSTS'),
 			'FORUM_LOCKED_IMG'			=> $this->user->img('forum_read_locked', 'NO_UNREAD_POSTS_LOCKED'),

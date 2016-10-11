@@ -215,6 +215,7 @@ class portal
 		$this->template->assign_vars(array(
 			'LEGEND'				=> $legend,
 			'TOTAL_BIRTHDAY_USERS'	=> sizeof($birthdays),
+			'NEWEST_USER'			=> $this->language->lang('NEWEST_USER', get_username_string('full', $this->config['newest_user_id'], $this->config['newest_username'], $this->config['newest_user_colour'])),
 
 			'S_DISPLAY_BIRTHDAY_LIST'	=> $this->config['load_birthdays'],
 		));
