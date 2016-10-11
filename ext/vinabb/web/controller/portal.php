@@ -102,7 +102,22 @@ class portal
 	public function index()
 	{
 		// Latest topics
+		$sql_ary = $this->get_latest_topics_sql();
 
+		if ($sql_ary !== false)
+		{
+			$sql = $this->db->sql_build_query('SELECT', $sql_ary);
+			$result = $this->db->sql_query_limit($sql, constants::NUM_NEW_ITEMS_ON_INDEX);
+			$rows = $this->db->sql_fetchrowset($result);
+			$this->db->sql_freeresult($result);
+
+			foreach ($rows as $row)
+			{
+				$this->template->assign_block_vars('latest_topics', array(
+					'TITLE'	=> truncate_string($row['topic_title'], 50, 255, false, $this->language->lang('ELLIPSIS')),
+				));
+			}
+		}
 
 		// Latest posts
 		$sql_ary = $this->get_latest_posts_sql();
@@ -130,7 +145,7 @@ class portal
 			$sql = 'SELECT group_id, group_name, group_colour, group_type, group_legend
 				FROM ' . GROUPS_TABLE . '
 				WHERE group_legend > 0
-				ORDER BY ' . $order_legend . ' ASC';
+				ORDER BY ' . $order_legend;
 		}
 		else
 		{
@@ -144,7 +159,7 @@ class portal
 					)
 				WHERE g.group_legend > 0
 					AND (g.group_type <> ' . GROUP_HIDDEN . ' OR ug.user_id = ' . $this->user->data['user_id'] . ')
-				ORDER BY g.' . $order_legend . ' ASC';
+				ORDER BY g.' . $order_legend;
 		}
 		$result = $this->db->sql_query($sql);
 
@@ -268,12 +283,70 @@ class portal
 	}
 
 	/**
+	* Build query for latest topics
+	*
+	* @return array|bool
+	*/
+	protected function get_latest_topics_sql()
+	{
+		// Determine forum IDs
+		$forum_ids = array_diff($this->get_readable_forums(), $this->user->get_passworded_forums());
+
+		if (empty($forum_ids))
+		{
+			return false;
+		}
+
+		// We really have to get the post ids first!
+		$sql = 'SELECT topic_first_post_id, topic_time
+			FROM ' . TOPICS_TABLE . '
+			WHERE topic_moved_id = 0
+				AND ' . $this->content_visibility->get_forums_visibility_sql('topic', $forum_ids) . '
+			ORDER BY topic_time DESC';
+		$result = $this->db->sql_query_limit($sql, constants::NUM_NEW_ITEMS_ON_INDEX);
+
+		$post_ids = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$post_ids[] = (int) $row['topic_first_post_id'];
+		}
+		$this->db->sql_freeresult($result);
+
+		if (empty($post_ids))
+		{
+			return false;
+		}
+
+		$sql_ary = array(
+			'SELECT'	=> 'f.forum_id, f.forum_name,
+							t.topic_id, t.topic_title, t.topic_poster, t.topic_first_poster_name, t.topic_posts_approved, t.topic_posts_unapproved, t.topic_posts_softdeleted, t.topic_views, t.topic_time, t.topic_last_post_time,
+							p.post_id, p.post_time, p.post_edit_time, p.post_text, p.bbcode_bitfield, p.bbcode_uid, p.enable_bbcode, p.enable_smilies, p.enable_magic_url, p.post_attachment, t.topic_visibility',
+			'FROM'		=> array(
+				TOPICS_TABLE	=> 't',
+				POSTS_TABLE		=> 'p',
+			),
+			'LEFT_JOIN'	=> array(
+				array(
+					'FROM'	=> array(FORUMS_TABLE => 'f'),
+					'ON'	=> 'p.forum_id = f.forum_id',
+				),
+			),
+			'WHERE'		=> 'p.topic_id = t.topic_id
+				AND ' . $this->db->sql_in_set('p.post_id', $post_ids),
+			'ORDER_BY'	=> 'p.post_time DESC, p.post_id DESC',
+		);
+
+		return $sql_ary;
+	}
+
+	/**
 	* Build query for latest posts
 	*
 	* @return array|bool
 	*/
 	protected function get_latest_posts_sql()
 	{
+		// Determine forum IDs
 		$forum_ids = array_diff($this->get_readable_forums(), $this->user->get_passworded_forums());
 
 		if (empty($forum_ids))
