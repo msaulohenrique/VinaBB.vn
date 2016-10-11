@@ -105,14 +105,15 @@ $lang = array_merge($lang, array(
 
 	'FORUM_WAR'	=> 'Forum War',
 
-	'G_MANAGEMENT_TEAM'	=> 'Managers',
-	'G_MODERATOR_TEAM'	=> 'Moderators',
-	'G_SUPPORT_TEAM'	=> 'Supporters',
-	'GENDER'			=> 'Gender',
-	'GENDER_FEMALE'		=> 'Female',
-	'GENDER_MALE'		=> 'Male',
-	'GITHUB'			=> 'GitHub',
-	'GITHUB_PROFILE'	=> 'GitHub',
+	'G_DEVELOPMENT_TEAM'	=> 'Developers',
+	'G_MANAGEMENT_TEAM'		=> 'Managers',
+	'G_MODERATOR_TEAM'		=> 'Moderators',
+	'G_SUPPORT_TEAM'		=> 'Supporters',
+	'GENDER'				=> 'Gender',
+	'GENDER_FEMALE'			=> 'Female',
+	'GENDER_MALE'			=> 'Male',
+	'GITHUB'				=> 'GitHub',
+	'GITHUB_PROFILE'		=> 'GitHub',
 
 	'LANG_SWITCH'	=> '%1$s » %2$s',
 	'LATITUDE'		=> 'Latitude',

@@ -105,14 +105,15 @@ $lang = array_merge($lang, array(
 
 	'FORUM_WAR'	=> 'Trò chơi',
 
-	'G_MANAGEMENT_TEAM'	=> 'Nhóm quản lý',
-	'G_MODERATOR_TEAM'	=> 'Điều hành viên',
-	'G_SUPPORT_TEAM'	=> 'Nhóm hỗ trợ',
-	'GENDER'			=> 'Giới tính',
-	'GENDER_FEMALE'		=> 'Nữ',
-	'GENDER_MALE'		=> 'Nam',
-	'GITHUB'			=> 'GitHub',
-	'GITHUB_PROFILE'	=> 'GitHub',
+	'G_DEVELOPMENT_TEAM'	=> 'Nhóm phát triển',
+	'G_MANAGEMENT_TEAM'		=> 'Nhóm quản lý',
+	'G_MODERATOR_TEAM'		=> 'Điều hành viên',
+	'G_SUPPORT_TEAM'		=> 'Nhóm hỗ trợ',
+	'GENDER'				=> 'Giới tính',
+	'GENDER_FEMALE'			=> 'Nữ',
+	'GENDER_MALE'			=> 'Nam',
+	'GITHUB'				=> 'GitHub',
+	'GITHUB_PROFILE'		=> 'GitHub',
 
 	'LANG_SWITCH'	=> '%1$s » %2$s',
 	'LATITUDE'		=> 'Vĩ độ',
