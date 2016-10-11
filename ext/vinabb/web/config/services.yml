@@ -171,11 +171,13 @@ services:
         class: vinabb\web\controller\portal
         arguments:
             - '@auth'
+            - '@config'
             - '@dbal.conn'
-            - '@user'
+            - '@dispatcher'
             - '@language'
-            - '@template'
             - '@request'
+            - '@template'
+            - '@user'
             - '@controller.helper'
             - '@group_helper'
             - '%core.root_path%'
