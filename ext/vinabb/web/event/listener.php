@@ -247,7 +247,7 @@ class listener implements EventSubscriberInterface
 
 		// Language switcher for guests
 		$lang_switch = ($this->user->lang_name == $this->config['default_lang']) ? $this->config['vinabb_web_lang_switch'] : $this->config['default_lang'];
-		$lang_switch_title = ($this->user->lang_name == $this->config['default_lang']) ? $this->language->lang('LANG_SWITCH', $lang_data[$this->config['default_lang']], $lang_data[$this->config['vinabb_web_lang_switch']]) : $this->language->lang('LANG_SWITCH', $lang_data[$this->config['vinabb_web_lang_switch']], $lang_data[$this->config['default_lang']]);
+		$lang_switch_title = ($this->user->lang_name == $this->config['default_lang']) ? $this->language->lang('LANG_SWITCH', $lang_data[$this->config['default_lang']]['local_name'], $lang_data[$this->config['vinabb_web_lang_switch']]['local_name']) : $this->language->lang('LANG_SWITCH', $lang_data[$this->config['vinabb_web_lang_switch']]['local_name'], $lang_data[$this->config['default_lang']]['local_name']);
 
 		// Add template variables
 		$this->template->assign_vars(array(
@@ -258,7 +258,7 @@ class listener implements EventSubscriberInterface
 
 			'LANG_SWITCH_CURRENT'	=> $this->user->lang_name,
 			'LANG_SWITCH_DEFAULT'	=> $this->config['default_lang'],
-			'LANG_SWITCH_NEW'		=> $lang_data[$lang_switch],
+			'LANG_SWITCH_NEW'		=> $lang_data[$lang_switch]['local_name'],
 			'LANG_SWITCH_TITLE'		=> $lang_switch_title,
 
 			'FORUM_ID_VIETNAMESE'				=> constants::FORUM_ID_VIETNAMESE,

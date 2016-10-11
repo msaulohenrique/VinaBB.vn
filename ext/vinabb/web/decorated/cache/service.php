@@ -98,6 +98,8 @@ class service extends \phpbb\cache\service
 
 			$this->driver->put('_lang_data', $lang_data);
 		}
+
+		return $lang_data;
 	}
 
 	function clear_lang_data()
