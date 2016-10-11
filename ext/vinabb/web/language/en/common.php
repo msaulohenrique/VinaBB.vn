@@ -36,6 +36,9 @@ $lang = array_merge($lang, array(
 	'COMMUNITY'		=> 'Community',
 	'COORDINATES'	=> 'Coordinates',
 
+	'DEBUG'			=> 'Debug',
+	'DEBUG_INFO'	=> 'Debug information',
+
 	'EMOTICON_TEXT'	=> array(
 		'ALIEN'				=> 'Alien',
 		'ANGEL'				=> 'Angel',

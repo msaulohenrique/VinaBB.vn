@@ -287,7 +287,8 @@ class listener implements EventSubscriberInterface
 
 			'EXT_ASSETS_PATH'	=> "{$this->ext_web_path}assets",
 
-			'S_VIETNAMESE'	=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? true : false,
+			'S_FOUNDER'		=> $this->user->data['user_type'] == USER_FOUNDER,
+			'S_VIETNAMESE'	=> $this->user->lang_name == constants::LANG_VIETNAMESE,
 
 			'U_BOARD'			=> $this->helper->route('vinabb_web_board_route', array('board' => 'board')),
 			'U_MCP'				=> ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? append_sid("{$this->phpbb_root_path}mcp.{$this->php_ext}", 'i=main&mode=front', true, $this->user->session_id) : '',
@@ -306,7 +307,7 @@ class listener implements EventSubscriberInterface
 	{
 		// Add template variables
 		$this->template->assign_vars(array(
-			'S_FOUNDER'	=> ($this->user->data['user_type'] == USER_FOUNDER) ? true : false
+			'S_FOUNDER'	=> $this->user->data['user_type'] == USER_FOUNDER
 		));
 	}
 

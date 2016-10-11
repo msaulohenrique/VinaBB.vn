@@ -36,6 +36,9 @@ $lang = array_merge($lang, array(
 	'COMMUNITY'		=> 'Cộng đồng',
 	'COORDINATES'	=> 'Tọa độ',
 
+	'DEBUG'			=> 'Dò lỗi',
+	'DEBUG_INFO'	=> 'Thông số đánh giá',
+
 	'EMOTICON_TEXT'	=> array(
 		'ALIEN'				=> '!@#$%',
 		'ANGEL'				=> 'Sẽ có thiên thần sửa lỗi cho em',
