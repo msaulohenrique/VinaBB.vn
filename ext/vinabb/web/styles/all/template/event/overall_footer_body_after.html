@@ -16,22 +16,3 @@
 	);
 </script>
 #}
-
-{% if S_IN_POSTING or S_COMPOSE_PM or S_LOAD_HIGHLIGHT %}
-<link href="{{ EXT_ASSETS_PATH }}/css/github-gist.min.css?v={{ T_ASSETS_VERSION }}" rel="stylesheet">
-<script src="{{ EXT_ASSETS_PATH }}/js/highlight.min.js?v={{ T_ASSETS_VERSION }}"></script>
-
-<script>
-	$(document).ready(
-		function()
-		{
-			$('pre code').each(
-				function(i, block)
-				{
-					hljs.highlightBlock(block);
-				}
-			);
-		}
-	);
-</script>
-{% endif %}
