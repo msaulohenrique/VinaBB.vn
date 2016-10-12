@@ -15,26 +15,29 @@ class board
 	/** @var \phpbb\auth\auth */
 	protected $auth;
 
-	/** @var \phpbb\db\driver\driver_interface */
-	protected $db;
-
-	/** @var \phpbb\content_visibility */
-	protected $content_visibility;
-
 	/** @var \phpbb\cache\service */
-	protected $cache_service;
+	protected $cache;
 
 	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var \phpbb\user */
-	protected $user;
+	/** @var \phpbb\content_visibility */
+	protected $content_visibility;
+
+	/** @var \phpbb\cron\manager */
+	protected $cron;
+
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
+
+	/** @var \phpbb\event\dispatcher_interface */
+	protected $dispatcher;
 
 	/** @var \phpbb\language\language */
 	protected $language;
 
-	/** @var \phpbb\template\template */
-	protected $template;
+	/** @var \phpbb\notification\manager */
+	protected $notifications;
 
 	/** @var \vinabb\web\controller\pagination */
 	protected $pagination;
@@ -42,20 +45,17 @@ class board
 	/** @var \phpbb\request\request */
 	protected $request;
 
-	/** @var \phpbb\notification\manager */
-	protected $notifications;
+	/** @var \phpbb\template\template */
+	protected $template;
 
-	/** @var \phpbb\cron\manager */
-	protected $cron;
-
-	/** @var \phpbb\event\dispatcher_interface */
-	protected $dispatcher;
+	/** @var \phpbb\user */
+	protected $user;
 
 	/** @var \phpbb\controller\helper */
 	protected $helper;
 
 	/** @var string */
-	protected $phpbb_root_path;
+	protected $root_path;
 
 	/** @var string */
 	protected $php_ext;
@@ -64,60 +64,60 @@ class board
 	* Constructor
 	*
 	* @param \phpbb\auth\auth $auth
-	* @param \phpbb\db\driver\driver_interface $db
-	* @param \phpbb\content_visibility $content_visibility
-	* @param \phpbb\cache\service $cache_service
+	* @param \phpbb\cache\service $cache
 	* @param \phpbb\config\config $config
-	* @param \phpbb\user $user
+	* @param \phpbb\content_visibility $content_visibility
+	* @param \phpbb\cron\manager $cron
+	* @param \phpbb\db\driver\driver_interface $db
+	* @param \phpbb\event\dispatcher_interface $dispatcher
 	* @param \phpbb\language\language $language
-	* @param \phpbb\template\template $template
+	* @param \phpbb\notification\manager $notification
 	* @param \vinabb\web\controller\pagination $pagination
 	* @param \phpbb\request\request $request
-	* @param \phpbb\notification\manager $notification
-	* @param \phpbb\cron\manager $cron
-	* @param \phpbb\event\dispatcher_interface $dispatcher
+	* @param \phpbb\template\template $template
+	* @param \phpbb\user $user
 	* @param \phpbb\controller\helper $helper
-	* @param string $phpbb_root_path
+	* @param string $root_path
 	* @param string $php_ext
 	*/
 	public function __construct(
 		\phpbb\auth\auth $auth,
-		\phpbb\db\driver\driver_interface $db,
-		\phpbb\content_visibility $content_visibility,
-		\phpbb\cache\service $cache_service,
+		\phpbb\cache\service $cache,
 		\phpbb\config\config $config,
-		\phpbb\user $user,
+		\phpbb\content_visibility $content_visibility,
+		\phpbb\cron\manager $cron,
+		\phpbb\db\driver\driver_interface $db,
+		\phpbb\event\dispatcher_interface $dispatcher,
 		\phpbb\language\language $language,
-		\phpbb\template\template $template,
+		\phpbb\notification\manager $notification,
 		\vinabb\web\controller\pagination $pagination,
 		\phpbb\request\request $request,
-		\phpbb\notification\manager $notification,
-		\phpbb\cron\manager $cron,
-		\phpbb\event\dispatcher_interface $dispatcher,
+		\phpbb\template\template $template,
+		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
-		$phpbb_root_path,
+		$root_path,
 		$php_ext
 	)
 	{
 		$this->auth = $auth;
-		$this->db = $db;
-		$this->content_visibility = $content_visibility;
-		$this->cache_service = $cache_service;
+		$this->cache = $cache;
 		$this->config = $config;
-		$this->user = $user;
+		$this->content_visibility = $content_visibility;
+		$this->cron = $cron;
+		$this->db = $db;
+		$this->dispatcher = $dispatcher;
 		$this->language = $language;
-		$this->template = $template;
+		$this->notification = $notification;
 		$this->pagination = $pagination;
 		$this->request = $request;
-		$this->notification = $notification;
-		$this->cron = $cron;
-		$this->dispatcher = $dispatcher;
+		$this->template = $template;
+		$this->user = $user;
 		$this->helper = $helper;
-		$this->phpbb_root_path = $phpbb_root_path;
+		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 
 		// Common functions
-		include "{$this->phpbb_root_path}includes/functions_display.{$this->php_ext}";
+		include "{$this->root_path}includes/functions_display.{$this->php_ext}";
 	}
 
 	/**
@@ -165,7 +165,7 @@ class board
 
 					if (($redirect = $this->request->variable('redirect', '')))
 					{
-						redirect(append_sid($this->phpbb_root_path . $redirect));
+						redirect(append_sid($this->root_path . $redirect));
 					}
 
 					redirect($notification->get_redirect_url());
@@ -637,7 +637,7 @@ class board
 		));
 
 		// Grab icons
-		$icons = $this->cache_service->obtain_icons();
+		$icons = $this->cache->obtain_icons();
 
 		// Grab all topic data
 		$rowset = $announcement_list = $topic_list = $global_announce_forums = array();
@@ -1215,8 +1215,8 @@ class board
 	{
 		global $_SID, $_EXTRA_URL;
 
-		include "{$this->phpbb_root_path}includes/bbcode.{$this->php_ext}";
-		include "{$this->phpbb_root_path}includes/functions_user.{$this->php_ext}";
+		include "{$this->root_path}includes/bbcode.{$this->php_ext}";
+		include "{$this->root_path}includes/functions_user.{$this->php_ext}";
 
 		$forum_id = ($forum_id == constants::REWRITE_URL_FORUM_ZERO) ? 0 : $forum_id;
 		$page = max(1, floor(str_replace(constants::REWRITE_URL_PAGE, '', $page)));
@@ -1674,7 +1674,7 @@ class board
 		$start = $this->pagination->validate_start($start, $this->config['posts_per_page'], $total_posts);
 
 		// General Viewtopic URL for return links
-		$viewtopic_url = append_sid("{$phpbb_root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id" . (($start == 0) ? '' : "&amp;start=$start") . ((strlen($u_sort_param)) ? "&amp;$u_sort_param" : '') . (($highlight_match) ? "&amp;hilit=$highlight" : ''));
+		$viewtopic_url = append_sid("{$this->root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id" . (($start == 0) ? '' : "&amp;start=$start") . ((strlen($u_sort_param)) ? "&amp;$u_sort_param" : '') . (($highlight_match) ? "&amp;hilit=$highlight" : ''));
 
 		// Are we watching this topic?
 		$s_watching_topic = array(
@@ -1740,17 +1740,17 @@ class board
 		}
 
 		// Grab ranks
-		$ranks = $this->cache_service->obtain_ranks();
+		$ranks = $this->cache->obtain_ranks();
 
 		// Grab icons
-		$icons = $this->cache_service->obtain_icons();
+		$icons = $this->cache->obtain_icons();
 
 		// Grab extensions
 		$extensions = array();
 
 		if ($topic_data['topic_attachment'])
 		{
-			$extensions = $this->cache_service->obtain_attach_extensions($forum_id);
+			$extensions = $this->cache->obtain_attach_extensions($forum_id);
 		}
 
 		// Forum rules listing
@@ -1761,7 +1761,7 @@ class board
 		$allow_change_type = ($this->auth->acl_get('m_', $forum_id) || ($this->user->data['is_registered'] && $this->user->data['user_id'] == $topic_data['topic_poster'])) ? true : false;
 
 		$s_quickmod_action = append_sid(
-			"{$phpbb_root_path}mcp.$phpEx",
+			"{$this->root_path}mcp.$phpEx",
 			array(
 				'f'	=> $forum_id,
 				't'	=> $topic_id,
@@ -1842,7 +1842,7 @@ class board
 		}
 
 		// This is only used for print view so ...
-		$server_path = (!$view) ? $phpbb_root_path : generate_board_url() . '/';
+		$server_path = (!$view) ? $this->root_path : generate_board_url() . '/';
 
 		// Replace naughty words in title
 		$topic_data['topic_title'] = censor_text($topic_data['topic_title']);
@@ -1866,7 +1866,7 @@ class board
 		}
 
 		// If we've got a hightlight set pass it on to pagination.
-		$base_url = append_sid("{$phpbb_root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id" . ((strlen($u_sort_param)) ? "&amp;$u_sort_param" : '') . (($highlight_match) ? "&amp;hilit=$highlight" : ''));
+		$base_url = append_sid("{$this->root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id" . ((strlen($u_sort_param)) ? "&amp;$u_sort_param" : '') . (($highlight_match) ? "&amp;hilit=$highlight" : ''));
 
 		/**
 		* Event to modify data before template variables are being assigned
@@ -1915,7 +1915,7 @@ class board
 				'TOPIC_AUTHOR'			=> get_username_string('username', $topic_data['topic_poster'], $topic_data['topic_first_poster_name'], $topic_data['topic_first_poster_colour']),
 
 				'TOTAL_POSTS'	=> $this->language->lang('VIEW_TOPIC_POSTS', (int) $total_posts),
-				'U_MCP' 		=> ($this->auth->acl_get('m_', $forum_id)) ? append_sid("{$phpbb_root_path}mcp.$phpEx", "i=main&amp;mode=topic_view&amp;f=$forum_id&amp;t=$topic_id" . (($start == 0) ? '' : "&amp;start=$start") . ((strlen($u_sort_param)) ? "&amp;$u_sort_param" : ''), true, $this->user->session_id) : '',
+				'U_MCP' 		=> ($this->auth->acl_get('m_', $forum_id)) ? append_sid("{$this->root_path}mcp.$phpEx", "i=main&amp;mode=topic_view&amp;f=$forum_id&amp;t=$topic_id" . (($start == 0) ? '' : "&amp;start=$start") . ((strlen($u_sort_param)) ? "&amp;$u_sort_param" : ''), true, $this->user->session_id) : '',
 				'MODERATORS'	=> (isset($forum_moderators[$forum_id]) && sizeof($forum_moderators[$forum_id])) ? implode($this->language->lang('COMMA_SEPARATOR'), $forum_moderators[$forum_id]) : '',
 
 				'POST_IMG' 			=> ($topic_data['forum_status'] == ITEM_LOCKED) ? $this->user->img('button_topic_locked', 'FORUM_LOCKED') : $this->user->img('button_topic_new', 'POST_NEW_TOPIC'),
@@ -1940,14 +1940,14 @@ class board
 				'S_SELECT_SORT_KEY' 	=> $s_sort_key,
 				'S_SELECT_SORT_DAYS' 	=> $s_limit_days,
 				'S_SINGLE_MODERATOR'	=> (!empty($forum_moderators[$forum_id]) && sizeof($forum_moderators[$forum_id]) > 1) ? false : true,
-				'S_TOPIC_ACTION' 		=> append_sid("{$phpbb_root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id" . (($start == 0) ? '' : "&amp;start=$start")),
+				'S_TOPIC_ACTION' 		=> append_sid("{$this->root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id" . (($start == 0) ? '' : "&amp;start=$start")),
 				'S_MOD_ACTION' 			=> $s_quickmod_action,
 
 				'L_RETURN_TO_FORUM'		=> $this->language->lang('RETURN_TO', $topic_data['forum_name']),
 				'S_VIEWTOPIC'			=> true,
 				'S_UNREAD_VIEW'			=> $view == 'unread',
 				'S_DISPLAY_SEARCHBOX'	=> ($this->auth->acl_get('u_search') && $this->auth->acl_get('f_search', $forum_id) && $this->config['load_search']) ? true : false,
-				'S_SEARCHBOX_ACTION'	=> append_sid("{$phpbb_root_path}search.$phpEx"),
+				'S_SEARCHBOX_ACTION'	=> append_sid("{$this->root_path}search.$phpEx"),
 				'S_SEARCH_LOCAL_HIDDEN_FIELDS'	=> build_hidden_fields($s_search_hidden_fields),
 
 				'S_DISPLAY_POST_INFO'	=> ($topic_data['forum_type'] == FORUM_POST && ($this->auth->acl_get('f_post', $forum_id) || $this->user->data['user_id'] == ANONYMOUS)) ? true : false,
@@ -1958,11 +1958,11 @@ class board
 				'U_FORUM'				=> $server_path,
 				'U_VIEW_TOPIC' 			=> $viewtopic_url,
 				'U_CANONICAL'			=> generate_board_url() . '/' . append_sid("viewtopic.$phpEx", "t=$topic_id" . (($start) ? "&amp;start=$start" : ''), true, ''),
-				'U_VIEW_FORUM' 			=> append_sid("{$phpbb_root_path}viewforum.$phpEx", 'f=' . $forum_id),
-				'U_VIEW_OLDER_TOPIC'	=> append_sid("{$phpbb_root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id&amp;view=previous"),
-				'U_VIEW_NEWER_TOPIC'	=> append_sid("{$phpbb_root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id&amp;view=next"),
+				'U_VIEW_FORUM' 			=> append_sid("{$this->root_path}viewforum.$phpEx", 'f=' . $forum_id),
+				'U_VIEW_OLDER_TOPIC'	=> append_sid("{$this->root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id&amp;view=previous"),
+				'U_VIEW_NEWER_TOPIC'	=> append_sid("{$this->root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id&amp;view=next"),
 				'U_PRINT_TOPIC'			=> ($this->auth->acl_get('f_print', $forum_id)) ? $viewtopic_url . '&amp;view=print' : '',
-				'U_EMAIL_TOPIC'			=> ($this->auth->acl_get('f_email', $forum_id) && $this->config['email_enable']) ? append_sid("{$phpbb_root_path}memberlist.$phpEx", "mode=email&amp;t=$topic_id") : '',
+				'U_EMAIL_TOPIC'			=> ($this->auth->acl_get('f_email', $forum_id) && $this->config['email_enable']) ? append_sid("{$this->root_path}memberlist.$phpEx", "mode=email&amp;t=$topic_id") : '',
 
 				'U_WATCH_TOPIC'			=> $s_watching_topic['link'],
 				'U_WATCH_TOPIC_TOGGLE'	=> $s_watching_topic['link_toggle'],
@@ -1975,9 +1975,9 @@ class board
 				'S_BOOKMARK_TOGGLE'		=> (!$this->user->data['is_registered'] || !$this->config['allow_bookmarks'] || !$topic_data['bookmarked']) ? $this->language->lang('BOOKMARK_TOPIC_REMOVE') : $this->language->lang('BOOKMARK_TOPIC'),
 				'S_BOOKMARKED_TOPIC'	=> ($this->user->data['is_registered'] && $this->config['allow_bookmarks'] && $topic_data['bookmarked']) ? true : false,
 
-				'U_POST_NEW_TOPIC' 		=> ($this->auth->acl_get('f_post', $forum_id) || $this->user->data['user_id'] == ANONYMOUS) ? append_sid("{$phpbb_root_path}posting.$phpEx", "mode=post&amp;f=$forum_id") : '',
-				'U_POST_REPLY_TOPIC' 	=> ($this->auth->acl_get('f_reply', $forum_id) || $this->user->data['user_id'] == ANONYMOUS) ? append_sid("{$phpbb_root_path}posting.$phpEx", "mode=reply&amp;f=$forum_id&amp;t=$topic_id") : '',
-				'U_BUMP_TOPIC'			=> (bump_topic_allowed($forum_id, $topic_data['topic_bumped'], $topic_data['topic_last_post_time'], $topic_data['topic_poster'], $topic_data['topic_last_poster_id'])) ? append_sid("{$phpbb_root_path}posting.$phpEx", "mode=bump&amp;f=$forum_id&amp;t=$topic_id&amp;hash=" . generate_link_hash("topic_$topic_id")) : '')
+				'U_POST_NEW_TOPIC' 		=> ($this->auth->acl_get('f_post', $forum_id) || $this->user->data['user_id'] == ANONYMOUS) ? append_sid("{$this->root_path}posting.$phpEx", "mode=post&amp;f=$forum_id") : '',
+				'U_POST_REPLY_TOPIC' 	=> ($this->auth->acl_get('f_reply', $forum_id) || $this->user->data['user_id'] == ANONYMOUS) ? append_sid("{$this->root_path}posting.$phpEx", "mode=reply&amp;f=$forum_id&amp;t=$topic_id") : '',
+				'U_BUMP_TOPIC'			=> (bump_topic_allowed($forum_id, $topic_data['topic_bumped'], $topic_data['topic_last_post_time'], $topic_data['topic_poster'], $topic_data['topic_last_poster_id'])) ? append_sid("{$this->root_path}posting.$phpEx", "mode=bump&amp;f=$forum_id&amp;t=$topic_id&amp;hash=" . generate_link_hash("topic_$topic_id")) : '')
 		);
 
 		// Does this topic contain a poll?
@@ -2071,7 +2071,7 @@ class board
 
 				if (!sizeof($voted_id) || sizeof($voted_id) > $topic_data['poll_max_options'] || in_array(VOTE_CONVERTED, $cur_voted_id) || !check_form_key('posting'))
 				{
-					$redirect_url = append_sid("{$phpbb_root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id" . (($start == 0) ? '' : "&amp;start=$start"));
+					$redirect_url = append_sid("{$this->root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id" . (($start == 0) ? '' : "&amp;start=$start"));
 
 					meta_refresh(5, $redirect_url);
 					if (!sizeof($voted_id))
@@ -2158,7 +2158,7 @@ class board
 				//, topic_last_post_time = ' . time() . " -- for bumping topics with new votes, ignore for now
 				$this->db->sql_query($sql);
 
-				$redirect_url = append_sid("{$phpbb_root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id" . (($start == 0) ? '' : "&amp;start=$start"));
+				$redirect_url = append_sid("{$this->root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id" . (($start == 0) ? '' : "&amp;start=$start"));
 				$message = $this->language->lang('VOTE_SUBMITTED') . '<br><br>' . $this->language->lang('RETURN_TOPIC', '<a href="' . $redirect_url . '">', '</a>');
 
 				if ($this->request->is_ajax())
@@ -2572,8 +2572,8 @@ class board
 						'contact_user' 		=> $this->language->lang('CONTACT_USER', get_username_string('username', $poster_id, $row['username'], $row['user_colour'], $row['username'])),
 
 						'online'		=> false,
-						'jabber'		=> ($this->config['jab_enable'] && $row['user_jabber'] && $this->auth->acl_get('u_sendim')) ? append_sid("{$phpbb_root_path}memberlist.$phpEx", "mode=contact&amp;action=jabber&amp;u=$poster_id") : '',
-						'search'		=> ($this->config['load_search'] && $this->auth->acl_get('u_search')) ? append_sid("{$phpbb_root_path}search.$phpEx", "author_id=$poster_id&amp;sr=posts") : '',
+						'jabber'		=> ($this->config['jab_enable'] && $row['user_jabber'] && $this->auth->acl_get('u_sendim')) ? append_sid("{$this->root_path}memberlist.$phpEx", "mode=contact&amp;action=jabber&amp;u=$poster_id") : '',
+						'search'		=> ($this->config['load_search'] && $this->auth->acl_get('u_search')) ? append_sid("{$this->root_path}search.$phpEx", "author_id=$poster_id&amp;sr=posts") : '',
 
 						'author_full'		=> get_username_string('full', $poster_id, $row['username'], $row['user_colour']),
 						'author_colour'		=> get_username_string('colour', $poster_id, $row['username'], $row['user_colour']),
@@ -2602,7 +2602,7 @@ class board
 
 					if ((!empty($row['user_allow_viewemail']) && $this->auth->acl_get('u_sendemail')) || $this->auth->acl_get('a_email'))
 					{
-						$user_cache[$poster_id]['email'] = ($this->config['board_email_form'] && $this->config['email_enable']) ? append_sid("{$phpbb_root_path}memberlist.$phpEx", "mode=email&amp;u=$poster_id") : (($this->config['board_hide_emails'] && !$this->auth->acl_get('a_email')) ? '' : 'mailto:' . $row['user_email']);
+						$user_cache[$poster_id]['email'] = ($this->config['board_email_form'] && $this->config['email_enable']) ? append_sid("{$this->root_path}memberlist.$phpEx", "mode=email&amp;u=$poster_id") : (($this->config['board_hide_emails'] && !$this->auth->acl_get('a_email')) ? '' : 'mailto:' . $row['user_email']);
 					}
 					else
 					{
@@ -3092,7 +3092,7 @@ class board
 
 			if ($this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm') && $can_receive_pm)
 			{
-				$u_pm = append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=pm&amp;mode=compose&amp;action=quotepost&amp;p=' . $row['post_id']);
+				$u_pm = append_sid("{$this->root_path}ucp.$phpEx", 'i=pm&amp;mode=compose&amp;action=quotepost&amp;p=' . $row['post_id']);
 			}
 
 			//
@@ -3130,26 +3130,26 @@ class board
 				'ONLINE_IMG'			=> ($poster_id == ANONYMOUS || !$this->config['load_onlinetrack']) ? '' : (($user_cache[$poster_id]['online']) ? $this->user->img('icon_user_online', 'ONLINE') : $this->user->img('icon_user_offline', 'OFFLINE')),
 				'S_ONLINE'				=> ($poster_id == ANONYMOUS || !$this->config['load_onlinetrack']) ? false : (($user_cache[$poster_id]['online']) ? true : false),
 
-				'U_EDIT'			=> ($edit_allowed) ? append_sid("{$phpbb_root_path}posting.$phpEx", "mode=edit&amp;f=$forum_id&amp;p={$row['post_id']}") : '',
-				'U_QUOTE'			=> ($quote_allowed) ? append_sid("{$phpbb_root_path}posting.$phpEx", "mode=quote&amp;f=$forum_id&amp;p={$row['post_id']}") : '',
-				'U_INFO'			=> ($this->auth->acl_get('m_info', $forum_id)) ? append_sid("{$phpbb_root_path}mcp.$phpEx", "i=main&amp;mode=post_details&amp;f=$forum_id&amp;p=" . $row['post_id'], true, $this->user->session_id) : '',
-				'U_DELETE'			=> ($delete_allowed) ? append_sid("{$phpbb_root_path}posting.$phpEx", 'mode=' . (($softdelete_allowed) ? 'soft_delete' : 'delete') . "&amp;f=$forum_id&amp;p={$row['post_id']}") : '',
+				'U_EDIT'			=> ($edit_allowed) ? append_sid("{$this->root_path}posting.$phpEx", "mode=edit&amp;f=$forum_id&amp;p={$row['post_id']}") : '',
+				'U_QUOTE'			=> ($quote_allowed) ? append_sid("{$this->root_path}posting.$phpEx", "mode=quote&amp;f=$forum_id&amp;p={$row['post_id']}") : '',
+				'U_INFO'			=> ($this->auth->acl_get('m_info', $forum_id)) ? append_sid("{$this->root_path}mcp.$phpEx", "i=main&amp;mode=post_details&amp;f=$forum_id&amp;p=" . $row['post_id'], true, $this->user->session_id) : '',
+				'U_DELETE'			=> ($delete_allowed) ? append_sid("{$this->root_path}posting.$phpEx", 'mode=' . (($softdelete_allowed) ? 'soft_delete' : 'delete') . "&amp;f=$forum_id&amp;p={$row['post_id']}") : '',
 
 				'U_SEARCH'		=> $user_cache[$poster_id]['search'],
 				'U_PM'			=> $u_pm,
 				'U_EMAIL'		=> $user_cache[$poster_id]['email'],
 				'U_JABBER'		=> $user_cache[$poster_id]['jabber'],
 
-				'U_APPROVE_ACTION'		=> append_sid("{$phpbb_root_path}mcp.$phpEx", "i=queue&amp;p={$row['post_id']}&amp;f=$forum_id&amp;redirect=" . urlencode(str_replace('&amp;', '&', $viewtopic_url . '&amp;p=' . $row['post_id'] . '#p' . $row['post_id']))),
+				'U_APPROVE_ACTION'		=> append_sid("{$this->root_path}mcp.$phpEx", "i=queue&amp;p={$row['post_id']}&amp;f=$forum_id&amp;redirect=" . urlencode(str_replace('&amp;', '&', $viewtopic_url . '&amp;p=' . $row['post_id'] . '#p' . $row['post_id']))),
 				'U_REPORT'			=> ($this->auth->acl_get('f_report', $forum_id)) ? $phpbb_container->get('controller.helper')->route('phpbb_report_post_controller', array('id' => $row['post_id'])) : '',
-				'U_MCP_REPORT'		=> ($this->auth->acl_get('m_report', $forum_id)) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=reports&amp;mode=report_details&amp;f=' . $forum_id . '&amp;p=' . $row['post_id'], true, $this->user->session_id) : '',
-				'U_MCP_APPROVE'		=> ($this->auth->acl_get('m_approve', $forum_id)) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=queue&amp;mode=approve_details&amp;f=' . $forum_id . '&amp;p=' . $row['post_id'], true, $this->user->session_id) : '',
-				'U_MCP_RESTORE'		=> ($this->auth->acl_get('m_approve', $forum_id)) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=queue&amp;mode=' . (($topic_data['topic_visibility'] != ITEM_DELETED) ? 'deleted_posts' : 'deleted_topics') . '&amp;f=' . $forum_id . '&amp;p=' . $row['post_id'], true, $this->user->session_id) : '',
-				'U_MINI_POST'		=> append_sid("{$phpbb_root_path}viewtopic.$phpEx", 'p=' . $row['post_id']) . '#p' . $row['post_id'],
+				'U_MCP_REPORT'		=> ($this->auth->acl_get('m_report', $forum_id)) ? append_sid("{$this->root_path}mcp.$phpEx", 'i=reports&amp;mode=report_details&amp;f=' . $forum_id . '&amp;p=' . $row['post_id'], true, $this->user->session_id) : '',
+				'U_MCP_APPROVE'		=> ($this->auth->acl_get('m_approve', $forum_id)) ? append_sid("{$this->root_path}mcp.$phpEx", 'i=queue&amp;mode=approve_details&amp;f=' . $forum_id . '&amp;p=' . $row['post_id'], true, $this->user->session_id) : '',
+				'U_MCP_RESTORE'		=> ($this->auth->acl_get('m_approve', $forum_id)) ? append_sid("{$this->root_path}mcp.$phpEx", 'i=queue&amp;mode=' . (($topic_data['topic_visibility'] != ITEM_DELETED) ? 'deleted_posts' : 'deleted_topics') . '&amp;f=' . $forum_id . '&amp;p=' . $row['post_id'], true, $this->user->session_id) : '',
+				'U_MINI_POST'		=> append_sid("{$this->root_path}viewtopic.$phpEx", 'p=' . $row['post_id']) . '#p' . $row['post_id'],
 				'U_NEXT_POST_ID'	=> ($i < $i_total && isset($rowset[$post_list[$i + 1]])) ? $rowset[$post_list[$i + 1]]['post_id'] : '',
 				'U_PREV_POST_ID'	=> $prev_post_id,
-				'U_NOTES'			=> ($this->auth->acl_getf_global('m_')) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=notes&amp;mode=user_notes&amp;u=' . $poster_id, true, $this->user->session_id) : '',
-				'U_WARN'			=> ($this->auth->acl_get('m_warn') && $poster_id != $this->user->data['user_id'] && $poster_id != ANONYMOUS) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=warn&amp;mode=warn_post&amp;f=' . $forum_id . '&amp;p=' . $row['post_id'], true, $this->user->session_id) : '',
+				'U_NOTES'			=> ($this->auth->acl_getf_global('m_')) ? append_sid("{$this->root_path}mcp.$phpEx", 'i=notes&amp;mode=user_notes&amp;u=' . $poster_id, true, $this->user->session_id) : '',
+				'U_WARN'			=> ($this->auth->acl_get('m_warn') && $poster_id != $this->user->data['user_id'] && $poster_id != ANONYMOUS) ? append_sid("{$this->root_path}mcp.$phpEx", 'i=warn&amp;mode=warn_post&amp;f=' . $forum_id . '&amp;p=' . $row['post_id'], true, $this->user->session_id) : '',
 
 				'POST_ID'			=> $row['post_id'],
 				'POST_NUMBER'		=> $i + $start + 1,
@@ -3365,7 +3365,7 @@ class board
 			else if (isset($topic_tracking_info[$topic_id]) && $topic_data['topic_last_post_time'] > $topic_tracking_info[$topic_id])
 			{
 				$this->template->assign_vars(array(
-					'U_VIEW_UNREAD_POST'	=> append_sid("{$phpbb_root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id&amp;view=unread") . '#unread',
+					'U_VIEW_UNREAD_POST'	=> append_sid("{$this->root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id&amp;view=unread") . '#unread',
 				));
 			}
 		}
@@ -3383,7 +3383,7 @@ class board
 			else if (!$last_page)
 			{
 				$this->template->assign_vars(array(
-					'U_VIEW_UNREAD_POST'	=> append_sid("{$phpbb_root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id&amp;view=unread") . '#unread',
+					'U_VIEW_UNREAD_POST'	=> append_sid("{$this->root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id&amp;view=unread") . '#unread',
 				));
 			}
 		}
@@ -3425,7 +3425,7 @@ class board
 
 				$this->template->assign_vars(array(
 					'S_QUICK_REPLY'			=> true,
-					'U_QR_ACTION'			=> append_sid("{$phpbb_root_path}posting.$phpEx", "mode=reply&amp;f=$forum_id&amp;t=$topic_id"),
+					'U_QR_ACTION'			=> append_sid("{$this->root_path}posting.$phpEx", "mode=reply&amp;f=$forum_id&amp;t=$topic_id"),
 					'QR_HIDDEN_FIELDS'		=> build_hidden_fields($qr_hidden_fields),
 					'SUBJECT'				=> 'Re: ' . censor_text($topic_data['topic_title']),
 				));
