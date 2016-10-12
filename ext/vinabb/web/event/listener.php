@@ -329,12 +329,16 @@ class listener implements EventSubscriberInterface
 			if ($event['params'] !== false || strpos($event['url'], "ucp.{$this->php_ext}") !== false || strpos($event['url'], "mcp.{$this->php_ext}") !== false)
 			{
 				$event_params = ($event['params'] !== false) ? $event['params'] : substr(strrchr($event['url'], '?'), 1);
-				$params = explode('&', str_replace(array('&amp;', '?'), array('&', ''), $event_params));
 
-				foreach ($params as $param)
+				if (!empty($event_params))
 				{
-					list($param_key, $param_value) = explode('=', $param);
-					$params_ary[$param_key] = $param_value;
+					$params = explode('&', str_replace(array('&amp;', '?'), array('&', ''), $event_params));
+
+					foreach ($params as $param)
+					{
+						list($param_key, $param_value) = explode('=', $param);
+						$params_ary[$param_key] = $param_value;
+					}
 				}
 			}
 
@@ -356,7 +360,10 @@ class listener implements EventSubscriberInterface
 					$params_ary['forum_id'] = $params_ary['f'];
 					unset($params_ary['f']);
 
-					$params_ary['seo'] = $forum_data[$params_ary['forum_id']]['name_seo'] . constants::REWRITE_URL_SEO;
+					if ($params_ary['forum_id'])
+					{
+						$params_ary['seo'] = $forum_data[$params_ary['forum_id']]['name_seo'] . constants::REWRITE_URL_SEO;
+					}
 				}
 
 				$route_name = 'vinabb_web_board_forum_route';
