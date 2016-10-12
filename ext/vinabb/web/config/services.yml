@@ -63,10 +63,10 @@ services:
     vinabb.web.pagination:
         class: vinabb\web\controller\pagination
         arguments:
+            - '@language'
             - '@template'
             - '@user'
             - '@controller.helper'
-            - '@dispatcher'
     vinabb.web.helper:
         class: vinabb\web\controller\helper
     vinabb.web.user:

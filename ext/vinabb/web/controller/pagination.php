@@ -12,6 +12,9 @@ use vinabb\web\includes\constants;
 
 class pagination
 {
+	/** @var \phpbb\language\language */
+	protected $language;
+
 	/** @var \phpbb\template\template */
 	protected $template;
 
@@ -21,23 +24,25 @@ class pagination
 	/** @var \phpbb\controller\helper */
 	protected $helper;
 
-	/** @var \phpbb\event\dispatcher_interface */
-	protected $phpbb_dispatcher;
-
 	/**
 	* Constructor
 	*
-	* @param	\phpbb\template\template			$template
-	* @param	\phpbb\user							$user
-	* @param	\phpbb\controller\helper			$helper
-	* @param	\phpbb\event\dispatcher_interface	$phpbb_dispatcher
+	* @param \phpbb\language\language $language
+	* @param \phpbb\template\template $template
+	* @param \phpbb\user $user
+	* @param \phpbb\controller\helper $helper
 	*/
-	public function __construct(\phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\event\dispatcher_interface $phpbb_dispatcher)
+	public function __construct(
+		\phpbb\language\language $language,
+		\phpbb\template\template $template,
+		\phpbb\user $user,
+		\phpbb\controller\helper $helper
+	)
 	{
+		$this->language = $language;
 		$this->template = $template;
 		$this->user = $user;
 		$this->helper = $helper;
-		$this->phpbb_dispatcher = $phpbb_dispatcher;
 	}
 
 	/**
@@ -133,6 +138,7 @@ class pagination
 			// to display the first and last page in the list plus any ellipsis. We use this loop to jump
 			// around a little within the list depending on where we're starting (and ending).
 			$at_page = 1;
+			
 			do
 			{
 				// We decide whether to display the ellipsis during the loop. The ellipsis is always
@@ -190,6 +196,7 @@ class pagination
 		// block_var_name is not empty, we will modify the last row of that block
 		// and add our pagination items.
 		$tpl_block_name = $tpl_prefix = '';
+
 		if (strrpos($block_var_name, '.') !== false)
 		{
 			$tpl_block_name = substr($block_var_name, 0, strrpos($block_var_name, '.'));
@@ -199,17 +206,18 @@ class pagination
 		{
 			$tpl_prefix = strtoupper($block_var_name);
 		}
+
 		$tpl_prefix = ($tpl_prefix == 'PAGINATION') ? '' : $tpl_prefix . '_';
 
 		$template_array = array(
-			$tpl_prefix . 'BASE_URL'		=> (empty($route_name)) ? '' : $this->helper->route($route_name, $route_params),
-			$tpl_prefix . 'START_NAME'		=> $start_name,
-			$tpl_prefix . 'PER_PAGE'		=> $per_page,
+			$tpl_prefix . 'BASE_URL'				=> (empty($route_name)) ? '' : $this->helper->route($route_name, $route_params),
+			$tpl_prefix . 'START_NAME'				=> $start_name,
+			$tpl_prefix . 'PER_PAGE'				=> $per_page,
 			'U_' . $tpl_prefix . 'PREVIOUS_PAGE'	=> ($on_page != 1) ? $u_previous_page : '',
 			'U_' . $tpl_prefix . 'NEXT_PAGE'		=> ($on_page != $total_pages) ? $u_next_page : '',
-			$tpl_prefix . 'TOTAL_PAGES'		=> $total_pages,
-			$tpl_prefix . 'CURRENT_PAGE'	=> $on_page,
-			$tpl_prefix . 'PAGE_NUMBER'		=> $this->on_page($num_items, $per_page, $start),
+			$tpl_prefix . 'TOTAL_PAGES'				=> $total_pages,
+			$tpl_prefix . 'CURRENT_PAGE'			=> $on_page,
+			$tpl_prefix . 'PAGE_NUMBER'				=> $this->on_page($num_items, $per_page, $start),
 		);
 
 		if ($tpl_block_name)
@@ -245,7 +253,8 @@ class pagination
 	public function on_page($num_items, $per_page, $start)
 	{
 		$on_page = $this->get_on_page($per_page, $start);
-		return $this->user->lang('PAGE_OF', $on_page, max(ceil($num_items / $per_page), 1));
+
+		return $this->language->lang('PAGE_OF', $on_page, max(ceil($num_items / $per_page), 1));
 	}
 
 	/**
