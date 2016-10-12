@@ -155,14 +155,14 @@ services:
         class: vinabb\web\controller\online
         arguments:
             - '@auth'
-            - '@dbal.conn'
             - '@config'
-            - '@user'
+            - '@dbal.conn'
+            - '@dispatcher'
             - '@language'
-            - '@template'
             - '@pagination'
             - '@request'
-            - '@dispatcher'
+            - '@template'
+            - '@user'
             - '@controller.helper'
             - '@group_helper'
             - '%core.root_path%'

@@ -15,20 +15,17 @@ class online
 	/** @var \phpbb\auth\auth */
 	protected $auth;
 
-	/** @var \phpbb\db\driver\driver_interface */
-	protected $db;
-
 	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var \phpbb\user */
-	protected $user;
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
+
+	/** @var \phpbb\event\dispatcher_interface */
+	protected $dispatcher;
 
 	/** @var \phpbb\language\language */
 	protected $language;
-
-	/** @var \phpbb\template\template */
-	protected $template;
 
 	/** @var \phpbb\pagination */
 	protected $pagination;
@@ -36,8 +33,11 @@ class online
 	/** @var \phpbb\request\request */
 	protected $request;
 
-	/** @var \phpbb\event\dispatcher_interface */
-	protected $dispatcher;
+	/** @var \phpbb\template\template */
+	protected $template;
+
+	/** @var \phpbb\user */
+	protected $user;
 
 	/** @var \phpbb\controller\helper */
 	protected $helper;
@@ -46,10 +46,10 @@ class online
 	protected $group_helper;
 
 	/** @var string */
-	protected $phpbb_root_path;
+	protected $root_path;
 
 	/** @var string */
-	protected $phpbb_admin_path;
+	protected $admin_path;
 
 	/** @var string */
 	protected $php_ext;
@@ -58,50 +58,50 @@ class online
 	* Constructor
 	*
 	* @param \phpbb\auth\auth $auth
-	* @param \phpbb\db\driver\driver_interface $db
 	* @param \phpbb\config\config $config
-	* @param \phpbb\user $user
+	* @param \phpbb\db\driver\driver_interface $db
+	* @param \phpbb\event\dispatcher_interface $dispatcher
 	* @param \phpbb\language\language $language
-	* @param \phpbb\template\template $template
 	* @param \phpbb\pagination $pagination
 	* @param \phpbb\request\request $request
-	* @param \phpbb\event\dispatcher_interface $dispatcher
+	* @param \phpbb\template\template $template
+	* @param \phpbb\user $user
 	* @param \phpbb\controller\helper $helper
 	* @param \phpbb\group\helper $group_helper
-	* @param string $phpbb_root_path
-	* @param string $phpbb_admin_path
+	* @param string $root_path
+	* @param string $admin_path
 	* @param string $php_ext
 	*/
 	public function __construct(
 		\phpbb\auth\auth $auth,
-		\phpbb\db\driver\driver_interface $db,
 		\phpbb\config\config $config,
-		\phpbb\user $user,
+		\phpbb\db\driver\driver_interface $db,
+		\phpbb\event\dispatcher_interface $dispatcher,
 		\phpbb\language\language $language,
-		\phpbb\template\template $template,
 		\phpbb\pagination $pagination,
 		\phpbb\request\request $request,
-		\phpbb\event\dispatcher_interface $dispatcher,
+		\phpbb\template\template $template,
+		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
 		\phpbb\group\helper $group_helper,
-		$phpbb_root_path,
-		$phpbb_admin_path,
+		$root_path,
+		$admin_path,
 		$php_ext
 	)
 	{
 		$this->auth = $auth;
-		$this->db = $db;
 		$this->config = $config;
-		$this->user = $user;
+		$this->db = $db;
+		$this->dispatcher = $dispatcher;
 		$this->language = $language;
-		$this->template = $template;
 		$this->pagination = $pagination;
 		$this->request = $request;
-		$this->dispatcher = $dispatcher;
+		$this->template = $template;
+		$this->user = $user;
 		$this->helper = $helper;
 		$this->group_helper = $group_helper;
-		$this->phpbb_root_path = $phpbb_root_path;
-		$this->phpbb_admin_path = $phpbb_admin_path;
+		$this->root_path = $root_path;
+		$this->admin_path = $admin_path;
 		$this->php_ext = $php_ext;
 	}
 
@@ -143,7 +143,7 @@ class online
 		// Whois requested
 		if ($mode == 'whois' && $this->auth->acl_get('a_') && $session_id)
 		{
-			include "{$this->phpbb_root_path}includes/functions_user.{$this->php_ext}";
+			include "{$this->root_path}includes/functions_user.{$this->php_ext}";
 
 			$sql = 'SELECT u.user_id, u.username, u.user_type, s.session_ip
 				FROM ' . USERS_TABLE . ' u, ' . SESSIONS_TABLE . " s
@@ -310,9 +310,9 @@ class online
 			$on_page_data = array(
 				"index.{$this->php_ext}"	=> array(
 					'lang'	=> $this->language->lang('INDEX'),
-					'url'	=> append_sid("{$this->phpbb_root_path}index.{$this->php_ext}"),
+					'url'	=> append_sid("{$this->root_path}index.{$this->php_ext}"),
 				),
-				"{$this->phpbb_admin_path}index.{$this->php_ext}"	=> array(
+				"{$this->admin_path}index.{$this->php_ext}"	=> array(
 					'lang'	=> $this->language->lang('ACP'),
 					'url'	=> '',
 				),
@@ -387,7 +387,7 @@ class online
 				if (strpos($row['session_page'], $page_str) !== false)
 				{
 					$location = $page_data['lang'];
-					$location_url = (isset($page_data['url']) && !empty($page_data['url'])) ? $page_data['url'] : append_sid("{$this->phpbb_root_path}index.{$this->php_ext}");
+					$location_url = (isset($page_data['url']) && !empty($page_data['url'])) ? $page_data['url'] : append_sid("{$this->root_path}index.{$this->php_ext}");
 				}
 			}
 
@@ -436,13 +436,13 @@ class online
 					else
 					{
 						$location = $this->language->lang('INDEX');
-						$location_url = append_sid("{$this->phpbb_root_path}index.{$this->php_ext}");
+						$location_url = append_sid("{$this->root_path}index.{$this->php_ext}");
 					}
 				}
 				else
 				{
 					$location = $this->language->lang('INDEX');
-					$location_url = append_sid("{$this->phpbb_root_path}index.{$this->php_ext}");
+					$location_url = append_sid("{$this->root_path}index.{$this->php_ext}");
 				}
 			}
 
@@ -506,7 +506,7 @@ class online
 			$sql = 'SELECT group_id, group_name, group_colour, group_type, group_legend
 				FROM ' . GROUPS_TABLE . '
 				WHERE group_legend > 0
-				ORDER BY ' . $order_legend . ' ASC';
+				ORDER BY ' . $order_legend;
 		}
 		else
 		{
@@ -520,7 +520,7 @@ class online
 					)
 				WHERE g.group_legend > 0
 					AND (g.group_type <> ' . GROUP_HIDDEN . ' OR ug.user_id = ' . $this->user->data['user_id'] . ')
-				ORDER BY g.' . $order_legend . ' ASC';
+				ORDER BY g.' . $order_legend;
 		}
 		$result = $this->db->sql_query($sql);
 
