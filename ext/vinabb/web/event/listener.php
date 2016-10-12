@@ -252,10 +252,16 @@ class listener implements EventSubscriberInterface
 
 		// Add template variables
 		$this->template->assign_vars(array(
-			'CONFIG_TOTAL_USERS'	=> $this->config['num_users'],
-			'CONFIG_TOTAL_FORUMS'	=> $this->config['num_forums'],
-			'CONFIG_TOTAL_TOPICS'	=> $this->config['num_topics'],
-			'CONFIG_TOTAL_POSTS'	=> $this->config['num_posts'],
+			'CONFIG_TOTAL_USERS'			=> $this->config['num_users'],
+			'CONFIG_TOTAL_FORUMS'			=> $this->config['num_forums'],
+			'CONFIG_TOTAL_TOPICS'			=> $this->config['num_topics'],
+			'CONFIG_TOTAL_POSTS'			=> $this->config['num_posts'],
+			'CONFIG_TOTAL_BB_EXTS'			=> $this->config['vinabb_web_total_bb_exts'],
+			'CONFIG_TOTAL_BB_STYLES'		=> $this->config['vinabb_web_total_bb_styles'],
+			'CONFIG_TOTAL_BB_ACP_STYLES'	=> $this->config['vinabb_web_total_bb_acp_styles'],
+			'CONFIG_TOTAL_BB_LANGS'			=> $this->config['vinabb_web_total_bb_langs'],
+			'CONFIG_TOTAL_BB_TOOLS'			=> $this->config['vinabb_web_total_bb_tools'],
+			'CONFIG_TOTAL_BB_AUTHORS'		=> $this->config['vinabb_web_total_bb_authors'],
 
 			'LANG_SWITCH_CURRENT'	=> $this->user->lang_name,
 			'LANG_SWITCH_DEFAULT'	=> $this->config['default_lang'],

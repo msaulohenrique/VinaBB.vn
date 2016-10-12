@@ -16,17 +16,17 @@ class bb_config extends migration
 	{
 		return array(
 			// Counter
-			array('config.add', array('vinabb_web_total_exts', 0, true)),
-			array('config.add', array('vinabb_web_total_styles', 0, true)),
-			array('config.add', array('vinabb_web_total_acp_styles', 0, true)),
-			array('config.add', array('vinabb_web_total_langs', 0, true)),
-			array('config.add', array('vinabb_web_total_tools', 0, true)),
-			array('config.add', array('vinabb_web_total_authors', 0, true)),
-			array('config.add', array('vinabb_web_total_ext_filesize', 0, true)),
-			array('config.add', array('vinabb_web_total_style_filesize', 0, true)),
-			array('config.add', array('vinabb_web_total_acp_style_filesize', 0, true)),
-			array('config.add', array('vinabb_web_total_lang_filesize', 0, true)),
-			array('config.add', array('vinabb_web_total_tool_filesize', 0, true)),
+			array('config.add', array('vinabb_web_total_bb_exts', 0, true)),
+			array('config.add', array('vinabb_web_total_bb_styles', 0, true)),
+			array('config.add', array('vinabb_web_total_bb_acp_styles', 0, true)),
+			array('config.add', array('vinabb_web_total_bb_langs', 0, true)),
+			array('config.add', array('vinabb_web_total_bb_tools', 0, true)),
+			array('config.add', array('vinabb_web_total_bb_authors', 0, true)),
+			array('config.add', array('vinabb_web_bb_exts_filesize', 0, true)),
+			array('config.add', array('vinabb_web_bb_styles_filesize', 0, true)),
+			array('config.add', array('vinabb_web_bb_acp_styles_filesize', 0, true)),
+			array('config.add', array('vinabb_web_bb_langs_filesize', 0, true)),
+			array('config.add', array('vinabb_web_bb_tools_filesize', 0, true)),
 
 			// Config
 			array('config.add', array('vinabb_web_newest_ext_id', 0)),

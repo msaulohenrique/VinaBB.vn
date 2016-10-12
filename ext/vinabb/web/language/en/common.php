@@ -29,6 +29,11 @@ $lang = array_merge($lang, array(
 	'ACP_CAT_VINABB'			=> 'VinaBB',
 	'ACP_CAT_VINABB_SETTINGS'	=> 'Settings',
 
+	'BB_ACP_STYLES'	=> 'ACP styles',
+	'BB_EXTS'		=> 'Extensions',
+	'BB_LANGS'		=> 'Language packages',
+	'BB_STYLES'		=> 'Styles',
+	'BB_TOOLS'		=> 'Tools',
 	'BBCODE_C_HELP'	=> 'Insert code: [code]block code[/code] or `inline code`',
 	'BOARD'			=> 'Board',
 

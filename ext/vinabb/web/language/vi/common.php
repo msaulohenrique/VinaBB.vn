@@ -29,6 +29,11 @@ $lang = array_merge($lang, array(
 	'ACP_CAT_VINABB'			=> 'VinaBB',
 	'ACP_CAT_VINABB_SETTINGS'	=> 'Thiết lập',
 
+	'BB_ACP_STYLES'	=> 'Giao diện quản trị',
+	'BB_EXTS'		=> 'Gói mở rộng',
+	'BB_LANGS'		=> 'Gói ngôn ngữ',
+	'BB_STYLES'		=> 'Giao diện',
+	'BB_TOOLS'		=> 'Công cụ',
 	'BBCODE_C_HELP'	=> 'Chèn mã: [code]đoạn mã[/code] hay `mã một dòng`',
 	'BOARD'			=> 'Diễn đàn',
 
