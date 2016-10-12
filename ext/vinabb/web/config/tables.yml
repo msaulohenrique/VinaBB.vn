@@ -1,3 +1,7 @@
 parameters:
+    vinabb.web.tables.bb_authors: '%core.table_prefix%bb_authors'
     vinabb.web.tables.bb_categories: '%core.table_prefix%bb_categories'
     vinabb.web.tables.bb_items: '%core.table_prefix%bb_items'
+    vinabb.web.tables.portal_articles: '%core.table_prefix%portal_articles'
+    vinabb.web.tables.portal_categories: '%core.table_prefix%portal_categories'
+    vinabb.web.tables.portal_comments: '%core.table_prefix%portal_comments'
