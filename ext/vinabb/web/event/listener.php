@@ -286,8 +286,6 @@ class listener implements EventSubscriberInterface
 			'GOOGLE_PLUS_URL'	=> $this->config['vinabb_web_google_plus_url'],
 			'GITHUB_URL'		=> $this->config['vinabb_web_github_url'],
 
-			'EXT_ASSETS_PATH'	=> "{$this->ext_web_path}assets",
-
 			'S_FOUNDER'		=> $this->user->data['user_type'] == USER_FOUNDER,
 			'S_VIETNAMESE'	=> $this->user->lang_name == constants::LANG_VIETNAMESE,
 
