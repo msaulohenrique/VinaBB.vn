@@ -326,9 +326,10 @@ class listener implements EventSubscriberInterface
 			// Get parameters
 			$params_ary = array();
 
-			if ($event['params'] !== false)
+			if ($event['params'] !== false || strpos($event['url'], "ucp.{$this->php_ext}") !== false || strpos($event['url'], "mcp.{$this->php_ext}") !== false)
 			{
-				$params = explode('&', str_replace(array('&amp;', '?'), array('&', ''), $event['params']));
+				$event_params = ($event['params'] !== false) ? $event['params'] : substr(strrchr($event['url'], '?'), 1);
+				$params = explode('&', str_replace(array('&amp;', '?'), array('&', ''), $event_params));
 
 				foreach ($params as $param)
 				{
@@ -366,7 +367,6 @@ class listener implements EventSubscriberInterface
 			}
 			else if (strpos($event['url'], "ucp.{$this->php_ext}") !== false)
 			{
-				echo $event['params'] . "<br>";
 				if (isset($params_ary['i']))
 				{
 					$params_ary['id'] = (substr($params_ary['i'], 0, 4) == 'ucp_') ? substr($params_ary['i'], 4) : $params_ary['i'];

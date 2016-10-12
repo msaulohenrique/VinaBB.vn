@@ -37,11 +37,14 @@ class ucp
 	/** @var \phpbb\event\dispatcher_interface */
 	protected $dispatcher;
 
+	/** @var \phpbb\extension\manager */
+	protected $ext_manager;
+
 	/** @var \phpbb\controller\helper */
 	protected $helper;
 
 	/** @var string */
-	protected $phpbb_root_path;
+	protected $root_path;
 
 	/** @var string */
 	protected $php_ext;
@@ -59,8 +62,9 @@ class ucp
 	* @param \phpbb\request\request $request
 	* @param \phpbb\log\log $log
 	* @param \phpbb\event\dispatcher_interface $dispatcher
+	* @param \phpbb\extension\manager $ext_manager
 	* @param \phpbb\controller\helper $helper
-	* @param string $phpbb_root_path
+	* @param string $root_path
 	* @param string $php_ext
 	*/
 	public function __construct(
@@ -73,8 +77,9 @@ class ucp
 		\phpbb\request\request $request,
 		\phpbb\log\log $log,
 		\phpbb\event\dispatcher_interface $dispatcher,
+		\phpbb\extension\manager $ext_manager,
 		\phpbb\controller\helper $helper,
-		$phpbb_root_path,
+		$root_path,
 		$php_ext
 	)
 	{
@@ -87,9 +92,12 @@ class ucp
 		$this->request = $request;
 		$this->log = $log;
 		$this->dispatcher = $dispatcher;
+		$this->ext_manager = $ext_manager;
 		$this->helper = $helper;
-		$this->phpbb_root_path = $phpbb_root_path;
+		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
+
+		$this->ext_root_path = $this->ext_manager->get_extension_path('vinabb/web', true);
 	}
 
 	public function main($id, $mode)
@@ -101,8 +109,8 @@ class ucp
 		}
 
 		// Common functions
-		require "{$this->phpbb_root_path}includes/functions_user.{$this->php_ext}";
-		require "{$this->phpbb_root_path}includes/functions_module.{$this->php_ext}";
+		require "{$this->root_path}includes/functions_user.{$this->php_ext}";
+		require "{$this->ext_root_path}includes/functions_module.{$this->php_ext}";
 
 		if (in_array($mode, array('login', 'login_link', 'logout', 'confirm', 'sendpassword', 'activate')))
 		{
@@ -114,7 +122,7 @@ class ucp
 		// Setting a variable to let the style designer know where he is...
 		$this->template->assign_var('S_IN_UCP', true);
 
-		$module = new \p_master();
+		$module = new \vinabb\web\includes\custom_p_master();
 		$default = false;
 
 		// Basic "global" modes
@@ -124,7 +132,7 @@ class ucp
 				$module->load('ucp', 'activate');
 				$module->display($this->language->lang('UCP_ACTIVATE'));
 
-				redirect(append_sid("{$this->phpbb_root_path}index.{$this->php_ext}"));
+				redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
 			break;
 
 			case 'resend_act':
@@ -140,7 +148,7 @@ class ucp
 			case 'register':
 				if ($this->user->data['is_registered'] || $this->request->is_set('not_agreed'))
 				{
-					redirect(append_sid("{$this->phpbb_root_path}index.{$this->php_ext}"));
+					redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
 				}
 
 				$module->load('ucp', 'register');
@@ -154,7 +162,7 @@ class ucp
 			case 'login':
 				if ($this->user->data['is_registered'])
 				{
-					redirect(append_sid("{$this->phpbb_root_path}index.{$this->php_ext}"));
+					redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
 				}
 
 				login_box($this->request->variable('redirect', "index.{$this->php_ext}"));
@@ -163,7 +171,7 @@ class ucp
 			case 'login_link':
 				if ($this->user->data['is_registered'])
 				{
-					redirect(append_sid("{$this->phpbb_root_path}index.{$this->php_ext}"));
+					redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
 				}
 
 				$module->load('ucp', 'login_link');
@@ -177,13 +185,13 @@ class ucp
 				}
 				else if ($this->user->data['user_id'] != ANONYMOUS)
 				{
-					meta_refresh(3, append_sid("{$this->phpbb_root_path}index.{$this->php_ext}"));
+					meta_refresh(3, append_sid("{$this->root_path}index.{$this->php_ext}"));
 
-					$message = $this->language->lang('LOGOUT_FAILED') . '<br><br>' . $this->language->lang('RETURN_INDEX', '<a href="' . append_sid("{$this->phpbb_root_path}index.{$this->php_ext}") . '">', '</a>');
+					$message = $this->language->lang('LOGOUT_FAILED') . '<br><br>' . $this->language->lang('RETURN_INDEX', '<a href="' . append_sid("{$this->root_path}index.{$this->php_ext}") . '">', '</a>');
 					trigger_error($message);
 				}
 
-				redirect(append_sid("{$this->phpbb_root_path}index.{$this->php_ext}"));
+				redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
 			break;
 
 			case 'terms':
@@ -195,7 +203,7 @@ class ucp
 				{
 					if ($this->user->data['is_registered'])
 					{
-						redirect(append_sid("{$this->phpbb_root_path}index.{$this->php_ext}"));
+						redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
 					}
 
 					login_box();
@@ -263,9 +271,9 @@ class ucp
 					$this->user->session_kill();
 					$this->user->session_begin();
 
-					meta_refresh(3, append_sid("{$this->phpbb_root_path}index.{$this->php_ext}"));
+					meta_refresh(3, append_sid("{$this->root_path}index.{$this->php_ext}"));
 
-					$message = $this->language->lang('COOKIES_DELETED') . '<br><br>' . $this->language->lang('RETURN_INDEX', '<a href="' . append_sid("{$this->phpbb_root_path}index.{$this->php_ext}") . '">', '</a>');
+					$message = $this->language->lang('COOKIES_DELETED') . '<br><br>' . $this->language->lang('RETURN_INDEX', '<a href="' . append_sid("{$this->root_path}index.{$this->php_ext}") . '">', '</a>');
 					trigger_error($message);
 				}
 				else
@@ -273,7 +281,7 @@ class ucp
 					confirm_box(false, 'DELETE_COOKIES', '');
 				}
 
-				redirect(append_sid("{$this->phpbb_root_path}index.{$this->php_ext}"));
+				redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
 			break;
 
 			case 'switch_perm':
@@ -288,27 +296,27 @@ class ucp
 
 				if (!$this->auth->acl_get('a_switchperm') || !$user_row || $user_id == $this->user->data['user_id'] || !check_link_hash($this->request->variable('hash', ''), 'switchperm'))
 				{
-					redirect(append_sid("{$this->phpbb_root_path}index.{$this->php_ext}"));
+					redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
 				}
 
-				include "{$this->phpbb_root_path}includes/acp/auth.{$this->php_ext}";
+				include "{$this->root_path}includes/acp/auth.{$this->php_ext}";
 
 				$auth_admin = new auth_admin();
 				if (!$auth_admin->ghost_permissions($user_id, $this->user->data['user_id']))
 				{
-					redirect(append_sid("{$this->phpbb_root_path}index.{$this->php_ext}"));
+					redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
 				}
 
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_ACL_TRANSFER_PERMISSIONS', false, array($user_row['username']));
 
-				$message = sprintf($this->language->lang('PERMISSIONS_TRANSFERRED'), $user_row['username']) . '<br><br>' . $this->language->lang('RETURN_INDEX', '<a href="' . append_sid("{$this->phpbb_root_path}index.{$this->php_ext}") . '">', '</a>');
+				$message = sprintf($this->language->lang('PERMISSIONS_TRANSFERRED'), $user_row['username']) . '<br><br>' . $this->language->lang('RETURN_INDEX', '<a href="' . append_sid("{$this->root_path}index.{$this->php_ext}") . '">', '</a>');
 				trigger_error($message);
 			break;
 
 			case 'restore_perm':
 				if (!$this->user->data['user_perm_from'] || !$this->auth->acl_get('a_switchperm'))
 				{
-					redirect(append_sid("{$this->phpbb_root_path}index.{$this->php_ext}"));
+					redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
 				}
 
 				$this->auth->acl_cache($this->user->data);
@@ -322,7 +330,7 @@ class ucp
 
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_ACL_RESTORE_PERMISSIONS', false, array($username));
 
-				$message = $this->language->lang('PERMISSIONS_RESTORED') . '<br><br>' . $this->language->lang('RETURN_INDEX', '<a href="' . append_sid("{$this->phpbb_root_path}index.{$this->php_ext}") . '">', '</a>');
+				$message = $this->language->lang('PERMISSIONS_RESTORED') . '<br><br>' . $this->language->lang('RETURN_INDEX', '<a href="' . append_sid("{$this->root_path}index.{$this->php_ext}") . '">', '</a>');
 				trigger_error($message);
 			break;
 
@@ -342,7 +350,7 @@ class ucp
 		{
 			if ($this->user->data['is_bot'])
 			{
-				redirect(append_sid("{$this->phpbb_root_path}index.{$this->php_ext}"));
+				redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
 			}
 
 			if ($id == 'pm' && $mode == 'view' && $this->request->is_set('p', \phpbb\request\request_interface::GET))
@@ -364,7 +372,7 @@ class ucp
 			$update_time = $this->config['load_online_time'] * 60;
 
 			$sql_ary = array(
-				'SELECT'	=> 'u.user_id, u.username, u.username_clean, u.user_colour, MAX(s.session_time) as online_time, MIN(s.session_viewonline) AS viewonline',
+				'SELECT'	=> 'u.user_id, u.username, u.username_clean, u.user_colour, MAX(s.session_time) AS online_time, MIN(s.session_viewonline) AS viewonline',
 				'FROM'		=> array(
 					USERS_TABLE		=> 'u',
 					ZEBRA_TABLE		=> 'z',
@@ -379,7 +387,7 @@ class ucp
 					AND z.friend = 1
 					AND u.user_id = z.zebra_id',
 				'GROUP_BY'	=> 'z.zebra_id, u.user_id, u.username_clean, u.user_colour, u.username',
-				'ORDER_BY'	=> 'u.username_clean ASC',
+				'ORDER_BY'	=> 'u.username_clean',
 			);
 
 			$sql = $this->db->sql_build_query('SELECT_DISTINCT', $sql_ary);
@@ -426,7 +434,7 @@ class ucp
 		$module->load_active();
 
 		// Assign data to the template engine for the list of modules
-		$module->assign_tpl_vars(append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}"));
+		$module->assign_tpl_vars("{$this->root_path}ucp.{$this->php_ext}");
 
 		// Generate the page, do not display/query online list
 		$module->display($module->get_page_title());
