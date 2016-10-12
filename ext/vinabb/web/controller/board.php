@@ -1144,7 +1144,7 @@ class board
 					'U_LAST_POST_AUTHOR'	=> get_username_string('profile', $row['topic_last_poster_id'], $row['topic_last_poster_name'], $row['topic_last_poster_colour']),
 					'U_TOPIC_AUTHOR'		=> get_username_string('profile', $row['topic_poster'], $row['topic_first_poster_name'], $row['topic_first_poster_colour']),
 					'U_VIEW_TOPIC'			=> $view_topic_url,
-					'U_VIEW_FORUM'			=> $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $row['forum_id'], 'seo' => $row['forum_name_seo'] . constants::REWRITE_URL_SEO)),
+					'U_VIEW_FORUM'			=> $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $row['forum_id'], 'seo' => $forum_data['forum_name_seo'] . constants::REWRITE_URL_SEO)),
 					'U_MCP_REPORT'			=> $this->helper->route('vinabb_web_mcp_route', array('id' => 'reports', 'mode' => 'reports', 'f' => $row['forum_id'], 't' => $topic_id), true, $this->user->session_id),
 					'U_MCP_QUEUE'			=> $u_mcp_queue,
 
