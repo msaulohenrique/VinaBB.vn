@@ -233,14 +233,14 @@ class ucp
 						/**
 						* Event to save custom cookies from deletion
 						*
-						* @event vinabb.web.ucp_delete_cookies
+						* @event core.ucp_delete_cookies
 						* @var	string	cookie_name		Cookie name to checking
 						* @var	bool	retain_cookie	Do we retain our cookie or not, true if retain
 						* @since 3.1.3-RC1
 						*/
 						$retain_cookie = false;
 						$vars = array('cookie_name', 'retain_cookie');
-						extract($this->dispatcher->trigger_event('vinabb.web.ucp_delete_cookies', compact($vars)));
+						extract($this->dispatcher->trigger_event('core.ucp_delete_cookies', compact($vars)));
 
 						if ($retain_cookie)
 						{
@@ -410,14 +410,14 @@ class ucp
 		/**
 		* Use this event to enable and disable additional UCP modules
 		*
-		* @event vinabb.web.ucp_display_module_before
+		* @event core.ucp_display_module_before
 		* @var	p_master	module	Object holding all modules and their status
 		* @var	mixed		id		Active module category (can be the int or string)
 		* @var	string		mode	Active module
 		* @since 3.1.0-a1
 		*/
 		$vars = array('module', 'id', 'mode');
-		extract($this->dispatcher->trigger_event('vinabb.web.ucp_display_module_before', compact($vars)));
+		extract($this->dispatcher->trigger_event('core.ucp_display_module_before', compact($vars)));
 
 		// Select the active module
 		$module->set_active($id, $mode);

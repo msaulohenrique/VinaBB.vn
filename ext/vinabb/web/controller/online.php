@@ -174,12 +174,12 @@ class online
 		/**
 		* Modify the forum data SQL query for getting additional fields if needed
 		*
-		* @event vinabb.web.viewonline_modify_forum_data_sql
+		* @event core.viewonline_modify_forum_data_sql
 		* @var	array	sql_ary			The SQL array
 		* @since 3.1.5-RC1
 		*/
 		$vars = array('sql_ary');
-		extract($this->dispatcher->trigger_event('vinabb.web.viewonline_modify_forum_data_sql', compact($vars)));
+		extract($this->dispatcher->trigger_event('core.viewonline_modify_forum_data_sql', compact($vars)));
 
 		$result = $this->db->sql_query($this->db->sql_build_query('SELECT', $sql_ary), 600);
 		unset($sql_ary);
@@ -237,7 +237,7 @@ class online
 		/**
 		* Modify the SQL query for getting the user data to display viewonline list
 		*
-		* @event vinabb.web.viewonline_modify_sql
+		* @event core.viewonline_modify_sql
 		* @var	array	sql_ary			The SQL array
 		* @var	bool	show_guests		Do we display guests in the list
 		* @var	int		guest_counter	Number of guests displayed
@@ -246,7 +246,7 @@ class online
 		* @change 3.1.0-a2 Added vars guest_counter and forum_data
 		*/
 		$vars = array('sql_ary', 'show_guests', 'guest_counter', 'forum_data');
-		extract($this->dispatcher->trigger_event('vinabb.web.viewonline_modify_sql', compact($vars)));
+		extract($this->dispatcher->trigger_event('core.viewonline_modify_sql', compact($vars)));
 
 		$result = $this->db->sql_query($this->db->sql_build_query('SELECT', $sql_ary));
 
@@ -449,7 +449,7 @@ class online
 			/**
 			* Overwrite the location's name and URL, which are displayed in the list
 			*
-			* @event vinabb.web.viewonline_overwrite_location
+			* @event core.viewonline_overwrite_location
 			* @var	array	on_page			File name and query string
 			* @var	array	row				Array with the users sql row
 			* @var	string	location		Page name to displayed in the list
@@ -459,7 +459,7 @@ class online
 			* @change 3.1.0-a2 Added var forum_data
 			*/
 			$vars = array('on_page', 'row', 'location', 'location_url', 'forum_data');
-			extract($this->dispatcher->trigger_event('vinabb.web.viewonline_overwrite_location', compact($vars)));
+			extract($this->dispatcher->trigger_event('core.viewonline_overwrite_location', compact($vars)));
 
 			$template_row = array(
 				'USERNAME' 			=> $row['username'],
@@ -483,7 +483,7 @@ class online
 			/**
 			* Modify viewonline template data before it is displayed in the list
 			*
-			* @event vinabb.web.viewonline_modify_user_row
+			* @event core.viewonline_modify_user_row
 			* @var	array	on_page			File name and query string
 			* @var	array	row				Array with the users sql row
 			* @var	array	forum_data		Array with forum data
@@ -491,7 +491,7 @@ class online
 			* @since 3.1.0-RC4
 			*/
 			$vars = array('on_page', 'row', 'forum_data', 'template_row');
-			extract($this->dispatcher->trigger_event('vinabb.web.viewonline_modify_user_row', compact($vars)));
+			extract($this->dispatcher->trigger_event('core.viewonline_modify_user_row', compact($vars)));
 
 			$this->template->assign_block_vars('user_row', $template_row);
 		}

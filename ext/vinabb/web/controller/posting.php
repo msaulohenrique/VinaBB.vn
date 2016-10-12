@@ -162,7 +162,7 @@ class posting
 		* called, and it has not been called yet. Extensions requiring template
 		* assignments should use an event that comes later in this file.
 		*
-		* @event vinabb.web.modify_posting_parameters
+		* @event core.modify_posting_parameters
 		* @var	int		post_id		ID of the post
 		* @var	int		topic_id	ID of the topic
 		* @var	int		forum_id	ID of the forum
@@ -200,7 +200,7 @@ class posting
 			'mode',
 			'error',
 		);
-		extract($this->dispatcher->trigger_event('vinabb.web.modify_posting_parameters', compact($vars)));
+		extract($this->dispatcher->trigger_event('core.modify_posting_parameters', compact($vars)));
 
 		// Was cancel pressed? If so then redirect to the appropriate page
 		if ($cancel)
@@ -450,7 +450,7 @@ class posting
 		 *
 		 * Extensions should only change the error and is_authed variables.
 		 *
-		 * @event vinabb.web.modify_posting_auth
+		 * @event core.modify_posting_auth
 		 * @var	int		post_id		ID of the post
 		 * @var	int		topic_id	ID of the topic
 		 * @var	int		forum_id	ID of the forum
@@ -485,7 +485,7 @@ class posting
 			'error',
 			'is_authed',
 		);
-		extract($this->dispatcher->trigger_event('vinabb.web.modify_posting_auth', compact($vars)));
+		extract($this->dispatcher->trigger_event('core.modify_posting_auth', compact($vars)));
 
 		if (!$is_authed)
 		{
@@ -534,7 +534,7 @@ class posting
 			/**
 			 * This event allows you to modify the conditions for the "cannot edit post" checks
 			 *
-			 * @event vinabb.web.posting_modify_cannot_edit_conditions
+			 * @event core.posting_modify_cannot_edit_conditions
 			 * @var	array	post_data	Array with post data
 			 * @var	bool	force_edit_allowed		Allow the user to edit the post (all permissions and conditions are ignored)
 			 * @var	bool	s_cannot_edit			User can not edit the post because it's not his
@@ -549,7 +549,7 @@ class posting
 				's_cannot_edit_locked',
 				's_cannot_edit_time',
 			);
-			extract($this->dispatcher->trigger_event('vinabb.web.posting_modify_cannot_edit_conditions', compact($vars)));
+			extract($this->dispatcher->trigger_event('core.posting_modify_cannot_edit_conditions', compact($vars)));
 
 			if (!$force_edit_allowed)
 			{
@@ -1020,7 +1020,7 @@ class posting
 			/**
 			 * This event allows you to modify message text before parsing
 			 *
-			 * @event vinabb.web.posting_modify_message_text
+			 * @event core.posting_modify_message_text
 			 * @var	array	post_data	Array with post data
 			 * @var	string	mode		What action to take if the form is submitted
 			 *				post|reply|quote|edit|delete|bump|smilies|popup
@@ -1052,7 +1052,7 @@ class posting
 				'refresh',
 				'message_parser',
 			);
-			extract($this->dispatcher->trigger_event('vinabb.web.posting_modify_message_text', compact($vars)));
+			extract($this->dispatcher->trigger_event('core.posting_modify_message_text', compact($vars)));
 
 			// Grab md5 'checksum' of new message
 			$message_md5 = md5($message_parser->message);
@@ -1346,7 +1346,7 @@ class posting
 			/**
 			 * This event allows you to define errors before the post action is performed
 			 *
-			 * @event vinabb.web.posting_modify_submission_errors
+			 * @event core.posting_modify_submission_errors
 			 * @var	array	post_data	Array with post data
 			 * @var	array	poll		Array with poll data from post (must be used instead of the post_data equivalent)
 			 * @var	string	mode		What action to take if the form is submitted
@@ -1371,7 +1371,7 @@ class posting
 				'submit',
 				'error',
 			);
-			extract($this->dispatcher->trigger_event('vinabb.web.posting_modify_submission_errors', compact($vars)));
+			extract($this->dispatcher->trigger_event('core.posting_modify_submission_errors', compact($vars)));
 
 			// Store message, sync counters
 			if (!sizeof($error) && $submit)
@@ -1471,7 +1471,7 @@ class posting
 					/**
 					 * This event allows you to define errors before the post action is performed
 					 *
-					 * @event vinabb.web.posting_modify_submit_post_before
+					 * @event core.posting_modify_submit_post_before
 					 * @var	array	post_data	Array with post data
 					 * @var	array	poll		Array with poll data
 					 * @var	array	data		Array with post data going to be stored in the database
@@ -1500,7 +1500,7 @@ class posting
 						'update_message',
 						'update_subject',
 					);
-					extract($this->dispatcher->trigger_event('vinabb.web.posting_modify_submit_post_before', compact($vars)));
+					extract($this->dispatcher->trigger_event('core.posting_modify_submit_post_before', compact($vars)));
 
 					// The last parameter tells submit_post if search indexer has to be run
 					$redirect_url = submit_post($mode, $post_data['post_subject'], $post_author_name, $post_data['topic_type'], $poll, $data, $update_message, ($update_message || $update_subject) ? true : false);
@@ -1508,7 +1508,7 @@ class posting
 					/**
 					 * This event allows you to define errors after the post action is performed
 					 *
-					 * @event vinabb.web.posting_modify_submit_post_after
+					 * @event core.posting_modify_submit_post_after
 					 * @var	array	post_data	Array with post data
 					 * @var	array	poll		Array with poll data
 					 * @var	array	data		Array with post data going to be stored in the database
@@ -1539,7 +1539,7 @@ class posting
 						'update_subject',
 						'redirect_url',
 					);
-					extract($this->dispatcher->trigger_event('vinabb.web.posting_modify_submit_post_after', compact($vars)));
+					extract($this->dispatcher->trigger_event('core.posting_modify_submit_post_after', compact($vars)));
 
 					if ($this->config['enable_post_confirm'] && !$user->data['is_registered'] && (isset($captcha) && $captcha->is_solved() === true) && ($mode == 'post' || $mode == 'reply' || $mode == 'quote'))
 					{
@@ -1945,7 +1945,7 @@ class posting
 		/**
 		 * This event allows you to modify template variables for the posting screen
 		 *
-		 * @event vinabb.web.posting_modify_template_vars
+		 * @event core.posting_modify_template_vars
 		 * @var	array	post_data	Array with post data
 		 * @var	array	moderators	Array with forum moderators
 		 * @var	string	mode		What action to take if the form is submitted
@@ -2007,7 +2007,7 @@ class posting
 			'page_data',
 			'message_parser',
 		);
-		extract($this->dispatcher->trigger_event('vinabb.web.posting_modify_template_vars', compact($vars)));
+		extract($this->dispatcher->trigger_event('core.posting_modify_template_vars', compact($vars)));
 
 		// Start assigning vars for main posting page ...
 		$this->template->assign_vars($page_data);
