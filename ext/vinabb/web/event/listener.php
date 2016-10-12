@@ -26,20 +26,20 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\config\config */
     protected $config;
 
-	/** @var \phpbb\template\template */
-    protected $template;
-
-	/** @var \phpbb\user */
-    protected $user;
+	/** @var \phpbb\extension\manager */
+	protected $ext_manager;
 
 	/** @var \phpbb\language\language */
 	protected $language;
 
 	/** @var \phpbb\request\request */
-    protected $request;
+	protected $request;
 
-	/** @var \phpbb\extension\manager */
-	protected $ext_manager;
+	/** @var \phpbb\template\template */
+    protected $template;
+
+	/** @var \phpbb\user */
+    protected $user;
 
 	/** @var \phpbb\controller\helper */
 	protected $helper;
@@ -51,10 +51,10 @@ class listener implements EventSubscriberInterface
 	protected $ext_helper;
 
 	/** @var string */
-	protected $phpbb_root_path;
+	protected $root_path;
 
 	/** @var string */
-	protected $phpbb_admin_path;
+	protected $admin_path;
 
 	/** @var string */
 	protected $php_ext;
@@ -66,52 +66,54 @@ class listener implements EventSubscriberInterface
 	* @param \phpbb\db\driver\driver_interface $db
 	* @param \phpbb\cache\service $cache
 	* @param \phpbb\config\config $config
-	* @param \phpbb\template\template $template
-	* @param \phpbb\user $user
+	* @param \phpbb\extension\manager $ext_manager
 	* @param \phpbb\language\language $language
 	* @param \phpbb\request\request $request
-	* @param \phpbb\extension\manager $ext_manager
+	* @param \phpbb\template\template $template
+	* @param \phpbb\user $user
 	* @param \phpbb\controller\helper $helper
 	* @param \phpbb\path_helper $path_helper
 	* @param \vinabb\web\controller\helper $ext_helper
-	* @param string $phpbb_root_path
+	* @param string $root_path
 	* @param string $php_ext
 	*/
-	public function __construct(\phpbb\auth\auth $auth,
-								\phpbb\db\driver\driver_interface $db,
-								\phpbb\cache\service $cache,
-								\phpbb\config\config $config,
-								\phpbb\template\template $template,
-								\phpbb\user $user,
-								\phpbb\language\language $language,
-								\phpbb\request\request $request,
-								\phpbb\extension\manager $ext_manager,
-								\phpbb\controller\helper $helper,
-								\phpbb\path_helper $path_helper,
-								\vinabb\web\controller\helper $ext_helper,
-								$phpbb_root_path,
-								$phpbb_admin_path,
-								$php_ext)
+	public function __construct(
+		\phpbb\auth\auth $auth,
+		\phpbb\db\driver\driver_interface $db,
+		\phpbb\cache\service $cache,
+		\phpbb\config\config $config,
+		\phpbb\extension\manager $ext_manager,
+		\phpbb\language\language $language,
+		\phpbb\request\request $request,
+		\phpbb\template\template $template,
+		\phpbb\user $user,
+		\phpbb\controller\helper $helper,
+		\phpbb\path_helper $path_helper,
+		\vinabb\web\controller\helper $ext_helper,
+		$root_path,
+		$admin_path,
+		$php_ext
+	)
 	{
 		$this->auth = $auth;
 		$this->db = $db;
 		$this->cache = $cache;
 		$this->config = $config;
-		$this->template = $template;
-		$this->user = $user;
+		$this->ext_manager = $ext_manager;
 		$this->language = $language;
 		$this->request = $request;
-		$this->ext_manager = $ext_manager;
+		$this->template = $template;
+		$this->user = $user;
 		$this->helper = $helper;
 		$this->path_helper = $path_helper;
 		$this->ext_helper = $ext_helper;
-		$this->phpbb_root_path = $phpbb_root_path;
-		$this->phpbb_admin_path = $phpbb_admin_path;
+		$this->root_path = $root_path;
+		$this->admin_path = $admin_path;
 		$this->php_ext = $php_ext;
 
-		$this->config_text = $this->cache->get_config_text_data();
 		$this->ext_root_path = $this->ext_manager->get_extension_path('vinabb/web', true);
 		$this->ext_web_path = $this->path_helper->update_web_root_path($this->ext_root_path);
+		$this->config_text = $this->cache->get_config_text_data();
 	}
 
 	static public function getSubscribedEvents()
@@ -290,8 +292,8 @@ class listener implements EventSubscriberInterface
 			'S_VIETNAMESE'	=> $this->user->lang_name == constants::LANG_VIETNAMESE,
 
 			'U_BOARD'			=> $this->helper->route('vinabb_web_board_route', array('board' => 'board')),
-			'U_MCP'				=> ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? append_sid("{$this->phpbb_root_path}mcp.{$this->php_ext}", 'i=main&mode=front', true, $this->user->session_id) : '',
-			'U_LANG'			=> ($this->user->data['user_id'] == ANONYMOUS && $this->config['vinabb_web_lang_enable']) ? append_sid("{$this->phpbb_root_path}index.{$this->php_ext}", "language=$lang_switch") : '',
+			'U_MCP'				=> ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? append_sid("{$this->root_path}mcp.{$this->php_ext}", 'i=main&mode=front', true, $this->user->session_id) : '',
+			'U_LANG'			=> ($this->user->data['user_id'] == ANONYMOUS && $this->config['vinabb_web_lang_enable']) ? append_sid("{$this->root_path}index.{$this->php_ext}", "language=$lang_switch") : '',
 			'U_LOGIN_ACTION'	=> $this->helper->route('vinabb_web_ucp_route', array('id' => 'front', 'mode' => 'login')),
 			'U_SEND_PASSWORD'	=> ($this->config['email_enable']) ? $this->helper->route('vinabb_web_ucp_route', array('id' => 'front', 'mode' => 'sendpassword')) : '',
 		));
