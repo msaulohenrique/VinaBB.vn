@@ -93,7 +93,7 @@
 	</div>
 	{% endif %}
 
-	{% if not S_IS_BOT %}{{ RUN_CRON_TASK }}{% endif %}
+	{% if not S_IS_BOT %}<div class="hidden">{{ RUN_CRON_TASK }}</div>{% endif %}
 
 	<script src="{{ T_THEME_PATH }}/js/jquery.min.js?v={{ T_ASSETS_VERSION }}"></script>
 	<script src="{{ T_THEME_PATH }}/js/bootstrap.min.js?v={{ T_ASSETS_VERSION }}"></script>
