@@ -49,7 +49,7 @@
 						<div class="content">
 							<div class="comments-header">
 								<strong class="text-primary">{{ row.FORUM_NAME }}</strong>
-								<small class="text-muted">30 Minutes Ago</small>
+								{% if row.LAST_POST_TIME %}<small class="text-muted">{{ row.LAST_POST_TIME }}</small>{% endif %}
 							</div>
 							<div>
 								<span class="hidden-xs hidden-sm">{% if row.subforum and row.S_LIST_SUBFORUMS %}{% for sub in row.subforum %}<a href="{{ sub.U_SUBFORUM }}" class="btn btn-primary btn-icon"><i>{{ loop.index }}</i> {{ sub.SUBFORUM_NAME }}</a> {% endfor %}{% elseif row.MODERATORS %}{row.L_MODERATOR_STR}{{ lang('COLON') }} {{ row.MODERATORS }}{% endif %}</span>
