@@ -111,6 +111,22 @@
 	<script src="https://maps.google.com/maps/api/js?key={{ MAP_API }}"></script>
 	<script src="{{ T_THEME_PATH }}/js/gmaps.min.js?v={{ T_ASSETS_VERSION }}"></script>
 	{% endif %}
+	{% if S_IN_POSTING or S_COMPOSE_PM or S_LOAD_HIGHLIGHT %}
+	<script src="{{ T_THEME_PATH }}/js/highlight.min.js?v={{ T_ASSETS_VERSION }}"></script>
+	<script>
+		$(document).ready(
+			function()
+			{
+				$('pre code').each(
+					function(i, block)
+					{
+						hljs.highlightBlock(block);
+					}
+				);
+			}
+		);
+	</script>
+	{% endif %}
 	<script src="{{ T_THEME_PATH }}/js/custom.js?v={{ T_ASSETS_VERSION }}"></script>
 </body>
 </html>
