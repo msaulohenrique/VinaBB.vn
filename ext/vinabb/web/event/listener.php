@@ -320,9 +320,6 @@ class listener implements EventSubscriberInterface
 		// Add checking our extension, unless it causes errors when disabling the extension
 		if (!$event['is_route'] && $this->ext_manager->is_enabled('vinabb/web'))
 		{
-			// Do not use &amp;
-			$event['is_amp'] = false;
-
 			// Get parameters
 			$params_ary = array();
 
@@ -394,7 +391,7 @@ class listener implements EventSubscriberInterface
 			// Replace by routes
 			if (!empty($route_name))
 			{
-				$event['append_sid_overwrite'] = $this->helper->route($route_name, $params_ary);
+				$event['append_sid_overwrite'] = $this->helper->route($route_name, $params_ary, false, $event['session_id']);
 			}
 		}
 	}
