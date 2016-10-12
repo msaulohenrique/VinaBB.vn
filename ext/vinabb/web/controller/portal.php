@@ -46,7 +46,7 @@ class portal
 	protected $group_helper;
 
 	/** @var string */
-	protected $phpbb_root_path;
+	protected $root_path;
 
 	/** @var string */
 	protected $php_ext;
@@ -65,7 +65,7 @@ class portal
 	* @param \phpbb\user $user
 	* @param \phpbb\controller\helper $helper
 	* @param \phpbb\group\helper $group_helper
-	* @param string $phpbb_root_path
+	* @param string $root_path
 	* @param string $php_ext
 	*/
 	public function __construct(
@@ -80,7 +80,7 @@ class portal
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
 		\phpbb\group\helper $group_helper,
-		$phpbb_root_path,
+		$root_path,
 		$php_ext
 	)
 	{
@@ -95,7 +95,7 @@ class portal
 		$this->user = $user;
 		$this->helper = $helper;
 		$this->group_helper = $group_helper;
-		$this->phpbb_root_path = $phpbb_root_path;
+		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 	}
 
