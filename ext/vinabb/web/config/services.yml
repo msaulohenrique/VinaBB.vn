@@ -119,10 +119,10 @@ services:
         arguments:
             - '@auth'
             - '@dbal.conn'
-            - '@user'
             - '@language'
-            - '@template'
             - '@request'
+            - '@template'
+            - '@user'
             - '@controller.helper'
             - '%core.root_path%'
             - '%core.php_ext%'

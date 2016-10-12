@@ -19,20 +19,20 @@ class embed
 	/** @var \phpbb\language\language */
 	protected $language;
 
-	/** @var \phpbb\user */
-	protected $user;
+	/** @var \phpbb\request\request */
+	protected $request;
 
 	/** @var \phpbb\template\template */
 	protected $template;
 
-	/** @var \phpbb\request\request */
-	protected $request;
+	/** @var \phpbb\user */
+	protected $user;
 
 	/** @var \phpbb\controller\helper */
 	protected $helper;
 
 	/** @var string */
-	protected $phpbb_root_path;
+	protected $root_path;
 
 	/** @var string */
 	protected $php_ext;
@@ -42,34 +42,34 @@ class embed
 	*
 	* @param \phpbb\auth\auth $auth
 	* @param \phpbb\db\driver\driver_interface $db
-	* @param \phpbb\user $user
 	* @param \phpbb\language\language $language
-	* @param \phpbb\template\template $template
 	* @param \phpbb\request\request $request
+	* @param \phpbb\template\template $template
+	* @param \phpbb\user $user
 	* @param \phpbb\controller\helper $helper
-	* @param string $phpbb_root_path
+	* @param string $root_path
 	* @param string $php_ext
 	*/
 	public function __construct(
 		\phpbb\auth\auth $auth,
 		\phpbb\db\driver\driver_interface $db,
-		\phpbb\user $user,
 		\phpbb\language\language $language,
-		\phpbb\template\template $template,
 		\phpbb\request\request $request,
+		\phpbb\template\template $template,
+		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
-		$phpbb_root_path,
+		$root_path,
 		$php_ext
 	)
 	{
 		$this->auth = $auth;
 		$this->db = $db;
-		$this->user = $user;
 		$this->language = $language;
-		$this->template = $template;
 		$this->request = $request;
+		$this->template = $template;
+		$this->user = $user;
 		$this->helper = $helper;
-		$this->phpbb_root_path = $phpbb_root_path;
+		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 	}
 
@@ -127,7 +127,7 @@ class embed
 			));
 		}
 
-		return $this->helper->render(($error) ? 'embed_error.html' : 'embed_forum.html', '');
+		return $this->helper->render(($error) ? 'embed_error.html' : 'embed_forum.html');
 	}
 
 	/**
@@ -170,7 +170,7 @@ class embed
 				'ERROR'	=> $this->language->lang('NO_TOPIC'),
 			));
 
-			return $this->helper->render('embed_error.html', '');
+			return $this->helper->render('embed_error.html');
 		}
 	}
 
@@ -237,6 +237,6 @@ class embed
 			));
 		}
 
-		return $this->helper->render(($error) ? 'embed_error.html' : 'embed_post.html', '');
+		return $this->helper->render(($error) ? 'embed_error.html' : 'embed_post.html');
 	}
 }
