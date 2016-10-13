@@ -204,3 +204,10 @@ strong, b {
 .dropdown-submenu:hover > a:after {
 	border-left-color: $bg-primary;
 }
+
+/* _modal-popups.scss */
+.modal-header {
+	.modal-title {
+		text-transform: none;
+	}
+}
