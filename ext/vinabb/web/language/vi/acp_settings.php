@@ -37,6 +37,10 @@ $lang = array_merge($lang, array(
 	'DEFAULT_LANGUAGE'	=> 'Ngôn ngữ mặc định',
 
 	'ERROR_MAINTENANCE_MODE_FOUNDER'	=> 'Không được phép đổi chế độ bảo trì thành “Sáng lập viên”.',
+	'ERROR_PHP_BRANCH_INVALID'			=> 'Số phiên bản nhánh PHP mới nhất không hợp lệ.',
+	'ERROR_PHP_LEGACY_BRANCH_INVALID'	=> 'Số phiên bản nhánh PHP còn hỗ trợ không hợp lệ.',
+	'ERROR_PHPBB_BRANCH_INVALID'		=> 'Số phiên bản nhánh phpBB mới nhất không hợp lệ.',
+	'ERROR_PHPBB_LEGACY_BRANCH_INVALID'	=> 'Số phiên bản nhánh phpBB còn hỗ trợ không hợp lệ.',
 
 	'LANG_ENABLE'			=> 'Cho phép chuyển ngôn ngữ',
 	'LANG_SWITCH'			=> 'Ngôn ngữ chuyển',

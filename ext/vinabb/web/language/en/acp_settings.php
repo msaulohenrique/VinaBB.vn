@@ -37,6 +37,10 @@ $lang = array_merge($lang, array(
 	'DEFAULT_LANGUAGE'	=> 'Default language',
 
 	'ERROR_MAINTENANCE_MODE_FOUNDER'	=> 'You are not authorized to change the maintenance mode to “Founder”.',
+	'ERROR_PHP_BRANCH_INVALID'			=> 'The latest PHP branch version is invalid.',
+	'ERROR_PHP_LEGACY_BRANCH_INVALID'	=> 'The legacy PHP branch version is invalid.',
+	'ERROR_PHPBB_BRANCH_INVALID'		=> 'The latest phpBB branch version is invalid.',
+	'ERROR_PHPBB_LEGACY_BRANCH_INVALID'	=> 'The legacy phpBB branch version is invalid.',
 
 	'LANG_ENABLE'			=> 'Enable language switcher',
 	'LANG_SWITCH'			=> 'Switch language',
