@@ -80,7 +80,7 @@
 <div class="row">
 	<div class="col-lg-3 col-md-6 col-sm-6">
 		<div class="widget bg-success padding-0">
-			<div class="row row-table" role="button" data-target="http://phpbb.com/">
+			<div class="row row-table" role="button">
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
 					<em class="icon-cloud-download fa-3x"></em>
 				</div>
@@ -93,7 +93,7 @@
 	</div>
 	<div class="col-lg-3 col-md-6 col-sm-6">
 		<div class="widget bg-warning padding-0">
-			<div class="row row-table">
+			<div class="row row-table" role="button">
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
 					<em class="icon-arrow-down-circle fa-3x"></em>
 				</div>
@@ -106,26 +106,26 @@
 	</div>
 	<div class="col-lg-3 col-md-6 col-sm-6">
 		<div class="widget bg-primary padding-0">
-			<div class="row row-table" role="button" data-target="http://phpbb.com/">
+			<div class="row row-table" role="button">
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
-					<em class="icon-cloud-download fa-3x"></em>
+					<em class="icon-paypal fa-3x"></em>
 				</div>
 				<div class="col-xs-8 pv-15 text-center">
-					<h2 class="mv-0">3.1.9</h2>
-					<div class="text-uppercase">phpBB 3.1.x</div>
+					<h2 class="mv-0">7.0.11</h2>
+					<div class="text-uppercase">Phiên bản PHP</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="col-lg-3 col-md-6 col-sm-6">
 		<div class="widget bg-danger padding-0">
-			<div class="row row-table">
+			<div class="row row-table" role="button">
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
-					<em class="icon-heart fa-3x"></em>
+					<em class="icon-badge fa-3x"></em>
 				</div>
 				<div class="col-xs-8 pv-15 text-center">
-					<h2 class="mv-0">phpBB</h2>
-					<div class="text-uppercase">Từ năm 2003</div>
+					<h2 class="mv-0">0.0.1</h2>
+					<div class="text-uppercase">Phiên bản ảo</div>
 				</div>
 			</div>
 		</div>
@@ -209,7 +209,7 @@
 			</div>
 		</div>
 
-		<div class="widget bg-pink padding-0">
+		<div class="widget bg-tomato padding-0">
 			<div class="row row-table">
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
 					<em class="icon-layers fa-3x"></em>
@@ -221,7 +221,7 @@
 			</div>
 		</div>
 
-		<div class="widget bg-pink padding-0">
+		<div class="widget bg-bluesky padding-0">
 			<div class="row row-table">
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
 					<em class="icon-equalizer fa-3x"></em>
@@ -233,7 +233,7 @@
 			</div>
 		</div>
 
-		<div class="widget bg-pink padding-0">
+		<div class="widget bg-indigo padding-0">
 			<div class="row row-table">
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
 					<em class="icon-wrench fa-3x"></em>
@@ -326,18 +326,6 @@
 		<div class="widget bg-info padding-0">
 			<div class="row row-table">
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
-					<em class="icon-organization fa-3x"></em>
-				</div>
-				<div class="col-xs-8 pv-15 text-center">
-					<h2 class="mv-0">{{ CONFIG_TOTAL_FORUMS|number_format }}</h2>
-					<div class="text-uppercase">{{ lang('FORUMS') }}</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="widget bg-indigo padding-0">
-			<div class="row row-table">
-				<div class="col-xs-4 text-center pv-15 bg-light-dark">
 					<em class="icon-notebook fa-3x"></em>
 				</div>
 				<div class="col-xs-8 pv-15 text-center">
@@ -347,7 +335,7 @@
 			</div>
 		</div>
 
-		<div class="widget bg-dark padding-0">
+		<div class="widget bg-brown padding-0">
 			<div class="row row-table">
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
 					<em class="icon-docs fa-3x"></em>
@@ -419,7 +407,7 @@
 		</div>
 
 		{% if S_DISPLAY_ONLINE_LIST %}
-		<div class="widget bg-success padding-0" role="button" data-toggle="modal" data-target="#onlineModal">
+		<div class="widget bg-banalime padding-0" role="button" data-toggle="modal" data-target="#onlineModal">
 			<div class="row row-table">
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
 					<em class="icon-energy fa-3x"></em>
@@ -433,7 +421,7 @@
 		{% endif %}
 
 		{% if S_DISPLAY_BIRTHDAY_LIST %}
-		<div class="widget bg-brown padding-0"{% if TOTAL_BIRTHDAY_USERS %} role="button" data-toggle="modal" data-target="#birthdayModal"{% endif %}>
+		<div class="widget bg-pink padding-0"{% if TOTAL_BIRTHDAY_USERS %} role="button" data-toggle="modal" data-target="#birthdayModal"{% endif %}>
 			<div class="row row-table">
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
 					<em class="icon-present fa-3x"></em>
@@ -481,9 +469,8 @@
 			</div>
 			<div class="panel-body">
 				<a href="#"><h4>phpBB iVN 3.2.0 đã phát hành</h4></a>
-				<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in
-					some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum...
-				</p>
+				<p class="text-muted">{{ CURRENT_TIME }}</p>
+				<p class="text-justify">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum...</p>
 			</div>
 			<div class="panel-footer">
 				<span class="pull-right"><i class="fa fa-comments-o"></i> 58 comments</span>
