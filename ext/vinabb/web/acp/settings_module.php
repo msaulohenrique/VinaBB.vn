@@ -98,25 +98,25 @@ class settings_module
 			}
 
 			// Check latest phpBB branch version
-			if (!preg_match('\d+\.\d', $check_phpbb_branch))
+			if (!preg_match('#^(\d+\.\d+)?$#', $check_phpbb_branch))
 			{
 				$errors[] = $this->language->lang('ERROR_PHPBB_BRANCH_INVALID');
 			}
 
 			// Check legacy phpBB branch version
-			if (!preg_match('\d+\.\d', $check_phpbb_legacy_branch))
+			if (!preg_match('#^(\d+\.\d+)?$#', $check_phpbb_legacy_branch))
 			{
 				$errors[] = $this->language->lang('ERROR_PHPBB_LEGACY_BRANCH_INVALID');
 			}
 
 			// Check latest PHP branch version
-			if (!preg_match('\d+\.\d', $check_php_branch))
+			if (!preg_match('#^(\d+\.\d+)?$#', $check_php_branch))
 			{
 				$errors[] = $this->language->lang('ERROR_PHP_BRANCH_INVALID');
 			}
 
 			// Check legacy PHP branch version
-			if (!preg_match('\d+\.\d', $check_php_legacy_branch))
+			if (!preg_match('#^(\d+\.\d+)?$#', $check_php_legacy_branch))
 			{
 				$errors[] = $this->language->lang('ERROR_PHP_LEGACY_BRANCH_INVALID');
 			}
@@ -170,11 +170,11 @@ class settings_module
 				$this->config->set('vinabb_web_google_plus_url', $google_plus_url);
 				$this->config->set('vinabb_web_github_url', $github_url);
 				$this->config->set('vinabb_web_check_phpbb_url', $check_phpbb_url);
-				$this->config->set('vinabb_web_check_phpbb_version', $check_phpbb_branch);
-				$this->config->set('vinabb_web_check_phpbb_legacy_version', $check_phpbb_legacy_branch);
+				$this->config->set('vinabb_web_check_phpbb_branch', $check_phpbb_branch);
+				$this->config->set('vinabb_web_check_phpbb_legacy_branch', $check_phpbb_legacy_branch);
 				$this->config->set('vinabb_web_check_php_url', $check_php_url);
-				$this->config->set('vinabb_web_check_php_version', $check_php_branch);
-				$this->config->set('vinabb_web_check_php_legacy_version', $check_php_legacy_branch);
+				$this->config->set('vinabb_web_check_php_branch', $check_php_branch);
+				$this->config->set('vinabb_web_check_php_legacy_branch', $check_php_legacy_branch);
 
 				if ($maintenance_time || $maintenance_time_reset)
 				{
