@@ -6,7 +6,7 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\migrations;
+namespace vinabb\web\migrations\v10x;
 
 use phpbb\db\migration\migration;
 
@@ -14,7 +14,7 @@ class bb_categories extends migration
 {
 	static public function depends_on()
 	{
-		return array('\vinabb\web\migrations\module_categories');
+		return array('\vinabb\web\migrations\v10x\module_categories');
 	}
 
 	public function update_data()

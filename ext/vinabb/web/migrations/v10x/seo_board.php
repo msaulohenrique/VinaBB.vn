@@ -6,7 +6,7 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\migrations;
+namespace vinabb\web\migrations\v10x;
 
 use phpbb\db\migration\migration;
 use vinabb\web\includes\constants;
