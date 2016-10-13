@@ -109,6 +109,27 @@ class portal
 
 	public function index()
 	{
+		// Check new versions
+		if (time() > $this->config['vinabb_web_check_gc'] + (constants::CHECK_VERSION_HOURS * 60 * 60))
+		{
+			// Get latest phpBB versions
+			if ($this->config['vinabb_web_check_phpbb_url'])
+			{
+				$raw = $this->fetch_url($this->config['vinabb_web_check_phpbb_url']);
+
+				// Parse JSON
+				if (!empty($raw))
+				{
+					$phpbb_data = json_decode($raw, true);
+				}
+			}
+
+			// Get latest PHP versions
+
+			// Save this time
+			$this->config->set('vinabb_web_check_gc', time(), true);
+		}
+
 		// Latest topics
 		$sql_ary = $this->get_latest_topics_sql();
 
