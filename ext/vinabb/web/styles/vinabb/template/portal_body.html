@@ -80,52 +80,52 @@
 <div class="row">
 	<div class="col-lg-3 col-md-6 col-sm-6">
 		<div class="widget bg-success padding-0">
-			<div class="row row-table" role="button">
+			<div class="row row-table" role="button" data-toggle="modal" data-target="#phpbbModal">
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
 					<em class="icon-cloud-download fa-3x"></em>
 				</div>
 				<div class="col-xs-8 pv-15 text-center">
-					<h2 class="mv-0">3.2.0</h2>
-					<div class="text-uppercase">Phiên bản mới nhất</div>
+					<h2 class="mv-0">3.1.10</h2>
+					<div class="text-uppercase">{{ lang('LATEST_PHPBB') }}</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="col-lg-3 col-md-6 col-sm-6">
 		<div class="widget bg-warning padding-0">
-			<div class="row row-table" role="button">
+			<div class="row row-table" role="button" data-toggle="modal" data-target="#ivnModal">
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
 					<em class="icon-arrow-down-circle fa-3x"></em>
 				</div>
 				<div class="col-xs-8 pv-15 text-center">
 					<h2 class="mv-0">3.2.0</h2>
-					<div class="text-uppercase">Gói Việt hóa</div>
+					<div class="text-uppercase">{{ lang('LATEST_IVN') }}</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="col-lg-3 col-md-6 col-sm-6">
 		<div class="widget bg-primary padding-0">
-			<div class="row row-table" role="button">
+			<div class="row row-table" role="button" data-toggle="modal" data-target="#phpModal">
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
 					<em class="icon-paypal fa-3x"></em>
 				</div>
 				<div class="col-xs-8 pv-15 text-center">
 					<h2 class="mv-0">7.0.11</h2>
-					<div class="text-uppercase">Phiên bản PHP</div>
+					<div class="text-uppercase">{{ lang('LATEST_PHP') }}</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="col-lg-3 col-md-6 col-sm-6">
 		<div class="widget bg-danger padding-0">
-			<div class="row row-table" role="button">
+			<div class="row row-table" role="button" data-toggle="modal" data-target="#gameModal">
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
 					<em class="icon-badge fa-3x"></em>
 				</div>
 				<div class="col-xs-8 pv-15 text-center">
 					<h2 class="mv-0">0.0.1</h2>
-					<div class="text-uppercase">Phiên bản ảo</div>
+					<div class="text-uppercase">{{ lang('LATEST_FORUM_WAR') }}</div>
 				</div>
 			</div>
 		</div>
@@ -488,6 +488,22 @@
 			<li class="footable-page-arrow"><a data-page="next" href="#next">›</a></li>
 			<li class="footable-page-arrow"><a data-page="last" href="#last">»</a></li>
 		</ul>
+	</div>
+</div>
+
+{# Latest phpBB modal #}
+<div class="modal fade" id="phpbbModal" tabindex="-1" role="dialog" aria-labelledby="phpbbModal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="{{ lang('CLOSE') }}"><span aria-hidden="true" class="fa fa-times-circle"></span></button>
+				<h3 class="modal-title">{{ lang('LATEST_PHPBB_TITLE') }}</h3>
+			</div>
+			<div class="modal-body">
+				<p><strong>phpBB 3.2.0-RC1:</strong> <a href="https://download.phpbb.com/pub/release/3.2/unstable/3.2.0-RC1/phpBB-3.2.0-RC1.zip" class="btn btn-primary btn-rounded btn-icon"><i class="fa fa-download"></i> {{ lang('PHPBB_COM') }}</a> <a href="https://github.com/phpbb/phpbb/archive/release-3.2.0-RC1.zip" class="btn btn-github btn-rounded btn-icon"><i class="fa fa-download"></i> {{ lang('GITHUB') }}</a></p>
+				<p><strong>phpBB 3.1.10:</strong> <a href="https://download.phpbb.com/pub/release/3.1/3.1.10/phpBB-3.1.10.zip" class="btn btn-primary btn-rounded btn-icon"><i class="fa fa-download"></i> {{ lang('PHPBB_COM') }}</a> <a href="https://github.com/phpbb/phpbb/archive/release-3.1.10.zip" class="btn btn-github btn-rounded btn-icon"><i class="fa fa-download"></i> {{ lang('GITHUB') }}</a></p>
+			</div>
+		</div>
 	</div>
 </div>
 

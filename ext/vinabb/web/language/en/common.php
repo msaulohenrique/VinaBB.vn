@@ -144,16 +144,18 @@ $lang = array_merge($lang, array(
 	'GITHUB'				=> 'GitHub',
 	'GITHUB_PROFILE'		=> 'GitHub',
 
-	'LANG_SWITCH'		=> '%1$s » %2$s',
-	'LATEST_ACP_STYLES'	=> 'New ACP styles',
-	'LATEST_EXTS'		=> 'New extensions',
-	'LATEST_POSTS'		=> 'New posts',
-	'LATEST_STYLES'		=> 'New styles',
-	'LATEST_TOOLS'		=> 'New tools',
-	'LATEST_TOPICS'		=> 'New topics',
-	'LATEST_USERS'		=> 'New members',
-	'LATITUDE'			=> 'Latitude',
-	'LONGITUDE'			=> 'Longitude',
+	'LANG_SWITCH'			=> '%1$s » %2$s',
+	'LATEST_ACP_STYLES'		=> 'New ACP styles',
+	'LATEST_EXTS'			=> 'New extensions',
+	'LATEST_PHPBB'			=> 'Latest version',
+	'LATEST_PHPBB_TITLE'	=> 'Download phpBB',
+	'LATEST_POSTS'			=> 'New posts',
+	'LATEST_STYLES'			=> 'New styles',
+	'LATEST_TOOLS'			=> 'New tools',
+	'LATEST_TOPICS'			=> 'New topics',
+	'LATEST_USERS'			=> 'New members',
+	'LATITUDE'				=> 'Latitude',
+	'LONGITUDE'				=> 'Longitude',
 
 	'MAINTENANCE_TEXT'				=> 'Zzz… The administrator is now sleeping and dreaming about new features in phpBB 4.x. You can not wake up this lazy boy but his mother can. We are looking for her. Love you!',
 	'MAINTENANCE_TEXT_TIME_END'		=> 'Estimated end time: <strong>%s</strong>.',
@@ -168,6 +170,7 @@ $lang = array_merge($lang, array(
 	'NO_POST'	=> 'The post does not exist.',
 
 	'PHONE'			=> 'Phone',
+	'PHPBB_COM'		=> 'phpBB.com',
 	'POWERED_BY'	=> 'Powered by <a href="https://www.phpbb.com/" data-toggle="tooltip" title="Forum software &copy; phpBB Limited">phpBB</a> with <i class="fa fa-heart animate-pulse text-danger"></i>',
 
 	'RANK_TITLES'	=> array(
@@ -192,4 +195,5 @@ $lang = array_merge($lang, array(
 
 	'VIEW_DETAILS'	=> 'View details',
 	'VINABB'		=> 'VinaBB',
+	'VINABB_VN'		=> 'VinaBB.vn',
 ));
