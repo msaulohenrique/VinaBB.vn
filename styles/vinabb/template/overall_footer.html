@@ -21,7 +21,7 @@
 						<p class="margin-b-0">nedka</p>
 						<ul class="list-inline text-center margin-b-0">
 							<li><a href="http://vinabb.vn/ucp.php?i=pm&mode=compose&u=17" data-toggle="tooltip" data-placement="bottom" title="{{ lang('PM') }}"><i class="fa fa-comment"></i></a></li>
-							<li><a href="#" data-toggle="tooltip" data-placement="bottom" title="{{ lang('SEND_EMAIL') }}"><i class="fa fa-envelope"></i></a></li>
+							{% if U_CONTACT_US %}<li><a href="{{ U_CONTACT_US }}" data-toggle="tooltip" data-placement="bottom" title="{{ lang('SEND_EMAIL') }}"><i class="fa fa-envelope"></i></a></li>{% endif %}
 							<li><a href="#" data-toggle="tooltip" data-placement="bottom" title="{{ lang('PHONE') }}"><i class="fa fa-phone"></i></a></li>
 							{% if S_FOUNDER and DEBUG_OUTPUT %}<li><a data-toggle="modal" data-target="#debugModal"><i data-toggle="tooltip" data-placement="bottom" title="{{ lang('DEBUG') }}" class="fa fa-bug"></i></a></li>{% endif %}
 						</ul>
