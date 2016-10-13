@@ -114,6 +114,33 @@
 		</dl>
 	</fieldset>
 	<fieldset>
+		<legend>{{ lang('LATEST_VERSIONS_INFO') }}</legend>
+		<dl>
+			<dt><label for="check_phpbb_url">{{ lang('CHECK_PHPBB_URL') }}{{ lang('COLON') }}</label></dt>
+			<dd><input type="url" name="check_phpbb_url" id="check_phpbb_url" size="40" maxlength="255" value="{{ CHECK_PHPBB_URL }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="check_phpbb_version">{{ lang('CHECK_PHPBB_VERSION') }}{{ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="check_phpbb_version" id="check_phpbb_version" maxlength="255" value="{{ CHECK_PHPBB_VERSION }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="check_phpbb_legacy_version">{{ lang('CHECK_PHPBB_LEGACY_VERSION') }}{{ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="check_phpbb_legacy_version" id="check_phpbb_legacy_version" maxlength="255" value="{{ CHECK_PHPBB_LEGACY_VERSION }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="check_php_url">{{ lang('CHECK_PHP_URL') }}{{ lang('COLON') }}</label></dt>
+			<dd><input type="url" name="check_php_url" id="check_php_url" size="40" maxlength="255" value="{{ CHECK_PHP_URL }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="check_php_version">{{ lang('CHECK_PHP_VERSION') }}{{ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="check_php_version" id="check_php_version" maxlength="255" value="{{ CHECK_PHP_VERSION }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="check_php_legacy_version">{{ lang('CHECK_PHP_LEGACY_VERSION') }}{{ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="check_php_legacy_version" id="check_php_legacy_version" maxlength="255" value="{{ CHECK_PHP_LEGACY_VERSION }}"></dd>
+		</dl>
+	</fieldset>
+	<fieldset>
 		<legend>{{ lang('ACP_SUBMIT_CHANGES') }}</legend>
 		<p class="submit-buttons">
 			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}">
