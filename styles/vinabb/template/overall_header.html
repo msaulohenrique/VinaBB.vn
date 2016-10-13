@@ -142,7 +142,7 @@
 							<a href="#" class="right-sidebar-toggle"><i class="fa fa-chevron-circle-left"></i></a>
 						</li>
 
-						<!-- Language switcher -->
+						<!-- Guest dropdown menu -->
 						{% if not S_REGISTERED_USER and not S_IS_BOT %}
 						<li class="dropdown avtar-dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -152,6 +152,7 @@
 								{% if U_LANG %}<li><a href="{{ U_LANG }}"><i class="icon-refresh"></i> {{ LANG_SWITCH_TITLE }}</a></li>{% endif %}
 								<li><a href="{{ U_PROFILE }}"><i class="icon-user"></i> {{ lang('PROFILE') }}</a></li>
 								<li><a href="{{ U_USER_PROFILE }}"><i class="icon-settings"></i> {{ lang('READ_PROFILE') }}</a></li>
+								<li><a href="{{ U_FAQ }}"><i class="icon-question"></i> {{ lang('FAQ') }}</a></li>
 								<li class="divider"></li>
 								<li><a href="{{ U_DELETE_COOKIES }}" data-ajax="true" data-refresh="true"><i class="icon-trash"></i> {{ lang('DELETE_COOKIES') }}</a></li>
 								<li><a href="{{ U_LOGIN_LOGOUT }}"><i class="icon-login"></i> {{ L_LOGIN_LOGOUT }}</a></li>
@@ -159,16 +160,18 @@
 						</li>
 						{% endif %}
 
-						<!-- User dropdown -->
+						<!-- Member dropdown menu -->
 						{% if S_REGISTERED_USER %}
 						<li class="dropdown avtar-dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 								<img src="{{ T_THEME_PATH }}/images/no_avatar.png" class="img-circle" width="30" alt="">
 							</a>
 							<ul class="dropdown-menu top-dropdown">
-								<li><a href="{{ U_ACP }}"><i class="icon-bell"></i> {{ lang('ACP_SHORT') }}</a></li>
-								<li><a href="{{ U_PROFILE }}"><i class="icon-user"></i> {{ lang('PROFILE') }}</a></li>
-								<li><a href="{{ U_USER_PROFILE }}"><i class="icon-settings"></i> {{ lang('READ_PROFILE') }}</a></li>
+								{% if U_ACP %}<li><a href="{{ U_ACP }}"><i class="icon-equalizer"></i> {{ lang('ACP_SHORT') }}</a></li>{% endif %}
+								{% if U_MCP %}<li><a href="{{ U_MCP }}"><i class="icon-briefcase"></i> {{ lang('MCP_SHORT') }}</a></li>{% endif %}
+								<li><a href="{{ U_PROFILE }}"><i class="icon-settings"></i> {{ lang('PROFILE') }}</a></li>
+								<li><a href="{{ U_USER_PROFILE }}"><i class="icon-user"></i> {{ lang('READ_PROFILE') }}</a></li>
+								<li><a href="{{ U_FAQ }}"><i class="icon-question"></i> {{ lang('FAQ') }}</a></li>
 								<li class="divider"></li>
 								<li><a href="{{ U_DELETE_COOKIES }}" data-ajax="true" data-refresh="true"><i class="icon-trash"></i> {{ lang('DELETE_COOKIES') }}</a></li>
 								<li><a href="{{ U_LOGIN_LOGOUT }}"><i class="icon-logout"></i> {{ L_LOGIN_LOGOUT }}</a></li>
