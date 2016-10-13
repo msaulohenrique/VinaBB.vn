@@ -68,11 +68,11 @@ class settings_module
 			$google_plus_url = $this->request->variable('google_plus_url', '');
 			$github_url = $this->request->variable('github_url', '');
 			$check_phpbb_url = $this->request->variable('check_phpbb_url', '');
-			$check_phpbb_version = $this->request->variable('check_phpbb_version', '');
-			$check_phpbb_legacy_version = $this->request->variable('check_phpbb_legacy_version', '');
+			$check_phpbb_branch = $this->request->variable('check_phpbb_branch', '');
+			$check_phpbb_legacy_branch = $this->request->variable('check_phpbb_legacy_branch', '');
 			$check_php_url = $this->request->variable('check_php_url', '');
-			$check_php_version = $this->request->variable('check_php_version', '');
-			$check_php_legacy_version = $this->request->variable('check_php_legacy_version', '');
+			$check_php_branch = $this->request->variable('check_php_branch', '');
+			$check_php_legacy_branch = $this->request->variable('check_php_legacy_branch', '');
 
 			// Check switch lang
 			if ($lang_enable && (empty($lang_switch) || $lang_switch == $this->config['default_lang']))
@@ -146,11 +146,11 @@ class settings_module
 				$this->config->set('vinabb_web_google_plus_url', $google_plus_url);
 				$this->config->set('vinabb_web_github_url', $github_url);
 				$this->config->set('vinabb_web_check_phpbb_url', $check_phpbb_url);
-				$this->config->set('vinabb_web_check_phpbb_version', $check_phpbb_version);
-				$this->config->set('vinabb_web_check_phpbb_legacy_version', $check_phpbb_legacy_version);
+				$this->config->set('vinabb_web_check_phpbb_version', $check_phpbb_branch);
+				$this->config->set('vinabb_web_check_phpbb_legacy_version', $check_phpbb_legacy_branch);
 				$this->config->set('vinabb_web_check_php_url', $check_php_url);
-				$this->config->set('vinabb_web_check_php_version', $check_php_version);
-				$this->config->set('vinabb_web_check_php_legacy_version', $check_php_legacy_version);
+				$this->config->set('vinabb_web_check_php_version', $check_php_branch);
+				$this->config->set('vinabb_web_check_php_legacy_version', $check_php_legacy_branch);
 
 				if ($maintenance_time || $maintenance_time_reset)
 				{
@@ -237,12 +237,12 @@ class settings_module
 			'GOOGLE_PLUS_URL'	=> (isset($google_plus_url) && !empty($google_plus_url)) ? $google_plus_url : $this->config['vinabb_web_google_plus_url'],
 			'GITHUB_URL'		=> (isset($github_url) && !empty($github_url)) ? $github_url : $this->config['vinabb_web_github_url'],
 
-			'CHECK_PHPBB_URL'				=> (isset($check_phpbb_url) && !empty($check_phpbb_url)) ? $check_phpbb_url : $this->config['vinabb_web_check_phpbb_url'],
-			'CHECK_PHPBB_VERSION'			=> (isset($check_phpbb_version) && !empty($check_phpbb_version)) ? $check_phpbb_version : $this->config['vinabb_web_check_phpbb_version'],
-			'CHECK_PHPBB_LEGACY_VERSION'	=> (isset($check_phpbb_legacy_version) && !empty($check_phpbb_legacy_version)) ? $check_phpbb_legacy_version : $this->config['vinabb_web_check_phpbb_legacy_version'],
-			'CHECK_PHP_URL'					=> (isset($check_php_url) && !empty($check_php_url)) ? $check_php_url : $this->config['vinabb_web_check_php_url'],
-			'CHECK_PHP_VERSION'				=> (isset($check_php_version) && !empty($check_php_version)) ? $check_php_version : $this->config['vinabb_web_check_php_version'],
-			'CHECK_PHP_LEGACY_VERSION'		=> (isset($check_php_legacy_version) && !empty($check_php_legacy_version)) ? $check_php_legacy_version : $this->config['vinabb_web_check_php_legacy_version'],
+			'CHECK_PHPBB_URL'			=> (isset($check_phpbb_url) && !empty($check_phpbb_url)) ? $check_phpbb_url : $this->config['vinabb_web_check_phpbb_url'],
+			'CHECK_PHPBB_BRANCH'		=> (isset($check_phpbb_branch) && !empty($check_phpbb_branch)) ? $check_phpbb_branch : $this->config['vinabb_web_check_phpbb_branch'],
+			'CHECK_PHPBB_LEGACY_BRANCH'	=> (isset($check_phpbb_legacy_branch) && !empty($check_phpbb_legacy_branch)) ? $check_phpbb_legacy_branch : $this->config['vinabb_web_check_phpbb_legacy_branch'],
+			'CHECK_PHP_URL'				=> (isset($check_php_url) && !empty($check_php_url)) ? $check_php_url : $this->config['vinabb_web_check_php_url'],
+			'CHECK_PHP_BRANCH'			=> (isset($check_php_branch) && !empty($check_php_branch)) ? $check_php_branch : $this->config['vinabb_web_check_php_branch'],
+			'CHECK_PHP_LEGACY_BRANCH'	=> (isset($check_php_legacy_branch) && !empty($check_php_legacy_branch)) ? $check_php_legacy_branch : $this->config['vinabb_web_check_php_legacy_branch'],
 
 			'U_ACTION'	=> $this->u_action,
 		));

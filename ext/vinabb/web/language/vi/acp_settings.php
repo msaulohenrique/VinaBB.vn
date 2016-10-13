@@ -27,12 +27,12 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'ACP_VINABB_SETTINGS_EXPLAIN'	=> '',
 
-	'CHECK_PHP_LEGACY_VERSION'		=> 'Nhánh PHP còn hỗ trợ',
-	'CHECK_PHP_URL'					=> 'Liên kết kiểm tra phiên bản PHP',
-	'CHECK_PHP_VERSION'				=> 'Nhánh PHP mới nhất',
-	'CHECK_PHPBB_LEGACY_VERSION'	=> 'Nhánh phpBB còn hỗ trợ',
-	'CHECK_PHPBB_URL'				=> 'Liên kết kiểm tra phiên bản phpBB',
-	'CHECK_PHPBB_VERSION'			=> 'Nhánh phpBB mới nhất',
+	'CHECK_PHP_BRANCH'			=> 'Nhánh PHP mới nhất',
+	'CHECK_PHP_LEGACY_BRANCH'	=> 'Nhánh PHP còn hỗ trợ',
+	'CHECK_PHP_URL'				=> 'Liên kết kiểm tra phiên bản PHP',
+	'CHECK_PHPBB_BRANCH'		=> 'Nhánh phpBB mới nhất',
+	'CHECK_PHPBB_LEGACY_BRANCH'	=> 'Nhánh phpBB còn hỗ trợ',
+	'CHECK_PHPBB_URL'			=> 'Liên kết kiểm tra phiên bản phpBB',
 
 	'DEFAULT_LANGUAGE'	=> 'Ngôn ngữ mặc định',
 
