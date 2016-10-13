@@ -127,6 +127,18 @@ class portal
 				if (!empty($raw))
 				{
 					$phpbb_data = json_decode($raw, true);
+
+					if ($this->config['vinabb_web_check_phpbb_branch'])
+					{
+						$latest_phpbb_version = isset($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_branch']]['current']) ? $phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_branch']]['current'] : $this->config['vinabb_web_check_phpbb_branch'] . '.x';
+						$this->config->set('vinabb_web_check_phpbb_version', $latest_phpbb_version);
+					}
+
+					if ($this->config['vinabb_web_check_phpbb_legacy_branch'])
+					{
+						$latest_phpbb_legacy_version = isset($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_legacy_branch']]['current']) ? $phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_legacy_branch']]['current'] : $this->config['vinabb_web_check_phpbb_legacy_branch'] . '.x';
+						$this->config->set('vinabb_web_check_phpbb_legacy_version', $latest_phpbb_legacy_version);
+					}
 				}
 			}
 
@@ -321,6 +333,11 @@ class portal
 			'LEGEND'				=> $legend,
 			'TOTAL_BIRTHDAY_USERS'	=> sizeof($birthdays),
 			'NEWEST_USER'			=> $this->language->lang('NEWEST_USER', get_username_string('full', $this->config['newest_user_id'], $this->config['newest_username'], $this->config['newest_user_colour'])),
+
+			'LATEST_PHPBB_VERSION'			=> $this->config['vinabb_web_check_phpbb_version'],
+			'LATEST_LEGACY_PHPBB_VERSION'	=> $this->config['vinabb_web_check_phpbb_legacy_version'],
+			'LATEST_PHP_VERSION'			=> $this->config['vinabb_web_check_php_version'],
+			'LATEST_LEGACY_PHP_VERSION'		=> $this->config['vinabb_web_check_php_legacy_version'],
 
 			'FORUM_VIETNAMESE'	=> $this->forum_data[constants::FORUM_ID_VIETNAMESE]['name'],
 			'FORUM_ENGLISH'		=> $this->forum_data[constants::FORUM_ID_ENGLISH]['name'],
