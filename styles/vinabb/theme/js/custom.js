@@ -30,10 +30,11 @@ $(document).ready(function () {
 		$('body').toggleClass('nav-toggle');
 	});
 
-	// Left menu collapse
+	// Right panel collapse
 	$('.right-sidebar-toggle').on('click', function (event) {
 		event.preventDefault();
 		$('#right-sidebar-toggle').toggleClass('right-sidebar-toggle');
+		$('.right-sidebar-toggle i').toggleClass('fa-chevron-circle-right');
 	});
 
 	// Menu
