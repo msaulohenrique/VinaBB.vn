@@ -130,14 +130,22 @@ class portal
 
 					if ($this->config['vinabb_web_check_phpbb_branch'])
 					{
-						$latest_phpbb_version = isset($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_branch']]['current']) ? $phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_branch']]['current'] : $this->config['vinabb_web_check_phpbb_branch'] . '.x';
-						$this->config->set('vinabb_web_check_phpbb_version', $latest_phpbb_version);
+						$latest_phpbb_version = isset($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_branch']]['current']) ? strtoupper($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_branch']]['current']) : '';
+
+						if (!empty($latest_phpbb_version) && version_compare($latest_phpbb_version, $this->config['vinabb_web_check_phpbb_version'], '>'))
+						{
+							$this->config->set('vinabb_web_check_phpbb_version', $latest_phpbb_version);
+						}
 					}
 
 					if ($this->config['vinabb_web_check_phpbb_legacy_branch'])
 					{
-						$latest_phpbb_legacy_version = isset($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_legacy_branch']]['current']) ? $phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_legacy_branch']]['current'] : $this->config['vinabb_web_check_phpbb_legacy_branch'] . '.x';
-						$this->config->set('vinabb_web_check_phpbb_legacy_version', $latest_phpbb_legacy_version);
+						$latest_phpbb_legacy_version = isset($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_legacy_branch']]['current']) ? strtoupper($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_legacy_branch']]['current']) : '';
+
+						if (!empty($latest_phpbb_legacy_version) && version_compare($latest_phpbb_legacy_version, $this->config['vinabb_web_check_phpbb_legacy_version'], '>'))
+						{
+							$this->config->set('vinabb_web_check_phpbb_legacy_version', $latest_phpbb_legacy_version);
+						}
 					}
 				}
 			}
@@ -151,6 +159,11 @@ class portal
 				if (!empty($raw))
 				{
 					$php_data = simplexml_load_string($raw);
+
+					if ($this->config['vinabb_web_check_php_branch'])
+					{
+						
+					}
 				}
 			}
 
