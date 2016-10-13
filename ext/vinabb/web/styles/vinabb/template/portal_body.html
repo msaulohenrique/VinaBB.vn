@@ -147,50 +147,50 @@
 						<a href="#">
 							<span class="label label-success pull-right">153</span>
 							<em class="fa fa-inbox"></em>
-							<span>Inbox</span>
+							<span>VinaBB</span>
 						</a>
 					</li>
 					<li>
 						<a href="#">
 							<span class="label label-success pull-right">3</span>
 							<em class="fa fa-star"></em>
-							<span>Starred</span>
+							<span>phpBB</span>
 						</a>
 					</li>
 					<li>
 						<a href="#">
 							<span class="label label-success pull-right">55</span>
 							<em class="fa fa-paper-plane-o"></em>
-							<span>Sent</span>
+							<span>Gói mở rộng</span>
 						</a>
 					</li>
 					<li>
 						<a href="#">
 							<span class="label label-success pull-right">0</span>
 							<em class="fa fa-edit"></em>
-							<span>Draft</span>
+							<span>Giao diện</span>
 						</a>
 					</li>
 					<li>
 						<a href="#">
 							<span class="label label-success pull-right">21</span>
 							<em class="fa fa-trash"></em>
-							<span>Trash</span>
+							<span>Thủ thuật</span>
 						</a>
 					</li>
 					<li class="side-nav-header">
 						<span class="text-muted">{{ lang('BOARD')|upper }}</span>
 					</li>
 					<li>
-						<a href="#">
+						<a href="{{ U_FORUM_VIETNAMESE }}">
 							<span class="badge badge-danger"></span>
-							<span>Red</span>
+							<span>{{ FORUM_VIETNAMESE }}</span>
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="{{ U_FORUM_ENGLISH }}">
 							<span class="badge badge-info"></span>
-							<span>Blue</span>
+							<span>{{ FORUM_ENGLISH }}</span>
 						</a>
 					</li>
 				</ul>
@@ -221,65 +221,101 @@
 			</div>
 		</div>
 
+		<div class="widget bg-pink padding-0">
+			<div class="row row-table">
+				<div class="col-xs-4 text-center pv-15 bg-light-dark">
+					<em class="icon-equalizer fa-3x"></em>
+				</div>
+				<div class="col-xs-8 pv-15 text-center">
+					<h2 class="mv-0">{{ CONFIG_TOTAL_BB_ACP_STYLES|number_format }}</h2>
+					<div class="text-uppercase">{{ lang('BB_ACP_STYLES') }}</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="widget bg-pink padding-0">
+			<div class="row row-table">
+				<div class="col-xs-4 text-center pv-15 bg-light-dark">
+					<em class="icon-wrench fa-3x"></em>
+				</div>
+				<div class="col-xs-8 pv-15 text-center">
+					<h2 class="mv-0">{{ CONFIG_TOTAL_BB_TOOLS|number_format }}</h2>
+					<div class="text-uppercase">{{ lang('BB_TOOLS') }}</div>
+				</div>
+			</div>
+		</div>
+
 		<!-- Last updated extensions/styles -->
 		<div class="panel panel-default">
-			<div class="panel-heading">Vừa cập nhật</div>
 			<div class="panel-body">
 				<div class="tabs">
-					<div class="tab-content padding-0">
+					<div class="tab-content padding-5">
 						<div role="tabpanel" class="tab-pane active" id="newExts">
-							<table class="table table-striped">
-								<thead>
-								<tr>
-									<th>{{ lang('LATEST_EXTS') }}</th>
-								</tr>
-								</thead>
-								<tbody>
-								{% for row in 1..10 %}
-								<tr>
-									<td><a href="#">Styles Demo 1.2.4</a>{% if loop.index == 7 %}<span class="label label-success pull-right">Mới</span>{% endif %}</td>
-								</tr>
+							<ul class="nav nav-pills nav-stacked">
+								<li class="side-nav-header">
+									<span class="text-muted">{{ lang('LATEST_EXTS')|upper }}</span>
+								</li>
+								{% for i in 1..10 %}
+								<li>
+									<a href="#">
+										{% if loop.index == 7 %}<span class="label label-success pull-right">Mới</span>{% endif %}
+										<span>Styles Demo 1.2.4</span>
+									</a>
+								</li>
 								{% endfor %}
-								</tbody>
-							</table>
+							</ul>
 						</div>
 						<div role="tabpanel" class="tab-pane" id="newStyles">
-							<table class="table table-striped">
-								<thead>
-								<tr>
-									<th>{{ lang('LATEST_STYLES') }}</th>
-								</tr>
-								</thead>
-								<tbody>
-								{% for row in 1..10 %}
-								<tr>
-									<td><a href="#">BBoots 1.2.0</a>{% if loop.index == 7 %}<span class="label label-success pull-right">Mới</span>{% endif %}</td>
-								</tr>
+							<ul class="nav nav-pills nav-stacked">
+								<li class="side-nav-header">
+									<span class="text-muted">{{ lang('LATEST_STYLES')|upper }}</span>
+								</li>
+								{% for i in 1..10 %}
+								<li>
+									<a href="#">
+										{% if loop.index == 7 %}<span class="label label-success pull-right">Mới</span>{% endif %}
+										<span>BBoots 1.2.0</span>
+									</a>
+								</li>
 								{% endfor %}
-								</tbody>
-							</table>
+							</ul>
+						</div>
+						<div role="tabpanel" class="tab-pane" id="newACPStyles">
+							<ul class="nav nav-pills nav-stacked">
+								<li class="side-nav-header">
+									<span class="text-muted">{{ lang('LATEST_ACP_STYLES')|upper }}</span>
+								</li>
+								{% for i in 1..10 %}
+								<li>
+									<a href="#">
+										{% if loop.index == 7 %}<span class="label label-success pull-right">Mới</span>{% endif %}
+										<span>Float 1.0.0</span>
+									</a>
+								</li>
+								{% endfor %}
+							</ul>
 						</div>
 						<div role="tabpanel" class="tab-pane" id="newTools">
-							<table class="table table-striped">
-								<thead>
-								<tr>
-									<th>{{ lang('LATEST_TOOLS') }}</th>
-								</tr>
-								</thead>
-								<tbody>
-								{% for row in 1..10 %}
-								<tr>
-									<td><a href="#">Extension Pre Validator 0.0.7</a>{% if loop.index == 7 %}<span class="label label-success pull-right">Mới</span>{% endif %}</td>
-								</tr>
+							<ul class="nav nav-pills nav-stacked">
+								<li class="side-nav-header">
+									<span class="text-muted">{{ lang('LATEST_TOOLS')|upper }}</span>
+								</li>
+								{% for i in 1..10 %}
+								<li>
+									<a href="#">
+										{% if loop.index == 7 %}<span class="label label-success pull-right">Mới</span>{% endif %}
+										<span>Extensions Pre Validator 0.0.7</span>
+									</a>
+								</li>
 								{% endfor %}
-								</tbody>
-							</table>
+							</ul>
 						</div>
 					</div>
 					<!-- Nav tabs -->
 					<ul class="list-inline tabs-nav tabs-bottom" role="tablist">
 						<li role="presentation" class="active"><a href="#newExts" aria-controls="newExts" role="tab" data-toggle="tab"><i class="fa fa-rocket fa-2x"></i></a></li>
 						<li role="presentation"><a href="#newStyles" aria-controls="newStyles" role="tab" data-toggle="tab"><i class="fa fa-paint-brush fa-2x"></i></a></li>
+						<li role="presentation"><a href="#newACPStyles" aria-controls="newACPStyles" role="tab" data-toggle="tab"><i class="fa fa-sliders fa-2x"></i></a></li>
 						<li role="presentation"><a href="#newTools" aria-controls="newTools" role="tab" data-toggle="tab"><i class="fa fa-wrench fa-2x"></i></a></li>
 					</ul>
 					<!-- Tab panes -->
@@ -325,57 +361,38 @@
 
 		<!-- New topics/posts -->
 		<div class="panel panel-default">
-			<div class="panel-heading">Vừa cập nhật</div>
 			<div class="panel-body">
 				<div class="tabs">
 					<div class="tab-content padding-0">
 						<div role="tabpanel" class="tab-pane active" id="newTopics">
-							<table class="table table-striped">
-								<thead>
-								<tr>
-									<th>{{ lang('LATEST_TOPICS') }}</th>
-								</tr>
-								</thead>
-								<tbody>
+							<ul class="nav nav-pills nav-stacked">
+								<li class="side-nav-header">
+									<span class="text-muted">{{ lang('LATEST_TOPICS')|upper }}</span>
+								</li>
 								{% for topic in latest_topics %}
-								<tr>
-									<td><a href="#">{{ topic.TITLE }}</a></td>
-								</tr>
+								<li><a href="#"><span>{{ topic.TITLE }}</span></a></li>
 								{% endfor %}
-								</tbody>
-							</table>
+							</ul>
 						</div>
 						<div role="tabpanel" class="tab-pane" id="newPosts">
-							<table class="table table-striped">
-								<thead>
-								<tr>
-									<th>{{ lang('LATEST_POSTS') }}</th>
-								</tr>
-								</thead>
-								<tbody>
+							<ul class="nav nav-pills nav-stacked">
+								<li class="side-nav-header">
+									<span class="text-muted">{{ lang('LATEST_POSTS')|upper }}</span>
+								</li>
 								{% for post in latest_posts %}
-								<tr>
-									<td><a href="#">{{ post.SUBJECT }}</a></td>
-								</tr>
+								<li><a href="#"><span>{{ post.SUBJECT }}</span></a></li>
 								{% endfor %}
-								</tbody>
-							</table>
+							</ul>
 						</div>
 						<div role="tabpanel" class="tab-pane" id="newUsers">
-							<table class="table table-striped">
-								<thead>
-								<tr>
-									<th>{{ lang('LATEST_USERS') }}</th>
-								</tr>
-								</thead>
-								<tbody>
+							<ul class="nav nav-pills nav-stacked">
+								<li class="side-nav-header">
+									<span class="text-muted">{{ lang('LATEST_USERS')|upper }}</span>
+								</li>
 								{% for user in latest_users %}
-								<tr>
-									<td>{{ user.NAME }}</td>
-								</tr>
+								<li>{{ user.NAME }}</li>
 								{% endfor %}
-								</tbody>
-							</table>
+							</ul>
 						</div>
 					</div>
 					<!-- Nav tabs -->
@@ -476,6 +493,16 @@
 			</div>
 		</div>
 		{% endfor %}
+
+		<ul class="pagination pull-right">
+			<li class="footable-page-arrow disabled"><a data-page="first" href="#first">«</a></li>
+			<li class="footable-page-arrow disabled"><a data-page="prev" href="#prev">‹</a></li>
+			<li class="footable-page active"><a data-page="0" href="#">1</a></li>
+			<li class="footable-page"><a data-page="1" href="#">2</a></li>
+			<li class="footable-page"><a data-page="2" href="#">3</a></li>
+			<li class="footable-page-arrow"><a data-page="next" href="#next">›</a></li>
+			<li class="footable-page-arrow"><a data-page="last" href="#last">»</a></li>
+		</ul>
 	</div>
 </div>
 

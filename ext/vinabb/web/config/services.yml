@@ -172,6 +172,7 @@ services:
         class: vinabb\web\controller\portal
         arguments:
             - '@auth'
+            - '@cache'
             - '@config'
             - '@content.visibility'
             - '@dbal.conn'

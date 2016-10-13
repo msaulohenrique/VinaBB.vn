@@ -15,6 +15,9 @@ class portal
 	/** @var \phpbb\auth\auth */
 	protected $auth;
 
+	/** @var \phpbb\cache\service */
+	protected $cache;
+
 	/** @var \phpbb\config\config */
 	protected $config;
 
@@ -55,6 +58,7 @@ class portal
 	* Constructor
 	*
 	* @param \phpbb\auth\auth $auth
+	* @param \phpbb\cache\service $cache
 	* @param \phpbb\config\config $config
 	* @param \phpbb\content_visibility $content_visibility
 	* @param \phpbb\db\driver\driver_interface $db
@@ -70,6 +74,7 @@ class portal
 	*/
 	public function __construct(
 		\phpbb\auth\auth $auth,
+		\phpbb\cache\service $cache,
 		\phpbb\config\config $config,
 		\phpbb\content_visibility $content_visibility,
 		\phpbb\db\driver\driver_interface $db,
@@ -85,6 +90,7 @@ class portal
 	)
 	{
 		$this->auth = $auth;
+		$this->cache = $cache;
 		$this->config = $config;
 		$this->content_visibility = $content_visibility;
 		$this->db = $db;
@@ -97,6 +103,8 @@ class portal
 		$this->group_helper = $group_helper;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
+
+		$this->forum_data = $this->cache->get_forum_data();
 	}
 
 	public function index()
@@ -114,7 +122,7 @@ class portal
 			foreach ($rows as $row)
 			{
 				$this->template->assign_block_vars('latest_topics', array(
-					'TITLE'	=> truncate_string($row['topic_title'], 50, 255, false, $this->language->lang('ELLIPSIS')),
+					'TITLE'	=> truncate_string($row['topic_title'], 48, 255, false, $this->language->lang('ELLIPSIS')),
 				));
 			}
 		}
@@ -132,7 +140,7 @@ class portal
 			foreach ($rows as $row)
 			{
 				$this->template->assign_block_vars('latest_posts', array(
-					'SUBJECT'	=> truncate_string($row['post_subject'], 50, 255, false, $this->language->lang('ELLIPSIS')),
+					'SUBJECT'	=> truncate_string($row['post_subject'], 48, 255, false, $this->language->lang('ELLIPSIS')),
 				));
 			}
 		}
@@ -276,6 +284,12 @@ class portal
 			'LEGEND'				=> $legend,
 			'TOTAL_BIRTHDAY_USERS'	=> sizeof($birthdays),
 			'NEWEST_USER'			=> $this->language->lang('NEWEST_USER', get_username_string('full', $this->config['newest_user_id'], $this->config['newest_username'], $this->config['newest_user_colour'])),
+
+			'FORUM_VIETNAMESE'	=> $this->forum_data[constants::FORUM_ID_VIETNAMESE]['name'],
+			'FORUM_ENGLISH'		=> $this->forum_data[constants::FORUM_ID_ENGLISH]['name'],
+
+			'U_FORUM_VIETNAMESE'	=> $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => constants::FORUM_ID_VIETNAMESE, 'seo' => $this->forum_data[constants::FORUM_ID_VIETNAMESE]['name_seo'] . constants::REWRITE_URL_SEO)),
+			'U_FORUM_ENGLISH'		=> $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => constants::FORUM_ID_ENGLISH, 'seo' => $this->forum_data[constants::FORUM_ID_ENGLISH]['name_seo'] . constants::REWRITE_URL_SEO)),
 
 			'S_INDEX'					=> true,
 			'S_DISPLAY_BIRTHDAY_LIST'	=> $this->config['load_birthdays'],
