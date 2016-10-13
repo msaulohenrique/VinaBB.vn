@@ -66,6 +66,64 @@
 	}
 }
 
+/* Animate-Pulse Effect for Font Awesome */
+.animate-pulse {
+	-webkit-animation: pulse 2s infinite linear;
+	animation: pulse 2s infinite linear;
+}
+
+@-webkit-keyframes pulse {
+	0%,
+	30% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+	}
+	40% {
+		-webkit-transform: scale(1.5);
+		transform: scale(1.5);
+	}
+	50%,
+	60% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+	}
+	70% {
+		-webkit-transform: scale(1.2);
+		transform: scale(1.2);
+	}
+	100%,
+	80% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+	}
+}
+
+@keyframes pulse {
+	0%,
+	30% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+	}
+	40% {
+		-webkit-transform: scale(1.5);
+		transform: scale(1.5);
+	}
+	50%,
+	60% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+	}
+	70% {
+		-webkit-transform: scale(1.2);
+		transform: scale(1.2);
+	}
+	100%,
+	80% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+	}
+}
+
 /* Carousel */
 .carousel-caption {
 	position: absolute;
