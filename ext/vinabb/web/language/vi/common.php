@@ -154,6 +154,9 @@ $lang = array_merge($lang, array(
 	'LATEST_TOOLS'			=> 'Công cụ mới',
 	'LATEST_TOPICS'			=> 'Chủ đề mới',
 	'LATEST_USERS'			=> 'Thành viên mới',
+	'LATEST_VERSION'		=> 'Phiên bản mới nhất',
+	'LATEST_VERSIONS'		=> 'Phiên bản mới nhất',
+	'LATEST_VERSIONS_INFO'	=> 'Thông tin phiên bản mới nhất',
 	'LATITUDE'				=> 'Vĩ độ',
 	'LONGITUDE'				=> 'Kinh độ',
 

@@ -27,6 +27,13 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'ACP_VINABB_SETTINGS_EXPLAIN'	=> '',
 
+	'CHECK_PHP_LEGACY_VERSION'		=> 'Legacy PHP branch',
+	'CHECK_PHP_URL'					=> 'PHP version tracking URL',
+	'CHECK_PHP_VERSION'				=> 'Latest PHP branch',
+	'CHECK_PHPBB_LEGACY_VERSION'	=> 'Legacy phpBB branch',
+	'CHECK_PHPBB_URL'				=> 'phpBB version tracking URL',
+	'CHECK_PHPBB_VERSION'			=> 'Latest phpBB branch',
+
 	'DEFAULT_LANGUAGE'	=> 'Default language',
 
 	'ERROR_MAINTENANCE_MODE_FOUNDER'	=> 'You are not authorized to change the maintenance mode to “Founder”.',

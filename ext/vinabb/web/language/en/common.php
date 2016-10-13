@@ -154,6 +154,9 @@ $lang = array_merge($lang, array(
 	'LATEST_TOOLS'			=> 'New tools',
 	'LATEST_TOPICS'			=> 'New topics',
 	'LATEST_USERS'			=> 'New members',
+	'LATEST_VERSION'		=> 'Latest version',
+	'LATEST_VERSIONS'		=> 'Latest versions',
+	'LATEST_VERSIONS_INFO'	=> 'Latest version information',
 	'LATITUDE'				=> 'Latitude',
 	'LONGITUDE'				=> 'Longitude',
 
