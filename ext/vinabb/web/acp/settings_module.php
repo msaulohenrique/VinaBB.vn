@@ -97,6 +97,30 @@ class settings_module
 				$maintenance_time = 0;
 			}
 
+			// Check latest phpBB branch version
+			if (!preg_match('\d+\.\d', $check_phpbb_branch))
+			{
+				$errors[] = $this->language->lang('ERROR_PHPBB_BRANCH_INVALID');
+			}
+
+			// Check legacy phpBB branch version
+			if (!preg_match('\d+\.\d', $check_phpbb_legacy_branch))
+			{
+				$errors[] = $this->language->lang('ERROR_PHPBB_LEGACY_BRANCH_INVALID');
+			}
+
+			// Check latest PHP branch version
+			if (!preg_match('\d+\.\d', $check_php_branch))
+			{
+				$errors[] = $this->language->lang('ERROR_PHP_BRANCH_INVALID');
+			}
+
+			// Check legacy PHP branch version
+			if (!preg_match('\d+\.\d', $check_php_legacy_branch))
+			{
+				$errors[] = $this->language->lang('ERROR_PHP_LEGACY_BRANCH_INVALID');
+			}
+
 			if (empty($errors))
 			{
 				// Kill out all normal administrators from the ACP
