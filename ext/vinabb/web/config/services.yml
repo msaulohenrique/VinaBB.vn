@@ -177,6 +177,7 @@ services:
             - '@content.visibility'
             - '@dbal.conn'
             - '@dispatcher'
+            - '@file_downloader'
             - '@language'
             - '@request'
             - '@template'

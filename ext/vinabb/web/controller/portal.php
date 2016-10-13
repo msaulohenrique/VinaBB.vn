@@ -30,6 +30,9 @@ class portal
 	/** @var \phpbb\event\dispatcher_interface */
 	protected $dispatcher;
 
+	/** @var \phpbb\file_downloader */
+	protected $file_downloader;
+
 	/** @var \phpbb\language\language */
 	protected $language;
 
@@ -63,6 +66,7 @@ class portal
 	* @param \phpbb\content_visibility $content_visibility
 	* @param \phpbb\db\driver\driver_interface $db
 	* @param \phpbb\event\dispatcher_interface $dispatcher
+	* @param \phpbb\file_downloader $file_downloader
 	* @param \phpbb\language\language $language
 	* @param \phpbb\request\request $request
 	* @param \phpbb\template\template $template
@@ -79,6 +83,7 @@ class portal
 		\phpbb\content_visibility $content_visibility,
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\event\dispatcher_interface $dispatcher,
+		\phpbb\file_downloader $file_downloader,
 		\phpbb\language\language $language,
 		\phpbb\request\request $request,
 		\phpbb\template\template $template,
@@ -95,6 +100,7 @@ class portal
 		$this->content_visibility = $content_visibility;
 		$this->db = $db;
 		$this->dispatcher = $dispatcher;
+		$this->file_downloader = $file_downloader;
 		$this->language = $language;
 		$this->request = $request;
 		$this->template = $template;
