@@ -61,6 +61,9 @@ class constants
 	const BB_CATS_PER_PAGE = 20;
 	const BB_ITEMS_PER_PAGE = 10;
 
+	// Number of hours to check new versions again
+	const CHECK_VERSION_HOURS = 8;
+
 	// Table names
 	const BB_CATEGORIES_TABLE = 'bb_categories';
 	const BB_ITEMS_TABLE = 'bb_items';
