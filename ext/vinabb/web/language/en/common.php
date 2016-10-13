@@ -168,7 +168,7 @@ $lang = array_merge($lang, array(
 	'NO_POST'	=> 'The post does not exist.',
 
 	'PHONE'			=> 'Phone',
-	'POWERED_BY'	=> 'Powered by <a href="https://www.phpbb.com/" data-toggle="tooltip" title="Forum software &copy; phpBB Limited">phpBB</a> with <i class="fa fa-heart text-danger"></i>',
+	'POWERED_BY'	=> 'Powered by <a href="https://www.phpbb.com/" data-toggle="tooltip" title="Forum software &copy; phpBB Limited">phpBB</a> with <i class="fa fa-heart animate-pulse text-danger"></i>',
 
 	'RANK_TITLES'	=> array(
 		'ADMINISTRATOR'		=> 'Administrator',
