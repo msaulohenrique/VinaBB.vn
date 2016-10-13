@@ -131,6 +131,16 @@ class portal
 			}
 
 			// Get latest PHP versions
+			if ($this->config['vinabb_web_check_php_url'])
+			{
+				$raw = $this->fetch_url($this->config['vinabb_web_check_php_url']);
+
+				// Parse XML
+				if (!empty($raw))
+				{
+					$php_data = simplexml_load_string($raw);
+				}
+			}
 
 			// Save this time
 			$this->config->set('vinabb_web_check_gc', time(), true);
