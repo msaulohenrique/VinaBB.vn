@@ -68,6 +68,8 @@ class settings_module
 			$google_plus_url = $this->request->variable('google_plus_url', '');
 			$github_url = $this->request->variable('github_url', '');
 			$check_phpbb_url = $this->request->variable('check_phpbb_url', '');
+			$check_phpbb_download_url = $this->request->variable('check_phpbb_download_url', '');
+			$check_phpbb_github_url = $this->request->variable('check_phpbb_github_url', '');
 			$check_phpbb_branch = $this->request->variable('check_phpbb_branch', '');
 			$check_phpbb_legacy_branch = $this->request->variable('check_phpbb_legacy_branch', '');
 			$check_php_url = $this->request->variable('check_php_url', '');
@@ -170,6 +172,8 @@ class settings_module
 				$this->config->set('vinabb_web_google_plus_url', $google_plus_url);
 				$this->config->set('vinabb_web_github_url', $github_url);
 				$this->config->set('vinabb_web_check_phpbb_url', $check_phpbb_url);
+				$this->config->set('vinabb_web_check_phpbb_download_url', $check_phpbb_download_url);
+				$this->config->set('vinabb_web_check_phpbb_github_url', $check_phpbb_github_url);
 				$this->config->set('vinabb_web_check_phpbb_branch', $check_phpbb_branch);
 				$this->config->set('vinabb_web_check_phpbb_legacy_branch', $check_phpbb_legacy_branch);
 				$this->config->set('vinabb_web_check_php_url', $check_php_url);
@@ -262,6 +266,8 @@ class settings_module
 			'GITHUB_URL'		=> (isset($github_url) && !empty($github_url)) ? $github_url : $this->config['vinabb_web_github_url'],
 
 			'CHECK_PHPBB_URL'			=> (isset($check_phpbb_url) && !empty($check_phpbb_url)) ? $check_phpbb_url : $this->config['vinabb_web_check_phpbb_url'],
+			'CHECK_PHPBB_DOWNLOAD_URL'	=> (isset($check_phpbb_download_url) && !empty($check_phpbb_download_url)) ? $check_phpbb_download_url : $this->config['vinabb_web_check_phpbb_download_url'],
+			'CHECK_PHPBB_GITHUB_URL'	=> (isset($check_phpbb_github_url) && !empty($check_phpbb_github_url)) ? $check_phpbb_github_url : $this->config['vinabb_web_check_phpbb_github_url'],
 			'CHECK_PHPBB_BRANCH'		=> (isset($check_phpbb_branch) && !empty($check_phpbb_branch)) ? $check_phpbb_branch : $this->config['vinabb_web_check_phpbb_branch'],
 			'CHECK_PHPBB_LEGACY_BRANCH'	=> (isset($check_phpbb_legacy_branch) && !empty($check_phpbb_legacy_branch)) ? $check_phpbb_legacy_branch : $this->config['vinabb_web_check_phpbb_legacy_branch'],
 			'CHECK_PHP_URL'				=> (isset($check_php_url) && !empty($check_php_url)) ? $check_php_url : $this->config['vinabb_web_check_php_url'],
