@@ -370,9 +370,12 @@ class portal
 			'NEWEST_USER'			=> $this->language->lang('NEWEST_USER', get_username_string('full', $this->config['newest_user_id'], $this->config['newest_username'], $this->config['newest_user_colour'])),
 
 			'LATEST_PHPBB_VERSION'			=> $this->config['vinabb_web_check_phpbb_version'],
-			'LATEST_LEGACY_PHPBB_VERSION'	=> $this->config['vinabb_web_check_phpbb_legacy_version'],
+			'LATEST_PHPBB_LEGACY_VERSION'	=> $this->config['vinabb_web_check_phpbb_legacy_version'],
+			'LATEST_IVN_VERSION'			=> $this->config['vinabb_web_check_ivn_version'],
+			'LATEST_IVN_LEGACY_VERSION'		=> $this->config['vinabb_web_check_ivn_legacy_version'],
+			'LATEST_IVNPLUS_VERSION'		=> $this->config['vinabb_web_check_ivnplus_version'],
 			'LATEST_PHP_VERSION'			=> $this->config['vinabb_web_check_php_version'],
-			'LATEST_LEGACY_PHP_VERSION'		=> $this->config['vinabb_web_check_php_legacy_version'],
+			'LATEST_PHP_LEGACY_VERSION'		=> $this->config['vinabb_web_check_php_legacy_version'],
 
 			'FORUM_VIETNAMESE'	=> $this->forum_data[constants::FORUM_ID_VIETNAMESE]['name'],
 			'FORUM_ENGLISH'		=> $this->forum_data[constants::FORUM_ID_ENGLISH]['name'],
