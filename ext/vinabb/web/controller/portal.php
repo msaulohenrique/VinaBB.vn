@@ -154,15 +154,37 @@ class portal
 			if ($this->config['vinabb_web_check_php_url'])
 			{
 				$raw = $this->fetch_url($this->config['vinabb_web_check_php_url']);
+				$raw = str_replace('php:version', 'php-version', $raw);
 
 				// Parse XML
 				if (!empty($raw))
 				{
 					$php_data = simplexml_load_string($raw);
+					$latest_php_version = $latest_php_legacy_version = '';
 
-					if ($this->config['vinabb_web_check_php_branch'])
+					// Find the latest version from feed data
+					foreach ($php_data->entry as $entry)
 					{
-						
+						$php_version = $entry->{'php-version'};
+
+						if (!empty($this->config['vinabb_web_check_php_branch']) && substr($php_version, 0, strlen($this->config['vinabb_web_check_php_branch'])) == $this->config['vinabb_web_check_php_branch'] && version_compare($php_version, $latest_php_version, '>'))
+						{
+							$latest_php_version = $php_version;
+						}
+						else if (!empty($this->config['vinabb_web_check_php_legacy_branch']) && substr($php_version, 0, strlen($this->config['vinabb_web_check_php_legacy_branch'])) == $this->config['vinabb_web_check_php_legacy_branch'] && version_compare($php_version, $latest_php_legacy_version, '>'))
+						{
+							$latest_php_legacy_version = $php_version;
+						}
+					}
+
+					if (!empty($latest_php_version) && version_compare($latest_php_version, $this->config['vinabb_web_check_php_version'], '>'))
+					{
+						$this->config->set('vinabb_web_check_php_version', $latest_php_version);
+					}
+
+					if (!empty($latest_php_legacy_version) && version_compare($latest_php_legacy_version, $this->config['vinabb_web_check_php_legacy_version'], '>'))
+					{
+						$this->config->set('vinabb_web_check_php_legacy_version', $latest_php_legacy_version);
 					}
 				}
 			}
