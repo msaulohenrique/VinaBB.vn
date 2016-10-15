@@ -105,7 +105,7 @@
 		</div>
 	</div>
 	<div class="col-lg-3 col-md-6 col-sm-6">
-		<div class="widget bg-primary padding-0">
+		<div class="widget bg-indigo padding-0">
 			<div class="row row-table"{% if LATEST_PHP_VERSION or LATEST_PHP_LEGACY_VERSION %} role="button" data-toggle="modal" data-target="#phpModal"{% endif %}>
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
 					<em class="icon-paypal fa-3x"></em>
@@ -233,7 +233,7 @@
 			</div>
 		</div>
 
-		<div class="widget bg-indigo padding-0">
+		<div class="widget bg-grey padding-0">
 			<div class="row row-table">
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
 					<em class="icon-wrench fa-3x"></em>
@@ -394,7 +394,7 @@
 			</div>
 		</div>
 
-		<div class="widget bg-grey padding-0">
+		<div class="widget bg-primary padding-0">
 			<div class="row row-table">
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
 					<em class="icon-people fa-3x"></em>
@@ -514,6 +514,28 @@
 					{% if LATEST_PHPBB_LEGACY_DOWNLOAD_URL %} <a href="{{ LATEST_PHPBB_LEGACY_DOWNLOAD_URL }}" class="btn btn-primary btn-rounded btn-icon"><i class="fa fa-download"></i> {{ lang('PHPBB_COM') }}</a>{% endif %}
 					{% if LATEST_PHPBB_LEGACY_GITHUB_URL %} <a href="{{ LATEST_PHPBB_LEGACY_GITHUB_URL }}" class="btn btn-github btn-rounded btn-icon"><i class="fa fa-download"></i> {{ lang('GITHUB') }}</a>{% endif %}
 				</p>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+
+{# Latest PHP modal #}
+{% if LATEST_PHP_VERSION or LATEST_PHP_LEGACY_VERSION %}
+<div class="modal fade" id="phpModal" tabindex="-1" role="dialog" aria-labelledby="phpModal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="{{ lang('CLOSE') }}"><span aria-hidden="true" class="fa fa-times-circle"></span></button>
+				<h3 class="modal-title">{{ lang('LATEST_PHP_TITLE') }}</h3>
+			</div>
+			<div class="modal-body">
+				{% if LATEST_PHP_VERSION %}
+				<a{% if LATEST_PHP_VERSION_URL %} href="{{ LATEST_PHP_VERSION_URL }}"{% endif %} class="btn btn-indigo btn-rounded btn-icon"><i class="fa fa-info-circle"></i> {{ lang('PHP_VERSION_X', LATEST_PHP_VERSION) }}</a>
+				{% endif %}
+				{% if LATEST_PHP_LEGACY_VERSION %}
+				<a{% if LATEST_PHP_LEGACY_VERSION_URL %} href="{{ LATEST_PHP_LEGACY_VERSION_URL }}"{% endif %} class="btn btn-indigo btn-rounded btn-icon"><i class="fa fa-info-circle"></i> {{ lang('PHP_VERSION_X', LATEST_PHP_LEGACY_VERSION) }}</a>
 				{% endif %}
 			</div>
 		</div>
