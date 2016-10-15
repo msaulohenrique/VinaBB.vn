@@ -32,7 +32,7 @@ $lang = array_merge($lang, array(
 	'CHECK_PHP_URL'						=> 'Liên kết kiểm tra phiên bản PHP',
 	'CHECK_PHPBB_BRANCH'				=> 'Nhánh phpBB mới nhất',
 	'CHECK_PHPBB_DOWNLOAD_URL'			=> 'Liên kết tải về phpBB',
-	'CHECK_PHPBB_DOWNLOAD_URL_EXPLAIN'	=> 'Biến: <code>{branch}, {version}</code>',
+	'CHECK_PHPBB_DOWNLOAD_URL_EXPLAIN'	=> 'Biến có sẵn: <code>{branch}, {version}</code>',
 	'CHECK_PHPBB_LEGACY_BRANCH'			=> 'Nhánh phpBB còn hỗ trợ',
 	'CHECK_PHPBB_URL'					=> 'Liên kết kiểm tra phiên bản phpBB',
 

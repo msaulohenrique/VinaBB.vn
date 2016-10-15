@@ -501,7 +501,20 @@
 				<h3 class="modal-title">{{ lang('LATEST_PHPBB_TITLE') }}</h3>
 			</div>
 			<div class="modal-body">
-				{% if LATEST_PHPBB_VERSION %}<p><strong>{{ lang('PHPBB_VERSION_X', LATEST_PHPBB_VERSION) ~ lang('COLON') }}</strong> <a href="" class="btn btn-primary btn-rounded btn-icon"><i class="fa fa-download"></i> {{ lang('PHPBB_COM') }}</a> <a href="" class="btn btn-github btn-rounded btn-icon"><i class="fa fa-download"></i> {{ lang('GITHUB') }}</a></p>{% endif %}
+				{% if LATEST_PHPBB_VERSION and (LATEST_PHPBB_DOWNLOAD_URL or LATEST_PHPBB_GITHUB_URL) %}
+					<p>
+						<strong>{{ lang('PHPBB_VERSION_X', LATEST_PHPBB_VERSION) ~ lang('COLON') }}</strong>
+						{% if LATEST_PHPBB_DOWNLOAD_URL %} <a href="{{ LATEST_PHPBB_DOWNLOAD_URL }}" class="btn btn-primary btn-rounded btn-icon"><i class="fa fa-download"></i> {{ lang('PHPBB_COM') }}</a>{% endif %}
+						{% if LATEST_PHPBB_GITHUB_URL %} <a href="{{ LATEST_PHPBB_GITHUB_URL }}" class="btn btn-github btn-rounded btn-icon"><i class="fa fa-download"></i> {{ lang('GITHUB') }}</a>{% endif %}
+					</p>
+				{% endif %}
+				{% if LATEST_PHPBB_LEGACY_VERSION and (LATEST_PHPBB_LEGACY_DOWNLOAD_URL or LATEST_PHPBB_LEGACY_GITHUB_URL) %}
+				<p>
+					<strong>{{ lang('PHPBB_VERSION_X', LATEST_PHPBB_LEGACY_VERSION) ~ lang('COLON') }}</strong>
+					{% if LATEST_PHPBB_LEGACY_DOWNLOAD_URL %} <a href="{{ LATEST_PHPBB_LEGACY_DOWNLOAD_URL }}" class="btn btn-primary btn-rounded btn-icon"><i class="fa fa-download"></i> {{ lang('PHPBB_COM') }}</a>{% endif %}
+					{% if LATEST_PHPBB_LEGACY_GITHUB_URL %} <a href="{{ LATEST_PHPBB_LEGACY_GITHUB_URL }}" class="btn btn-github btn-rounded btn-icon"><i class="fa fa-download"></i> {{ lang('GITHUB') }}</a>{% endif %}
+				</p>
+				{% endif %}
 			</div>
 		</div>
 	</div>

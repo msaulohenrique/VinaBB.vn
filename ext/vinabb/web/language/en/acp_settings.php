@@ -32,7 +32,7 @@ $lang = array_merge($lang, array(
 	'CHECK_PHP_URL'						=> 'PHP version tracking URL',
 	'CHECK_PHPBB_BRANCH'				=> 'Latest phpBB branch',
 	'CHECK_PHPBB_DOWNLOAD_URL'			=> 'phpBB download URL',
-	'CHECK_PHPBB_DOWNLOAD_URL_EXPLAIN'	=> 'Variables: <code>{branch}, {version}</code>',
+	'CHECK_PHPBB_DOWNLOAD_URL_EXPLAIN'	=> 'Available variables: <code>{branch}, {version}</code>',
 	'CHECK_PHPBB_LEGACY_BRANCH'			=> 'Legacy phpBB branch',
 	'CHECK_PHPBB_URL'					=> 'phpBB version tracking URL',
 
