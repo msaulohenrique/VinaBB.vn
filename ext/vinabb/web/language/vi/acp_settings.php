@@ -31,6 +31,8 @@ $lang = array_merge($lang, array(
 	'CHECK_PHP_LEGACY_BRANCH'			=> 'Nhánh PHP còn hỗ trợ',
 	'CHECK_PHP_URL'						=> 'Liên kết kiểm tra phiên bản PHP',
 	'CHECK_PHPBB_BRANCH'				=> 'Nhánh phpBB mới nhất',
+	'CHECK_PHPBB_DEV_BRANCH'			=> 'Nhánh phpBB phát triển',
+	'CHECK_PHPBB_DOWNLOAD_DEV_URL'		=> 'Liên kết tải về phpBB thử nghiệm',
 	'CHECK_PHPBB_DOWNLOAD_URL'			=> 'Liên kết tải về phpBB',
 	'CHECK_PHPBB_DOWNLOAD_URL_EXPLAIN'	=> 'Biến có sẵn: <code>{branch}, {version}</code>',
 	'CHECK_PHPBB_LEGACY_BRANCH'			=> 'Nhánh phpBB còn hỗ trợ',
@@ -42,6 +44,7 @@ $lang = array_merge($lang, array(
 	'ERROR_PHP_BRANCH_INVALID'			=> 'Số phiên bản nhánh PHP mới nhất không hợp lệ.',
 	'ERROR_PHP_LEGACY_BRANCH_INVALID'	=> 'Số phiên bản nhánh PHP còn hỗ trợ không hợp lệ.',
 	'ERROR_PHPBB_BRANCH_INVALID'		=> 'Số phiên bản nhánh phpBB mới nhất không hợp lệ.',
+	'ERROR_PHPBB_DEV_BRANCH_INVALID'	=> 'Số phiên bản nhánh phpBB phát triển không hợp lệ.',
 	'ERROR_PHPBB_LEGACY_BRANCH_INVALID'	=> 'Số phiên bản nhánh phpBB còn hỗ trợ không hợp lệ.',
 
 	'LANG_ENABLE'			=> 'Cho phép chuyển ngôn ngữ',

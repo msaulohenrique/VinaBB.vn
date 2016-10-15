@@ -124,8 +124,16 @@
 			<dd><input type="url" name="check_phpbb_download_url" id="check_phpbb_download_url" size="40" maxlength="255" value="{{ CHECK_PHPBB_DOWNLOAD_URL }}"></dd>
 		</dl>
 		<dl>
+			<dt><label for="check_phpbb_download_dev_url">{{ lang('CHECK_PHPBB_DOWNLOAD_DEV_URL') }} ({{ lang('PHPBB_COM') }}){{ lang('COLON') }}</label><br><span>{{ lang('CHECK_PHPBB_DOWNLOAD_URL_EXPLAIN') }}</span></dt>
+			<dd><input type="url" name="check_phpbb_download_dev_url" id="check_phpbb_download_dev_url" size="40" maxlength="255" value="{{ CHECK_PHPBB_DOWNLOAD_DEV_URL }}"></dd>
+		</dl>
+		<dl>
 			<dt><label for="check_phpbb_github_url">{{ lang('CHECK_PHPBB_DOWNLOAD_URL') }} ({{ lang('GITHUB') }}){{ lang('COLON') }}</label><br><span>{{ lang('CHECK_PHPBB_DOWNLOAD_URL_EXPLAIN') }}</span></dt>
 			<dd><input type="url" name="check_phpbb_github_url" id="check_phpbb_github_url" size="40" maxlength="255" value="{{ CHECK_PHPBB_GITHUB_URL }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="check_phpbb_dev_branch">{{ lang('CHECK_PHPBB_DEV_BRANCH') }}{{ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="check_phpbb_dev_branch" id="check_phpbb_dev_branch" maxlength="255" value="{{ CHECK_PHPBB_DEV_BRANCH }}"></dd>
 		</dl>
 		<dl>
 			<dt><label for="check_phpbb_branch">{{ lang('CHECK_PHPBB_BRANCH') }}{{ lang('COLON') }}</label></dt>

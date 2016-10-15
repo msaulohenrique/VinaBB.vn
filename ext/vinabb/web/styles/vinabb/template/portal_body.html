@@ -73,14 +73,14 @@
 				</a>
 			</div>
 		</div>
-	</div><!--col-md-6-->
+	</div>
 </div>
 
 <!-- Version Info -->
 <div class="row">
 	<div class="col-lg-3 col-md-6 col-sm-6">
-		<div class="widget bg-success padding-0">
-			<div class="row row-table"{% if LATEST_PHPBB_VERSION or LATEST_PHPBB_LEGACY_VERSION %} role="button" data-toggle="modal" data-target="#phpbbModal"{% endif %}>
+		<div class="widget bg-primary padding-0">
+			<div class="row row-table"{% if LATEST_PHPBB_VERSION or LATEST_PHPBB_LEGACY_VERSION or LATEST_PHPBB_DEV_VERSION %} role="button" data-toggle="modal" data-target="#phpbbModal"{% endif %}>
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
 					<em class="icon-cloud-download fa-3x"></em>
 				</div>
@@ -92,8 +92,8 @@
 		</div>
 	</div>
 	<div class="col-lg-3 col-md-6 col-sm-6">
-		<div class="widget bg-warning padding-0">
-			<div class="row row-table"{% if LATEST_IVN_VERSION or LATEST_IVN_LEGACY_VERSION or LATEST_IVNPLUS_VERSION %} role="button" data-toggle="modal" data-target="#ivnModal"{% endif %}>
+		<div class="widget bg-success padding-0">
+			<div class="row row-table"{% if LATEST_IVN_VERSION or LATEST_IVN_LEGACY_VERSION or LATEST_IVN_DEV_VERSION or LATEST_IVNPLUS_VERSION %} role="button" data-toggle="modal" data-target="#ivnModal"{% endif %}>
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
 					<em class="icon-arrow-down-circle fa-3x"></em>
 				</div>
@@ -249,7 +249,7 @@
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<div class="tabs">
-					<div class="tab-content padding-5">
+					<div class="tab-content padding-0">
 						<div role="tabpanel" class="tab-pane active" id="newExts">
 							<ul class="nav nav-pills nav-stacked">
 								<li class="side-nav-header">
@@ -394,7 +394,7 @@
 			</div>
 		</div>
 
-		<div class="widget bg-primary padding-0">
+		<div class="widget bg-cyan padding-0">
 			<div class="row row-table">
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
 					<em class="icon-people fa-3x"></em>
@@ -501,6 +501,13 @@
 				<h3 class="modal-title">{{ lang('LATEST_PHPBB_TITLE') }}</h3>
 			</div>
 			<div class="modal-body">
+				{% if LATEST_PHPBB_DEV_VERSION and (LATEST_PHPBB_DEV_DOWNLOAD_URL or LATEST_PHPBB_DEV_GITHUB_URL) %}
+				<p>
+					<strong>{{ lang('PHPBB_VERSION_X', LATEST_PHPBB_DEV_VERSION) ~ lang('COLON') }}</strong>
+					{% if LATEST_PHPBB_DEV_DOWNLOAD_URL %} <a href="{{ LATEST_PHPBB_DEV_DOWNLOAD_URL }}" class="btn btn-primary btn-rounded btn-icon"><i class="fa fa-download"></i> {{ lang('PHPBB_COM') }}</a>{% endif %}
+					{% if LATEST_PHPBB_DEV_GITHUB_URL %} <a href="{{ LATEST_PHPBB_DEV_GITHUB_URL }}" class="btn btn-github btn-rounded btn-icon"><i class="fa fa-download"></i> {{ lang('GITHUB') }}</a>{% endif %}
+				</p>
+				{% endif %}
 				{% if LATEST_PHPBB_VERSION and (LATEST_PHPBB_DOWNLOAD_URL or LATEST_PHPBB_GITHUB_URL) %}
 					<p>
 						<strong>{{ lang('PHPBB_VERSION_X', LATEST_PHPBB_VERSION) ~ lang('COLON') }}</strong>

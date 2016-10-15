@@ -69,9 +69,11 @@ class settings_module
 			$github_url = $this->request->variable('github_url', '');
 			$check_phpbb_url = $this->request->variable('check_phpbb_url', '');
 			$check_phpbb_download_url = $this->request->variable('check_phpbb_download_url', '');
+			$check_phpbb_download_dev_url = $this->request->variable('check_phpbb_download_dev_url', '');
 			$check_phpbb_github_url = $this->request->variable('check_phpbb_github_url', '');
 			$check_phpbb_branch = $this->request->variable('check_phpbb_branch', '');
 			$check_phpbb_legacy_branch = $this->request->variable('check_phpbb_legacy_branch', '');
+			$check_phpbb_dev_branch = $this->request->variable('check_phpbb_dev_branch', '');
 			$check_php_url = $this->request->variable('check_php_url', '');
 			$check_php_branch = $this->request->variable('check_php_branch', '');
 			$check_php_legacy_branch = $this->request->variable('check_php_legacy_branch', '');
@@ -109,6 +111,12 @@ class settings_module
 			if (!preg_match('#^(\d+\.\d+)?$#', $check_phpbb_legacy_branch))
 			{
 				$errors[] = $this->language->lang('ERROR_PHPBB_LEGACY_BRANCH_INVALID');
+			}
+
+			// Check development phpBB branch version
+			if (!preg_match('#^(\d+\.\d+)?$#', $check_phpbb_dev_branch))
+			{
+				$errors[] = $this->language->lang('ERROR_PHPBB_DEV_BRANCH_INVALID');
 			}
 
 			// Check latest PHP branch version
@@ -152,6 +160,7 @@ class settings_module
 					}
 				}
 
+				// Save settings
 				$this->config->set('vinabb_web_lang_enable', $lang_enable);
 				$this->config->set('vinabb_web_lang_switch', $lang_switch);
 				$this->config->set('vinabb_web_maintenance_mode', $maintenance_mode);
@@ -173,9 +182,11 @@ class settings_module
 				$this->config->set('vinabb_web_github_url', $github_url);
 				$this->config->set('vinabb_web_check_phpbb_url', $check_phpbb_url);
 				$this->config->set('vinabb_web_check_phpbb_download_url', $check_phpbb_download_url);
+				$this->config->set('vinabb_web_check_phpbb_download_dev_url', $check_phpbb_download_dev_url);
 				$this->config->set('vinabb_web_check_phpbb_github_url', $check_phpbb_github_url);
 				$this->config->set('vinabb_web_check_phpbb_branch', $check_phpbb_branch);
 				$this->config->set('vinabb_web_check_phpbb_legacy_branch', $check_phpbb_legacy_branch);
+				$this->config->set('vinabb_web_check_phpbb_dev_branch', $check_phpbb_dev_branch);
 				$this->config->set('vinabb_web_check_php_url', $check_php_url);
 				$this->config->set('vinabb_web_check_php_branch', $check_php_branch);
 				$this->config->set('vinabb_web_check_php_legacy_branch', $check_php_legacy_branch);
@@ -265,14 +276,16 @@ class settings_module
 			'GOOGLE_PLUS_URL'	=> (isset($google_plus_url) && !empty($google_plus_url)) ? $google_plus_url : $this->config['vinabb_web_google_plus_url'],
 			'GITHUB_URL'		=> (isset($github_url) && !empty($github_url)) ? $github_url : $this->config['vinabb_web_github_url'],
 
-			'CHECK_PHPBB_URL'			=> (isset($check_phpbb_url) && !empty($check_phpbb_url)) ? $check_phpbb_url : $this->config['vinabb_web_check_phpbb_url'],
-			'CHECK_PHPBB_DOWNLOAD_URL'	=> (isset($check_phpbb_download_url) && !empty($check_phpbb_download_url)) ? $check_phpbb_download_url : $this->config['vinabb_web_check_phpbb_download_url'],
-			'CHECK_PHPBB_GITHUB_URL'	=> (isset($check_phpbb_github_url) && !empty($check_phpbb_github_url)) ? $check_phpbb_github_url : $this->config['vinabb_web_check_phpbb_github_url'],
-			'CHECK_PHPBB_BRANCH'		=> (isset($check_phpbb_branch) && !empty($check_phpbb_branch)) ? $check_phpbb_branch : $this->config['vinabb_web_check_phpbb_branch'],
-			'CHECK_PHPBB_LEGACY_BRANCH'	=> (isset($check_phpbb_legacy_branch) && !empty($check_phpbb_legacy_branch)) ? $check_phpbb_legacy_branch : $this->config['vinabb_web_check_phpbb_legacy_branch'],
-			'CHECK_PHP_URL'				=> (isset($check_php_url) && !empty($check_php_url)) ? $check_php_url : $this->config['vinabb_web_check_php_url'],
-			'CHECK_PHP_BRANCH'			=> (isset($check_php_branch) && !empty($check_php_branch)) ? $check_php_branch : $this->config['vinabb_web_check_php_branch'],
-			'CHECK_PHP_LEGACY_BRANCH'	=> (isset($check_php_legacy_branch) && !empty($check_php_legacy_branch)) ? $check_php_legacy_branch : $this->config['vinabb_web_check_php_legacy_branch'],
+			'CHECK_PHPBB_URL'				=> (isset($check_phpbb_url) && !empty($check_phpbb_url)) ? $check_phpbb_url : $this->config['vinabb_web_check_phpbb_url'],
+			'CHECK_PHPBB_DOWNLOAD_URL'		=> (isset($check_phpbb_download_url) && !empty($check_phpbb_download_url)) ? $check_phpbb_download_url : $this->config['vinabb_web_check_phpbb_download_url'],
+			'CHECK_PHPBB_DOWNLOAD_DEV_URL'	=> (isset($check_phpbb_download_dev_url) && !empty($check_phpbb_download_dev_url)) ? $check_phpbb_download_dev_url : $this->config['vinabb_web_check_phpbb_download_dev_url'],
+			'CHECK_PHPBB_GITHUB_URL'		=> (isset($check_phpbb_github_url) && !empty($check_phpbb_github_url)) ? $check_phpbb_github_url : $this->config['vinabb_web_check_phpbb_github_url'],
+			'CHECK_PHPBB_BRANCH'			=> (isset($check_phpbb_branch) && !empty($check_phpbb_branch)) ? $check_phpbb_branch : $this->config['vinabb_web_check_phpbb_branch'],
+			'CHECK_PHPBB_LEGACY_BRANCH'		=> (isset($check_phpbb_legacy_branch) && !empty($check_phpbb_legacy_branch)) ? $check_phpbb_legacy_branch : $this->config['vinabb_web_check_phpbb_legacy_branch'],
+			'CHECK_PHPBB_DEV_BRANCH'		=> (isset($check_phpbb_dev_branch) && !empty($check_phpbb_dev_branch)) ? $check_phpbb_dev_branch : $this->config['vinabb_web_check_phpbb_dev_branch'],
+			'CHECK_PHP_URL'					=> (isset($check_php_url) && !empty($check_php_url)) ? $check_php_url : $this->config['vinabb_web_check_php_url'],
+			'CHECK_PHP_BRANCH'				=> (isset($check_php_branch) && !empty($check_php_branch)) ? $check_php_branch : $this->config['vinabb_web_check_php_branch'],
+			'CHECK_PHP_LEGACY_BRANCH'		=> (isset($check_php_legacy_branch) && !empty($check_php_legacy_branch)) ? $check_php_legacy_branch : $this->config['vinabb_web_check_php_legacy_branch'],
 
 			'U_ACTION'	=> $this->u_action,
 		));

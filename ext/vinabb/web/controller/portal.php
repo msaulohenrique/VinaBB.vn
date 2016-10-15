@@ -128,6 +128,7 @@ class portal
 				{
 					$phpbb_data = json_decode($raw, true);
 
+					// Latest version
 					if ($this->config['vinabb_web_check_phpbb_branch'])
 					{
 						$latest_phpbb_version = isset($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_branch']]['current']) ? strtoupper($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_branch']]['current']) : '';
@@ -138,6 +139,7 @@ class portal
 						}
 					}
 
+					// Legacy version
 					if ($this->config['vinabb_web_check_phpbb_legacy_branch'])
 					{
 						$latest_phpbb_legacy_version = isset($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_legacy_branch']]['current']) ? strtoupper($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_legacy_branch']]['current']) : '';
@@ -145,6 +147,17 @@ class portal
 						if (!empty($latest_phpbb_legacy_version) && version_compare($latest_phpbb_legacy_version, $this->config['vinabb_web_check_phpbb_legacy_version'], '>'))
 						{
 							$this->config->set('vinabb_web_check_phpbb_legacy_version', $latest_phpbb_legacy_version);
+						}
+					}
+
+					// Development version
+					if ($this->config['vinabb_web_check_phpbb_dev_branch'])
+					{
+						$latest_phpbb_dev_version = isset($phpbb_data['unstable'][$this->config['vinabb_web_check_phpbb_dev_branch']]['current']) ? strtoupper($phpbb_data['unstable'][$this->config['vinabb_web_check_phpbb_dev_branch']]['current']) : '';
+
+						if (!empty($latest_phpbb_dev_version) && version_compare($latest_phpbb_dev_version, $this->config['vinabb_web_check_phpbb_dev_version'], '>'))
+						{
+							$this->config->set('vinabb_web_check_phpbb_dev_version', $latest_phpbb_dev_version);
 						}
 					}
 				}
@@ -380,8 +393,12 @@ class portal
 			'LATEST_PHPBB_LEGACY_VERSION'		=> $this->config['vinabb_web_check_phpbb_legacy_version'],
 			'LATEST_PHPBB_LEGACY_DOWNLOAD_URL'	=> str_replace(array('{branch}', '{version}'), array($this->config['vinabb_web_check_phpbb_legacy_branch'], $this->config['vinabb_web_check_phpbb_legacy_version']), htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_download_url'])),
 			'LATEST_PHPBB_LEGACY_GITHUB_URL'	=> str_replace(array('{branch}', '{version}'), array($this->config['vinabb_web_check_phpbb_legacy_branch'], $this->config['vinabb_web_check_phpbb_legacy_version']), htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_github_url'])),
+			'LATEST_PHPBB_DEV_VERSION'			=> $this->config['vinabb_web_check_phpbb_dev_version'],
+			'LATEST_PHPBB_DEV_DOWNLOAD_URL'		=> str_replace(array('{branch}', '{version}'), array($this->config['vinabb_web_check_phpbb_dev_branch'], $this->config['vinabb_web_check_phpbb_dev_version']), htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_download_dev_url'])),
+			'LATEST_PHPBB_DEV_GITHUB_URL'		=> str_replace(array('{branch}', '{version}'), array($this->config['vinabb_web_check_phpbb_dev_branch'], $this->config['vinabb_web_check_phpbb_dev_version']), htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_github_url'])),
 			'LATEST_IVN_VERSION'				=> $this->config['vinabb_web_check_ivn_version'],
 			'LATEST_IVN_LEGACY_VERSION'			=> $this->config['vinabb_web_check_ivn_legacy_version'],
+			'LATEST_IVN_DEV_VERSION'			=> $this->config['vinabb_web_check_ivn_dev_version'],
 			'LATEST_IVNPLUS_VERSION'			=> $this->config['vinabb_web_check_ivnplus_version'],
 			'LATEST_PHP_VERSION'				=> $this->config['vinabb_web_check_php_version'],
 			'LATEST_PHP_VERSION_URL'			=> htmlspecialchars_decode($this->config['vinabb_web_check_php_version_url']),

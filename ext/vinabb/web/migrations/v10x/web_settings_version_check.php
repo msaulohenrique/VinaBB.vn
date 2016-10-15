@@ -19,11 +19,14 @@ class web_settings_version_check extends migration
 			array('config.add', array('vinabb_web_check_gc', 0, 1)),
 			array('config.add', array('vinabb_web_check_phpbb_url', '')),
 			array('config.add', array('vinabb_web_check_phpbb_download_url', '')),
+			array('config.add', array('vinabb_web_check_phpbb_download_dev_url', '')),
 			array('config.add', array('vinabb_web_check_phpbb_github_url', '')),
 			array('config.add', array('vinabb_web_check_phpbb_branch', '')),
 			array('config.add', array('vinabb_web_check_phpbb_version', '')),
 			array('config.add', array('vinabb_web_check_phpbb_legacy_branch', '')),
 			array('config.add', array('vinabb_web_check_phpbb_legacy_version', '')),
+			array('config.add', array('vinabb_web_check_phpbb_dev_branch', '')),
+			array('config.add', array('vinabb_web_check_phpbb_dev_version', '')),
 			array('config.add', array('vinabb_web_check_php_url', '')),
 			array('config.add', array('vinabb_web_check_php_branch', '')),
 			array('config.add', array('vinabb_web_check_php_version', '')),
@@ -33,6 +36,7 @@ class web_settings_version_check extends migration
 			array('config.add', array('vinabb_web_check_php_legacy_version_url', '')),
 			array('config.add', array('vinabb_web_check_ivn_version', '')),
 			array('config.add', array('vinabb_web_check_ivn_legacy_version', '')),
+			array('config.add', array('vinabb_web_check_ivn_dev_version', '')),
 			array('config.add', array('vinabb_web_check_ivnplus_version', '')),
 		);
 	}

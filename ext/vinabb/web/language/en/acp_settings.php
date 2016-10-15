@@ -31,6 +31,8 @@ $lang = array_merge($lang, array(
 	'CHECK_PHP_LEGACY_BRANCH'			=> 'Legacy PHP branch',
 	'CHECK_PHP_URL'						=> 'PHP version tracking URL',
 	'CHECK_PHPBB_BRANCH'				=> 'Latest phpBB branch',
+	'CHECK_PHPBB_DEV_BRANCH'			=> 'Development phpBB branch',
+	'CHECK_PHPBB_DOWNLOAD_DEV_URL'		=> 'phpBB unstable download URL',
 	'CHECK_PHPBB_DOWNLOAD_URL'			=> 'phpBB download URL',
 	'CHECK_PHPBB_DOWNLOAD_URL_EXPLAIN'	=> 'Available variables: <code>{branch}, {version}</code>',
 	'CHECK_PHPBB_LEGACY_BRANCH'			=> 'Legacy phpBB branch',
@@ -42,6 +44,7 @@ $lang = array_merge($lang, array(
 	'ERROR_PHP_BRANCH_INVALID'			=> 'The latest PHP branch version is invalid.',
 	'ERROR_PHP_LEGACY_BRANCH_INVALID'	=> 'The legacy PHP branch version is invalid.',
 	'ERROR_PHPBB_BRANCH_INVALID'		=> 'The latest phpBB branch version is invalid.',
+	'ERROR_PHPBB_DEV_BRANCH_INVALID'	=> 'The development phpBB branch version is invalid.',
 	'ERROR_PHPBB_LEGACY_BRANCH_INVALID'	=> 'The legacy phpBB branch version is invalid.',
 
 	'LANG_ENABLE'			=> 'Enable language switcher',
