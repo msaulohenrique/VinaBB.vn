@@ -18,13 +18,13 @@ class listener implements EventSubscriberInterface
 	protected $auth;
 
 	/** @var \phpbb\db\driver\driver_interface */
-    protected $db;
+	protected $db;
 
 	/** @var \phpbb\cache\service */
 	protected $cache;
 
 	/** @var \phpbb\config\config */
-    protected $config;
+	protected $config;
 
 	/** @var \phpbb\extension\manager */
 	protected $ext_manager;
@@ -36,10 +36,10 @@ class listener implements EventSubscriberInterface
 	protected $request;
 
 	/** @var \phpbb\template\template */
-    protected $template;
+	protected $template;
 
 	/** @var \phpbb\user */
-    protected $user;
+	protected $user;
 
 	/** @var \phpbb\controller\helper */
 	protected $helper;
@@ -773,7 +773,6 @@ class listener implements EventSubscriberInterface
 		{
 			$configurator->MediaEmbed->add('vinabb' . $url_type, $url_data);
 		}*/
-
 
 		$configurator->MediaEmbed->add('vinabb', array(
 				'host'		=> 'vinabb.vn',

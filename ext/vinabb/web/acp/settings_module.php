@@ -265,7 +265,7 @@ class settings_module
 			}
 			else
 			{
-				trigger_error(implode('<br>', $errors) . adm_back_link($this->u_action), E_USER_WARNING);				
+				trigger_error(implode('<br>', $errors) . adm_back_link($this->u_action), E_USER_WARNING);
 			}
 		}
 

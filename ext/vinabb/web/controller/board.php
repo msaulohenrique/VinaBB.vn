@@ -139,7 +139,7 @@ class board
 				{
 					trigger_error('LOGIN_REQUIRED');
 				}
-				
+
 				login_box('', $this->language->lang('LOGIN_REQUIRED'));
 			}
 
@@ -260,7 +260,6 @@ class board
 		{
 			trigger_error('NO_FORUM');
 		}
-
 
 		// Configure style, language, etc.
 		$this->user->setup('viewforum', $forum_data['forum_style']);
@@ -436,7 +435,7 @@ class board
 
 		if ($this->config['allow_forum_notify'] && $forum_data['forum_type'] == FORUM_POST && ($this->auth->acl_get('f_subscribe', $forum_id) || $this->user->data['user_id'] == ANONYMOUS))
 		{
-			$notify_status = (isset($forum_data['notify_status'])) ? $forum_data['notify_status'] : NULL;
+			$notify_status = (isset($forum_data['notify_status'])) ? $forum_data['notify_status'] : null;
 			watch_topic_forum('forum', $s_watching_forum, $this->user->data['user_id'], $forum_id, 0, $notify_status, $start, $forum_data['forum_name']);
 		}
 
