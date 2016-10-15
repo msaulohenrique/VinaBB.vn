@@ -20,7 +20,7 @@
 			</dl>
 			<dl>
 				<dt><label for="lang_switch">{{ lang('LANG_SWITCH') }}{{ lang('COLON') }}</label><br /><span>{{ lang('LANG_SWITCH_EXPLAIN') }}</span></dt>
-				<dd>{% if LANG_SWITCH_OPTIONS is not empty %}<select name="lang_switch" id="lang_switch">{{ LANG_SWITCH_OPTIONS }}</select>{% else %}{{ lang('NO_EXTRA_LANG_TO_SELECT') }}{% endif %}</dd>
+				<dd>{% if LANG_SWITCH_OPTIONS %}<select name="lang_switch" id="lang_switch">{{ LANG_SWITCH_OPTIONS }}</select>{% else %}{{ lang('NO_EXTRA_LANG_TO_SELECT') }}{% endif %}</dd>
 			</dl>
 		</div>
 	</fieldset>
@@ -63,6 +63,49 @@
 				<dd><textarea name="maintenance_text_vi" id="maintenance_text_vi" rows="10" cols="60" style="width: 95%;">{{ MAINTENANCE_TEXT_VI }}</textarea></dd>
 			</dl>
 		</div>
+	</fieldset>
+	<fieldset>
+		<legend>{{ lang('FORUMS') }}</legend>
+		<dl>
+			<dt><label for="forum_id_vietnamese">{{ lang('FORUM_ID_VIETNAMESE') }}{{ lang('COLON') }}</label></dt>
+			<dd><select name="forum_id_vietnamese" id="forum_id_vietnamese">{{ FORUM_VIETNAMESE_OPTIONS }}</select></dd>
+		</dl>
+		<dl>
+			<dt><label for="forum_id_vietnamese_support">{{ lang('FORUM_ID_VIETNAMESE_SUPPORT') }}{{ lang('COLON') }}</label></dt>
+			<dd><select name="forum_id_vietnamese_support" id="forum_id_vietnamese_support">{{ FORUM_VIETNAMESE_SUPPORT_OPTIONS }}</select></dd>
+		</dl>
+		<dl>
+			<dt><label for="forum_id_vietnamese_ext">{{ lang('FORUM_ID_VIETNAMESE_EXT') }}{{ lang('COLON') }}</label></dt>
+			<dd><select name="forum_id_vietnamese_ext" id="forum_id_vietnamese_ext">{{ FORUM_VIETNAMESE_EXT_OPTIONS }}</select></dd>
+		</dl>
+		<dl>
+			<dt><label for="forum_id_vietnamese_style">{{ lang('FORUM_ID_VIETNAMESE_STYLE') }}{{ lang('COLON') }}</label></dt>
+			<dd><select name="forum_id_vietnamese_style" id="forum_id_vietnamese_style">{{ FORUM_VIETNAMESE_STYLE_OPTIONS }}</select></dd>
+		</dl>
+		<dl>
+			<dt><label for="forum_id_vietnamese_tutorial">{{ lang('FORUM_ID_VIETNAMESE_TUTORIAL') }}{{ lang('COLON') }}</label></dt>
+			<dd><select name="forum_id_vietnamese_tutorial" id="forum_id_vietnamese_tutorial">{{ FORUM_VIETNAMESE_TUTORIAL_OPTIONS }}</select></dd>
+		</dl>
+		<dl>
+			<dt><label for="forum_id_vietnamese_discussion">{{ lang('FORUM_ID_VIETNAMESE_DISCUSSION') }}{{ lang('COLON') }}</label></dt>
+			<dd><select name="forum_id_vietnamese_discussion" id="forum_id_vietnamese_discussion">{{ FORUM_VIETNAMESE_DISCUSSION_OPTIONS }}</select></dd>
+		</dl>
+		<dl>
+			<dt><label for="forum_id_english">{{ lang('FORUM_ID_ENGLISH') }}{{ lang('COLON') }}</label></dt>
+			<dd><select name="forum_id_english" id="forum_id_english">{{ FORUM_ENGLISH_OPTIONS }}</select></dd>
+		</dl>
+		<dl>
+			<dt><label for="forum_id_english_support">{{ lang('FORUM_ID_ENGLISH_SUPPORT') }}{{ lang('COLON') }}</label></dt>
+			<dd><select name="forum_id_english_support" id="forum_id_english_support">{{ FORUM_ENGLISH_SUPPORT_OPTIONS }}</select></dd>
+		</dl>
+		<dl>
+			<dt><label for="forum_id_english_tutorial">{{ lang('FORUM_ID_ENGLISH_TUTORIAL') }}{{ lang('COLON') }}</label></dt>
+			<dd><select name="forum_id_english_tutorial" id="forum_id_english_tutorial">{{ FORUM_ENGLISH_TUTORIAL_OPTIONS }}</select></dd>
+		</dl>
+		<dl>
+			<dt><label for="forum_id_english_discussion">{{ lang('FORUM_ID_ENGLISH_DISCUSSION') }}{{ lang('COLON') }}</label></dt>
+			<dd><select name="forum_id_english_discussion" id="forum_id_english_discussion">{{ FORUM_ENGLISH_DISCUSSION_OPTIONS }}</select></dd>
+		</dl>
 	</fieldset>
 	<fieldset>
 		<legend>{{ lang('MAP') }}</legend>

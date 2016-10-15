@@ -47,6 +47,17 @@ $lang = array_merge($lang, array(
 	'ERROR_PHPBB_DEV_BRANCH_INVALID'	=> 'Số phiên bản nhánh phpBB phát triển không hợp lệ.',
 	'ERROR_PHPBB_LEGACY_BRANCH_INVALID'	=> 'Số phiên bản nhánh phpBB còn hỗ trợ không hợp lệ.',
 
+	'FORUM_ID_ENGLISH'					=> 'Danh mục tiếng Anh',
+	'FORUM_ID_ENGLISH_DISCUSSION'		=> 'Thảo luận (Tiếng Anh)',
+	'FORUM_ID_ENGLISH_SUPPORT'			=> 'Hỗ trợ (Tiếng Anh)',
+	'FORUM_ID_ENGLISH_TUTORIAL'			=> 'Hướng dẫn (Tiếng Anh)',
+	'FORUM_ID_VIETNAMESE'				=> 'Danh mục tiếng Việt',
+	'FORUM_ID_VIETNAMESE_DISCUSSION'	=> 'Thảo luận (Tiếng Việt)',
+	'FORUM_ID_VIETNAMESE_EXT'			=> 'Gói mở rộng (Tiếng Việt)',
+	'FORUM_ID_VIETNAMESE_STYLE'			=> 'Giao diện (Tiếng Việt)',
+	'FORUM_ID_VIETNAMESE_SUPPORT'		=> 'Hỗ trợ (Tiếng Việt)',
+	'FORUM_ID_VIETNAMESE_TUTORIAL'		=> 'Hướng dẫn (Tiếng Việt)',
+
 	'LANG_ENABLE'			=> 'Cho phép chuyển ngôn ngữ',
 	'LANG_SWITCH'			=> 'Ngôn ngữ chuyển',
 	'LANG_SWITCH_EXPLAIN'	=> 'Ngôn ngữ chuyển và mặc định phải khác nhau.',

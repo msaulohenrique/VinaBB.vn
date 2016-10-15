@@ -47,6 +47,17 @@ $lang = array_merge($lang, array(
 	'ERROR_PHPBB_DEV_BRANCH_INVALID'	=> 'The development phpBB branch version is invalid.',
 	'ERROR_PHPBB_LEGACY_BRANCH_INVALID'	=> 'The legacy phpBB branch version is invalid.',
 
+	'FORUM_ID_ENGLISH'					=> 'English category',
+	'FORUM_ID_ENGLISH_DISCUSSION'		=> 'Discussions (English)',
+	'FORUM_ID_ENGLISH_SUPPORT'			=> 'Support (English)',
+	'FORUM_ID_ENGLISH_TUTORIAL'			=> 'Tutorial (English)',
+	'FORUM_ID_VIETNAMESE'				=> 'Vietnamese category',
+	'FORUM_ID_VIETNAMESE_DISCUSSION'	=> 'Discussions (Vietnamese)',
+	'FORUM_ID_VIETNAMESE_EXT'			=> 'Extensions (Vietnamese)',
+	'FORUM_ID_VIETNAMESE_STYLE'			=> 'Styles (Vietnamese)',
+	'FORUM_ID_VIETNAMESE_SUPPORT'		=> 'Support (Vietnamese)',
+	'FORUM_ID_VIETNAMESE_TUTORIAL'		=> 'Tutorial (Vietnamese)',
+
 	'LANG_ENABLE'			=> 'Enable language switcher',
 	'LANG_SWITCH'			=> 'Switch language',
 	'LANG_SWITCH_EXPLAIN'	=> 'The switch and default language must be different.',

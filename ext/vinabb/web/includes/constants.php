@@ -14,18 +14,6 @@ class constants
 	const LANG_VIETNAMESE = 'vi';
 	const LANG_ENGLISH = 'en';
 
-	// Forum categories by languages
-	const FORUM_ID_VIETNAMESE = 1;
-	const FORUM_ID_VIETNAMESE_SUPPORT = 10;
-	const FORUM_ID_VIETNAMESE_EXT = 11;
-	const FORUM_ID_VIETNAMESE_STYLE = 24;
-	const FORUM_ID_VIETNAMESE_TUTORIAL = 4;
-	const FORUM_ID_VIETNAMESE_DISCUSSION = 12;
-	const FORUM_ID_ENGLISH = 2;
-	const FORUM_ID_ENGLISH_SUPPORT = 3;
-	const FORUM_ID_ENGLISH_TUTORIAL = 6;
-	const FORUM_ID_ENGLISH_DISCUSSION = 28;
-
 	// Maintenance mode
 	const MAINTENANCE_MODE_NONE = 0;
 	const MAINTENANCE_MODE_FOUNDER = 1;

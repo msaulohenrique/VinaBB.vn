@@ -405,11 +405,11 @@ class portal
 			'LATEST_PHP_LEGACY_VERSION'			=> $this->config['vinabb_web_check_php_legacy_version'],
 			'LATEST_PHP_LEGACY_VERSION_URL'		=> htmlspecialchars_decode($this->config['vinabb_web_check_php_legacy_version_url']),
 
-			'FORUM_VIETNAMESE'	=> $this->forum_data[constants::FORUM_ID_VIETNAMESE]['name'],
-			'FORUM_ENGLISH'		=> $this->forum_data[constants::FORUM_ID_ENGLISH]['name'],
+			'FORUM_VIETNAMESE'	=> ($this->config['vinabb_web_forum_id_vietnamese']) ? $this->forum_data[$this->config['vinabb_web_forum_id_vietnamese']]['name'] : '',
+			'FORUM_ENGLISH'		=> ($this->config['vinabb_web_forum_id_english']) ? $this->forum_data[$this->config['vinabb_web_forum_id_english']]['name'] : '',
 
-			'U_FORUM_VIETNAMESE'	=> $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => constants::FORUM_ID_VIETNAMESE, 'seo' => $this->forum_data[constants::FORUM_ID_VIETNAMESE]['name_seo'] . constants::REWRITE_URL_SEO)),
-			'U_FORUM_ENGLISH'		=> $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => constants::FORUM_ID_ENGLISH, 'seo' => $this->forum_data[constants::FORUM_ID_ENGLISH]['name_seo'] . constants::REWRITE_URL_SEO)),
+			'U_FORUM_VIETNAMESE'	=> $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $this->config['vinabb_web_forum_id_vietnamese'], 'seo' => ($this->config['vinabb_web_forum_id_vietnamese'] ? $this->forum_data[$this->config['vinabb_web_forum_id_vietnamese']]['name_seo'] : constants::LANG_VIETNAMESE) . constants::REWRITE_URL_SEO)),
+			'U_FORUM_ENGLISH'		=> $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $this->config['vinabb_web_forum_id_english'], 'seo' => ($this->config['vinabb_web_forum_id_english'] ? $this->forum_data[$this->config['vinabb_web_forum_id_english']]['name_seo'] : constants::LANG_ENGLISH) . constants::REWRITE_URL_SEO)),
 
 			'S_INDEX'					=> true,
 			'S_DISPLAY_BIRTHDAY_LIST'	=> $this->config['load_birthdays'],

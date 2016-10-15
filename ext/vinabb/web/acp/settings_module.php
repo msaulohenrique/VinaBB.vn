@@ -50,12 +50,25 @@ class settings_module
 			// Get from the form
 			$lang_enable = $this->request->variable('lang_enable', false);
 			$lang_switch = $this->request->variable('lang_switch', '');
+
 			$maintenance_mode = $this->request->variable('maintenance_mode', constants::MAINTENANCE_MODE_ADMIN);
 			$maintenance_tpl = $this->request->variable('maintenance_tpl', true);
 			$maintenance_time = $this->request->variable('maintenance_time', 0);
 			$maintenance_time_reset = $this->request->variable('maintenance_time_reset', false);
 			$maintenance_text = $this->request->variable('maintenance_text', '', true);
 			$maintenance_text_vi = $this->request->variable('maintenance_text_vi', '', true);
+
+			$forum_id_vietnamese = $this->request->variable('forum_id_vietnamese', 0);
+			$forum_id_vietnamese_support = $this->request->variable('forum_id_vietnamese_support', 0);
+			$forum_id_vietnamese_ext = $this->request->variable('forum_id_vietnamese_ext', 0);
+			$forum_id_vietnamese_style = $this->request->variable('forum_id_vietnamese_style', 0);
+			$forum_id_vietnamese_tutorial = $this->request->variable('forum_id_vietnamese_tutorial', 0);
+			$forum_id_vietnamese_discussion = $this->request->variable('forum_id_vietnamese_discussion', 0);
+			$forum_id_english = $this->request->variable('forum_id_english', 0);
+			$forum_id_english_support = $this->request->variable('forum_id_english_support', 0);
+			$forum_id_english_tutorial = $this->request->variable('forum_id_english_tutorial', 0);
+			$forum_id_english_discussion = $this->request->variable('forum_id_english_discussion', 0);
+
 			$map_api = $this->request->variable('map_api', '');
 			$map_lat = $this->request->variable('map_lat', 0.0);
 			$map_lng = $this->request->variable('map_lng', 0.0);
@@ -63,10 +76,12 @@ class settings_module
 			$map_address_vi = $this->request->variable('map_address_vi', '', true);
 			$map_phone = $this->request->variable('map_phone', '');
 			$map_phone_name = $this->request->variable('map_phone_name', '', true);
+
 			$facebook_url = $this->request->variable('facebook_url', '');
 			$twitter_url = $this->request->variable('twitter_url', '');
 			$google_plus_url = $this->request->variable('google_plus_url', '');
 			$github_url = $this->request->variable('github_url', '');
+
 			$check_phpbb_url = $this->request->variable('check_phpbb_url', '');
 			$check_phpbb_download_url = $this->request->variable('check_phpbb_download_url', '');
 			$check_phpbb_download_dev_url = $this->request->variable('check_phpbb_download_dev_url', '');
@@ -160,6 +175,12 @@ class settings_module
 					}
 				}
 
+				// Maintenance with scheduled time
+				if ($maintenance_time || $maintenance_time_reset)
+				{
+					$this->config->set('vinabb_web_maintenance_time', $maintenance_time);
+				}
+
 				// Need to reset last check time for new versions?
 				if ($check_phpbb_branch != $this->config['vinabb_web_check_phpbb_branch'])
 				{
@@ -200,6 +221,18 @@ class settings_module
 					'vinabb_web_maintenance_text'		=> $maintenance_text,
 					'vinabb_web_maintenance_text_vi'	=> $maintenance_text_vi
 				));
+
+				$this->config->set('vinabb_web_forum_id_vietnamese', $forum_id_vietnamese);
+				$this->config->set('vinabb_web_forum_id_vietnamese_support', $forum_id_vietnamese_support);
+				$this->config->set('vinabb_web_forum_id_vietnamese_ext', $forum_id_vietnamese_ext);
+				$this->config->set('vinabb_web_forum_id_vietnamese_style', $forum_id_vietnamese_style);
+				$this->config->set('vinabb_web_forum_id_vietnamese_tutorial', $forum_id_vietnamese_tutorial);
+				$this->config->set('vinabb_web_forum_id_vietnamese_discussion', $forum_id_vietnamese_discussion);
+				$this->config->set('vinabb_web_forum_id_english', $forum_id_english);
+				$this->config->set('vinabb_web_forum_id_english_support', $forum_id_english_support);
+				$this->config->set('vinabb_web_forum_id_english_tutorial', $forum_id_english_tutorial);
+				$this->config->set('vinabb_web_forum_id_english_discussion', $forum_id_english_discussion);
+
 				$this->config->set('vinabb_web_map_api', $map_api);
 				$this->config->set('vinabb_web_map_lat', $map_lat);
 				$this->config->set('vinabb_web_map_lng', $map_lng);
@@ -207,10 +240,12 @@ class settings_module
 				$this->config->set('vinabb_web_map_address_vi', $map_address_vi);
 				$this->config->set('vinabb_web_map_phone', $map_phone);
 				$this->config->set('vinabb_web_map_phone_name', $map_phone_name);
+
 				$this->config->set('vinabb_web_facebook_url', $facebook_url);
 				$this->config->set('vinabb_web_twitter_url', $twitter_url);
 				$this->config->set('vinabb_web_google_plus_url', $google_plus_url);
 				$this->config->set('vinabb_web_github_url', $github_url);
+
 				$this->config->set('vinabb_web_check_phpbb_url', $check_phpbb_url);
 				$this->config->set('vinabb_web_check_phpbb_download_url', $check_phpbb_download_url);
 				$this->config->set('vinabb_web_check_phpbb_download_dev_url', $check_phpbb_download_dev_url);
@@ -221,11 +256,6 @@ class settings_module
 				$this->config->set('vinabb_web_check_php_url', $check_php_url);
 				$this->config->set('vinabb_web_check_php_branch', $check_php_branch);
 				$this->config->set('vinabb_web_check_php_legacy_branch', $check_php_legacy_branch);
-
-				if ($maintenance_time || $maintenance_time_reset)
-				{
-					$this->config->set('vinabb_web_maintenance_time', $maintenance_time);
-				}
 
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_SETTINGS');
 
@@ -276,6 +306,40 @@ class settings_module
 			'vinabb_web_maintenance_text_vi'
 		));
 
+		// Select forums
+		$sql = 'SELECT forum_id, forum_name
+			FROM ' . FORUMS_TABLE . '
+			WHERE forum_type = ' . FORUM_CAT . '
+			ORDER BY left_id';
+		$result = $this->db->sql_query($sql);
+		$rows = $this->db->sql_fetchrowset($result);
+		$this->db->sql_freeresult($result);
+
+		$forum_vietnamese_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_vietnamese']) ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
+		$forum_vietnamese_support_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_vietnamese_support']) ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
+		$forum_vietnamese_ext_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_vietnamese_ext']) ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
+		$forum_vietnamese_style_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_vietnamese_style']) ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
+		$forum_vietnamese_tutorial_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_vietnamese_tutorial']) ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
+		$forum_vietnamese_discussion_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_vietnamese_discussion']) ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
+		$forum_english_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_english']) ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
+		$forum_english_support_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_english_support']) ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
+		$forum_english_tutorial_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_english_tutorial']) ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
+		$forum_english_discussion_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_english_discussion']) ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
+
+		foreach ($rows as $row)
+		{
+			$forum_vietnamese_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_vietnamese'] == $row['forum_id']) ? ' selected' : '' ) . '>' . $row['forum_name'] . '</option>';
+			$forum_vietnamese_support_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_vietnamese_support'] == $row['forum_id']) ? ' selected' : '' ) . '>' . $row['forum_name'] . '</option>';
+			$forum_vietnamese_ext_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_vietnamese_ext'] == $row['forum_id']) ? ' selected' : '' ) . '>' . $row['forum_name'] . '</option>';
+			$forum_vietnamese_style_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_vietnamese_style'] == $row['forum_id']) ? ' selected' : '' ) . '>' . $row['forum_name'] . '</option>';
+			$forum_vietnamese_tutorial_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_vietnamese_tutorial'] == $row['forum_id']) ? ' selected' : '' ) . '>' . $row['forum_name'] . '</option>';
+			$forum_vietnamese_discussion_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_vietnamese_discussion'] == $row['forum_id']) ? ' selected' : '' ) . '>' . $row['forum_name'] . '</option>';
+			$forum_english_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_english'] == $row['forum_id']) ? ' selected' : '' ) . '>' . $row['forum_name'] . '</option>';
+			$forum_english_support_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_english_support'] == $row['forum_id']) ? ' selected' : '' ) . '>' . $row['forum_name'] . '</option>';
+			$forum_english_tutorial_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_english_tutorial'] == $row['forum_id']) ? ' selected' : '' ) . '>' . $row['forum_name'] . '</option>';
+			$forum_english_discussion_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_english_discussion'] == $row['forum_id']) ? ' selected' : '' ) . '>' . $row['forum_name'] . '</option>';
+		}
+
 		// Output
 		$this->template->assign_vars(array(
 			'LANG_ENABLE'			=> isset($lang_enable) ? $lang_enable : $this->config['vinabb_web_lang_enable'],
@@ -293,6 +357,17 @@ class settings_module
 			'MAINTENANCE_MODE_ADMIN'	=> constants::MAINTENANCE_MODE_ADMIN,
 			'MAINTENANCE_MODE_MOD'		=> constants::MAINTENANCE_MODE_MOD,
 			'MAINTENANCE_MODE_USER'		=> constants::MAINTENANCE_MODE_USER,
+
+			'FORUM_VIETNAMESE_OPTIONS'				=> $forum_vietnamese_options,
+			'FORUM_VIETNAMESE_SUPPORT_OPTIONS'		=> $forum_vietnamese_support_options,
+			'FORUM_VIETNAMESE_EXT_OPTIONS'			=> $forum_vietnamese_ext_options,
+			'FORUM_VIETNAMESE_STYLE_OPTIONS'		=> $forum_vietnamese_style_options,
+			'FORUM_VIETNAMESE_TUTORIAL_OPTIONS'		=> $forum_vietnamese_tutorial_options,
+			'FORUM_VIETNAMESE_DISCUSSION_OPTIONS'	=> $forum_vietnamese_discussion_options,
+			'FORUM_ENGLISH_OPTIONS'					=> $forum_english_options,
+			'FORUM_ENGLISH_SUPPORT_OPTIONS'			=> $forum_english_support_options,
+			'FORUM_ENGLISH_TUTORIAL_OPTIONS'		=> $forum_english_tutorial_options,
+			'FORUM_ENGLISH_DISCUSSION_OPTIONS'		=> $forum_english_discussion_options,
 
 			'MAP_API'			=> (isset($map_api) && !empty($map_api)) ? $map_api : $this->config['vinabb_web_map_api'],
 			'MAP_LAT'			=> isset($map_lat) ? $map_lat : $this->config['vinabb_web_map_lat'],
