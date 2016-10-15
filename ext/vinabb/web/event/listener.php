@@ -294,10 +294,10 @@ class listener implements EventSubscriberInterface
 			'MAP_PHONE'			=> $this->config['vinabb_web_map_phone'],
 			'MAP_PHONE_NAME'	=> $this->config['vinabb_web_map_phone_name'],
 
-			'FACEBOOK_URL'		=> $this->config['vinabb_web_facebook_url'],
-			'TWITTER_URL'		=> $this->config['vinabb_web_twitter_url'],
-			'GOOGLE_PLUS_URL'	=> $this->config['vinabb_web_google_plus_url'],
-			'GITHUB_URL'		=> $this->config['vinabb_web_github_url'],
+			'FACEBOOK_URL'		=> htmlspecialchars_decode($this->config['vinabb_web_facebook_url']),
+			'TWITTER_URL'		=> htmlspecialchars_decode($this->config['vinabb_web_twitter_url']),
+			'GOOGLE_PLUS_URL'	=> htmlspecialchars_decode($this->config['vinabb_web_google_plus_url']),
+			'GITHUB_URL'		=> htmlspecialchars_decode($this->config['vinabb_web_github_url']),
 
 			'S_FOUNDER'		=> $this->user->data['user_type'] == USER_FOUNDER,
 			'S_VIETNAMESE'	=> $this->user->lang_name == constants::LANG_VIETNAMESE,
