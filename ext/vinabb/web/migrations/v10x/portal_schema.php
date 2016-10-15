@@ -18,7 +18,7 @@ class portal_schema extends migration
 			'add_tables' => array(
 				$this->table_prefix . 'portal_categories' => array(
 					'COLUMNS' => array(
-						'cat_id'		=> array('UINT', NULL, 'auto_increment'),
+						'cat_id'		=> array('UINT', null, 'auto_increment'),
 						'cat_name'		=> array('VCHAR_UNI', ''),
 						'cat_name_vi'	=> array('VCHAR_UNI', ''),
 						'cat_varname'	=> array('VCHAR', ''),
@@ -29,7 +29,7 @@ class portal_schema extends migration
 				),
 				$this->table_prefix . 'portal_articles' => array(
 					'COLUMNS' => array(
-						'article_id'			=> array('UINT', NULL, 'auto_increment'),
+						'article_id'			=> array('UINT', null, 'auto_increment'),
 						'cat_id'				=> array('UINT', 0),
 						'article_name'			=> array('STEXT_UNI', '', 'true_sort'),
 						'article_name_seo'		=> array('STEXT', ''),
@@ -49,7 +49,7 @@ class portal_schema extends migration
 				),
 				$this->table_prefix . 'portal_comments' => array(
 					'COLUMNS' => array(
-						'comment_id'			=> array('UINT', NULL, 'auto_increment'),
+						'comment_id'			=> array('UINT', null, 'auto_increment'),
 						'user_id'				=> array('ULINT', 0),
 						'article_id'			=> array('UINT', 0),
 						'comment_rate'			=> array('TINT:1', 0),

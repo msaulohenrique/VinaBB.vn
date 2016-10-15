@@ -18,7 +18,7 @@ class bb_schema extends migration
 			'add_tables' => array(
 				$this->table_prefix . 'bb_categories' => array(
 					'COLUMNS' => array(
-						'cat_id'		=> array('UINT', NULL, 'auto_increment'),
+						'cat_id'		=> array('UINT', null, 'auto_increment'),
 						'bb_type'		=> array('TINT:1', 0),
 						'cat_name'		=> array('VCHAR_UNI', ''),
 						'cat_name_vi'	=> array('VCHAR_UNI', ''),
@@ -31,7 +31,7 @@ class bb_schema extends migration
 				),
 				$this->table_prefix . 'bb_items' => array(
 					'COLUMNS' => array(
-						'item_id'					=> array('UINT', NULL, 'auto_increment'),
+						'item_id'					=> array('UINT', null, 'auto_increment'),
 						'cat_id'					=> array('UINT', 0),
 						'author_id'					=> array('UINT', 0),
 						'bb_type'					=> array('TINT:1', 0),
@@ -68,7 +68,7 @@ class bb_schema extends migration
 				),
 				$this->table_prefix . 'bb_authors' => array(
 					'COLUMNS' => array(
-						'author_id'				=> array('UINT', NULL, 'auto_increment'),
+						'author_id'				=> array('UINT', null, 'auto_increment'),
 						'user_id'				=> array('ULINT', 0),
 						'author_name'			=> array('VCHAR_UNI', ''),
 						'author_firstname'		=> array('VCHAR_UNI', ''),
