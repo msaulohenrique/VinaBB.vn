@@ -160,6 +160,37 @@ class settings_module
 					}
 				}
 
+				// Need to reset last check time for new versions?
+				if ($check_phpbb_branch != $this->config['vinabb_web_check_phpbb_branch'])
+				{
+					$this->config->set('vinabb_web_check_gc', 0, true);
+					$this->config->set('vinabb_web_check_phpbb_version', '');
+				}
+
+				if ($check_phpbb_legacy_branch != $this->config['vinabb_web_check_phpbb_legacy_branch'])
+				{
+					$this->config->set('vinabb_web_check_gc', 0, true);
+					$this->config->set('vinabb_web_check_phpbb_legacy_version', '');
+				}
+
+				if ($check_phpbb_dev_branch != $this->config['vinabb_web_check_phpbb_dev_branch'])
+				{
+					$this->config->set('vinabb_web_check_gc', 0, true);
+					$this->config->set('vinabb_web_check_phpbb_dev_version', '');
+				}
+
+				if ($check_php_branch != $this->config['vinabb_web_check_php_branch'])
+				{
+					$this->config->set('vinabb_web_check_gc', 0, true);
+					$this->config->set('vinabb_web_check_php_version', '');
+				}
+
+				if ($check_php_legacy_branch != $this->config['vinabb_web_check_php_legacy_branch'])
+				{
+					$this->config->set('vinabb_web_check_gc', 0, true);
+					$this->config->set('vinabb_web_check_php_legacy_version', '');
+				}
+
 				// Save settings
 				$this->config->set('vinabb_web_lang_enable', $lang_enable);
 				$this->config->set('vinabb_web_lang_switch', $lang_switch);
