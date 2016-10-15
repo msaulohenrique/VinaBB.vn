@@ -26,7 +26,7 @@ class bb_schema extends migration
 					),
 					'PRIMARY_KEY' => 'cat_id',
 					'KEYS' => array(
-						'c_id'	=> array('INDEX', 'cat_id'),
+						'bb'	=> array('INDEX', 'bb_type'),
 					),
 				),
 				$this->table_prefix . 'bb_items' => array(
@@ -61,7 +61,7 @@ class bb_schema extends migration
 					),
 					'PRIMARY_KEY' => 'item_id',
 					'KEYS' => array(
-						'i_id'	=> array('INDEX', 'item_id'),
+						'bb'	=> array('INDEX', 'bb_type'),
 						'c_id'	=> array('INDEX', 'cat_id'),
 						'a_id'	=> array('INDEX', 'author_id'),
 					),
@@ -87,7 +87,7 @@ class bb_schema extends migration
 					),
 					'PRIMARY_KEY' => 'author_id',
 					'KEYS' => array(
-						'a_id'	=> array('INDEX', 'author_id'),
+						'u_id'	=> array('INDEX', 'user_id'),
 					),
 				),
 			),
