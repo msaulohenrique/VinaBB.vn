@@ -416,6 +416,11 @@ class portal
 		));
 	}
 
+	public function article()
+	{
+		
+	}
+
 	/**
 	* Fetch content from an URL
 	*
