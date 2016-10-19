@@ -41,6 +41,11 @@ class constants
 	const REWRITE_URL_FORUM_CAT = '-';
 	const REWRITE_URL_FORUM_ZERO = 'x';
 
+	// Article comment modes
+	const ARTICLE_COMMENT_MODE_HIDE = 0;
+	const ARTICLE_COMMENT_MODE_SHOW = 1;
+	const ARTICLE_COMMENT_MODE_PENDING = 2;
+
 	// Number of display items
 	const NUM_NEW_ITEMS_ON_INDEX = 10;
 	const NUM_ARTICLES_ON_INDEX = 5;
