@@ -8,6 +8,8 @@
 
 namespace vinabb\web\decorated\cache;
 
+use vinabb\web\includes\constants;
+
 class service extends \phpbb\cache\service
 {
 	/** @var \vinabb\web\controller\helper */
@@ -159,17 +161,17 @@ class service extends \phpbb\cache\service
 
 	function get_bb_cat_data($bb_type)
 	{
-		if (($bb_cat_data = $this->driver->get('_vinabb_web_bb_' . strtolower($bb_type) . '_categories')) === false)
+		if (($bb_cats = $this->driver->get('_vinabb_web_bb_' . strtolower($bb_type) . '_categories')) === false)
 		{
 			$sql = 'SELECT *
 				FROM ' . $this->bb_categories_table . '
 				WHERE bb_type = ' . $this->ext_helper->get_bb_type_constants($bb_type);
 			$result = $this->db->sql_query($sql);
 
-			$bb_cat_data = array();
+			$bb_cats = array();
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				$bb_cat_data[$row['cat_id']] = array(
+				$bb_cats[$row['cat_id']] = array(
 					'name'		=> $row['cat_name'],
 					'name_vi'	=> $row['cat_name_vi'],
 					'varname'	=> $row['cat_varname'],
@@ -177,10 +179,10 @@ class service extends \phpbb\cache\service
 			}
 			$this->db->sql_freeresult($result);
 
-			$this->driver->put('_vinabb_web_bb_' . strtolower($bb_type) . '_categories', $bb_cat_data);
+			$this->driver->put('_vinabb_web_bb_' . strtolower($bb_type) . '_categories', $bb_cats);
 		}
 
-		return $bb_cat_data;
+		return $bb_cats;
 	}
 
 	function clear_bb_cat_data($bb_type)
@@ -188,18 +190,54 @@ class service extends \phpbb\cache\service
 		$this->driver->destroy('_vinabb_web_bb_' . strtolower($bb_type) . '_categories');
 	}
 
+	function bb_get_new_exts()
+	{
+		if (($new_exts = $this->driver->get('_vinabb_web_bb_new_exts')) === false)
+		{
+			$sql = 'SELECT *
+				FROM ' . $this->bb_items_table . '
+				WHERE bb_type = ' . constants::BB_TYPE_EXT . '
+				ORDER BY item_updated DESC';
+			$result = $this->db->sql_query_limit($sql, constants::NUM_NEW_ITEMS_ON_INDEX);
+
+			$new_exts = array();
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$new_exts = array(
+					'name'		=> $row['item_name'],
+					'name_vi'	=> $row['item_name_vi'],
+					'varname'	=> $row['item_varname'],
+					'version'	=> $row['item_version'],
+					'price'		=> $row['item_price'],
+					'added'		=> $row['item_added'],
+					'updated'	=> $row['item_updated'],
+				);
+			}
+			$this->db->sql_freeresult($result);
+
+			$this->driver->put('_vinabb_web_bb_new_exts', $new_exts);
+		}
+
+		return $new_exts;
+	}
+
+	function bb_clear_new_exts()
+	{
+		$this->driver->destroy('_vinabb_web_bb_new_exts');
+	}
+
 	function get_portal_cat_data()
 	{
-		if (($portal_cat_data = $this->driver->get('_vinabb_web_portal_categories')) === false)
+		if (($portal_cats = $this->driver->get('_vinabb_web_portal_categories')) === false)
 		{
 			$sql = 'SELECT *
 				FROM ' . $this->portal_categories_table;
 			$result = $this->db->sql_query($sql);
 
-			$portal_cat_data = array();
+			$portal_cats = array();
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				$portal_cat_data[$row['cat_id']] = array(
+				$portal_cats[$row['cat_id']] = array(
 					'name'		=> $row['cat_name'],
 					'name_vi'	=> $row['cat_name_vi'],
 					'varname'	=> $row['cat_varname'],
@@ -207,10 +245,10 @@ class service extends \phpbb\cache\service
 			}
 			$this->db->sql_freeresult($result);
 
-			$this->driver->put('_vinabb_web_portal_categories', $portal_cat_data);
+			$this->driver->put('_vinabb_web_portal_categories', $portal_cats);
 		}
 
-		return $portal_cat_data;
+		return $portal_cats;
 	}
 
 	function clear_portal_cat_data()
