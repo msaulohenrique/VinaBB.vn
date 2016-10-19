@@ -44,6 +44,8 @@ class constants
 	// Number of display items
 	const NUM_NEW_ITEMS_ON_INDEX = 10;
 	const NUM_ARTICLES_ON_INDEX = 5;
+	const PORTAL_CATS_PER_PAGE = 20;
+	const PORTAL_ARTICLES_PER_PAGE = 10;
 
 	// Pagination
 	const BB_CATS_PER_PAGE = 20;
@@ -55,4 +57,8 @@ class constants
 	// Table names
 	const BB_CATEGORIES_TABLE = 'bb_categories';
 	const BB_ITEMS_TABLE = 'bb_items';
+	const BB_AUTHORS_TABLE = 'bb_authors';
+	const PORTAL_CATEGORIES_TABLE = 'portal_categories';
+	const PORTAL_ARTICLES_TABLE = 'portal_articles';
+	const PORTAL_COMMENTS_TABLE = 'portal_comments';
 }
