@@ -57,6 +57,7 @@ class portal_schema extends migration
 						'comment_text_bitfield'	=> array('VCHAR:255', ''),
 						'comment_text_options'	=> array('UINT:11', 0),
 						'comment_text_uid'		=> array('VCHAR:8', ''),
+						'comment_mode'			=> array('TINT:1', 0),
 						'comment_time'			=> array('TIMESTAMP', 0),
 					),
 					'PRIMARY_KEY' => 'comment_id',
