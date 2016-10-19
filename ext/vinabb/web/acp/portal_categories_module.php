@@ -141,7 +141,7 @@ class portal_categories_module
 					$this->db->sql_query('INSERT INTO ' . $this->portal_categories_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary));
 				}
 
-				$this->cache->clear_portal_cat_data($mode);
+				$this->cache->clear_portal_cat_data();
 
 				$log_action = ($cat_id) ? 'LOG_PORTAL_CAT_EDIT' : 'LOG_PORTAL_CAT_ADD';
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, $log_action, false, array($cat_name));
@@ -183,7 +183,7 @@ class portal_categories_module
 						WHERE cat_id = $cat_id";
 					$this->db->sql_query($sql);
 
-					$this->cache->clear_portal_cat_data($mode);
+					$this->cache->clear_portal_cat_data();
 
 					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_CAT_DELETE', false, array($cat_name));
 
