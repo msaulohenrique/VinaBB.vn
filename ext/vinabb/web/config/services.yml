@@ -6,14 +6,16 @@ services:
         class: vinabb\web\decorated\cache\service
         decorates: cache
         arguments:
-             - '@cache.driver'
-             - '@config'
-             - '@dbal.conn'
-             - '@vinabb.web.helper'
-             - '%core.root_path%'
-             - '%core.php_ext%'
-             - '%vinabb.web.tables.bb_categories%'
-             - '%vinabb.web.tables.bb_items%'
+            - '@cache.driver'
+            - '@config'
+            - '@dbal.conn'
+            - '@vinabb.web.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+            - '%vinabb.web.tables.bb_categories%'
+            - '%vinabb.web.tables.bb_items%'
+            - '%vinabb.web.tables.portal_categories%'
+            - '%vinabb.web.tables.portal_articles%'
     vinabb.web.decorated.help.controller.faq:
         class: vinabb\web\decorated\help\controller\faq
         decorates: phpbb.help.controller.faq

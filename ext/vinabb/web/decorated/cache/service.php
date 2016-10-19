@@ -19,6 +19,12 @@ class service extends \phpbb\cache\service
 	/** @var string */
 	protected $bb_items_table;
 
+	/** @var string */
+	protected $portal_categories_table;
+
+	/** @var string */
+	protected $portal_articles_table;
+
 	/**
 	* Constructor
 	*
@@ -30,6 +36,8 @@ class service extends \phpbb\cache\service
 	* @param string $php_ext
 	* @param string $bb_categories_table
 	* @param string $bb_items_table
+	* @param string $portal_categories_table
+	* @param string $portal_articles_table
 	*/
 	public function __construct(
 		\phpbb\cache\driver\driver_interface $driver,
@@ -39,7 +47,9 @@ class service extends \phpbb\cache\service
 		$root_path,
 		$php_ext,
 		$bb_categories_table,
-		$bb_items_table
+		$bb_items_table,
+		$portal_categories_table,
+		$portal_articles_table
 	)
 	{
 		$this->set_driver($driver);
@@ -50,11 +60,13 @@ class service extends \phpbb\cache\service
 		$this->php_ext = $php_ext;
 		$this->bb_categories_table = $bb_categories_table;
 		$this->bb_items_table = $bb_items_table;
+		$this->portal_categories_table = $portal_categories_table;
+		$this->portal_articles_table = $portal_articles_table;
 	}
 
 	function get_config_text_data()
 	{
-		if (($config_text_data = $this->driver->get('_config_text_data')) === false)
+		if (($config_text_data = $this->driver->get('_vinabb_web_config_text')) === false)
 		{
 			$sql = 'SELECT *
 				FROM ' . CONFIG_TEXT_TABLE;
@@ -67,18 +79,18 @@ class service extends \phpbb\cache\service
 			}
 			$this->db->sql_freeresult($result);
 
-			$this->driver->put('_config_text_data', $config_text_data);
+			$this->driver->put('_vinabb_web_config_text', $config_text_data);
 		}
 	}
 
 	function clear_config_text_data()
 	{
-		$this->driver->destroy('_config_text_data');
+		$this->driver->destroy('_vinabb_web_config_text');
 	}
 
 	function get_lang_data()
 	{
-		if (($lang_data = $this->driver->get('_lang_data')) === false)
+		if (($lang_data = $this->driver->get('_vinabb_web_languages')) === false)
 		{
 			$sql = 'SELECT *
 				FROM ' . LANG_TABLE;
@@ -96,7 +108,7 @@ class service extends \phpbb\cache\service
 			}
 			$this->db->sql_freeresult($result);
 
-			$this->driver->put('_lang_data', $lang_data);
+			$this->driver->put('_vinabb_web_languages', $lang_data);
 		}
 
 		return $lang_data;
@@ -104,12 +116,12 @@ class service extends \phpbb\cache\service
 
 	function clear_lang_data()
 	{
-		$this->driver->destroy('_lang_data');
+		$this->driver->destroy('_vinabb_web_languages');
 	}
 
 	function get_forum_data()
 	{
-		if (($forum_data = $this->driver->get('_forum_data')) === false)
+		if (($forum_data = $this->driver->get('_vinabb_web_forums')) === false)
 		{
 			$sql = 'SELECT *
 				FROM ' . FORUMS_TABLE;
@@ -134,7 +146,7 @@ class service extends \phpbb\cache\service
 			}
 			$this->db->sql_freeresult($result);
 
-			$this->driver->put('_forum_data', $forum_data);
+			$this->driver->put('_vinabb_web_forums', $forum_data);
 		}
 
 		return $forum_data;
@@ -142,12 +154,12 @@ class service extends \phpbb\cache\service
 
 	function clear_forum_data()
 	{
-		$this->driver->destroy('_forum_data');
+		$this->driver->destroy('_vinabb_web_forums');
 	}
 
 	function get_bb_cat_data($bb_type)
 	{
-		if (($bb_cat_data = $this->driver->get('_bb_' . strtolower($bb_type) . '_cat_data')) === false)
+		if (($bb_cat_data = $this->driver->get('_vinabb_web_bb_' . strtolower($bb_type) . '_categories')) === false)
 		{
 			$sql = 'SELECT *
 				FROM ' . $this->bb_categories_table . '
@@ -165,12 +177,45 @@ class service extends \phpbb\cache\service
 			}
 			$this->db->sql_freeresult($result);
 
-			$this->driver->put('_bb_' . strtolower($bb_type) . '_cat_data', $bb_cat_data);
+			$this->driver->put('_vinabb_web_bb_' . strtolower($bb_type) . '_categories', $bb_cat_data);
 		}
+
+		return $bb_cat_data;
 	}
 
 	function clear_bb_cat_data($bb_type)
 	{
-		$this->driver->destroy('_bb_' . strtolower($bb_type) . '_cat_data');
+		$this->driver->destroy('_vinabb_web_bb_' . strtolower($bb_type) . '_categories');
+	}
+
+	function get_portal_cat_data()
+	{
+		if (($portal_cat_data = $this->driver->get('_vinabb_web_portal_categories')) === false)
+		{
+			$sql = 'SELECT *
+				FROM ' . $this->portal_categories_table;
+			$result = $this->db->sql_query($sql);
+
+			$portal_cat_data = array();
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$portal_cat_data[$row['cat_id']] = array(
+					'name'		=> $row['cat_name'],
+					'name_vi'	=> $row['cat_name_vi'],
+					'varname'	=> $row['cat_varname'],
+				);
+			}
+			$this->db->sql_freeresult($result);
+
+			$this->driver->put('_vinabb_web_portal_categories', $portal_cat_data);
+		}
+
+		return $portal_cat_data;
+	}
+
+	function clear_portal_cat_data()
+	{
+		$this->driver->destroy('_vinabb_web_portal_categories');
 	}
 }
+
