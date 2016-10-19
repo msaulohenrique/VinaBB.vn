@@ -38,6 +38,7 @@ $lang = array_merge($lang, array(
 
 	'CONFIRM_BB_CAT_DELETE'	=> 'Are you sure you want to delete this category?',
 
+	'EDIT_BB_CAT'						=> 'Edit category',
 	'ERROR_BB_CAT_DELETE'				=> 'Could not delete this category while it is still in use.',
 	'ERROR_BB_CAT_NAME_EMPTY'			=> 'You must enter a category name.',
 	'ERROR_BB_CAT_VARNAME_DUPLICATE'	=> 'The category varname “%s” already exists.',

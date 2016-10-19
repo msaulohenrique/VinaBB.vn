@@ -27,12 +27,9 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'ADD_PORTAL_CAT'	=> 'Tạo danh mục mới',
 
-	'PORTAL_CAT_NAME'		=> 'Tên danh mục',
-	'PORTAL_CAT_NAME_VI'	=> 'Tên danh mục (Tiếng Việt)',
-	'PORTAL_CAT_VARNAME'	=> 'Tên biến',
-
 	'CONFIRM_PORTAL_CAT_DELETE'	=> 'Bạn chắc chắn muốn xóa danh mục này?',
 
+	'EDIT_PORTAL_CAT'						=> 'Sửa danh mục',
 	'ERROR_PORTAL_CAT_DELETE'				=> 'Không thể xóa danh mục đang được dùng.',
 	'ERROR_PORTAL_CAT_NAME_EMPTY'			=> 'Chưa nhập tên danh mục.',
 	'ERROR_PORTAL_CAT_VARNAME_DUPLICATE'	=> 'Tên biến danh mục “%s” bị trùng.',
@@ -44,4 +41,8 @@ $lang = array_merge($lang, array(
 
 	'NO_PORTAL_CAT'		=> 'Danh mục không tồn tại.',
 	'NO_PORTAL_CAT_ID'	=> 'Danh mục không xác định.',
+
+	'PORTAL_CAT_NAME'		=> 'Tên danh mục',
+	'PORTAL_CAT_NAME_VI'	=> 'Tên danh mục (Tiếng Việt)',
+	'PORTAL_CAT_VARNAME'	=> 'Tên biến',
 ));

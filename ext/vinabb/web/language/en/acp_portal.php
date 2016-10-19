@@ -27,12 +27,9 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'ADD_PORTAL_CAT'	=> 'Create new category',
 
-	'PORTAL_CAT_NAME'		=> 'Category name',
-	'PORTAL_CAT_NAME_VI'	=> 'Category name (Vietnamese)',
-	'PORTAL_CAT_VARNAME'	=> 'Varname',
-
 	'CONFIRM_PORTAL_CAT_DELETE'	=> 'Are you sure you want to delete this category?',
 
+	'EDIT_PORTAL_CAT'						=> 'Edit category',
 	'ERROR_PORTAL_CAT_DELETE'				=> 'Could not delete this category while it is still in use.',
 	'ERROR_PORTAL_CAT_NAME_EMPTY'			=> 'You must enter a category name.',
 	'ERROR_PORTAL_CAT_VARNAME_DUPLICATE'	=> 'The category varname “%s” already exists.',
@@ -44,4 +41,8 @@ $lang = array_merge($lang, array(
 
 	'NO_PORTAL_CAT'		=> 'The category does not exist.',
 	'NO_PORTAL_CAT_ID'	=> 'No categories specified.',
+
+	'PORTAL_CAT_NAME'		=> 'Category name',
+	'PORTAL_CAT_NAME_VI'	=> 'Category name (Vietnamese)',
+	'PORTAL_CAT_VARNAME'	=> 'Varname',
 ));

@@ -38,6 +38,7 @@ $lang = array_merge($lang, array(
 
 	'CONFIRM_BB_CAT_DELETE'	=> 'Bạn chắc chắn muốn xóa danh mục này?',
 
+	'EDIT_BB_CAT'						=> 'Sửa danh mục',
 	'ERROR_BB_CAT_DELETE'				=> 'Không thể xóa danh mục đang được dùng.',
 	'ERROR_BB_CAT_NAME_EMPTY'			=> 'Chưa nhập tên danh mục.',
 	'ERROR_BB_CAT_VARNAME_DUPLICATE'	=> 'Tên biến danh mục “%s” bị trùng.',
