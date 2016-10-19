@@ -8,17 +8,17 @@
 
 namespace vinabb\web\acp;
 
-class portal_categories_info
+class portal_articles_info
 {
 	public function module()
 	{
 		return array(
-			'filename'	=> '\vinabb\web\acp\portal_categories_module',
-			'title'		=> 'ACP_PORTAL_CATS',
+			'filename'	=> '\vinabb\web\acp\portal_articles_module',
+			'title'		=> 'ACP_PORTAL_ARTICLES',
 			'version'	=> '1.0.0',
 			'modes'		=> array(
-				'cats'	=> array(
-					'title'	=> 'ACP_PORTAL_CATS',
+				'articles'	=> array(
+					'title'	=> 'ACP_PORTAL_ARTICLES',
 					'auth'	=> 'ext_vinabb/web && acl_a_board',
 					'cat'	=> array('ACP_CAT_PORTAL'),
 				),
