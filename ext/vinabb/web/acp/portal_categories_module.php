@@ -165,6 +165,42 @@ class portal_categories_module
 				trigger_error($message . adm_back_link($this->u_action));
 			break;
 
+			case 'move_up':
+			case 'move_down':
+				if (!$cat_id)
+				{
+					trigger_error($this->language->lang('NO_PORTAL_CAT_ID') . adm_back_link($this->u_action), E_USER_WARNING);
+				}
+
+				$sql = 'SELECT cat_order
+					FROM ' . $this->portal_categories_table . "
+					WHERE cat_id = $cat_id";
+				$result = $this->db->sql_query($sql);
+				$order = $this->db->sql_fetchfield('cat_order');
+				$this->db->sql_freeresult($result);
+
+				if ($order === false || ($order == 0 && $action == 'move_up'))
+				{
+					break;
+				}
+
+				$order = (int) $order;
+				$order_total = $order * 2 + (($action == 'move_up') ? -1 : 1);
+
+				$sql = 'UPDATE ' . $this->portal_categories_table . '
+					SET cat_order = ' . $order_total . ' - cat_order
+					WHERE ' . $this->db->sql_in_set('cat_order', array($order, ($action == 'move_up') ? $order - 1 : $order + 1));
+				$this->db->sql_query($sql);
+
+				if ($this->request->is_ajax())
+				{
+					$json_response = new \phpbb\json_response;
+					$json_response->send(array(
+						'success'	=> (bool) $this->db->sql_affectedrows(),
+					));
+				}
+			break;
+
 			case 'delete':
 				$cat_id = $this->request->variable('id', 0);
 
@@ -244,6 +280,8 @@ class portal_categories_module
 				'ARTICLES'	=> isset($article_count[$row['cat_id']]) ? $article_count[$row['cat_id']] : 0,
 
 				'U_EDIT'		=> $this->u_action . '&action=edit&id=' . $row['cat_id'],
+				'U_MOVE_UP'		=> $this->u_action . '&action=move_up&id=' . $row['cat_id'],
+				'U_MOVE_DOWN'	=> $this->u_action . '&action=move_down&id=' . $row['cat_id'],
 				'U_DELETE'		=> $this->u_action . '&action=delete&id=' . $row['cat_id'],
 			));
 		}

@@ -72,7 +72,14 @@
 			<td style="text-align: center;">{{ cat.NAME_VI }}</td>
 			<td style="text-align: center;">{{ cat.VARNAME }}</td>
 			<td style="text-align: center;">{{ cat.ARTICLES }}</td>
-			<td>&nbsp;<a href="{{ cat.U_EDIT }}">{{ ICON_EDIT }}</a> <a href="{{ cat.U_DELETE }}" data-ajax="row_delete">{{ ICON_DELETE }}</a>&nbsp;</td>
+			<td class="actions">
+				<span class="up-disabled" style="display:none;">{{ ICON_MOVE_UP_DISABLED }}</span>
+				<span class="up"><a href="{{ cat.U_MOVE_UP }}" data-ajax="row_up">{{ ICON_MOVE_UP }}</a></span>
+				<span class="down-disabled" style="display:none;">{{ ICON_MOVE_DOWN_DISABLED }}</span>
+				<span class="down"><a href="{{ cat.U_MOVE_DOWN }}" data-ajax="row_down">{{ ICON_MOVE_DOWN }}</a></span>
+				<a href="{{ cat.U_EDIT }}">{{ ICON_EDIT }}</a>
+				<a href="{{ cat.U_DELETE }}" data-ajax="row_delete">{{ ICON_DELETE }}</a>
+			</td>
 		</tr>
 		{% else %}
 		<tr class="row3">
