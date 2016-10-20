@@ -44,6 +44,7 @@ class bb_categories_module
 
 		$action = $this->request->variable('action', '');
 		$action = $this->request->is_set_post('add') ? 'add' : ($this->request->is_set_post('save') ? 'save' : $action);
+		$cat_id = $this->request->variable('id', 0);
 
 		// Pagination
 		$start = $this->request->variable('start', 0);
@@ -57,8 +58,6 @@ class bb_categories_module
 		switch ($action)
 		{
 			case 'edit':
-				$cat_id = $this->request->variable('id', 0);
-
 				if (!$cat_id)
 				{
 					trigger_error($this->language->lang('NO_BB_CAT_ID') . adm_back_link($this->u_action), E_USER_WARNING);
@@ -96,7 +95,6 @@ class bb_categories_module
 					$errors[] = $this->language->lang('FORM_INVALID');
 				}
 
-				$cat_id = $this->request->variable('id', 0);
 				$cat_name = $this->request->variable('cat_name', '', true);
 				$cat_name_vi = $this->request->variable('cat_name_vi', '', true);
 				$cat_varname = strtolower($this->request->variable('cat_varname', ''));
@@ -154,6 +152,43 @@ class bb_categories_module
 
 				$message = ($cat_id) ? $this->language->lang('MESSAGE_BB_CAT_EDIT') : $this->language->lang('MESSAGE_BB_CAT_ADD');
 				trigger_error($message . adm_back_link($this->u_action));
+			break;
+
+			case 'move_up':
+			case 'move_down':
+				if (!$cat_id)
+				{
+					trigger_error($this->language->lang('NO_BB_CAT_ID') . adm_back_link($this->u_action), E_USER_WARNING);
+				}
+
+				$sql = 'SELECT cat_order
+					FROM ' . $this->bb_categories_table . "
+					WHERE cat_id = $cat_id";
+				$result = $this->db->sql_query($sql);
+				$order = $this->db->sql_fetchfield('cat_order');
+				$this->db->sql_freeresult($result);
+
+				if ($order === false || ($order == 0 && $action == 'move_up'))
+				{
+					break;
+				}
+
+				$order = (int) $order;
+				$order_total = $order * 2 + (($action == 'move_up') ? -1 : 1);
+
+				$sql = 'UPDATE ' . $this->bb_categories_table . '
+					SET cat_order = ' . $order_total . ' - cat_order
+					WHERE bb_type = ' . $this->bb_type . '
+						AND ' . $this->db->sql_in_set('cat_order', array($order, ($action == 'move_up') ? $order - 1 : $order + 1));
+				$this->db->sql_query($sql);
+
+				if ($this->request->is_ajax())
+				{
+					$json_response = new \phpbb\json_response;
+					$json_response->send(array(
+						'success'	=> (bool) $this->db->sql_affectedrows(),
+					));
+				}
 			break;
 
 			case 'delete':
@@ -233,8 +268,10 @@ class bb_categories_module
 				'VARNAME'	=> $row['cat_varname'],
 				'ITEMS'		=> isset($item_count[$row['cat_id']]) ? $item_count[$row['cat_id']] : 0,
 
-				'U_EDIT'	=> $this->u_action . '&action=edit&id=' . $row['cat_id'],
-				'U_DELETE'	=> $this->u_action . '&action=delete&id=' . $row['cat_id'],
+				'U_EDIT'		=> $this->u_action . '&action=edit&id=' . $row['cat_id'],
+				'U_MOVE_UP'		=> $this->u_action . '&action=move_up&id=' . $row['cat_id'],
+				'U_MOVE_DOWN'	=> $this->u_action . '&action=move_down&id=' . $row['cat_id'],
+				'U_DELETE'		=> $this->u_action . '&action=delete&id=' . $row['cat_id'],
 			));
 		}
 
