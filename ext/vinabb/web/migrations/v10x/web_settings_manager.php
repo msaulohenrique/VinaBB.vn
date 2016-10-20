@@ -10,7 +10,7 @@ namespace vinabb\web\migrations\v10x;
 
 use phpbb\db\migration\migration;
 
-class web_settings_footer extends migration
+class web_settings_manager extends migration
 {
 	public function update_data()
 	{
@@ -18,6 +18,7 @@ class web_settings_footer extends migration
 			// Footer
 			array('config.add', array('vinabb_web_manager_name', '')),
 			array('config.add', array('vinabb_web_manager_username', '')),
+			array('config.add', array('vinabb_web_manager_user_id', 0)),
 		);
 	}
 }
