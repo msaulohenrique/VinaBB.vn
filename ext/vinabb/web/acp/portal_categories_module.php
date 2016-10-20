@@ -75,6 +75,7 @@ class portal_categories_module
 					'CAT_NAME'		=> isset($cat_data['cat_name']) ? $cat_data['cat_name'] : '',
 					'CAT_NAME_VI'	=> isset($cat_data['cat_name_vi']) ? $cat_data['cat_name_vi'] : '',
 					'CAT_VARNAME'	=> isset($cat_data['cat_varname']) ? $cat_data['cat_varname'] : '',
+					'CAT_ICON'		=> isset($cat_data['cat_icon']) ? $cat_data['cat_icon'] : '',
 
 					'U_ACTION'	=> $this->u_action,
 					'U_BACK'	=> $this->u_action,
@@ -96,6 +97,7 @@ class portal_categories_module
 				$cat_name = $this->request->variable('cat_name', '', true);
 				$cat_name_vi = $this->request->variable('cat_name_vi', '', true);
 				$cat_varname = strtolower($this->request->variable('cat_varname', ''));
+				$cat_icon = strtolower($this->request->variable('cat_icon', ''));
 
 				if (empty($cat_name) || empty($cat_name_vi))
 				{
@@ -126,10 +128,18 @@ class portal_categories_module
 					trigger_error(implode('<br>', $errors) . adm_back_link($this->u_action), E_USER_WARNING);
 				}
 
+				$sql = 'SELECT COUNT(cat_id) AS cat_count
+					FROM ' . $this->portal_categories_table;
+				$result = $this->db->sql_query($sql);
+				$cat_count = $this->db->sql_fetchfield('cat_count');
+				$this->db->sql_freeresult($result);
+
 				$sql_ary = array(
 					'cat_name'		=> $cat_name,
 					'cat_name_vi'	=> $cat_name_vi,
 					'cat_varname'	=> $cat_varname,
+					'cat_icon'		=> $cat_icon,
+					'cat_order'		=> $cat_count + 1,
 				);
 
 				if ($cat_id)
@@ -146,7 +156,7 @@ class portal_categories_module
 				$log_action = ($cat_id) ? 'LOG_PORTAL_CAT_EDIT' : 'LOG_PORTAL_CAT_ADD';
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, $log_action, false, array($cat_name));
 
-				$message = ($cat_id) ? $this->language->lang('MESSAGE_PORTAL_CAT_EDIT') : $this->language->lang('MESSAGE_BB_CAT_ADD');
+				$message = ($cat_id) ? $this->language->lang('MESSAGE_PORTAL_CAT_EDIT') : $this->language->lang('MESSAGE_PORTAL_CAT_ADD');
 				trigger_error($message . adm_back_link($this->u_action));
 			break;
 
@@ -225,6 +235,7 @@ class portal_categories_module
 				'NAME'		=> $row['cat_name'],
 				'NAME_VI'	=> $row['cat_name_vi'],
 				'VARNAME'	=> $row['cat_varname'],
+				'ICON'		=> $row['cat_icon'],
 				'ARTICLES'	=> isset($article_count[$row['cat_id']]) ? $article_count[$row['cat_id']] : 0,
 
 				'U_EDIT'	=> $this->u_action . '&action=edit&id=' . $row['cat_id'],
@@ -276,7 +287,7 @@ class portal_categories_module
 
 		$sql = "SELECT *
 			FROM $portal_categories_table
-			ORDER BY cat_name";
+			ORDER BY cat_order";
 		$result = $this->db->sql_query_limit($sql, $limit, $offset);
 
 		while ($row = $this->db->sql_fetchrow($result))
