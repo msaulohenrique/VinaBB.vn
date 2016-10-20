@@ -40,6 +40,7 @@ class portal_categories_module
 
 		$action = $this->request->variable('action', '');
 		$action = $this->request->is_set_post('add') ? 'add' : ($this->request->is_set_post('save') ? 'save' : $action);
+		$cat_id = $this->request->variable('id', 0);
 
 		// Pagination
 		$start = $this->request->variable('start', 0);
@@ -53,8 +54,6 @@ class portal_categories_module
 		switch ($action)
 		{
 			case 'edit':
-				$cat_id = $this->request->variable('id', 0);
-
 				if (!$cat_id)
 				{
 					trigger_error($this->language->lang('NO_PORTAL_CAT_ID') . adm_back_link($this->u_action), E_USER_WARNING);
@@ -131,18 +130,11 @@ class portal_categories_module
 					trigger_error(implode('<br>', $errors) . adm_back_link($this->u_action), E_USER_WARNING);
 				}
 
-				$sql = 'SELECT COUNT(cat_id) AS cat_count
-					FROM ' . $this->portal_categories_table;
-				$result = $this->db->sql_query($sql);
-				$cat_count = $this->db->sql_fetchfield('cat_count');
-				$this->db->sql_freeresult($result);
-
 				$sql_ary = array(
 					'cat_name'		=> $cat_name,
 					'cat_name_vi'	=> $cat_name_vi,
 					'cat_varname'	=> $cat_varname,
 					'cat_icon'		=> $cat_icon,
-					'cat_order'		=> $cat_count + 1,
 				);
 
 				if ($cat_id)
@@ -151,6 +143,16 @@ class portal_categories_module
 				}
 				else
 				{
+					$sql = 'SELECT COUNT(cat_id) AS cat_count
+						FROM ' . $this->portal_categories_table;
+					$result = $this->db->sql_query($sql);
+					$cat_count = $this->db->sql_fetchfield('cat_count');
+					$this->db->sql_freeresult($result);
+
+					$sql_ary = array_merge($sql_ary, array(
+						'cat_order'		=> $cat_count + 1,
+					));
+
 					$this->db->sql_query('INSERT INTO ' . $this->portal_categories_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary));
 				}
 
@@ -241,8 +243,8 @@ class portal_categories_module
 				'ICON'		=> $row['cat_icon'],
 				'ARTICLES'	=> isset($article_count[$row['cat_id']]) ? $article_count[$row['cat_id']] : 0,
 
-				'U_EDIT'	=> $this->u_action . '&action=edit&id=' . $row['cat_id'],
-				'U_DELETE'	=> $this->u_action . '&action=delete&id=' . $row['cat_id'],
+				'U_EDIT'		=> $this->u_action . '&action=edit&id=' . $row['cat_id'],
+				'U_DELETE'		=> $this->u_action . '&action=delete&id=' . $row['cat_id'],
 			));
 		}
 
