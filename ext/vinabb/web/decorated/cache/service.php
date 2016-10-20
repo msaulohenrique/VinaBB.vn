@@ -231,7 +231,8 @@ class service extends \phpbb\cache\service
 		if (($portal_cats = $this->driver->get('_vinabb_web_portal_categories')) === false)
 		{
 			$sql = 'SELECT *
-				FROM ' . $this->portal_categories_table;
+				FROM ' . $this->portal_categories_table . '
+				ORDER BY cat_order';
 			$result = $this->db->sql_query($sql);
 
 			$portal_cats = array();
@@ -241,6 +242,7 @@ class service extends \phpbb\cache\service
 					'name'		=> $row['cat_name'],
 					'name_vi'	=> $row['cat_name_vi'],
 					'varname'	=> $row['cat_varname'],
+					'icon'		=> $row['cat_icon'],
 				);
 			}
 			$this->db->sql_freeresult($result);
@@ -256,4 +258,3 @@ class service extends \phpbb\cache\service
 		$this->driver->destroy('_vinabb_web_portal_categories');
 	}
 }
-
