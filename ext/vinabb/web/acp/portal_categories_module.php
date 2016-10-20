@@ -92,7 +92,6 @@ class portal_categories_module
 					$errors[] = $this->language->lang('FORM_INVALID');
 				}
 
-				$cat_id = $this->request->variable('id', 0);
 				$cat_name = $this->request->variable('cat_name', '', true);
 				$cat_name_vi = $this->request->variable('cat_name_vi', '', true);
 				$cat_varname = strtolower($this->request->variable('cat_varname', ''));
