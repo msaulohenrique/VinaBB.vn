@@ -143,41 +143,15 @@
 					<li class="side-nav-header">
 						<span class="text-muted">{{ lang('NEWS')|upper }}</span>
 					</li>
+					{% for cat in portal_cats %}
 					<li>
 						<a href="#">
+							<em class="{{ cat.ICON ?: 'fa fa-home' }}"></em>
+							<span>{{ cat.NAME }}</span>
 							<span class="label label-success pull-right">153</span>
-							<em class="fa fa-inbox"></em>
-							<span>VinaBB</span>
 						</a>
 					</li>
-					<li>
-						<a href="#">
-							<span class="label label-success pull-right">3</span>
-							<em class="fa fa-star"></em>
-							<span>phpBB</span>
-						</a>
-					</li>
-					<li>
-						<a href="#">
-							<span class="label label-success pull-right">55</span>
-							<em class="fa fa-paper-plane-o"></em>
-							<span>Gói mở rộng</span>
-						</a>
-					</li>
-					<li>
-						<a href="#">
-							<span class="label label-success pull-right">0</span>
-							<em class="fa fa-edit"></em>
-							<span>Giao diện</span>
-						</a>
-					</li>
-					<li>
-						<a href="#">
-							<span class="label label-success pull-right">21</span>
-							<em class="fa fa-trash"></em>
-							<span>Thủ thuật</span>
-						</a>
-					</li>
+					{% endfor %}
 					<li class="side-nav-header">
 						<span class="text-muted">{{ lang('BOARD')|upper }}</span>
 					</li>
