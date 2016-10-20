@@ -42,7 +42,9 @@ $lang = array_merge($lang, array(
 	'NO_PORTAL_CAT'		=> 'The category does not exist.',
 	'NO_PORTAL_CAT_ID'	=> 'No categories specified.',
 
-	'PORTAL_CAT_NAME'		=> 'Category name',
-	'PORTAL_CAT_NAME_VI'	=> 'Category name (Vietnamese)',
-	'PORTAL_CAT_VARNAME'	=> 'Varname',
+	'PORTAL_CAT_ICON'			=> 'Category icon',
+	'PORTAL_CAT_ICON_EXPLAIN'	=> 'Example: <code>fa fa-home</code> or <code>icon-home</code>',
+	'PORTAL_CAT_NAME'			=> 'Category name',
+	'PORTAL_CAT_NAME_VI'		=> 'Category name (Vietnamese)',
+	'PORTAL_CAT_VARNAME'		=> 'Varname',
 ));

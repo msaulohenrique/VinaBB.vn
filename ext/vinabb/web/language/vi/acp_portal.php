@@ -42,7 +42,9 @@ $lang = array_merge($lang, array(
 	'NO_PORTAL_CAT'		=> 'Danh mục không tồn tại.',
 	'NO_PORTAL_CAT_ID'	=> 'Danh mục không xác định.',
 
-	'PORTAL_CAT_NAME'		=> 'Tên danh mục',
-	'PORTAL_CAT_NAME_VI'	=> 'Tên danh mục (Tiếng Việt)',
-	'PORTAL_CAT_VARNAME'	=> 'Tên biến',
+	'PORTAL_CAT_ICON'			=> 'Biểu tượng',
+	'PORTAL_CAT_ICON_EXPLAIN'	=> 'Ví dụ: <code>fa fa-home</code> hoặc <code>icon-home</code>',
+	'PORTAL_CAT_NAME'			=> 'Tên danh mục',
+	'PORTAL_CAT_NAME_VI'		=> 'Tên danh mục (Tiếng Việt)',
+	'PORTAL_CAT_VARNAME'		=> 'Tên biến',
 ));

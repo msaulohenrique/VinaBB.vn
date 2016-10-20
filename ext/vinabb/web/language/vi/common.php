@@ -200,6 +200,7 @@ $lang = array_merge($lang, array(
 	'RESOURCES'		=> 'Tài nguyên',
 
 	'TOTAL_ACP_STYLES'	=> 'Số giao diện',
+	'TOTAL_ARTICLES'	=> 'Số bài viết',
 	'TOTAL_EXTS'		=> 'Số gói mở rộng',
 	'TOTAL_LANGS'		=> 'Số gói ngôn ngữ',
 	'TOTAL_STYLES'		=> 'Số giao diện',
