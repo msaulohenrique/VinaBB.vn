@@ -33,6 +33,7 @@ class portal_schema extends migration
 						'cat_id'				=> array('UINT', 0),
 						'article_name'			=> array('VCHAR_UNI', ''),
 						'article_name_seo'		=> array('VCHAR', ''),
+						'article_lang'			=> array('VCHAR:30', ''),
 						'article_img'			=> array('VCHAR', ''),
 						'article_desc'			=> array('MTEXT_UNI', ''),
 						'article_text'			=> array('MTEXT_UNI', ''),
