@@ -301,7 +301,6 @@ class portal_categories_module
 	* List categories with pagination
 	*
 	* @param     $portal_categories_table
-	* @param     $mode
 	* @param     $cats
 	* @param     $cat_count
 	* @param int $limit
