@@ -31,9 +31,10 @@ class portal_schema extends migration
 					'COLUMNS' => array(
 						'article_id'			=> array('UINT', null, 'auto_increment'),
 						'cat_id'				=> array('UINT', 0),
-						'article_name'			=> array('STEXT_UNI', '', 'true_sort'),
-						'article_name_seo'		=> array('STEXT', ''),
+						'article_name'			=> array('VCHAR_UNI', ''),
+						'article_name_seo'		=> array('VCHAR', ''),
 						'article_img'			=> array('VCHAR', ''),
+						'article_desc'			=> array('MTEXT_UNI', ''),
 						'article_text'			=> array('MTEXT_UNI', ''),
 						'article_text_bitfield'	=> array('VCHAR:255', ''),
 						'article_text_options'	=> array('UINT:11', 0),
