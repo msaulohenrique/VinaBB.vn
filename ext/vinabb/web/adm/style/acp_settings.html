@@ -55,11 +55,11 @@
 				<dd><input id="maintenance_time" type="number" min="0" name="maintenance_time" value="{{ MAINTENANCE_TIME }}"> {{ lang('MINUTES') }}</dd>
 			</dl>
 			<dl>
-				<dt><label for="maintenance_text">{{ lang('MAINTENANCE_TEXT') ~ lang('COLON') }}</label><br /><span>{{ lang('MAINTENANCE_TEXT_EXPLAIN') }}</span></dt>
+				<dt><label for="maintenance_text">{{ lang('MAINTENANCE_TEXT') ~ ' (' ~ lang('ENGLISH') ~ ')' ~ lang('COLON') }}</label><br /><span>{{ lang('MAINTENANCE_TEXT_EXPLAIN') }}</span></dt>
 				<dd><textarea name="maintenance_text" id="maintenance_text" rows="10" cols="60" style="width: 95%;">{{ MAINTENANCE_TEXT }}</textarea></dd>
 			</dl>
 			<dl>
-				<dt><label for="maintenance_text_vi">{{ lang('MAINTENANCE_TEXT_VI') ~ lang('COLON') }}</label><br /><span>{{ lang('MAINTENANCE_TEXT_EXPLAIN') }}</span></dt>
+				<dt><label for="maintenance_text_vi">{{ lang('MAINTENANCE_TEXT') ~ ' (' ~ lang('VIETNAMESE') ~ ')' ~ lang('COLON') }}</label><br /><span>{{ lang('MAINTENANCE_TEXT_EXPLAIN') }}</span></dt>
 				<dd><textarea name="maintenance_text_vi" id="maintenance_text_vi" rows="10" cols="60" style="width: 95%;">{{ MAINTENANCE_TEXT_VI }}</textarea></dd>
 			</dl>
 		</div>
@@ -108,6 +108,21 @@
 		</dl>
 	</fieldset>
 	<fieldset>
+		<legend>{{ lang('FOOTER_MANAGER_ROLE') }}</legend>
+		<dl>
+			<dt><label for="manager_name">{{ lang('MANAGER_NAME') ~ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="manager_name" id="manager_name" maxlength="255" value="{{ MANAGER_NAME }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="manager_username">{{ lang('MANAGER_USERNAME') ~ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="manager_username" id="manager_username" maxlength="255" value="{{ MANAGER_USERNAME }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="manager_user_id">{{ lang('MANAGER_USER_ID') ~ lang('COLON') }}</label></dt>
+			<dd><input type="number" name="manager_user_id" id="manager_user_id" min="0" value="{{ MANAGER_USER_ID }}"></dd>
+		</dl>
+	</fieldset>
+	<fieldset>
 		<legend>{{ lang('MAP') }}</legend>
 		<dl>
 			<dt><label for="map_api">{{ lang('MAP_API') ~ lang('COLON') }}</label></dt>
@@ -121,11 +136,11 @@
 			</dd>
 		</dl>
 		<dl>
-			<dt><label for="map_address">{{ lang('MAP_ADDRESS') ~ lang('COLON') }}</label></dt>
+			<dt><label for="map_address">{{ lang('MAP_ADDRESS') ~ ' (' ~ lang('ENGLISH') ~ ')' ~ lang('COLON') }}</label></dt>
 			<dd><input type="text" name="map_address" id="map_address" size="40" maxlength="255" value="{{ MAP_ADDRESS }}"></dd>
 		</dl>
 		<dl>
-			<dt><label for="map_address_vi">{{ lang('MAP_ADDRESS_VI') ~ lang('COLON') }}</label></dt>
+			<dt><label for="map_address_vi">{{ lang('MAP_ADDRESS') ~ ' (' ~ lang('VIETNAMESE') ~ ')' ~ lang('COLON') }}</label></dt>
 			<dd><input type="text" name="map_address_vi" id="map_address_vi" size="40" maxlength="255" value="{{ MAP_ADDRESS_VI }}"></dd>
 		</dl>
 		<dl>

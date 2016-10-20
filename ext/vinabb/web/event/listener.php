@@ -286,6 +286,9 @@ class listener implements EventSubscriberInterface
 			'FORUM_ID_ENGLISH_TUTORIAL'			=> $this->config['vinabb_web_forum_id_english_tutorial'],
 			'FORUM_ID_ENGLISH_DISCUSSION'		=> $this->config['vinabb_web_forum_id_english_discussion'],
 
+			'MANAGER_NAME'		=> $this->config['vinabb_web_manager_name'],
+			'MANAGER_USERNAME'	=> $this->config['vinabb_web_manager_username'],
+
 			'MAP_API'			=> $this->config['vinabb_web_map_api'],
 			'MAP_LAT'			=> $this->config['vinabb_web_map_lat'],
 			'MAP_LNG'			=> $this->config['vinabb_web_map_lng'],
@@ -305,6 +308,7 @@ class listener implements EventSubscriberInterface
 			'U_BOARD'			=> $this->helper->route('vinabb_web_board_route', array('board' => 'board')),
 			'U_MCP'				=> ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? append_sid("{$this->root_path}mcp.{$this->php_ext}", 'i=main&mode=front', true, $this->user->session_id) : '',
 			'U_LANG'			=> ($this->user->data['user_id'] == ANONYMOUS && $this->config['vinabb_web_lang_enable']) ? append_sid("{$this->root_path}index.{$this->php_ext}", "language=$lang_switch") : '',
+			'U_CONTACT_PM'		=> ($this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm')) ? $this->helper->route('vinabb_web_ucp_route', array('id' => 'pm', 'mode' => 'compose', 'u' => $this->config['vinabb_web_manager_user_id'])) : '',
 			'U_LOGIN_ACTION'	=> $this->helper->route('vinabb_web_ucp_route', array('id' => 'front', 'mode' => 'login')),
 			'U_SEND_PASSWORD'	=> ($this->config['email_enable']) ? $this->helper->route('vinabb_web_ucp_route', array('id' => 'front', 'mode' => 'sendpassword')) : '',
 		));

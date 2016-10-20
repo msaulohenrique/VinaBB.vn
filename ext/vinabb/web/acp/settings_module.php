@@ -69,6 +69,10 @@ class settings_module
 			$forum_id_english_tutorial = $this->request->variable('forum_id_english_tutorial', 0);
 			$forum_id_english_discussion = $this->request->variable('forum_id_english_discussion', 0);
 
+			$manager_name = $this->request->variable('manager_name', '', true);
+			$manager_username = $this->request->variable('manager_username', '', true);
+			$manager_user_id = $this->request->variable('manager_user_id', 0);
+
 			$map_api = $this->request->variable('map_api', '');
 			$map_lat = $this->request->variable('map_lat', 0.0);
 			$map_lng = $this->request->variable('map_lng', 0.0);
@@ -233,6 +237,10 @@ class settings_module
 				$this->config->set('vinabb_web_forum_id_english_tutorial', $forum_id_english_tutorial);
 				$this->config->set('vinabb_web_forum_id_english_discussion', $forum_id_english_discussion);
 
+				$this->config->set('vinabb_web_manager_name', $manager_name);
+				$this->config->set('vinabb_web_manager_username', $manager_username);
+				$this->config->set('vinabb_web_manager_user_id', $manager_user_id);
+
 				$this->config->set('vinabb_web_map_api', $map_api);
 				$this->config->set('vinabb_web_map_lat', $map_lat);
 				$this->config->set('vinabb_web_map_lng', $map_lng);
@@ -368,6 +376,10 @@ class settings_module
 			'FORUM_ENGLISH_SUPPORT_OPTIONS'			=> $forum_english_support_options,
 			'FORUM_ENGLISH_TUTORIAL_OPTIONS'		=> $forum_english_tutorial_options,
 			'FORUM_ENGLISH_DISCUSSION_OPTIONS'		=> $forum_english_discussion_options,
+
+			'MANAGER_NAME'		=> (isset($manager_name) && !empty($manager_name)) ? $manager_name : $this->config['vinabb_web_manager_name'],
+			'MANAGER_USERNAME'	=> (isset($manager_username) && !empty($manager_username)) ? $manager_username : $this->config['vinabb_web_manager_username'],
+			'MANAGER_USER_ID'	=> isset($manager_user_id) ? $manager_user_id : $this->config['vinabb_web_manager_user_id'],
 
 			'MAP_API'			=> (isset($map_api) && !empty($map_api)) ? $map_api : $this->config['vinabb_web_map_api'],
 			'MAP_LAT'			=> isset($map_lat) ? $map_lat : $this->config['vinabb_web_map_lat'],

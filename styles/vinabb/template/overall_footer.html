@@ -18,11 +18,11 @@
 					<div class="widget text-center bg-teal">
 						<h1 class="font-300"><i class="icon-ghost"></i></h1>
 						<h4 class="font-400 margin-b-10">{{ lang('ADMINISTRATOR') }}</h4>
-						<p class="margin-b-0">nedka</p>
+						<p class="margin-b-0">{{ MANAGER_USERNAME ?: lang('ELLIPSIS') }}</p>
 						<ul class="list-inline text-center margin-b-0">
-							<li><a href="http://vinabb.vn/ucp.php?i=pm&mode=compose&u=17" data-toggle="tooltip" data-placement="bottom" title="{{ lang('PM') }}"><i class="fa fa-comment"></i></a></li>
+							{% if U_CONTACT_PM %}<li><a href="{{ U_CONTACT_PM }}" data-toggle="tooltip" data-placement="bottom" title="{{ lang('PM') }}"><i class="fa fa-comment"></i></a></li>{% endif %}
 							{% if U_CONTACT_US %}<li><a href="{{ U_CONTACT_US }}" data-toggle="tooltip" data-placement="bottom" title="{{ lang('SEND_EMAIL') }}"><i class="fa fa-envelope"></i></a></li>{% endif %}
-							<li><a href="#" data-toggle="tooltip" data-placement="bottom" title="{{ lang('PHONE') }}"><i class="fa fa-phone"></i></a></li>
+							{% if MAP_PHONE %}<li><a href="#" data-toggle="tooltip" data-placement="bottom" title="{{ lang('PHONE') ~ lang('COLON') }} {{ MAP_PHONE }}{% if MAP_PHONE_NAME %} ({{ MAP_PHONE_NAME }}){% endif %}"><i class="fa fa-phone"></i></a></li>{% endif %}
 							{% if S_FOUNDER and DEBUG_OUTPUT %}<li><a data-toggle="modal" data-target="#debugModal"><i data-toggle="tooltip" data-placement="bottom" title="{{ lang('DEBUG') }}" class="fa fa-bug"></i></a></li>{% endif %}
 						</ul>
 					</div>
@@ -34,7 +34,7 @@
 							<img src="{{ T_THEME_PATH }}/images/nedka.png" alt="" width="100" class="img-circle">
 						</div>
 						<div class="padding-20 text-center">
-							<p class="lead font-500 margin-b-0">NEDKA Solutions</p>
+							<p class="lead font-500 margin-b-0">{{ MANAGER_NAME ?: lang('ELLIPSIS') }}</p>
 							<p class="text-muted">{{ lang('FOOTER_MANAGER_ROLE') }}</p>
 							<p>{{ lang('FOOTER_MANAGER_TEXT') }}</p>
 							{% if MAP_API and MAP_LAT and MAP_LNG %}<button data-toggle="modal" data-target="#mapModal" class="btn btn-primary"><i class="fa fa-map-marker"></i> {{ lang('CONTACT') }}</button>{% endif %}
