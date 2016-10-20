@@ -34,7 +34,6 @@ $lang = array_merge($lang, array(
 
 	'BB_CAT_ICON'		=> 'Category icon',
 	'BB_CAT_NAME'		=> 'Category name',
-	'BB_CAT_NAME_VI'	=> 'Category name (Vietnamese)',
 	'BB_CAT_VARNAME'	=> 'Varname',
 
 	'CONFIRM_BB_CAT_DELETE'	=> 'Are you sure you want to delete this category?',

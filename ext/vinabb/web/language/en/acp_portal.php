@@ -45,6 +45,5 @@ $lang = array_merge($lang, array(
 	'PORTAL_CAT_ICON'			=> 'Category icon',
 	'PORTAL_CAT_ICON_EXPLAIN'	=> 'Example: <code>fa fa-home</code> or <code>icon-home</code>',
 	'PORTAL_CAT_NAME'			=> 'Category name',
-	'PORTAL_CAT_NAME_VI'		=> 'Category name (Vietnamese)',
 	'PORTAL_CAT_VARNAME'		=> 'Varname',
 ));

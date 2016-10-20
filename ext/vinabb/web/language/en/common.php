@@ -111,6 +111,7 @@ $lang = array_merge($lang, array(
 		'WORRIED'			=> 'Worried',
 		'WTF'				=> 'WTF',
 	),
+	'ENGLISH'		=> 'English',
 
 	'FOOTER_FLAG_TEXT'		=> 'VinaBB - The Vietnamese phpBB Community since 2006',
 	'FOOTER_FLAG_TITLE'		=> 'Code in Viet Nam',
@@ -208,6 +209,7 @@ $lang = array_merge($lang, array(
 
 	'USER_ID'	=> 'User ID',
 
+	'VIETNAMESE'	=> 'Vietnamese',
 	'VIEW_DETAILS'	=> 'View details',
 	'VINABB'		=> 'VinaBB',
 	'VINABB_VN'		=> 'VinaBB.vn',

@@ -111,6 +111,7 @@ $lang = array_merge($lang, array(
 		'WORRIED'			=> 'Hốt hoảng cái tài khoản',
 		'WTF'				=> 'Biến tìm muốn tắt tiếng',
 	),
+	'ENGLISH'		=> 'Tiếng Anh',
 
 	'FOOTER_FLAG_TEXT'		=> 'Cống hiến hết mình vì Tổ Quốc Việt Nam Xã Hội Chủ Nghĩa',
 	'FOOTER_FLAG_TITLE'		=> 'Code in Viet Nam',
@@ -208,6 +209,7 @@ $lang = array_merge($lang, array(
 
 	'USER_ID'	=> 'ID tài khoản',
 
+	'VIETNAMESE'	=> 'Tiếng Việt',
 	'VIEW_DETAILS'	=> 'Xem chi tiết',
 	'VINABB'		=> 'VinaBB',
 	'VINABB_VN'		=> 'VinaBB.vn',

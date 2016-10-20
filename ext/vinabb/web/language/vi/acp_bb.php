@@ -34,7 +34,6 @@ $lang = array_merge($lang, array(
 
 	'BB_CAT_ICON'		=> 'Biểu tượng',
 	'BB_CAT_NAME'		=> 'Tên danh mục',
-	'BB_CAT_NAME_VI'	=> 'Tên danh mục (Tiếng Việt)',
 	'BB_CAT_VARNAME'	=> 'Tên biến',
 
 	'CONFIRM_BB_CAT_DELETE'	=> 'Bạn chắc chắn muốn xóa danh mục này?',

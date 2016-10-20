@@ -45,6 +45,5 @@ $lang = array_merge($lang, array(
 	'PORTAL_CAT_ICON'			=> 'Biểu tượng',
 	'PORTAL_CAT_ICON_EXPLAIN'	=> 'Ví dụ: <code>fa fa-home</code> hoặc <code>icon-home</code>',
 	'PORTAL_CAT_NAME'			=> 'Tên danh mục',
-	'PORTAL_CAT_NAME_VI'		=> 'Tên danh mục (Tiếng Việt)',
 	'PORTAL_CAT_VARNAME'		=> 'Tên biến',
 ));
