@@ -136,40 +136,50 @@
 <div class="row">
 	<!-- Left column -->
 	<div class="col-md-4 mailbox-sidenav">
-		<!-- News categories -->
+		{# News and Board categories #}
+		{% if portal_cats or U_FORUM_VIETNAMESE or U_FORUM_ENGLISH %}
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<ul class="nav nav-pills nav-stacked">
-					<li class="side-nav-header">
-						<span class="text-muted">{{ lang('NEWS')|upper }}</span>
-					</li>
-					{% for cat in portal_cats %}
-					<li>
-						<a href="#">
-							<em class="{{ cat.ICON ?: 'fa fa-home' }}"></em>
-							<span>{{ cat.NAME }}</span>
-							<span class="label label-success pull-right">153</span>
-						</a>
-					</li>
-					{% endfor %}
-					<li class="side-nav-header">
-						<span class="text-muted">{{ lang('BOARD')|upper }}</span>
-					</li>
-					<li>
-						<a href="{{ U_FORUM_VIETNAMESE }}">
-							<span class="badge badge-danger"></span>
-							<span>{{ FORUM_VIETNAMESE }}</span>
-						</a>
-					</li>
-					<li>
-						<a href="{{ U_FORUM_ENGLISH }}">
-							<span class="badge badge-info"></span>
-							<span>{{ FORUM_ENGLISH }}</span>
-						</a>
-					</li>
+					{% if portal_cats %}
+						<li class="side-nav-header">
+							<span class="text-muted">{{ lang('NEWS')|upper }}</span>
+						</li>
+						{% for cat in portal_cats %}
+						<li>
+							<a href="#">
+								<em class="{{ cat.ICON ?: 'fa fa-home' }}"></em>
+								<span>{{ cat.NAME }}</span>
+								<span class="label label-success pull-right">153</span>
+							</a>
+						</li>
+						{% endfor %}
+					{% endif %}
+					{% if U_FORUM_VIETNAMESE or U_FORUM_ENGLISH %}
+						<li class="side-nav-header">
+							<span class="text-muted">{{ lang('BOARD')|upper }}</span>
+						</li>
+						{% if U_FORUM_VIETNAMESE %}
+						<li>
+							<a href="{{ U_FORUM_VIETNAMESE }}">
+								<span class="badge badge-danger"></span>
+								<span>{{ FORUM_VIETNAMESE }}</span>
+							</a>
+						</li>
+						{% endif %}
+						{% if U_FORUM_ENGLISH %}
+						<li>
+							<a href="{{ U_FORUM_ENGLISH }}">
+								<span class="badge badge-info"></span>
+								<span>{{ FORUM_ENGLISH }}</span>
+							</a>
+						</li>
+						{% endif %}
+					{% endif %}
 				</ul>
 			</div>
 		</div>
+		{% endif %}
 
 		<div class="widget bg-teal padding-0">
 			<div class="row row-table">
