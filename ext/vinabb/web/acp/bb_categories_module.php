@@ -78,6 +78,7 @@ class bb_categories_module
 					'CAT_NAME'		=> isset($cat_data['cat_name']) ? $cat_data['cat_name'] : '',
 					'CAT_NAME_VI'	=> isset($cat_data['cat_name_vi']) ? $cat_data['cat_name_vi'] : '',
 					'CAT_VARNAME'	=> isset($cat_data['cat_varname']) ? $cat_data['cat_varname'] : '',
+					'CAT_ICON'		=> isset($cat_data['cat_icon']) ? $cat_data['cat_icon'] : '',
 
 					'U_ACTION'	=> $this->u_action,
 					'U_BACK'	=> $this->u_action,
@@ -98,6 +99,7 @@ class bb_categories_module
 				$cat_name = $this->request->variable('cat_name', '', true);
 				$cat_name_vi = $this->request->variable('cat_name_vi', '', true);
 				$cat_varname = strtolower($this->request->variable('cat_varname', ''));
+				$cat_icon = strtolower($this->request->variable('cat_icon', ''));
 
 				if (empty($cat_name) || empty($cat_name_vi))
 				{
@@ -134,6 +136,7 @@ class bb_categories_module
 					'cat_name'		=> $cat_name,
 					'cat_name_vi'	=> $cat_name_vi,
 					'cat_varname'	=> $cat_varname,
+					'cat_icon'		=> $cat_icon,
 				);
 
 				if ($cat_id)
@@ -142,6 +145,17 @@ class bb_categories_module
 				}
 				else
 				{
+					$sql = 'SELECT COUNT(cat_id) AS cat_count
+						FROM ' . $this->bb_categories_table . '
+						WHERE bb_type = ' . $this->bb_type;
+					$result = $this->db->sql_query($sql);
+					$cat_count = $this->db->sql_fetchfield('cat_count');
+					$this->db->sql_freeresult($result);
+
+					$sql_ary = array_merge($sql_ary, array(
+						'cat_order'		=> $cat_count + 1,
+					));
+
 					$this->db->sql_query('INSERT INTO ' . $this->bb_categories_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary));
 				}
 
@@ -266,6 +280,7 @@ class bb_categories_module
 				'NAME'		=> $row['cat_name'],
 				'NAME_VI'	=> $row['cat_name_vi'],
 				'VARNAME'	=> $row['cat_varname'],
+				'ICON'		=> $row['cat_icon'],
 				'ITEMS'		=> isset($item_count[$row['cat_id']]) ? $item_count[$row['cat_id']] : 0,
 
 				'U_EDIT'		=> $this->u_action . '&action=edit&id=' . $row['cat_id'],
