@@ -190,20 +190,20 @@ class service extends \phpbb\cache\service
 		$this->driver->destroy('_vinabb_web_bb_' . strtolower($bb_type) . '_categories');
 	}
 
-	function bb_get_new_exts()
+	function get_new_bb_items($bb_type)
 	{
-		if (($new_exts = $this->driver->get('_vinabb_web_bb_new_exts')) === false)
+		if (($new_items = $this->driver->get('_vinabb_web_bb_new_' . strtolower($bb_type))) === false)
 		{
 			$sql = 'SELECT *
 				FROM ' . $this->bb_items_table . '
-				WHERE bb_type = ' . constants::BB_TYPE_EXT . '
+				WHERE bb_type = ' . $this->ext_helper->get_bb_type_constants($bb_type) . '
 				ORDER BY item_updated DESC';
 			$result = $this->db->sql_query_limit($sql, constants::NUM_NEW_ITEMS_ON_INDEX);
 
-			$new_exts = array();
+			$new_items = array();
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				$new_exts = array(
+				$new_items = array(
 					'name'		=> $row['item_name'],
 					'name_vi'	=> $row['item_name_vi'],
 					'varname'	=> $row['item_varname'],
@@ -215,15 +215,15 @@ class service extends \phpbb\cache\service
 			}
 			$this->db->sql_freeresult($result);
 
-			$this->driver->put('_vinabb_web_bb_new_exts', $new_exts);
+			$this->driver->put('_vinabb_web_bb_new_' . strtolower($bb_type), $new_items);
 		}
 
-		return $new_exts;
+		return $new_items;
 	}
 
-	function bb_clear_new_exts()
+	function clear_new_bb_items($bb_type)
 	{
-		$this->driver->destroy('_vinabb_web_bb_new_exts');
+		$this->driver->destroy('_vinabb_web_bb_new_' . strtolower($bb_type));
 	}
 
 	function get_portal_cat_data()
