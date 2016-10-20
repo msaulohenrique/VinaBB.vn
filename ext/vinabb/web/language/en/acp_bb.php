@@ -32,6 +32,7 @@ $lang = array_merge($lang, array(
 	'ACP_BB_TOOLS_EXPLAIN'		=> '',
 	'ADD_BB_CAT'				=> 'Create new category',
 
+	'BB_CAT_ICON'		=> 'Category icon',
 	'BB_CAT_NAME'		=> 'Category name',
 	'BB_CAT_NAME_VI'	=> 'Category name (Vietnamese)',
 	'BB_CAT_VARNAME'	=> 'Varname',
