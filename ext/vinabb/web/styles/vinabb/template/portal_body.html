@@ -137,7 +137,7 @@
 	<!-- Left column -->
 	<div class="col-md-4 mailbox-sidenav">
 		{# News and Board categories #}
-		{% if portal_cats or U_FORUM_VIETNAMESE or U_FORUM_ENGLISH %}
+		{% if portal_cats or FORUM_VIETNAMESE or FORUM_ENGLISH %}
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<ul class="nav nav-pills nav-stacked">
@@ -155,11 +155,11 @@
 						</li>
 						{% endfor %}
 					{% endif %}
-					{% if U_FORUM_VIETNAMESE or U_FORUM_ENGLISH %}
+					{% if FORUM_VIETNAMESE or FORUM_ENGLISH %}
 						<li class="side-nav-header">
 							<span class="text-muted">{{ lang('BOARD')|upper }}</span>
 						</li>
-						{% if U_FORUM_VIETNAMESE %}
+						{% if FORUM_VIETNAMESE %}
 						<li>
 							<a href="{{ U_FORUM_VIETNAMESE }}">
 								<span class="badge badge-danger"></span>
@@ -167,7 +167,7 @@
 							</a>
 						</li>
 						{% endif %}
-						{% if U_FORUM_ENGLISH %}
+						{% if FORUM_ENGLISH %}
 						<li>
 							<a href="{{ U_FORUM_ENGLISH }}">
 								<span class="badge badge-info"></span>
