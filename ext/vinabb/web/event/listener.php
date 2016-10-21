@@ -292,8 +292,7 @@ class listener implements EventSubscriberInterface
 			'MAP_API'			=> $this->config['vinabb_web_map_api'],
 			'MAP_LAT'			=> $this->config['vinabb_web_map_lat'],
 			'MAP_LNG'			=> $this->config['vinabb_web_map_lng'],
-			'MAP_ADDRESS'		=> $this->config['vinabb_web_map_address'],
-			'MAP_ADDRESS_VI'	=> $this->config['vinabb_web_map_address_vi'],
+			'MAP_ADDRESS'		=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->config['vinabb_web_map_address_vi'] : $this->config['vinabb_web_map_address'],
 			'MAP_PHONE'			=> $this->config['vinabb_web_map_phone'],
 			'MAP_PHONE_NAME'	=> $this->config['vinabb_web_map_phone_name'],
 
