@@ -422,7 +422,50 @@ class user
 
 	public function email()
 	{
+		if (!class_exists('messenger'))
+		{
+			include($phpbb_root_path . 'includes/functions_messenger.' . $phpEx);
+		}
 
+		$user_id	= $request->variable('u', 0);
+		$topic_id	= $request->variable('t', 0);
+
+		if ($user_id)
+		{
+			$form_name = 'user';
+		}
+		else if ($topic_id)
+		{
+			$form_name = 'topic';
+		}
+		else if ($mode === 'contactadmin')
+		{
+			$form_name = 'admin';
+		}
+		else
+		{
+			trigger_error('NO_EMAIL');
+		}
+
+		/** @var $form \phpbb\message\form */
+		$form = $phpbb_container->get('message.form.' . $form_name);
+
+		$form->bind($request);
+		$error = $form->check_allow();
+		if ($error)
+		{
+			trigger_error($error);
+		}
+
+		if ($request->is_set_post('submit'))
+		{
+			$messenger = new messenger(false);
+			$form->submit($messenger);
+		}
+
+		$page_title = $form->get_page_title();
+		$template_html = $form->get_template_file();
+		$form->render($template);
 	}
 
 	public function contact()
