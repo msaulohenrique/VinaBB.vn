@@ -39,6 +39,11 @@ $lang = array_merge($lang, array(
 	'CHECK_PHPBB_URL'					=> 'phpBB version tracking URL',
 
 	'DEFAULT_LANGUAGE'	=> 'Default language',
+	'DONATE_EMAIL'		=> 'Email',
+	'DONATE_FUND'		=> 'Fund value',
+	'DONATE_PAYPAL'		=> 'PayPal link',
+	'DONATE_YEAR'		=> 'Donation year',
+	'DONATE_YEAR_VALUE'	=> 'Donation value',
 
 	'ERROR_MAINTENANCE_MODE_FOUNDER'	=> 'You are not authorized to change the maintenance mode to “Founder”.',
 	'ERROR_PHP_BRANCH_INVALID'			=> 'The latest PHP branch version is invalid.',

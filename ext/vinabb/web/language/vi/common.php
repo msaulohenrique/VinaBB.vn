@@ -42,8 +42,15 @@ $lang = array_merge($lang, array(
 	'COMMUNITY'		=> 'Cộng đồng',
 	'COORDINATES'	=> 'Tọa độ',
 
-	'DEBUG'			=> 'Dò lỗi',
-	'DEBUG_INFO'	=> 'Thông số đánh giá',
+	'DEBUG'				=> 'Dò lỗi',
+	'DEBUG_INFO'		=> 'Thông số đánh giá',
+	'DONATE'			=> 'Đóng góp',
+	'DONATE_BANK'		=> 'Tên ngân hàng',
+	'DONATE_BANK_ACC'	=> 'Số tài khoản',
+	'DONATE_BUTTON'		=> 'Tiếp thêm máu',
+	'DONATE_CURRENCY'	=> 'Mã tiền tệ',
+	'DONATE_DONE'		=> 'Đã thanh toán',
+	'DONATE_OWNER'		=> 'Tên tài khoản',
 
 	'EMOTICON_TEXT'	=> array(
 		'ALIEN'				=> '!@#$%',
@@ -178,6 +185,7 @@ $lang = array_merge($lang, array(
 	'NEWS'		=> 'Tin tức',
 	'NO_POST'	=> 'Bài viết không tồn tại.',
 
+	'PAYPAL'					=> 'PayPal',
 	'PHONE'						=> 'Điện thoại',
 	'PHP_VERSION_X'				=> 'PHP %s',
 	'PHPBB_COM'					=> 'phpBB.com',
@@ -213,4 +221,8 @@ $lang = array_merge($lang, array(
 	'VIEW_DETAILS'	=> 'Xem chi tiết',
 	'VINABB'		=> 'VinaBB',
 	'VINABB_VN'		=> 'VinaBB.vn',
+
+	'WEBSITE_FUND'	=> 'Kinh phí hoạt động',
+
+	'YEAR_LABEL'	=> 'Năm %d',
 ));

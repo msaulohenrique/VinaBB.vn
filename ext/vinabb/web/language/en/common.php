@@ -42,8 +42,15 @@ $lang = array_merge($lang, array(
 	'COMMUNITY'		=> 'Community',
 	'COORDINATES'	=> 'Coordinates',
 
-	'DEBUG'			=> 'Debug',
-	'DEBUG_INFO'	=> 'Debug information',
+	'DEBUG'				=> 'Debug',
+	'DEBUG_INFO'		=> 'Debug information',
+	'DONATE'			=> 'Donate',
+	'DONATE_BANK'		=> 'Bank name',
+	'DONATE_BANK_ACC'	=> 'Bank account',
+	'DONATE_BUTTON'		=> 'Donate',
+	'DONATE_CURRENCY'	=> 'Currency code',
+	'DONATE_DONE'		=> 'Paid',
+	'DONATE_OWNER'		=> 'Account owner',
 
 	'EMOTICON_TEXT'	=> array(
 		'ALIEN'				=> 'Alien',
@@ -178,6 +185,7 @@ $lang = array_merge($lang, array(
 	'NEWS'		=> 'News',
 	'NO_POST'	=> 'The post does not exist.',
 
+	'PAYPAL'					=> 'PayPal',
 	'PHONE'						=> 'Phone',
 	'PHP_VERSION_X'				=> 'PHP %s',
 	'PHPBB_COM'					=> 'phpBB.com',
@@ -213,4 +221,8 @@ $lang = array_merge($lang, array(
 	'VIEW_DETAILS'	=> 'View details',
 	'VINABB'		=> 'VinaBB',
 	'VINABB_VN'		=> 'VinaBB.vn',
+
+	'WEBSITE_FUND'	=> 'Website fund',
+
+	'YEAR_LABEL'	=> 'Year %d',
 ));

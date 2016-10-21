@@ -39,6 +39,11 @@ $lang = array_merge($lang, array(
 	'CHECK_PHPBB_URL'					=> 'Liên kết kiểm tra phiên bản phpBB',
 
 	'DEFAULT_LANGUAGE'	=> 'Ngôn ngữ mặc định',
+	'DONATE_EMAIL'		=> 'Hộp thư',
+	'DONATE_FUND'		=> 'Số dư hiện tại',
+	'DONATE_PAYPAL'		=> 'Trang PayPal',
+	'DONATE_YEAR'		=> 'Năm đóng góp',
+	'DONATE_YEAR_VALUE'	=> 'Số tiền đóng góp',
 
 	'ERROR_MAINTENANCE_MODE_FOUNDER'	=> 'Không được phép đổi chế độ bảo trì thành “Sáng lập viên”.',
 	'ERROR_PHP_BRANCH_INVALID'			=> 'Số phiên bản nhánh PHP mới nhất không hợp lệ.',
