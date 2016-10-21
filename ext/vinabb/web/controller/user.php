@@ -25,6 +25,15 @@ class user
 	/** @var \phpbb\language\language */
 	protected $language;
 
+	/** @var \phpbb\message\admin_form */
+	protected $message_form_admin;
+
+	/** @var \phpbb\message\topic_form */
+	protected $message_form_topic;
+
+	/** @var \phpbb\message\user_form */
+	protected $message_form_user;
+
 	/** @var \phpbb\request\request */
 	protected $request;
 
@@ -54,6 +63,9 @@ class user
 	* @param \phpbb\db\driver\driver_interface $db
 	* @param \phpbb\event\dispatcher_interface $dispatcher
 	* @param \phpbb\language\language $language
+	* @param \phpbb\message\admin_form $message_form_admin
+	* @param \phpbb\message\topic_form $message_form_topic
+	* @param \phpbb\message\user_form $message_form_user
 	* @param \phpbb\request\request $request
 	* @param \phpbb\template\template $template
 	* @param \phpbb\user $user
@@ -68,6 +80,9 @@ class user
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\event\dispatcher_interface $dispatcher,
 		\phpbb\language\language $language,
+		\phpbb\message\admin_form $message_form_admin,
+		\phpbb\message\topic_form $message_form_topic,
+		\phpbb\message\user_form $message_form_user,
 		\phpbb\request\request $request,
 		\phpbb\template\template $template,
 		\phpbb\user $user,
@@ -82,6 +97,9 @@ class user
 		$this->db = $db;
 		$this->dispatcher = $dispatcher;
 		$this->language = $language;
+		$this->message_form_admin = $message_form_admin;
+		$this->message_form_topic = $message_form_topic;
+		$this->message_form_user = $message_form_user;
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
@@ -1153,6 +1171,29 @@ class user
 	{
 		define('SKIP_CHECK_BAN', true);
 		define('SKIP_CHECK_DISABLED', true);
+
+		if (!class_exists('messenger'))
+		{
+			include "{$this->root_path}includes/functions_messenger.{$this->php_ext}";
+		}
+
+		$this->message_form_admin->bind($this->request);
+		$error = $this->message_form_admin->check_allow();
+
+		if ($error)
+		{
+			trigger_error($error);
+		}
+
+		if ($this->request->is_set_post('submit'))
+		{
+			$messenger = new \messenger(false);
+			$this->message_form_admin->submit($messenger);
+		}
+
+		$this->message_form_admin->render($this->template);
+
+		return $this->helper->render($this->message_form_admin->get_template_file(), $this->message_form_admin->get_page_title());
 	}
 
 	public function email()

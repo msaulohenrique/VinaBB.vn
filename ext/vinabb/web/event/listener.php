@@ -399,6 +399,24 @@ class listener implements EventSubscriberInterface
 
 				$route_name = 'vinabb_web_ucp_route';
 			}
+			else if (strpos($event['url'], "memberlist.{$this->php_ext}") !== false)
+			{
+				if (isset($params_ary['mode']))
+				{
+					switch ($params_ary['mode'])
+					{
+						case 'contactadmin':
+							$route_name = 'vinabb_web_user_contact_admin_route';
+						break;
+					}
+
+					unset($params_ary['mode']);
+				}
+				else
+				{
+					$route_name = 'vinabb_web_user_list_route';
+				}
+			}
 			else if (strpos($event['url'], "x.{$this->php_ext}") !== false)
 			{
 				//echo $event['params'] . "<br>";
