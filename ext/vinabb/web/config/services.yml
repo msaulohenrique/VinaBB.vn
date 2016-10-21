@@ -74,6 +74,16 @@ services:
     vinabb.web.user:
         class: vinabb\web\controller\user
         arguments:
+            - '@auth'
+            - '@config'
+            - '@dbal.conn'
+            - '@dispatcher'
+            - '@language'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '@group_helper'
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.ucp:
