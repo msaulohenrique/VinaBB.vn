@@ -511,5 +511,30 @@ class user
 		{
 			trigger_error('LIVE_SEARCHES_NOT_ALLOWED');
 		}
+
+		$username_chars = $request->variable('username', '', true);
+
+		$sql = 'SELECT username, user_id, user_colour
+			FROM ' . USERS_TABLE . '
+			WHERE ' . $db->sql_in_set('user_type', $user_types) . '
+				AND username_clean ' . $db->sql_like_expression(utf8_clean_string($username_chars) . $db->get_any_char());
+		$result = $db->sql_query_limit($sql, 10);
+		$user_list = array();
+
+		while ($row = $db->sql_fetchrow($result))
+		{
+			$user_list[] = array(
+				'user_id'		=> (int) $row['user_id'],
+				'result'		=> $row['username'],
+				'username_full'	=> get_username_string('full', $row['user_id'], $row['username'], $row['user_colour']),
+				'display'		=> get_username_string('no_profile', $row['user_id'], $row['username'], $row['user_colour']),
+			);
+		}
+		$db->sql_freeresult($result);
+		$json_response = new \phpbb\json_response();
+		$json_response->send(array(
+			'keyword' => $username_chars,
+			'results' => $user_list,
+		));
 	}
 }
