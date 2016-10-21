@@ -237,7 +237,7 @@
 						<div role="tabpanel" class="tab-pane active" id="newExts">
 							<ul class="nav nav-pills nav-stacked">
 								<li class="side-nav-header">
-									<span class="text-muted">{{ lang('LATEST_EXTS')|upper }}</span>
+									<h4>{{ lang('LATEST_EXTS') }}</h4>
 								</li>
 								{% for i in 1..10 %}
 								<li>
@@ -252,7 +252,7 @@
 						<div role="tabpanel" class="tab-pane" id="newStyles">
 							<ul class="nav nav-pills nav-stacked">
 								<li class="side-nav-header">
-									<span class="text-muted">{{ lang('LATEST_STYLES')|upper }}</span>
+									<h4>{{ lang('LATEST_STYLES') }}</h4>
 								</li>
 								{% for i in 1..10 %}
 								<li>
@@ -267,7 +267,7 @@
 						<div role="tabpanel" class="tab-pane" id="newACPStyles">
 							<ul class="nav nav-pills nav-stacked">
 								<li class="side-nav-header">
-									<span class="text-muted">{{ lang('LATEST_ACP_STYLES')|upper }}</span>
+									<h4>{{ lang('LATEST_ACP_STYLES') }}</h4>
 								</li>
 								{% for i in 1..10 %}
 								<li>
@@ -282,7 +282,7 @@
 						<div role="tabpanel" class="tab-pane" id="newTools">
 							<ul class="nav nav-pills nav-stacked">
 								<li class="side-nav-header">
-									<span class="text-muted">{{ lang('LATEST_TOOLS')|upper }}</span>
+									<h4>{{ lang('LATEST_TOOLS') }}</h4>
 								</li>
 								{% for i in 1..10 %}
 								<li>
@@ -339,7 +339,7 @@
 						<div role="tabpanel" class="tab-pane active" id="newTopics">
 							<ul class="nav nav-pills nav-stacked">
 								<li class="side-nav-header">
-									<span class="text-muted">{{ lang('LATEST_TOPICS')|upper }}</span>
+									<h4>{{ lang('LATEST_TOPICS') }}</h4>
 								</li>
 								{% for topic in latest_topics %}
 								<li><a href="#"><span>{{ topic.TITLE }}</span></a></li>
@@ -349,7 +349,7 @@
 						<div role="tabpanel" class="tab-pane" id="newPosts">
 							<ul class="nav nav-pills nav-stacked">
 								<li class="side-nav-header">
-									<span class="text-muted">{{ lang('LATEST_POSTS')|upper }}</span>
+									<h4>{{ lang('LATEST_POSTS') }}</h4>
 								</li>
 								{% for post in latest_posts %}
 								<li><a href="#"><span>{{ post.SUBJECT }}</span></a></li>
@@ -359,7 +359,7 @@
 						<div role="tabpanel" class="tab-pane" id="newUsers">
 							<ul class="nav nav-pills nav-stacked">
 								<li class="side-nav-header">
-									<span class="text-muted">{{ lang('LATEST_USERS')|upper }}</span>
+									<h4>{{ lang('LATEST_USERS') }}</h4>
 								</li>
 								{% for user in latest_users %}
 								<li>{{ user.NAME }}</li>
