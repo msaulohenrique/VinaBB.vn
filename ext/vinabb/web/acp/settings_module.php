@@ -78,9 +78,12 @@ class settings_module
 			$donate_fund = $this->request->variable('donate_fund', 0);
 			$donate_currency = strtoupper($this->request->variable('donate_currency', ''));
 			$donate_owner = $this->request->variable('donate_owner', '', true);
+			$donate_owner_vi = $this->request->variable('donate_owner_vi', '', true);
 			$donate_email = $this->request->variable('donate_email', '');
 			$donate_bank = $this->request->variable('donate_bank', '', true);
+			$donate_bank_vi = $this->request->variable('donate_bank_vi', '', true);
 			$donate_bank_acc = $this->request->variable('donate_bank_acc', '');
+			$donate_bank_swift = strtoupper($this->request->variable('donate_bank_swift', ''));
 			$donate_paypal = $this->request->variable('donate_paypal', '');
 
 			$map_api = $this->request->variable('map_api', '');
@@ -256,9 +259,12 @@ class settings_module
 				$this->config->set('vinabb_web_donate_fund', $donate_fund);
 				$this->config->set('vinabb_web_donate_currency', $donate_currency);
 				$this->config->set('vinabb_web_donate_owner', $donate_owner);
+				$this->config->set('vinabb_web_donate_owner_vi', $donate_owner_vi);
 				$this->config->set('vinabb_web_donate_email', $donate_email);
 				$this->config->set('vinabb_web_donate_bank', $donate_bank);
+				$this->config->set('vinabb_web_donate_bank_vi', $donate_bank_vi);
 				$this->config->set('vinabb_web_donate_bank_acc', $donate_bank_acc);
+				$this->config->set('vinabb_web_donate_bank_swift', $donate_bank_swift);
 				$this->config->set('vinabb_web_donate_paypal', $donate_paypal);
 
 				$this->config->set('vinabb_web_map_api', $map_api);
@@ -407,9 +413,12 @@ class settings_module
 			'DONATE_FUND'		=> isset($donate_fund) ? $donate_fund : $this->config['vinabb_web_donate_fund'],
 			'DONATE_CURRENCY'	=> (isset($donate_currency) && !empty($donate_currency)) ? $donate_currency : $this->config['vinabb_web_donate_currency'],
 			'DONATE_OWNER'		=> (isset($donate_owner) && !empty($donate_owner)) ? $donate_owner : $this->config['vinabb_web_donate_owner'],
+			'DONATE_OWNER_VI'	=> (isset($donate_owner_vi) && !empty($donate_owner_vi)) ? $donate_owner_vi : $this->config['vinabb_web_donate_owner_vi'],
 			'DONATE_EMAIL'		=> (isset($donate_email) && !empty($donate_email)) ? $donate_email : $this->config['vinabb_web_donate_email'],
 			'DONATE_BANK'		=> (isset($donate_bank) && !empty($donate_bank)) ? $donate_bank : $this->config['vinabb_web_donate_bank'],
+			'DONATE_BANK_VI'	=> (isset($donate_bank_vi) && !empty($donate_bank_vi)) ? $donate_bank_vi : $this->config['vinabb_web_donate_bank_vi'],
 			'DONATE_BANK_ACC'	=> (isset($donate_bank_acc) && !empty($donate_bank_acc)) ? $donate_bank_acc : $this->config['vinabb_web_donate_bank_acc'],
+			'DONATE_BANK_SWIFT'	=> (isset($donate_bank_swift) && !empty($donate_bank_swift)) ? $donate_bank_swift : $this->config['vinabb_web_donate_bank_swift'],
 			'DONATE_PAYPAL'		=> (isset($donate_paypal) && !empty($donate_paypal)) ? $donate_paypal : $this->config['vinabb_web_donate_paypal'],
 
 			'MAP_API'			=> (isset($map_api) && !empty($map_api)) ? $map_api : $this->config['vinabb_web_map_api'],

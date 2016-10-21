@@ -141,20 +141,32 @@
 			<dd><input type="text" name="donate_currency" id="donate_currency" maxlength="3" value="{{ DONATE_CURRENCY }}"></dd>
 		</dl>
 		<dl>
-			<dt><label for="donate_owner">{{ lang('DONATE_OWNER') ~ lang('COLON') }}</label></dt>
+			<dt><label for="donate_owner">{{ lang('DONATE_OWNER') ~ ' (' ~ lang('ENGLISH') ~ ')' ~ lang('COLON') }}</label></dt>
 			<dd><input type="text" name="donate_owner" id="donate_owner" size="40" maxlength="255" value="{{ DONATE_OWNER }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="donate_owner_vi">{{ lang('DONATE_OWNER') ~ ' (' ~ lang('VIETNAMESE') ~ ')' ~ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="donate_owner_vi" id="donate_owner_vi" size="40" maxlength="255" value="{{ DONATE_OWNER_VI }}"></dd>
 		</dl>
 		<dl>
 			<dt><label for="donate_email">{{ lang('DONATE_EMAIL') ~ lang('COLON') }}</label></dt>
 			<dd><input type="text" name="donate_email" id="donate_email" size="40" maxlength="255" value="{{ DONATE_EMAIL }}"></dd>
 		</dl>
 		<dl>
-			<dt><label for="donate_bank">{{ lang('DONATE_BANK') ~ lang('COLON') }}</label></dt>
+			<dt><label for="donate_bank">{{ lang('DONATE_BANK') ~ ' (' ~ lang('ENGLISH') ~ ')' ~ lang('COLON') }}</label></dt>
 			<dd><input type="text" name="donate_bank" id="donate_bank" size="40" maxlength="255" value="{{ DONATE_BANK }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="donate_bank_vi">{{ lang('DONATE_BANK') ~ ' (' ~ lang('VIETNAMESE') ~ ')' ~ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="donate_bank_vi" id="donate_bank_vi" size="40" maxlength="255" value="{{ DONATE_BANK_VI }}"></dd>
 		</dl>
 		<dl>
 			<dt><label for="donate_bank_acc">{{ lang('DONATE_BANK_ACC') ~ lang('COLON') }}</label></dt>
 			<dd><input type="text" name="donate_bank_acc" id="donate_bank_acc" size="40" maxlength="255" value="{{ DONATE_BANK_ACC }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="donate_bank_swift">{{ lang('DONATE_BANK_SWIFT') ~ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="donate_bank_swift" id="donate_bank_swift" size="40" maxlength="11" value="{{ DONATE_BANK_SWIFT }}"></dd>
 		</dl>
 		<dl>
 			<dt><label for="donate_paypal">{{ lang('DONATE_PAYPAL') ~ lang('COLON') }}</label></dt>

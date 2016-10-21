@@ -422,18 +422,18 @@
 			<div>
 				<h4>{{ lang('WEBSITE_FUND') }}</h4>
 				<div>
-					<span>{{ lang('YEAR_LABEL', DONATE_LAST_YEAR) }}</span>
+					<span>{{ lang('LABEL_YEAR', DONATE_LAST_YEAR) }}</span>
 					<small class="pull-right">{{ lang('DONATE_DONE') }}</small>
 				</div>
 				<div class="progress progress-mini">
 					<div style="width: 100%;" class="progress-bar"></div>
 				</div>
 				<div>
-					<span>{{ lang('YEAR_LABEL', DONATE_YEAR) }}</span>
-					<small class="pull-right">{{ DONATE_FUND|number_format }} / {{ DONATE_YEAR_VALUE|number_format }} {{ DONATE_CURRENCY }}</small>
+					<span>{{ lang('LABEL_YEAR', DONATE_YEAR) }}</span>
+					<small class="pull-right">{{ DONATE_FUND|number_format }} {{ lang('VARIANT_DATE_SEPARATOR') }} {{ DONATE_YEAR_VALUE|number_format }} {{ DONATE_CURRENCY }}</small>
 				</div>
 				<div class="progress progress-mini">
-					<div style="width: {{ min(100, max(1, DONATE_PERCENT)) }}%;" class="progress-bar progress-bar-danger"></div>
+					<div style="width: {{ min(100, max(1, DONATE_PERCENT)) }}%;" data-toggle="tooltip" title="{{ lang('LABEL_PERCENT', min(100, DONATE_PERCENT)) }}" class="progress-bar progress-bar-danger"></div>
 				</div>
 				<div class="text-center">
 					<button data-toggle="modal" data-target="#donateModal" class="btn btn-danger"><i class="fa fa-tint"></i> {{ lang('DONATE_BUTTON') }}</button>
@@ -593,7 +593,10 @@
 				<p><strong>{{ lang('DONATE_BANK') ~ lang('COLON') }}</strong> {{ DONATE_BANK }}</p>
 				<p><strong>{{ lang('DONATE_OWNER') ~ lang('COLON') }}</strong> {{ DONATE_OWNER }}</p>
 				<p><strong>{{ lang('DONATE_BANK_ACC') ~ lang('COLON') }}</strong> <kbd>{{ DONATE_BANK_ACC }}</kbd></p>
-				<p><strong>{{ lang('DONATE_CURRENCY') ~ lang('COLON') }}</strong> <code>{{ DONATE_CURRENCY }}</code></p>
+				{% if not S_VIETNAMESE %}
+				<p><strong>{{ lang('DONATE_BANK_SWIFT') ~ lang('COLON') }}</strong> <code>{{ DONATE_BANK_SWIFT }}</code></p>
+				<p><strong>{{ lang('CURRENCY') ~ lang('COLON') }}</strong> <code>{{ DONATE_CURRENCY }}</code></p>
+				{% endif %}
 				{% if DONATE_PAYPAL %}
 				<div class="text-center">
 					<a href="{{ DONATE_PAYPAL }}" target="_blank" class="btn btn-primary"><i class="fa fa-paypal"></i> {{ lang('PAYPAL') }}</a>
