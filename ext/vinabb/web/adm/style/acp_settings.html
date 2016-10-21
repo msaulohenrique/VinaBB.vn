@@ -123,6 +123,45 @@
 		</dl>
 	</fieldset>
 	<fieldset>
+		<legend>{{ lang('DONATE') }}</legend>
+		<dl>
+			<dt><label for="donate_year">{{ lang('DONATE_YEAR') ~ lang('COLON') }}</label></dt>
+			<dd><input type="number" name="donate_year" id="donate_year" min="{{ CURRENT_YEAR }}" value="{{ max(CURRENT_YEAR, DONATE_YEAR) }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="donate_year_value">{{ lang('DONATE_YEAR_VALUE') ~ lang('COLON') }}</label></dt>
+			<dd><input type="number" name="donate_year_value" id="donate_year_value" min="0" value="{{ DONATE_YEAR_VALUE }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="donate_fund">{{ lang('DONATE_FUND') ~ lang('COLON') }}</label></dt>
+			<dd><input type="number" name="donate_fund" id="donate_fund" min="0" value="{{ DONATE_FUND }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="donate_currency">{{ lang('DONATE_CURRENCY') ~ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="donate_currency" id="donate_currency" maxlength="3" value="{{ DONATE_CURRENCY }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="donate_owner">{{ lang('DONATE_OWNER') ~ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="donate_owner" id="donate_owner" size="40" maxlength="255" value="{{ DONATE_OWNER }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="donate_email">{{ lang('DONATE_EMAIL') ~ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="donate_email" id="donate_email" size="40" maxlength="255" value="{{ DONATE_EMAIL }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="donate_bank">{{ lang('DONATE_BANK') ~ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="donate_bank" id="donate_bank" size="40" maxlength="255" value="{{ DONATE_BANK }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="donate_bank_acc">{{ lang('DONATE_BANK_ACC') ~ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="donate_bank_acc" id="donate_bank_acc" size="40" maxlength="255" value="{{ DONATE_BANK_ACC }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="donate_paypal">{{ lang('DONATE_PAYPAL') ~ lang('COLON') }}</label></dt>
+			<dd><input type="url" name="donate_paypal" id="donate_paypal" size="40" maxlength="255" value="{{ DONATE_PAYPAL }}"></dd>
+		</dl>
+	</fieldset>
+	<fieldset>
 		<legend>{{ lang('MAP') }}</legend>
 		<dl>
 			<dt><label for="map_api">{{ lang('MAP_API') ~ lang('COLON') }}</label></dt>

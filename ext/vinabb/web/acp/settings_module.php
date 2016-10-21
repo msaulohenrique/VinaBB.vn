@@ -73,6 +73,16 @@ class settings_module
 			$manager_username = $this->request->variable('manager_username', '', true);
 			$manager_user_id = $this->request->variable('manager_user_id', 0);
 
+			$donate_year = $this->request->variable('donate_year', 0);
+			$donate_year_value = $this->request->variable('donate_year_value', 0);
+			$donate_fund = $this->request->variable('donate_fund', 0);
+			$donate_currency = strtoupper($this->request->variable('donate_currency', ''));
+			$donate_owner = $this->request->variable('donate_owner', '', true);
+			$donate_email = $this->request->variable('donate_email', '');
+			$donate_bank = $this->request->variable('donate_bank', '', true);
+			$donate_bank_acc = $this->request->variable('donate_bank_acc', '');
+			$donate_paypal = $this->request->variable('donate_paypal', '');
+
 			$map_api = $this->request->variable('map_api', '');
 			$map_lat = $this->request->variable('map_lat', 0.0);
 			$map_lng = $this->request->variable('map_lng', 0.0);
@@ -241,6 +251,16 @@ class settings_module
 				$this->config->set('vinabb_web_manager_username', $manager_username);
 				$this->config->set('vinabb_web_manager_user_id', $manager_user_id);
 
+				$this->config->set('vinabb_web_donate_year', $donate_year);
+				$this->config->set('vinabb_web_donate_year_value', $donate_year_value);
+				$this->config->set('vinabb_web_donate_fund', $donate_fund);
+				$this->config->set('vinabb_web_donate_currency', $donate_currency);
+				$this->config->set('vinabb_web_donate_owner', $donate_owner);
+				$this->config->set('vinabb_web_donate_email', $donate_email);
+				$this->config->set('vinabb_web_donate_bank', $donate_bank);
+				$this->config->set('vinabb_web_donate_bank_acc', $donate_bank_acc);
+				$this->config->set('vinabb_web_donate_paypal', $donate_paypal);
+
 				$this->config->set('vinabb_web_map_api', $map_api);
 				$this->config->set('vinabb_web_map_lat', $map_lat);
 				$this->config->set('vinabb_web_map_lng', $map_lng);
@@ -380,6 +400,17 @@ class settings_module
 			'MANAGER_NAME'		=> (isset($manager_name) && !empty($manager_name)) ? $manager_name : $this->config['vinabb_web_manager_name'],
 			'MANAGER_USERNAME'	=> (isset($manager_username) && !empty($manager_username)) ? $manager_username : $this->config['vinabb_web_manager_username'],
 			'MANAGER_USER_ID'	=> isset($manager_user_id) ? $manager_user_id : $this->config['vinabb_web_manager_user_id'],
+
+			'CURRENT_YEAR'		=> date('Y', time()),
+			'DONATE_YEAR'		=> isset($donate_year) ? $donate_year : $this->config['vinabb_web_donate_year'],
+			'DONATE_YEAR_VALUE'	=> isset($donate_year_value) ? $donate_year_value : $this->config['vinabb_web_donate_year_value'],
+			'DONATE_FUND'		=> isset($donate_fund) ? $donate_fund : $this->config['vinabb_web_donate_fund'],
+			'DONATE_CURRENCY'	=> (isset($donate_currency) && !empty($donate_currency)) ? $donate_currency : $this->config['vinabb_web_donate_currency'],
+			'DONATE_OWNER'		=> (isset($donate_owner) && !empty($donate_owner)) ? $donate_owner : $this->config['vinabb_web_donate_owner'],
+			'DONATE_EMAIL'		=> (isset($donate_email) && !empty($donate_email)) ? $donate_email : $this->config['vinabb_web_donate_email'],
+			'DONATE_BANK'		=> (isset($donate_bank) && !empty($donate_bank)) ? $donate_bank : $this->config['vinabb_web_donate_bank'],
+			'DONATE_BANK_ACC'	=> (isset($donate_bank_acc) && !empty($donate_bank_acc)) ? $donate_bank_acc : $this->config['vinabb_web_donate_bank_acc'],
+			'DONATE_PAYPAL'		=> (isset($donate_paypal) && !empty($donate_paypal)) ? $donate_paypal : $this->config['vinabb_web_donate_paypal'],
 
 			'MAP_API'			=> (isset($map_api) && !empty($map_api)) ? $map_api : $this->config['vinabb_web_map_api'],
 			'MAP_LAT'			=> isset($map_lat) ? $map_lat : $this->config['vinabb_web_map_lat'],

@@ -421,6 +421,18 @@ class portal
 			'FORUM_VIETNAMESE'	=> ($this->config['vinabb_web_forum_id_vietnamese']) ? $this->forum_data[$this->config['vinabb_web_forum_id_vietnamese']]['name'] : '',
 			'FORUM_ENGLISH'		=> ($this->config['vinabb_web_forum_id_english']) ? $this->forum_data[$this->config['vinabb_web_forum_id_english']]['name'] : '',
 
+			'DONATE_LAST_YEAR'	=> max(0, $this->config['vinabb_web_donate_year'] - 1),
+			'DONATE_PERCENT'	=> round($this->config['vinabb_web_donate_fund'] / max(1, $this->config['vinabb_web_donate_year_value'])) * 100,
+			'DONATE_YEAR'		=> $this->config['vinabb_web_donate_year'],
+			'DONATE_YEAR_VALUE'	=> $this->config['vinabb_web_donate_year_value'],
+			'DONATE_FUND'		=> $this->config['vinabb_web_donate_fund'],
+			'DONATE_CURRENCY'	=> $this->config['vinabb_web_donate_currency'],
+			'DONATE_OWNER'		=> $this->config['vinabb_web_donate_owner'],
+			'DONATE_EMAIL'		=> $this->config['vinabb_web_donate_email'],
+			'DONATE_BANK'		=> $this->config['vinabb_web_donate_bank'],
+			'DONATE_BANK_ACC'	=> $this->config['vinabb_web_donate_bank_acc'],
+			'DONATE_PAYPAL'		=> htmlspecialchars_decode($this->config['vinabb_web_donate_paypal']),
+
 			'U_FORUM_VIETNAMESE'	=> $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $this->config['vinabb_web_forum_id_vietnamese'], 'seo' => ($this->config['vinabb_web_forum_id_vietnamese'] ? $this->forum_data[$this->config['vinabb_web_forum_id_vietnamese']]['name_seo'] : constants::LANG_VIETNAMESE) . constants::REWRITE_URL_SEO)),
 			'U_FORUM_ENGLISH'		=> $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $this->config['vinabb_web_forum_id_english'], 'seo' => ($this->config['vinabb_web_forum_id_english'] ? $this->forum_data[$this->config['vinabb_web_forum_id_english']]['name_seo'] : constants::LANG_ENGLISH) . constants::REWRITE_URL_SEO)),
 

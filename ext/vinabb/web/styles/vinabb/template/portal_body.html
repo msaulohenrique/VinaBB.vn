@@ -420,24 +420,23 @@
 
 		<div class="widget white-bg">
 			<div>
-				<h4>Kinh phí hoạt động</h4>
+				<h4>{{ lang('WEBSITE_FUND') }}</h4>
 				<div>
-					<span>Năm 2017</span>
-					<small class="pull-right">Đã thanh toán</small>
+					<span>{{ lang('YEAR_LABEL', DONATE_LAST_YEAR) }}</span>
+					<small class="pull-right">{{ lang('DONATE_DONE') }}</small>
 				</div>
 				<div class="progress progress-mini">
 					<div style="width: 100%;" class="progress-bar"></div>
 				</div>
-
 				<div>
-					<span>Năm 2018</span>
-					<small class="pull-right">0 / 8,500,000 VND</small>
+					<span>{{ lang('YEAR_LABEL', DONATE_YEAR) }}</span>
+					<small class="pull-right">{{ DONATE_FUND|number_format }} / {{ DONATE_YEAR_VALUE|number_format }} {{ DONATE_CURRENCY }}</small>
 				</div>
 				<div class="progress progress-mini">
-					<div style="width: 1%;" class="progress-bar progress-bar-danger"></div>
+					<div style="width: {{ min(100, max(1, DONATE_PERCENT)) }}%;" class="progress-bar progress-bar-danger"></div>
 				</div>
 				<div class="text-center">
-					<button data-toggle="modal" data-target="#mapModal" class="btn btn-danger"><i class="fa fa-tint"></i> Tiếp thêm máu</button>
+					<button data-toggle="modal" data-target="#donateModal" class="btn btn-danger"><i class="fa fa-tint"></i> {{ lang('DONATE_BUTTON') }}</button>
 				</div>
 			</div>
 		</div>
@@ -523,10 +522,10 @@
 			</div>
 			<div class="modal-body">
 				{% if LATEST_PHP_VERSION %}
-				<a{% if LATEST_PHP_VERSION_URL %} href="{{ LATEST_PHP_VERSION_URL }}"{% endif %} class="btn btn-indigo btn-rounded btn-icon"><i class="fa fa-info-circle"></i> {{ lang('PHP_VERSION_X', LATEST_PHP_VERSION) }}</a>
+				<a{% if LATEST_PHP_VERSION_URL %} href="{{ LATEST_PHP_VERSION_URL }}" target="_blank"{% endif %} class="btn btn-indigo btn-rounded btn-icon"><i class="fa fa-info-circle"></i> {{ lang('PHP_VERSION_X', LATEST_PHP_VERSION) }}</a>
 				{% endif %}
 				{% if LATEST_PHP_LEGACY_VERSION %}
-				<a{% if LATEST_PHP_LEGACY_VERSION_URL %} href="{{ LATEST_PHP_LEGACY_VERSION_URL }}"{% endif %} class="btn btn-indigo btn-rounded btn-icon"><i class="fa fa-info-circle"></i> {{ lang('PHP_VERSION_X', LATEST_PHP_LEGACY_VERSION) }}</a>
+				<a{% if LATEST_PHP_LEGACY_VERSION_URL %} href="{{ LATEST_PHP_LEGACY_VERSION_URL }}" target="_blank"{% endif %} class="btn btn-indigo btn-rounded btn-icon"><i class="fa fa-info-circle"></i> {{ lang('PHP_VERSION_X', LATEST_PHP_LEGACY_VERSION) }}</a>
 				{% endif %}
 			</div>
 		</div>
@@ -575,6 +574,31 @@
 					{{ lang('CONGRATULATIONS') ~ lang('COLON') }} <strong>{% for birthday in birthdays %}{{ birthday.USERNAME }}{% if birthday.AGE %} ({{ birthday.AGE }}){% endif %}{% if not loop.last %}, {% endif %}{% endfor %}</strong>
 					{% EVENT index_body_block_birthday_append %}
 				</p>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+
+{# Donation modal #}
+{% if DONATE_YEAR and DONATE_YEAR_VALUE %}
+<div class="modal fade" id="donateModal" tabindex="-1" role="dialog" aria-labelledby="donateModal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="{{ lang('CLOSE') }}"><span aria-hidden="true" class="fa fa-times-circle"></span></button>
+				<h3 class="modal-title">{{ lang('DONATE') }}</h3>
+			</div>
+			<div class="modal-body">
+				<p><strong>{{ lang('DONATE_BANK') ~ lang('COLON') }}</strong> {{ DONATE_BANK }}</p>
+				<p><strong>{{ lang('DONATE_OWNER') ~ lang('COLON') }}</strong> {{ DONATE_OWNER }}</p>
+				<p><strong>{{ lang('DONATE_BANK_ACC') ~ lang('COLON') }}</strong> <kbd>{{ DONATE_BANK_ACC }}</kbd></p>
+				<p><strong>{{ lang('DONATE_CURRENCY') ~ lang('COLON') }}</strong> <code>{{ DONATE_CURRENCY }}</code></p>
+				{% if DONATE_PAYPAL %}
+				<div class="text-center">
+					<a href="{{ DONATE_PAYPAL }}" target="_blank" class="btn btn-primary"><i class="fa fa-paypal"></i> {{ lang('PAYPAL') }}</a>
+				</div>
+				{% endif %}
 			</div>
 		</div>
 	</div>
