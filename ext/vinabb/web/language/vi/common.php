@@ -41,12 +41,14 @@ $lang = array_merge($lang, array(
 	'CLOSE'			=> 'Đóng',
 	'COMMUNITY'		=> 'Cộng đồng',
 	'COORDINATES'	=> 'Tọa độ',
+	'CURRENCY'		=> 'Tiền tệ',
 
 	'DEBUG'				=> 'Dò lỗi',
 	'DEBUG_INFO'		=> 'Thông số đánh giá',
 	'DONATE'			=> 'Đóng góp',
 	'DONATE_BANK'		=> 'Tên ngân hàng',
 	'DONATE_BANK_ACC'	=> 'Số tài khoản',
+	'DONATE_BANK_SWIFT'	=> 'Mã SWIFT',
 	'DONATE_BUTTON'		=> 'Tiếp thêm máu',
 	'DONATE_CURRENCY'	=> 'Mã tiền tệ',
 	'DONATE_DONE'		=> 'Đã thanh toán',
@@ -153,6 +155,8 @@ $lang = array_merge($lang, array(
 	'GITHUB'				=> 'GitHub',
 	'GITHUB_PROFILE'		=> 'GitHub',
 
+	'LABEL_PERCENT'				=> '%s%%',
+	'LABEL_YEAR'				=> 'Năm %d',
 	'LANG_SWITCH'				=> '%1$s » %2$s',
 	'LATEST_ACP_STYLES'			=> 'Giao diện quản trị mới',
 	'LATEST_EXTS'				=> 'Gói mở rộng mới',
@@ -194,7 +198,7 @@ $lang = array_merge($lang, array(
 	'PHPBB_IVNPLUS_EXPLAIN'		=> 'Gói ngôn ngữ tiếng Việt cho các gói mở rộng của phpBB.',
 	'PHPBB_IVNPLUS_VERSION_X'	=> 'phpBB iVN+ %s',
 	'PHPBB_VERSION_X'			=> 'phpBB %s',
-	'POWERED_BY'				=> 'Sử dụng phần mềm <a href="https://www.phpbb.com/" data-toggle="tooltip" title="&copy; phpBB Limited">phpBB</a> <a href="http://ivn.vinabb.vn/" data-toggle="tooltip" title="&copy; VinaBB">tiếng Việt</a><span class="hidden-xs hidden-sm">. Trang web còn nhỏ bé, chờ ngày to lớn để xin giấy phép mạng xã hội.</span>',
+	'POWERED_BY'				=> 'Sử dụng phần mềm <a href="https://www.phpbb.com/" data-toggle="tooltip" title="&copy; phpBB Limited">phpBB</a> <i class="fa fa-heart animate-pulse text-danger"></i>',
 
 	'RANK_TITLES'	=> array(
 		'ADMINISTRATOR'		=> 'Quản trị viên',
@@ -223,6 +227,4 @@ $lang = array_merge($lang, array(
 	'VINABB_VN'		=> 'VinaBB.vn',
 
 	'WEBSITE_FUND'	=> 'Kinh phí hoạt động',
-
-	'YEAR_LABEL'	=> 'Năm %d',
 ));

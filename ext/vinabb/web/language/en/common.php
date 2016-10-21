@@ -41,12 +41,14 @@ $lang = array_merge($lang, array(
 	'CLOSE'			=> 'Close',
 	'COMMUNITY'		=> 'Community',
 	'COORDINATES'	=> 'Coordinates',
+	'CURRENCY'		=> 'Currency',
 
 	'DEBUG'				=> 'Debug',
 	'DEBUG_INFO'		=> 'Debug information',
 	'DONATE'			=> 'Donate',
 	'DONATE_BANK'		=> 'Bank name',
 	'DONATE_BANK_ACC'	=> 'Bank account',
+	'DONATE_BANK_SWIFT'	=> 'SWIFT code',
 	'DONATE_BUTTON'		=> 'Donate',
 	'DONATE_CURRENCY'	=> 'Currency code',
 	'DONATE_DONE'		=> 'Paid',
@@ -153,6 +155,8 @@ $lang = array_merge($lang, array(
 	'GITHUB'				=> 'GitHub',
 	'GITHUB_PROFILE'		=> 'GitHub',
 
+	'LABEL_PERCENT'				=> '%s%%',
+	'LABEL_YEAR'				=> 'Year %d',
 	'LANG_SWITCH'				=> '%1$s » %2$s',
 	'LATEST_ACP_STYLES'			=> 'New ACP styles',
 	'LATEST_EXTS'				=> 'New extensions',
@@ -223,6 +227,4 @@ $lang = array_merge($lang, array(
 	'VINABB_VN'		=> 'VinaBB.vn',
 
 	'WEBSITE_FUND'	=> 'Website fund',
-
-	'YEAR_LABEL'	=> 'Year %d',
 ));
