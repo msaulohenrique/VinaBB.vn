@@ -1167,6 +1167,11 @@ class user
 		$template_html = 'memberlist_view.html';
 	}
 
+	/**
+	* Contact us by sending an email to the board contact email
+	*
+	* @return \Symfony\Component\HttpFoundation\Response
+	*/
 	public function contact_admin()
 	{
 		define('SKIP_CHECK_BAN', true);
@@ -1196,38 +1201,24 @@ class user
 		return $this->helper->render($this->message_form_admin->get_template_file(), $this->message_form_admin->get_page_title());
 	}
 
-	public function email()
+	/**
+	* Sending an email with/without topic link to an user
+	*
+	* @param $type
+	* @param $id
+	* @return \Symfony\Component\HttpFoundation\Response
+	*/
+	public function email($type, $id)
 	{
 		if (!class_exists('messenger'))
 		{
-			include($this->root_path . 'includes/functions_messenger.' . $phpEx);
+			include "{$this->root_path}includes/functions_messenger.{$this->php_ext}";
 		}
 
-		$user_id	= $this->request->variable('u', 0);
-		$topic_id	= $this->request->variable('t', 0);
-
-		if ($user_id)
-		{
-			$form_name = 'user';
-		}
-		else if ($topic_id)
-		{
-			$form_name = 'topic';
-		}
-		else if ($mode === 'contactadmin')
-		{
-			$form_name = 'admin';
-		}
-		else
-		{
-			trigger_error('NO_EMAIL');
-		}
-
-		/** @var $form \phpbb\message\form */
-		$form = $phpbb_container->get('message.form.' . $form_name);
-
-		$form->bind($request);
+		$form = ($type == 'topic') ? $this->message_form_topic : $this->message_form_user;
+		$form->bind_with_id($this->request, $id);
 		$error = $form->check_allow();
+		
 		if ($error)
 		{
 			trigger_error($error);
@@ -1235,13 +1226,13 @@ class user
 
 		if ($this->request->is_set_post('submit'))
 		{
-			$messenger = new messenger(false);
+			$messenger = new \messenger(false);
 			$form->submit($messenger);
 		}
+		
+		$form->render($this->template);
 
-		$page_title = $form->get_page_title();
-		$template_html = $form->get_template_file();
-		$form->render($template);
+		return $this->helper->render($form->get_template_file(), $form->get_page_title());
 	}
 
 	public function contact()

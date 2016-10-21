@@ -36,6 +36,26 @@ services:
             - '@language'
             - '%core.root_path%'
             - '%core.php_ext%'
+    vinabb.web.decorated.message.form.topic:
+        class: vinabb\web\decorated\message\topic_form
+        decorates: message.form.topic
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@dbal.conn'
+            - '@user'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+    vinabb.web.decorated.message.form.user:
+        class: vinabb\web\decorated\message\user_form
+        decorates: message.form.user
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@dbal.conn'
+            - '@user'
+            - '%core.root_path%'
+            - '%core.php_ext%'
     vinabb.web.decorated.text_formatter.s9e.factory:
         class: vinabb\web\decorated\textformatter\s9e\factory
         decorates: text_formatter.s9e.factory

@@ -408,6 +408,23 @@ class listener implements EventSubscriberInterface
 						case 'contactadmin':
 							$route_name = 'vinabb_web_user_contact_admin_route';
 						break;
+
+						case 'email':
+							if (isset($params_ary['t']))
+							{
+								$params_ary['type'] = 'topic';
+								$params_ary['id'] = $params_ary['t'];
+								unset($params_ary['t']);
+							}
+							else if (isset($params_ary['u']))
+							{
+								$params_ary['type'] = 'user';
+								$params_ary['id'] = $params_ary['u'];
+								unset($params_ary['u']);
+							}
+
+							$route_name = 'vinabb_web_user_email_route';
+						break;
 					}
 
 					unset($params_ary['mode']);
