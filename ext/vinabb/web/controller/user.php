@@ -123,7 +123,112 @@ class user
 
 	public function contact()
 	{
+		$page_title = $user->lang['IM_USER'];
+		$template_html = 'memberlist_im.html';
 
+		if (!$auth->acl_get('u_sendim'))
+		{
+			trigger_error('NOT_AUTHORISED');
+		}
+
+		$presence_img = '';
+		switch ($action)
+		{
+			case 'jabber':
+				$lang = 'JABBER';
+				$sql_field = 'user_jabber';
+				$s_select = (@extension_loaded('xml') && $config['jab_enable']) ? 'S_SEND_JABBER' : 'S_NO_SEND_JABBER';
+				$s_action = append_sid("{$phpbb_root_path}memberlist.$phpEx", "mode=contact&amp;action=$action&amp;u=$user_id");
+				break;
+
+			default:
+				trigger_error('NO_MODE', E_USER_ERROR);
+				break;
+		}
+
+		// Grab relevant data
+		$sql = "SELECT user_id, username, user_email, user_lang, $sql_field
+			FROM " . USERS_TABLE . "
+			WHERE user_id = $user_id
+				AND user_type IN (" . USER_NORMAL . ', ' . USER_FOUNDER . ')';
+		$result = $db->sql_query($sql);
+		$row = $db->sql_fetchrow($result);
+		$db->sql_freeresult($result);
+
+		if (!$row)
+		{
+			trigger_error('NO_USER');
+		}
+		else if (empty($row[$sql_field]))
+		{
+			trigger_error('IM_NO_DATA');
+		}
+
+		// Post data grab actions
+		switch ($action)
+		{
+			case 'jabber':
+				add_form_key('memberlist_messaging');
+
+				if ($submit && @extension_loaded('xml') && $config['jab_enable'])
+				{
+					if (check_form_key('memberlist_messaging'))
+					{
+
+						include_once($phpbb_root_path . 'includes/functions_messenger.' . $phpEx);
+
+						$subject = sprintf($user->lang['IM_JABBER_SUBJECT'], $user->data['username'], $config['server_name']);
+						$message = $request->variable('message', '', true);
+
+						if (empty($message))
+						{
+							trigger_error('EMPTY_MESSAGE_IM');
+						}
+
+						$messenger = new messenger(false);
+
+						$messenger->template('profile_send_im', $row['user_lang']);
+						$messenger->subject(htmlspecialchars_decode($subject));
+
+						$messenger->replyto($user->data['user_email']);
+						$messenger->set_addresses($row);
+
+						$messenger->assign_vars(array(
+								'BOARD_CONTACT'	=> phpbb_get_board_contact($config, $phpEx),
+								'FROM_USERNAME'	=> htmlspecialchars_decode($user->data['username']),
+								'TO_USERNAME'	=> htmlspecialchars_decode($row['username']),
+								'MESSAGE'		=> htmlspecialchars_decode($message))
+						);
+
+						$messenger->send(NOTIFY_IM);
+
+						$s_select = 'S_SENT_JABBER';
+					}
+					else
+					{
+						trigger_error('FORM_INVALID');
+					}
+				}
+				break;
+		}
+
+		// Send vars to the template
+		$template->assign_vars(array(
+				'IM_CONTACT'	=> $row[$sql_field],
+				'A_IM_CONTACT'	=> addslashes($row[$sql_field]),
+
+				'USERNAME'		=> $row['username'],
+				'CONTACT_NAME'	=> $row[$sql_field],
+				'SITENAME'		=> $config['sitename'],
+
+				'PRESENCE_IMG'		=> $presence_img,
+
+				'L_SEND_IM_EXPLAIN'	=> $user->lang['IM_' . $lang],
+				'L_IM_SENT_JABBER'	=> sprintf($user->lang['IM_SENT_JABBER'], $row['username']),
+
+				$s_select			=> true,
+				'S_IM_ACTION'		=> $s_action)
+		);
 	}
 
 	public function team()
