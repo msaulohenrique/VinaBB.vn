@@ -25,6 +25,7 @@ class web_settings_donate extends migration
 			array('config.add', array('vinabb_web_donate_bank', '')),
 			array('config.add', array('vinabb_web_donate_bank_vi', '')),
 			array('config.add', array('vinabb_web_donate_bank_acc', '')),
+			array('config.add', array('vinabb_web_donate_bank_swift', '')),
 			array('config.add', array('vinabb_web_donate_paypal', '')),
 		);
 	}
