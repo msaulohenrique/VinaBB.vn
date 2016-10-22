@@ -70,9 +70,44 @@ class portal_articles_module
 			// No break
 
 			case 'add':
+				// Select a category
+				$sql = 'SELECT *
+					FROM ' . $this->portal_categories_table . '
+					ORDER BY cat_name';
+				$result = $this->db->sql_query($sql);
+				$rows = $this->db->sql_fetchrowset($result);
+				$this->db->sql_freeresult($result);
+
+				$article_cat = isset($article_data['cat_id']) ? $article_data['cat_id'] : 0;
+				$cat_options = '<option value=""' . (($article_cat == 0) ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_CATEGORY') . '</option>';
+
+				foreach ($rows as $row)
+				{
+					$cat_options .= '<option value="' . $row['cat_id'] . '"' . (($article_cat == $row['cat_id']) ? ' selected' : '' ) . '>' . $row['cat_name'] . ' (' . $row['cat_name_vi'] . ')</option>';
+				}
+
+				// Select a language
+				$sql = 'SELECT *
+					FROM ' . LANG_TABLE . '
+					ORDER BY lang_english_name';
+				$result = $this->db->sql_query($sql);
+				$rows = $this->db->sql_fetchrowset($result);
+				$this->db->sql_freeresult($result);
+
+				$article_lang = (isset($article_data['article_lang']) && !empty($article_data['article_lang'])) ? $article_data['article_lang'] : '';
+				$lang_options = '<option value=""' . (($article_lang == '') ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_LANGUAGE') . '</option>';
+
+				foreach ($rows as $row)
+				{
+					$lang_options .= '<option value="' . $row['lang_iso'] . '"' . (($article_lang == $row['lang_iso']) ? ' selected' : '' ) . '>' . $row['lang_english_name'] . ' (' . $row['lang_local_name'] . ')</option>';
+				}
+
 				$this->template->assign_vars(array(
-					'ARTICLE_NAME'	=> isset($cat_data['cat_name']) ? $cat_data['cat_name'] : '',
-					'ARTICLE_DESC'	=> isset($cat_data['cat_desc']) ? $cat_data['cat_desc'] : '',
+					'ARTICLE_NAME'	=> isset($article_data['article_name']) ? $article_data['article_name'] : '',
+					'ARTICLE_DESC'	=> isset($article_data['article_desc']) ? $article_data['article_desc'] : '',
+
+					'CAT_OPTIONS'	=> $cat_options,
+					'LANG_OPTIONS'	=> $lang_options,
 
 					'U_ACTION'	=> $this->u_action,
 					'U_BACK'	=> $this->u_action,
