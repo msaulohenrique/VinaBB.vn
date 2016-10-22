@@ -314,7 +314,7 @@ class portal
 			}
 			else
 			{
-				$legend[] = '<a' . $colour_text . ' href="' . $this->helper->route('vinabb_web_user_group_route', array('id' => $row['group_id'])) . '">' . $group_name . '</a>';
+				$legend[] = '<a' . $colour_text . ' href="' . $this->helper->route('vinabb_web_user_group_route', array('group_id' => $row['group_id'])) . '">' . $group_name . '</a>';
 			}
 		}
 		$this->db->sql_freeresult($result);

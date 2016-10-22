@@ -1363,23 +1363,18 @@ class user
 	public function team()
 	{
 		// Display a listing of board admins, moderators
-		include($this->root_path . 'includes/functions_user.' . $phpEx);
-
-		$page_title = $this->user->lang['THE_TEAM'];
-		$template_html = 'memberlist_team.html';
+		include "{$this->root_path}includes/functions_user.{$this->php_ext}";
 
 		$sql = 'SELECT *
 			FROM ' . TEAMPAGE_TABLE . '
-			ORDER BY teampage_position ASC';
+			ORDER BY teampage_position';
 		$result = $this->db->sql_query($sql, 3600);
 		$teampage_data = $this->db->sql_fetchrowset($result);
 		$this->db->sql_freeresult($result);
 
 		$sql_ary = array(
 			'SELECT'	=> 'g.group_id, g.group_name, g.group_colour, g.group_type, ug.user_id as ug_user_id, t.teampage_id',
-
 			'FROM'		=> array(GROUPS_TABLE => 'g'),
-
 			'LEFT_JOIN'	=> array(
 				array(
 					'FROM'	=> array(TEAMPAGE_TABLE => 't'),
@@ -1405,7 +1400,7 @@ class user
 			else
 			{
 				$row['group_name'] = $this->group_helper->get_name($row['group_name']);
-				$row['u_group'] = append_sid("{$this->root_path}memberlist.$phpEx", 'mode=group&amp;g=' . $row['group_id']);
+				$row['u_group'] = $this->helper->route('vinabb_web_user_group_route', array('group_id' => $row['group_id']));
 			}
 
 			if ($row['teampage_id'])
@@ -1414,17 +1409,16 @@ class user
 				// We are fetching all groups, to ensure we got all data for default groups.
 				$group_ids[] = (int) $row['group_id'];
 			}
+
 			$groups_ary[(int) $row['group_id']] = $row;
 		}
 		$this->db->sql_freeresult($result);
 
 		$sql_ary = array(
 			'SELECT'	=> 'u.user_id, u.group_id as default_group, u.username, u.username_clean, u.user_colour, u.user_type, u.user_rank, u.user_posts, u.user_allow_pm, g.group_id',
-
 			'FROM'		=> array(
 				USER_GROUP_TABLE => 'ug',
 			),
-
 			'LEFT_JOIN'	=> array(
 				array(
 					'FROM'	=> array(USERS_TABLE => 'u'),
@@ -1435,21 +1429,19 @@ class user
 					'ON'	=> 'ug.group_id = g.group_id',
 				),
 			),
-
 			'WHERE'		=> $this->db->sql_in_set('g.group_id', $group_ids, false, true),
-
-			'ORDER_BY'	=> 'u.username_clean ASC',
+			'ORDER_BY'	=> 'u.username_clean',
 		);
 
 		/**
-		 * Modify the query used to get the users for the team page
-		 *
-		 * @event core.memberlist_team_modify_query
-		 * @var array	sql_ary			Array containing the query
-		 * @var array	group_ids		Array of group ids
-		 * @var array	teampage_data	The teampage data
-		 * @since 3.1.3-RC1
-		 */
+		* Modify the query used to get the users for the team page
+		*
+		* @event core.memberlist_team_modify_query
+		* @var array	sql_ary			Array containing the query
+		* @var array	group_ids		Array of group ids
+		* @var array	teampage_data	The teampage data
+		* @since 3.1.3-RC1
+		*/
 		$vars = array(
 			'sql_ary',
 			'group_ids',
@@ -1475,6 +1467,7 @@ class user
 		if (!empty($user_ids) && $this->config['teampage_forums'])
 		{
 			$this->template->assign_var('S_DISPLAY_MODERATOR_FORUMS', true);
+
 			// Get all moderators
 			$perm_ary = $this->auth->acl_get_list($user_ids, array('m_'), false);
 
@@ -1486,7 +1479,7 @@ class user
 					{
 						if (!$forum_id)
 						{
-							$user_ary[$id]['forums'] = $this->user->lang['ALL_FORUMS'];
+							$user_ary[$id]['forums'] = $this->language->lang('ALL_FORUMS');
 						}
 						else
 						{
@@ -1514,6 +1507,7 @@ class user
 					foreach ($user_data['forums_ary'] as $forum_id)
 					{
 						$user_ary[$user_id]['forums_options'] = true;
+
 						if (isset($forums[$forum_id]))
 						{
 							if ($this->auth->acl_get('f_list', $forum_id))
@@ -1561,6 +1555,7 @@ class user
 					if (isset($user_ary[$user_id]))
 					{
 						$row = $user_ary[$user_id];
+
 						if ($this->config['teampage_memberships'] == 1 && ($group_id != $groups_ary[$row['default_group']]['group_id']) && $groups_ary[$row['default_group']]['teampage_id'])
 						{
 							// Display users in their primary group, instead of the first group, when it is displayed on the teampage.
@@ -1572,7 +1567,7 @@ class user
 						$template_vars = array(
 							'USER_ID'		=> $row['user_id'],
 							'FORUMS'		=> $row['forums'],
-							'FORUM_OPTIONS'	=> (isset($row['forums_options'])) ? true : false,
+							'FORUM_OPTIONS'	=> isset($row['forums_options']),
 							'RANK_TITLE'	=> $user_rank_data['title'],
 
 							'GROUP_NAME'	=> $groups_ary[$row['default_group']]['group_name'],
@@ -1584,7 +1579,7 @@ class user
 
 							'S_INACTIVE'	=> $row['user_type'] == USER_INACTIVE,
 
-							'U_PM'			=> ($this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm') && ($row['user_allow_pm'] || $this->auth->acl_gets('a_', 'm_') || $this->auth->acl_getf_global('m_'))) ? append_sid("{$this->root_path}ucp.$phpEx", 'i=pm&amp;mode=compose&amp;u=' . $row['user_id']) : '',
+							'U_PM'	=> ($this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm') && ($row['user_allow_pm'] || $this->auth->acl_gets('a_', 'm_') || $this->auth->acl_getf_global('m_'))) ? $this->helper->route('vinabb_web_ucp_route', array('id' => 'pm', 'mode' => 'compose', 'u' => $row['user_id'])) : '',
 
 							'USERNAME_FULL'		=> get_username_string('full', $row['user_id'], $row['username'], $row['user_colour']),
 							'USERNAME'			=> get_username_string('username', $row['user_id'], $row['username'], $row['user_colour']),
@@ -1593,14 +1588,14 @@ class user
 						);
 
 						/**
-						 * Modify the template vars for displaying the user in the groups on the teampage
-						 *
-						 * @event core.memberlist_team_modify_template_vars
-						 * @var array	template_vars		Array containing the query
-						 * @var array	row					Array containing the action user row
-						 * @var array	groups_ary			Array of groups with all users that should be displayed
-						 * @since 3.1.3-RC1
-						 */
+						* Modify the template vars for displaying the user in the groups on the teampage
+						*
+						* @event core.memberlist_team_modify_template_vars
+						* @var array	template_vars		Array containing the query
+						* @var array	row					Array containing the action user row
+						* @var array	groups_ary			Array of groups with all users that should be displayed
+						* @since 3.1.3-RC1
+						*/
 						$vars = array(
 							'template_vars',
 							'row',
@@ -1620,8 +1615,10 @@ class user
 		}
 
 		$this->template->assign_vars(array(
-				'PM_IMG'		=> $this->user->img('icon_contact_pm', $this->user->lang['SEND_PRIVATE_MESSAGE']))
-		);
+			'PM_IMG'	=> $this->user->img('icon_contact_pm', $this->language->lang('SEND_PRIVATE_MESSAGE'))
+		));
+
+		return $this->helper->render('memberlist_team.html', $this->language->lang('THE_TEAM'));
 	}
 
 	public function group()
