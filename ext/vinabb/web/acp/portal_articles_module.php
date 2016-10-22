@@ -17,7 +17,7 @@ class portal_articles_module
 
 	public function main($id, $mode)
 	{
-		global $phpbb_container;
+		global $phpbb_root_path, $phpbb_container, $phpEx;
 
 		$this->auth = $phpbb_container->get('auth');
 		$this->cache = $phpbb_container->get('cache');
@@ -36,6 +36,7 @@ class portal_articles_module
 
 		$this->tpl_name = 'acp_portal_articles';
 		$this->page_title = $this->language->lang('ACP_PORTAL_ARTICLES');
+		$this->language->add_lang('posting');
 		$this->language->add_lang('acp_portal', 'vinabb/web');
 
 		$action = $this->request->variable('action', '');
@@ -47,6 +48,13 @@ class portal_articles_module
 		$per_page = constants::PORTAL_ARTICLES_PER_PAGE;
 
 		add_form_key('vinabb/web');
+
+		// Build custom BBCodes
+		if (!function_exists('display_custom_bbcodes'))
+		{
+			include "{$phpbb_root_path}includes/functions_display.$phpEx";
+			display_custom_bbcodes();
+		}
 
 		$s_hidden_fields = '';
 		$errors = array();
@@ -102,9 +110,32 @@ class portal_articles_module
 					$lang_options .= '<option value="' . $row['lang_iso'] . '"' . (($article_lang == $row['lang_iso']) ? ' selected' : '' ) . '>' . $row['lang_english_name'] . ' (' . $row['lang_local_name'] . ')</option>';
 				}
 
+				if (!isset($article_data['article_text']))
+				{
+					$article_data['article_text'] = $article_data['article_text_uid'] = $article_data['article_text_bitfield'] = '';
+					$article_data['article_text_options'] = 0;
+				}
+
+				// Prepare a fresh article preview
+				$article_text_preview = '';
+
+				if ($this->request->is_set_post('preview'))
+				{
+					$article_text_preview = generate_text_for_display($article_data['article_text'], $article_data['article_text_uid'], $article_data['article_text_bitfield'], $article_data['article_text_options']);
+				}
+
+				// Prepare the article text for editing inside the textbox
+				$article_text_edit = generate_text_for_edit($article_data['article_text'], $article_data['article_text_uid'], $article_data['article_text_options']);
+
 				$this->template->assign_vars(array(
-					'ARTICLE_NAME'	=> isset($article_data['article_name']) ? $article_data['article_name'] : '',
-					'ARTICLE_DESC'	=> isset($article_data['article_desc']) ? $article_data['article_desc'] : '',
+					'ARTICLE_NAME'			=> isset($article_data['article_name']) ? $article_data['article_name'] : '',
+					'ARTICLE_DESC'			=> isset($article_data['article_desc']) ? $article_data['article_desc'] : '',
+					'ARTICLE_TEXT'			=> $article_text_edit['text'],
+					'ARTICLE_TEXT_PREVIEW'	=> $article_text_preview,
+
+					'BBCODE_DISABLED'	=> !$article_text_edit['allow_bbcode'],
+					'URLS_DISABLED'		=> !$article_text_edit['allow_urls'],
+					'SMILIES_DISABLED'	=> !$article_text_edit['allow_smilies'],
 
 					'CAT_OPTIONS'	=> $cat_options,
 					'LANG_OPTIONS'	=> $lang_options,
@@ -125,12 +156,35 @@ class portal_articles_module
 					$errors[] = $this->language->lang('FORM_INVALID');
 				}
 
+				$cat_id = $this->request->variable('cat_id', 0);
 				$article_name = $this->request->variable('article_name', '', true);
 				$article_lang = $this->request->variable('article_lang', constants::LANG_VIETNAMESE);
+				$article_desc = $this->request->variable('article_desc', '', true);
+				$article_text = $this->request->variable('article_text', '', true);
 
-				if (empty($cat_name))
+				if (!$cat_id)
+				{
+					$errors[] = $this->language->lang('ERROR_ARTICLE_CAT_SELECT');
+				}
+
+				if (empty($article_name))
 				{
 					$errors[] = $this->language->lang('ERROR_ARTICLE_NAME_EMPTY');
+				}
+
+				if (empty($article_lang))
+				{
+					$errors[] = $this->language->lang('ERROR_ARTICLE_LANG_SELECT');
+				}
+
+				if (empty($article_desc))
+				{
+					$errors[] = $this->language->lang('ERROR_ARTICLE_DESC_EMPTY');
+				}
+
+				if (empty($article_text))
+				{
+					$errors[] = $this->language->lang('ERROR_ARTICLE_TEXT_EMPTY');
 				}
 
 				if (sizeof($errors))
@@ -139,14 +193,26 @@ class portal_articles_module
 				}
 
 				$sql_ary = array(
-					'article_name'		=> $article_name,
-					'article_name_seo'	=> $this->ext_helper->clean_url($article_name),
-					'article_lang'		=> $article_lang,
+					'cat_id'				=> $cat_id,
+					'article_name'			=> $article_name,
+					'article_name_seo'		=> $this->ext_helper->clean_url($article_name),
+					'article_lang'			=> $article_lang,
+					'article_desc'			=> $article_lang,
+					'article_text'			=> $article_lang,
+					'article_text_uid'		=> '',
+					'article_text_bitfield'	=> '',
+					'article_text_options'	=> 7,
 				);
+
+				// Prepare article text for storage
+				if ($sql_ary['article_text'])
+				{
+					generate_text_for_storage($sql_ary['article_text'], $sql_ary['article_text_uid'], $sql_ary['article_text_bitfield'], $sql_ary['article_text_options'], !$this->request->variable('disable_bbcode', false), !$this->request->variable('disable_urls', false), !$this->request->variable('disable_smilies', false));
+				}
 
 				if ($article_id)
 				{
-					$this->db->sql_query('UPDATE ' . $this->portal_articles_table . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . ' WHERE cat_id = ' . $article_id);
+					$this->db->sql_query('UPDATE ' . $this->portal_articles_table . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . ' WHERE article_id = ' . $article_id);
 				}
 				else
 				{
@@ -154,7 +220,7 @@ class portal_articles_module
 					$this->config->increment('vinabb_web_total_articles', 1, true);
 				}
 
-				$this->cache->clear_portal_cat_data($mode);
+				$this->cache->clear_index_articles();
 
 				$log_action = ($article_id) ? 'LOG_PORTAL_ARTICLE_EDIT' : 'LOG_PORTAL_ARTICLE_ADD';
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, $log_action, false, array($article_name));
@@ -202,7 +268,7 @@ class portal_articles_module
 			break;
 		}
 
-		// Manage categories
+		// Manage articles
 		$articles = array();
 		$article_count = 0;
 		$start = $this->list_articles($this->portal_articles_table, $articles, $article_count, $per_page, $start);
