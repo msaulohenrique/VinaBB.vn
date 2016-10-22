@@ -1,0 +1,97 @@
+{% include 'overall_header.html' %}
+
+{% if S_EDIT %}
+
+	<a href="{{ U_BACK }}" style="float: {{ S_CONTENT_FLOW_END }};">&laquo; {{ lang('BACK') }}</a>
+
+	<h1>{{ lang('ACP_PORTAL_ARTICLES') }}</h1>
+	<p>{{ lang('ACP_PORTAL_ARTICLES_EXPLAIN') }}</p>
+
+	<form id="acp_portal_articles_edit" method="post" action="{{ U_ACTION }}">
+		<fieldset>
+			<legend>{{ lang('EDIT_PORTAL_CAT') }}</legend>
+			<dl>
+				<dt><label for="article_name">{{ lang('ARTICLE_NAME') ~ ' (' ~ lang('ENGLISH') ~ ')' ~ lang('COLON') }}</label></dt>
+				<dd><input type="text" name="article_name" id="article_name" value="{{ CAT_NAME }}" size="40" maxlength="255"></dd>
+			</dl>
+			<dl>
+				<dt><label for="article_name_vi">{{ lang('ARTICLE_NAME') ~ ' (' ~ lang('VIETNAMESE') ~ ')' ~ lang('COLON') }}</label></dt>
+				<dd><input type="text" name="article_name_vi" id="article_name_vi" value="{{ CAT_NAME_VI }}" size="40" maxlength="255"></dd>
+			</dl>
+			<dl>
+				<dt><label for="cat_id">{{ lang('ARTICLE_CAT') ~ lang('COLON') }}</label></dt>
+				<dd><select name="cat_id" id="cat_id">{{ CAT_OPTIONS }}</select></dd>
+			</dl>
+			<dl>
+				<dt><label for="article_lang">{{ lang('ARTICLE_LANG') ~ lang('COLON') }}</label></dt>
+				<dd><select name="article_lang" id="article_lang">{{ LANG_OPTIONS }}</select></dd>
+			</dl>
+			{{ S_HIDDEN_FIELDS }}
+
+			<p class="submit-buttons">
+				<input class="button1" type="submit" name="save" value="{{ lang('SUBMIT') }}">
+				<input class="button2" type="reset" name="reset" value="{{ lang('RESET') }}">
+				{{ S_FORM_TOKEN }}
+			</p>
+		</fieldset>
+	</form>
+
+{% else %}
+
+	<h1>{{ lang('ACP_PORTAL_ARTICLES') }}</h1>
+	<p>{{ lang('ACP_PORTAL_ARTICLES_EXPLAIN') }}</p>
+
+	<form id="acp_portal_articles" method="post" action="{{ U_ACTION }}">
+		<p class="quick">
+			{{ S_HIDDEN_FIELDS }}
+			<input class="button2" name="add" type="submit" value="{{ lang('ADD_PORTAL_CAT') }}">
+		</p>
+	</form>
+
+	{% if pagination %}
+	<div class="pagination">
+		<span style="float: {{ S_CONTENT_FLOW_BEGIN }};">&raquo; {{ lang('TOTAL_ARTICLES', TOTAL_ARTICLES) }}</span>
+		{% include 'pagination.html' %}
+	</div>
+	{% endif %}
+
+	<table class="table1 zebra-table">
+		<thead>
+		<tr>
+			<th>{{ lang('ARTICLE_NAME') }}</th>
+			<th>{{ lang('ARTICLE_NAME') ~ ' (' ~ lang('VIETNAMESE') ~ ')' }}</th>
+			<th>{{ lang('TOTAL_VIEWS') }}</th>
+			<th>{{ lang('TOTAL_COMMENTS') }}</th>
+			<th>{{ lang('ACTION') }}</th>
+		</tr>
+		</thead>
+		<tbody>
+		{% for article in articles %}
+		<tr>
+			<td style="text-align: center;">{{ article.NAME }}</td>
+			<td style="text-align: center;">{{ article.NAME_VI }}</td>
+			<td style="text-align: center;">{{ article.VIEWS }}</td>
+			<td style="text-align: center;">{{ article.COMMENTS }}</td>
+			<td class="actions">
+				<a href="{{ article.U_EDIT }}">{{ ICON_EDIT }}</a>
+				<a href="{{ article.U_DELETE }}" data-ajax="row_delete">{{ ICON_DELETE }}</a>
+			</td>
+		</tr>
+		{% else %}
+		<tr class="row3">
+			<td colspan="5">{{ lang('ACP_NO_ITEMS') }}</td>
+		</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+
+	{% if pagination %}
+	<div class="pagination">
+		<span style="float: {{ S_CONTENT_FLOW_BEGIN }};">&raquo; {{ lang('TOTAL_ARTICLES', TOTAL_ARTICLES) }}</span>
+		{% include 'pagination.html' %}
+	</div>
+	{% endif %}
+
+{% endif %}
+
+{% include 'overall_footer.html' %}
