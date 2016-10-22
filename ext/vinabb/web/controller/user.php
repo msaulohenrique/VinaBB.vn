@@ -116,6 +116,14 @@ class user
 
 		// Setting a variable to let the style designer know where he is...
 		$this->template->assign_var('S_IN_MEMBERLIST', true);
+
+		// User types
+		$this->user_types = array(USER_NORMAL, USER_FOUNDER);
+
+		if ($this->auth->acl_get('a_user'))
+		{
+			$this->user_types[] = USER_INACTIVE;
+		}
 	}
 
 	public function memberlist()
@@ -1235,36 +1243,41 @@ class user
 		return $this->helper->render($form->get_template_file(), $form->get_page_title());
 	}
 
-	public function contact()
+	/**
+	* Sending a message via Jabber to an user
+	*
+	* @param $action
+	* @param $user_id
+	* @return \Symfony\Component\HttpFoundation\Response
+	*/
+	public function contact($action, $user_id)
 	{
-		$page_title = $this->user->lang['IM_USER'];
-		$template_html = 'memberlist_im.html';
-
 		if (!$this->auth->acl_get('u_sendim'))
 		{
 			trigger_error('NOT_AUTHORISED');
 		}
 
 		$presence_img = '';
+
 		switch ($action)
 		{
 			case 'jabber':
 				$lang = 'JABBER';
 				$sql_field = 'user_jabber';
 				$s_select = (@extension_loaded('xml') && $this->config['jab_enable']) ? 'S_SEND_JABBER' : 'S_NO_SEND_JABBER';
-				$s_action = append_sid("{$this->root_path}memberlist.$phpEx", "mode=contact&amp;action=$action&amp;u=$user_id");
-				break;
+				$s_action = $this->helper->route('vinabb_web_user_contact_route', array('action' => $action, 'user_id' => $user_id));
+			break;
 
 			default:
-				trigger_error('NO_MODE', E_USER_ERROR);
-				break;
+				trigger_error('NO_MODE');
+			break;
 		}
 
 		// Grab relevant data
 		$sql = "SELECT user_id, username, user_email, user_lang, $sql_field
 			FROM " . USERS_TABLE . "
 			WHERE user_id = $user_id
-				AND user_type IN (" . USER_NORMAL . ', ' . USER_FOUNDER . ')';
+				AND " . $this->db->sql_in_set('user_type', array(USER_NORMAL, USER_FOUNDER));
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
@@ -1284,14 +1297,16 @@ class user
 			case 'jabber':
 				add_form_key('memberlist_messaging');
 
-				if ($submit && @extension_loaded('xml') && $this->config['jab_enable'])
+				if ($this->request->is_set_post('submit') && @extension_loaded('xml') && $this->config['jab_enable'])
 				{
 					if (check_form_key('memberlist_messaging'))
 					{
+						if (!class_exists('messenger'))
+						{
+							include "{$this->root_path}includes/functions_messenger.{$this->php_ext}";
+						}
 
-						include_once($this->root_path . 'includes/functions_messenger.' . $phpEx);
-
-						$subject = sprintf($this->user->lang['IM_JABBER_SUBJECT'], $this->user->data['username'], $this->config['server_name']);
+						$subject = $this->language->lang('IM_JABBER_SUBJECT', $this->user->data['username'], $this->config['server_name']);
 						$message = $this->request->variable('message', '', true);
 
 						if (empty($message))
@@ -1299,19 +1314,17 @@ class user
 							trigger_error('EMPTY_MESSAGE_IM');
 						}
 
-						$messenger = new messenger(false);
-
+						$messenger = new \messenger(false);
 						$messenger->template('profile_send_im', $row['user_lang']);
 						$messenger->subject(htmlspecialchars_decode($subject));
-
 						$messenger->replyto($this->user->data['user_email']);
 						$messenger->set_addresses($row);
 
 						$messenger->assign_vars(array(
-								'BOARD_CONTACT'	=> phpbb_get_board_contact($config, $phpEx),
-								'FROM_USERNAME'	=> htmlspecialchars_decode($this->user->data['username']),
-								'TO_USERNAME'	=> htmlspecialchars_decode($row['username']),
-								'MESSAGE'		=> htmlspecialchars_decode($message))
+							'BOARD_CONTACT'	=> phpbb_get_board_contact($this->config, $this->php_ext),
+							'FROM_USERNAME'	=> htmlspecialchars_decode($this->user->data['username']),
+							'TO_USERNAME'	=> htmlspecialchars_decode($row['username']),
+							'MESSAGE'		=> htmlspecialchars_decode($message))
 						);
 
 						$messenger->send(NOTIFY_IM);
@@ -1323,26 +1336,28 @@ class user
 						trigger_error('FORM_INVALID');
 					}
 				}
-				break;
+			break;
 		}
 
 		// Send vars to the template
 		$this->template->assign_vars(array(
-				'IM_CONTACT'	=> $row[$sql_field],
-				'A_IM_CONTACT'	=> addslashes($row[$sql_field]),
+			'IM_CONTACT'	=> $row[$sql_field],
+			'A_IM_CONTACT'	=> addslashes($row[$sql_field]),
 
-				'USERNAME'		=> $row['username'],
-				'CONTACT_NAME'	=> $row[$sql_field],
-				'SITENAME'		=> $this->config['sitename'],
+			'USERNAME'		=> $row['username'],
+			'CONTACT_NAME'	=> $row[$sql_field],
+			'SITENAME'		=> $this->config['sitename'],
 
-				'PRESENCE_IMG'		=> $presence_img,
+			'PRESENCE_IMG'	=> $presence_img,
 
-				'L_SEND_IM_EXPLAIN'	=> $this->user->lang['IM_' . $lang],
-				'L_IM_SENT_JABBER'	=> sprintf($this->user->lang['IM_SENT_JABBER'], $row['username']),
+			'L_SEND_IM_EXPLAIN'	=> $this->language->lang('IM_' . $lang),
+			'L_IM_SENT_JABBER'	=> $this->language->lang('IM_SENT_JABBER', $row['username']),
 
-				$s_select			=> true,
-				'S_IM_ACTION'		=> $s_action)
-		);
+			$s_select		=> true,
+			'S_IM_ACTION'	=> $s_action,
+		));
+
+		return $this->helper->render('memberlist_im.html', $this->language->lang('IM_USER'));
 	}
 
 	public function team()
@@ -1630,9 +1645,10 @@ class user
 
 		$sql = 'SELECT username, user_id, user_colour
 			FROM ' . USERS_TABLE . '
-			WHERE ' . $this->db->sql_in_set('user_type', $user_types) . '
+			WHERE ' . $this->db->sql_in_set('user_type', $this->user_types) . '
 				AND username_clean ' . $this->db->sql_like_expression(utf8_clean_string($username_chars) . $this->db->get_any_char());
 		$result = $this->db->sql_query_limit($sql, 10);
+
 		$user_list = array();
 
 		while ($row = $this->db->sql_fetchrow($result))
@@ -1645,6 +1661,7 @@ class user
 			);
 		}
 		$this->db->sql_freeresult($result);
+
 		$json_response = new \phpbb\json_response();
 		$json_response->send(array(
 			'keyword' => $username_chars,
