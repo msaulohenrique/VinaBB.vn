@@ -105,7 +105,7 @@ class mcp
 		// Setting a variable to let the style designer know where he is...
 		$this->template->assign_var('S_IN_MCP', true);
 
-		$module = new \vinabb\web\includes\custom_p_master();
+		$module = new \vinabb\web\includes\p_master();
 
 		// Only Moderators can go beyond this point
 		if (!$this->user->data['is_registered'])

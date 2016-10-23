@@ -19,7 +19,7 @@ if (!defined('IN_PHPBB'))
 global $phpbb_root_path, $phpEx;
 require($phpbb_root_path . 'includes/functions_module.' . $phpEx);
 
-class custom_p_master extends \p_master
+class p_master extends \p_master
 {
 	/**
 	* Build navigation structure

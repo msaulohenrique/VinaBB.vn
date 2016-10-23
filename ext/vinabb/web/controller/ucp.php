@@ -121,7 +121,7 @@ class ucp
 		// Setting a variable to let the style designer know where he is...
 		$this->template->assign_var('S_IN_UCP', true);
 
-		$module = new \vinabb\web\includes\custom_p_master();
+		$module = new \vinabb\web\includes\p_master();
 		$default = false;
 
 		// Basic "global" modes
