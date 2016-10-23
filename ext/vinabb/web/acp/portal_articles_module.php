@@ -110,16 +110,13 @@ class portal_articles_module
 					$lang_options .= '<option value="' . $row['lang_iso'] . '"' . (($article_lang == $row['lang_iso']) ? ' selected' : '' ) . '>' . $row['lang_english_name'] . ' (' . $row['lang_local_name'] . ')</option>';
 				}
 
+				// Prepare a fresh article preview
 				if (!isset($article_data['article_text']))
 				{
-					$article_data['article_text'] = $article_data['article_text_uid'] = $article_data['article_text_bitfield'] = '';
+					$article_data['article_text'] = $article_data['article_text_uid'] = $article_data['article_text_bitfield'] = $article_text_preview = '';
 					$article_data['article_text_options'] = 0;
 				}
-
-				// Prepare a fresh article preview
-				$article_text_preview = '';
-
-				if ($this->request->is_set_post('preview'))
+				else
 				{
 					$article_text_preview = generate_text_for_display($article_data['article_text'], $article_data['article_text_uid'], $article_data['article_text_bitfield'], $article_data['article_text_options']);
 				}

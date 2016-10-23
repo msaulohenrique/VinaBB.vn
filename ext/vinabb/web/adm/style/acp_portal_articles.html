@@ -31,6 +31,12 @@
 				<dd><select name="article_lang" id="article_lang">{{ LANG_OPTIONS }}</select></dd>
 			</dl>
 		</fieldset>
+		{% if ARTICLE_TEXT_PREVIEW %}
+		<fieldset>
+			<legend>{{ lang('PREVIEW') }}</legend>
+			<p>{{ ARTICLE_TEXT_PREVIEW }}</p>
+		</fieldset>
+		{% endif %}
 		<fieldset>
 			<legend>{{ lang('ARTICLE_TEXT') }}</legend>
 			{% include 'acp_posting_buttons.html' %}
