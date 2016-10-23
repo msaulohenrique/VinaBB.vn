@@ -116,5 +116,7 @@ class mcp
 
 		// Setting a variable to let the style designer know where he is...
 		$this->template->assign_var('S_IN_MCP', true);
+
+		$module = new \vinabb\web\includes\custom_p_master();
 	}
 }
