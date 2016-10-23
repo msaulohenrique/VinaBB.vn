@@ -113,9 +113,9 @@ class bb_items_module
 				}
 
 				$this->template->assign_vars(array(
-					'ITEM_NAME'		=> isset($item_data['cat_name']) ? $item_data['cat_name'] : '',
-					'ITEM_NAME_VI'	=> isset($item_data['cat_name_vi']) ? $item_data['cat_name_vi'] : '',
-					'ITEM_VARNAME'	=> isset($item_data['cat_varname']) ? $item_data['cat_varname'] : '',
+					'ITEM_NAME'		=> isset($item_data['item_name']) ? $item_data['item_name'] : '',
+					'ITEM_NAME_VI'	=> isset($item_data['item_name_vi']) ? $item_data['item_name_vi'] : '',
+					'ITEM_VARNAME'	=> isset($item_data['item_varname']) ? $item_data['item_varname'] : '',
 
 					'CAT_OPTIONS'	=> $cat_options,
 
@@ -136,32 +136,32 @@ class bb_items_module
 				}
 
 				$item_id = $this->request->variable('id', 0);
-				$item_name = $this->request->variable('cat_name', '', true);
-				$item_name_vi = $this->request->variable('cat_name_vi', '', true);
-				$item_varname = strtolower($this->request->variable('cat_varname', ''));
+				$item_name = $this->request->variable('item_name', '', true);
+				$item_name_vi = $this->request->variable('item_name_vi', '', true);
+				$item_varname = strtolower($this->request->variable('item_varname', ''));
 
-				if (empty($cat_name) || empty($cat_name_vi))
+				if (empty($item_name) || empty($item_name_vi))
 				{
-					$errors[] = $this->language->lang('ERROR_BB_CAT_NAME_EMPTY');
+					$errors[] = $this->language->lang('ERROR_BB_ITEM_NAME_EMPTY');
 				}
 
-				if (empty($cat_varname))
+				if (empty($item_varname))
 				{
-					$errors[] = $this->language->lang('ERROR_BB_CAT_VARNAME_EMPTY');
+					$errors[] = $this->language->lang('ERROR_BB_ITEM_VARNAME_EMPTY');
 				}
 				else
 				{
 					$sql = 'SELECT *
 						FROM ' . $this->bb_categories_table . '
 						WHERE bb_type = ' . $this->bb_type . "
-							AND cat_varname = '" . $this->db->sql_escape($cat_varname) . "'";
+							AND item_varname = '" . $this->db->sql_escape($item_varname) . "'";
 					$result = $this->db->sql_query($sql);
 					$rows = $this->db->sql_fetchrowset($result);
 					$this->db->sql_freeresult($result);
 
 					if (sizeof($rows))
 					{
-						$errors[] = $this->language->lang('ERROR_BB_CAT_VARNAME_DUPLICATE', $cat_varname);
+						$errors[] = $this->language->lang('ERROR_BB_ITEM_VARNAME_DUPLICATE', $item_varname);
 					}
 				}
 
@@ -172,14 +172,14 @@ class bb_items_module
 
 				$sql_ary = array(
 					'bb_type'		=> $this->bb_type,
-					'cat_name'		=> $cat_name,
-					'cat_name_vi'	=> $cat_name_vi,
-					'cat_varname'	=> $cat_varname,
+					'item_name'		=> $item_name,
+					'item_name_vi'	=> $item_name_vi,
+					'item_varname'	=> $item_varname,
 				);
 
 				if ($item_id)
 				{
-					$this->db->sql_query('UPDATE ' . $this->bb_items_table . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . ' WHERE cat_id = ' . $cat_id);
+					$this->db->sql_query('UPDATE ' . $this->bb_items_table . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . ' WHERE item_id = ' . $item_id);
 				}
 				else
 				{
@@ -187,9 +187,9 @@ class bb_items_module
 				}
 
 				$log_action = ($item_id) ? 'LOG_BB_' . strtoupper($mode) . '_CAT_EDIT' : 'LOG_BB_' . strtoupper($mode) . '_CAT_ADD';
-				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, $log_action, false, array($cat_name));
+				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, $log_action, false, array($item_name));
 
-				$message = ($cat_id) ? $this->language->lang('MESSAGE_BB_CAT_EDIT') : $this->language->lang('MESSAGE_BB_CAT_ADD');
+				$message = ($item_id) ? $this->language->lang('MESSAGE_BB_ITEM_EDIT') : $this->language->lang('MESSAGE_BB_ITEM_ADD');
 				trigger_error($message . adm_back_link($this->u_action));
 			break;
 
@@ -220,7 +220,7 @@ class bb_items_module
 				}
 				else
 				{
-					confirm_box(false, $this->language->lang('CONFIRM_BB_CAT_DELETE'), build_hidden_fields(array(
+					confirm_box(false, $this->language->lang('CONFIRM_BB_ITEM_DELETE'), build_hidden_fields(array(
 						'i'			=> $id,
 						'mode'		=> $mode,
 						'id'		=> $item_id,
@@ -238,9 +238,9 @@ class bb_items_module
 		foreach ($items as $row)
 		{
 			$this->template->assign_block_vars('items', array(
-				'NAME'		=> $row['cat_name'],
-				'NAME_VI'	=> $row['cat_name_vi'],
-				'VARNAME'	=> $row['cat_varname'],
+				'NAME'		=> $row['item_name'],
+				'NAME_VI'	=> $row['item_name_vi'],
+				'VARNAME'	=> $row['item_varname'],
 
 				'U_EDIT'	=> $this->u_action . '&action=edit&id=' . $row['item_id'],
 				'U_DELETE'	=> $this->u_action . '&action=delete&id=' . $row['item_id'],
