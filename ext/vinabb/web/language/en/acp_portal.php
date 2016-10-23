@@ -26,6 +26,10 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	'ADD_PORTAL_CAT'	=> 'Create new category',
+	'ARTICLE_DESC'		=> 'Description',
+	'ARTICLE_DETAILS'	=> 'Article data',
+	'ARTICLE_NAME'		=> 'Article name',
+	'ARTICLE_TEXT'		=> 'Article text',
 
 	'CONFIRM_PORTAL_CAT_DELETE'	=> 'Are you sure you want to delete this category?',
 

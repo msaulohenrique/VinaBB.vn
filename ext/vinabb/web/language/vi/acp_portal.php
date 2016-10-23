@@ -26,6 +26,10 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	'ADD_PORTAL_CAT'	=> 'Tạo danh mục mới',
+	'ARTICLE_DESC'		=> 'Giới thiệu',
+	'ARTICLE_DETAILS'	=> 'Dữ liệu bài viết',
+	'ARTICLE_NAME'		=> 'Tiêu đề',
+	'ARTICLE_TEXT'		=> 'Nội dung',
 
 	'CONFIRM_PORTAL_CAT_DELETE'	=> 'Bạn chắc chắn muốn xóa danh mục này?',
 

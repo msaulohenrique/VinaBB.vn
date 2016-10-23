@@ -38,6 +38,7 @@ $lang = array_merge($lang, array(
 	'BBCODE_C_HELP'	=> 'Insert code: [code]block code[/code] or `inline code`',
 	'BOARD'			=> 'Board',
 
+	'CATEGORY'		=> 'Category',
 	'CLOSE'			=> 'Close',
 	'COMMUNITY'		=> 'Community',
 	'COORDINATES'	=> 'Coordinates',
@@ -158,6 +159,7 @@ $lang = array_merge($lang, array(
 	'LABEL_PERCENT'				=> '%s%%',
 	'LABEL_YEAR'				=> 'Year %d',
 	'LANG_SWITCH'				=> '%1$s » %2$s',
+	'LANGUAGE'					=> 'Language',
 	'LATEST_ACP_STYLES'			=> 'New ACP styles',
 	'LATEST_EXTS'				=> 'New extensions',
 	'LATEST_IVN'				=> 'Vietnamese',
@@ -211,6 +213,9 @@ $lang = array_merge($lang, array(
 		'SUPPORTER'			=> 'Support Team',
 	),
 	'RESOURCES'		=> 'Resources',
+
+	'SELECT_CATEGORY'	=> 'Select a category',
+	'SELECT_LANGUAGE'	=> 'Select a language',
 
 	'TOTAL_ACP_STYLES'	=> 'Total styles',
 	'TOTAL_ARTICLES'	=> 'Total articles',

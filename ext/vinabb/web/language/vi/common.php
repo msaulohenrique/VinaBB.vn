@@ -38,6 +38,7 @@ $lang = array_merge($lang, array(
 	'BBCODE_C_HELP'	=> 'Chèn mã: [code]đoạn mã[/code] hay `mã một dòng`',
 	'BOARD'			=> 'Diễn đàn',
 
+	'CATEGORY'		=> 'Danh mục',
 	'CLOSE'			=> 'Đóng',
 	'COMMUNITY'		=> 'Cộng đồng',
 	'COORDINATES'	=> 'Tọa độ',
@@ -158,6 +159,7 @@ $lang = array_merge($lang, array(
 	'LABEL_PERCENT'				=> '%s%%',
 	'LABEL_YEAR'				=> 'Năm %d',
 	'LANG_SWITCH'				=> '%1$s » %2$s',
+	'LANGUAGE'					=> 'Ngôn ngữ',
 	'LATEST_ACP_STYLES'			=> 'Giao diện quản trị mới',
 	'LATEST_EXTS'				=> 'Gói mở rộng mới',
 	'LATEST_IVN'				=> 'Gói Việt hóa',
@@ -211,6 +213,9 @@ $lang = array_merge($lang, array(
 		'SUPPORTER'			=> 'Nhóm hỗ trợ',
 	),
 	'RESOURCES'		=> 'Tài nguyên',
+
+	'SELECT_CATEGORY'	=> 'Chọn danh mục',
+	'SELECT_LANGUAGE'	=> 'Chọn ngôn ngữ',
 
 	'TOTAL_ACP_STYLES'	=> 'Số giao diện',
 	'TOTAL_ARTICLES'	=> 'Số bài viết',

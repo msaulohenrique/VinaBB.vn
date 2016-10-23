@@ -25,7 +25,8 @@ if (empty($lang) || !is_array($lang))
 */
 
 $lang = array_merge($lang, array(
-	'ACP_PORTAL_ARTICLES'	=> 'Manage articles',
+	'ACP_PORTAL_ARTICLES'			=> 'Manage articles',
+	'ACP_PORTAL_ARTICLES_EXPLAIN'	=> '',
 
 	'LOG_PORTAL_ARTICLE_ADD'	=> '<strong>Portal: Created new article</strong><br>» %s',
 	'LOG_PORTAL_ARTICLE_DELETE'	=> '<strong>Portal: Deleted article</strong><br>» %s',
