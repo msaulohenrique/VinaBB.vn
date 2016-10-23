@@ -99,8 +99,12 @@ class mcp
 		$this->ext_root_path = $this->ext_manager->get_extension_path('vinabb/web', true);
 	}
 
-	public function main()
+	public function main($id, $mode)
 	{
-		
+		// Allow to use '/' at the end
+		if (substr($mode, -1) == '/')
+		{
+			$mode = substr($mode, 0, -1);
+		}
 	}
 }
