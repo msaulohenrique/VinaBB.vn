@@ -128,6 +128,17 @@ services:
     vinabb.web.mcp:
         class: vinabb\web\controller\mcp
         arguments:
+            - '@auth'
+            - '@config'
+            - '@dbal.conn'
+            - '@dispatcher'
+            - '@ext.manager'
+            - '@language'
+            - '@log'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.board:
