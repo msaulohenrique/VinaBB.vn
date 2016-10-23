@@ -257,4 +257,42 @@ class service extends \phpbb\cache\service
 	{
 		$this->driver->destroy('_vinabb_web_portal_categories');
 	}
+
+	function get_index_articles()
+	{
+		if (($index_articles = $this->driver->get('_vinabb_web_index_articles')) === false)
+		{
+			$sql = 'SELECT *
+				FROM ' . $this->portal_articles_table . '
+				ORDER BY cat_order';
+			$result = $this->db->sql_query($sql);
+
+			$index_articles = array();
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$index_articles[$row['article_id']] = array(
+					'cat_id'		=> $row['cat_id'],
+					'name'			=> $row['article_name'],
+					'name_seo'		=> $row['article_name_seo'],
+					'desc'			=> $row['article_desc'],
+					'text'			=> $row['article_text'],
+					'text_uid'		=> $row['article_text_uid'],
+					'text_bitfield'	=> $row['article_text_bitfield'],
+					'text_options'	=> $row['article_text_options'],
+					'views'			=> $row['article_views'],
+					'time'			=> $row['article_time'],
+				);
+			}
+			$this->db->sql_freeresult($result);
+
+			$this->driver->put('_vinabb_web_index_articles', $index_articles);
+		}
+
+		return $index_articles;
+	}
+
+	function clear_index_articles()
+	{
+		$this->driver->destroy('_vinabb_web_index_articles');
+	}
 }
