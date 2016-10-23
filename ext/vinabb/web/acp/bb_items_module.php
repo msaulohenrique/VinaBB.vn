@@ -116,6 +116,12 @@ class bb_items_module
 					'ITEM_NAME'		=> isset($item_data['item_name']) ? $item_data['item_name'] : '',
 					'ITEM_NAME_VI'	=> isset($item_data['item_name_vi']) ? $item_data['item_name_vi'] : '',
 					'ITEM_VARNAME'	=> isset($item_data['item_varname']) ? $item_data['item_varname'] : '',
+					'ITEM_VERSION'	=> isset($item_data['item_version']) ? $item_data['item_version'] : '',
+					'ITEM_DESC'		=> isset($item_data['item_desc']) ? $item_data['item_desc'] : '',
+					'ITEM_DESC_VI'	=> isset($item_data['item_desc_vi']) ? $item_data['item_desc_vi'] : '',
+					'ITEM_PRICE'	=> isset($item_data['item_price']) ? $item_data['item_price'] : 0,
+					'ITEM_URL'		=> isset($item_data['item_url']) ? $item_data['item_url'] : '',
+					'ITEM_GITHUB'	=> isset($item_data['item_github']) ? $item_data['item_github'] : '',
 
 					'CAT_OPTIONS'	=> $cat_options,
 
@@ -139,6 +145,12 @@ class bb_items_module
 				$item_name = $this->request->variable('item_name', '', true);
 				$item_name_vi = $this->request->variable('item_name_vi', '', true);
 				$item_varname = strtolower($this->request->variable('item_varname', ''));
+				$item_version = $this->request->variable('item_version', '');
+				$item_desc = $this->request->variable('item_desc', '', true);
+				$item_desc_vi = $this->request->variable('item_desc_vi', '', true);
+				$item_price = $this->request->variable('item_price', 0);
+				$item_url = $this->request->variable('item_url', '');
+				$item_github = $this->request->variable('item_github', '');
 
 				if (empty($item_name) || empty($item_name_vi))
 				{
@@ -175,6 +187,12 @@ class bb_items_module
 					'item_name'		=> $item_name,
 					'item_name_vi'	=> $item_name_vi,
 					'item_varname'	=> $item_varname,
+					'item_version'	=> $item_version,
+					'item_desc'		=> $item_desc,
+					'item_desc_vi'	=> $item_desc_vi,
+					'item_price'	=> $item_price,
+					'item_url'		=> $item_url,
+					'item_github'	=> $item_github,
 				);
 
 				if ($item_id)
@@ -241,6 +259,12 @@ class bb_items_module
 				'NAME'		=> $row['item_name'],
 				'NAME_VI'	=> $row['item_name_vi'],
 				'VARNAME'	=> $row['item_varname'],
+				'VERSION'	=> $row['item_version'],
+				'DESC'		=> $row['item_desc'],
+				'DESC_VI'	=> $row['item_desc_vi'],
+				'PRICE'		=> $row['item_price'],
+				'URL'		=> $row['item_url'],
+				'GITHUB'	=> $row['item_github'],
 
 				'U_EDIT'	=> $this->u_action . '&action=edit&id=' . $row['item_id'],
 				'U_DELETE'	=> $this->u_action . '&action=delete&id=' . $row['item_id'],
