@@ -385,6 +385,16 @@ class listener implements EventSubscriberInterface
 			{
 				$route_name = 'vinabb_web_online_route';
 			}
+			else if (strpos($event['url'], "mcp.{$this->php_ext}") !== false)
+			{
+				if (isset($params_ary['i']))
+				{
+					$params_ary['id'] = (substr($params_ary['i'], 0, 4) == 'mcp_') ? substr($params_ary['i'], 4) : $params_ary['i'];
+					unset($params_ary['i']);
+				}
+
+				$route_name = 'vinabb_web_mcp_route';
+			}
 			else if (strpos($event['url'], "ucp.{$this->php_ext}") !== false)
 			{
 				if (isset($params_ary['i']))
