@@ -129,12 +129,10 @@ services:
         class: vinabb\web\controller\mcp
         arguments:
             - '@auth'
-            - '@config'
             - '@dbal.conn'
             - '@dispatcher'
             - '@ext.manager'
             - '@language'
-            - '@log'
             - '@request'
             - '@template'
             - '@user'
