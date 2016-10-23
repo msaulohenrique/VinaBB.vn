@@ -106,5 +106,15 @@ class mcp
 		{
 			$mode = substr($mode, 0, -1);
 		}
+
+		// Common functions
+		require "{$this->root_path}includes/functions_admin.{$this->php_ext}";
+		require "{$this->root_path}includes/functions_mcp.{$this->php_ext}";
+		require "{$this->ext_root_path}includes/functions_module.{$this->php_ext}";
+
+		$this->language->add_lang('mcp');
+
+		// Setting a variable to let the style designer know where he is...
+		$this->template->assign_var('S_IN_MCP', true);
 	}
 }
