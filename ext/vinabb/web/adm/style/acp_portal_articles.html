@@ -19,12 +19,8 @@
 		<fieldset>
 			<legend>{{ lang('EDIT_ARTICLE') }}</legend>
 			<dl>
-				<dt><label for="article_name">{{ lang('ARTICLE_NAME') ~ ' (' ~ lang('ENGLISH') ~ ')' ~ lang('COLON') }}</label></dt>
+				<dt><label for="article_name">{{ lang('ARTICLE_NAME') ~ lang('COLON') }}</label></dt>
 				<dd><input type="text" name="article_name" id="article_name" value="{{ CAT_NAME }}" size="40" maxlength="255"></dd>
-			</dl>
-			<dl>
-				<dt><label for="article_name_vi">{{ lang('ARTICLE_NAME') ~ ' (' ~ lang('VIETNAMESE') ~ ')' ~ lang('COLON') }}</label></dt>
-				<dd><input type="text" name="article_name_vi" id="article_name_vi" value="{{ CAT_NAME_VI }}" size="40" maxlength="255"></dd>
 			</dl>
 			<dl>
 				<dt><label for="cat_id">{{ lang('ARTICLE_CAT') ~ lang('COLON') }}</label></dt>
