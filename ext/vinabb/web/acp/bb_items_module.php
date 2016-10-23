@@ -113,15 +113,20 @@ class bb_items_module
 				}
 
 				$this->template->assign_vars(array(
-					'ITEM_NAME'		=> isset($item_data['item_name']) ? $item_data['item_name'] : '',
-					'ITEM_NAME_VI'	=> isset($item_data['item_name_vi']) ? $item_data['item_name_vi'] : '',
-					'ITEM_VARNAME'	=> isset($item_data['item_varname']) ? $item_data['item_varname'] : '',
-					'ITEM_VERSION'	=> isset($item_data['item_version']) ? $item_data['item_version'] : '',
-					'ITEM_DESC'		=> isset($item_data['item_desc']) ? $item_data['item_desc'] : '',
-					'ITEM_DESC_VI'	=> isset($item_data['item_desc_vi']) ? $item_data['item_desc_vi'] : '',
-					'ITEM_PRICE'	=> isset($item_data['item_price']) ? $item_data['item_price'] : 0,
-					'ITEM_URL'		=> isset($item_data['item_url']) ? $item_data['item_url'] : '',
-					'ITEM_GITHUB'	=> isset($item_data['item_github']) ? $item_data['item_github'] : '',
+					'ITEM_NAME'				=> isset($item_data['item_name']) ? $item_data['item_name'] : '',
+					'ITEM_NAME_VI'			=> isset($item_data['item_name_vi']) ? $item_data['item_name_vi'] : '',
+					'ITEM_VARNAME'			=> isset($item_data['item_varname']) ? $item_data['item_varname'] : '',
+					'ITEM_VERSION'			=> isset($item_data['item_version']) ? $item_data['item_version'] : '',
+					'ITEM_DESC'				=> isset($item_data['item_desc']) ? $item_data['item_desc'] : '',
+					'ITEM_DESC_VI'			=> isset($item_data['item_desc_vi']) ? $item_data['item_desc_vi'] : '',
+					'ITEM_EXT_STYLE'		=> isset($item_data['item_ext_style']) && $item_data['item_ext_style'],
+					'ITEM_EXT_ACP_STYLE'	=> isset($item_data['item_ext_acp_style']) && $item_data['item_ext_acp_style'],
+					'ITEM_EXT_LANG'			=> isset($item_data['item_ext_lang']) && $item_data['item_ext_lang'],
+					'ITEM_EXT_DB_SCHEMA'	=> isset($item_data['item_ext_db_schema']) && $item_data['item_ext_db_schema'],
+					'ITEM_EXT_DB_DATA'		=> isset($item_data['item_ext_db_data']) && $item_data['item_ext_db_data'],
+					'ITEM_PRICE'			=> isset($item_data['item_price']) ? $item_data['item_price'] : 0,
+					'ITEM_URL'				=> isset($item_data['item_url']) ? $item_data['item_url'] : '',
+					'ITEM_GITHUB'			=> isset($item_data['item_github']) ? $item_data['item_github'] : '',
 
 					'CAT_OPTIONS'	=> $cat_options,
 
@@ -148,6 +153,11 @@ class bb_items_module
 				$item_version = $this->request->variable('item_version', '');
 				$item_desc = $this->request->variable('item_desc', '', true);
 				$item_desc_vi = $this->request->variable('item_desc_vi', '', true);
+				$item_ext_style = $this->request->variable('item_ext_style', false);
+				$item_ext_acp_style = $this->request->variable('item_ext_acp_style', false);
+				$item_ext_lang = $this->request->variable('item_ext_lang', false);
+				$item_ext_db_schema = $this->request->variable('item_ext_db_schema', false);
+				$item_ext_db_data = $this->request->variable('item_ext_db_data', false);
 				$item_price = $this->request->variable('item_price', 0);
 				$item_url = $this->request->variable('item_url', '');
 				$item_github = $this->request->variable('item_github', '');
@@ -183,16 +193,21 @@ class bb_items_module
 				}
 
 				$sql_ary = array(
-					'bb_type'		=> $this->bb_type,
-					'item_name'		=> $item_name,
-					'item_name_vi'	=> $item_name_vi,
-					'item_varname'	=> $item_varname,
-					'item_version'	=> $item_version,
-					'item_desc'		=> $item_desc,
-					'item_desc_vi'	=> $item_desc_vi,
-					'item_price'	=> $item_price,
-					'item_url'		=> $item_url,
-					'item_github'	=> $item_github,
+					'bb_type'				=> $this->bb_type,
+					'item_name'				=> $item_name,
+					'item_name_vi'			=> $item_name_vi,
+					'item_varname'			=> $item_varname,
+					'item_version'			=> $item_version,
+					'item_desc'				=> $item_desc,
+					'item_desc_vi'			=> $item_desc_vi,
+					'item_ext_style'		=> $item_ext_style,
+					'item_ext_acp_style'	=> $item_ext_acp_style,
+					'item_ext_lang'			=> $item_ext_lang,
+					'item_ext_db_schema'	=> $item_ext_db_schema,
+					'item_ext_db_data'		=> $item_ext_db_data,
+					'item_price'			=> $item_price,
+					'item_url'				=> $item_url,
+					'item_github'			=> $item_github,
 				);
 
 				if ($item_id)
@@ -256,15 +271,20 @@ class bb_items_module
 		foreach ($items as $row)
 		{
 			$this->template->assign_block_vars('items', array(
-				'NAME'		=> $row['item_name'],
-				'NAME_VI'	=> $row['item_name_vi'],
-				'VARNAME'	=> $row['item_varname'],
-				'VERSION'	=> $row['item_version'],
-				'DESC'		=> $row['item_desc'],
-				'DESC_VI'	=> $row['item_desc_vi'],
-				'PRICE'		=> $row['item_price'],
-				'URL'		=> $row['item_url'],
-				'GITHUB'	=> $row['item_github'],
+				'NAME'			=> $row['item_name'],
+				'NAME_VI'		=> $row['item_name_vi'],
+				'VARNAME'		=> $row['item_varname'],
+				'VERSION'		=> $row['item_version'],
+				'DESC'			=> $row['item_desc'],
+				'DESC_VI'		=> $row['item_desc_vi'],
+				'EXT_STYLE'		=> $row['item_ext_style'],
+				'EXT_ACP_STYLE'	=> $row['item_ext_acp_style'],
+				'EXT_LANG'		=> $row['item_ext_lang'],
+				'EXT_DB_SCHEMA'	=> $row['item_ext_db_schema'],
+				'EXT_DB_DATA'	=> $row['item_ext_db_data'],
+				'PRICE'			=> $row['item_price'],
+				'URL'			=> $row['item_url'],
+				'GITHUB'		=> $row['item_github'],
 
 				'U_EDIT'	=> $this->u_action . '&action=edit&id=' . $row['item_id'],
 				'U_DELETE'	=> $this->u_action . '&action=delete&id=' . $row['item_id'],
