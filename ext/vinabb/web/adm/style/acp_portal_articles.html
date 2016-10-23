@@ -17,17 +17,17 @@
 
 	<form id="acp_portal_articles_edit" method="post" action="{{ U_ACTION }}">
 		<fieldset>
-			<legend>{{ lang('EDIT_ARTICLE') }}</legend>
+			<legend>{{ lang('ARTICLE_DETAILS') }}</legend>
 			<dl>
 				<dt><label for="article_name">{{ lang('ARTICLE_NAME') ~ lang('COLON') }}</label></dt>
 				<dd><input type="text" name="article_name" id="article_name" value="{{ CAT_NAME }}" size="40" maxlength="255"></dd>
 			</dl>
 			<dl>
-				<dt><label for="cat_id">{{ lang('ARTICLE_CAT') ~ lang('COLON') }}</label></dt>
+				<dt><label for="cat_id">{{ lang('CATEGORY') ~ lang('COLON') }}</label></dt>
 				<dd><select name="cat_id" id="cat_id">{{ CAT_OPTIONS }}</select></dd>
 			</dl>
 			<dl>
-				<dt><label for="article_lang">{{ lang('ARTICLE_LANG') ~ lang('COLON') }}</label></dt>
+				<dt><label for="article_lang">{{ lang('LANGUAGE') ~ lang('COLON') }}</label></dt>
 				<dd><select name="article_lang" id="article_lang">{{ LANG_OPTIONS }}</select></dd>
 			</dl>
 		</fieldset>
