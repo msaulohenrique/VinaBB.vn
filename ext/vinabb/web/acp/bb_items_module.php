@@ -96,10 +96,28 @@ class bb_items_module
 			// No break
 
 			case 'add':
+				// Select a category
+				$sql = 'SELECT *
+					FROM ' . $this->bb_categories_table . '
+					ORDER BY cat_name';
+				$result = $this->db->sql_query($sql);
+				$rows = $this->db->sql_fetchrowset($result);
+				$this->db->sql_freeresult($result);
+
+				$cat_id = isset($item_data['cat_id']) ? $item_data['cat_id'] : 0;
+				$cat_options = '<option value=""' . (($cat_id == 0) ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_CATEGORY') . '</option>';
+
+				foreach ($rows as $row)
+				{
+					$cat_options .= '<option value="' . $row['cat_id'] . '"' . (($cat_id == $row['cat_id']) ? ' selected' : '' ) . '>' . $row['cat_name'] . ' (' . $row['cat_name_vi'] . ')</option>';
+				}
+
 				$this->template->assign_vars(array(
 					'ITEM_NAME'		=> isset($item_data['cat_name']) ? $item_data['cat_name'] : '',
 					'ITEM_NAME_VI'	=> isset($item_data['cat_name_vi']) ? $item_data['cat_name_vi'] : '',
 					'ITEM_VARNAME'	=> isset($item_data['cat_varname']) ? $item_data['cat_varname'] : '',
+
+					'CAT_OPTIONS'	=> $cat_options,
 
 					'U_ACTION'	=> $this->u_action,
 					'U_BACK'	=> $this->u_action,
