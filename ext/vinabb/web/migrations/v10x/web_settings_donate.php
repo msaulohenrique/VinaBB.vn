@@ -15,7 +15,7 @@ class web_settings_donate extends migration
 	public function update_data()
 	{
 		return array(
-			array('config.add', array('vinabb_web_donate_year', date('Y', time()))),
+			array('config.add', array('vinabb_web_donate_year', 0)),
 			array('config.add', array('vinabb_web_donate_year_value', 0)),
 			array('config.add', array('vinabb_web_donate_fund', 0)),
 			array('config.add', array('vinabb_web_donate_currency', '')),
