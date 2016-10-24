@@ -212,7 +212,7 @@ class portal
 		}
 
 		// News categories
-		$portal_cats = $this->cache->get_portal_cat_data();
+		$portal_cats = $this->cache->get_portal_cats();
 
 		foreach ($portal_cats as $cat_id => $cat_data)
 		{

@@ -159,7 +159,7 @@ class bb_categories_module
 					$this->db->sql_query('INSERT INTO ' . $this->bb_categories_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary));
 				}
 
-				$this->cache->clear_bb_cat_data($mode);
+				$this->cache->clear_bb_cats($mode);
 
 				$log_action = ($cat_id) ? 'LOG_BB_' . strtoupper($mode) . '_CAT_EDIT' : 'LOG_BB_' . strtoupper($mode) . '_CAT_ADD';
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, $log_action, false, array($cat_name));
@@ -238,7 +238,7 @@ class bb_categories_module
 						WHERE cat_id = $cat_id";
 					$this->db->sql_query($sql);
 
-					$this->cache->clear_bb_cat_data($mode);
+					$this->cache->clear_bb_cats($mode);
 
 					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_BB_' . strtoupper($mode) . '_CAT_DELETE', false, array($cat_name));
 

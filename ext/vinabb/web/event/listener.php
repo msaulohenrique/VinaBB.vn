@@ -113,7 +113,7 @@ class listener implements EventSubscriberInterface
 
 		$this->ext_root_path = $this->ext_manager->get_extension_path('vinabb/web', true);
 		$this->ext_web_path = $this->path_helper->update_web_root_path($this->ext_root_path);
-		$this->config_text = $this->cache->get_config_text_data();
+		$this->config_text = $this->cache->get_config_text();
 	}
 
 	static public function getSubscribedEvents()

@@ -66,7 +66,7 @@ class service extends \phpbb\cache\service
 		$this->portal_articles_table = $portal_articles_table;
 	}
 
-	function get_config_text_data()
+	function get_config_text()
 	{
 		if (($config_text_data = $this->driver->get('_vinabb_web_config_text')) === false)
 		{
@@ -85,7 +85,7 @@ class service extends \phpbb\cache\service
 		}
 	}
 
-	function clear_config_text_data()
+	function clear_config_text()
 	{
 		$this->driver->destroy('_vinabb_web_config_text');
 	}
@@ -159,7 +159,7 @@ class service extends \phpbb\cache\service
 		$this->driver->destroy('_vinabb_web_forums');
 	}
 
-	function get_bb_cat_data($bb_type)
+	function get_bb_cats($bb_type)
 	{
 		if (($bb_cats = $this->driver->get('_vinabb_web_bb_' . strtolower($bb_type) . '_categories')) === false)
 		{
@@ -185,7 +185,7 @@ class service extends \phpbb\cache\service
 		return $bb_cats;
 	}
 
-	function clear_bb_cat_data($bb_type)
+	function clear_bb_cats($bb_type)
 	{
 		$this->driver->destroy('_vinabb_web_bb_' . strtolower($bb_type) . '_categories');
 	}
@@ -226,7 +226,7 @@ class service extends \phpbb\cache\service
 		$this->driver->destroy('_vinabb_web_bb_new_' . strtolower($bb_type));
 	}
 
-	function get_portal_cat_data()
+	function get_portal_cats()
 	{
 		if (($portal_cats = $this->driver->get('_vinabb_web_portal_categories')) === false)
 		{
@@ -253,7 +253,7 @@ class service extends \phpbb\cache\service
 		return $portal_cats;
 	}
 
-	function clear_portal_cat_data()
+	function clear_portal_cats()
 	{
 		$this->driver->destroy('_vinabb_web_portal_categories');
 	}

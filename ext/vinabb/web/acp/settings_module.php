@@ -293,7 +293,7 @@ class settings_module
 
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_SETTINGS');
 
-				$this->cache->clear_config_text_data();
+				$this->cache->clear_config_text();
 
 				trigger_error($this->language->lang('VINABB_SETTINGS_UPDATED') . adm_back_link($this->u_action));
 			}
