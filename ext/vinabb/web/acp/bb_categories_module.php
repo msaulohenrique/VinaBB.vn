@@ -112,10 +112,13 @@ class bb_categories_module
 				}
 				else
 				{
+					$sql_and = ($cat_id) ? "AND cat_id <> $cat_id" : '';
+
 					$sql = 'SELECT *
 						FROM ' . $this->bb_categories_table . '
 						WHERE bb_type = ' . $this->bb_type . "
-							AND cat_varname = '" . $this->db->sql_escape($cat_varname) . "'";
+							AND cat_varname = '" . $this->db->sql_escape($cat_varname) . "'
+							$sql_and";
 					$result = $this->db->sql_query($sql);
 					$rows = $this->db->sql_fetchrowset($result);
 					$this->db->sql_freeresult($result);
