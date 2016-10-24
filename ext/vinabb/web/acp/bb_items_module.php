@@ -34,6 +34,7 @@ class bb_items_module
 		$this->user = $phpbb_container->get('user');
 
 		$this->bb_type = $this->ext_helper->get_bb_type_constants($mode);
+		$this->cat_data = $this->cache->get_bb_cats();
 		$this->lang_data = ($mode == 'lang') ? $this->cache->get_lang_data() : array();
 		$this->table_prefix = $phpbb_container->getParameter('core.table_prefix');
 		$this->bb_categories_table = $this->table_prefix . constants::BB_CATEGORIES_TABLE;
@@ -183,6 +184,10 @@ class bb_items_module
 					'OS_OPTIONS'	=> ($mode == 'tool') ? $os_options : '',
 
 					'MODE'	=> $mode,
+
+					'ITEM_DETAILS_LANG'	=> $this->language->lang(strtoupper($mode) . '_DETAILS'),
+					'ITEM_NAME_LANG'	=> $this->language->lang(strtoupper($mode) . '_NAME'),
+					'ITEM_VERSION_LANG'	=> $this->language->lang(strtoupper($mode) . '_VERSION'),
 
 					'U_ACTION'	=> $this->u_action,
 					'U_BACK'	=> $this->u_action,
@@ -339,6 +344,7 @@ class bb_items_module
 		foreach ($items as $row)
 		{
 			$this->template->assign_block_vars('items', array(
+				'CATEGORY'			=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->cat_data[$row['cat_id']]['name_vi'] : $this->cat_data[$row['cat_id']]['name'],
 				'NAME'				=> $row['item_name'],
 				'NAME_VI'			=> $row['item_name_vi'],
 				'VARNAME'			=> $row['item_varname'],

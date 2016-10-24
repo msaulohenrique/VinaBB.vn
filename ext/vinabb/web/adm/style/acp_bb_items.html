@@ -9,7 +9,7 @@
 
 	<form id="acp_bb_items_edit" method="post" action="{{ U_ACTION }}">
 		<fieldset>
-			<legend>{{ MODE }}</legend>
+			<legend>{{ ITEM_DETAILS_LANG }}</legend>
 			<dl>
 				<dt><label for="item_name">{{ ITEM_NAME_LANG ~ ' (' ~ lang('ENGLISH') ~ ')' ~ lang('COLON') }}</label></dt>
 				<dd><input type="text" name="item_name" id="item_name" value="{{ ITEM_NAME }}" size="40" maxlength="255"></dd>
@@ -152,7 +152,7 @@
 		<thead>
 		<tr>
 			<th>{{ ITEM_NAME_LANG }}</th>
-			<th>{{ ITEM_NAME_LANG ~ ' (' ~ lang('VIETNAMESE') ~ ')' }}</th>
+			<th>{{ lang('CATEGORY') }}</th>
 			<th>{{ lang('VERSION') }}</th>
 			<th>{{ lang('PHPBB_VERSION') }}</th>
 			<th>{{ lang('ACTION') }}</th>
@@ -162,7 +162,7 @@
 		{% for item in items %}
 		<tr>
 			<td style="text-align: center;">{{ item.NAME }}</td>
-			<td style="text-align: center;">{{ item.NAME_VI }}</td>
+			<td style="text-align: center;">{{ item.CATEGORY }}</td>
 			<td style="text-align: center;">{{ item.VERSION }}</td>
 			<td style="text-align: center;">{{ item.PHPBB_VERSION }}</td>
 			<td class="actions">
