@@ -20,7 +20,7 @@ class bb_items_module
 
 	public function main($id, $mode)
 	{
-		global $phpbb_container;
+		global $phpbb_root_path, $phpbb_container, $phpEx;
 
 		$this->auth = $phpbb_container->get('auth');
 		$this->cache = $phpbb_container->get('cache');
@@ -43,6 +43,7 @@ class bb_items_module
 
 		$this->tpl_name = 'acp_bb_items';
 		$this->page_title = $this->language->lang('ACP_BB_' . strtoupper($mode) . 'S');
+		$this->language->add_lang('posting');
 		$this->language->add_lang('acp_bb', 'vinabb/web');
 
 		$action = $this->request->variable('action', '');
@@ -54,6 +55,13 @@ class bb_items_module
 		$per_page = constants::BB_ITEMS_PER_PAGE;
 
 		add_form_key('vinabb/web');
+
+		// Build custom BBCodes
+		if (!function_exists('display_custom_bbcodes'))
+		{
+			include "{$phpbb_root_path}includes/functions_display.$phpEx";
+			display_custom_bbcodes();
+		}
 
 		$s_hidden_fields = '';
 		$errors = array();
@@ -176,12 +184,29 @@ class bb_items_module
 					}
 				}
 
+				// Prepare the article text for editing inside the textbox
+				if (!isset($item_data['item_desc']))
+				{
+					$item_data['item_desc'] = $item_data['item_desc_uid'] = $item_data['item_desc_bitfield'] = '';
+					$item_data['item_desc_options'] = 7;
+				}
+
+				$item_desc_edit = generate_text_for_edit($item_data['item_desc'], $item_data['item_desc_uid'], $item_data['item_desc_options']);
+
+				if (!isset($item_data['item_desc_vi']))
+				{
+					$item_data['item_desc_vi'] = $item_data['item_desc_vi_uid'] = $item_data['item_desc_vi_bitfield'] = '';
+					$item_data['item_desc_vi_options'] = 7;
+				}
+
+				$item_desc_vi_edit = generate_text_for_edit($item_data['item_desc_vi'], $item_data['item_desc_vi_uid'], $item_data['item_desc_vi_options']);
+
 				$this->template->assign_vars(array(
 					'ITEM_NAME'					=> isset($item_data['item_name']) ? $item_data['item_name'] : '',
 					'ITEM_VARNAME'				=> isset($item_data['item_varname']) ? $item_data['item_varname'] : '',
 					'ITEM_VERSION'				=> isset($item_data['item_version']) ? $item_data['item_version'] : '',
-					'ITEM_DESC'					=> isset($item_data['item_desc']) ? $item_data['item_desc'] : '',
-					'ITEM_DESC_VI'				=> isset($item_data['item_desc_vi']) ? $item_data['item_desc_vi'] : '',
+					'ITEM_DESC'					=> $item_desc_edit['text'],
+					'ITEM_DESC_VI'				=> $item_desc_vi_edit['text'],
 					'ITEM_EXT_STYLE'			=> isset($item_data['item_ext_style']) && $item_data['item_ext_style'],
 					'ITEM_EXT_ACP_STYLE'		=> isset($item_data['item_ext_acp_style']) && $item_data['item_ext_acp_style'],
 					'ITEM_EXT_LANG'				=> isset($item_data['item_ext_lang']) && $item_data['item_ext_lang'],
@@ -195,6 +220,13 @@ class bb_items_module
 					'ITEM_PRICE'				=> isset($item_data['item_price']) ? $item_data['item_price'] : 0,
 					'ITEM_URL'					=> isset($item_data['item_url']) ? $item_data['item_url'] : '',
 					'ITEM_GITHUB'				=> isset($item_data['item_github']) ? $item_data['item_github'] : '',
+
+					'BBCODE_DISABLED'		=> !$item_desc_edit['allow_bbcode'],
+					'URLS_DISABLED'			=> !$item_desc_edit['allow_urls'],
+					'SMILIES_DISABLED'		=> !$item_desc_edit['allow_smilies'],
+					'BBCODE_VI_DISABLED'	=> !$item_desc_vi_edit['allow_bbcode'],
+					'URLS_VI_DISABLED'		=> !$item_desc_vi_edit['allow_urls'],
+					'SMILIES_VI_DISABLED'	=> !$item_desc_vi_edit['allow_smilies'],
 
 					'CAT_OPTIONS'			=> $cat_options,
 					'PHPBB_VERSION_OPTIONS'	=> $phpbb_version_options,
@@ -301,7 +333,13 @@ class bb_items_module
 					'item_version'				=> $item_version,
 					'item_phpbb_version'		=> $item_phpbb_version,
 					'item_desc'					=> $item_desc,
+					'item_desc_uid'				=> '',
+					'item_desc_bitfield'		=> '',
+					'item_desc_options'			=> 7,
 					'item_desc_vi'				=> $item_desc_vi,
+					'item_desc_vi_uid'			=> '',
+					'item_desc_vi_bitfield'		=> '',
+					'item_desc_vi_options'		=> 7,
 					'item_ext_style'			=> $item_ext_style,
 					'item_ext_acp_style'		=> $item_ext_acp_style,
 					'item_ext_lang'				=> $item_ext_lang,
@@ -318,6 +356,17 @@ class bb_items_module
 					'item_url'					=> $item_url,
 					'item_github'				=> $item_github,
 				);
+
+				// Prepare description for storage
+				if ($sql_ary['item_desc'])
+				{
+					generate_text_for_storage($sql_ary['item_desc'], $sql_ary['item_desc_uid'], $sql_ary['item_desc_bitfield'], $sql_ary['item_desc_options'], !$this->request->variable('disable_bbcode', false), !$this->request->variable('disable_urls', false), !$this->request->variable('disable_smilies', false));
+				}
+
+				if ($sql_ary['item_desc_vi'])
+				{
+					generate_text_for_storage($sql_ary['item_desc_vi'], $sql_ary['item_desc_vi_uid'], $sql_ary['item_desc_vi_bitfield'], $sql_ary['item_desc_vi_options'], !$this->request->variable('disable_bbcode_vi', false), !$this->request->variable('disable_urls_vi', false), !$this->request->variable('disable_smilies_vi', false));
+				}
 
 				if ($item_id)
 				{
@@ -406,8 +455,8 @@ class bb_items_module
 				'VARNAME'			=> $row['item_varname'],
 				'VERSION'			=> $row['item_version'],
 				'PHPBB_VERSION'		=> $row['item_phpbb_version'],
-				'DESC'				=> $row['item_desc'],
-				'DESC_VI'			=> $row['item_desc_vi'],
+				'DESC'				=> generate_text_for_display($row['item_desc'], $row['item_desc_uid'], $row['item_desc_bitfield'], $row['item_desc_options']),
+				'DESC_VI'			=> generate_text_for_display($row['item_desc_vi'], $row['item_desc_vi_uid'], $row['item_desc_vi_bitfield'], $row['item_desc_vi_options']),
 				'EXT_STYLE'			=> $row['item_ext_style'],
 				'EXT_ACP_STYLE'		=> $row['item_ext_acp_style'],
 				'EXT_LANG'			=> $row['item_ext_lang'],

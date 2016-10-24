@@ -85,6 +85,7 @@ $lang = array_merge($lang, array(
 
 	'DEBUG'				=> 'Debug',
 	'DEBUG_INFO'		=> 'Debug information',
+	'DESCRIPTION'		=> 'Description',
 	'DONATE'			=> 'Donate',
 	'DONATE_BANK'		=> 'Bank name',
 	'DONATE_BANK_ACC'	=> 'Bank account',

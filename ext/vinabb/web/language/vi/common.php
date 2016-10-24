@@ -85,6 +85,7 @@ $lang = array_merge($lang, array(
 
 	'DEBUG'				=> 'Dò lỗi',
 	'DEBUG_INFO'		=> 'Thông số đánh giá',
+	'DESCRIPTION'		=> 'Giới thiệu',
 	'DONATE'			=> 'Đóng góp',
 	'DONATE_BANK'		=> 'Tên ngân hàng',
 	'DONATE_BANK_ACC'	=> 'Số tài khoản',

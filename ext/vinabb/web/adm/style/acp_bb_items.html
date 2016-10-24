@@ -39,6 +39,27 @@
 				<dd><input type="url" name="item_github" id="item_github" value="{{ ITEM_GITHUB }}" size="40" maxlength="255"></dd>
 			</dl>
 		</fieldset>
+		<fieldset>
+			<legend>{{ lang('DESCRIPTION') }}</legend>
+			<dl>
+				<dt><label for="item_desc">{{ lang('ENGLISH') ~ lang('COLON') }}</label></dt>
+				<dd><textarea name="item_desc" id="item_desc" cols="40" rows="10">{{ ITEM_DESC }}</textarea></dd>
+				<dd>
+					<label><input type="checkbox" class="radio" name="disable_bbcode"{% if BBCODE_DISABLED %} checked{% endif %}> {{ lang('DISABLE_BBCODE') }}</label>
+					<label><input type="checkbox" class="radio" name="disable_urls"{% if URLS_DISABLED %} checked{% endif %}> {{ lang('DISABLE_MAGIC_URL') }}</label>
+					<label><input type="checkbox" class="radio" name="disable_smilies"{% if SMILIES_DISABLED %} checked{% endif %}> {{ lang('DISABLE_SMILIES') }}</label>
+				</dd>
+			</dl>
+			<dl>
+				<dt><label for="item_desc_vi">{{ lang('VIETNAMESE') ~ lang('COLON') }}</label></dt>
+				<dd><textarea name="item_desc_vi" id="item_desc_vi" cols="40" rows="10">{{ ITEM_DESC_VI }}</textarea></dd>
+				<dd>
+					<label><input type="checkbox" class="radio" name="disable_bbcode_vi"{% if BBCODE_VI_DISABLED %} checked{% endif %}> {{ lang('DISABLE_BBCODE') }}</label>
+					<label><input type="checkbox" class="radio" name="disable_urls_vi"{% if URLS_VI_DISABLED %} checked{% endif %}> {{ lang('DISABLE_MAGIC_URL') }}</label>
+					<label><input type="checkbox" class="radio" name="disable_smilies_vi"{% if SMILIES_VI_DISABLED %} checked{% endif %}> {{ lang('DISABLE_SMILIES') }}</label>
+				</dd>
+			</dl>
+		</fieldset>
 		{% if MODE == 'ext' %}
 		<fieldset>
 			<legend>{{ lang('ITEM_EXT_DETAILS') }}</legend>
