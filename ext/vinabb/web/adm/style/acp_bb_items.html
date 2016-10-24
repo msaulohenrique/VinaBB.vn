@@ -22,6 +22,10 @@
 				<dt><label for="cat_id">{{ lang('CATEGORY') ~ lang('COLON') }}</label></dt>
 				<dd><select name="cat_id" id="cat_id">{{ CAT_OPTIONS }}</select></dd>
 			</dl>
+			<dl>
+				<dt><label for="item_phpbb_version">{{ lang('PHPBB_VERSION') ~ lang('COLON') }}</label></dt>
+				<dd><select name="item_phpbb_version" id="item_phpbb_version">{{ PHPBB_VERSION_OPTIONS }}</select></dd>
+			</dl>
 		</fieldset>
 		{% if MODE == 'ext' %}
 		<fieldset>

@@ -117,6 +117,23 @@ class bb_items_module
 					$cat_options .= '<option value="' . $row['cat_id'] . '"' . (($cat_id == $row['cat_id']) ? ' selected' : '' ) . '>' . $row['cat_name'] . ' (' . $row['cat_name_vi'] . ')</option>';
 				}
 
+				// Select a phpBB version
+				$phpbb_versions = $this->ext_helper->get_phpbb_versions();
+				$item_phpbb_version = isset($item_data['item_phpbb_version']) ? $item_data['item_phpbb_version'] : '';
+				$phpbb_version_options = '<option value=""' . (($item_phpbb_version == '') ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_PHPBB_VERSION') . '</option>';
+
+				foreach ($phpbb_versions as $branch => $branch_data)
+				{
+					$phpbb_version_options .= '<optgroup label="' . $this->language->lang('PHPBB_VERSION_X', $branch) . '">"';
+
+					foreach ($branch_data as $phpbb_version => $phpbb_version_data)
+					{
+						$phpbb_version_options .= '<option value="' . $phpbb_version . '"' . (($item_phpbb_version == $phpbb_version) ? ' selected' : '' ) . '>' . $phpbb_version_data['name'] . '</option>';
+					}
+
+					$phpbb_version_options .= '</optgroup>';
+				}
+
 				// Select a language
 				if ($mode == 'lang')
 				{
@@ -180,9 +197,10 @@ class bb_items_module
 					'ITEM_URL'					=> isset($item_data['item_url']) ? $item_data['item_url'] : '',
 					'ITEM_GITHUB'				=> isset($item_data['item_github']) ? $item_data['item_github'] : '',
 
-					'CAT_OPTIONS'	=> $cat_options,
-					'LANG_OPTIONS'	=> ($mode == 'lang') ? $lang_options : '',
-					'OS_OPTIONS'	=> ($mode == 'tool') ? $os_options : '',
+					'CAT_OPTIONS'			=> $cat_options,
+					'PHPBB_VERSION_OPTIONS'	=> $phpbb_version_options,
+					'LANG_OPTIONS'			=> ($mode == 'lang') ? $lang_options : '',
+					'OS_OPTIONS'			=> ($mode == 'tool') ? $os_options : '',
 
 					'MODE'	=> $mode,
 
@@ -211,6 +229,7 @@ class bb_items_module
 				$item_name_vi = $this->request->variable('item_name_vi', '', true);
 				$item_varname = strtolower($this->request->variable('item_varname', ''));
 				$item_version = $this->request->variable('item_version', '');
+				$item_phpbb_version = $this->request->variable('item_phpbb_version', '');
 				$item_desc = $this->request->variable('item_desc', '', true);
 				$item_desc_vi = $this->request->variable('item_desc_vi', '', true);
 				$item_ext_style = $this->request->variable('item_ext_style', false);
@@ -265,6 +284,7 @@ class bb_items_module
 					'item_name_vi'				=> $item_name_vi,
 					'item_varname'				=> $item_varname,
 					'item_version'				=> $item_version,
+					'item_phpbb_version'		=> $item_phpbb_version,
 					'item_desc'					=> $item_desc,
 					'item_desc_vi'				=> $item_desc_vi,
 					'item_ext_style'			=> $item_ext_style,
@@ -350,6 +370,7 @@ class bb_items_module
 				'NAME_VI'			=> $row['item_name_vi'],
 				'VARNAME'			=> $row['item_varname'],
 				'VERSION'			=> $row['item_version'],
+				'PHPBB_VERSION'		=> $row['item_phpbb_version'],
 				'DESC'				=> $row['item_desc'],
 				'DESC_VI'			=> $row['item_desc_vi'],
 				'EXT_STYLE'			=> $row['item_ext_style'],
