@@ -49,6 +49,11 @@ $lang = array_merge($lang, array(
 	'ERROR_BB_CAT_VARNAME_DUPLICATE'	=> 'Tên biến danh mục “%s” bị trùng.',
 	'ERROR_BB_CAT_VARNAME_EMPTY'		=> 'Chưa nhập tên biến danh mục.',
 
+	'ITEM_EXT_DETAILS'		=> 'Thuộc tính gói mở rộng',
+	'ITEM_LANG_DETAILS'		=> 'Thuộc tính gói ngôn ngữ',
+	'ITEM_STYLE_DETAILS'	=> 'Thuộc tính giao diện',
+	'ITEM_TOOL_DETAILS'		=> 'Thuộc tính công cụ',
+
 	'MESSAGE_BB_ACP_STYLE_ADD'		=> 'Đã thêm giao diện quản trị.',
 	'MESSAGE_BB_ACP_STYLE_DELETE'	=> 'Đã gỡ bỏ giao diện quản trị.',
 	'MESSAGE_BB_ACP_STYLE_EDIT'		=> 'Đã sửa thông tin giao diện quản trị.',

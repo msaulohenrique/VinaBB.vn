@@ -124,6 +124,7 @@ $lang = array_merge($lang, array(
 		'WTF'				=> 'WTF',
 	),
 	'ENGLISH'		=> 'English',
+	'EXT_DETAILS'	=> 'Extension information',
 	'EXT_NAME'		=> 'Extension name',
 	'EXT_VERSION'	=> 'Extension version',
 
@@ -173,6 +174,7 @@ $lang = array_merge($lang, array(
 
 	'LABEL_PERCENT'				=> '%s%%',
 	'LABEL_YEAR'				=> 'Year %d',
+	'LANG_DETAILS'				=> 'Language package information',
 	'LANG_NAME'					=> 'Language package name',
 	'LANG_SWITCH'				=> '%1$s » %2$s',
 	'LANG_VERSION'				=> 'Language package version',
@@ -247,9 +249,11 @@ $lang = array_merge($lang, array(
 	'SELECT_CATEGORY'	=> 'Select a category',
 	'SELECT_LANGUAGE'	=> 'Select a language',
 	'SELECT_OS'			=> 'Select an OS',
+	'STYLE_DETAILS'		=> 'Style information',
 	'STYLE_NAME'		=> 'Style name',
 	'STYLE_VERSION'		=> 'Style version',
 
+	'TOOL_DETAILS'		=> 'Tool information',
 	'TOOL_NAME'			=> 'Tool name',
 	'TOOL_VERSION'		=> 'Tool version',
 	'TOTAL_ACP_STYLES'	=> 'Total styles',

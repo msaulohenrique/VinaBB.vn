@@ -124,6 +124,7 @@ $lang = array_merge($lang, array(
 		'WTF'				=> 'Biến tìm muốn tắt tiếng',
 	),
 	'ENGLISH'		=> 'Tiếng Anh',
+	'EXT_DETAILS'	=> 'Thông tin gói mở rộng',
 	'EXT_NAME'		=> 'Tên gói mở rộng',
 	'EXT_VERSION'	=> 'Phiên bản gói mở rộng',
 
@@ -173,6 +174,7 @@ $lang = array_merge($lang, array(
 
 	'LABEL_PERCENT'				=> '%s%%',
 	'LABEL_YEAR'				=> 'Năm %d',
+	'LANG_DETAILS'				=> 'Thông tin gói ngôn ngữ',
 	'LANG_NAME'					=> 'Tên gói ngôn ngữ',
 	'LANG_SWITCH'				=> '%1$s » %2$s',
 	'LANG_VERSION'				=> 'Phiên bản gói ngôn ngữ',
@@ -247,9 +249,11 @@ $lang = array_merge($lang, array(
 	'SELECT_CATEGORY'	=> 'Chọn danh mục',
 	'SELECT_LANGUAGE'	=> 'Chọn ngôn ngữ',
 	'SELECT_OS'			=> 'Chọn hệ điều hành',
+	'STYLE_DETAILS'		=> 'Thông tin giao diện',
 	'STYLE_NAME'		=> 'Tên giao diện',
 	'STYLE_VERSION'		=> 'Phiên bản giao diện',
 
+	'TOOL_DETAILS'		=> 'Thông tin công cụ',
 	'TOOL_NAME'			=> 'Tên công cụ',
 	'TOOL_VERSION'		=> 'Phiên bản công cụ',
 	'TOTAL_ACP_STYLES'	=> 'Số giao diện',

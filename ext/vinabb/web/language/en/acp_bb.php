@@ -49,6 +49,11 @@ $lang = array_merge($lang, array(
 	'ERROR_BB_CAT_VARNAME_DUPLICATE'	=> 'The category varname “%s” already exists.',
 	'ERROR_BB_CAT_VARNAME_EMPTY'		=> 'You must enter a category varname.',
 
+	'ITEM_EXT_DETAILS'		=> 'Extension properties',
+	'ITEM_LANG_DETAILS'		=> 'Language package properties',
+	'ITEM_STYLE_DETAILS'	=> 'Style properties',
+	'ITEM_TOOL_DETAILS'		=> 'Tool properties',
+
 	'MESSAGE_BB_ACP_STYLE_ADD'		=> 'The ACP style has been added.',
 	'MESSAGE_BB_ACP_STYLE_DELETE'	=> 'The ACP style has been removed.',
 	'MESSAGE_BB_ACP_STYLE_EDIT'		=> 'The ACP style information has been edited.',
