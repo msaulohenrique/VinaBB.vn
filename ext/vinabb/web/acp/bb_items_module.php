@@ -394,6 +394,7 @@ class bb_items_module
 					));
 
 					$this->db->sql_query('INSERT INTO ' . $this->bb_items_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary));
+					$this->config->increment('vinabb_web_total_bb_' . strtolower($mode) . 's', 1, true);
 				}
 
 				$this->cache->clear_new_bb_items($mode);
@@ -423,6 +424,8 @@ class bb_items_module
 					$sql = 'DELETE FROM ' . $this->bb_items_table . "
 						WHERE item_name = $item_name";
 					$this->db->sql_query($sql);
+
+					$this->config->increment('vinabb_web_total_bb_' . strtolower($mode) . 's', -1, true);
 
 					$this->cache->clear_new_bb_items($mode);
 
