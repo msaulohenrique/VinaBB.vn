@@ -321,12 +321,33 @@ class bb_items_module
 
 				if ($item_id)
 				{
+					// Is there a new version?
+					$sql = 'SELECT item_version
+						FROM ' . $this->bb_items_table . "
+						WHERE item_id = $item_id";
+					$result = $this->db->sql_query($sql);
+					$item_old_version = $this->db->sql_fetchfield('item_version');
+					$this->db->sql_freeresult($result);
+
+					if (version_compare($item_version, $item_old_version, '>'))
+					{
+						$sql_ary = array_merge($sql_ary, array(
+							'item_updated'	=> time()
+						));
+					}
+
 					$this->db->sql_query('UPDATE ' . $this->bb_items_table . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . ' WHERE item_id = ' . $item_id);
 				}
 				else
 				{
+					$sql_ary = array_merge($sql_ary, array(
+						'item_added'	=> time()
+					));
+
 					$this->db->sql_query('INSERT INTO ' . $this->bb_items_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary));
 				}
+
+				$this->cache->clear_new_bb_items($mode);
 
 				$log_action = ($item_id) ? 'LOG_BB_' . strtoupper($mode) . '_EDIT' : 'LOG_BB_' . strtoupper($mode) . '_ADD';
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, $log_action, false, array($item_name));
@@ -353,6 +374,8 @@ class bb_items_module
 					$sql = 'DELETE FROM ' . $this->bb_items_table . "
 						WHERE item_name = $item_name";
 					$this->db->sql_query($sql);
+
+					$this->cache->clear_new_bb_items($mode);
 
 					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_BB_' . strtoupper($mode) . '_DELETE', false, array($item_name));
 
