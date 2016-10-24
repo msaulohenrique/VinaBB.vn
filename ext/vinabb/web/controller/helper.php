@@ -12,14 +12,17 @@ use vinabb\web\includes\constants;
 
 class helper
 {
+	/** @var \phpbb\language\language */
+	protected $language;
+
 	/**
 	* Constructor
 	*
-	* @param string $phpbb_root_path
-	* @param string $php_ext
+	* @param \phpbb\language\language $language
 	*/
-	public function __construct()
+	public function __construct(\phpbb\language\language $language)
 	{
+		$this->language = $language;
 	}
 
 	/**
@@ -202,6 +205,55 @@ class helper
 
 			default:
 				return 0;
+			break;
+		}
+	}
+
+	/**
+	* Get OS name from constants
+	*
+	* @param $os_value
+	*
+	* @return string
+	*/
+	public function get_os_name($os_value)
+	{
+		switch ($os_value)
+		{
+			case constants::OS_ALL:
+				return $this->language->lang(['OS_LIST', 'ALL']);
+			break;
+
+			case constants::OS_WIN:
+				return $this->language->lang(['OS_LIST', 'WIN']);
+			break;
+
+			case constants::OS_MAC:
+				return $this->language->lang(['OS_LIST', 'MAC']);
+			break;
+
+			case constants::OS_LINUX:
+				return $this->language->lang(['OS_LIST', 'LINUX']);
+			break;
+
+			case constants::OS_BSD:
+				return $this->language->lang(['OS_LIST', 'BSD']);
+			break;
+
+			case constants::OS_ANDROID:
+				return $this->language->lang(['OS_LIST', 'ANDROID']);
+			break;
+
+			case constants::OS_IOS:
+				return $this->language->lang(['OS_LIST', 'IOS']);
+			break;
+
+			case constants::OS_WP:
+				return $this->language->lang(['OS_LIST', 'WP']);
+			break;
+
+			default:
+				return $this->language->lang('UNKNOWN');
 			break;
 		}
 	}
