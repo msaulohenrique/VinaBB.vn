@@ -30,7 +30,12 @@ $lang = array_merge($lang, array(
 	'ACP_BB_LANGS_EXPLAIN'		=> '',
 	'ACP_BB_STYLES_EXPLAIN'		=> '',
 	'ACP_BB_TOOLS_EXPLAIN'		=> '',
+	'ADD_BB_ACP_STYLE'			=> 'Thêm giao diện mới',
 	'ADD_BB_CAT'				=> 'Tạo danh mục mới',
+	'ADD_BB_EXT'				=> 'Thêm gói mở rộng mới',
+	'ADD_BB_LANG'				=> 'Thêm gói ngôn ngữ mới',
+	'ADD_BB_STYLE'				=> 'Thêm giao diện mới',
+	'ADD_BB_TOOL'				=> 'Thêm công cụ mới',
 
 	'BB_CAT_ICON'		=> 'Biểu tượng',
 	'BB_CAT_NAME'		=> 'Tên danh mục',

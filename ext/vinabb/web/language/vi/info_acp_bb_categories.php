@@ -25,11 +25,16 @@ if (empty($lang) || !is_array($lang))
 */
 
 $lang = array_merge($lang, array(
-	'ACP_BB_ACP_STYLE_CATS'	=> 'Danh mục giao diện quản trị',
-	'ACP_BB_EXT_CATS'		=> 'Danh mục gói mở rộng',
-	'ACP_BB_LANG_CATS'		=> 'Danh mục ngôn ngữ',
-	'ACP_BB_STYLE_CATS'		=> 'Danh mục giao diện',
-	'ACP_BB_TOOL_CATS'		=> 'Danh mục công cụ',
+	'ACP_BB_ACP_STYLE_CATS'			=> 'Danh mục giao diện quản trị',
+	'ACP_BB_ACP_STYLE_CATS_EXPLAIN'	=> '',
+	'ACP_BB_EXT_CATS'				=> 'Danh mục gói mở rộng',
+	'ACP_BB_EXT_CATS_EXPLAIN'		=> '',
+	'ACP_BB_LANG_CATS'				=> 'Danh mục ngôn ngữ',
+	'ACP_BB_LANG_CATS_EXPLAIN'		=> '',
+	'ACP_BB_STYLE_CATS'				=> 'Danh mục giao diện',
+	'ACP_BB_STYLE_CATS_EXPLAIN'		=> '',
+	'ACP_BB_TOOL_CATS'				=> 'Danh mục công cụ',
+	'ACP_BB_TOOL_CATS_EXPLAIN'		=> '',
 
 	'LOG_BB_ACP_STYLE_CAT_ADD'		=> '<strong>Thư viện phpBB: Đã tạo danh mục giao diện quản trị mới</strong><br>» %s',
 	'LOG_BB_ACP_STYLE_CAT_DELETE'	=> '<strong>Thư viện phpBB: Đã xóa danh mục giao diện quản trị</strong><br>» %s',

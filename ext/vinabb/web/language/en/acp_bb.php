@@ -30,7 +30,12 @@ $lang = array_merge($lang, array(
 	'ACP_BB_LANGS_EXPLAIN'		=> '',
 	'ACP_BB_STYLES_EXPLAIN'		=> '',
 	'ACP_BB_TOOLS_EXPLAIN'		=> '',
+	'ADD_BB_ACP_STYLE'			=> 'Add new style',
 	'ADD_BB_CAT'				=> 'Create new category',
+	'ADD_BB_EXT'				=> 'Add new extension',
+	'ADD_BB_LANG'				=> 'Add new language package',
+	'ADD_BB_STYLE'				=> 'Add new style',
+	'ADD_BB_TOOL'				=> 'Add new tool',
 
 	'BB_CAT_ICON'		=> 'Category icon',
 	'BB_CAT_NAME'		=> 'Category name',

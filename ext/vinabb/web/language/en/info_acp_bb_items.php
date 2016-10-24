@@ -25,11 +25,16 @@ if (empty($lang) || !is_array($lang))
 */
 
 $lang = array_merge($lang, array(
-	'ACP_BB_ACP_STYLES'	=> 'Manage ACP styles',
-	'ACP_BB_EXTS'		=> 'Manage extensions',
-	'ACP_BB_LANGS'		=> 'Manage language packages',
-	'ACP_BB_STYLES'		=> 'Manage styles',
-	'ACP_BB_TOOLS'		=> 'Manage tools',
+	'ACP_BB_ACP_STYLES'			=> 'Manage ACP styles',
+	'ACP_BB_ACP_STYLES_EXPLAIN'	=> '',
+	'ACP_BB_EXTS'				=> 'Manage extensions',
+	'ACP_BB_EXTS_EXPLAIN'		=> '',
+	'ACP_BB_LANGS'				=> 'Manage language packages',
+	'ACP_BB_LANGS_EXPLAIN'		=> '',
+	'ACP_BB_STYLES'				=> 'Manage styles',
+	'ACP_BB_STYLES_EXPLAIN'		=> '',
+	'ACP_BB_TOOLS'				=> 'Manage tools',
+	'ACP_BB_TOOLS_EXPLAIN'		=> '',
 
 	'LOG_BB_ACP_STYLE_ADD'		=> '<strong>phpBB Resource: Added new ACP style</strong><br>» %s',
 	'LOG_BB_ACP_STYLE_DELETE'	=> '<strong>phpBB Resource: Deleted ACP style</strong><br>» %s',

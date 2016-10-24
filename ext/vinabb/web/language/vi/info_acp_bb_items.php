@@ -25,11 +25,16 @@ if (empty($lang) || !is_array($lang))
 */
 
 $lang = array_merge($lang, array(
-	'ACP_BB_ACP_STYLES'	=> 'Quản lý giao diện quản trị',
-	'ACP_BB_EXTS'		=> 'Quản lý gói mở rộng',
-	'ACP_BB_LANGS'		=> 'Quản lý gói ngôn ngữ',
-	'ACP_BB_STYLES'		=> 'Quản lý giao diện',
-	'ACP_BB_TOOLS'		=> 'Quản lý công cụ',
+	'ACP_BB_ACP_STYLES'			=> 'Quản lý giao diện quản trị',
+	'ACP_BB_ACP_STYLES_EXPLAIN'	=> '',
+	'ACP_BB_EXTS'				=> 'Quản lý gói mở rộng',
+	'ACP_BB_EXTS_EXPLAIN'		=> '',
+	'ACP_BB_LANGS'				=> 'Quản lý gói ngôn ngữ',
+	'ACP_BB_LANGS_EXPLAIN'		=> '',
+	'ACP_BB_STYLES'				=> 'Quản lý giao diện',
+	'ACP_BB_STYLES_EXPLAIN'		=> '',
+	'ACP_BB_TOOLS'				=> 'Quản lý công cụ',
+	'ACP_BB_TOOLS_EXPLAIN'		=> '',
 
 	'LOG_BB_ACP_STYLE_ADD'		=> '<strong>Thư viện phpBB: Đã thêm giao diện quản trị mới</strong><br>» %s',
 	'LOG_BB_ACP_STYLE_DELETE'	=> '<strong>Thư viện phpBB: Đã xóa giao diện quản trị</strong><br>» %s',

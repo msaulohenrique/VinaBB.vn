@@ -29,6 +29,8 @@ $lang = array_merge($lang, array(
 	'ACP_CAT_PORTAL'			=> 'Trang chủ',
 	'ACP_CAT_VINABB'			=> 'VinaBB',
 	'ACP_CAT_VINABB_SETTINGS'	=> 'Thiết lập',
+	'ACP_STYLE_NAME'			=> 'Tên giao diện',
+	'ACP_STYLE_VERSION'			=> 'Phiên bản giao diện',
 
 	'BB_ACP_STYLES'	=> 'Giao diện quản trị',
 	'BB_EXTS'		=> 'Gói mở rộng',
@@ -122,6 +124,8 @@ $lang = array_merge($lang, array(
 		'WTF'				=> 'Biến tìm muốn tắt tiếng',
 	),
 	'ENGLISH'		=> 'Tiếng Anh',
+	'EXT_NAME'		=> 'Tên gói mở rộng',
+	'EXT_VERSION'	=> 'Phiên bản gói mở rộng',
 
 	'FOOTER_FLAG_TEXT'		=> 'Cống hiến hết mình vì Tổ Quốc Việt Nam Xã Hội Chủ Nghĩa',
 	'FOOTER_FLAG_TITLE'		=> 'Code in Viet Nam',
@@ -156,9 +160,22 @@ $lang = array_merge($lang, array(
 	'GITHUB'				=> 'GitHub',
 	'GITHUB_PROFILE'		=> 'GitHub',
 
+	'ITEM_EXT_ACP_STYLE'		=> 'Thay đổi giao diện quản trị',
+	'ITEM_EXT_DB_DATA'			=> 'Thay đổi dữ liệu',
+	'ITEM_EXT_DB_SCHEMA'		=> 'Thay đổi cấu trúc dữ liệu',
+	'ITEM_EXT_LANG'				=> 'Thay đổi ngôn ngữ',
+	'ITEM_EXT_STYLE'			=> 'Thay đổi giao diện',
+	'ITEM_STYLE_BOOTSTRAP'		=> 'Bootstrap',
+	'ITEM_STYLE_PRESETS'		=> 'Số bản màu',
+	'ITEM_STYLE_PRESETS_AIO'	=> 'Tất cả bản màu trong một',
+	'ITEM_STYLE_RESPONSIVE'		=> 'Hỗ trợ di động',
+	'ITEM_STYLE_SOURCE'			=> 'Hình thiết kế gốc',
+
 	'LABEL_PERCENT'				=> '%s%%',
 	'LABEL_YEAR'				=> 'Năm %d',
+	'LANG_NAME'					=> 'Tên gói ngôn ngữ',
 	'LANG_SWITCH'				=> '%1$s » %2$s',
+	'LANG_VERSION'				=> 'Phiên bản gói ngôn ngữ',
 	'LANGUAGE'					=> 'Ngôn ngữ',
 	'LATEST_ACP_STYLES'			=> 'Giao diện quản trị mới',
 	'LATEST_EXTS'				=> 'Gói mở rộng mới',
@@ -191,6 +208,18 @@ $lang = array_merge($lang, array(
 	'NEWS'		=> 'Tin tức',
 	'NO_POST'	=> 'Bài viết không tồn tại.',
 
+	'OS'		=> 'Hệ điều hành',
+	'OS_LIST'	=> array(
+		'ALL'		=> 'Đa nền tảng',
+		'ANDROID'	=> 'Android',
+		'BSD'		=> 'BSD',
+		'IOS'		=> 'iOS',
+		'LINUX'		=> 'Linux',
+		'MAC'		=> 'Mac OS X',
+		'WIN'		=> 'Windows',
+		'WP'		=> 'Windows Phone',
+	),
+
 	'PAYPAL'					=> 'PayPal',
 	'PHONE'						=> 'Điện thoại',
 	'PHP_VERSION_X'				=> 'PHP %s',
@@ -199,6 +228,7 @@ $lang = array_merge($lang, array(
 	'PHPBB_IVN_VERSION_X'		=> 'phpBB iVN %s',
 	'PHPBB_IVNPLUS_EXPLAIN'		=> 'Gói ngôn ngữ tiếng Việt cho các gói mở rộng của phpBB.',
 	'PHPBB_IVNPLUS_VERSION_X'	=> 'phpBB iVN+ %s',
+	'PHPBB_VERSION'				=> 'Phiên bản phpBB',
 	'PHPBB_VERSION_X'			=> 'phpBB %s',
 	'POWERED_BY'				=> 'Sử dụng phần mềm <a href="https://www.phpbb.com/" data-toggle="tooltip" title="&copy; phpBB Limited">phpBB</a> <i class="fa fa-heart animate-pulse text-danger"></i>',
 
@@ -216,7 +246,12 @@ $lang = array_merge($lang, array(
 
 	'SELECT_CATEGORY'	=> 'Chọn danh mục',
 	'SELECT_LANGUAGE'	=> 'Chọn ngôn ngữ',
+	'SELECT_OS'			=> 'Chọn hệ điều hành',
+	'STYLE_NAME'		=> 'Tên giao diện',
+	'STYLE_VERSION'		=> 'Phiên bản giao diện',
 
+	'TOOL_NAME'			=> 'Tên công cụ',
+	'TOOL_VERSION'		=> 'Phiên bản công cụ',
 	'TOTAL_ACP_STYLES'	=> 'Số giao diện',
 	'TOTAL_ARTICLES'	=> 'Số bài viết',
 	'TOTAL_EXTS'		=> 'Số gói mở rộng',
@@ -224,8 +259,10 @@ $lang = array_merge($lang, array(
 	'TOTAL_STYLES'		=> 'Số giao diện',
 	'TOTAL_TOOLS'		=> 'Số công cụ',
 
+	'UNKNOWN'	=> 'Không biết',
 	'USER_ID'	=> 'ID tài khoản',
 
+	'VERSION'		=> 'Phiên bản',
 	'VIETNAMESE'	=> 'Tiếng Việt',
 	'VIEW_DETAILS'	=> 'Xem chi tiết',
 	'VINABB'		=> 'VinaBB',

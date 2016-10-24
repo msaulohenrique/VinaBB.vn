@@ -25,11 +25,16 @@ if (empty($lang) || !is_array($lang))
 */
 
 $lang = array_merge($lang, array(
-	'ACP_BB_ACP_STYLE_CATS'	=> 'ACP style categories',
-	'ACP_BB_EXT_CATS'		=> 'Extension categories',
-	'ACP_BB_LANG_CATS'		=> 'Language categories',
-	'ACP_BB_STYLE_CATS'		=> 'Style categories',
-	'ACP_BB_TOOL_CATS'		=> 'Tool categories',
+	'ACP_BB_ACP_STYLE_CATS'			=> 'ACP style categories',
+	'ACP_BB_ACP_STYLE_CATS_EXPLAIN'	=> '',
+	'ACP_BB_EXT_CATS'				=> 'Extension categories',
+	'ACP_BB_EXT_CATS_EXPLAIN'		=> '',
+	'ACP_BB_LANG_CATS'				=> 'Language categories',
+	'ACP_BB_LANG_CATS_EXPLAIN'		=> '',
+	'ACP_BB_STYLE_CATS'				=> 'Style categories',
+	'ACP_BB_STYLE_CATS_EXPLAIN'		=> '',
+	'ACP_BB_TOOL_CATS'				=> 'Tool categories',
+	'ACP_BB_TOOL_CATS_EXPLAIN'		=> '',
 
 	'LOG_BB_ACP_STYLE_CAT_ADD'		=> '<strong>phpBB Resource: Created new ACP style category</strong><br>» %s',
 	'LOG_BB_ACP_STYLE_CAT_DELETE'	=> '<strong>phpBB Resource: Deleted ACP style category</strong><br>» %s',

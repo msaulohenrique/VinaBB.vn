@@ -29,6 +29,8 @@ $lang = array_merge($lang, array(
 	'ACP_CAT_PORTAL'			=> 'Portal',
 	'ACP_CAT_VINABB'			=> 'VinaBB',
 	'ACP_CAT_VINABB_SETTINGS'	=> 'Settings',
+	'ACP_STYLE_NAME'			=> 'Style name',
+	'ACP_STYLE_VERSION'			=> 'Style version',
 
 	'BB_ACP_STYLES'	=> 'ACP styles',
 	'BB_EXTS'		=> 'Extensions',
@@ -122,6 +124,8 @@ $lang = array_merge($lang, array(
 		'WTF'				=> 'WTF',
 	),
 	'ENGLISH'		=> 'English',
+	'EXT_NAME'		=> 'Extension name',
+	'EXT_VERSION'	=> 'Extension version',
 
 	'FOOTER_FLAG_TEXT'		=> 'VinaBB - The Vietnamese phpBB Community since 2006',
 	'FOOTER_FLAG_TITLE'		=> 'Code in Viet Nam',
@@ -156,9 +160,22 @@ $lang = array_merge($lang, array(
 	'GITHUB'				=> 'GitHub',
 	'GITHUB_PROFILE'		=> 'GitHub',
 
+	'ITEM_EXT_ACP_STYLE'		=> 'ACP style changes',
+	'ITEM_EXT_DB_DATA'			=> 'Database data changes',
+	'ITEM_EXT_DB_SCHEMA'		=> 'Database schema changes',
+	'ITEM_EXT_LANG'				=> 'Language changes',
+	'ITEM_EXT_STYLE'			=> 'Style changes',
+	'ITEM_STYLE_BOOTSTRAP'		=> 'Bootstrap',
+	'ITEM_STYLE_PRESETS'		=> 'Presets',
+	'ITEM_STYLE_PRESETS_AIO'	=> 'All-in-one presets',
+	'ITEM_STYLE_RESPONSIVE'		=> 'Responsive',
+	'ITEM_STYLE_SOURCE'			=> 'Source files',
+
 	'LABEL_PERCENT'				=> '%s%%',
 	'LABEL_YEAR'				=> 'Year %d',
+	'LANG_NAME'					=> 'Language package name',
 	'LANG_SWITCH'				=> '%1$s » %2$s',
+	'LANG_VERSION'				=> 'Language package version',
 	'LANGUAGE'					=> 'Language',
 	'LATEST_ACP_STYLES'			=> 'New ACP styles',
 	'LATEST_EXTS'				=> 'New extensions',
@@ -191,6 +208,18 @@ $lang = array_merge($lang, array(
 	'NEWS'		=> 'News',
 	'NO_POST'	=> 'The post does not exist.',
 
+	'OS'		=> 'OS',
+	'OS_LIST'	=> array(
+		'ALL'		=> 'Cross-platform',
+		'ANDROID'	=> 'Android',
+		'BSD'		=> 'BSD',
+		'IOS'		=> 'iOS',
+		'LINUX'		=> 'Linux',
+		'MAC'		=> 'Mac OS X',
+		'WIN'		=> 'Windows',
+		'WP'		=> 'Windows Phone',
+	),
+
 	'PAYPAL'					=> 'PayPal',
 	'PHONE'						=> 'Phone',
 	'PHP_VERSION_X'				=> 'PHP %s',
@@ -199,6 +228,7 @@ $lang = array_merge($lang, array(
 	'PHPBB_IVN_VERSION_X'		=> 'phpBB iVN %s',
 	'PHPBB_IVNPLUS_EXPLAIN'		=> 'Vietnamese language package for phpBB extensions.',
 	'PHPBB_IVNPLUS_VERSION_X'	=> 'phpBB iVN+ %s',
+	'PHPBB_VERSION'				=> 'phpBB version',
 	'PHPBB_VERSION_X'			=> 'phpBB %s',
 	'POWERED_BY'				=> 'Powered by <a href="https://www.phpbb.com/" data-toggle="tooltip" title="Forum software &copy; phpBB Limited">phpBB</a> with <i class="fa fa-heart animate-pulse text-danger"></i>',
 
@@ -216,7 +246,12 @@ $lang = array_merge($lang, array(
 
 	'SELECT_CATEGORY'	=> 'Select a category',
 	'SELECT_LANGUAGE'	=> 'Select a language',
+	'SELECT_OS'			=> 'Select an OS',
+	'STYLE_NAME'		=> 'Style name',
+	'STYLE_VERSION'		=> 'Style version',
 
+	'TOOL_NAME'			=> 'Tool name',
+	'TOOL_VERSION'		=> 'Tool version',
 	'TOTAL_ACP_STYLES'	=> 'Total styles',
 	'TOTAL_ARTICLES'	=> 'Total articles',
 	'TOTAL_EXTS'		=> 'Total extensions',
@@ -224,8 +259,10 @@ $lang = array_merge($lang, array(
 	'TOTAL_STYLES'		=> 'Total styles',
 	'TOTAL_TOOLS'		=> 'Total tools',
 
+	'UNKNOWN'	=> 'Unknown',
 	'USER_ID'	=> 'User ID',
 
+	'VERSION'		=> 'Version',
 	'VIETNAMESE'	=> 'Vietnamese',
 	'VIEW_DETAILS'	=> 'View details',
 	'VINABB'		=> 'VinaBB',
