@@ -35,6 +35,16 @@ class constants
 	const BB_TYPE_VARNAME_LANG = 'ivn';
 	const BB_TYPE_VARNAME_TOOL = 'tools';
 
+	// OS
+	const OS_ALL = 0;
+	const OS_WIN = 1;
+	const OS_MAC = 2;
+	const OS_LINUX = 3;
+	const OS_BSD = 4;
+	const OS_ANDROID = 5;
+	const OS_IOS = 6;
+	const OS_WP = 7;
+
 	// Rewrite URLs
 	const REWRITE_URL_PAGE = 'page-';
 	const REWRITE_URL_SEO = '.';
