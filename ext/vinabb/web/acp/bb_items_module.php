@@ -24,6 +24,7 @@ class bb_items_module
 
 		$this->auth = $phpbb_container->get('auth');
 		$this->cache = $phpbb_container->get('cache');
+		$this->config = $phpbb_container->get('config');
 		$this->db = $phpbb_container->get('dbal.conn');
 		$this->ext_helper = $phpbb_container->get('vinabb.web.helper');
 		$this->language = $phpbb_container->get('language');
@@ -46,6 +47,7 @@ class bb_items_module
 
 		$action = $this->request->variable('action', '');
 		$action = $this->request->is_set_post('add') ? 'add' : ($this->request->is_set_post('save') ? 'save' : $action);
+		$item_id = $this->request->variable('id', 0);
 
 		// Pagination
 		$start = $this->request->variable('start', 0);
@@ -82,8 +84,6 @@ class bb_items_module
 		switch ($action)
 		{
 			case 'edit':
-				$item_id = $this->request->variable('id', 0);
-
 				if (!$item_id)
 				{
 					trigger_error($this->language->lang('NO_BB_' . strtoupper($mode) .'_ID') . adm_back_link($this->u_action), E_USER_WARNING);
@@ -144,7 +144,7 @@ class bb_items_module
 					$rows = $this->db->sql_fetchrowset($result);
 					$this->db->sql_freeresult($result);
 
-					$item_lang_iso = isset($item_data['item_lang_iso']) ? $item_data['item_lang_iso'] : constants::LANG_VIETNAMESE;
+					$item_lang_iso = isset($item_data['item_lang_iso']) ? $item_data['item_lang_iso'] : $this->config['default_lang'];
 					$lang_options = '<option value=""' . (($item_lang_iso == '') ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_LANGUAGE') . '</option>';
 
 					foreach ($rows as $row)
@@ -242,8 +242,8 @@ class bb_items_module
 				$item_style_source = $this->request->variable('item_style_source', false);
 				$item_style_responsive = $this->request->variable('item_style_responsive', false);
 				$item_style_bootstrap = $this->request->variable('item_style_bootstrap', false);
-				$item_lang_iso = $this->request->variable('item_lang_iso', constants::LANG_VIETNAMESE);
-				$item_tool_os = $this->request->variable('item_tool_os', constants::OS_ALL);
+				$item_lang_iso = $this->request->variable('item_lang_iso', '');
+				$item_tool_os = $this->request->variable('item_tool_os', 0);
 				$item_price = $this->request->variable('item_price', 0);
 				$item_url = $this->request->variable('item_url', '');
 				$item_github = $this->request->variable('item_github', '');
@@ -324,8 +324,6 @@ class bb_items_module
 			break;
 
 			case 'delete':
-				$item_id = $this->request->variable('id', 0);
-
 				if (!$item_id)
 				{
 					trigger_error($this->language->lang('NO_BB_' . strtoupper($mode) .'_ID') . adm_back_link($this->u_action), E_USER_WARNING);

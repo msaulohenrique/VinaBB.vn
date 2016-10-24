@@ -21,6 +21,7 @@ class portal_articles_module
 
 		$this->auth = $phpbb_container->get('auth');
 		$this->cache = $phpbb_container->get('cache');
+		$this->config = $phpbb_container->get('config');
 		$this->db = $phpbb_container->get('dbal.conn');
 		$this->ext_helper = $phpbb_container->get('vinabb.web.helper');
 		$this->language = $phpbb_container->get('language');
@@ -102,7 +103,7 @@ class portal_articles_module
 				$rows = $this->db->sql_fetchrowset($result);
 				$this->db->sql_freeresult($result);
 
-				$article_lang = isset($article_data['article_lang']) ? $article_data['article_lang'] : '';
+				$article_lang = isset($article_data['article_lang']) ? $article_data['article_lang'] : $this->config['default_lang'];
 				$lang_options = '<option value=""' . (($article_lang == '') ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_LANGUAGE') . '</option>';
 
 				foreach ($rows as $row)
@@ -155,7 +156,7 @@ class portal_articles_module
 
 				$cat_id = $this->request->variable('cat_id', 0);
 				$article_name = $this->request->variable('article_name', '', true);
-				$article_lang = $this->request->variable('article_lang', constants::LANG_VIETNAMESE);
+				$article_lang = $this->request->variable('article_lang', '');
 				$article_desc = $this->request->variable('article_desc', '', true);
 				$article_text = $this->request->variable('article_text', '', true);
 
