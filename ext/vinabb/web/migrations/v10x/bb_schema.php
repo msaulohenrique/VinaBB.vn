@@ -38,7 +38,6 @@ class bb_schema extends migration
 						'author_id'					=> array('UINT', 0),
 						'bb_type'					=> array('TINT:1', 0),
 						'item_name'					=> array('VCHAR_UNI', '', 'true_sort'),
-						'item_name_vi'				=> array('VCHAR_UNI', '', 'true_sort'),
 						'item_varname'				=> array('VCHAR', ''),
 						'item_version'				=> array('VCHAR', ''),
 						'item_phpbb_version'		=> array('VCHAR', ''),

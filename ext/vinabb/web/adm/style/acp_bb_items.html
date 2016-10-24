@@ -11,12 +11,8 @@
 		<fieldset>
 			<legend>{{ ITEM_DETAILS_LANG }}</legend>
 			<dl>
-				<dt><label for="item_name">{{ ITEM_NAME_LANG ~ ' (' ~ lang('ENGLISH') ~ ')' ~ lang('COLON') }}</label></dt>
+				<dt><label for="item_name">{{ ITEM_NAME_LANG ~ lang('COLON') }}</label></dt>
 				<dd><input type="text" name="item_name" id="item_name" value="{{ ITEM_NAME }}" size="40" maxlength="255"></dd>
-			</dl>
-			<dl>
-				<dt><label for="item_name_vi">{{ ITEM_NAME_LANG ~ ' (' ~ lang('VIETNAMESE') ~ ')' ~ lang('COLON') }}</label></dt>
-				<dd><input type="text" name="item_name_vi" id="item_name_vi" value="{{ ITEM_NAME_VI }}" size="40" maxlength="255"></dd>
 			</dl>
 			<dl>
 				<dt><label for="cat_id">{{ lang('CATEGORY') ~ lang('COLON') }}</label></dt>

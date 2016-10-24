@@ -178,7 +178,6 @@ class bb_items_module
 
 				$this->template->assign_vars(array(
 					'ITEM_NAME'					=> isset($item_data['item_name']) ? $item_data['item_name'] : '',
-					'ITEM_NAME_VI'				=> isset($item_data['item_name_vi']) ? $item_data['item_name_vi'] : '',
 					'ITEM_VARNAME'				=> isset($item_data['item_varname']) ? $item_data['item_varname'] : '',
 					'ITEM_VERSION'				=> isset($item_data['item_version']) ? $item_data['item_version'] : '',
 					'ITEM_DESC'					=> isset($item_data['item_desc']) ? $item_data['item_desc'] : '',
@@ -226,7 +225,6 @@ class bb_items_module
 
 				$item_id = $this->request->variable('id', 0);
 				$item_name = $this->request->variable('item_name', '', true);
-				$item_name_vi = $this->request->variable('item_name_vi', '', true);
 				$item_varname = strtolower($this->request->variable('item_varname', ''));
 				$item_version = $this->request->variable('item_version', '');
 				$item_phpbb_version = $this->request->variable('item_phpbb_version', '');
@@ -299,7 +297,6 @@ class bb_items_module
 				$sql_ary = array(
 					'bb_type'					=> $this->bb_type,
 					'item_name'					=> $item_name,
-					'item_name_vi'				=> $item_name_vi,
 					'item_varname'				=> $item_varname,
 					'item_version'				=> $item_version,
 					'item_phpbb_version'		=> $item_phpbb_version,
@@ -383,7 +380,6 @@ class bb_items_module
 			$this->template->assign_block_vars('items', array(
 				'CATEGORY'			=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->cat_data[$row['cat_id']]['name_vi'] : $this->cat_data[$row['cat_id']]['name'],
 				'NAME'				=> $row['item_name'],
-				'NAME_VI'			=> $row['item_name_vi'],
 				'VARNAME'			=> $row['item_varname'],
 				'VERSION'			=> $row['item_version'],
 				'PHPBB_VERSION'		=> $row['item_phpbb_version'],
