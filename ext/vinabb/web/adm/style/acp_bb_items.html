@@ -1,0 +1,105 @@
+{% include 'overall_header.html' %}
+
+{% if S_EDIT %}
+
+	<a href="{{ U_BACK }}" style="float: {{ S_CONTENT_FLOW_END }};">&laquo; {{ lang('BACK') }}</a>
+
+	<h1>{{ PAGE_TITLE }}</h1>
+	<p>{{ PAGE_TITLE_EXPLAIN }}</p>
+
+	<form id="acp_portal_articles_edit" method="post" action="{{ U_ACTION }}">
+		<fieldset>
+			<legend>{{ lang('_DETAILS') }}</legend>
+			<dl>
+				<dt><label for="article_name">{{ lang('ARTICLE_NAME') ~ lang('COLON') }}</label></dt>
+				<dd><input type="text" name="article_name" id="article_name" value="{{ CAT_NAME }}" size="40" maxlength="255"></dd>
+			</dl>
+			<dl>
+				<dt><label for="cat_id">{{ lang('CATEGORY') ~ lang('COLON') }}</label></dt>
+				<dd><select name="cat_id" id="cat_id">{{ CAT_OPTIONS }}</select></dd>
+			</dl>
+			<dl>
+				<dt><label for="article_lang">{{ lang('LANGUAGE') ~ lang('COLON') }}</label></dt>
+				<dd><select name="article_lang" id="article_lang">{{ LANG_OPTIONS }}</select></dd>
+			</dl>
+		</fieldset>
+		<fieldset>
+			<legend></legend>
+			<dl>
+				<dt><label for="item_ext_">{{ lang('ITEM_EXT_') ~ lang('COLON') }}</label></dt>
+				<dd>
+					<label><input type="radio" class="radio" name="auto_toggle" value="1" id="auto_toggle"{% if AUTO_TOGGLE %} checked{% endif %}> {{ lang('YES') }}</label>
+					<label><input type="radio" class="radio" name="auto_toggle" value="0"{% if not AUTO_TOGGLE %} checked{% endif %}> {{ lang('NO') }}</label>
+				</dd>
+			</dl>
+		</fieldset>
+		<fieldset>
+			<legend>{{ lang('ACP_SUBMIT_CHANGES') }}</legend>
+			<p class="submit-buttons">
+				{{ S_HIDDEN_FIELDS }}
+				<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}">
+				<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}">
+			</p>
+			{{ S_FORM_TOKEN }}
+		</fieldset>
+	</form>
+
+{% else %}
+
+	<h1>{{ PAGE_TITLE }}</h1>
+	<p>{{ PAGE_TITLE_EXPLAIN }}</p>
+
+	<form id="acp_portal_articles" method="post" action="{{ U_ACTION }}">
+		<p class="quick">
+			{{ S_HIDDEN_FIELDS }}
+			<input class="button2" name="add" type="submit" value="{{ lang('ADD_PORTAL_CAT') }}">
+		</p>
+	</form>
+
+	{% if pagination %}
+	<div class="pagination">
+		<span style="float: {{ S_CONTENT_FLOW_BEGIN }};">&raquo; {{ lang('TOTAL_ARTICLES', TOTAL_ARTICLES) }}</span>
+		{% include 'pagination.html' %}
+	</div>
+	{% endif %}
+
+	<table class="table1 zebra-table">
+		<thead>
+		<tr>
+			<th>{{ lang('ARTICLE_NAME') }}</th>
+			<th>{{ lang('ARTICLE_NAME') ~ ' (' ~ lang('VIETNAMESE') ~ ')' }}</th>
+			<th>{{ lang('TOTAL_VIEWS') }}</th>
+			<th>{{ lang('TOTAL_COMMENTS') }}</th>
+			<th>{{ lang('ACTION') }}</th>
+		</tr>
+		</thead>
+		<tbody>
+		{% for item in items %}
+		<tr>
+			<td style="text-align: center;">{{ article.NAME }}</td>
+			<td style="text-align: center;">{{ article.NAME_VI }}</td>
+			<td style="text-align: center;">{{ article.VIEWS }}</td>
+			<td style="text-align: center;">{{ article.COMMENTS }}</td>
+			<td class="actions">
+				<a href="{{ article.U_EDIT }}">{{ ICON_EDIT }}</a>
+				<a href="{{ article.U_DELETE }}" data-ajax="row_delete">{{ ICON_DELETE }}</a>
+			</td>
+		</tr>
+		{% else %}
+		<tr class="row3">
+			<td colspan="5">{{ lang('ACP_NO_ITEMS') }}</td>
+		</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+
+	{% if pagination %}
+	<div class="pagination">
+		<span style="float: {{ S_CONTENT_FLOW_BEGIN }};">&raquo; {{ lang('TOTAL_ARTICLES', TOTAL_ARTICLES) }}</span>
+		{% include 'pagination.html' %}
+	</div>
+	{% endif %}
+
+{% endif %}
+
+{% include 'overall_footer.html' %}
