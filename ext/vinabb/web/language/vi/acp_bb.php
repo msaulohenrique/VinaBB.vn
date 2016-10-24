@@ -41,13 +41,21 @@ $lang = array_merge($lang, array(
 	'BB_CAT_NAME'		=> 'Tên danh mục',
 	'BB_CAT_VARNAME'	=> 'Tên biến',
 
-	'CONFIRM_BB_CAT_DELETE'	=> 'Bạn chắc chắn muốn xóa danh mục này?',
+	'CONFIRM_BB_ACP_STYLE_DELETE'	=> 'Bạn chắc chắn muốn gỡ bỏ giao diện quản trị này?',
+	'CONFIRM_BB_CAT_DELETE'			=> 'Bạn chắc chắn muốn xóa danh mục này?',
+	'CONFIRM_BB_EXT_DELETE'			=> 'Bạn chắc chắn muốn gỡ bỏ gói mở rộng này?',
+	'CONFIRM_BB_LANG_DELETE'		=> 'Bạn chắc chắn muốn gỡ bỏ gói ngôn ngữ này?',
+	'CONFIRM_BB_STYLE_DELETE'		=> 'Bạn chắc chắn muốn gỡ bỏ giao diện này?',
 
 	'EDIT_BB_CAT'						=> 'Sửa danh mục',
+	'ERROR_BB_ACP_STYLE_NAME_EMPTY'		=> 'Chưa nhập tên giao diện.',
 	'ERROR_BB_CAT_DELETE'				=> 'Không thể xóa danh mục đang được dùng.',
 	'ERROR_BB_CAT_NAME_EMPTY'			=> 'Chưa nhập tên danh mục.',
 	'ERROR_BB_CAT_VARNAME_DUPLICATE'	=> 'Tên biến danh mục “%s” bị trùng.',
 	'ERROR_BB_CAT_VARNAME_EMPTY'		=> 'Chưa nhập tên biến danh mục.',
+	'ERROR_BB_LANG_NAME_EMPTY'			=> 'Chưa nhập tên gói ngôn ngữ.',
+	'ERROR_BB_STYLE_NAME_EMPTY'			=> 'Chưa nhập tên giao diện.',
+	'ERROR_BB_TOOL_NAME_EMPTY'			=> 'Chưa nhập tên công cụ.',
 
 	'ITEM_EXT_DETAILS'		=> 'Thuộc tính gói mở rộng',
 	'ITEM_LANG_DETAILS'		=> 'Thuộc tính gói ngôn ngữ',

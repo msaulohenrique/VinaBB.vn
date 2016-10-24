@@ -41,13 +41,21 @@ $lang = array_merge($lang, array(
 	'BB_CAT_NAME'		=> 'Category name',
 	'BB_CAT_VARNAME'	=> 'Varname',
 
-	'CONFIRM_BB_CAT_DELETE'	=> 'Are you sure you want to delete this category?',
+	'CONFIRM_BB_ACP_STYLE_DELETE'	=> 'Are you sure you want to remove this ACP style?',
+	'CONFIRM_BB_CAT_DELETE'			=> 'Are you sure you want to delete this category?',
+	'CONFIRM_BB_EXT_DELETE'			=> 'Are you sure you want to remove this extension?',
+	'CONFIRM_BB_LANG_DELETE'		=> 'Are you sure you want to remove this language pack?',
+	'CONFIRM_BB_STYLE_DELETE'		=> 'Are you sure you want to remove this style?',
 
 	'EDIT_BB_CAT'						=> 'Edit category',
+	'ERROR_BB_ACP_STYLE_NAME_EMPTY'		=> 'You must enter a style name.',
 	'ERROR_BB_CAT_DELETE'				=> 'Could not delete this category while it is still in use.',
 	'ERROR_BB_CAT_NAME_EMPTY'			=> 'You must enter a category name.',
 	'ERROR_BB_CAT_VARNAME_DUPLICATE'	=> 'The category varname “%s” already exists.',
 	'ERROR_BB_CAT_VARNAME_EMPTY'		=> 'You must enter a category varname.',
+	'ERROR_BB_LANG_NAME_EMPTY'			=> 'You must enter a language package name.',
+	'ERROR_BB_STYLE_NAME_EMPTY'			=> 'You must enter a style name.',
+	'ERROR_BB_TOOL_NAME_EMPTY'			=> 'You must enter a tool name.',
 
 	'ITEM_EXT_DETAILS'		=> 'Extension properties',
 	'ITEM_LANG_DETAILS'		=> 'Language package properties',

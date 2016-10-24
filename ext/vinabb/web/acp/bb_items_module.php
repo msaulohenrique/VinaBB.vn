@@ -248,21 +248,24 @@ class bb_items_module
 				$item_url = $this->request->variable('item_url', '');
 				$item_github = $this->request->variable('item_github', '');
 
-				if (empty($item_name) || empty($item_name_vi))
+				if (empty($item_name))
 				{
-					$errors[] = $this->language->lang('ERROR_BB_ITEM_NAME_EMPTY');
+					$errors[] = $this->language->lang('ERROR_BB_' . strtoupper($mode) . '_NAME_EMPTY');
 				}
 
-				if (empty($item_varname))
+				if (in_array($mode, array('ext', 'style', 'acp_style')) && empty($item_varname))
 				{
 					$errors[] = $this->language->lang('ERROR_BB_ITEM_VARNAME_EMPTY');
 				}
 				else
 				{
+					$sql_and = ($item_id) ? "AND item_id <> $item_id" : '';
+
 					$sql = 'SELECT *
 						FROM ' . $this->bb_categories_table . '
 						WHERE bb_type = ' . $this->bb_type . "
-							AND item_varname = '" . $this->db->sql_escape($item_varname) . "'";
+							AND item_varname = '" . $this->db->sql_escape($item_varname) . "'
+							$sql_and";
 					$result = $this->db->sql_query($sql);
 					$rows = $this->db->sql_fetchrowset($result);
 					$this->db->sql_freeresult($result);
@@ -313,10 +316,10 @@ class bb_items_module
 					$this->db->sql_query('INSERT INTO ' . $this->bb_items_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary));
 				}
 
-				$log_action = ($item_id) ? 'LOG_BB_' . strtoupper($mode) . '_CAT_EDIT' : 'LOG_BB_' . strtoupper($mode) . '_CAT_ADD';
+				$log_action = ($item_id) ? 'LOG_BB_' . strtoupper($mode) . '_EDIT' : 'LOG_BB_' . strtoupper($mode) . '_ADD';
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, $log_action, false, array($item_name));
 
-				$message = ($item_id) ? $this->language->lang('MESSAGE_BB_ITEM_EDIT') : $this->language->lang('MESSAGE_BB_ITEM_ADD');
+				$message = ($item_id) ? $this->language->lang('MESSAGE_BB_' . strtoupper($mode) . '_EDIT') : $this->language->lang('MESSAGE_BB_' . strtoupper($mode) . '_ADD');
 				trigger_error($message . adm_back_link($this->u_action));
 			break;
 
@@ -343,11 +346,11 @@ class bb_items_module
 
 					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_BB_' . strtoupper($mode) . '_DELETE', false, array($item_name));
 
-					trigger_error($this->language->lang('MESSAGE_BB_CAT_DELETE') . adm_back_link($this->u_action));
+					trigger_error($this->language->lang('MESSAGE_BB_' . strtoupper($mode) . '_DELETE') . adm_back_link($this->u_action));
 				}
 				else
 				{
-					confirm_box(false, $this->language->lang('CONFIRM_BB_ITEM_DELETE'), build_hidden_fields(array(
+					confirm_box(false, $this->language->lang('CONFIRM_BB_' . strtoupper($mode) . '_DELETE'), build_hidden_fields(array(
 						'i'			=> $id,
 						'mode'		=> $mode,
 						'id'		=> $item_id,
