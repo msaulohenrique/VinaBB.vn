@@ -110,8 +110,12 @@
 	<fieldset>
 		<legend>{{ lang('FOOTER_MANAGER_ROLE') }}</legend>
 		<dl>
-			<dt><label for="manager_name">{{ lang('MANAGER_NAME') ~ lang('COLON') }}</label></dt>
+			<dt><label for="manager_name">{{ lang('MANAGER_NAME') ~ ' (' ~ lang('ENGLISH') ~ ')' ~ lang('COLON') }}</label></dt>
 			<dd><input type="text" name="manager_name" id="manager_name" maxlength="255" value="{{ MANAGER_NAME }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="manager_name_vi">{{ lang('MANAGER_NAME') ~ ' (' ~ lang('VIETNAMESE') ~ ')' ~ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="manager_name_vi" id="manager_name_vi" maxlength="255" value="{{ MANAGER_NAME_VI }}"></dd>
 		</dl>
 		<dl>
 			<dt><label for="manager_username">{{ lang('MANAGER_USERNAME') ~ lang('COLON') }}</label></dt>

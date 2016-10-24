@@ -286,7 +286,7 @@ class listener implements EventSubscriberInterface
 			'FORUM_ID_ENGLISH_TUTORIAL'			=> $this->config['vinabb_web_forum_id_english_tutorial'],
 			'FORUM_ID_ENGLISH_DISCUSSION'		=> $this->config['vinabb_web_forum_id_english_discussion'],
 
-			'MANAGER_NAME'		=> $this->config['vinabb_web_manager_name'],
+			'MANAGER_NAME'		=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->config['vinabb_web_manager_name_vi'] : $this->config['vinabb_web_manager_name'],
 			'MANAGER_USERNAME'	=> $this->config['vinabb_web_manager_username'],
 
 			'MAP_API'			=> $this->config['vinabb_web_map_api'],

@@ -70,6 +70,7 @@ class settings_module
 			$forum_id_english_discussion = $this->request->variable('forum_id_english_discussion', 0);
 
 			$manager_name = $this->request->variable('manager_name', '', true);
+			$manager_name_vi = $this->request->variable('manager_name_vi', '', true);
 			$manager_username = $this->request->variable('manager_username', '', true);
 			$manager_user_id = $this->request->variable('manager_user_id', 0);
 
@@ -251,6 +252,7 @@ class settings_module
 				$this->config->set('vinabb_web_forum_id_english_discussion', $forum_id_english_discussion);
 
 				$this->config->set('vinabb_web_manager_name', $manager_name);
+				$this->config->set('vinabb_web_manager_name_vi', $manager_name_vi);
 				$this->config->set('vinabb_web_manager_username', $manager_username);
 				$this->config->set('vinabb_web_manager_user_id', $manager_user_id);
 
@@ -404,6 +406,7 @@ class settings_module
 			'FORUM_ENGLISH_DISCUSSION_OPTIONS'		=> $forum_english_discussion_options,
 
 			'MANAGER_NAME'		=> isset($manager_name) ? $manager_name : $this->config['vinabb_web_manager_name'],
+			'MANAGER_NAME_VI'	=> isset($manager_name_vi) ? $manager_name_vi : $this->config['vinabb_web_manager_name_vi'],
 			'MANAGER_USERNAME'	=> isset($manager_username) ? $manager_username : $this->config['vinabb_web_manager_username'],
 			'MANAGER_USER_ID'	=> isset($manager_user_id) ? $manager_user_id : $this->config['vinabb_web_manager_user_id'],
 

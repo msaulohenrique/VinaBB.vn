@@ -17,6 +17,7 @@ class web_settings_manager extends migration
 		return array(
 			// Footer
 			array('config.add', array('vinabb_web_manager_name', '')),
+			array('config.add', array('vinabb_web_manager_name_vi', '')),
 			array('config.add', array('vinabb_web_manager_username', '')),
 			array('config.add', array('vinabb_web_manager_user_id', 0)),
 		);
