@@ -25,12 +25,14 @@ if (empty($lang) || !is_array($lang))
 */
 
 $lang = array_merge($lang, array(
+	'ADD_ARTICLE'		=> 'Tạo bài viết mới',
 	'ADD_PORTAL_CAT'	=> 'Tạo danh mục mới',
 	'ARTICLE_DESC'		=> 'Giới thiệu',
 	'ARTICLE_DETAILS'	=> 'Dữ liệu bài viết',
 	'ARTICLE_NAME'		=> 'Tiêu đề',
 	'ARTICLE_TEXT'		=> 'Nội dung',
 
+	'CONFIRM_ARTICLE_DELETE'	=> 'Bạn chắc chắn muốn xóa bài viết này?',
 	'CONFIRM_PORTAL_CAT_DELETE'	=> 'Bạn chắc chắn muốn xóa danh mục này?',
 
 	'EDIT_PORTAL_CAT'						=> 'Sửa danh mục',

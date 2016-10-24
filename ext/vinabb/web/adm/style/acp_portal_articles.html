@@ -72,13 +72,13 @@
 	<form id="acp_portal_articles" method="post" action="{{ U_ACTION }}">
 		<p class="quick">
 			{{ S_HIDDEN_FIELDS }}
-			<input class="button2" name="add" type="submit" value="{{ lang('ADD_PORTAL_CAT') }}">
+			<input class="button2" name="add" type="submit" value="{{ lang('ADD_ARTICLE') }}">
 		</p>
 	</form>
 
 	{% if pagination %}
 	<div class="pagination">
-		<span style="float: {{ S_CONTENT_FLOW_BEGIN }};">&raquo; {{ lang('TOTAL_ARTICLES', TOTAL_ARTICLES) }}</span>
+		<span style="float: {{ S_CONTENT_FLOW_BEGIN }};">&raquo; {{ lang('COUNTER_ARTICLE', TOTAL_ARTICLES) }}</span>
 		{% include 'pagination.html' %}
 	</div>
 	{% endif %}
@@ -88,8 +88,8 @@
 		<tr>
 			<th>{{ lang('ARTICLE_NAME') }}</th>
 			<th>{{ lang('ARTICLE_NAME') ~ ' (' ~ lang('VIETNAMESE') ~ ')' }}</th>
-			<th>{{ lang('TOTAL_VIEWS') }}</th>
-			<th>{{ lang('TOTAL_COMMENTS') }}</th>
+			<th>{{ lang('VIEWS') }}</th>
+			<th>{{ lang('COMMENTS') }}</th>
 			<th>{{ lang('ACTION') }}</th>
 		</tr>
 		</thead>
@@ -115,7 +115,7 @@
 
 	{% if pagination %}
 	<div class="pagination">
-		<span style="float: {{ S_CONTENT_FLOW_BEGIN }};">&raquo; {{ lang('TOTAL_ARTICLES', TOTAL_ARTICLES) }}</span>
+		<span style="float: {{ S_CONTENT_FLOW_BEGIN }};">&raquo; {{ lang('COUNTER_ARTICLE', TOTAL_ARTICLES) }}</span>
 		{% include 'pagination.html' %}
 	</div>
 	{% endif %}

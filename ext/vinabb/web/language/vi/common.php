@@ -40,11 +40,48 @@ $lang = array_merge($lang, array(
 	'BBCODE_C_HELP'	=> 'Chèn mã: [code]đoạn mã[/code] hay `mã một dòng`',
 	'BOARD'			=> 'Diễn đàn',
 
-	'CATEGORY'		=> 'Danh mục',
-	'CLOSE'			=> 'Đóng',
-	'COMMUNITY'		=> 'Cộng đồng',
-	'COORDINATES'	=> 'Tọa độ',
-	'CURRENCY'		=> 'Tiền tệ',
+	'CATEGORY'			=> 'Danh mục',
+	'CLOSE'				=> 'Đóng',
+	'COMMENT'			=> 'Bình luận',
+	'COMMENTS'			=> 'Bình luận',
+	'COMMUNITY'			=> 'Cộng đồng',
+	'COORDINATES'		=> 'Tọa độ',
+	'COUNTER_ACP_STYLE'	=> array(
+		0	=> 'Không có giao diện nào',
+		1	=> '%d giao diện',
+		2	=> '%d giao diện',
+	),
+	'COUNTER_ARTICLE'	=> array(
+		0	=> 'Không có bài viết nào',
+		1	=> '%d bài viết',
+		2	=> '%d bài viết',
+	),
+	'COUNTER_CATEGORY'	=> array(
+		0	=> 'Không có danh mục nào',
+		1	=> '%d danh mục',
+		2	=> '%d danh mục',
+	),
+	'COUNTER_EXT'		=> array(
+		0	=> 'Không có gói mở rộng nào',
+		1	=> '%d gói mở rộng',
+		2	=> '%d gói mở rộng',
+	),
+	'COUNTER_LANG'		=> array(
+		0	=> 'Không có gói ngôn ngữ nào',
+		1	=> '%d gói ngôn ngữ',
+		2	=> '%d gói ngôn ngữ',
+	),
+	'COUNTER_STYLE'		=> array(
+		0	=> 'Không có giao diện nào',
+		1	=> '%d giao diện',
+		2	=> '%d giao diện',
+	),
+	'COUNTER_TOOL'		=> array(
+		0	=> 'Không có công cụ nào',
+		1	=> '%d công cụ',
+		2	=> '%d công cụ',
+	),
+	'CURRENCY'			=> 'Tiền tệ',
 
 	'DEBUG'				=> 'Dò lỗi',
 	'DEBUG_INFO'		=> 'Thông số đánh giá',

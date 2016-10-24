@@ -405,6 +405,7 @@ class bb_items_module
 			'ADD_ITEM_LANG'			=> $this->language->lang('ADD_BB_' . strtoupper($mode)),
 			'ITEM_NAME_LANG'		=> $this->language->lang(strtoupper($mode) . '_NAME'),
 			'ITEM_VERSION_LANG'		=> $this->language->lang(strtoupper($mode) . '_VERSION'),
+			'COUNTER_ITEM_LANG_KEY'	=> 'COUNTER_' . strtoupper($mode) . 'S',
 
 			'U_ACTION'	=> $this->u_action . "&action=$action&start=$start",
 
