@@ -7,9 +7,9 @@
 	<h1>{{ PAGE_TITLE }}</h1>
 	<p>{{ PAGE_TITLE_EXPLAIN }}</p>
 
-	<form id="acp_portal_articles_edit" method="post" action="{{ U_ACTION }}">
+	<form id="acp_bb_items_edit" method="post" action="{{ U_ACTION }}">
 		<fieldset>
-			<legend>{{ lang('_DETAILS') }}</legend>
+			<legend>{{ MODE }}</legend>
 			<dl>
 				<dt><label for="article_name">{{ lang('ARTICLE_NAME') ~ lang('COLON') }}</label></dt>
 				<dd><input type="text" name="article_name" id="article_name" value="{{ CAT_NAME }}" size="40" maxlength="255"></dd>
@@ -23,16 +23,46 @@
 				<dd><select name="article_lang" id="article_lang">{{ LANG_OPTIONS }}</select></dd>
 			</dl>
 		</fieldset>
+		{% if MODE == 'ext' %}
 		<fieldset>
-			<legend></legend>
+			<legend>{{ lang('ITEM_EXT_DETAILS') }}</legend>
 			<dl>
-				<dt><label for="item_ext_">{{ lang('ITEM_EXT_') ~ lang('COLON') }}</label></dt>
+				<dt><label for="item_ext_style">{{ lang('ITEM_EXT_STYLE') ~ lang('COLON') }}</label></dt>
 				<dd>
-					<label><input type="radio" class="radio" name="auto_toggle" value="1" id="auto_toggle"{% if AUTO_TOGGLE %} checked{% endif %}> {{ lang('YES') }}</label>
-					<label><input type="radio" class="radio" name="auto_toggle" value="0"{% if not AUTO_TOGGLE %} checked{% endif %}> {{ lang('NO') }}</label>
+					<label><input type="radio" class="radio" name="item_ext_style" id="item_ext_style" value="1"{% if ITEM_EXT_STYLE %} checked{% endif %}> {{ lang('YES') }}</label>
+					<label><input type="radio" class="radio" name="item_ext_style" value="0"{% if not ITEM_EXT_STYLE %} checked{% endif %}> {{ lang('NO') }}</label>
+				</dd>
+			</dl>
+			<dl>
+				<dt><label for="item_ext_acp_style">{{ lang('ITEM_EXT_ACP_STYLE') ~ lang('COLON') }}</label></dt>
+				<dd>
+					<label><input type="radio" class="radio" name="item_ext_acp_style" id="item_ext_acp_style" value="1"{% if ITEM_EXT_ACP_STYLE %} checked{% endif %}> {{ lang('YES') }}</label>
+					<label><input type="radio" class="radio" name="item_ext_acp_style" value="0"{% if not ITEM_EXT_ACP_STYLE %} checked{% endif %}> {{ lang('NO') }}</label>
+				</dd>
+			</dl>
+			<dl>
+				<dt><label for="item_ext_lang">{{ lang('ITEM_EXT_LANG') ~ lang('COLON') }}</label></dt>
+				<dd>
+					<label><input type="radio" class="radio" name="item_ext_lang" id="item_ext_lang" value="1"{% if ITEM_EXT_LANG %} checked{% endif %}> {{ lang('YES') }}</label>
+					<label><input type="radio" class="radio" name="item_ext_lang" value="0"{% if not ITEM_EXT_LANG %} checked{% endif %}> {{ lang('NO') }}</label>
+				</dd>
+			</dl>
+			<dl>
+				<dt><label for="item_ext_db_schema">{{ lang('ITEM_EXT_DB_SCHEMA') ~ lang('COLON') }}</label></dt>
+				<dd>
+					<label><input type="radio" class="radio" name="item_ext_db_schema" id="item_ext_db_schema" value="1"{% if ITEM_EXT_DB_SCHEMA %} checked{% endif %}> {{ lang('YES') }}</label>
+					<label><input type="radio" class="radio" name="item_ext_db_schema" value="0"{% if not ITEM_EXT_DB_SCHEMA %} checked{% endif %}> {{ lang('NO') }}</label>
+				</dd>
+			</dl>
+			<dl>
+				<dt><label for="item_ext_db_data">{{ lang('ITEM_EXT_DB_DATA') ~ lang('COLON') }}</label></dt>
+				<dd>
+					<label><input type="radio" class="radio" name="item_ext_db_data" id="item_ext_db_data" value="1"{% if ITEM_EXT_DB_DATA %} checked{% endif %}> {{ lang('YES') }}</label>
+					<label><input type="radio" class="radio" name="item_ext_db_data" value="0"{% if not ITEM_EXT_DB_DATA %} checked{% endif %}> {{ lang('NO') }}</label>
 				</dd>
 			</dl>
 		</fieldset>
+		{% endif %}
 		<fieldset>
 			<legend>{{ lang('ACP_SUBMIT_CHANGES') }}</legend>
 			<p class="submit-buttons">
@@ -49,7 +79,7 @@
 	<h1>{{ PAGE_TITLE }}</h1>
 	<p>{{ PAGE_TITLE_EXPLAIN }}</p>
 
-	<form id="acp_portal_articles" method="post" action="{{ U_ACTION }}">
+	<form id="acp_bb_items" method="post" action="{{ U_ACTION }}">
 		<p class="quick">
 			{{ S_HIDDEN_FIELDS }}
 			<input class="button2" name="add" type="submit" value="{{ lang('ADD_PORTAL_CAT') }}">

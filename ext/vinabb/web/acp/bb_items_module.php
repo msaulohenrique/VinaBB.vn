@@ -130,6 +130,8 @@ class bb_items_module
 
 					'CAT_OPTIONS'	=> $cat_options,
 
+					'MODE'	=> $mode,
+
 					'U_ACTION'	=> $this->u_action,
 					'U_BACK'	=> $this->u_action,
 
@@ -295,6 +297,7 @@ class bb_items_module
 
 		// Output
 		$this->template->assign_vars(array(
+			'MODE'			=> $mode,
 			'TOTAL_ITEMS'	=> $item_count,
 
 			'U_ACTION'	=> $this->u_action . "&action=$action&start=$start",
