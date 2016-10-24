@@ -25,6 +25,7 @@ class bb_items_module
 		$this->auth = $phpbb_container->get('auth');
 		$this->cache = $phpbb_container->get('cache');
 		$this->db = $phpbb_container->get('dbal.conn');
+		$this->ext_helper = $phpbb_container->get('vinabb.web.helper');
 		$this->language = $phpbb_container->get('language');
 		$this->log = $phpbb_container->get('log');
 		$this->pagination= $phpbb_container->get('pagination');
@@ -32,6 +33,8 @@ class bb_items_module
 		$this->template = $phpbb_container->get('template');
 		$this->user = $phpbb_container->get('user');
 
+		$this->bb_type = $this->ext_helper->get_bb_type_constants($mode);
+		$this->lang_data = ($mode == 'lang') ? $this->cache->get_lang_data() : array();
 		$this->table_prefix = $phpbb_container->getParameter('core.table_prefix');
 		$this->bb_categories_table = $this->table_prefix . constants::BB_CATEGORIES_TABLE;
 		$this->bb_items_table = $this->table_prefix . constants::BB_ITEMS_TABLE;
@@ -112,6 +115,48 @@ class bb_items_module
 					$cat_options .= '<option value="' . $row['cat_id'] . '"' . (($cat_id == $row['cat_id']) ? ' selected' : '' ) . '>' . $row['cat_name'] . ' (' . $row['cat_name_vi'] . ')</option>';
 				}
 
+				// Select a language
+				if ($mode == 'lang')
+				{
+					$sql = 'SELECT *
+						FROM ' . LANG_TABLE . '
+						ORDER BY lang_english_name';
+					$result = $this->db->sql_query($sql);
+					$rows = $this->db->sql_fetchrowset($result);
+					$this->db->sql_freeresult($result);
+
+					$item_lang_iso = isset($item_data['item_lang_iso']) ? $item_data['item_lang_iso'] : constants::LANG_VIETNAMESE;
+					$lang_options = '<option value=""' . (($item_lang_iso == '') ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_LANGUAGE') . '</option>';
+
+					foreach ($rows as $row)
+					{
+						$lang_options .= '<option value="' . $row['lang_iso'] . '"' . (($item_lang_iso == $row['lang_iso']) ? ' selected' : '' ) . '>' . $row['lang_english_name'] . ' (' . $row['lang_local_name'] . ')</option>';
+					}
+				}
+
+				// Select an OS
+				if ($mode == 'tool')
+				{
+					$os_list = array(
+						constants::OS_ALL		=> $this->language->lang(['OS_LIST', 'ALL']),
+						constants::OS_WIN		=> $this->language->lang(['OS_LIST', 'WIN']),
+						constants::OS_MAC		=> $this->language->lang(['OS_LIST', 'MAC']),
+						constants::OS_LINUX		=> $this->language->lang(['OS_LIST', 'LINUX']),
+						constants::OS_BSD		=> $this->language->lang(['OS_LIST', 'BSD']),
+						constants::OS_ANDROID	=> $this->language->lang(['OS_LIST', 'ANDROID']),
+						constants::OS_IOS		=> $this->language->lang(['OS_LIST', 'IOS']),
+						constants::OS_WP		=> $this->language->lang(['OS_LIST', 'WP']),
+					);
+
+					$item_tool_os = isset($item_data['item_tool_os']) ? $item_data['item_tool_os'] : constants::OS_ALL;
+					$os_options = '<option value=""' . (($item_tool_os == '') ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_OS') . '</option>';
+
+					foreach ($os_list as $os_value => $os_name)
+					{
+						$os_options .= '<option value="' . $os_value . '"' . (($item_tool_os == $os_value) ? ' selected' : '' ) . '>' . $os_name . '</option>';
+					}
+				}
+
 				$this->template->assign_vars(array(
 					'ITEM_NAME'					=> isset($item_data['item_name']) ? $item_data['item_name'] : '',
 					'ITEM_NAME_VI'				=> isset($item_data['item_name_vi']) ? $item_data['item_name_vi'] : '',
@@ -134,6 +179,8 @@ class bb_items_module
 					'ITEM_GITHUB'				=> isset($item_data['item_github']) ? $item_data['item_github'] : '',
 
 					'CAT_OPTIONS'	=> $cat_options,
+					'LANG_OPTIONS'	=> ($mode == 'lang') ? $lang_options : '',
+					'OS_OPTIONS'	=> ($mode == 'tool') ? $os_options : '',
 
 					'MODE'	=> $mode,
 
@@ -170,6 +217,8 @@ class bb_items_module
 				$item_style_source = $this->request->variable('item_style_source', false);
 				$item_style_responsive = $this->request->variable('item_style_responsive', false);
 				$item_style_bootstrap = $this->request->variable('item_style_bootstrap', false);
+				$item_lang_iso = $this->request->variable('item_lang_iso', constants::LANG_VIETNAMESE);
+				$item_tool_os = $this->request->variable('item_tool_os', constants::OS_ALL);
 				$item_price = $this->request->variable('item_price', 0);
 				$item_url = $this->request->variable('item_url', '');
 				$item_github = $this->request->variable('item_github', '');
@@ -222,6 +271,8 @@ class bb_items_module
 					'item_style_source'			=> $item_style_source,
 					'item_style_responsive'		=> $item_style_responsive,
 					'item_style_bootstrap'		=> $item_style_bootstrap,
+					'item_lang_iso'				=> $item_lang_iso,
+					'item_tool_os'				=> $item_tool_os,
 					'item_price'				=> $item_price,
 					'item_url'					=> $item_url,
 					'item_github'				=> $item_github,
@@ -304,6 +355,8 @@ class bb_items_module
 				'STYLE_SOURCE'		=> $row['item_style_source'],
 				'STYLE_RESPONSIVE'	=> $row['item_style_responsive'],
 				'STYLE_BOOTSTRAP'	=> $row['item_style_bootstrap'],
+				'LANG_ISO'			=> ($mode == 'lang' && isset($this->lang_data[$row['item_lang_iso']])) ? $this->lang_data[$row['item_lang_iso']] : '',
+				'TOOL_OS'			=> ($mode == 'tool') ? $this->ext_helper->get_os_name($row['item_tool_os']) : '',
 				'PRICE'				=> $row['item_price'],
 				'URL'				=> $row['item_url'],
 				'GITHUB'			=> $row['item_github'],
@@ -317,8 +370,12 @@ class bb_items_module
 
 		// Output
 		$this->template->assign_vars(array(
-			'MODE'			=> $mode,
-			'TOTAL_ITEMS'	=> $item_count,
+			'MODE'					=> $mode,
+			'TOTAL_ITEMS'			=> $item_count,
+			'PAGE_TITLE_EXPLAIN'	=> $this->language->lang('ACP_BB_' . strtoupper($mode) . 'S_EXPLAIN'),
+			'ADD_ITEM_LANG'			=> $this->language->lang('ADD_BB_' . strtoupper($mode)),
+			'ITEM_NAME_LANG'		=> $this->language->lang(strtoupper($mode) . '_NAME'),
+			'ITEM_VERSION_LANG'		=> $this->language->lang(strtoupper($mode) . '_VERSION'),
 
 			'U_ACTION'	=> $this->u_action . "&action=$action&start=$start",
 

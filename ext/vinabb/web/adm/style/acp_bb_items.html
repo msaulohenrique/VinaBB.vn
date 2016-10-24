@@ -11,16 +11,16 @@
 		<fieldset>
 			<legend>{{ MODE }}</legend>
 			<dl>
-				<dt><label for="article_name">{{ lang('ARTICLE_NAME') ~ lang('COLON') }}</label></dt>
-				<dd><input type="text" name="article_name" id="article_name" value="{{ CAT_NAME }}" size="40" maxlength="255"></dd>
+				<dt><label for="item_name">{{ ITEM_NAME_LANG ~ ' (' ~ lang('ENGLISH') ~ ')' ~ lang('COLON') }}</label></dt>
+				<dd><input type="text" name="item_name" id="item_name" value="{{ ITEM_NAME }}" size="40" maxlength="255"></dd>
+			</dl>
+			<dl>
+				<dt><label for="item_name_vi">{{ ITEM_NAME_LANG ~ ' (' ~ lang('VIETNAMESE') ~ ')' ~ lang('COLON') }}</label></dt>
+				<dd><input type="text" name="item_name_vi" id="item_name_vi" value="{{ ITEM_NAME_VI }}" size="40" maxlength="255"></dd>
 			</dl>
 			<dl>
 				<dt><label for="cat_id">{{ lang('CATEGORY') ~ lang('COLON') }}</label></dt>
 				<dd><select name="cat_id" id="cat_id">{{ CAT_OPTIONS }}</select></dd>
-			</dl>
-			<dl>
-				<dt><label for="article_lang">{{ lang('LANGUAGE') ~ lang('COLON') }}</label></dt>
-				<dd><select name="article_lang" id="article_lang">{{ LANG_OPTIONS }}</select></dd>
 			</dl>
 		</fieldset>
 		{% if MODE == 'ext' %}
@@ -100,6 +100,24 @@
 			</dl>
 		</fieldset>
 		{% endif %}
+		{% if MODE == 'lang' %}
+		<fieldset>
+			<legend>{{ lang('ITEM_LANG_DETAILS') }}</legend>
+			<dl>
+				<dt><label for="item_lang_iso">{{ lang('LANGUAGE') ~ lang('COLON') }}</label></dt>
+				<dd><select name="item_lang_iso" id="item_lang_iso">{{ LANG_OPTIONS }}</select></dd>
+			</dl>
+		</fieldset>
+		{% endif %}
+		{% if MODE == 'tool' %}
+		<fieldset>
+			<legend>{{ lang('ITEM_TOOL_DETAILS') }}</legend>
+			<dl>
+				<dt><label for="item_tool_os">{{ lang('OS') ~ lang('COLON') }}</label></dt>
+				<dd><select name="item_tool_os" id="item_tool_os">{{ OS_OPTIONS }}</select></dd>
+			</dl>
+		</fieldset>
+		{% endif %}
 		<fieldset>
 			<legend>{{ lang('ACP_SUBMIT_CHANGES') }}</legend>
 			<p class="submit-buttons">
@@ -119,7 +137,7 @@
 	<form id="acp_bb_items" method="post" action="{{ U_ACTION }}">
 		<p class="quick">
 			{{ S_HIDDEN_FIELDS }}
-			<input class="button2" name="add" type="submit" value="{{ lang('ADD_PORTAL_CAT') }}">
+			<input class="button2" name="add" type="submit" value="{{ ADD_ITEM_LANG }}">
 		</p>
 	</form>
 
@@ -133,23 +151,23 @@
 	<table class="table1 zebra-table">
 		<thead>
 		<tr>
-			<th>{{ lang('ARTICLE_NAME') }}</th>
-			<th>{{ lang('ARTICLE_NAME') ~ ' (' ~ lang('VIETNAMESE') ~ ')' }}</th>
-			<th>{{ lang('TOTAL_VIEWS') }}</th>
-			<th>{{ lang('TOTAL_COMMENTS') }}</th>
+			<th>{{ ITEM_NAME_LANG }}</th>
+			<th>{{ ITEM_NAME_LANG ~ ' (' ~ lang('VIETNAMESE') ~ ')' }}</th>
+			<th>{{ lang('VERSION') }}</th>
+			<th>{{ lang('PHPBB_VERSION') }}</th>
 			<th>{{ lang('ACTION') }}</th>
 		</tr>
 		</thead>
 		<tbody>
 		{% for item in items %}
 		<tr>
-			<td style="text-align: center;">{{ article.NAME }}</td>
-			<td style="text-align: center;">{{ article.NAME_VI }}</td>
-			<td style="text-align: center;">{{ article.VIEWS }}</td>
-			<td style="text-align: center;">{{ article.COMMENTS }}</td>
+			<td style="text-align: center;">{{ item.NAME }}</td>
+			<td style="text-align: center;">{{ item.NAME_VI }}</td>
+			<td style="text-align: center;">{{ item.VERSION }}</td>
+			<td style="text-align: center;">{{ item.PHPBB_VERSION }}</td>
 			<td class="actions">
-				<a href="{{ article.U_EDIT }}">{{ ICON_EDIT }}</a>
-				<a href="{{ article.U_DELETE }}" data-ajax="row_delete">{{ ICON_DELETE }}</a>
+				<a href="{{ item.U_EDIT }}">{{ ICON_EDIT }}</a>
+				<a href="{{ item.U_DELETE }}" data-ajax="row_delete">{{ ICON_DELETE }}</a>
 			</td>
 		</tr>
 		{% else %}
