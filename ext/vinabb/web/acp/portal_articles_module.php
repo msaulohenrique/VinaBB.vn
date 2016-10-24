@@ -138,6 +138,8 @@ class portal_articles_module
 					'CAT_OPTIONS'	=> $cat_options,
 					'LANG_OPTIONS'	=> $lang_options,
 
+					'ACTION'	=> $action,
+
 					'U_ACTION'	=> $this->u_action,
 					'U_BACK'	=> $this->u_action,
 
@@ -159,6 +161,7 @@ class portal_articles_module
 				$article_lang = $this->request->variable('article_lang', '');
 				$article_desc = $this->request->variable('article_desc', '', true);
 				$article_text = $this->request->variable('article_text', '', true);
+				$revision = $this->request->variable('revision', false);
 
 				if (!$cat_id)
 				{
@@ -201,6 +204,13 @@ class portal_articles_module
 					'article_text_bitfield'	=> '',
 					'article_text_options'	=> 7,
 				);
+
+				if (!$article_id || ($article_id && $revision))
+				{
+					$sql_ary = array_merge($sql_ary, array(
+						'article_time'	=> time()
+					));
+				}
 
 				// Prepare article text for storage
 				if ($sql_ary['article_text'])

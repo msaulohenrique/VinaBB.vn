@@ -30,6 +30,7 @@ $lang = array_merge($lang, array(
 	'ARTICLE_DESC'		=> 'Description',
 	'ARTICLE_DETAILS'	=> 'Article data',
 	'ARTICLE_NAME'		=> 'Article name',
+	'ARTICLE_REVISION'	=> 'Reset article time',
 	'ARTICLE_TEXT'		=> 'Article text',
 
 	'CONFIRM_ARTICLE_DELETE'	=> 'Are you sure you want to delete this article?',

@@ -30,6 +30,7 @@ $lang = array_merge($lang, array(
 	'ARTICLE_DESC'		=> 'Giới thiệu',
 	'ARTICLE_DETAILS'	=> 'Dữ liệu bài viết',
 	'ARTICLE_NAME'		=> 'Tiêu đề',
+	'ARTICLE_REVISION'	=> 'Tạo mới ngày gửi',
 	'ARTICLE_TEXT'		=> 'Nội dung',
 
 	'CONFIRM_ARTICLE_DELETE'	=> 'Bạn chắc chắn muốn xóa bài viết này?',

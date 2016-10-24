@@ -30,6 +30,12 @@
 				<dt><label for="article_lang">{{ lang('LANGUAGE') ~ lang('COLON') }}</label></dt>
 				<dd><select name="article_lang" id="article_lang">{{ LANG_OPTIONS }}</select></dd>
 			</dl>
+			{% if ACTION == 'edit' %}
+			<dl>
+				<dt><label for="revision">{{ lang('ARTICLE_REVISION') ~ lang('COLON') }}</label></dt>
+				<dd><input type="checkbox" name="revision" id="revision" value="1"></dd>
+			</dl>
+			{% endif %}
 		</fieldset>
 		{% if ARTICLE_TEXT_PREVIEW %}
 		<fieldset>
