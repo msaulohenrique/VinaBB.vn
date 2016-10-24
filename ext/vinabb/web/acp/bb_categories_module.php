@@ -33,13 +33,13 @@ class bb_categories_module
 		$this->template = $phpbb_container->get('template');
 		$this->user = $phpbb_container->get('user');
 
+		$this->bb_type = $this->ext_helper->get_bb_type_constants($mode);
 		$this->table_prefix = $phpbb_container->getParameter('core.table_prefix');
 		$this->bb_categories_table = $this->table_prefix . constants::BB_CATEGORIES_TABLE;
 		$this->bb_items_table = $this->table_prefix . constants::BB_ITEMS_TABLE;
 
 		$this->tpl_name = 'acp_bb_categories';
 		$this->page_title = $this->language->lang('ACP_BB_' . strtoupper($mode) . '_CATS');
-		$this->bb_type = $this->ext_helper->get_bb_type_constants($mode);
 		$this->language->add_lang('acp_bb', 'vinabb/web');
 
 		$action = $this->request->variable('action', '');
@@ -295,7 +295,7 @@ class bb_categories_module
 		// Output
 		$this->template->assign_vars(array(
 			'TOTAL_CATS'			=> $cat_count,
-			'PAGE_TITLE_EXPLAIN'	=> $this->language->lang('ACP_BB_' . strtoupper($mode) . 'S_EXPLAIN'),
+			'PAGE_TITLE_EXPLAIN'	=> $this->language->lang('ACP_BB_' . strtoupper($mode) . '_CATS_EXPLAIN'),
 			'TOTAL_ITEMS_LANG'		=> $this->language->lang('TOTAL_' . strtoupper($mode) . 'S'),
 
 			'U_ACTION'	=> $this->u_action . "&action=$action&start=$start",
