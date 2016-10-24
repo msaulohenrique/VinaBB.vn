@@ -34,7 +34,7 @@ class bb_items_module
 		$this->user = $phpbb_container->get('user');
 
 		$this->bb_type = $this->ext_helper->get_bb_type_constants($mode);
-		$this->cat_data = $this->cache->get_bb_cats();
+		$this->cat_data = $this->cache->get_bb_cats($this->bb_type);
 		$this->lang_data = ($mode == 'lang') ? $this->cache->get_lang_data() : array();
 		$this->table_prefix = $phpbb_container->getParameter('core.table_prefix');
 		$this->bb_categories_table = $this->table_prefix . constants::BB_CATEGORIES_TABLE;
