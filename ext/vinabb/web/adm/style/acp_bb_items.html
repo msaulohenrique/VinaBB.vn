@@ -23,8 +23,24 @@
 				<dd><select name="cat_id" id="cat_id">{{ CAT_OPTIONS }}</select></dd>
 			</dl>
 			<dl>
+				<dt><label for="item_version">{{ lang('VERSION') ~ lang('COLON') }}</label></dt>
+				<dd><input type="text" name="item_version" id="item_version" value="{{ ITEM_VERSION }}" maxlength="255"></dd>
+			</dl>
+			<dl>
 				<dt><label for="item_phpbb_version">{{ lang('PHPBB_VERSION') ~ lang('COLON') }}</label></dt>
 				<dd><select name="item_phpbb_version" id="item_phpbb_version">{{ PHPBB_VERSION_OPTIONS }}</select></dd>
+			</dl>
+			<dl>
+				<dt><label for="item_price">{{ lang('PRICE') ~ lang('COLON') }}</label></dt>
+				<dd><input type="number" name="item_price" id="item_price" min="0" value="{{ ITEM_PRICE }}" maxlength="255"></dd>
+			</dl>
+			<dl>
+				<dt><label for="item_url">{{ lang('ORIGINAL_URL') ~ lang('COLON') }}</label></dt>
+				<dd><input type="url" name="item_url" id="item_url" value="{{ ITEM_URL }}" size="40" maxlength="255"></dd>
+			</dl>
+			<dl>
+				<dt><label for="item_github">{{ lang('GITHUB') ~ lang('COLON') }}</label></dt>
+				<dd><input type="url" name="item_github" id="item_github" value="{{ ITEM_GITHUB }}" size="40" maxlength="255"></dd>
 			</dl>
 		</fieldset>
 		{% if MODE == 'ext' %}

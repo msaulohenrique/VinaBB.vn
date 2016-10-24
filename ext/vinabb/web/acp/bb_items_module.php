@@ -255,7 +255,7 @@ class bb_items_module
 
 				if (in_array($mode, array('ext', 'style', 'acp_style')) && empty($item_varname))
 				{
-					$errors[] = $this->language->lang('ERROR_BB_ITEM_VARNAME_EMPTY');
+					$errors[] = $this->language->lang('ERROR_BB_' . strtoupper($mode) . '_VARNAME_EMPTY');
 				}
 				else
 				{
@@ -272,8 +272,23 @@ class bb_items_module
 
 					if (sizeof($rows))
 					{
-						$errors[] = $this->language->lang('ERROR_BB_ITEM_VARNAME_DUPLICATE', $item_varname);
+						$errors[] = $this->language->lang('ERROR_BB_' . strtoupper($mode) . '_VARNAME_DUPLICATE', $item_varname);
 					}
+				}
+
+				if (preg_match('#^\d+(\.\d){1,3}(\-(((?:a|b|RC|pl)\d+)|dev))?$#', $item_version))
+				{
+					$errors[] = $this->language->lang('ERROR_BB_' . strtoupper($mode) . '_VERSION_INVALID');
+				}
+
+				if (empty($item_phpbb_version))
+				{
+					$errors[] = $this->language->lang('ERROR_BB_ITEM_PHPBB_VERSION_SELECT');
+				}
+
+				if (empty($item_desc) || empty($item_desc_vi))
+				{
+					$errors[] = $this->language->lang('ERROR_BB_ITEM_DESC_EMPTY');
 				}
 
 				if (sizeof($errors))
@@ -387,8 +402,8 @@ class bb_items_module
 				'LANG_ISO'			=> ($mode == 'lang' && isset($this->lang_data[$row['item_lang_iso']])) ? $this->lang_data[$row['item_lang_iso']] : '',
 				'TOOL_OS'			=> ($mode == 'tool') ? $this->ext_helper->get_os_name($row['item_tool_os']) : '',
 				'PRICE'				=> $row['item_price'],
-				'URL'				=> $row['item_url'],
-				'GITHUB'			=> $row['item_github'],
+				'URL'				=> htmlspecialchars_decode($row['item_url']),
+				'GITHUB'			=> htmlspecialchars_decode($row['item_github']),
 
 				'U_EDIT'	=> $this->u_action . '&action=edit&id=' . $row['item_id'],
 				'U_DELETE'	=> $this->u_action . '&action=delete&id=' . $row['item_id'],
