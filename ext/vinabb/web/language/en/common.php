@@ -247,8 +247,9 @@ $lang = array_merge($lang, array(
 	'NEWS'		=> 'News',
 	'NO_POST'	=> 'The post does not exist.',
 
-	'OS'		=> 'OS',
-	'OS_LIST'	=> array(
+	'ORIGINAL_URL'	=> 'Original URL',
+	'OS'			=> 'OS',
+	'OS_LIST'		=> array(
 		'ALL'		=> 'Cross-platform',
 		'ANDROID'	=> 'Android',
 		'BSD'		=> 'BSD',
@@ -270,6 +271,7 @@ $lang = array_merge($lang, array(
 	'PHPBB_VERSION'				=> 'phpBB version',
 	'PHPBB_VERSION_X'			=> 'phpBB %s',
 	'POWERED_BY'				=> 'Powered by <a href="https://www.phpbb.com/" data-toggle="tooltip" title="Forum software &copy; phpBB Limited">phpBB</a> with <i class="fa fa-heart animate-pulse text-danger"></i>',
+	'PRICE'						=> 'Price',
 
 	'RANK_TITLES'	=> array(
 		'ADMINISTRATOR'		=> 'Administrator',

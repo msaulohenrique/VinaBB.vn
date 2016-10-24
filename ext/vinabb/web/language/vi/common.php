@@ -247,8 +247,9 @@ $lang = array_merge($lang, array(
 	'NEWS'		=> 'Tin tức',
 	'NO_POST'	=> 'Bài viết không tồn tại.',
 
-	'OS'		=> 'Hệ điều hành',
-	'OS_LIST'	=> array(
+	'ORIGINAL_URL'	=> 'Liên kết gốc',
+	'OS'			=> 'Hệ điều hành',
+	'OS_LIST'		=> array(
 		'ALL'		=> 'Đa nền tảng',
 		'ANDROID'	=> 'Android',
 		'BSD'		=> 'BSD',
@@ -270,6 +271,7 @@ $lang = array_merge($lang, array(
 	'PHPBB_VERSION'				=> 'Phiên bản phpBB',
 	'PHPBB_VERSION_X'			=> 'phpBB %s',
 	'POWERED_BY'				=> 'Sử dụng phần mềm <a href="https://www.phpbb.com/" data-toggle="tooltip" title="&copy; phpBB Limited">phpBB</a> <i class="fa fa-heart animate-pulse text-danger"></i>',
+	'PRICE'						=> 'Giá',
 
 	'RANK_TITLES'	=> array(
 		'ADMINISTRATOR'		=> 'Quản trị viên',
