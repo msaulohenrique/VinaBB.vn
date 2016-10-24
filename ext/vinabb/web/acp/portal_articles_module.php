@@ -102,7 +102,7 @@ class portal_articles_module
 				$rows = $this->db->sql_fetchrowset($result);
 				$this->db->sql_freeresult($result);
 
-				$article_lang = (isset($article_data['article_lang']) && !empty($article_data['article_lang'])) ? $article_data['article_lang'] : '';
+				$article_lang = isset($article_data['article_lang']) ? $article_data['article_lang'] : '';
 				$lang_options = '<option value=""' . (($article_lang == '') ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_LANGUAGE') . '</option>';
 
 				foreach ($rows as $row)
