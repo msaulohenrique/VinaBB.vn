@@ -31,6 +31,7 @@ class portal_articles_module
 		$this->template = $phpbb_container->get('template');
 		$this->user = $phpbb_container->get('user');
 
+		$this->cat_data = $this->cache->get_portal_cats();
 		$this->table_prefix = $phpbb_container->getParameter('core.table_prefix');
 		$this->portal_categories_table = $this->table_prefix . constants::PORTAL_CATEGORIES_TABLE;
 		$this->portal_articles_table = $this->table_prefix . constants::PORTAL_ARTICLES_TABLE;
@@ -115,7 +116,7 @@ class portal_articles_module
 				if (!isset($article_data['article_text']))
 				{
 					$article_data['article_text'] = $article_data['article_text_uid'] = $article_data['article_text_bitfield'] = $article_text_preview = '';
-					$article_data['article_text_options'] = 0;
+					$article_data['article_text_options'] = 7;
 				}
 				else
 				{
@@ -284,7 +285,10 @@ class portal_articles_module
 		foreach ($articles as $row)
 		{
 			$this->template->assign_block_vars('articles', array(
+				'CATEGORY'	=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->cat_data[$row['cat_id']]['name_vi'] : $this->cat_data[$row['cat_id']]['name'],
 				'NAME'		=> $row['article_name'],
+				'DESC'		=> $row['article_desc'],
+				'TEXT'		=> generate_text_for_display($row['article_text'], $row['article_text_uid'], $row['article_text_bitfield'], $row['article_text_options']),
 
 				'U_EDIT'	=> $this->u_action . '&action=edit&id=' . $row['article_id'],
 				'U_DELETE'	=> $this->u_action . '&action=delete&id=' . $row['article_id'],
