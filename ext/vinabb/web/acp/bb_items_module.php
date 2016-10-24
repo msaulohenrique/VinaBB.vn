@@ -103,6 +103,7 @@ class bb_items_module
 				// Select a category
 				$sql = 'SELECT *
 					FROM ' . $this->bb_categories_table . '
+					WHERE bb_type = ' . $this->bb_type . '
 					ORDER BY cat_name';
 				$result = $this->db->sql_query($sql);
 				$rows = $this->db->sql_fetchrowset($result);
