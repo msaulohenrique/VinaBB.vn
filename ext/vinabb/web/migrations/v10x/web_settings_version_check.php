@@ -34,6 +34,7 @@ class web_settings_version_check extends migration
 			array('config.add', array('vinabb_web_check_php_legacy_branch', '')),
 			array('config.add', array('vinabb_web_check_php_legacy_version', '')),
 			array('config.add', array('vinabb_web_check_php_legacy_version_url', '')),
+			array('config.add', array('vinabb_web_check_vinabb_version', '')),
 			array('config.add', array('vinabb_web_check_ivn_version', '')),
 			array('config.add', array('vinabb_web_check_ivn_legacy_version', '')),
 			array('config.add', array('vinabb_web_check_ivn_dev_version', '')),

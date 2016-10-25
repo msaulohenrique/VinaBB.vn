@@ -234,6 +234,8 @@ $lang = array_merge($lang, array(
 	'LATEST_VERSION'			=> 'Phiên bản mới nhất',
 	'LATEST_VERSIONS'			=> 'Phiên bản mới nhất',
 	'LATEST_VERSIONS_INFO'		=> 'Thông tin phiên bản mới nhất',
+	'LATEST_VINABB'				=> 'Phiên bản VinaBB',
+	'LATEST_VINABB_TITLE'		=> 'Tải mã nguồn VinaBB.vn',
 	'LATITUDE'					=> 'Vĩ độ',
 	'LONGITUDE'					=> 'Kinh độ',
 
@@ -309,11 +311,13 @@ $lang = array_merge($lang, array(
 	'UNKNOWN'	=> 'Không biết',
 	'USER_ID'	=> 'ID tài khoản',
 
-	'VERSION'		=> 'Phiên bản',
-	'VIETNAMESE'	=> 'Tiếng Việt',
-	'VIEW_DETAILS'	=> 'Xem chi tiết',
-	'VINABB'		=> 'VinaBB',
-	'VINABB_VN'		=> 'VinaBB.vn',
+	'VERSION'			=> 'Phiên bản',
+	'VIETNAMESE'		=> 'Tiếng Việt',
+	'VIEW_DETAILS'		=> 'Xem chi tiết',
+	'VINABB'			=> 'VinaBB',
+	'VINABB_VERSION'	=> 'Phiên bản VinaBB',
+	'VINABB_VERSION_X'	=> 'VinaBB %s',
+	'VINABB_VN'			=> 'VinaBB.vn',
 
 	'WEBSITE_FUND'	=> 'Kinh phí hoạt động',
 ));

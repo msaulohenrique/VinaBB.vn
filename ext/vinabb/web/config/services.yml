@@ -223,6 +223,7 @@ services:
             - '@content.visibility'
             - '@dbal.conn'
             - '@dispatcher'
+            - '@ext.manager'
             - '@file_downloader'
             - '@language'
             - '@request'
@@ -230,6 +231,7 @@ services:
             - '@user'
             - '@controller.helper'
             - '@group_helper'
+            - '@path_helper'
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.listener:

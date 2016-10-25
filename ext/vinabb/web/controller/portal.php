@@ -30,6 +30,9 @@ class portal
 	/** @var \phpbb\event\dispatcher_interface */
 	protected $dispatcher;
 
+	/** @var \phpbb\extension\manager */
+	protected $ext_manager;
+
 	/** @var \phpbb\file_downloader */
 	protected $file_downloader;
 
@@ -51,6 +54,9 @@ class portal
 	/** @var \phpbb\group\helper */
 	protected $group_helper;
 
+	/** @var \phpbb\path_helper */
+	protected $path_helper;
+
 	/** @var string */
 	protected $root_path;
 
@@ -66,6 +72,7 @@ class portal
 	* @param \phpbb\content_visibility $content_visibility
 	* @param \phpbb\db\driver\driver_interface $db
 	* @param \phpbb\event\dispatcher_interface $dispatcher
+	* @param \phpbb\extension\manager $ext_manager
 	* @param \phpbb\file_downloader $file_downloader
 	* @param \phpbb\language\language $language
 	* @param \phpbb\request\request $request
@@ -73,6 +80,7 @@ class portal
 	* @param \phpbb\user $user
 	* @param \phpbb\controller\helper $helper
 	* @param \phpbb\group\helper $group_helper
+	* @param \phpbb\path_helper $path_helper
 	* @param string $root_path
 	* @param string $php_ext
 	*/
@@ -83,6 +91,7 @@ class portal
 		\phpbb\content_visibility $content_visibility,
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\event\dispatcher_interface $dispatcher,
+		\phpbb\extension\manager $ext_manager,
 		\phpbb\file_downloader $file_downloader,
 		\phpbb\language\language $language,
 		\phpbb\request\request $request,
@@ -90,6 +99,7 @@ class portal
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
 		\phpbb\group\helper $group_helper,
+		\phpbb\path_helper $path_helper,
 		$root_path,
 		$php_ext
 	)
@@ -100,6 +110,7 @@ class portal
 		$this->content_visibility = $content_visibility;
 		$this->db = $db;
 		$this->dispatcher = $dispatcher;
+		$this->ext_manager = $ext_manager;
 		$this->file_downloader = $file_downloader;
 		$this->language = $language;
 		$this->request = $request;
@@ -107,9 +118,12 @@ class portal
 		$this->user = $user;
 		$this->helper = $helper;
 		$this->group_helper = $group_helper;
+		$this->path_helper = $path_helper;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 
+		$this->ext_root_path = $this->ext_manager->get_extension_path('vinabb/web', true);
+		$this->ext_web_path = $this->path_helper->update_web_root_path($this->ext_root_path);
 		$this->forum_data = $this->cache->get_forum_data();
 		$this->portal_cats = $this->cache->get_portal_cats();
 	}
@@ -205,6 +219,21 @@ class portal
 						$this->config->set('vinabb_web_check_php_legacy_version', $latest_php_legacy_version);
 						$this->config->set('vinabb_web_check_php_legacy_version_url', $latest_php_legacy_version_url);
 					}
+				}
+			}
+
+			// Get latest VinaBB version
+			$raw = file_get_contents("{$this->ext_root_path}composer.json");
+
+			// Parse JSON
+			if (!empty($raw))
+			{
+				$vinabb_data = json_decode($raw, true);
+				$vinabb_version = isset($vinabb_data['version']) ? $vinabb_data['version'] : '';
+
+				if (!empty($vinabb_version) && version_compare($vinabb_version, $this->config['vinabb_web_check_vinabb_version'], '>'))
+				{
+					$this->config->set('vinabb_web_check_vinabb_version', $vinabb_version);
 				}
 			}
 
@@ -446,6 +475,10 @@ class portal
 			'LATEST_PHP_VERSION_URL'			=> htmlspecialchars_decode($this->config['vinabb_web_check_php_version_url']),
 			'LATEST_PHP_LEGACY_VERSION'			=> $this->config['vinabb_web_check_php_legacy_version'],
 			'LATEST_PHP_LEGACY_VERSION_URL'		=> htmlspecialchars_decode($this->config['vinabb_web_check_php_legacy_version_url']),
+			'LATEST_VINABB_VERSION'				=> $this->config['vinabb_web_check_vinabb_version'],
+			'LATEST_VINABB_VERSION_URL'			=> constants::VINABB_GITHUB_URL,
+			'LATEST_VINABB_TRAVIS_URL'			=> constants::VINABB_TRAVIS_URL,
+			'LATEST_VINABB_TRAVIS_IMG_URL'		=> constants::VINABB_TRAVIS_IMG_URL,
 
 			'FORUM_VIETNAMESE'	=> ($this->config['vinabb_web_forum_id_vietnamese']) ? $this->forum_data[$this->config['vinabb_web_forum_id_vietnamese']]['name'] : '',
 			'FORUM_ENGLISH'		=> ($this->config['vinabb_web_forum_id_english']) ? $this->forum_data[$this->config['vinabb_web_forum_id_english']]['name'] : '',

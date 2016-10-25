@@ -10,6 +10,11 @@ namespace vinabb\web\includes;
 
 class constants
 {
+	// GitHub home
+	const VINABB_GITHUB_URL = 'https://github.com/VinaBB/VinaBB.vn';
+	const VINABB_TRAVIS_URL = 'https://travis-ci.org/VinaBB/VinaBB.vn';
+	const VINABB_TRAVIS_IMG_URL = 'https://travis-ci.org/VinaBB/VinaBB.vn.svg?branch=master';
+
 	// Languages
 	const LANG_VIETNAMESE = 'vi';
 	const LANG_ENGLISH = 'en';

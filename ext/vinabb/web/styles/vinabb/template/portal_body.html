@@ -119,13 +119,13 @@
 	</div>
 	<div class="col-lg-3 col-md-6 col-sm-6">
 		<div class="widget bg-danger padding-0">
-			<div class="row row-table" role="button" data-toggle="modal" data-target="#gameModal">
+			<div class="row row-table"{% if LATEST_VINABB_VERSION %} role="button" data-toggle="modal" data-target="#vinabbModal"{% endif %}>
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
 					<em class="icon-badge fa-3x"></em>
 				</div>
 				<div class="col-xs-8 pv-15 text-center">
-					<h2 class="mv-0">0.0.1</h2>
-					<div class="text-uppercase">{{ lang('LATEST_FORUM_WAR') }}</div>
+					<h2 class="mv-0">{{ LATEST_VINABB_VERSION ?: lang('ELLIPSIS') }}</h2>
+					<div class="text-uppercase">{{ lang('LATEST_VINABB') }}</div>
 				</div>
 			</div>
 		</div>
@@ -526,6 +526,28 @@
 				{% endif %}
 				{% if LATEST_PHP_LEGACY_VERSION %}
 				<a{% if LATEST_PHP_LEGACY_VERSION_URL %} href="{{ LATEST_PHP_LEGACY_VERSION_URL }}" target="_blank"{% endif %} class="btn btn-indigo btn-rounded btn-icon"><i class="fa fa-info-circle"></i> {{ lang('PHP_VERSION_X', LATEST_PHP_LEGACY_VERSION) }}</a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+
+{# Latest VinaBB modal #}
+{% if LATEST_VINABB_VERSION %}
+<div class="modal fade" id="vinabbModal" tabindex="-1" role="dialog" aria-labelledby="vinabbModal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="{{ lang('CLOSE') }}"><span aria-hidden="true" class="fa fa-times-circle"></span></button>
+				<h3 class="modal-title">{{ lang('LATEST_VINABB_TITLE') }}</h3>
+			</div>
+			<div class="modal-body">
+				{% if LATEST_VINABB_VERSION %}
+				<a{% if LATEST_VINABB_VERSION_URL %} href="{{ LATEST_VINABB_VERSION_URL }}" target="_blank"{% endif %} class="btn btn-github btn-icon btn-xs"><i class="fa fa-download"></i> {{ lang('GITHUB') }}</a>
+				{% endif %}
+				{% if LATEST_VINABB_TRAVIS_IMG_URL and LATEST_VINABB_TRAVIS_URL %}
+				<a href="{{ LATEST_VINABB_TRAVIS_URL }}" target="_blank"><img src="{{ LATEST_VINABB_TRAVIS_IMG_URL }}"></a>
 				{% endif %}
 			</div>
 		</div>

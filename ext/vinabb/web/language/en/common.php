@@ -234,6 +234,8 @@ $lang = array_merge($lang, array(
 	'LATEST_VERSION'			=> 'Latest version',
 	'LATEST_VERSIONS'			=> 'Latest versions',
 	'LATEST_VERSIONS_INFO'		=> 'Latest version information',
+	'LATEST_VINABB'				=> 'VinaBB version',
+	'LATEST_VINABB_TITLE'		=> 'Get VinaBB.vn source code',
 	'LATITUDE'					=> 'Latitude',
 	'LONGITUDE'					=> 'Longitude',
 
@@ -309,11 +311,13 @@ $lang = array_merge($lang, array(
 	'UNKNOWN'	=> 'Unknown',
 	'USER_ID'	=> 'User ID',
 
-	'VERSION'		=> 'Version',
-	'VIETNAMESE'	=> 'Vietnamese',
-	'VIEW_DETAILS'	=> 'View details',
-	'VINABB'		=> 'VinaBB',
-	'VINABB_VN'		=> 'VinaBB.vn',
+	'VERSION'			=> 'Version',
+	'VIETNAMESE'		=> 'Vietnamese',
+	'VIEW_DETAILS'		=> 'View details',
+	'VINABB'			=> 'VinaBB',
+	'VINABB_VERSION'	=> 'VinaBB version',
+	'VINABB_VERSION_X'	=> 'VinaBB %s',
+	'VINABB_VN'			=> 'VinaBB.vn',
 
 	'WEBSITE_FUND'	=> 'Website fund',
 ));
