@@ -29,6 +29,7 @@ $lang = array_merge($lang, array(
 	'ACP_CAT_PORTAL'			=> 'Portal',
 	'ACP_CAT_VINABB'			=> 'VinaBB',
 	'ACP_CAT_VINABB_SETTINGS'	=> 'Settings',
+	'ACP_STYLE_DETAILS'			=> 'Style information',
 	'ACP_STYLE_NAME'			=> 'Style name',
 	'ACP_STYLE_VERSION'			=> 'Style version',
 

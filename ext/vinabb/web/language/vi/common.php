@@ -29,6 +29,7 @@ $lang = array_merge($lang, array(
 	'ACP_CAT_PORTAL'			=> 'Trang chủ',
 	'ACP_CAT_VINABB'			=> 'VinaBB',
 	'ACP_CAT_VINABB_SETTINGS'	=> 'Thiết lập',
+	'ACP_STYLE_DETAILS'			=> 'Thông tin giao diện',
 	'ACP_STYLE_NAME'			=> 'Tên giao diện',
 	'ACP_STYLE_VERSION'			=> 'Phiên bản giao diện',
 

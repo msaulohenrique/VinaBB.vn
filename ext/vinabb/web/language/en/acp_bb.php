@@ -59,6 +59,7 @@ $lang = array_merge($lang, array(
 	'ERROR_BB_EXT_VARNAME_DUPLICATE'		=> 'The extension package name “%s” already exists.',
 	'ERROR_BB_EXT_VARNAME_EMPTY'			=> 'You must enter an extension package name.',
 	'ERROR_BB_EXT_VERSION_INVALID'			=> 'The extension version is invalid.',
+	'ERROR_BB_ITEM_CAT_SELECT'				=> 'You must select a category.',
 	'ERROR_BB_ITEM_DESC_EMPTY'				=> 'You must enter a description.',
 	'ERROR_BB_ITEM_PHPBB_VERSION_SELECT'	=> 'You must select a phpBB version.',
 	'ERROR_BB_LANG_NAME_EMPTY'				=> 'You must enter a language package name.',

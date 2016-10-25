@@ -59,6 +59,7 @@ $lang = array_merge($lang, array(
 	'ERROR_BB_EXT_VARNAME_DUPLICATE'		=> 'Tên định danh gói mở rộng “%s” bị trùng.',
 	'ERROR_BB_EXT_VARNAME_EMPTY'			=> 'Chưa nhập tên định danh gói mở rộng.',
 	'ERROR_BB_EXT_VERSION_INVALID'			=> 'Phiên bản gói mở rộng không hợp lệ.',
+	'ERROR_BB_ITEM_CAT_SELECT'				=> 'Chưa chọn danh mục.',
 	'ERROR_BB_ITEM_DESC_EMPTY'				=> 'Chưa nhập giới thiệu.',
 	'ERROR_BB_ITEM_PHPBB_VERSION_SELECT'	=> 'Chưa chọn phiên bản phpBB.',
 	'ERROR_BB_LANG_NAME_EMPTY'				=> 'Chưa nhập tên gói ngôn ngữ.',
