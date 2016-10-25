@@ -47,6 +47,9 @@ $lang = array_merge($lang, array(
 	'ERROR_PORTAL_CAT_VARNAME_DUPLICATE'	=> 'Tên biến danh mục “%s” bị trùng.',
 	'ERROR_PORTAL_CAT_VARNAME_EMPTY'		=> 'Chưa nhập tên biến danh mục.',
 
+	'MESSAGE_ARTICLE_ADD'		=> 'Đã tạo bài viết.',
+	'MESSAGE_ARTICLE_DELETE'	=> 'Đã xóa bài viết.',
+	'MESSAGE_ARTICLE_EDIT'		=> 'Đã sửa bài viết.',
 	'MESSAGE_PORTAL_CAT_ADD'	=> 'Đã tạo danh mục.',
 	'MESSAGE_PORTAL_CAT_DELETE'	=> 'Đã xóa danh mục.',
 	'MESSAGE_PORTAL_CAT_EDIT'	=> 'Đã sửa danh mục.',
