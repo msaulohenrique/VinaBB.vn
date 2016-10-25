@@ -229,7 +229,7 @@ class portal_articles_module
 					$this->config->increment('vinabb_web_total_articles', 1, true);
 				}
 
-				$this->cache->clear_index_articles();
+				$this->cache->clear_index_articles($article_lang);
 
 				$log_action = ($article_id) ? 'LOG_PORTAL_ARTICLE_EDIT' : 'LOG_PORTAL_ARTICLE_ADD';
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, $log_action, false, array($article_name));
@@ -246,11 +246,11 @@ class portal_articles_module
 
 				if (confirm_box(true))
 				{
-					$sql = 'SELECT article_name
+					$sql = 'SELECT article_name, article_lang
 						FROM ' . $this->portal_articles_table . "
 						WHERE article_id = $article_id";
 					$result = $this->db->sql_query($sql);
-					$article_name = $this->db->sql_fetchfield('article_name');
+					$article_data = $this->db->sql_fetchrow($result);
 					$this->db->sql_freeresult($result);
 
 					$sql = 'DELETE FROM ' . $this->portal_articles_table . "
@@ -259,9 +259,9 @@ class portal_articles_module
 
 					$this->config->increment('vinabb_web_total_articles', -1, true);
 
-					$this->cache->clear_index_articles();
+					$this->cache->clear_index_articles($article_data['article_lang']);
 
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_ARTICLE_DELETE', false, array($article_name));
+					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_ARTICLE_DELETE', false, array($article_data['article_name']));
 
 					trigger_error($this->language->lang('MESSAGE_ARTICLE_DELETE') . adm_back_link($this->u_action));
 				}
