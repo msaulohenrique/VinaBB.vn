@@ -264,20 +264,22 @@ class service extends \phpbb\cache\service
 		$this->driver->destroy('_vinabb_web_portal_categories');
 	}
 
-	function get_index_articles()
+	function get_index_articles($lang)
 	{
-		if (($index_articles = $this->driver->get('_vinabb_web_index_articles')) === false)
+		if (($index_articles = $this->driver->get('_vinabb_web_index_articles_' . $lang)) === false)
 		{
 			$sql = 'SELECT *
-				FROM ' . $this->portal_articles_table . '
-				ORDER BY article_time DESC';
+				FROM ' . $this->portal_articles_table . "
+				WHERE article_lang = '" . $this->db->sql_escape($lang) . "'
+				ORDER BY article_time DESC";
 			$result = $this->db->sql_query_limit($sql, constants::NUM_ARTICLES_ON_INDEX);
 
 			$index_articles = array();
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				$index_articles[$row['article_id']] = array(
+				$index_articles[] = array(
 					'cat_id'		=> $row['cat_id'],
+					'id'			=> $row['article_id'],
 					'name'			=> $row['article_name'],
 					'name_seo'		=> $row['article_name_seo'],
 					'desc'			=> $row['article_desc'],
@@ -291,14 +293,14 @@ class service extends \phpbb\cache\service
 			}
 			$this->db->sql_freeresult($result);
 
-			$this->driver->put('_vinabb_web_index_articles', $index_articles);
+			$this->driver->put('_vinabb_web_index_articles_' . $lang, $index_articles);
 		}
 
 		return $index_articles;
 	}
 
-	function clear_index_articles()
+	function clear_index_articles($lang)
 	{
-		$this->driver->destroy('_vinabb_web_index_articles');
+		$this->driver->destroy('_vinabb_web_index_articles_' . $lang);
 	}
 }
