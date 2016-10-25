@@ -318,10 +318,10 @@
 
 							{% if forum.S_HAS_SUBFORUMS %}
 							<li class="dropdown-submenu">
-								<a tabindex="-1" href="{{ forum.LINK }}"><i class="{{ CAT_ICON }}"></i> {{ forum.NAME }}</a>
+								<a tabindex="-1" href="{{ forum.URL }}"><i class="{{ CAT_ICON }}"></i> {{ forum.NAME }}</a>
 								<ul class="dropdown-menu">
 							{% else %}
-									<li><a href="{{ forum.LINK }}">{{ forum.NAME }}</a></li>
+									<li><a href="{{ forum.URL }}">{{ forum.NAME }}</a></li>
 							{% endif %}
 
 							{% if loop.last and TREE_LEVEL %}

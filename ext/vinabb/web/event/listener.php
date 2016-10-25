@@ -900,7 +900,7 @@ class listener implements EventSubscriberInterface
 				'PARENT_ID'	=> $forum_data['parent_id'],
 				'FORUM_ID'	=> $forum_id,
 				'NAME'		=> $forum_data['name'],
-				'LINK'		=> $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $forum_id, 'seo' => $forum_data['name_seo'] . constants::REWRITE_URL_SEO)),
+				'URL'		=> $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $forum_id, 'seo' => $forum_data['name_seo'] . constants::REWRITE_URL_SEO)),
 				'COUNT'		=> $iteration,
 
 				'S_HAS_SUBFORUMS'	=> $forum_data['left_id'] + 1 != $forum_data['right_id'],
