@@ -239,11 +239,11 @@
 								<li class="side-nav-header">
 									<h4>{{ lang('LATEST_EXTS') }}</h4>
 								</li>
-								{% for i in 1..10 %}
+								{% for item in bb_new_exts %}
 								<li>
-									<a href="#">
-										{% if loop.index == 7 %}<span class="label label-success pull-right">Mới</span>{% endif %}
-										<span>Styles Demo 1.2.4</span>
+									<a href="{{ item.URL }}">
+										<span>{{ item.NAME ~ ' ' ~ item.VERSION }}</span>
+										{% if item.NEW %}<span class="label label-success pull-right">{{ lang('NEW') }}</span>{% endif %}
 									</a>
 								</li>
 								{% endfor %}
@@ -254,11 +254,11 @@
 								<li class="side-nav-header">
 									<h4>{{ lang('LATEST_STYLES') }}</h4>
 								</li>
-								{% for i in 1..10 %}
+								{% for item in bb_new_styles %}
 								<li>
-									<a href="#">
-										{% if loop.index == 7 %}<span class="label label-success pull-right">Mới</span>{% endif %}
-										<span>BBoots 1.2.0</span>
+									<a href="{{ item.URL }}">
+										<span>{{ item.NAME ~ ' ' ~ item.VERSION }}</span>
+										{% if item.NEW %}<span class="label label-success pull-right">{{ lang('NEW') }}</span>{% endif %}
 									</a>
 								</li>
 								{% endfor %}
@@ -269,11 +269,11 @@
 								<li class="side-nav-header">
 									<h4>{{ lang('LATEST_ACP_STYLES') }}</h4>
 								</li>
-								{% for i in 1..10 %}
+								{% for item in bb_new_acp_styles %}
 								<li>
-									<a href="#">
-										{% if loop.index == 7 %}<span class="label label-success pull-right">Mới</span>{% endif %}
-										<span>Float 1.0.0</span>
+									<a href="{{ item.URL }}">
+										<span>{{ item.NAME ~ ' ' ~ item.VERSION }}</span>
+										{% if item.NEW %}<span class="label label-success pull-right">{{ lang('NEW') }}</span>{% endif %}
 									</a>
 								</li>
 								{% endfor %}
@@ -284,11 +284,11 @@
 								<li class="side-nav-header">
 									<h4>{{ lang('LATEST_TOOLS') }}</h4>
 								</li>
-								{% for i in 1..10 %}
+								{% for item in bb_new_tools %}
 								<li>
-									<a href="#">
-										{% if loop.index == 7 %}<span class="label label-success pull-right">Mới</span>{% endif %}
-										<span>Extensions Pre Validator 0.0.7</span>
+									<a href="{{ item.URL }}">
+										<span>{{ item.NAME ~ ' ' ~ item.VERSION }}</span>
+										{% if item.NEW %}<span class="label label-success pull-right">{{ lang('NEW') }}</span>{% endif %}
 									</a>
 								</li>
 								{% endfor %}

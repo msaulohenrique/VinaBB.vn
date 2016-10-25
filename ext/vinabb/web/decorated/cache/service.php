@@ -198,7 +198,7 @@ class service extends \phpbb\cache\service
 
 	function get_new_bb_items($bb_type)
 	{
-		if (($new_items = $this->driver->get('_vinabb_web_bb_new_' . strtolower($bb_type))) === false)
+		if (($new_items = $this->driver->get('_vinabb_web_bb_new_' . strtolower($bb_type) . 's')) === false)
 		{
 			$sql = 'SELECT *
 				FROM ' . $this->bb_items_table . '
@@ -209,9 +209,9 @@ class service extends \phpbb\cache\service
 			$new_items = array();
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				$new_items = array(
+				$new_items[] = array(
+					'id'		=> $row['item_id'],
 					'name'		=> $row['item_name'],
-					'name_vi'	=> $row['item_name_vi'],
 					'varname'	=> $row['item_varname'],
 					'version'	=> $row['item_version'],
 					'price'		=> $row['item_price'],
@@ -221,7 +221,7 @@ class service extends \phpbb\cache\service
 			}
 			$this->db->sql_freeresult($result);
 
-			$this->driver->put('_vinabb_web_bb_new_' . strtolower($bb_type), $new_items);
+			$this->driver->put('_vinabb_web_bb_new_' . strtolower($bb_type) . 's', $new_items);
 		}
 
 		return $new_items;
@@ -229,7 +229,7 @@ class service extends \phpbb\cache\service
 
 	function clear_new_bb_items($bb_type)
 	{
-		$this->driver->destroy('_vinabb_web_bb_new_' . strtolower($bb_type));
+		$this->driver->destroy('_vinabb_web_bb_new_' . strtolower($bb_type) . 's');
 	}
 
 	function get_portal_cats()

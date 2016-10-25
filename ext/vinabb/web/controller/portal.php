@@ -224,6 +224,25 @@ class portal
 			));
 		}
 
+		// Latest phpBB resources
+		$bb_types = array('ext', 'style', 'acp_style', 'tool');
+
+		foreach ($bb_types as $bb_type)
+		{
+			$new_items = $this->cache->get_new_bb_items($bb_type);
+			
+			foreach ($new_items as $new_item)
+			{
+				$this->template->assign_block_vars('bb_new_' . $bb_type . 's', array(
+					'NAME'		=> $new_item['name'],
+					'VARNAME'	=> $new_item['varname'],
+					'VERSION'	=> $new_item['version'],
+					'PRICE'		=> $new_item['price'],
+					'NEW'		=> $new_item['added'] + (24 * 60 * 60) > $new_item['updated'],
+				));
+			}
+		}
+
 		// Latest topics
 		$sql_ary = $this->get_latest_topics_sql();
 
