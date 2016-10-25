@@ -270,8 +270,8 @@ class service extends \phpbb\cache\service
 		{
 			$sql = 'SELECT *
 				FROM ' . $this->portal_articles_table . '
-				ORDER BY cat_order';
-			$result = $this->db->sql_query($sql);
+				ORDER BY article_time DESC';
+			$result = $this->db->sql_query_limit($sql, constants::NUM_ARTICLES_ON_INDEX);
 
 			$index_articles = array();
 			while ($row = $this->db->sql_fetchrow($result))
