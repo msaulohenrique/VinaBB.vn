@@ -130,7 +130,6 @@ class listener implements EventSubscriberInterface
 			'core.submit_post_modify_sql_data'			=> 'submit_post_modify_sql_data',
 			'core.generate_smilies_after'				=> 'generate_smilies_after',
 			'core.login_box_redirect'					=> 'login_box_redirect',
-			'core.make_jumpbox_modify_tpl_ary'			=> 'make_jumpbox_modify_tpl_ary',
 			'core.memberlist_memberrow_before'			=> 'memberlist_memberrow_before',
 			'core.memberlist_prepare_profile_data'		=> 'memberlist_prepare_profile_data',
 			'core.memberlist_team_modify_template_vars'	=> 'memberlist_team_modify_template_vars',
@@ -241,7 +240,7 @@ class listener implements EventSubscriberInterface
 		}
 
 		// Display the forum list on every page
-		// Write a new function as soon...
+		$this->list_forums();
 
 		// Get language data from cache
 		$lang_data = $this->cache->get_lang_data();
@@ -581,22 +580,6 @@ class listener implements EventSubscriberInterface
 	}
 
 	/**
-	* core.make_jumpbox_modify_tpl_ary
-	*
-	* @param $event
-	*/
-	public function make_jumpbox_modify_tpl_ary($event)
-	{
-		// Add PARENT_ID and HAS_SUBFORUM
-		$row = $event['row'];
-		$tpl_ary = $event['tpl_ary'];
-		$i = isset($tpl_ary[1]) ? 1 : 0;
-		$tpl_ary[$i]['PARENT_ID'] = $row['parent_id'];
-		$tpl_ary[$i]['HAS_SUBFORUM'] = ($row['left_id'] != $row['right_id'] - 1) ? true : false;
-		$event['tpl_ary'] = $tpl_ary;
-	}
-
-	/**
 	* core.memberlist_memberrow_before
 	*
 	* @param $event
@@ -890,6 +873,49 @@ class listener implements EventSubscriberInterface
 		}
 
 		$event['forum_data_sql'] = $forum_data_sql;
+	}
+
+	/**
+	* Display forum list on header
+	*
+	* @param bool $default_forum_id
+	*/
+	private function list_forums($default_forum_id = false)
+	{
+		$iteration = 0;
+
+		foreach ($this->cache->get_forum_data() as $forum_id => $forum_data)
+		{
+			// Non-postable forum with no subforums, don't display
+			if ($forum_data['type'] == FORUM_CAT && ($forum_data['left_id'] + 1 == $forum_data['right_id']))
+			{
+				continue;
+			}
+
+			// If the user does not have permissions to list this forum skip
+			if (!$this->auth->acl_get('f_list', $forum_id))
+			{
+				continue;
+			}
+
+			$this->template->assign_block_vars('header_forums', array(
+				'PARENT_ID'		=> $forum_data['parent_id'],
+				'FORUM_ID'		=> $forum_id,
+				'NAME'			=> $forum_data['name'],
+				'LINK'			=> $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $forum_id, 'seo' => $forum_data['name_seo'] . constants::REWRITE_URL_SEO)),
+				'COUNT'			=> $iteration,
+
+				'S_HAS_SUBFORUMS'	=> $forum_data['left_id'] + 1 != $forum_data['right_id'],
+				'S_IS_CURRENT'		=> $forum_id == $default_forum_id,
+				'S_IS_CAT'			=> $forum_data['type'] == FORUM_CAT,
+				'S_IS_LINK'			=> $forum_data['type'] == FORUM_LINK,
+				'S_IS_POST'			=> $forum_data['type'] == FORUM_POST,
+			));
+
+			$iteration++;
+		}
+
+		return;
 	}
 
 	/**
