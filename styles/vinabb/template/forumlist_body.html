@@ -4,30 +4,30 @@
 
 		{# Category icon #}
 		{% if row.FORUM_ID == FORUM_ID_VIETNAMESE %}
-			{% set CAT_ICON = 'star' %}
+			{% set CAT_ICON = 'fa fa-star' %}
 		{% elseif row.FORUM_ID == FORUM_ID_VIETNAMESE_SUPPORT %}
-			{% set CAT_ICON = 'heart' %}
+			{% set CAT_ICON = 'fa fa-heart' %}
 		{% elseif row.FORUM_ID == FORUM_ID_VIETNAMESE_EXT %}
-			{% set CAT_ICON = 'rocket' %}
+			{% set CAT_ICON = 'fa fa-rocket' %}
 		{% elseif row.FORUM_ID == FORUM_ID_VIETNAMESE_STYLE %}
-			{% set CAT_ICON = 'paint-brush' %}
+			{% set CAT_ICON = 'fa fa-paint-brush' %}
 		{% elseif row.FORUM_ID == FORUM_ID_VIETNAMESE_TUTORIAL %}
-			{% set CAT_ICON = 'check-square-o' %}
+			{% set CAT_ICON = 'fa fa-check-square-o' %}
 		{% elseif row.FORUM_ID == FORUM_ID_VIETNAMESE_DISCUSSION %}
-			{% set CAT_ICON = 'comments' %}
+			{% set CAT_ICON = 'fa fa-comments' %}
 		{% elseif row.FORUM_ID == FORUM_ID_ENGLISH %}
-			{% set CAT_ICON = 'globe' %}
+			{% set CAT_ICON = 'fa fa-globe' %}
 		{% elseif row.FORUM_ID == FORUM_ID_ENGLISH_SUPPORT %}
-			{% set CAT_ICON = 'heart' %}
+			{% set CAT_ICON = 'fa fa-heart' %}
 		{% elseif row.FORUM_ID == FORUM_ID_ENGLISH_TUTORIAL %}
-			{% set CAT_ICON = 'check-square-o' %}
+			{% set CAT_ICON = 'fa fa-check-square-o' %}
 		{% elseif row.FORUM_ID == FORUM_ID_ENGLISH_DISCUSSION %}
-			{% set CAT_ICON = 'comments' %}
+			{% set CAT_ICON = 'fa fa-comments' %}
 		{% else %}
-			{% set CAT_ICON = 'chevron-circle-right' %}
+			{% set CAT_ICON = 'fa fa-chevron-circle-right' %}
 		{% endif %}
 
-		<li role="presentation"{% if loop.first %} class="active"{% endif %}><a href="#cat_{{ row.FORUM_ID }}" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="{% if loop.first %}true{% else %}false{% endif %}"><i class="fa fa-{{ CAT_ICON }}"></i> {{ row.FORUM_NAME }}</a></li>
+		<li role="presentation"{% if loop.first %} class="active"{% endif %}><a href="#cat_{{ row.FORUM_ID }}" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="{% if loop.first %}true{% else %}false{% endif %}"><i class="{{ CAT_ICON }}"></i> {{ row.FORUM_NAME }}</a></li>
 		{% endfor %}
 	</ul>
 
