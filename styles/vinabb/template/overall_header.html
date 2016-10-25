@@ -269,10 +269,78 @@
 					</li>
 					<li class="dropdown{% if S_BOARD or S_VIEWFORUM or S_VIEWTOPIC %} active{% endif %}">
 						<a href="{{ U_BOARD }}" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-bubbles"></i> {{ lang('BOARD') }}</a>
-						<ul class="dropdown-menu dropdown-main">
-							<li><a href="#"><i class="icon-graph"></i> Dashboard Alpha</a></li>
-							<li><a href="#"><i class="icon-graph"></i> Dashboard beta</a></li>
+						{% if header_forums %}
+						<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+							{% set TREE_LEVEL = 0 %}
+							{% for forum in header_forums %}
+
+							{# Category icon #}
+							{% if forum.FORUM_ID == FORUM_ID_VIETNAMESE %}
+								{% set CAT_ICON = 'icon-star' %}
+							{% elseif forum.FORUM_ID == FORUM_ID_VIETNAMESE_SUPPORT %}
+								{% set CAT_ICON = 'icon-heart' %}
+							{% elseif forum.FORUM_ID == FORUM_ID_VIETNAMESE_EXT %}
+								{% set CAT_ICON = 'icon-rocket' %}
+							{% elseif forum.FORUM_ID == FORUM_ID_VIETNAMESE_STYLE %}
+								{% set CAT_ICON = 'icon-layers' %}
+							{% elseif forum.FORUM_ID == FORUM_ID_VIETNAMESE_TUTORIAL %}
+								{% set CAT_ICON = 'icon-directions' %}
+							{% elseif forum.FORUM_ID == FORUM_ID_VIETNAMESE_DISCUSSION %}
+								{% set CAT_ICON = 'icon-bubbles' %}
+							{% elseif forum.FORUM_ID == FORUM_ID_ENGLISH %}
+								{% set CAT_ICON = 'icon-globe' %}
+							{% elseif forum.FORUM_ID == FORUM_ID_ENGLISH_SUPPORT %}
+								{% set CAT_ICON = 'icon-heart' %}
+							{% elseif forum.FORUM_ID == FORUM_ID_ENGLISH_TUTORIAL %}
+								{% set CAT_ICON = 'icon-directions' %}
+							{% elseif forum.FORUM_ID == FORUM_ID_ENGLISH_DISCUSSION %}
+								{% set CAT_ICON = 'icon-bubbles' %}
+							{% else %}
+								{% set CAT_ICON = 'icon-arrow-right-circle' %}
+							{% endif %}
+
+							{% if TREE_LEVEL > 1 and forum.PARENT_ID == 0 %}
+							{% for i in 2..TREE_LEVEL %}
+								</ul>
+							</li>
+							{% endfor %}
+							{% endif %}
+
+							{% if forum.PARENT_ID == 0 %}
+								{% set TREE_LEVEL = 0 %}
+							{% endif %}
+
+							{% if LAST_HAS_SUBFORUMS is defined and not LAST_HAS_SUBFORUMS and LAST_PARENT_ID is defined and forum.PARENT_ID != LAST_PARENT_ID %}
+								{% set TREE_LEVEL = max(0, TREE_LEVEL - 1) %}
+								</ul>
+							</li>
+							{% endif %}
+
+							{% if forum.S_HAS_SUBFORUMS %}
+							<li class="dropdown-submenu">
+								<a tabindex="-1" href="{{ forum.LINK }}"><i class="{{ CAT_ICON }}"></i> {{ forum.NAME }}</a>
+								<ul class="dropdown-menu">
+							{% else %}
+									<li><a href="{{ forum.LINK }}">{{ forum.NAME }}</a></li>
+							{% endif %}
+
+							{% if loop.last and TREE_LEVEL %}
+							{% for i in 1..TREE_LEVEL %}
+								</ul>
+							</li>
+							{% endfor %}
+							{% endif %}
+
+							{% if forum.S_HAS_SUBFORUMS %}
+								{% set TREE_LEVEL = TREE_LEVEL + 1 %}
+							{% endif %}
+
+							{% set LAST_PARENT_ID = forum.PARENT_ID %}
+							{% set LAST_HAS_SUBFORUMS = forum.S_HAS_SUBFORUMS %}
+
+							{% endfor %}
 						</ul>
+						{% endif %}
 					</li>
 					<li class="dropdown">
 						<a href="http://vinabb.vn/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-settings fa-spin"></i> UI elements</a>
@@ -295,14 +363,9 @@
 					</li>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-mouse"></i> Components</a>
-						<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-							<li class="dropdown-submenu">
-								<a tabindex="-1" href="#"><i class="icon-graph"></i> Charts</a>
-								<ul class="dropdown-menu">
-									<li><a href="#">Flot</a></li>
-									<li><a href="#">Morris</a></li>
-								</ul>
-							</li>
+						<ul class="dropdown-menu dropdown-main">
+							<li><a href="#"><i class="icon-graph"></i> Dashboard Alpha</a></li>
+							<li><a href="#"><i class="icon-graph"></i> Dashboard beta</a></li>
 						</ul>
 					</li>
 
