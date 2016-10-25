@@ -445,19 +445,19 @@
 
 	<!-- Right column -->
 	<div class="col-md-8">
-		{% for row in 1..5 %}
+		{% for article in articles %}
 		<div class="panel panel-default blog-box">
 			<div class="panel-img">
 				<img src="{{ T_THEME_PATH }}/images/2.jpg" alt="" class="img-responsive">
 			</div>
 			<div class="panel-body">
-				<a href="#"><h4>phpBB iVN 3.2.0 đã phát hành</h4></a>
-				<p class="text-muted">{{ CURRENT_TIME }}</p>
-				<p class="text-justify">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum...</p>
+				<a href="#"><h4>{{ article.NAME }}</h4></a>
+				<p class="text-muted">{{ article.TIME }}</p>
+				<p class="text-justify">{{ article.DESC }}</p>
 			</div>
 			<div class="panel-footer">
 				<span class="pull-right"><a href="#"><i class="fa fa-comments-o"></i> 58 comments</a></span>
-				<a href="#" class="btn btn-primary btn-xs"><i class="fa fa-tags"></i> phpBB</a>
+				<a href="#" class="btn btn-primary btn-xs"><i class="fa fa-tags"></i> {{ article.CATEGORY }}</a>
 			</div>
 		</div>
 		{% endfor %}

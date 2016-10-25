@@ -111,6 +111,7 @@ class portal
 		$this->php_ext = $php_ext;
 
 		$this->forum_data = $this->cache->get_forum_data();
+		$this->portal_cats = $this->cache->get_portal_cats();
 	}
 
 	public function index()
@@ -212,15 +213,24 @@ class portal
 		}
 
 		// News categories
-		$portal_cats = $this->cache->get_portal_cats();
-
-		foreach ($portal_cats as $cat_id => $cat_data)
+		foreach ($this->portal_cats as $cat_id => $cat_data)
 		{
 			$this->template->assign_block_vars('portal_cats', array(
 				'ID'		=> $cat_id,
 				'NAME'		=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $cat_data['name_vi'] : $cat_data['name'],
 				'VARNAME'	=> $cat_data['varname'],
 				'ICON'		=> $cat_data['icon'],
+			));
+		}
+
+		// Latest articles
+		foreach ($this->cache->get_index_articles($this->user->lang_name) as $article)
+		{
+			$this->template->assign_block_vars('articles', array(
+				'CATEGORY'	=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->portal_cats[$article['cat_id']]['name_vi'] : $this->portal_cats[$article['cat_id']]['name'],
+				'NAME'		=> $article['name'],
+				'DESC'		=> $article['desc'],
+				'TIME'		=> $this->user->format_date($article['time']),
 			));
 		}
 
