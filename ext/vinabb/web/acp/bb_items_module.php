@@ -255,10 +255,10 @@ class bb_items_module
 					$errors[] = $this->language->lang('FORM_INVALID');
 				}
 
-				$item_id = $this->request->variable('id', 0);
+				$cat_id = $this->request->variable('cat_id', 0);
 				$item_name = $this->request->variable('item_name', '', true);
 				$item_varname = strtolower($this->request->variable('item_varname', ''));
-				$item_version = $this->request->variable('item_version', '');
+				$item_version = strtoupper($this->request->variable('item_version', ''));
 				$item_phpbb_version = $this->request->variable('item_phpbb_version', '');
 				$item_desc = $this->request->variable('item_desc', '', true);
 				$item_desc_vi = $this->request->variable('item_desc_vi', '', true);
@@ -277,6 +277,11 @@ class bb_items_module
 				$item_price = $this->request->variable('item_price', 0);
 				$item_url = $this->request->variable('item_url', '');
 				$item_github = $this->request->variable('item_github', '');
+
+				if (!$cat_id)
+				{
+					$errors[] = $this->language->lang('ERROR_BB_ITEM_CAT_SELECT');
+				}
 
 				if (empty($item_name))
 				{
@@ -306,7 +311,7 @@ class bb_items_module
 					}
 				}
 
-				if (preg_match('#^\d+(\.\d){1,3}(\-(((?:a|b|RC|pl)\d+)|dev))?$#', $item_version))
+				if (!preg_match('#^\d+(\.\d){1,3}(\-(((?:A|B|RC|PL)\d+)|DEV))?$#', $item_version))
 				{
 					$errors[] = $this->language->lang('ERROR_BB_' . strtoupper($mode) . '_VERSION_INVALID');
 				}
@@ -327,34 +332,23 @@ class bb_items_module
 				}
 
 				$sql_ary = array(
-					'bb_type'					=> $this->bb_type,
-					'item_name'					=> $item_name,
-					'item_varname'				=> $item_varname,
-					'item_version'				=> $item_version,
-					'item_phpbb_version'		=> $item_phpbb_version,
-					'item_desc'					=> $item_desc,
-					'item_desc_uid'				=> '',
-					'item_desc_bitfield'		=> '',
-					'item_desc_options'			=> 7,
-					'item_desc_vi'				=> $item_desc_vi,
-					'item_desc_vi_uid'			=> '',
-					'item_desc_vi_bitfield'		=> '',
-					'item_desc_vi_options'		=> 7,
-					'item_ext_style'			=> $item_ext_style,
-					'item_ext_acp_style'		=> $item_ext_acp_style,
-					'item_ext_lang'				=> $item_ext_lang,
-					'item_ext_db_schema'		=> $item_ext_db_schema,
-					'item_ext_db_data'			=> $item_ext_db_data,
-					'item_style_presets'		=> $item_style_presets,
-					'item_style_presets_aio'	=> $item_style_presets_aio,
-					'item_style_source'			=> $item_style_source,
-					'item_style_responsive'		=> $item_style_responsive,
-					'item_style_bootstrap'		=> $item_style_bootstrap,
-					'item_lang_iso'				=> $item_lang_iso,
-					'item_tool_os'				=> $item_tool_os,
-					'item_price'				=> $item_price,
-					'item_url'					=> $item_url,
-					'item_github'				=> $item_github,
+					'bb_type'				=> $this->bb_type,
+					'cat_id'				=> $cat_id,
+					'item_name'				=> $item_name,
+					'item_varname'			=> $item_varname,
+					'item_version'			=> $item_version,
+					'item_phpbb_version'	=> $item_phpbb_version,
+					'item_desc'				=> $item_desc,
+					'item_desc_uid'			=> '',
+					'item_desc_bitfield'	=> '',
+					'item_desc_options'		=> 7,
+					'item_desc_vi'			=> $item_desc_vi,
+					'item_desc_vi_uid'		=> '',
+					'item_desc_vi_bitfield'	=> '',
+					'item_desc_vi_options'	=> 7,
+					'item_price'			=> $item_price,
+					'item_url'				=> $item_url,
+					'item_github'			=> $item_github,
 				);
 
 				// Prepare description for storage
@@ -366,6 +360,43 @@ class bb_items_module
 				if ($sql_ary['item_desc_vi'])
 				{
 					generate_text_for_storage($sql_ary['item_desc_vi'], $sql_ary['item_desc_vi_uid'], $sql_ary['item_desc_vi_bitfield'], $sql_ary['item_desc_vi_options'], !$this->request->variable('disable_bbcode_vi', false), !$this->request->variable('disable_urls_vi', false), !$this->request->variable('disable_smilies_vi', false));
+				}
+
+				// Properties
+				switch ($mode)
+				{
+					case 'ext':
+						$sql_ary = array_merge($sql_ary, array(
+							'item_ext_style'		=> $item_ext_style,
+							'item_ext_acp_style'	=> $item_ext_acp_style,
+							'item_ext_lang'			=> $item_ext_lang,
+							'item_ext_db_schema'	=> $item_ext_db_schema,
+							'item_ext_db_data'		=> $item_ext_db_data,
+						));
+					break;
+
+					case 'style':
+					case 'acp_style':
+						$sql_ary = array_merge($sql_ary, array(
+							'item_style_presets'		=> $item_style_presets,
+							'item_style_presets_aio'	=> $item_style_presets_aio,
+							'item_style_source'			=> $item_style_source,
+							'item_style_responsive'		=> $item_style_responsive,
+							'item_style_bootstrap'		=> $item_style_bootstrap,
+						));
+					break;
+
+					case 'lang':
+						$sql_ary = array_merge($sql_ary, array(
+							'item_lang_iso'	=> $item_lang_iso,
+						));
+					break;
+
+					case 'tool':
+						$sql_ary = array_merge($sql_ary, array(
+							'item_tool_os'	=> $item_tool_os,
+						));
+					break;
 				}
 
 				if ($item_id)

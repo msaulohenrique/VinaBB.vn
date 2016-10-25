@@ -34,9 +34,9 @@ class bb_schema extends migration
 				$this->table_prefix . 'bb_items' => array(
 					'COLUMNS' => array(
 						'item_id'					=> array('UINT', null, 'auto_increment'),
+						'bb_type'					=> array('TINT:1', 0),
 						'cat_id'					=> array('UINT', 0),
 						'author_id'					=> array('UINT', 0),
-						'bb_type'					=> array('TINT:1', 0),
 						'item_name'					=> array('VCHAR_UNI', '', 'true_sort'),
 						'item_varname'				=> array('VCHAR', ''),
 						'item_version'				=> array('VCHAR', ''),
