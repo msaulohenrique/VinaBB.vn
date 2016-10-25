@@ -121,12 +121,17 @@ class service extends \phpbb\cache\service
 		$this->driver->destroy('_vinabb_web_languages');
 	}
 
-	function get_forum_data()
+	function get_forum_data($sort = false)
 	{
-		if (($forum_data = $this->driver->get('_vinabb_web_forums')) === false)
+		$sort_suffix = ($sort) ? '_sorted' : '';
+
+		if (($forum_data = $this->driver->get('_vinabb_web_forums' . $sort_suffix)) === false)
 		{
+			$sql_order = ($sort) ? 'ORDER BY left_id' : '';
+
 			$sql = 'SELECT *
-				FROM ' . FORUMS_TABLE;
+				FROM ' . FORUMS_TABLE . "
+				$sql_order";
 			$result = $this->db->sql_query($sql);
 
 			$forum_data = array();
@@ -148,7 +153,7 @@ class service extends \phpbb\cache\service
 			}
 			$this->db->sql_freeresult($result);
 
-			$this->driver->put('_vinabb_web_forums', $forum_data);
+			$this->driver->put('_vinabb_web_forums' . $sort_suffix, $forum_data);
 		}
 
 		return $forum_data;
@@ -157,6 +162,7 @@ class service extends \phpbb\cache\service
 	function clear_forum_data()
 	{
 		$this->driver->destroy('_vinabb_web_forums');
+		$this->driver->destroy('_vinabb_web_forums_sorted');
 	}
 
 	function get_bb_cats($bb_type)

@@ -884,7 +884,7 @@ class listener implements EventSubscriberInterface
 	{
 		$iteration = 0;
 
-		foreach ($this->cache->get_forum_data() as $forum_id => $forum_data)
+		foreach ($this->cache->get_forum_data(true) as $forum_id => $forum_data)
 		{
 			// Non-postable forum with no subforums, don't display
 			if ($forum_data['type'] == FORUM_CAT && ($forum_data['left_id'] + 1 == $forum_data['right_id']))
