@@ -877,10 +877,8 @@ class listener implements EventSubscriberInterface
 
 	/**
 	* Display forum list on header
-	*
-	* @param bool $default_forum_id
 	*/
-	private function list_forums($default_forum_id = false)
+	private function list_forums()
 	{
 		$iteration = 0;
 
@@ -899,14 +897,13 @@ class listener implements EventSubscriberInterface
 			}
 
 			$this->template->assign_block_vars('header_forums', array(
-				'PARENT_ID'		=> $forum_data['parent_id'],
-				'FORUM_ID'		=> $forum_id,
-				'NAME'			=> $forum_data['name'],
-				'LINK'			=> $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $forum_id, 'seo' => $forum_data['name_seo'] . constants::REWRITE_URL_SEO)),
-				'COUNT'			=> $iteration,
+				'PARENT_ID'	=> $forum_data['parent_id'],
+				'FORUM_ID'	=> $forum_id,
+				'NAME'		=> $forum_data['name'],
+				'LINK'		=> $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $forum_id, 'seo' => $forum_data['name_seo'] . constants::REWRITE_URL_SEO)),
+				'COUNT'		=> $iteration,
 
 				'S_HAS_SUBFORUMS'	=> $forum_data['left_id'] + 1 != $forum_data['right_id'],
-				'S_IS_CURRENT'		=> $forum_id == $default_forum_id,
 				'S_IS_CAT'			=> $forum_data['type'] == FORUM_CAT,
 				'S_IS_LINK'			=> $forum_data['type'] == FORUM_LINK,
 				'S_IS_POST'			=> $forum_data['type'] == FORUM_POST,
