@@ -1,0 +1,125 @@
+{% include 'overall_header.html' %}
+
+<div class="row">
+	<div class="col-sm-6">
+		<ol class="breadcrumb">
+			<li><a href="#"><i class="fa fa-home"></i></a></li>
+			<li><a href="{{ U_BB }}">{{ lang('BB') }}</a></li>
+		</ol>
+	</div>
+	<div class="col-sm-6 text-right">
+		<h4>{{ CURRENT_TIME }}</h4>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+		<div class="widget bg-indigo padding-0">
+			<div class="row row-table">
+				<div class="col-xs-4 text-center pv-15 bg-light-dark">
+					<i class="icon-rocket fa-3x"></i>
+				</div>
+				<div class="col-xs-8 pv-15 text-center">
+					<h2 class="mv-0">{{ CONFIG_TOTAL_BB_EXTS|number_format }}</h2>
+					<div class="text-uppercase">{{ lang('BB_EXTS') }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+		<div class="widget bg-tomato padding-0">
+			<div class="row row-table">
+				<div class="col-xs-4 text-center pv-15 bg-light-dark">
+					<i class="icon-layers fa-3x"></i>
+				</div>
+				<div class="col-xs-8 pv-15 text-center">
+					<h2 class="mv-0">{{ CONFIG_TOTAL_BB_STYLES|number_format }}</h2>
+					<div class="text-uppercase">{{ lang('BB_STYLES') }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+		<div class="widget bg-bluesky padding-0">
+			<div class="row row-table">
+				<div class="col-xs-4 text-center pv-15 bg-light-dark">
+					<i class="icon-equalizer fa-3x"></i>
+				</div>
+				<div class="col-xs-8 pv-15 text-center">
+					<h2 class="mv-0">{{ CONFIG_TOTAL_BB_ACP_STYLES|number_format }}</h2>
+					<div class="text-uppercase">{{ lang('BB_ACP_STYLES') }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+		<div class="widget bg-grey padding-0">
+			<div class="row row-table">
+				<div class="col-xs-4 text-center pv-15 bg-light-dark">
+					<i class="icon-wrench fa-3x"></i>
+				</div>
+				<div class="col-xs-8 pv-15 text-center">
+					<h2 class="mv-0">{{ CONFIG_TOTAL_BB_TOOLS|number_format }}</h2>
+					<div class="text-uppercase">{{ lang('BB_TOOLS') }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+		<div class="widget bg-success padding-0">
+			<div class="row row-table">
+				<div class="col-xs-4 text-center pv-15 bg-light-dark">
+					<i class="icon-speech fa-3x"></i>
+				</div>
+				<div class="col-xs-8 pv-15 text-center">
+					<h2 class="mv-0">{{ CONFIG_TOTAL_BB_LANGS|number_format }}</h2>
+					<div class="text-uppercase">{{ lang('BB_LANGS') }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+		<div class="widget bg-info padding-0">
+			<div class="row row-table">
+				<div class="col-xs-4 text-center pv-15 bg-light-dark">
+					<i class="icon-people fa-3x"></i>
+				</div>
+				<div class="col-xs-8 pv-15 text-center">
+					<h2 class="mv-0">{{ CONFIG_TOTAL_BB_AUTHORS|number_format }}</h2>
+					<div class="text-uppercase">{{ lang('BB_AUTHORS') }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+		<div class="widget bg-banalime padding-0">
+			<div class="row row-table">
+				<div class="col-xs-4 text-center pv-15 bg-light-dark">
+					<i class="icon-speedometer fa-3x"></i>
+				</div>
+				<div class="col-xs-8 pv-15 text-center">
+					<h2 class="mv-0">{{ CONFIG_TOTAL_BB_ACP_STYLES|number_format }}</h2>
+					<div class="text-uppercase">{{ lang('DOWNLOADS') }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+		<div class="widget bg-pink padding-0">
+			<div class="row row-table">
+				<div class="col-xs-4 text-center pv-15 bg-light-dark">
+					<i class="icon-cursor fa-3x"></i>
+				</div>
+				<div class="col-xs-8 pv-15 text-center">
+					<h2 class="mv-0">{{ CONFIG_TOTAL_BB_SUBSCRIBERS|number_format }}</h2>
+					<div class="text-uppercase">{{ lang('BB_SUBSCRIBERS') }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% include 'overall_footer.html' %}

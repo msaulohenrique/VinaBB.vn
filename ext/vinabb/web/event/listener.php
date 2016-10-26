@@ -268,6 +268,7 @@ class listener implements EventSubscriberInterface
 			'CONFIG_TOTAL_BB_LANGS'			=> $this->config['vinabb_web_total_bb_langs'],
 			'CONFIG_TOTAL_BB_TOOLS'			=> $this->config['vinabb_web_total_bb_tools'],
 			'CONFIG_TOTAL_BB_AUTHORS'		=> $this->config['vinabb_web_total_bb_authors'],
+			'CONFIG_TOTAL_BB_SUBSCRIBERS'	=> $this->config['vinabb_web_total_bb_subscribers'],
 
 			'LANG_SWITCH_CURRENT'	=> $this->user->lang_name,
 			'LANG_SWITCH_DEFAULT'	=> $this->config['default_lang'],
