@@ -436,7 +436,6 @@ class board
 			watch_topic_forum('forum', $s_watching_forum, $this->user->data['user_id'], $forum_id, 0, $notify_status, $start, $forum_data['forum_name']);
 		}
 
-		$s_forum_rules = '';
 		gen_forum_auth_level('forum', $forum_id, $forum_data['forum_status']);
 
 		// Topic ordering options
@@ -1079,8 +1078,7 @@ class board
 				$folder_img = $folder_alt = $topic_type = '';
 				topic_status($row, $replies, $unread_topic, $folder_img, $folder_alt, $topic_type);
 
-				// Generate all the URIs ...
-				$view_topic_url_params = 'f=' . $row['forum_id'] . '&t=' . $topic_id;
+				// Generate all the URIs...
 				$view_topic_url = $this->helper->route('vinabb_web_board_topic_route', array('topic_id' => $topic_id));
 
 				$topic_unapproved = (($row['topic_visibility'] == ITEM_UNAPPROVED || $row['topic_visibility'] == ITEM_REAPPROVE) && $this->auth->acl_get('m_approve', $row['forum_id']));
@@ -1735,22 +1733,10 @@ class board
 			trigger_error($message);
 		}
 
-		// Grab ranks
-		$ranks = $this->cache->obtain_ranks();
-
 		// Grab icons
 		$icons = $this->cache->obtain_icons();
 
-		// Grab extensions
-		$extensions = array();
-
-		if ($topic_data['topic_attachment'])
-		{
-			$extensions = $this->cache->obtain_attach_extensions($forum_id);
-		}
-
 		// Forum rules listing
-		$s_forum_rules = '';
 		gen_forum_auth_level('topic', $forum_id, $topic_data['forum_status']);
 
 		// Quick mod tools
@@ -1770,8 +1756,6 @@ class board
 		);
 
 		$quickmod_array = array(
-			//'key'			=> array('LANG_KEY', $userHasPermissions),
-
 			'lock'			=> array('LOCK_TOPIC', ($topic_data['topic_status'] == ITEM_UNLOCKED) && ($this->auth->acl_get('m_lock', $forum_id) || ($this->auth->acl_get('f_user_lock', $forum_id) && $this->user->data['is_registered'] && $this->user->data['user_id'] == $topic_data['topic_poster']))),
 			'unlock'		=> array('UNLOCK_TOPIC', ($topic_data['topic_status'] != ITEM_UNLOCKED) && ($this->auth->acl_get('m_lock', $forum_id))),
 			'delete_topic'	=> array('DELETE_TOPIC', ($this->auth->acl_get('m_delete', $forum_id) || (($topic_data['topic_visibility'] != ITEM_DELETED) && $this->auth->acl_get('m_softdelete', $forum_id)))),
@@ -3171,8 +3155,6 @@ class board
 				'L_POST_DISPLAY'	=> ($row['hide_post']) ? $this->language->lang('POST_DISPLAY', '<a class="display_post" data-post-id="' . $row['post_id'] . '" href="' . $viewtopic_url . "&amp;p={$row['post_id']}&amp;view=show#p{$row['post_id']}" . '">', '</a>') : '',
 				'S_DELETE_PERMANENT'	=> $permanent_delete_allowed,
 			);
-
-			$user_poster_data = $user_cache[$poster_id];
 
 			$current_row_number = $i;
 
