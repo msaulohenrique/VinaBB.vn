@@ -123,11 +123,8 @@ class board
 	/**
 	* @return \Symfony\Component\HttpFoundation\Response
 	*/
-	public function index($board)
+	public function index($board = 'board')
 	{
-		// 'board' or 'board/'
-		$board = 'board';
-
 		$this->language->add_lang('viewforum');
 
 		// Mark notifications read
