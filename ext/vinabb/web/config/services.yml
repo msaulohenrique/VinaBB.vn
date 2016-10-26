@@ -234,6 +234,17 @@ services:
             - '@path_helper'
             - '%core.root_path%'
             - '%core.php_ext%'
+    vinabb.web.bb:
+        class: vinabb\web\controller\bb
+        arguments:
+            - '@cache'
+            - '@config'
+            - '@dbal.conn'
+            - '@language'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
     vinabb.web.listener:
         class: vinabb\web\event\listener
         arguments:

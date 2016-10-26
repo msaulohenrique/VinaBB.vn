@@ -33,6 +33,7 @@ $lang = array_merge($lang, array(
 	'ACP_STYLE_NAME'			=> 'Style name',
 	'ACP_STYLE_VERSION'			=> 'Style version',
 
+	'BB'			=> 'phpBB Resources',
 	'BB_ACP_STYLES'	=> 'ACP styles',
 	'BB_EXTS'		=> 'Extensions',
 	'BB_LANGS'		=> 'Language packages',

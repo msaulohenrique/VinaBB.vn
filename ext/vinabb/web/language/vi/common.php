@@ -33,6 +33,7 @@ $lang = array_merge($lang, array(
 	'ACP_STYLE_NAME'			=> 'Tên giao diện',
 	'ACP_STYLE_VERSION'			=> 'Phiên bản giao diện',
 
+	'BB'			=> 'Thư viện phpBB',
 	'BB_ACP_STYLES'	=> 'Giao diện quản trị',
 	'BB_EXTS'		=> 'Gói mở rộng',
 	'BB_LANGS'		=> 'Gói ngôn ngữ',
