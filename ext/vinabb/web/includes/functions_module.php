@@ -8,14 +8,6 @@
 
 namespace vinabb\web\includes;
 
-/**
-* @ignore
-*/
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
 global $phpbb_root_path, $phpEx;
 require($phpbb_root_path . 'includes/functions_module.' . $phpEx);
 
