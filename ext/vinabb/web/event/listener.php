@@ -458,10 +458,6 @@ class listener implements EventSubscriberInterface
 					$route_name = 'vinabb_web_user_list_route';
 				}
 			}
-			else if (strpos($event['url'], "x.{$this->php_ext}") !== false)
-			{
-				//echo $event['params'] . "<br>";
-			}
 
 			// Replace by routes
 			if (!empty($route_name))
