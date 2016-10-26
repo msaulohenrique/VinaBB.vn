@@ -52,7 +52,7 @@
 						{% if S_REGISTERED_USER and S_DISPLAY_PM %}
 						<li class="dropdown hidden-xs icon-dropdown">
 							<a href="{{ U_PRIVATEMSGS }}">
-								<i class="fa fa-comments"></i>
+								<i class="fa fa-envelope-open"></i>
 								{% if PRIVATE_MESSAGE_COUNT %}<span class="badge badge-danger">{{ PRIVATE_MESSAGE_COUNT }}</span>{% endif %}
 							</a>
 						</li>
@@ -62,7 +62,7 @@
 						{% if S_REGISTERED_USER %}
 						<li class="dropdown hidden-xs icon-dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<i class="fa fa-dot-circle-o"></i>
+								<i class="fa fa-eercast"></i>
 								{% if NOTIFICATIONS_COUNT %}<span class="badge badge-danger">{{ NOTIFICATIONS_COUNT }}</span>{% endif %}
 							</a>
 							<ul class="dropdown-menu top-dropdown lg-dropdown notification-dropdown">
@@ -94,7 +94,7 @@
 
 						<!-- Register/Login -->
 						{% if not S_REGISTERED_USER and not S_IS_BOT %}
-						<li><a href="{{ U_LOGIN_LOGOUT }}"><i class="fa fa-user-plus animate-pulse"></i></a></li>
+						<li><a href="{{ U_LOGIN_LOGOUT }}"><i class="fa fa-address-book-o animate-pulse"></i></a></li>
 						{% endif %}
 
 						<!-- Right panel toggle -->
