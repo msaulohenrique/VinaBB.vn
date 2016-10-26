@@ -66,7 +66,7 @@ class service extends \phpbb\cache\service
 		$this->portal_articles_table = $portal_articles_table;
 	}
 
-	function get_config_text()
+	public function get_config_text()
 	{
 		if (($config_text_data = $this->driver->get('_vinabb_web_config_text')) === false)
 		{
@@ -85,12 +85,12 @@ class service extends \phpbb\cache\service
 		}
 	}
 
-	function clear_config_text()
+	public function clear_config_text()
 	{
 		$this->driver->destroy('_vinabb_web_config_text');
 	}
 
-	function get_lang_data()
+	public function get_lang_data()
 	{
 		if (($lang_data = $this->driver->get('_vinabb_web_languages')) === false)
 		{
@@ -116,12 +116,12 @@ class service extends \phpbb\cache\service
 		return $lang_data;
 	}
 
-	function clear_lang_data()
+	public function clear_lang_data()
 	{
 		$this->driver->destroy('_vinabb_web_languages');
 	}
 
-	function get_forum_data($sort = false)
+	public function get_forum_data($sort = false)
 	{
 		$sort_suffix = ($sort) ? '_sorted' : '';
 
@@ -159,13 +159,13 @@ class service extends \phpbb\cache\service
 		return $forum_data;
 	}
 
-	function clear_forum_data()
+	public function clear_forum_data()
 	{
 		$this->driver->destroy('_vinabb_web_forums');
 		$this->driver->destroy('_vinabb_web_forums_sorted');
 	}
 
-	function get_bb_cats($bb_type)
+	public function get_bb_cats($bb_type)
 	{
 		if (($bb_cats = $this->driver->get('_vinabb_web_bb_' . strtolower($bb_type) . '_categories')) === false)
 		{
@@ -191,12 +191,12 @@ class service extends \phpbb\cache\service
 		return $bb_cats;
 	}
 
-	function clear_bb_cats($bb_type)
+	public function clear_bb_cats($bb_type)
 	{
 		$this->driver->destroy('_vinabb_web_bb_' . strtolower($bb_type) . '_categories');
 	}
 
-	function get_new_bb_items($bb_type)
+	public function get_new_bb_items($bb_type)
 	{
 		if (($new_items = $this->driver->get('_vinabb_web_bb_new_' . strtolower($bb_type) . 's')) === false)
 		{
@@ -227,12 +227,12 @@ class service extends \phpbb\cache\service
 		return $new_items;
 	}
 
-	function clear_new_bb_items($bb_type)
+	public function clear_new_bb_items($bb_type)
 	{
 		$this->driver->destroy('_vinabb_web_bb_new_' . strtolower($bb_type) . 's');
 	}
 
-	function get_portal_cats()
+	public function get_portal_cats()
 	{
 		if (($portal_cats = $this->driver->get('_vinabb_web_portal_categories')) === false)
 		{
@@ -259,12 +259,12 @@ class service extends \phpbb\cache\service
 		return $portal_cats;
 	}
 
-	function clear_portal_cats()
+	public function clear_portal_cats()
 	{
 		$this->driver->destroy('_vinabb_web_portal_categories');
 	}
 
-	function get_index_articles($lang)
+	public function get_index_articles($lang)
 	{
 		if (($index_articles = $this->driver->get('_vinabb_web_index_articles_' . $lang)) === false)
 		{
@@ -299,7 +299,7 @@ class service extends \phpbb\cache\service
 		return $index_articles;
 	}
 
-	function clear_index_articles($lang)
+	public function clear_index_articles($lang)
 	{
 		$this->driver->destroy('_vinabb_web_index_articles_' . $lang);
 	}
