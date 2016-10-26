@@ -1840,7 +1840,7 @@ class posting
 			$s_hidden_fields .= build_hidden_fields($captcha->get_hidden_fields());
 		}
 
-		$form_enctype = (@ini_get('file_uploads') == '0' || strtolower(@ini_get('file_uploads')) == 'off' || !$this->config['allow_attachments'] || !$this->auth->acl_get('u_attach') || !$this->auth->acl_get('f_attach', $forum_id)) ? '' : ' enctype="multipart/form-data"';
+		$form_enctype = (ini_get('file_uploads') == '0' || strtolower(ini_get('file_uploads')) == 'off' || !$this->config['allow_attachments'] || !$this->auth->acl_get('u_attach') || !$this->auth->acl_get('f_attach', $forum_id)) ? '' : ' enctype="multipart/form-data"';
 		add_form_key('posting');
 
 		/** @var \phpbb\controller\helper $controller_helper */

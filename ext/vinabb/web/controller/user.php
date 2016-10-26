@@ -1259,7 +1259,7 @@ class user
 			case 'jabber':
 				$lang = 'JABBER';
 				$sql_field = 'user_jabber';
-				$s_select = (@extension_loaded('xml') && $this->config['jab_enable']) ? 'S_SEND_JABBER' : 'S_NO_SEND_JABBER';
+				$s_select = (extension_loaded('xml') && $this->config['jab_enable']) ? 'S_SEND_JABBER' : 'S_NO_SEND_JABBER';
 				$s_action = $this->helper->route('vinabb_web_user_contact_route', array('action' => $action, 'user_id' => $user_id));
 			break;
 
@@ -1292,7 +1292,7 @@ class user
 			case 'jabber':
 				add_form_key('memberlist_messaging');
 
-				if ($this->request->is_set_post('submit') && @extension_loaded('xml') && $this->config['jab_enable'])
+				if ($this->request->is_set_post('submit') && extension_loaded('xml') && $this->config['jab_enable'])
 				{
 					if (check_form_key('memberlist_messaging'))
 					{
