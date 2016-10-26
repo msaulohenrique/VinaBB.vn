@@ -599,10 +599,6 @@ class user
 			$s_group_select = '<option value="0"' . ((!$group_selected) ? ' selected="selected"' : '') . '>&nbsp;</option>';
 			$group_ids = array();
 
-			/**
-			 * @todo add this to a separate function (function is responsible for returning the groups the user is able to see based on the users group membership)
-			 */
-
 			if ($this->auth->acl_gets('a_group', 'a_groupadd', 'a_groupdel'))
 			{
 				$sql = 'SELECT group_id, group_name, group_type
@@ -774,7 +770,6 @@ class user
 			// If we sort by last active date we need to adjust the id cache due to user_lastvisit not being the last active date...
 			if ($sort_key == 'l')
 			{
-//				uasort($id_cache, create_function('$first, $second', "return (\$first['last_visit'] == \$second['last_visit']) ? 0 : ((\$first['last_visit'] < \$second['last_visit']) ? $lesser_than : ($lesser_than * -1));"));
 				usort($user_list,  'phpbb_sort_last_active');
 			}
 
