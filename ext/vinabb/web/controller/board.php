@@ -123,7 +123,7 @@ class board
 	/**
 	* @return \Symfony\Component\HttpFoundation\Response
 	*/
-	public function index($board = 'board')
+	public function index()
 	{
 		$this->language->add_lang('viewforum');
 

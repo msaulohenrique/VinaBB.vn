@@ -67,7 +67,7 @@ class bb
 		$this->helper = $helper;
 	}
 
-	public function index($bb = 'bb')
+	public function index()
 	{
 		$bb_types = array('ext', 'style', 'acp_style', 'lang', 'tool');
 
