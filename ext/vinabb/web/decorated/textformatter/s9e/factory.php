@@ -178,9 +178,6 @@ class factory extends \phpbb\textformatter\s9e\factory
 			}
 			catch (\Exception $e)
 			{
-				/**
-				* @todo log an error?
-				*/
 			}
 		}
 

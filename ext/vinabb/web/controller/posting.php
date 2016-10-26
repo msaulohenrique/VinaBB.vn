@@ -321,7 +321,6 @@ class posting
 		}
 
 // Not able to reply to unapproved posts/topics
-// TODO: add more descriptive language key
 		if ($this->auth->acl_get('m_approve', $forum_id) && ((($mode == 'reply' || $mode == 'bump') && $post_data['topic_visibility'] != ITEM_APPROVED) || ($mode == 'quote' && $post_data['post_visibility'] != ITEM_APPROVED)))
 		{
 			trigger_error(($mode == 'reply' || $mode == 'bump') ? 'TOPIC_UNAPPROVED' : 'POST_UNAPPROVED');
