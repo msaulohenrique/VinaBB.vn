@@ -60,7 +60,7 @@ class helper
 	*							'ascii_kb': Simple version of 'ascii' mode, only typable standard keycaps
 	* @return string		Result text
 	*/
-	function ivn_convert_accent($text = '', $mode = 'remove')
+	private function ivn_convert_accent($text = '', $mode = 'remove')
 	{
 		$ivn_data = array(
 			'accent_letters'	=> array(

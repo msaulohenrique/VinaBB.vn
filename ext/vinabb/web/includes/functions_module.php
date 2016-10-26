@@ -23,7 +23,7 @@ class p_master extends \p_master
 	*
 	* @param $module_url
 	*/
-	function assign_tpl_vars($module_url)
+	public function assign_tpl_vars($module_url)
 	{
 		global $template;
 
