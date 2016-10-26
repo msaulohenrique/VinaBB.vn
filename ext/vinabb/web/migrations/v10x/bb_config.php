@@ -22,6 +22,7 @@ class bb_config extends migration
 			array('config.add', array('vinabb_web_total_bb_langs', 0, true)),
 			array('config.add', array('vinabb_web_total_bb_tools', 0, true)),
 			array('config.add', array('vinabb_web_total_bb_authors', 0, true)),
+			array('config.add', array('vinabb_web_total_bb_subscribers', 0, true)),
 			array('config.add', array('vinabb_web_bb_exts_filesize', 0, true)),
 			array('config.add', array('vinabb_web_bb_styles_filesize', 0, true)),
 			array('config.add', array('vinabb_web_bb_acp_styles_filesize', 0, true)),
