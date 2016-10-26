@@ -33,14 +33,16 @@ $lang = array_merge($lang, array(
 	'ACP_STYLE_NAME'			=> 'Tên giao diện',
 	'ACP_STYLE_VERSION'			=> 'Phiên bản giao diện',
 
-	'BB'			=> 'Thư viện phpBB',
-	'BB_ACP_STYLES'	=> 'Giao diện quản trị',
-	'BB_EXTS'		=> 'Gói mở rộng',
-	'BB_LANGS'		=> 'Gói ngôn ngữ',
-	'BB_STYLES'		=> 'Giao diện',
-	'BB_TOOLS'		=> 'Công cụ',
-	'BBCODE_C_HELP'	=> 'Chèn mã: [code]đoạn mã[/code] hay `mã một dòng`',
-	'BOARD'			=> 'Diễn đàn',
+	'BB'				=> 'Thư viện phpBB',
+	'BB_ACP_STYLES'		=> 'Giao diện quản trị',
+	'BB_AUTHORS'		=> 'Người phát triển',
+	'BB_EXTS'			=> 'Gói mở rộng',
+	'BB_LANGS'			=> 'Gói ngôn ngữ',
+	'BB_STYLES'			=> 'Giao diện',
+	'BB_SUBSCRIBERS'	=> 'Người theo dõi',
+	'BB_TOOLS'			=> 'Công cụ',
+	'BBCODE_C_HELP'		=> 'Chèn mã: [code]đoạn mã[/code] hay `mã một dòng`',
+	'BOARD'				=> 'Diễn đàn',
 
 	'CATEGORY'			=> 'Danh mục',
 	'CLOSE'				=> 'Đóng',
@@ -96,6 +98,7 @@ $lang = array_merge($lang, array(
 	'DONATE_CURRENCY'	=> 'Mã tiền tệ',
 	'DONATE_DONE'		=> 'Đã thanh toán',
 	'DONATE_OWNER'		=> 'Tên tài khoản',
+	'DOWNLOADS'			=> 'Lượt tải về',
 
 	'EMOTICON_TEXT'	=> array(
 		'ALIEN'				=> '!@#$%',

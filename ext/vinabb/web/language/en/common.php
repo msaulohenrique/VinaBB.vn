@@ -33,14 +33,16 @@ $lang = array_merge($lang, array(
 	'ACP_STYLE_NAME'			=> 'Style name',
 	'ACP_STYLE_VERSION'			=> 'Style version',
 
-	'BB'			=> 'phpBB Resources',
-	'BB_ACP_STYLES'	=> 'ACP styles',
-	'BB_EXTS'		=> 'Extensions',
-	'BB_LANGS'		=> 'Language packages',
-	'BB_STYLES'		=> 'Styles',
-	'BB_TOOLS'		=> 'Tools',
-	'BBCODE_C_HELP'	=> 'Insert code: [code]block code[/code] or `inline code`',
-	'BOARD'			=> 'Board',
+	'BB'				=> 'phpBB Resources',
+	'BB_ACP_STYLES'		=> 'ACP styles',
+	'BB_AUTHORS'		=> 'Developers',
+	'BB_EXTS'			=> 'Extensions',
+	'BB_LANGS'			=> 'Language packages',
+	'BB_STYLES'			=> 'Styles',
+	'BB_SUBSCRIBERS'	=> 'Subscribers',
+	'BB_TOOLS'			=> 'Tools',
+	'BBCODE_C_HELP'		=> 'Insert code: [code]block code[/code] or `inline code`',
+	'BOARD'				=> 'Board',
 
 	'CATEGORY'			=> 'Category',
 	'CLOSE'				=> 'Close',
@@ -96,6 +98,7 @@ $lang = array_merge($lang, array(
 	'DONATE_CURRENCY'	=> 'Currency code',
 	'DONATE_DONE'		=> 'Paid',
 	'DONATE_OWNER'		=> 'Account owner',
+	'DOWNLOADS'			=> 'Downloads',
 
 	'EMOTICON_TEXT'	=> array(
 		'ALIEN'				=> 'Alien',
