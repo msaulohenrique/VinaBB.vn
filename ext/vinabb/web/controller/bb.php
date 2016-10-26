@@ -67,8 +67,21 @@ class bb
 		$this->helper = $helper;
 	}
 
-	public function index()
+	public function index($bb = 'bb')
 	{
+		$bb_types = array('ext', 'style', 'acp_style', 'lang', 'tool');
+
+		foreach ($bb_types as $bb_type)
+		{
+			foreach ($this->cache->get_bb_cats($bb_type) as $cat_id => $cat_data)
+			{
+				$this->template->assign_block_vars($bb_type . '_cats', array(
+					'NAME'		=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $cat_data['name_vi'] : $cat_data['name'],
+					'VARNAME'	=> $cat_data['varname'],
+				));
+			}
+		}
+
 		return $this->helper->render('bb_body.html', $this->language->lang('BB'));
 	}
 }
