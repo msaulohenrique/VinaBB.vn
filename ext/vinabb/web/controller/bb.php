@@ -70,32 +70,13 @@ class bb
 	}
 
 	/**
-	* Index page of phpBB Resource
-	* Default mode is 'Statistics'
-	*
-	* @return \Symfony\Component\HttpFoundation\Response
-	*/
-	public function index()
-	{
-		$this->list_bb_cats();
-
-		$this->template->assign_vars(array(
-			'S_BB_STATS'	=> true
-		));
-
-		return $this->helper->render('bb_body.html', $this->language->lang('BB'));
-	}
-
-	/**
 	* List categories of each resource types (bb_type)
 	*
 	* @param $type
 	* @return \Symfony\Component\HttpFoundation\Response
 	*/
-	public function cats($type)
+	public function index($type)
 	{
-		$this->list_bb_cats();
-
 		switch ($type)
 		{
 			case constants::BB_TYPE_VARNAME_EXT:
@@ -132,27 +113,15 @@ class bb
 					'BB_TYPE'		=> $this->language->lang('BB_TOOLS'),
 				));
 			break;
+
+			// Default mode is 'Statistics'
+			default:
+				$this->template->assign_vars(array(
+					'S_BB_STATS'	=> true
+				));
+			break;
 		}
 
 		return $this->helper->render('bb_body.html', $this->language->lang('BB'));
-	}
-
-	/**
-	* List all categories with every resource types
-	*/
-	private function list_bb_cats()
-	{
-		$bb_types = array('ext', 'style', 'acp_style', 'lang', 'tool');
-
-		foreach ($bb_types as $bb_type)
-		{
-			foreach ($this->cache->get_bb_cats($bb_type) as $cat_id => $cat_data)
-			{
-				$this->template->assign_block_vars($bb_type . '_cats', array(
-					'NAME'		=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $cat_data['name_vi'] : $cat_data['name'],
-					'VARNAME'	=> $cat_data['varname'],
-				));
-			}
-		}
 	}
 }
