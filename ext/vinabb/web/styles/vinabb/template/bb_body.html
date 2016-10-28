@@ -3,8 +3,9 @@
 <div class="row">
 	<div class="col-sm-6">
 		<ol class="breadcrumb">
-			<li><a href="#"><i class="fa fa-home"></i></a></li>
+			<li><a href="{{ U_INDEX }}"><i class="fa fa-home"></i></a></li>
 			<li><a href="{{ U_BB }}">{{ lang('BB') }}</a></li>
+			<li>{{ BB_TYPE ?: lang('STATISTICS') }}</li>
 		</ol>
 	</div>
 	<div class="col-sm-6 text-right">
@@ -14,22 +15,22 @@
 
 <div class="tabs">
 	<ul class="list-inline tabs-nav" role="tablist">
-		<li role="presentation" class="active"><a href="#bb_stats" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true"><i class="fa fa-line-chart"></i> {{ lang('STATISTICS') }}</a></li>
-		<li role="presentation"><a href="#bb_exts" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-rocket"></i> {{ lang('BB_EXTS') }}</a></li>
-		<li role="presentation"><a href="#bb_styles" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-paint-brush"></i> {{ lang('BB_STYLES') }}</a></li>
-		<li role="presentation"><a href="#bb_acp_styles" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-sliders"></i> {{ lang('BB_ACP_STYLES') }}</a></li>
-		<li role="presentation"><a href="#bb_langs" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-keyboard-o"></i> {{ lang('BB_LANGS') }}</a></li>
-		<li role="presentation"><a href="#bb_tools" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-wrench"></i> {{ lang('BB_TOOLS') }}</a></li>
+		<li role="presentation"{% if S_BB_STATS %} class="active"{% endif %}><a href="#bb_stats" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="{{ S_BB_STATS ? 'true' : 'false' }}"><i class="fa fa-line-chart"></i> {{ lang('STATISTICS') }}</a></li>
+		<li role="presentation"{% if S_BB_EXTS %} class="active"{% endif %}><a href="#bb_exts" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="{{ S_BB_EXTS ? 'true' : 'false' }}"><i class="fa fa-rocket"></i> {{ lang('BB_EXTS') }}</a></li>
+		<li role="presentation"{% if S_BB_STYLES %} class="active"{% endif %}><a href="#bb_styles" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="{{ S_BB_STYLES ? 'true' : 'false' }}"><i class="fa fa-paint-brush"></i> {{ lang('BB_STYLES') }}</a></li>
+		<li role="presentation"{% if S_BB_ACP_STYLES %} class="active"{% endif %}><a href="#bb_acp_styles" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="{{ S_BB_ACP_STYLES ? 'true' : 'false' }}"><i class="fa fa-sliders"></i> {{ lang('BB_ACP_STYLES') }}</a></li>
+		<li role="presentation"{% if S_BB_LANGS %} class="active"{% endif %}><a href="#bb_langs" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="{{ S_BB_LANGS ? 'true' : 'false' }}"><i class="fa fa-keyboard-o"></i> {{ lang('BB_LANGS') }}</a></li>
+		<li role="presentation"{% if S_BB_TOOLS %} class="active"{% endif %}><a href="#bb_tools" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="{{ S_BB_TOOLS ? 'true' : 'false' }}"><i class="fa fa-wrench"></i> {{ lang('BB_TOOLS') }}</a></li>
 	</ul>
 
 	<div class="tab-content">
-		<div role="tabpanel" class="tab-pane active" id="bb_stats">
+		<div role="tabpanel" class="tab-pane{% if S_BB_STATS %} active{% endif %}" id="bb_stats">
 			<div class="widget white-bg">
 				<h5>Awesome</h5>
 				You can easily put the profile settings form here!
 			</div>
 		</div>
-		<div role="tabpanel" class="tab-pane" id="bb_exts">
+		<div role="tabpanel" class="tab-pane{% if S_BB_EXTS %} active{% endif %}" id="bb_exts">
 			<div class="widget white-bg">
 				<ul class="comments-list list-unstyled clearfix">
 					{% for cat in ext_cats %}

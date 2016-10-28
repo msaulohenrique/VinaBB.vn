@@ -69,7 +69,78 @@ class bb
 		$this->helper = $helper;
 	}
 
+	/**
+	* Index page of phpBB Resource
+	* Default mode is 'Statistics'
+	*
+	* @return \Symfony\Component\HttpFoundation\Response
+	*/
 	public function index()
+	{
+		$this->list_bb_cats();
+
+		$this->template->assign_vars(array(
+			'S_BB_STATS'	=> true
+		));
+
+		return $this->helper->render('bb_body.html', $this->language->lang('BB'));
+	}
+
+	/**
+	* List categories of each resource types (bb_type)
+	*
+	* @param $type
+	* @return \Symfony\Component\HttpFoundation\Response
+	*/
+	public function cats($type)
+	{
+		$this->list_bb_cats();
+
+		switch ($type)
+		{
+			case constants::BB_TYPE_VARNAME_EXT:
+				$this->template->assign_vars(array(
+					'S_BB_EXTS'	=> true,
+					'BB_TYPE'	=> $this->language->lang('BB_EXTS'),
+				));
+			break;
+
+			case constants::BB_TYPE_VARNAME_STYLE:
+				$this->template->assign_vars(array(
+					'S_BB_STYLES'	=> true,
+					'BB_TYPE'		=> $this->language->lang('BB_STYLES'),
+				));
+			break;
+
+			case constants::BB_TYPE_VARNAME_ACP_STYLE:
+				$this->template->assign_vars(array(
+					'S_BB_ACP_STYLES'	=> true,
+					'BB_TYPE'			=> $this->language->lang('BB_ACP_STYLES'),
+				));
+			break;
+
+			case constants::BB_TYPE_VARNAME_LANG:
+				$this->template->assign_vars(array(
+					'S_BB_LANGS'	=> true,
+					'BB_TYPE'		=> $this->language->lang('BB_LANGS'),
+				));
+			break;
+
+			case constants::BB_TYPE_VARNAME_TOOL:
+				$this->template->assign_vars(array(
+					'S_BB_TOOLS'	=> true,
+					'BB_TYPE'		=> $this->language->lang('BB_TOOLS'),
+				));
+			break;
+		}
+
+		return $this->helper->render('bb_body.html', $this->language->lang('BB'));
+	}
+
+	/**
+	* List all categories with every resource types
+	*/
+	private function list_bb_cats()
 	{
 		$bb_types = array('ext', 'style', 'acp_style', 'lang', 'tool');
 
@@ -83,7 +154,5 @@ class bb
 				));
 			}
 		}
-
-		return $this->helper->render('bb_body.html', $this->language->lang('BB'));
 	}
 }
