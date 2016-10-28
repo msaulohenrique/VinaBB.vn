@@ -48,17 +48,13 @@ class pagination
 	/**
 	* Generate a pagination link based on the url and the page information
 	*
-	* @param string $base_url is url prepended to all links generated within the function
-	*							If you use page numbers inside your controller route, base_url should contains a placeholder (%d)
-	*							for the page. Also be sure to specify the pagination path information into the start_name argument
-	* @param string $on_page is the page for which we want to generate the link
-	* @param string $start_name is the name of the parameter containing the first item of the given page (example: start=20)
-	*							If you use page numbers inside your controller route, start name should be the string
-	*							that should be removed for the first page (example: /page/%d)
-	* @param int $per_page the number of items, posts, etc. to display per page, used to determine the number of pages to produce
-	* @return string URL for the requested page
+	* @param       $route_name
+	* @param array $route_params
+	* @param       $on_page
+	*
+	* @return string
 	*/
-	protected function generate_page_link($route_name, array $route_params = array(), $on_page, $start_name, $per_page)
+	protected function generate_page_link($route_name, array $route_params = array(), $on_page)
 	{
 		if ($on_page > 1)
 		{
@@ -72,9 +68,8 @@ class pagination
 	* Generate template rendered pagination
 	* Allows full control of rendering of pagination with the template
 	*
-	* @param string $base_url is url prepended to all links generated within the function
-	*							If you use page numbers inside your controller route, base_url should contains a placeholder (%d)
-	*							for the page. Also be sure to specify the pagination path information into the start_name argument
+	* @param		$route_name
+	* @param array	$route_params
 	* @param string $block_var_name is the name assigned to the pagination data block within the template (example: <!-- BEGIN pagination -->)
 	* @param string $start_name is the name of the parameter containing the first item of the given page (example: start=20)
 	*							If you use page numbers inside your controller route, start name should be the string
@@ -122,7 +117,7 @@ class pagination
 
 			if ($on_page != 1)
 			{
-				$u_previous_page = $this->generate_page_link($route_name, $route_params, $on_page - 1, $start_name, $per_page);
+				$u_previous_page = $this->generate_page_link($route_name, $route_params, $on_page - 1);
 
 				$this->template->assign_block_vars($block_var_name, array(
 					'PAGE_NUMBER'	=> '',
@@ -147,7 +142,7 @@ class pagination
 				// on at least page 3 and ending three pages before the final item.
 				$this->template->assign_block_vars($block_var_name, array(
 					'PAGE_NUMBER'	=> $at_page,
-					'PAGE_URL'		=> $this->generate_page_link($route_name, $route_params, $at_page, $start_name, $per_page),
+					'PAGE_URL'		=> $this->generate_page_link($route_name, $route_params, $at_page),
 					'S_IS_CURRENT'	=> (!$ignore_on_page && $at_page == $on_page),
 					'S_IS_NEXT'		=> false,
 					'S_IS_PREV'		=> false,
@@ -177,7 +172,7 @@ class pagination
 
 			if ($on_page != $total_pages)
 			{
-				$u_next_page = $this->generate_page_link($route_name, $route_params, $on_page + 1, $start_name, $per_page);
+				$u_next_page = $this->generate_page_link($route_name, $route_params, $on_page + 1);
 
 				$this->template->assign_block_vars($block_var_name, array(
 					'PAGE_NUMBER'	=> '',

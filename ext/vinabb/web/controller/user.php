@@ -1165,9 +1165,7 @@ class user
 			);
 		}
 
-		// Now generate page title
-		$page_title = sprintf($this->user->lang['VIEWING_PROFILE'], $member['username']);
-		$template_html = 'memberlist_view.html';
+		return $this->helper->render('memberlist_view.html', $this->language->lang('VIEWING_PROFILE', $member['username']));
 	}
 
 	/**
@@ -1525,7 +1523,6 @@ class user
 					'GROUP_NAME'  => $team_data['teampage_name'],
 				));
 
-				$parent_team = (int) $team_data['teampage_id'];
 				continue;
 			}
 

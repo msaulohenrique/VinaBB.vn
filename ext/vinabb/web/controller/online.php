@@ -250,7 +250,7 @@ class online
 
 		$result = $this->db->sql_query($this->db->sql_build_query('SELECT', $sql_ary));
 
-		$prev_id = $prev_ip = $user_list = array();
+		$prev_id = $prev_ip = array();
 		$logged_visible_online = $logged_hidden_online = $counter = 0;
 
 		while ($row = $this->db->sql_fetchrow($result))
