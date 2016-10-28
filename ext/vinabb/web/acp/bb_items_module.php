@@ -302,7 +302,7 @@ class bb_items_module
 					$sql_and = ($item_id) ? "AND item_id <> $item_id" : '';
 
 					$sql = 'SELECT *
-						FROM ' . $this->bb_categories_table . '
+						FROM ' . $this->bb_items_table . '
 						WHERE bb_type = ' . $this->bb_type . "
 							AND item_varname = '" . $this->db->sql_escape($item_varname) . "'
 							$sql_and";
