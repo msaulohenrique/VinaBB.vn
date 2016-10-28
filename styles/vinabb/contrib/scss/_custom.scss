@@ -94,6 +94,11 @@
 	}
 }
 
+/* Modify Bootstrap do not align external images */
+img.external-img {
+	vertical-align: inherit;
+}
+
 /* Auto-hover on large devices */
 @media (min-width: 979px) {
 	ul.nav li.dropdown:hover > ul.dropdown-menu {
