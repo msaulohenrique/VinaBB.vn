@@ -1513,7 +1513,6 @@ class user
 			}
 		}
 
-		$parent_team = 0;
 		foreach ($teampage_data as $team_data)
 		{
 			// If this team entry has no group, it's a category
