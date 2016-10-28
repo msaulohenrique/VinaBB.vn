@@ -14,8 +14,12 @@
 
 <div class="tabs">
 	<ul class="list-inline tabs-nav" role="tablist">
-		<li role="presentation" class="active"><a href="#bb_stats" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true"><i class="fa fa-rocket"></i> {{ lang('STATISTICS') }}</a></li>
+		<li role="presentation" class="active"><a href="#bb_stats" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true"><i class="fa fa-line-chart"></i> {{ lang('STATISTICS') }}</a></li>
+		<li role="presentation"><a href="#bb_exts" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-rocket"></i> {{ lang('BB_EXTS') }}</a></li>
 		<li role="presentation"><a href="#bb_styles" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-paint-brush"></i> {{ lang('BB_STYLES') }}</a></li>
+		<li role="presentation"><a href="#bb_acp_styles" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-sliders"></i> {{ lang('BB_ACP_STYLES') }}</a></li>
+		<li role="presentation"><a href="#bb_langs" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-keyboard-o"></i> {{ lang('BB_LANGS') }}</a></li>
+		<li role="presentation"><a href="#bb_tools" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-wrench"></i> {{ lang('BB_TOOLS') }}</a></li>
 	</ul>
 
 	<div class="tab-content">
@@ -25,24 +29,26 @@
 				You can easily put the profile settings form here!
 			</div>
 		</div>
-		<div role="tabpanel" class="tab-pane" id="bb_styles">
+		<div role="tabpanel" class="tab-pane" id="bb_exts">
 			<div class="widget white-bg">
 				<ul class="comments-list list-unstyled clearfix">
+					{% for cat in ext_cats %}
 					<li class="clearfix">
-						<img src="images/avtar-1.jpg" alt="" width="50" class="img-circle">
+						<img src="{{ T_THEME_PATH }}/images/forum_icons/3.png" alt="" width="64" class="img-circle">
 						<div class="content">
 							<div class="comments-header">
-								<strong>John Doe</strong>
-								<small class="text-muted">30 Minutes Ago</small>
+								<a href="#" class="text-primary">{{ cat.NAME }}</a>
 							</div>
-							<p>Lorem ipsum industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type.</p>
-							<ul class="list-inline">
-								<li><a href="#"><i class="fa fa-comments"></i> 94</a></li>
-								<li><a href="#"><i class="fa fa-thumbs-up"></i> 145</a></li>
-								<li><a href="#"><i class="fa fa-reply"></i> Reply</a></li>
-							</ul>
+							<div>
+								<span>Latest: <a href="#">Styles Demo 1.2.5</a></span>
+								<ul class="list-inline pull-right">
+									<li><a data-toggle="tooltip" data-placement="bottom" title="{{ lang('BB_EXTS') }}"><i class="icon-paper-clip fa-2x"></i> 94</a></li>
+									<li><a data-toggle="tooltip" data-placement="bottom" title="{{ lang('DOWNLOADS') }}"><i class="icon-arrow-down-circle fa-2x"></i> 145</a></li>
+								</ul>
+							</div>
 						</div>
 					</li>
+					{% endfor %}
 				</ul>
 			</div>
 		</div>
