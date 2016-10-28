@@ -106,6 +106,10 @@ class portal_categories_module
 				{
 					$errors[] = $this->language->lang('ERROR_PORTAL_CAT_VARNAME_EMPTY');
 				}
+				else if (!preg_match('#^[a-z0-9-]+$#', $cat_varname))
+				{
+					$errors[] = $this->language->lang('ERROR_PORTAL_CAT_VARNAME_INVALID');
+				}
 				else
 				{
 					$sql_and = ($cat_id) ? "AND cat_id <> $cat_id" : '';
