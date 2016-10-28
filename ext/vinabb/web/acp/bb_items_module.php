@@ -237,6 +237,7 @@ class bb_items_module
 
 					'ITEM_DETAILS_LANG'	=> $this->language->lang(strtoupper($mode) . '_DETAILS'),
 					'ITEM_NAME_LANG'	=> $this->language->lang(strtoupper($mode) . '_NAME'),
+					'ITEM_VARNAME_LANG'	=> $this->language->lang(strtoupper($mode) . '_VARNAME'),
 					'ITEM_VERSION_LANG'	=> $this->language->lang(strtoupper($mode) . '_VERSION'),
 
 					'U_ACTION'	=> $this->u_action,
@@ -529,6 +530,7 @@ class bb_items_module
 			'PAGE_TITLE_EXPLAIN'	=> $this->language->lang('ACP_BB_' . strtoupper($mode) . 'S_EXPLAIN'),
 			'ADD_ITEM_LANG'			=> $this->language->lang('ADD_BB_' . strtoupper($mode)),
 			'ITEM_NAME_LANG'		=> $this->language->lang(strtoupper($mode) . '_NAME'),
+			'ITEM_VARNAME_LANG'		=> $this->language->lang(strtoupper($mode) . '_VARNAME'),
 			'ITEM_VERSION_LANG'		=> $this->language->lang(strtoupper($mode) . '_VERSION'),
 			'COUNTER_ITEM_LANG_KEY'	=> 'COUNTER_' . strtoupper($mode) . 'S',
 

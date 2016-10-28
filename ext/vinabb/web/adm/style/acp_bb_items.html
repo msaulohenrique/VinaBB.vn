@@ -15,6 +15,10 @@
 				<dd><input type="text" name="item_name" id="item_name" value="{{ ITEM_NAME }}" size="40" maxlength="255"></dd>
 			</dl>
 			<dl>
+				<dt><label for="item_varname">{{ ITEM_VARNAME_LANG ~ lang('COLON') }}</label></dt>
+				<dd><input type="text" name="item_varname" id="item_varname" value="{{ ITEM_VARNAME }}" size="40" maxlength="255"></dd>
+			</dl>
+			<dl>
 				<dt><label for="cat_id">{{ lang('CATEGORY') ~ lang('COLON') }}</label></dt>
 				<dd><select name="cat_id" id="cat_id">{{ CAT_OPTIONS }}</select></dd>
 			</dl>
