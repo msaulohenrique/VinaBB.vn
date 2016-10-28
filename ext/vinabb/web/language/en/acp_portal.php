@@ -41,6 +41,7 @@ $lang = array_merge($lang, array(
 	'ERROR_PORTAL_CAT_NAME_EMPTY'			=> 'You must enter a category name.',
 	'ERROR_PORTAL_CAT_VARNAME_DUPLICATE'	=> 'The category varname “%s” already exists.',
 	'ERROR_PORTAL_CAT_VARNAME_EMPTY'		=> 'You must enter a category varname.',
+	'ERROR_PORTAL_CAT_VARNAME_INVALID'		=> 'The category varname is invalid.',
 
 	'MESSAGE_ARTICLE_ADD'		=> 'The article has been created.',
 	'MESSAGE_ARTICLE_DELETE'	=> 'The article has been deleted.',
