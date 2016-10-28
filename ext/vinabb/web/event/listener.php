@@ -250,6 +250,7 @@ class listener implements EventSubscriberInterface
 			foreach ($this->cache->get_bb_cats($bb_type) as $cat_id => $cat_data)
 			{
 				$this->template->assign_block_vars($bb_type . '_cats', array(
+					'ID'		=> $cat_id,
 					'NAME'		=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $cat_data['name_vi'] : $cat_data['name'],
 					'VARNAME'	=> $cat_data['varname'],
 				));

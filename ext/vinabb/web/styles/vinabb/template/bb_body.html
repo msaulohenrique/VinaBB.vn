@@ -15,44 +15,67 @@
 
 <div class="tabs">
 	<ul class="list-inline tabs-nav" role="tablist">
-		<li role="presentation"{% if S_BB_STATS %} class="active"{% endif %}><a href="#bb_stats" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="{{ S_BB_STATS ? 'true' : 'false' }}"><i class="fa fa-line-chart"></i> {{ lang('STATISTICS') }}</a></li>
-		<li role="presentation"{% if S_BB_EXTS %} class="active"{% endif %}><a href="#bb_exts" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="{{ S_BB_EXTS ? 'true' : 'false' }}"><i class="fa fa-rocket"></i> {{ lang('BB_EXTS') }}</a></li>
-		<li role="presentation"{% if S_BB_STYLES %} class="active"{% endif %}><a href="#bb_styles" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="{{ S_BB_STYLES ? 'true' : 'false' }}"><i class="fa fa-paint-brush"></i> {{ lang('BB_STYLES') }}</a></li>
-		<li role="presentation"{% if S_BB_ACP_STYLES %} class="active"{% endif %}><a href="#bb_acp_styles" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="{{ S_BB_ACP_STYLES ? 'true' : 'false' }}"><i class="fa fa-sliders"></i> {{ lang('BB_ACP_STYLES') }}</a></li>
-		<li role="presentation"{% if S_BB_LANGS %} class="active"{% endif %}><a href="#bb_langs" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="{{ S_BB_LANGS ? 'true' : 'false' }}"><i class="fa fa-keyboard-o"></i> {{ lang('BB_LANGS') }}</a></li>
-		<li role="presentation"{% if S_BB_TOOLS %} class="active"{% endif %}><a href="#bb_tools" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="{{ S_BB_TOOLS ? 'true' : 'false' }}"><i class="fa fa-wrench"></i> {{ lang('BB_TOOLS') }}</a></li>
+		<li role="presentation"{% if S_BB_STATS %} class="active"{% endif %}><a href="{{ U_BB }}" aria-controls="home" role="tab" aria-expanded="{{ S_BB_STATS ? 'true' : 'false' }}"><i class="fa fa-line-chart"></i> {{ lang('STATISTICS') }}</a></li>
+		<li role="presentation"{% if S_BB_EXTS %} class="active"{% endif %}><a href="{{ U_BB_EXTS }}" aria-controls="home" role="tab" aria-expanded="{{ S_BB_EXTS ? 'true' : 'false' }}"><i class="fa fa-rocket"></i> {{ lang('BB_EXTS') }}</a></li>
+		<li role="presentation"{% if S_BB_STYLES %} class="active"{% endif %}><a href="{{ U_BB_STYLES }}" aria-controls="home" role="tab" aria-expanded="{{ S_BB_STYLES ? 'true' : 'false' }}"><i class="fa fa-paint-brush"></i> {{ lang('BB_STYLES') }}</a></li>
+		<li role="presentation"{% if S_BB_ACP_STYLES %} class="active"{% endif %}><a href="{{ U_BB_ACP_STYLES }}" aria-controls="home" role="tab" aria-expanded="{{ S_BB_ACP_STYLES ? 'true' : 'false' }}"><i class="fa fa-sliders"></i> {{ lang('BB_ACP_STYLES') }}</a></li>
+		<li role="presentation"{% if S_BB_LANGS %} class="active"{% endif %}><a href="{{ U_BB_LANGS }}" aria-controls="home" role="tab" aria-expanded="{{ S_BB_LANGS ? 'true' : 'false' }}"><i class="fa fa-keyboard-o"></i> {{ lang('BB_LANGS') }}</a></li>
+		<li role="presentation"{% if S_BB_TOOLS %} class="active"{% endif %}><a href="{{ U_BB_TOOLS }}" aria-controls="home" role="tab" aria-expanded="{{ S_BB_TOOLS ? 'true' : 'false' }}"><i class="fa fa-wrench"></i> {{ lang('BB_TOOLS') }}</a></li>
 	</ul>
 
 	<div class="tab-content">
-		<div role="tabpanel" class="tab-pane{% if S_BB_STATS %} active{% endif %}" id="bb_stats">
+		{% if S_BB_STATS %}
+		<div role="tabpanel" class="tab-pane active" id="bb_stats">
 			<div class="widget white-bg">
 				<h5>Awesome</h5>
-				You can easily put the profile settings form here!
+				<p>You can easily put the profile settings form here!</p>
 			</div>
 		</div>
-		<div role="tabpanel" class="tab-pane{% if S_BB_EXTS %} active{% endif %}" id="bb_exts">
+		{% else %}
+
+			{% if S_BB_EXTS %}
+				{% set CAT_LIST = ext_cats %}
+			{% elseif S_BB_STYLES %}
+				{% set CAT_LIST = style_cats %}
+			{% elseif S_BB_ACP_STYLES %}
+				{% set CAT_LIST = acp_style_cats %}
+			{% elseif S_BB_LANGS %}
+				{% set CAT_LIST = lang_cats %}
+			{% elseif S_BB_TOOLS %}
+				{% set CAT_LIST = tool_cats %}
+			{% endif %}
+
+		<div role="tabpanel" class="tab-pane active" id="bb_cats">
 			<div class="widget white-bg">
+				{% if CAT_LIST %}
 				<ul class="comments-list list-unstyled clearfix">
-					{% for cat in ext_cats %}
+					{% for cat in CAT_LIST %}
 					<li class="clearfix">
-						<img src="{{ T_THEME_PATH }}/images/forum_icons/3.png" alt="" width="64" class="img-circle">
+						<img src="{{ T_THEME_PATH }}/images/bb_icons/{{ cat.ID }}.png" alt="" width="64" class="img-circle">
 						<div class="content">
-							<div class="comments-header">
-								<a href="#" class="text-primary">{{ cat.NAME }}</a>
-							</div>
-							<div>
-								<span>Latest: <a href="#">Styles Demo 1.2.5</a></span>
+							<div class="comments-header margin-t-10">
+								<span><a href="#" data-toggle="tooltip" data-placement="right" title="{{ SITE_DESCRIPTION }}" class="btn btn-primary btn-icon"><i>{{ loop.index }}</i> {{ cat.NAME }}</a></span>
 								<ul class="list-inline pull-right">
 									<li><a data-toggle="tooltip" data-placement="bottom" title="{{ lang('BB_EXTS') }}"><i class="icon-paper-clip fa-2x"></i> 94</a></li>
+									<li><a data-toggle="tooltip" data-placement="bottom" title="{{ lang('LIKES') }}"><i class="icon-like fa-2x"></i> 94</a></li>
 									<li><a data-toggle="tooltip" data-placement="bottom" title="{{ lang('DOWNLOADS') }}"><i class="icon-arrow-down-circle fa-2x"></i> 145</a></li>
 								</ul>
+							</div>
+							<div>
+								<span>Styles Demo 1.2.5 <small class="text-muted">{{ CURRENT_TIME }}</small></span>
+								<span class="label label-info pull-right">Standby</span>
 							</div>
 						</div>
 					</li>
 					{% endfor %}
 				</ul>
+				{% else %}
+					<h5>{{ lang('INFORMATION') }}</h5>
+					<p>No things here!</p>
+				{% endif %}
 			</div>
 		</div>
+		{% endif %}
 	</div>
 </div>
 
