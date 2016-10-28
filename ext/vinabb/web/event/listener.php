@@ -305,6 +305,12 @@ class listener implements EventSubscriberInterface
 			'S_VIETNAMESE'	=> $this->user->lang_name == constants::LANG_VIETNAMESE,
 
 			'U_BOARD'			=> $this->helper->route('vinabb_web_board_route'),
+			'U_BB'				=> $this->helper->route('vinabb_web_bb_route'),
+			'U_BB_EXTS'			=> $this->helper->route('vinabb_web_bb_type_route', array('type' => constants::BB_TYPE_VARNAME_EXT)),
+			'U_BB_STYLES'		=> $this->helper->route('vinabb_web_bb_type_route', array('type' => constants::BB_TYPE_VARNAME_STYLE)),
+			'U_BB_ACP_STYLES'	=> $this->helper->route('vinabb_web_bb_type_route', array('type' => constants::BB_TYPE_VARNAME_ACP_STYLE)),
+			'U_BB_LANGS'		=> $this->helper->route('vinabb_web_bb_type_route', array('type' => constants::BB_TYPE_VARNAME_LANG)),
+			'U_BB_TOOLS'		=> $this->helper->route('vinabb_web_bb_type_route', array('type' => constants::BB_TYPE_VARNAME_TOOL)),
 			'U_MCP'				=> ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? append_sid("{$this->root_path}mcp.{$this->php_ext}", 'i=main&mode=front', true, $this->user->session_id) : '',
 			'U_LANG'			=> ($this->user->data['user_id'] == ANONYMOUS && $this->config['vinabb_web_lang_enable']) ? append_sid("{$this->root_path}index.{$this->php_ext}", "language=$lang_switch") : '',
 			'U_CONTACT_PM'		=> ($this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm') && $this->config['vinabb_web_manager_user_id']) ? $this->helper->route('vinabb_web_ucp_route', array('id' => 'pm', 'mode' => 'compose', 'u' => $this->config['vinabb_web_manager_user_id'])) : '',
