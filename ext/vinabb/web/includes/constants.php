@@ -41,8 +41,8 @@ class constants
 	// Resource type varnames
 	const BB_TYPE_VARNAME_EXT = 'extensions';
 	const BB_TYPE_VARNAME_STYLE = 'styles';
-	const BB_TYPE_VARNAME_ACP_STYLE = 'acp';
-	const BB_TYPE_VARNAME_LANG = 'ivn';
+	const BB_TYPE_VARNAME_ACP_STYLE = 'acp-styles';
+	const BB_TYPE_VARNAME_LANG = 'languages';
 	const BB_TYPE_VARNAME_TOOL = 'tools';
 
 	// OS
