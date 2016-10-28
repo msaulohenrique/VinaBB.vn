@@ -182,7 +182,7 @@ class board
 
 			'S_BOARD'	=> true,
 
-			'U_MARK_FORUMS'	=> ($this->user->data['is_registered'] || $this->config['load_anon_lastread']) ? $this->helper->route('vinabb_web_board_route', array('board' => $board, 'hash' => generate_link_hash('global'), 'mark' => 'forums', 'mark_time' => time())) : '',
+			'U_MARK_FORUMS'	=> ($this->user->data['is_registered'] || $this->config['load_anon_lastread']) ? $this->helper->route('vinabb_web_board_route', array('hash' => generate_link_hash('global'), 'mark' => 'forums', 'mark_time' => time())) : '',
 		));
 
 		$page_title = $this->language->lang('BOARD');
