@@ -66,6 +66,7 @@ vinabb_web_bb_route:
     path: /bb{slash}
     defaults:
         _controller: vinabb.web.bb:index
+        type: ''
         slash: ''
     requirements:
         slash: '(|\/)'
