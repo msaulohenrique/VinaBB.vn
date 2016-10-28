@@ -25,6 +25,7 @@ $lang = array_merge($lang, array(
 	'ACP_BB_LANGS_EXPLAIN'		=> '',
 	'ACP_BB_STYLES_EXPLAIN'		=> '',
 	'ACP_BB_TOOLS_EXPLAIN'		=> '',
+	'ACP_STYLE_VARNAME'			=> 'Tên biến',
 	'ADD_BB_ACP_STYLE'			=> 'Thêm giao diện mới',
 	'ADD_BB_CAT'				=> 'Tạo danh mục mới',
 	'ADD_BB_EXT'				=> 'Thêm gói mở rộng mới',
@@ -54,6 +55,7 @@ $lang = array_merge($lang, array(
 	'ERROR_BB_CAT_VARNAME_DUPLICATE'		=> 'Tên biến danh mục “%s” bị trùng.',
 	'ERROR_BB_CAT_VARNAME_EMPTY'			=> 'Chưa nhập tên biến danh mục.',
 	'ERROR_BB_CAT_VARNAME_INVALID'			=> 'Tên biến danh mục không hợp lệ.',
+	'ERROR_BB_EXT_NAME_EMPTY'				=> 'Chưa nhập tên gói mở rộng.',
 	'ERROR_BB_EXT_VARNAME_DUPLICATE'		=> 'Tên định danh gói mở rộng “%s” bị trùng.',
 	'ERROR_BB_EXT_VARNAME_EMPTY'			=> 'Chưa nhập tên định danh gói mở rộng.',
 	'ERROR_BB_EXT_VARNAME_INVALID'			=> 'Tên định danh gói mở rộng không hợp lệ.',
@@ -80,11 +82,14 @@ $lang = array_merge($lang, array(
 	'ERROR_BB_TOOL_VARNAME_INVALID'			=> 'Tên biến công cụ không hợp lệ.',
 	'ERROR_BB_TOOL_VERSION_EMPTY'			=> 'Chưa nhập phiên bản công cụ.',
 	'ERROR_BB_TOOL_VERSION_INVALID'			=> 'Phiên bản công cụ không hợp lệ.',
+	'EXT_VARNAME'							=> 'Tên định danh',
 
 	'ITEM_EXT_DETAILS'		=> 'Thuộc tính gói mở rộng',
 	'ITEM_LANG_DETAILS'		=> 'Thuộc tính gói ngôn ngữ',
 	'ITEM_STYLE_DETAILS'	=> 'Thuộc tính giao diện',
 	'ITEM_TOOL_DETAILS'		=> 'Thuộc tính công cụ',
+
+	'LANG_VARNAME'	=> 'Tên biến',
 
 	'MESSAGE_BB_ACP_STYLE_ADD'		=> 'Đã thêm giao diện quản trị.',
 	'MESSAGE_BB_ACP_STYLE_DELETE'	=> 'Đã gỡ bỏ giao diện quản trị.',
@@ -117,4 +122,8 @@ $lang = array_merge($lang, array(
 	'NO_BB_STYLE_ID'		=> 'Giao diện không xác định.',
 	'NO_BB_TOOL'			=> 'Công cụ không tồn tại.',
 	'NO_BB_TOOL_ID'			=> 'Công cụ không xác định.',
+
+	'STYLE_VARNAME'	=> 'Tên biến',
+
+	'TOOL_VARNAME'	=> 'Tên biến',
 ));

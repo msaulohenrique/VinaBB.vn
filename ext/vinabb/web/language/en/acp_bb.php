@@ -25,6 +25,7 @@ $lang = array_merge($lang, array(
 	'ACP_BB_LANGS_EXPLAIN'		=> '',
 	'ACP_BB_STYLES_EXPLAIN'		=> '',
 	'ACP_BB_TOOLS_EXPLAIN'		=> '',
+	'ACP_STYLE_VARNAME'			=> 'Varname',
 	'ADD_BB_ACP_STYLE'			=> 'Add new style',
 	'ADD_BB_CAT'				=> 'Create new category',
 	'ADD_BB_EXT'				=> 'Add new extension',
@@ -54,6 +55,7 @@ $lang = array_merge($lang, array(
 	'ERROR_BB_CAT_VARNAME_DUPLICATE'		=> 'The category varname “%s” already exists.',
 	'ERROR_BB_CAT_VARNAME_EMPTY'			=> 'You must enter a category varname.',
 	'ERROR_BB_CAT_VARNAME_INVALID'			=> 'The category varname is invalid.',
+	'ERROR_BB_EXT_NAME_EMPTY'				=> 'You must enter an extension name.',
 	'ERROR_BB_EXT_VARNAME_DUPLICATE'		=> 'The extension package name “%s” already exists.',
 	'ERROR_BB_EXT_VARNAME_EMPTY'			=> 'You must enter an extension package name.',
 	'ERROR_BB_EXT_VARNAME_INVALID'			=> 'The extension package name is invalid.',
@@ -80,11 +82,14 @@ $lang = array_merge($lang, array(
 	'ERROR_BB_TOOL_VARNAME_INVALID'			=> 'The tool varname is invalid.',
 	'ERROR_BB_TOOL_VERSION_EMPTY'			=> 'You must enter a tool version.',
 	'ERROR_BB_TOOL_VERSION_INVALID'			=> 'The tool version is invalid.',
+	'EXT_VARNAME'							=> 'Package name',
 
 	'ITEM_EXT_DETAILS'		=> 'Extension properties',
 	'ITEM_LANG_DETAILS'		=> 'Language package properties',
 	'ITEM_STYLE_DETAILS'	=> 'Style properties',
 	'ITEM_TOOL_DETAILS'		=> 'Tool properties',
+
+	'LANG_VARNAME'	=> 'Varname',
 
 	'MESSAGE_BB_ACP_STYLE_ADD'		=> 'The ACP style has been added.',
 	'MESSAGE_BB_ACP_STYLE_DELETE'	=> 'The ACP style has been removed.',
@@ -117,4 +122,8 @@ $lang = array_merge($lang, array(
 	'NO_BB_STYLE_ID'		=> 'No styles specified.',
 	'NO_BB_TOOL'			=> 'The tool does not exist.',
 	'NO_BB_TOOL_ID'			=> 'No tools specified.',
+
+	'STYLE_VARNAME'	=> 'Varname',
+
+	'TOOL_VARNAME'	=> 'Varname',
 ));
