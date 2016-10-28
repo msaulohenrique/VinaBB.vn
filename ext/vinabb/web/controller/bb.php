@@ -8,6 +8,8 @@
 
 namespace vinabb\web\controller;
 
+use vinabb\web\includes\constants;
+
 class bb
 {
 	/** @var \phpbb\cache\service */
