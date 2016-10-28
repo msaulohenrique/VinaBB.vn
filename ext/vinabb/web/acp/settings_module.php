@@ -448,6 +448,9 @@ class settings_module
 			'CHECK_PHP_BRANCH'				=> isset($check_php_branch) ? $check_php_branch : $this->config['vinabb_web_check_php_branch'],
 			'CHECK_PHP_LEGACY_BRANCH'		=> isset($check_php_legacy_branch) ? $check_php_legacy_branch : $this->config['vinabb_web_check_php_legacy_branch'],
 
+			'MODULE'	=> $id,
+			'MODE'		=> $mode,
+
 			'U_ACTION'	=> $this->u_action,
 		));
 	}

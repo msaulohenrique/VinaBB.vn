@@ -76,6 +76,9 @@ class portal_categories_module
 					'CAT_VARNAME'	=> isset($cat_data['cat_varname']) ? $cat_data['cat_varname'] : '',
 					'CAT_ICON'		=> isset($cat_data['cat_icon']) ? $cat_data['cat_icon'] : '',
 
+					'MODULE'	=> $id,
+					'MODE'		=> $mode,
+
 					'U_ACTION'	=> $this->u_action,
 					'U_BACK'	=> $this->u_action,
 
@@ -294,6 +297,9 @@ class portal_categories_module
 		// Output
 		$this->template->assign_vars(array(
 			'TOTAL_CATS'	=> $cat_count,
+
+			'MODULE'	=> $id,
+			'MODE'		=> $mode,
 
 			'U_ACTION'	=> $this->u_action . "&action=$action&start=$start",
 

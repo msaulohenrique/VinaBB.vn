@@ -139,6 +139,8 @@ class portal_articles_module
 					'CAT_OPTIONS'	=> $cat_options,
 					'LANG_OPTIONS'	=> $lang_options,
 
+					'MODULE'	=> $id,
+					'MODE'		=> $mode,
 					'ACTION'	=> $action,
 
 					'U_ACTION'	=> $this->u_action,
@@ -300,6 +302,9 @@ class portal_articles_module
 		// Output
 		$this->template->assign_vars(array(
 			'TOTAL_ARTICLES'	=> $article_count,
+
+			'MODULE'	=> $id,
+			'MODE'		=> $mode,
 
 			'U_ACTION'	=> $this->u_action . "&action=$action&start=$start",
 

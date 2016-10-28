@@ -240,6 +240,9 @@ class bb_items_module
 					'ITEM_VARNAME_LANG'	=> $this->language->lang(strtoupper($mode) . '_VARNAME'),
 					'ITEM_VERSION_LANG'	=> $this->language->lang(strtoupper($mode) . '_VERSION'),
 
+					'MODULE'	=> $id,
+					'MODE'		=> $mode,
+
 					'U_ACTION'	=> $this->u_action,
 					'U_BACK'	=> $this->u_action,
 
@@ -533,6 +536,9 @@ class bb_items_module
 			'ITEM_VARNAME_LANG'		=> $this->language->lang(strtoupper($mode) . '_VARNAME'),
 			'ITEM_VERSION_LANG'		=> $this->language->lang(strtoupper($mode) . '_VERSION'),
 			'COUNTER_ITEM_LANG_KEY'	=> 'COUNTER_' . strtoupper($mode) . 'S',
+
+			'MODULE'	=> $id,
+			'MODE'		=> $mode,
 
 			'U_ACTION'	=> $this->u_action . "&action=$action&start=$start",
 

@@ -80,6 +80,9 @@ class bb_categories_module
 					'CAT_VARNAME'	=> isset($cat_data['cat_varname']) ? $cat_data['cat_varname'] : '',
 					'CAT_ICON'		=> isset($cat_data['cat_icon']) ? $cat_data['cat_icon'] : '',
 
+					'MODULE'	=> $id,
+					'MODE'		=> $mode,
+
 					'U_ACTION'	=> $this->u_action,
 					'U_BACK'	=> $this->u_action,
 
@@ -304,6 +307,9 @@ class bb_categories_module
 			'TOTAL_CATS'			=> $cat_count,
 			'PAGE_TITLE_EXPLAIN'	=> $this->language->lang('ACP_BB_' . strtoupper($mode) . '_CATS_EXPLAIN'),
 			'TOTAL_ITEMS_LANG'		=> $this->language->lang('TOTAL_' . strtoupper($mode) . 'S'),
+
+			'MODULE'	=> $id,
+			'MODE'		=> $mode,
 
 			'U_ACTION'	=> $this->u_action . "&action=$action&start=$start",
 
