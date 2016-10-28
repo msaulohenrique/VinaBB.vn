@@ -288,9 +288,13 @@ class bb_items_module
 					$errors[] = $this->language->lang('ERROR_BB_' . strtoupper($mode) . '_NAME_EMPTY');
 				}
 
-				if (in_array($mode, array('ext', 'style', 'acp_style')) && empty($item_varname))
+				if (empty($item_varname))
 				{
 					$errors[] = $this->language->lang('ERROR_BB_' . strtoupper($mode) . '_VARNAME_EMPTY');
+				}
+				else if (($mode == 'ext' && !preg_match('#^([a-z0-9-]+)\.([a-z0-9-]+)$#', $item_varname)) || ($mode != 'ext' && !preg_match('#^[a-z0-9-]+$#', $item_varname)))
+				{
+					$errors[] = $this->language->lang('ERROR_BB_' . strtoupper($mode) . '_VARNAME_INVALID');
 				}
 				else
 				{
@@ -311,7 +315,11 @@ class bb_items_module
 					}
 				}
 
-				if (!preg_match('#^\d+(\.\d){1,3}(\-(((?:A|B|RC|PL)\d+)|DEV))?$#', $item_version))
+				if (empty($item_version))
+				{
+					$errors[] = $this->language->lang('ERROR_BB_' . strtoupper($mode) . '_VERSION_EMPTY');
+				}
+				else if (!preg_match('#^\d+(\.\d){1,3}(\-(((?:A|B|RC|PL)\d+)|DEV))?$#', $item_version))
 				{
 					$errors[] = $this->language->lang('ERROR_BB_' . strtoupper($mode) . '_VERSION_INVALID');
 				}
