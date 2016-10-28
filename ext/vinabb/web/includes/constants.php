@@ -10,10 +10,15 @@ namespace vinabb\web\includes;
 
 class constants
 {
-	// GitHub home
+	// Project URLs
+	const VINABB_GITHUB_PATH = 'VinaBB/VinaBB.vn';
 	const VINABB_GITHUB_URL = 'https://github.com/VinaBB/VinaBB.vn';
+	const VINABB_GITHUB_DOWNLOAD_URL = 'https://github.com/VinaBB/VinaBB.vn/archive/master.zip';
+	const VINABB_GITHUB_FORK_URL = 'https://github.com/VinaBB/VinaBB.vn/fork';
 	const VINABB_TRAVIS_URL = 'https://travis-ci.org/VinaBB/VinaBB.vn';
 	const VINABB_TRAVIS_IMG_URL = 'https://travis-ci.org/VinaBB/VinaBB.vn.svg?branch=master';
+	const VINABB_INSIGHT_URL = 'https://insight.sensiolabs.com/projects/791226a3-5228-429d-9f3a-20f9a9404b7b';
+	const VINABB_INSIGHT_IMG_URL = 'https://insight.sensiolabs.com/projects/791226a3-5228-429d-9f3a-20f9a9404b7b/mini.png';
 
 	// Languages
 	const LANG_VIETNAMESE = 'vi';

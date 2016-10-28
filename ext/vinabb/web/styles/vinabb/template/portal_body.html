@@ -120,7 +120,7 @@
 		<div class="widget bg-danger padding-0">
 			<div class="row row-table"{% if LATEST_VINABB_VERSION %} role="button" data-toggle="modal" data-target="#vinabbModal"{% endif %}>
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
-					<em class="icon-badge fa-3x"></em>
+					<em class="icon-chemistry fa-3x"></em>
 				</div>
 				<div class="col-xs-8 pv-15 text-center">
 					<h2 class="mv-0">{{ LATEST_VINABB_VERSION ?: lang('ELLIPSIS') }}</h2>
@@ -542,11 +542,23 @@
 				<h3 class="modal-title">{{ lang('LATEST_VINABB_TITLE') }}</h3>
 			</div>
 			<div class="modal-body">
-				{% if LATEST_VINABB_VERSION %}
-				<a{% if LATEST_VINABB_VERSION_URL %} href="{{ LATEST_VINABB_VERSION_URL }}" target="_blank"{% endif %} class="btn btn-github btn-icon btn-xs"><i class="fa fa-download"></i> {{ lang('GITHUB') }}</a>
-				{% endif %}
-				{% if LATEST_VINABB_TRAVIS_IMG_URL and LATEST_VINABB_TRAVIS_URL %}
-				<a href="{{ LATEST_VINABB_TRAVIS_URL }}" target="_blank"><img src="{{ LATEST_VINABB_TRAVIS_IMG_URL }}"></a>
+				<div>
+					{% if LATEST_VINABB_GITHUB_PATH and LATEST_VINABB_GITHUB_URL and LATEST_VINABB_GITHUB_FORK_URL %}
+					<a class="github-button" href="{{ LATEST_VINABB_GITHUB_URL }}" data-icon="octicon-eye" data-count-href="/{{ LATEST_VINABB_GITHUB_PATH }}/watchers" data-count-api="/repos/{{ LATEST_VINABB_GITHUB_PATH }}#subscribers_count" data-count-aria-label="# watchers on GitHub" aria-label="Watch on GitHub">Watch</a>
+					<a class="github-button" href="{{ LATEST_VINABB_GITHUB_URL }}" data-icon="octicon-star" data-count-href="/{{ LATEST_VINABB_GITHUB_PATH }}/stargazers" data-count-api="/repos/{{ LATEST_VINABB_GITHUB_PATH }}#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star on GitHub">Star</a>
+					<a class="github-button" href="{{ LATEST_VINABB_GITHUB_FORK_URL }}" data-icon="octicon-repo-forked" data-count-href="/{{ LATEST_VINABB_GITHUB_PATH }}/network" data-count-api="/repos/{{ LATEST_VINABB_GITHUB_PATH }}#forks_count" data-count-aria-label="# forks on GitHub" aria-label="Fork on GitHub">Fork</a>
+					{% endif %}
+					{% if LATEST_VINABB_TRAVIS_IMG_URL and LATEST_VINABB_TRAVIS_URL %}
+					<a href="{{ LATEST_VINABB_TRAVIS_URL }}" target="_blank"><img src="{{ LATEST_VINABB_TRAVIS_IMG_URL }}" class="external-img"></a>
+					{% endif %}
+					{% if LATEST_VINABB_INSIGHT_IMG_URL and LATEST_VINABB_INSIGHT_URL %}
+					<a href="{{ LATEST_VINABB_INSIGHT_URL }}" target="_blank"><img src="{{ LATEST_VINABB_INSIGHT_IMG_URL }}" class="external-img"></a>
+					{% endif %}
+				</div>
+				{% if LATEST_VINABB_GITHUB_DOWNLOAD_URL %}
+				<div class="text-center margin-t-5">
+					<a href="{{ LATEST_VINABB_GITHUB_DOWNLOAD_URL }}" target="_blank" class="btn btn-github btn-icon"><i class="fa fa-download"></i> {{ lang('GITHUB') }}</a>
+				</div>
 				{% endif %}
 			</div>
 		</div>
