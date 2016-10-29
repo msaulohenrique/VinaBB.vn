@@ -1,0 +1,3 @@
+{% for row in text %}
+<textarea name="{{ row.FIELD_IDENT }}" id="{{ row.FIELD_IDENT }}" rows="{{ row.FIELD_ROWS }}" cols="{{ row.FIELD_COLS }}">{{ row.FIELD_VALUE }}</textarea>
+{% endfor %}
