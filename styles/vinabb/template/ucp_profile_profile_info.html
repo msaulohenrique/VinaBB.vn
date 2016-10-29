@@ -1,0 +1,14 @@
+{% include 'ucp_header.html' %}
+
+{% for row in profile_fields %}
+<fieldset>
+	<div class="form-group">
+		<label class="col-sm-2 control-label"{% if row.FIELD_ID %} for="{{ row.FIELD_ID }}"{% endif %}>{{ row.LANG_NAME ~ lang('COLON') }}</label>
+		<div class="col-sm-10">
+			{{ row.FIELD }}
+		</div>
+	</div>
+</fieldset>
+{% endfor %}
+
+{% include 'ucp_footer.html' %}
