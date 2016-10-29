@@ -1,0 +1,107 @@
+{% include 'overall_header.html' %}
+
+<div class="row">
+	<div class="col-sm-6">
+		<ol class="breadcrumb">
+			<li><a href="{{ U_INDEX }}"><i class="fa fa-home"></i></a></li>
+			<li><a href="{{ U_PROFILE }}">{{ lang('UCP') }}</a></li>
+			<li>{% for block in t_block1 if block.S_SELECTED %}<a href="{{ block.U_TITLE }}">{{ block.L_TITLE }}{% endfor %}</a></li>
+			<li>{{ PAGE_TITLE }}</li>
+		</ol>
+	</div>
+	<div class="col-sm-6 text-right">
+		<h4>{{ CURRENT_TIME }}</h4>
+	</div>
+</div>
+
+<div class="tabs margin-b-10">
+	{% for block in t_block1 %}
+		<a href="{{ block.U_TITLE }}" class="btn btn-primary btn-lg {{ block.S_SELECTED ? 'btn-primary' : 'btn-border'}}">{{ block.L_TITLE }}</a>
+	{% endfor %}
+</div>
+
+<div class="tabs">
+	<ul class="list-inline tabs-nav" role="tablist">
+		{% for block in t_block2 %}
+
+		{# Module icon #}
+		{% set MODULE_ICON = 'fa fa-chevron-right' %}
+
+		{% if block.MODULE == 'mcp_main' %}
+			{% if block.MODE == 'front' %}
+				{% set MODULE_ICON = 'fa fa-line-chart' %}
+			{% elseif block.MODE == 'forum_view' %}
+				{% set MODULE_ICON = 'fa fa-eye' %}
+			{% elseif block.MODE == 'topic_view' %}
+				{% set MODULE_ICON = 'fa fa-bookmark-o' %}
+			{% elseif block.MODE == 'post_details' %}
+				{% set MODULE_ICON = 'fa fa-paper-plane-o' %}
+			{% endif %}
+		{% elseif block.MODULE == 'mcp_queue' %}
+			{% if block.MODE == 'unapproved_topics' %}
+				{% set MODULE_ICON = 'fa fa-paperclip' %}
+			{% elseif block.MODE == 'unapproved_posts' %}
+				{% set MODULE_ICON = 'fa fa-paperclip' %}
+			{% elseif block.MODE == 'deleted_topics' %}
+				{% set MODULE_ICON = 'fa fa-paperclip' %}
+			{% elseif block.MODE == 'deleted_posts' %}
+				{% set MODULE_ICON = 'fa fa-paperclip' %}
+			{% elseif block.MODE == 'approve_details' %}
+				{% set MODULE_ICON = 'fa fa-paperclip' %}
+			{% endif %}
+		{% elseif block.MODULE == 'mcp_pm_reports' %}
+			{% if block.MODE == 'pm_reports' %}
+				{% set MODULE_ICON = 'fa fa-eercast' %}
+			{% elseif block.MODE == 'pm_reports_closed' %}
+				{% set MODULE_ICON = 'fa fa-bell-o' %}
+			{% elseif block.MODE == 'pm_report_details' %}
+				{% set MODULE_ICON = 'fa fa-bell-o' %}
+			{% endif %}
+		{% elseif block.MODULE == 'mcp_reports' %}
+			{% if block.MODE == 'reports' %}
+				{% set MODULE_ICON = 'fa fa-id-card-o' %}
+			{% elseif block.MODE == 'reports_closed' %}
+				{% set MODULE_ICON = 'fa fa-envira' %}
+			{% elseif block.MODE == 'report_details' %}
+				{% set MODULE_ICON = 'fa fa-user-circle-o' %}
+			{% endif %}
+		{% elseif block.MODULE == 'mcp_notes' %}
+			{% if block.MODE == 'front' %}
+				{% set MODULE_ICON = 'fa fa-cog' %}
+			{% elseif block.MODE == 'user_notes' %}
+				{% set MODULE_ICON = 'fa fa-pencil-square-o' %}
+			{% endif %}
+		{% elseif block.MODULE == 'mcp_warn' %}
+			{% if block.MODE == 'front' %}
+				{% set MODULE_ICON = 'fa fa-envelope-o' %}
+			{% elseif block.MODE == 'list' %}
+				{% set MODULE_ICON = 'fa fa-envelope-open-o' %}
+			{% elseif block.MODE == 'warn_user' %}
+				{% set MODULE_ICON = 'fa fa-folder-open-o' %}
+			{% elseif block.MODE == 'warn_post' %}
+				{% set MODULE_ICON = 'fa fa-folder-open-o' %}
+			{% endif %}
+		{% elseif block.MODULE == 'mcp_logs' %}
+			{% if block.MODE == 'front' %}
+				{% set MODULE_ICON = 'fa fa-slideshare' %}
+			{% elseif block.MODE == 'forum_logs' %}
+				{% set MODULE_ICON = 'fa fa-sliders' %}
+			{% elseif block.MODE == 'topic_logs' %}
+				{% set MODULE_ICON = 'fa fa-sliders' %}
+			{% endif %}
+		{% elseif block.MODULE == 'mcp_ban' %}
+			{% if block.MODE == 'user' %}
+				{% set MODULE_ICON = 'fa fa-address-book-o' %}
+			{% elseif block.MODE == 'ip' %}
+				{% set MODULE_ICON = 'fa fa-ban' %}
+			{% elseif block.MODE == 'email' %}
+				{% set MODULE_ICON = 'fa fa-envelope-o' %}
+			{% endif %}
+		{% endif %}
+
+		<li role="presentation"{% if block.S_SELECTED %} class="active"{% endif %}><a href="{{ block.U_TITLE }}"><i class="{{ MODULE_ICON }}"></i> {{ block.L_TITLE }}</a></li>
+		{% endfor %}
+	</ul>
+	<div class="tab-content">
+		<div class="panel panel-default collapsed">
+			<div class="panel-body">
