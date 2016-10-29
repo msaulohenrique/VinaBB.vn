@@ -1,0 +1,47 @@
+{% include 'overall_header.html' %}
+
+<div class="row">
+	<div class="col-sm-6">
+		<ol class="breadcrumb">
+			<li><a href="{{ U_INDEX }}"><i class="fa fa-home"></i></a></li>
+			<li>{{ lang('FAQ') }}</li>
+		</ol>
+	</div>
+	<div class="col-sm-6 text-right">
+		<h4>{{ CURRENT_TIME }}</h4>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel-group" id="faq" role="tablist" aria-multiselectable="true">
+			{% for block in faq_block %}
+			<div class="panel panel-default">
+				<div class="panel-heading" role="tab" id="block-{{ loop.index }}">
+					<a class="collapsed" role="button" data-toggle="collapse" data-parent="#faq" href="#block-collapse-{{ loop.index }}" aria-expanded="false" aria-controls="block-collapse-{{ loop.index }}">{{ loop.index ~ '. ' ~ block.BLOCK_TITLE }}</a>
+				</div>
+				<div id="block-collapse-{{ loop.index }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="block-{{ loop.index }}" aria-expanded="false" style="height: 0px;">
+					<div class="panel-body">
+						<div class="panel-group" id="block-group-{{ loop.index }}" role="tablist" aria-multiselectable="true">
+							{% for row in block.faq_row %}
+							<div class="panel panel-default">
+								<div class="panel-heading" role="tab" id="block-{{ loop.parent.loop.index }}-row-{{ loop.index }}">
+									<a class="collapsed" role="button" data-toggle="collapse" data-parent="#block-group-{{ loop.parent.loop.index }}" href="#block-{{ loop.parent.loop.index }}-row-collapse-{{ loop.index }}" aria-expanded="false" aria-controls="block-{{ loop.parent.loop.index }}-row-collapse-{{ loop.index }}">{{ loop.parent.loop.index ~ '.' ~ loop.index ~ ' ' ~ row.FAQ_QUESTION }}</a>
+								</div>
+								<div id="block-{{ loop.parent.loop.index }}-row-collapse-{{ loop.index }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="block-{{ loop.parent.loop.index }}-row-{{ loop.index }}" aria-expanded="false" style="height: 0px;">
+									<div class="panel-body">
+										{{ row.FAQ_ANSWER }}
+									</div>
+								</div>
+							</div>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+
+{% include 'overall_footer.html' %}
