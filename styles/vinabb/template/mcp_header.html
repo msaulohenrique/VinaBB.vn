@@ -4,9 +4,9 @@
 	<div class="col-sm-6">
 		<ol class="breadcrumb">
 			<li><a href="{{ U_INDEX }}"><i class="fa fa-home"></i></a></li>
-			<li><a href="{{ U_PROFILE }}">{{ lang('UCP') }}</a></li>
+			<li><a href="{{ U_MCP }}">{{ lang('MCP') }}</a></li>
 			<li>{% for block in t_block1 if block.S_SELECTED %}<a href="{{ block.U_TITLE }}">{{ block.L_TITLE }}{% endfor %}</a></li>
-			<li>{{ PAGE_TITLE }}</li>
+			<li>{% for block in t_block2 if block.S_SELECTED %}{{ block.L_TITLE }}{% endfor %}</li>
 		</ol>
 	</div>
 	<div class="col-sm-6 text-right">
