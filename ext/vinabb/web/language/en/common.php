@@ -258,7 +258,7 @@ $lang = array_merge($lang, array(
 		'BSD'		=> 'BSD',
 		'IOS'		=> 'iOS',
 		'LINUX'		=> 'Linux',
-		'MAC'		=> 'Mac OS X',
+		'MAC'		=> 'macOS',
 		'WIN'		=> 'Windows',
 		'WP'		=> 'Windows Phone',
 	),
