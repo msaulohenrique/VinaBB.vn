@@ -122,6 +122,10 @@ class bb
 			break;
 		}
 
+		$this->template->assign_vars(array(
+			'S_BB_'	=> true
+		));
+
 		return $this->helper->render('bb_body.html', $this->language->lang('BB'));
 	}
 }

@@ -253,6 +253,7 @@ class listener implements EventSubscriberInterface
 					'ID'		=> $cat_id,
 					'NAME'		=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $cat_data['name_vi'] : $cat_data['name'],
 					'VARNAME'	=> $cat_data['varname'],
+					'ICON'		=> $cat_data['icon'],
 				));
 			}
 		}

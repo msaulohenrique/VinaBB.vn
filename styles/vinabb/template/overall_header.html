@@ -303,6 +303,61 @@
 						</ul>
 						{% endif %}
 					</li>
+					<li class="dropdown{% if S_BB %} active{% endif %}">
+						<a href="{{ U_BB }}" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-grid"></i> {{ lang('BB') }}</a>
+						<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+							<li class="dropdown-submenu">
+								<a tabindex="-1" href="{{ U_BB_EXTS }}"><i class="icon-rocket"></i> {{ lang('BB_EXTS') }}</a>
+								{% if ext_cats %}
+								<ul class="dropdown-menu">
+									{% for cat in ext_cats %}
+									<li><a href="{{ cat.URL }}"><i class="{{ cat.ICON }}"></i> {{ cat.NAME }}</a></li>
+									{% endfor %}
+								</ul>
+								{% endif %}
+							</li>
+							<li class="dropdown-submenu">
+								<a tabindex="-1" href="{{ U_BB_STYLES }}"><i class="icon-layers"></i> {{ lang('BB_STYLES') }}</a>
+								{% if style_cats %}
+								<ul class="dropdown-menu">
+									{% for cat in style_cats %}
+									<li><a href="{{ cat.URL }}"><i class="{{ cat.ICON }}"></i> {{ cat.NAME }}</a></li>
+									{% endfor %}
+								</ul>
+								{% endif %}
+							</li>
+							<li class="dropdown-submenu">
+								<a tabindex="-1" href="{{ U_BB_ACP_STYLES }}"><i class="icon-equalizer"></i> {{ lang('BB_ACP_STYLES') }}</a>
+								{% if acp_style_cats %}
+								<ul class="dropdown-menu">
+									{% for cat in acp_style_cats %}
+									<li><a href="{{ cat.URL }}"><i class="{{ cat.ICON }}"></i> {{ cat.NAME }}</a></li>
+									{% endfor %}
+								</ul>
+								{% endif %}
+							</li>
+							<li class="dropdown-submenu">
+								<a tabindex="-1" href="{{ U_BB_LANGS }}"><i class="icon-speech"></i> {{ lang('BB_LANGS') }}</a>
+								{% if lang_cats %}
+								<ul class="dropdown-menu">
+									{% for cat in lang_cats %}
+									<li><a href="{{ cat.URL }}"><i class="{{ cat.ICON }}"></i> {{ cat.NAME }}</a></li>
+									{% endfor %}
+								</ul>
+								{% endif %}
+							</li>
+							<li class="dropdown-submenu">
+								<a tabindex="-1" href="{{ U_BB_TOOLS }}"><i class="icon-wrench"></i> {{ lang('BB_TOOLS') }}</a>
+								{% if tool_cats %}
+								<ul class="dropdown-menu">
+									{% for cat in tool_cats %}
+									<li><a href="{{ cat.URL }}"><i class="{{ cat.ICON }}"></i> {{ cat.NAME }}</a></li>
+									{% endfor %}
+								</ul>
+								{% endif %}
+							</li>
+						</ul>
+					</li>
 					<li class="dropdown">
 						<a href="http://vinabb.vn/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-settings fa-spin"></i> UI elements</a>
 						<ul class="dropdown-menu dropdown-main dropdown-mega">
@@ -329,7 +384,6 @@
 							<li><a href="#"><i class="icon-graph"></i> Dashboard beta</a></li>
 						</ul>
 					</li>
-
 				</ul>
 			</div>
 		</div>

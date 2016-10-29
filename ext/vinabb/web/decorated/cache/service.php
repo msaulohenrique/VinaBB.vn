@@ -181,6 +181,7 @@ class service extends \phpbb\cache\service
 					'name'		=> $row['cat_name'],
 					'name_vi'	=> $row['cat_name_vi'],
 					'varname'	=> $row['cat_varname'],
+					'icon'		=> $row['cat_icon'],
 				);
 			}
 			$this->db->sql_freeresult($result);
