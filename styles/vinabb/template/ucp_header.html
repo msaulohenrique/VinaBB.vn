@@ -1,0 +1,31 @@
+{% include 'overall_header.html' %}
+
+<div class="row">
+	<div class="col-sm-6">
+		<ol class="breadcrumb">
+			<li><a href="{{ U_INDEX }}"><i class="fa fa-home"></i></a></li>
+			<li><a href="{{ U_PROFILE }}">{{ lang('UCP') }}</a></li>
+			<li>{% for block in t_block1 if block.S_SELECTED %}<a href="{{ block.U_TITLE }}">{{ block.L_TITLE }}{% endfor %}</a></li>
+			<li>{{ PAGE_TITLE }}</li>
+		</ol>
+	</div>
+	<div class="col-sm-6 text-right">
+		<h4>{{ CURRENT_TIME }}</h4>
+	</div>
+</div>
+
+<div class="tabs margin-b-10">
+	{% for block in t_block1 %}
+		<a href="{{ block.U_TITLE }}" class="btn btn-primary btn-lg {{ block.S_SELECTED ? 'btn-primary' : 'btn-border'}}">{{ block.L_TITLE }}</a>
+	{% endfor %}
+</div>
+
+<div class="tabs">
+	<ul class="list-inline tabs-nav" role="tablist">
+		{% for block in t_block2 %}
+		<li role="presentation"{% if block.S_SELECTED %} class="active"{% endif %}><a href="{{ block.U_TITLE }}">{{ block.L_TITLE }}</a></li>
+		{% endfor %}
+	</ul>
+	<div class="tab-content">
+		<div class="panel panel-default collapsed">
+			<div class="panel-body">
