@@ -16,8 +16,12 @@ class p_master extends \p_master
 	/**
 	* Build navigation structure
 	*
-	* Copied from phpBB 3.2.0-RC1 with one change:
+	* Copied from phpBB 3.2.0-RC1 with 2 changes:
 	*	$u_title = append_sid($u_title);
+	*
+	* 2 times:
+	*	'MODULE'	=> $item_ary['name'],
+	*	'MODE'		=> $item_ary['mode'],
 	*
 	* REMEMBER TO UPDATE CODE CHANGES FOR LATER PHPBB VERSIONS IF NEEDED
 	*
@@ -146,6 +150,8 @@ class p_master extends \p_master
 				$use_tabular_offset = (!$depth) ? 't_block1' : $tabular_offset;
 
 				$tpl_ary = array(
+					'MODULE'		=> $item_ary['name'],
+					'MODE'			=> $item_ary['mode'],
 					'L_TITLE'		=> $item_ary['lang'],
 					'S_SELECTED'	=> (isset($this->module_cache['parents'][$item_ary['id']]) || $item_ary['id'] == $this->p_id) ? true : false,
 					'U_TITLE'		=> $u_title
@@ -155,6 +161,8 @@ class p_master extends \p_master
 			}
 
 			$tpl_ary = array(
+				'MODULE'		=> $item_ary['name'],
+				'MODE'			=> $item_ary['mode'],
 				'L_TITLE'		=> $item_ary['lang'],
 				'S_SELECTED'	=> (isset($this->module_cache['parents'][$item_ary['id']]) || $item_ary['id'] == $this->p_id) ? true : false,
 				'U_TITLE'		=> $u_title
