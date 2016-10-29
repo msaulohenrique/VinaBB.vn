@@ -1,0 +1,3 @@
+{% for row in string %}
+<input type="text" name="{{ row.FIELD_IDENT }}" id="{{ row.FIELD_IDENT }}" size="{{ row.FIELD_LENGTH }}" maxlength="{{ row.FIELD_MAXLEN }}" value="{{ row.FIELD_VALUE }}" class="form-control">
+{% endfor %}
