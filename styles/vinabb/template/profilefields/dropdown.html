@@ -1,0 +1,7 @@
+{% for row in dropdown %}
+<select name="{{ row.FIELD_IDENT }}" id="{{ row.FIELD_IDENT }}">
+	{% for option in row.options %}
+	<option value="{{ option.OPTION_ID }}"{{ option.SELECTED }}>{{ option.VALUE }}</option>
+	{% endfor %}
+</select>
+{% endfor %}
