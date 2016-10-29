@@ -1,0 +1,3 @@
+{% for row in int %}
+<input type="number" name="{{ row.FIELD_IDENT }}" id="{{ row.FIELD_IDENT }}" size="{{ row.FIELD_LENGTH }}" min="{{ row.FIELD_MINLEN }}" max="{{ row.FIELD_MAXLEN }}" value="{{ row.FIELD_VALUE }}">
+{% endfor %}
