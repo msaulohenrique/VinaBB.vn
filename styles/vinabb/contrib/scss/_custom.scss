@@ -13,6 +13,10 @@
 	margin-top: 10px;
 }
 
+.margin-t-15 {
+	margin-top: 15px;
+}
+
 .margin-t-20 {
 	margin-top: 20px;
 }
@@ -199,9 +203,9 @@ img.external-img {
 
 /* _base.scss */
 a {
-	color:$bg-primary;
+	color: $bg-primary;
 	&:hover {
-		color:$bg-info;
+		color: $bg-info;
 	}
 }
 
@@ -219,10 +223,19 @@ strong, b {
 }
 
 .btn-github {
-	background-color: #424040 !important;;
+	background-color: #424040 !important;
 }
 
 /* _layout-horizontal.scss */
+body.layout-horizontal {
+	.dropdown-menu.dropdown-main > li > a {
+		text-transform: none;
+	}
+	.dropdown-menu.dropdown-mega ul > li > a, .dropdown-menu > li > a {
+		text-transform: none;
+	}
+}
+
 @media(min-width: 767px) {
 	body.layout-horizontal {
 		.navbar-default {
@@ -244,4 +257,9 @@ strong, b {
 	.modal-title {
 		text-transform: none;
 	}
+}
+
+/* _panels.scss */
+.panel-heading {
+	text-transform: none;
 }
