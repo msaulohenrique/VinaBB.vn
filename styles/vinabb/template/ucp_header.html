@@ -51,11 +51,11 @@
 			{% if block.MODE == 'profile_info' %}
 				{% set MODULE_ICON = 'fa fa-id-card-o' %}
 			{% elseif block.MODE == 'signature' %}
-				{% set MODULE_ICON = 'fa fa-' %}
+				{% set MODULE_ICON = 'fa fa-envira' %}
 			{% elseif block.MODE == 'avatar' %}
 				{% set MODULE_ICON = 'fa fa-user-circle-o' %}
 			{% elseif block.MODE == 'reg_details' %}
-				{% set MODULE_ICON = 'fa fa-' %}
+				{% set MODULE_ICON = 'fa fa-user-o' %}
 			{% elseif block.MODE == 'autologin_keys' %}
 				{% set MODULE_ICON = 'fa fa-key' %}
 			{% endif %}
@@ -77,9 +77,9 @@
 			{% endif %}
 		{% elseif block.MODULE == 'ucp_groups' %}
 			{% if block.MODE == 'membership' %}
-				{% set MODULE_ICON = 'fa fa-users' %}
+				{% set MODULE_ICON = 'fa fa-slideshare' %}
 			{% elseif block.MODE == 'manage' %}
-				{% set MODULE_ICON = 'fa fa-' %}
+				{% set MODULE_ICON = 'fa fa-sliders' %}
 			{% endif %}
 		{% elseif block.MODULE == 'ucp_zebra' %}
 			{% if block.MODE == 'friends' %}
