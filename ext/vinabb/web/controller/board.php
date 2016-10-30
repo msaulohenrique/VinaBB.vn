@@ -173,6 +173,11 @@ class board
 		// Display forums
 		display_forums('', $this->config['load_moderators']);
 
+		// Breadcrumb
+		$this->template->assign_block_vars('breadcrumb', array(
+			'NAME'	=> $this->language->lang('BOARD')
+		));
+
 		// Assign index specific vars
 		$this->template->assign_vars(array(
 			'FORUM_IMG'					=> $this->user->img('forum_read', 'NO_UNREAD_POSTS'),
@@ -577,6 +582,17 @@ class board
 			$forum_url_sort_params = array_merge($forum_url_sort_params, $u_sort_param_ary);
 		}
 
+		// Breadcrumb
+		$this->template->assign_block_vars('breadcrumb', array(
+			'NAME'	=> $this->language->lang('BOARD'),
+			'URL'	=> $this->helper->route('vinabb_web_board_route'),
+		));
+
+		$this->template->assign_block_vars('breadcrumb', array(
+			'NAME'	=> $forum_data['forum_name']
+		));
+
+		// Output
 		$this->template->assign_vars(array(
 			'MODERATORS'	=> (!empty($moderators[$forum_id])) ? implode($this->language->lang('COMMA_SEPARATOR'), $moderators[$forum_id]) : '',
 
