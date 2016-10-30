@@ -452,6 +452,11 @@ class portal
 			$this->template->assign_block_vars_array('birthdays', $birthdays);
 		}
 
+		// Breadcrumb
+		$this->template->assign_block_vars('breadcrumb', array(
+			'NAME'	=> $this->language->lang('NEWS')
+		));
+
 		// Output
 		$this->template->assign_vars(array(
 			'LEGEND'				=> $legend,
