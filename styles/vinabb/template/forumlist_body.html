@@ -27,23 +27,38 @@
 			{% set CAT_ICON = 'fa fa-chevron-circle-right' %}
 		{% endif %}
 
-		<li role="presentation"{% if loop.first %} class="active"{% endif %}><a href="#cat_{{ row.FORUM_ID }}" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="{% if loop.first %}true{% else %}false{% endif %}"><i class="{{ CAT_ICON }}"></i> {{ row.FORUM_NAME }}</a></li>
+		{% if row.FORUM_ID == FORUM_ID_VIETNAMESE or row.FORUM_ID == FORUM_ID_ENGLISH %}
+			{% set S_FORUM_LANG = ((S_VIETNAMESE and row.FORUM_ID == FORUM_ID_VIETNAMESE) or (not S_VIETNAMESE and row.FORUM_ID == FORUM_ID_ENGLISH)) %}
+		{% else %}
+			{% set S_FORUM_LANG = loop.first %}
+		{% endif %}
+
+		<li role="presentation"{% if S_FORUM_LANG %} class="active"{% endif %}><a href="#cat_{{ row.FORUM_ID }}" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="{{ S_FORUM_LANG ? 'true' : 'false' }}"><i class="{{ CAT_ICON }}"></i> {{ row.FORUM_NAME }}</a></li>
 		{% endfor %}
 	</ul>
 
 	<div class="tab-content">
 		{% for row in forumrow %}
+
+		{% if row.FORUM_ID == FORUM_ID_VIETNAMESE or row.FORUM_ID == FORUM_ID_ENGLISH %}
+			{% set S_FORUM_LANG = ((S_VIETNAMESE and row.FORUM_ID == FORUM_ID_VIETNAMESE) or (not S_VIETNAMESE and row.FORUM_ID == FORUM_ID_ENGLISH)) %}
+		{% else %}
+			{% set S_FORUM_LANG = loop.first %}
+		{% endif %}
+
 		{% if (row.S_IS_CAT and not loop.first) or row.S_NO_CAT %}
 				</ul>
 			</div>
 		</div>
 		{% endif %}
+
 		{% if row.S_IS_CAT or loop.first or row.S_NO_CAT %}
-		<div role="tabpanel" class="tab-pane{% if row.S_FIRST_ROW %} active{% endif %}" id="cat_{{ row.FORUM_ID }}">
+		<div role="tabpanel" class="tab-pane{% if S_FORUM_LANG %} active{% endif %}" id="cat_{{ row.FORUM_ID }}">
 			<div class="widget white-bg">
 				<ul class="comments-list list-unstyled clearfix">
 		{% endif %}
-					{% if not row.S_IS_CAT %}
+
+		{% if not row.S_IS_CAT %}
 					<li class="clearfix">
 						<img src="{{ T_THEME_PATH }}/images/forum_icons/{{ row.FORUM_ID }}.png" alt="" width="64" class="img-circle">
 						<div class="content">
@@ -60,12 +75,14 @@
 							</div>
 						</div>
 					</li>
-					{% endif %}
+		{% endif %}
+
 		{% if loop.last %}
 				</ul>
 			</div>
 		</div>
 		{% endif %}
+
 		{% endfor %}
 	</div>
 </div>
