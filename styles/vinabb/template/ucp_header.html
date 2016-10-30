@@ -1,7 +1,5 @@
 {% include 'overall_header.html' %}
 
-{% include 'breadcrumb.html' %}
-
 <div class="tabs margin-b-10">
 	{% for block in t_block1 %}
 		<a href="{{ block.U_TITLE }}" class="btn btn-primary btn-lg {{ block.S_SELECTED ? 'btn-primary' : 'btn-border'}}">{{ block.L_TITLE }}</a>

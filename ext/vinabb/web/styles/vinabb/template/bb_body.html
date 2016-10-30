@@ -1,7 +1,5 @@
 {% include 'overall_header.html' %}
 
-{% include 'breadcrumb.html' %}
-
 <div class="tabs">
 	<ul class="list-inline tabs-nav" role="tablist">
 		<li role="presentation"{% if S_BB_STATS %} class="active"{% endif %}><a href="{{ U_BB }}" aria-controls="home" role="tab" aria-expanded="{{ S_BB_STATS ? 'true' : 'false' }}"><i class="fa fa-line-chart"></i> {{ lang('STATISTICS') }}</a></li>
