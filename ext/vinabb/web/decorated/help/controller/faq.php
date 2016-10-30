@@ -18,6 +18,11 @@ class faq extends controller
 	 */
 	public function display()
 	{
+		// Breadcrumb
+		$this->template->assign_block_vars('breadcrumb', array(
+			'NAME'	=> $this->language->lang('FAQ_EXPLAIN')
+		));
+
 		$this->language->add_lang('help/faq');
 
 		$this->manager->add_block(

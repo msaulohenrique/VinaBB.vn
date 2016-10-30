@@ -18,6 +18,11 @@ class bbcode extends controller
 	 */
 	public function display()
 	{
+		// Breadcrumb
+		$this->template->assign_block_vars('breadcrumb', array(
+			'NAME'	=> $this->language->lang('BBCODE_GUIDE')
+		));
+
 		$this->language->add_lang('help/bbcode');
 
 		$this->manager->add_block(
