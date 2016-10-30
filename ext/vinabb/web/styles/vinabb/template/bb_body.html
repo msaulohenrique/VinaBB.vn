@@ -1,17 +1,6 @@
 {% include 'overall_header.html' %}
 
-<div class="row">
-	<div class="col-sm-6">
-		<ol class="breadcrumb">
-			<li><a href="{{ U_INDEX }}"><i class="fa fa-home"></i></a></li>
-			<li><a href="{{ U_BB }}">{{ lang('BB') }}</a></li>
-			<li>{{ BB_TYPE ?: lang('STATISTICS') }}</li>
-		</ol>
-	</div>
-	<div class="col-sm-6 text-right">
-		<h4>{{ CURRENT_TIME }}</h4>
-	</div>
-</div>
+{% include 'breadcrumb.html' %}
 
 <div class="tabs">
 	<ul class="list-inline tabs-nav" role="tablist">

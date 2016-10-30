@@ -1,18 +1,6 @@
 {% include 'overall_header.html' %}
 
-<div class="row">
-	<div class="col-sm-6">
-		<ol class="breadcrumb">
-			<li><a href="{{ U_INDEX }}"><i class="fa fa-home"></i></a></li>
-			<li><a href="{{ U_MCP }}">{{ lang('MCP') }}</a></li>
-			<li>{% for block in t_block1 if block.S_SELECTED %}<a href="{{ block.U_TITLE }}">{{ block.L_TITLE }}{% endfor %}</a></li>
-			<li>{% for block in t_block2 if block.S_SELECTED %}{{ block.L_TITLE }}{% endfor %}</li>
-		</ol>
-	</div>
-	<div class="col-sm-6 text-right">
-		<h4>{{ CURRENT_TIME }}</h4>
-	</div>
-</div>
+{% include 'breadcrumb.html' %}
 
 <div class="tabs margin-b-10">
 	{% for block in t_block1 %}
