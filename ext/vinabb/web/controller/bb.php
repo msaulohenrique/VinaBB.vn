@@ -77,55 +77,77 @@ class bb
 	*/
 	public function index($type)
 	{
-		switch ($type)
+		$type = $this->convert_bb_type_varname($type);
+
+		if (!empty($type))
+		{
+			$this->template->assign_vars(array(
+				'S_BB_' . strtoupper($type) . 'S'	=> true
+			));
+		}
+		// Default mode is 'Statistics'
+		else
+		{
+			$this->template->assign_vars(array(
+				'S_BB_STATS'	=> true
+			));
+		}
+
+		// Breadcrumb
+		$this->template->assign_block_vars('breadcrumb', array(
+			'NAME'	=> $this->language->lang('BB'),
+			'URL'	=> $this->helper->route('vinabb_web_bb_route'),
+		));
+
+		$this->template->assign_block_vars('breadcrumb', array(
+			'NAME'	=> !empty($type) ? $this->language->lang('BB_' . strtoupper($type) . 'S') : $this->language->lang('STATISTICS')
+		));
+
+		// Output
+		$this->template->assign_vars(array(
+			'S_BB'	=> true
+		));
+
+		// Page title
+		$page_title = !empty($type) ? $this->language->lang('BB_' . strtoupper($type) . 'S') : $this->language->lang('BB');
+
+		return $this->helper->render('bb_body.html', $page_title);
+	}
+
+	/**
+	* Convert BB types from URL varnames to standard varnames
+	* Example: For ACP styles, URL varname is 'acp-styles' but standard varname is 'acp_style'
+	*
+	* @param $varname
+	* @return string
+	*/
+	private function convert_bb_type_varname($varname)
+	{
+		switch ($varname)
 		{
 			case constants::BB_TYPE_VARNAME_EXT:
-				$this->template->assign_vars(array(
-					'S_BB_EXTS'	=> true,
-					'BB_TYPE'	=> $this->language->lang('BB_EXTS'),
-				));
+				return 'ext';
 			break;
 
 			case constants::BB_TYPE_VARNAME_STYLE:
-				$this->template->assign_vars(array(
-					'S_BB_STYLES'	=> true,
-					'BB_TYPE'		=> $this->language->lang('BB_STYLES'),
-				));
+				return 'style';
 			break;
 
 			case constants::BB_TYPE_VARNAME_ACP_STYLE:
-				$this->template->assign_vars(array(
-					'S_BB_ACP_STYLES'	=> true,
-					'BB_TYPE'			=> $this->language->lang('BB_ACP_STYLES'),
-				));
+				return 'acp_style';
 			break;
 
 			case constants::BB_TYPE_VARNAME_LANG:
-				$this->template->assign_vars(array(
-					'S_BB_LANGS'	=> true,
-					'BB_TYPE'		=> $this->language->lang('BB_LANGS'),
-				));
+				return 'lang';
 			break;
 
 			case constants::BB_TYPE_VARNAME_TOOL:
-				$this->template->assign_vars(array(
-					'S_BB_TOOLS'	=> true,
-					'BB_TYPE'		=> $this->language->lang('BB_TOOLS'),
-				));
+				return 'tool';
 			break;
 
-			// Default mode is 'Statistics'
 			default:
-				$this->template->assign_vars(array(
-					'S_BB_STATS'	=> true
-				));
+				return '';
 			break;
 		}
-
-		$this->template->assign_vars(array(
-			'S_BB_'	=> true
-		));
-
-		return $this->helper->render('bb_body.html', $this->language->lang('BB'));
 	}
 }
