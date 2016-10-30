@@ -8,10 +8,10 @@
 			{% endif %}
 
 			{% for item in breadcrumb %}
-			{% if loop.last %}
-			<li>{{ item.NAME }}</li>
-			{% else %}
+			{% if item.URL and not loop.last %}
 			<li><a href="{{ item.URL }}">{{ item.NAME }}</a></li>
+			{% else %}
+			<li>{{ item.NAME }}</li>
 			{% endif %}
 			{% endfor %}
 		</ol>
