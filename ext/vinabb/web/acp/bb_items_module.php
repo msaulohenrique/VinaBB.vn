@@ -128,29 +128,6 @@ class bb_items_module
 		$s_hidden_fields = '';
 		$errors = array();
 
-		switch ($mode)
-		{
-			case 'ext':
-				$this->bb_type = constants::BB_TYPE_EXT;
-			break;
-
-			case 'style':
-				$this->bb_type = constants::BB_TYPE_STYLE;
-			break;
-
-			case 'acp_style':
-				$this->bb_type = constants::BB_TYPE_ACP_STYLE;
-			break;
-
-			case 'lang':
-				$this->bb_type = constants::BB_TYPE_LANG;
-			break;
-
-			case 'tool':
-				$this->bb_type = constants::BB_TYPE_TOOL;
-			break;
-		}
-
 		switch ($action)
 		{
 			case 'edit':
