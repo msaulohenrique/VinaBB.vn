@@ -103,7 +103,7 @@
 
 						{# Register/Login #}
 						{% if not S_REGISTERED_USER and not S_IS_BOT %}
-						<li><a href="{{ U_LOGIN_LOGOUT }}"><i class="fa fa-address-book-o animate-pulse"></i></a></li>
+						<li><a href="#" data-toggle="modal" data-target="#loginModal"><i class="fa fa-address-book-o animate-pulse"></i></a></li>
 						{% endif %}
 
 						{# Right panel toggle #}
@@ -115,7 +115,7 @@
 						{% if not S_REGISTERED_USER and not S_IS_BOT %}
 						<li class="dropdown avtar-dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<img src="{{ T_THEME_PATH }}/images/forum_icons/{% if LANG_SWITCH_CURRENT == LANG_SWITCH_DEFAULT %}{{ FORUM_ID_ENGLISH }}{% else %}{{ FORUM_ID_VIETNAMESE }}{% endif %}.png" class="img-circle" width="30" alt="">
+								<img src="{{ T_THEME_PATH }}/images/forum_icons/{{ LANG_SWITCH_CURRENT == LANG_SWITCH_DEFAULT ? FORUM_ID_VIETNAMESE : FORUM_ID_ENGLISH }}.png" class="img-circle" width="30" alt="">
 							</a>
 							<ul class="dropdown-menu top-dropdown">
 								{% if U_LANG %}<li><a href="{{ U_LANG }}"><i class="icon-refresh"></i> {{ LANG_SWITCH_TITLE }}</a></li>{% endif %}
