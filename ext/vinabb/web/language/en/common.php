@@ -28,11 +28,12 @@ $lang = array_merge($lang, array(
 	'ACP_STYLE_NAME'			=> 'Style name',
 	'ACP_STYLE_VERSION'			=> 'Style version',
 
-	'BB'				=> 'phpBB Resources',
+	'BB'				=> 'Resources',
 	'BB_ACP_STYLES'		=> 'ACP styles',
 	'BB_AUTHORS'		=> 'Developers',
 	'BB_EXTS'			=> 'Extensions',
 	'BB_LANGS'			=> 'Language packages',
+	'BB_LANGS_ALT'		=> 'Languages',
 	'BB_STYLES'			=> 'Styles',
 	'BB_SUBSCRIBERS'	=> 'Subscribers',
 	'BB_TOOLS'			=> 'Tools',
