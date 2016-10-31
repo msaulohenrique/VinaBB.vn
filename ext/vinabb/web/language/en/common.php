@@ -289,6 +289,7 @@ $lang = array_merge($lang, array(
 	'STYLE_NAME'			=> 'Style name',
 	'STYLE_VERSION'			=> 'Style version',
 
+	'TOGGLE'			=> 'Toggle',
 	'TOOL_DETAILS'		=> 'Tool information',
 	'TOOL_NAME'			=> 'Tool name',
 	'TOOL_VERSION'		=> 'Tool version',

@@ -289,6 +289,7 @@ $lang = array_merge($lang, array(
 	'STYLE_NAME'			=> 'Tên giao diện',
 	'STYLE_VERSION'			=> 'Phiên bản giao diện',
 
+	'TOGGLE'			=> 'Hiện/Ẩn',
 	'TOOL_DETAILS'		=> 'Thông tin công cụ',
 	'TOOL_NAME'			=> 'Tên công cụ',
 	'TOOL_VERSION'		=> 'Phiên bản công cụ',
