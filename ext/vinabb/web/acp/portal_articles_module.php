@@ -12,9 +12,66 @@ use vinabb\web\includes\constants;
 
 class portal_articles_module
 {
+	/** @var \phpbb\auth\auth */
+	protected $auth;
+
+	/** @var \phpbb\cache\service */
+	protected $cache;
+
+	/** @var \phpbb\config\config */
+	protected $config;
+
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
+
+	/** @var \phpbb\language\language */
+	protected $language;
+
+	/** @var \phpbb\log\log */
+	protected $log;
+
+	/** @var \phpbb\pagination */
+	protected $pagination;
+
+	/** @var \phpbb\request\request */
+	protected $request;
+
+	/** @var \phpbb\template\template */
+	protected $template;
+
+	/** @var \phpbb\user */
+	protected $user;
+
+	/** @var \vinabb\web\controller\helper */
+	protected $ext_helper;
+
+	/** @var string */
+	public $tpl_name;
+
+	/** @var string */
+	public $page_title;
+
 	/** @var string */
 	public $u_action;
 
+	/** @var string */
+	protected $table_prefix;
+
+	/** @var string */
+	protected $portal_categories_table;
+
+	/** @var string */
+	protected $portal_articles_table;
+
+	/** @var string */
+	protected $cat_data;
+
+	/**
+	* Main method of module
+	*
+	* @param $id
+	* @param $mode
+	*/
 	public function main($id, $mode)
 	{
 		global $phpbb_root_path, $phpbb_container, $phpEx;
@@ -23,24 +80,33 @@ class portal_articles_module
 		$this->cache = $phpbb_container->get('cache');
 		$this->config = $phpbb_container->get('config');
 		$this->db = $phpbb_container->get('dbal.conn');
-		$this->ext_helper = $phpbb_container->get('vinabb.web.helper');
 		$this->language = $phpbb_container->get('language');
 		$this->log = $phpbb_container->get('log');
-		$this->pagination= $phpbb_container->get('pagination');
+		$this->pagination = $phpbb_container->get('pagination');
 		$this->request = $phpbb_container->get('request');
 		$this->template = $phpbb_container->get('template');
 		$this->user = $phpbb_container->get('user');
-
-		$this->cat_data = $this->cache->get_portal_cats();
-		$this->table_prefix = $phpbb_container->getParameter('core.table_prefix');
-		$this->portal_categories_table = $this->table_prefix . constants::PORTAL_CATEGORIES_TABLE;
-		$this->portal_articles_table = $this->table_prefix . constants::PORTAL_ARTICLES_TABLE;
+		$this->ext_helper = $phpbb_container->get('vinabb.web.helper');
 
 		$this->tpl_name = 'acp_portal_articles';
 		$this->page_title = $this->language->lang('ACP_PORTAL_ARTICLES');
+		$this->table_prefix = $phpbb_container->getParameter('core.table_prefix');
+		$this->portal_categories_table = $this->table_prefix . constants::PORTAL_CATEGORIES_TABLE;
+		$this->portal_articles_table = $this->table_prefix . constants::PORTAL_ARTICLES_TABLE;
+		$this->cat_data = $this->cache->get_portal_cats();
+
+		// Build custom BBCodes
+		if (!function_exists('display_custom_bbcodes'))
+		{
+			include "{$phpbb_root_path}includes/functions_display.$phpEx";
+			display_custom_bbcodes();
+		}
+
+		// Language
 		$this->language->add_lang('posting');
 		$this->language->add_lang('acp_portal', 'vinabb/web');
 
+		// Common variables
 		$action = $this->request->variable('action', '');
 		$action = $this->request->is_set_post('add') ? 'add' : ($this->request->is_set_post('save') ? 'save' : $action);
 		$article_id = $this->request->variable('id', 0);
@@ -50,13 +116,6 @@ class portal_articles_module
 		$per_page = constants::PORTAL_ARTICLES_PER_PAGE;
 
 		add_form_key('vinabb/web');
-
-		// Build custom BBCodes
-		if (!function_exists('display_custom_bbcodes'))
-		{
-			include "{$phpbb_root_path}includes/functions_display.$phpEx";
-			display_custom_bbcodes();
-		}
 
 		$s_hidden_fields = '';
 		$errors = array();
