@@ -142,7 +142,7 @@ class board
 
 			if (check_link_hash($this->request->variable('hash', ''), 'mark_notification_read'))
 			{
-				$notification = $this->notifications->load_notifications('notification.method.board', array(
+				$notification = $this->notification->load_notifications('notification.method.board', array(
 					'notification_id'	=> $mark_notification,
 				));
 
