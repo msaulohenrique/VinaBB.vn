@@ -37,7 +37,7 @@ class board
 	protected $language;
 
 	/** @var \phpbb\notification\manager */
-	protected $notifications;
+	protected $notification;
 
 	/** @var \vinabb\web\controller\pagination */
 	protected $pagination;
