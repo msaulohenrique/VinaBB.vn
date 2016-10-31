@@ -43,6 +43,9 @@ class mcp
 	/** @var string */
 	protected $php_ext;
 
+	/** @var string */
+	protected $ext_root_path;
+
 	/**
 	* Constructor
 	*
@@ -257,8 +260,7 @@ class mcp
 				case 'delete_topic':
 				case 'restore_topic':
 					$module->load('mcp', 'main', 'quickmod');
-					return;
-				break;
+				return;
 
 				case 'topic_logs':
 					// Reset start parameter if we jumped from the quickmod dropdown

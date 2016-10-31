@@ -49,6 +49,9 @@ class ucp
 	/** @var string */
 	protected $php_ext;
 
+	/** @var string */
+	protected $ext_root_path;
+
 	/**
 	* Constructor
 	*
@@ -215,9 +218,7 @@ class ucp
 					'U_BACK'			=> $this->helper->route('vinabb_web_ucp_route', array('mode' => 'login')),
 					'L_BACK'			=> $this->language->lang('BACK_TO_LOGIN'),
 				));
-
-				return $this->helper->render('ucp_agreement.html', $this->language->lang($title));
-			break;
+			return $this->helper->render('ucp_agreement.html', $this->language->lang($title));
 
 			case 'delete_cookies':
 				// Delete Cookies with dynamic names (do NOT delete poll cookies)
