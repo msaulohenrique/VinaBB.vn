@@ -142,9 +142,7 @@ class bb_categories_module
 					'S_EDIT'			=> true,
 					'S_HIDDEN_FIELDS'	=> $s_hidden_fields,
 				));
-
-				return;
-			break;
+			return;
 
 			case 'save':
 				if (!check_form_key('vinabb/web'))
