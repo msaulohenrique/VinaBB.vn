@@ -171,28 +171,22 @@ class helper
 		switch ($bb_type)
 		{
 			case 'ext':
-				return constants::BB_TYPE_EXT;
-			break;
+			return constants::BB_TYPE_EXT;
 
 			case 'style':
-				return constants::BB_TYPE_STYLE;
-			break;
+			return constants::BB_TYPE_STYLE;
 
 			case 'acp_style':
-				return constants::BB_TYPE_ACP_STYLE;
-			break;
+			return constants::BB_TYPE_ACP_STYLE;
 
 			case 'lang':
-				return constants::BB_TYPE_LANG;
-			break;
+			return constants::BB_TYPE_LANG;
 
 			case 'tool':
-				return constants::BB_TYPE_TOOL;
-			break;
+			return constants::BB_TYPE_TOOL;
 
 			default:
-				return 0;
-			break;
+			return 0;
 		}
 	}
 
@@ -207,28 +201,22 @@ class helper
 		switch ($bb_type)
 		{
 			case 'ext':
-				return constants::BB_TYPE_VARNAME_EXT;
-			break;
+			return constants::BB_TYPE_VARNAME_EXT;
 
 			case 'style':
-				return constants::BB_TYPE_VARNAME_STYLE;
-			break;
+			return constants::BB_TYPE_VARNAME_STYLE;
 
 			case 'acp_style':
-				return constants::BB_TYPE_VARNAME_ACP_STYLE;
-			break;
+			return constants::BB_TYPE_VARNAME_ACP_STYLE;
 
 			case 'lang':
-				return constants::BB_TYPE_VARNAME_LANG;
-			break;
+			return constants::BB_TYPE_VARNAME_LANG;
 
 			case 'tool':
-				return constants::BB_TYPE_VARNAME_TOOL;
-			break;
+			return constants::BB_TYPE_VARNAME_TOOL;
 
 			default:
-				return '';
-			break;
+			return '';
 		}
 	}
 
@@ -244,37 +232,29 @@ class helper
 		switch ($os_value)
 		{
 			case constants::OS_WIN:
-				return constants::OS_NAME_WIN;
-			break;
+			return constants::OS_NAME_WIN;
 
 			case constants::OS_MAC:
-				return constants::OS_NAME_MAC;
-			break;
+			return constants::OS_NAME_MAC;
 
 			case constants::OS_LINUX:
-				return constants::OS_NAME_LINUX;
-			break;
+			return constants::OS_NAME_LINUX;
 
 			case constants::OS_BSD:
-				return constants::OS_NAME_BSD;
-			break;
+			return constants::OS_NAME_BSD;
 
 			case constants::OS_ANDROID:
-				return constants::OS_NAME_ANDROID;
-			break;
+			return constants::OS_NAME_ANDROID;
 
 			case constants::OS_IOS:
-				return constants::OS_NAME_IOS;
-			break;
+			return constants::OS_NAME_IOS;
 
 			case constants::OS_WP:
-				return constants::OS_NAME_WP;
-			break;
+			return constants::OS_NAME_WP;
 
 			case constants::OS_ALL:
 			default:
-				return '';
-			break;
+			return '';
 		}
 	}
 

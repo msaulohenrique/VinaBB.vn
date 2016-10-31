@@ -126,28 +126,22 @@ class bb
 		switch ($varname)
 		{
 			case constants::BB_TYPE_VARNAME_EXT:
-				return 'ext';
-			break;
+			return 'ext';
 
 			case constants::BB_TYPE_VARNAME_STYLE:
-				return 'style';
-			break;
+			return 'style';
 
 			case constants::BB_TYPE_VARNAME_ACP_STYLE:
-				return 'acp_style';
-			break;
+			return 'acp_style';
 
 			case constants::BB_TYPE_VARNAME_LANG:
-				return 'lang';
-			break;
+			return 'lang';
 
 			case constants::BB_TYPE_VARNAME_TOOL:
-				return 'tool';
-			break;
+			return 'tool';
 
 			default:
-				return '';
-			break;
+			return '';
 		}
 	}
 }
