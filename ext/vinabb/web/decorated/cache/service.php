@@ -68,21 +68,23 @@ class service extends \phpbb\cache\service
 
 	public function get_config_text()
 	{
-		if (($config_text_data = $this->driver->get('_vinabb_web_config_text')) === false)
+		if (($config_text = $this->driver->get('_vinabb_web_config_text')) === false)
 		{
 			$sql = 'SELECT *
 				FROM ' . CONFIG_TEXT_TABLE;
 			$result = $this->db->sql_query($sql);
 
-			$config_text_data = array();
+			$config_text = array();
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				$config_text_data[$row['config_name']] = $row['config_value'];
+				$config_text[$row['config_name']] = $row['config_value'];
 			}
 			$this->db->sql_freeresult($result);
 
-			$this->driver->put('_vinabb_web_config_text', $config_text_data);
+			$this->driver->put('_vinabb_web_config_text', $config_text);
 		}
+
+		return $config_text;
 	}
 
 	public function clear_config_text()
