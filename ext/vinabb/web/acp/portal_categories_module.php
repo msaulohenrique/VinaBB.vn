@@ -12,9 +12,60 @@ use vinabb\web\includes\constants;
 
 class portal_categories_module
 {
+	/** @var \phpbb\auth\auth */
+	protected $auth;
+
+	/** @var \phpbb\cache\service */
+	protected $cache;
+
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
+
+	/** @var \phpbb\language\language */
+	protected $language;
+
+	/** @var \phpbb\log\log */
+	protected $log;
+
+	/** @var \phpbb\pagination */
+	protected $pagination;
+
+	/** @var \phpbb\request\request */
+	protected $request;
+
+	/** @var \phpbb\template\template */
+	protected $template;
+
+	/** @var \phpbb\user */
+	protected $user;
+
+	/** @var \vinabb\web\controller\helper */
+	protected $ext_helper;
+
+	/** @var string */
+	public $tpl_name;
+
+	/** @var string */
+	public $page_title;
+
 	/** @var string */
 	public $u_action;
 
+	/** @var string */
+	protected $table_prefix;
+
+	/** @var string */
+	protected $portal_categories_table;
+
+	/** @var string */
+	protected $portal_articles_table;
+
+	/**
+	* Main method of module
+	*
+	* @param $id
+	* @param $mode
+	*/
 	public function main($id, $mode)
 	{
 		global $phpbb_container;
@@ -22,22 +73,24 @@ class portal_categories_module
 		$this->auth = $phpbb_container->get('auth');
 		$this->cache = $phpbb_container->get('cache');
 		$this->db = $phpbb_container->get('dbal.conn');
-		$this->ext_helper = $phpbb_container->get('vinabb.web.helper');
 		$this->language = $phpbb_container->get('language');
 		$this->log = $phpbb_container->get('log');
 		$this->pagination= $phpbb_container->get('pagination');
 		$this->request = $phpbb_container->get('request');
 		$this->template = $phpbb_container->get('template');
 		$this->user = $phpbb_container->get('user');
+		$this->ext_helper = $phpbb_container->get('vinabb.web.helper');
 
+		$this->tpl_name = 'acp_portal_categories';
+		$this->page_title = $this->language->lang('ACP_PORTAL_CATS');
 		$this->table_prefix = $phpbb_container->getParameter('core.table_prefix');
 		$this->portal_categories_table = $this->table_prefix . constants::PORTAL_CATEGORIES_TABLE;
 		$this->portal_articles_table = $this->table_prefix . constants::PORTAL_ARTICLES_TABLE;
 
-		$this->tpl_name = 'acp_portal_categories';
-		$this->page_title = $this->language->lang('ACP_PORTAL_CATS');
+		// Language
 		$this->language->add_lang('acp_portal', 'vinabb/web');
 
+		// Common variables
 		$action = $this->request->variable('action', '');
 		$action = $this->request->is_set_post('add') ? 'add' : ($this->request->is_set_post('save') ? 'save' : $action);
 		$cat_id = $this->request->variable('id', 0);
