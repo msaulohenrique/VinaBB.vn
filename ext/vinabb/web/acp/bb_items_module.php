@@ -165,22 +165,22 @@ class bb_items_module
 				if ($mode == 'tool')
 				{
 					$os_list = array(
-						constants::OS_ALL		=> $this->language->lang(['OS_LIST', 'ALL']),
-						constants::OS_WIN		=> $this->language->lang(['OS_LIST', 'WIN']),
-						constants::OS_MAC		=> $this->language->lang(['OS_LIST', 'MAC']),
-						constants::OS_LINUX		=> $this->language->lang(['OS_LIST', 'LINUX']),
-						constants::OS_BSD		=> $this->language->lang(['OS_LIST', 'BSD']),
-						constants::OS_ANDROID	=> $this->language->lang(['OS_LIST', 'ANDROID']),
-						constants::OS_IOS		=> $this->language->lang(['OS_LIST', 'IOS']),
-						constants::OS_WP		=> $this->language->lang(['OS_LIST', 'WP']),
+						constants::OS_ALL,
+						constants::OS_WIN,
+						constants::OS_MAC,
+						constants::OS_LINUX,
+						constants::OS_BSD,
+						constants::OS_ANDROID,
+						constants::OS_IOS,
+						constants::OS_WP,
 					);
 
 					$item_tool_os = isset($item_data['item_tool_os']) ? $item_data['item_tool_os'] : constants::OS_ALL;
 					$os_options = '<option value=""' . (($item_tool_os == '') ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_OS') . '</option>';
 
-					foreach ($os_list as $os_value => $os_name)
+					foreach ($os_list as $os_value)
 					{
-						$os_options .= '<option value="' . $os_value . '"' . (($item_tool_os == $os_value) ? ' selected' : '' ) . '>' . $os_name . '</option>';
+						$os_options .= '<option value="' . $os_value . '"' . (($item_tool_os == $os_value) ? ' selected' : '' ) . '>' . (($os_value == constants::OS_ALL) ? $this->language->lang('OS_ALL') : $this->ext_helper->get_os_name($os_value)) . '</option>';
 					}
 				}
 
@@ -514,7 +514,7 @@ class bb_items_module
 				'STYLE_RESPONSIVE'	=> $row['item_style_responsive'],
 				'STYLE_BOOTSTRAP'	=> $row['item_style_bootstrap'],
 				'LANG_ISO'			=> ($mode == 'lang' && isset($this->lang_data[$row['item_lang_iso']])) ? $this->lang_data[$row['item_lang_iso']] : '',
-				'TOOL_OS'			=> ($mode == 'tool') ? $this->ext_helper->get_os_name($row['item_tool_os']) : '',
+				'TOOL_OS'			=> ($mode == 'tool') ? (($row['item_tool_os']) ? $this->ext_helper->get_os_name($row['item_tool_os']) : $this->language->lang('OS_ALL')) : '',
 				'PRICE'				=> $row['item_price'],
 				'URL'				=> htmlspecialchars_decode($row['item_url']),
 				'GITHUB'			=> htmlspecialchars_decode($row['item_github']),
