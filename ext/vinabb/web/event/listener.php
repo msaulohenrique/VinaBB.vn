@@ -331,6 +331,11 @@ class listener implements EventSubscriberInterface
 				$message .= '<br>' . $this->language->lang('MAINTENANCE_TEXT_TIMEZONE', $timezone_offset, $timezone_name);
 			}
 
+			// Use simple header
+			$this->template->assign_vars(array(
+				'S_SIMPLE_HEADER'	=> true
+			));
+
 			// Display the maintenance text
 			$msg_title = $this->language->lang('MAINTENANCE_TITLE');
 			trigger_error($message, ($this->config['vinabb_web_maintenance_tpl']) ? E_USER_WARNING : E_USER_ERROR);
