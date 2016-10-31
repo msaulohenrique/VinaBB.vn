@@ -125,6 +125,7 @@ class listener implements EventSubscriberInterface
 
 			'core.append_sid'							=> 'append_sid',
 			'core.add_log'								=> 'add_log',
+			'core.get_avatar_after'						=> 'get_avatar_after',
 			'core.user_add_modify_data'					=> 'user_add_modify_data',
 			'core.update_username'						=> 'update_username',
 			'core.submit_post_modify_sql_data'			=> 'submit_post_modify_sql_data',
@@ -260,6 +261,7 @@ class listener implements EventSubscriberInterface
 			'U_BB_ACP_STYLES'	=> $this->helper->route('vinabb_web_bb_type_route', array('type' => constants::BB_TYPE_VARNAME_ACP_STYLE)),
 			'U_BB_LANGS'		=> $this->helper->route('vinabb_web_bb_type_route', array('type' => constants::BB_TYPE_VARNAME_LANG)),
 			'U_BB_TOOLS'		=> $this->helper->route('vinabb_web_bb_type_route', array('type' => constants::BB_TYPE_VARNAME_TOOL)),
+			'U_FAQ_BBCODE'		=> $this->helper->route('phpbb_help_bbcode_controller'),
 			'U_MCP'				=> ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? append_sid("{$this->root_path}mcp.{$this->php_ext}", 'i=main&mode=front', true, $this->user->session_id) : '',
 			'U_LANG'			=> ($this->user->data['user_id'] == ANONYMOUS && $this->config['vinabb_web_lang_enable']) ? append_sid("{$this->root_path}index.{$this->php_ext}", "language=$lang_switch") : '',
 			'U_CONTACT_PM'		=> ($this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm') && $this->config['vinabb_web_manager_user_id']) ? $this->helper->route('vinabb_web_ucp_route', array('id' => 'pm', 'mode' => 'compose', 'u' => $this->config['vinabb_web_manager_user_id'])) : '',
@@ -526,6 +528,22 @@ class listener implements EventSubscriberInterface
 		{
 			$this->cache->clear_lang_data();
 		}
+	}
+
+	/**
+	* core.get_avatar_after
+	*
+	* @param $event
+	*/
+	public function get_avatar_after($event)
+	{
+		$avatar_data = $event['avatar_data'];
+
+		$this->template->assign_vars(array(
+			'CURRENT_USER_AVATAR_URL'		=>	$avatar_data['src'],
+			'CURRENT_USER_AVATAR_WIDTH'		=>	$avatar_data['width'],
+			'CURRENT_USER_AVATAR_HEIGHT'	=>	$avatar_data['height'],
+		));
 	}
 
 	/**
