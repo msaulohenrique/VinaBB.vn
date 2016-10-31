@@ -66,10 +66,10 @@ class bb_items_module
 	/** @var string */
 	protected $bb_items_table;
 
-	/** @var string */
+	/** @var array */
 	protected $cat_data;
 
-	/** @var string */
+	/** @var array */
 	protected $lang_data;
 
 	/**

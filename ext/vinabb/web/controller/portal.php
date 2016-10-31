@@ -69,10 +69,10 @@ class portal
 	/** @var string */
 	protected $ext_web_path;
 
-	/** @var string */
+	/** @var array */
 	protected $forum_data;
 
-	/** @var string */
+	/** @var array */
 	protected $portal_cats;
 
 	/**

@@ -63,7 +63,7 @@ class portal_articles_module
 	/** @var string */
 	protected $portal_articles_table;
 
-	/** @var string */
+	/** @var array */
 	protected $cat_data;
 
 	/**
