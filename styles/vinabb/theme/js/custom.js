@@ -16,9 +16,9 @@ $(document).ready(function () {
 	});
 
 	// iCheck
-	$('.i-checks').iCheck({
-		checkboxClass: 'icheckbox_square-blue',
-		radioClass: 'iradio_square-blue'
+	$('input').iCheck({
+		checkboxClass: 'icheckbox_flat-blue',
+		radioClass: 'iradio_flat-blue'
 	});
 
 	// Left nav scroll

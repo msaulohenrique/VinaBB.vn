@@ -64,7 +64,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" class="fa fa-times-circle"></span></button>
+					<button type="button" class="close" data-dismiss="modal" aria-label="{{ lang('CLOSE') }}"><span aria-hidden="true" class="fa fa-times-circle"></span></button>
 					<h3 class="modal-title">{{ lang('LOGIN') }}</h3>
 				</div>
 				<div class="modal-body">
@@ -79,7 +79,7 @@
 							<div class="clearfix">
 								{% if S_AUTOLOGIN_ENABLED %}
 								<div class="checkbox pull-{{ S_CONTENT_FLOW_BEGIN }}">
-									<label><input type="checkbox" name="autologin"> {{ lang('LOG_ME_IN') }}</label>
+									<label><input type="checkbox" name="autologin" checked> {{ lang('LOG_ME_IN') }}</label>
 								</div>
 								{% endif %}
 								<input type="submit" name="login" value="{{ lang('LOGIN') }}" class="btn btn-primary pull-{{ S_CONTENT_FLOW_END }}">
