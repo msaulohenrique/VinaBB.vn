@@ -63,6 +63,18 @@ class portal
 	/** @var string */
 	protected $php_ext;
 
+	/** @var string */
+	protected $ext_root_path;
+
+	/** @var string */
+	protected $ext_web_path;
+
+	/** @var string */
+	protected $forum_data;
+
+	/** @var string */
+	protected $portal_cats;
+
 	/**
 	* Constructor
 	*
