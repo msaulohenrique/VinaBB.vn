@@ -12,12 +12,72 @@ use vinabb\web\includes\constants;
 
 class bb_items_module
 {
+	/** @var \phpbb\auth\auth */
+	protected $auth;
+
+	/** @var \phpbb\cache\service */
+	protected $cache;
+
+	/** @var \phpbb\config\config */
+	protected $config;
+
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
+
+	/** @var \phpbb\language\language */
+	protected $language;
+
+	/** @var \phpbb\log\log */
+	protected $log;
+
+	/** @var \phpbb\pagination */
+	protected $pagination;
+
+	/** @var \phpbb\request\request */
+	protected $request;
+
+	/** @var \phpbb\template\template */
+	protected $template;
+
+	/** @var \phpbb\user */
+	protected $user;
+
+	/** @var \vinabb\web\controller\helper */
+	protected $ext_helper;
+
+	/** @var string */
+	public $tpl_name;
+
+	/** @var string */
+	public $page_title;
+
 	/** @var string */
 	public $u_action;
 
 	/** @var string */
-	public $bb_type;
+	protected $bb_type;
 
+	/** @var string */
+	protected $table_prefix;
+
+	/** @var string */
+	protected $bb_categories_table;
+
+	/** @var string */
+	protected $bb_items_table;
+
+	/** @var string */
+	protected $cat_data;
+
+	/** @var string */
+	protected $lang_data;
+
+	/**
+	* Main method of module
+	*
+	* @param $id
+	* @param $mode
+	*/
 	public function main($id, $mode)
 	{
 		global $phpbb_root_path, $phpbb_container, $phpEx;
@@ -26,26 +86,35 @@ class bb_items_module
 		$this->cache = $phpbb_container->get('cache');
 		$this->config = $phpbb_container->get('config');
 		$this->db = $phpbb_container->get('dbal.conn');
-		$this->ext_helper = $phpbb_container->get('vinabb.web.helper');
 		$this->language = $phpbb_container->get('language');
 		$this->log = $phpbb_container->get('log');
 		$this->pagination= $phpbb_container->get('pagination');
 		$this->request = $phpbb_container->get('request');
 		$this->template = $phpbb_container->get('template');
 		$this->user = $phpbb_container->get('user');
-
-		$this->bb_type = $this->ext_helper->get_bb_type_constants($mode);
-		$this->cat_data = $this->cache->get_bb_cats($this->bb_type);
-		$this->lang_data = ($mode == 'lang') ? $this->cache->get_lang_data() : array();
-		$this->table_prefix = $phpbb_container->getParameter('core.table_prefix');
-		$this->bb_categories_table = $this->table_prefix . constants::BB_CATEGORIES_TABLE;
-		$this->bb_items_table = $this->table_prefix . constants::BB_ITEMS_TABLE;
+		$this->ext_helper = $phpbb_container->get('vinabb.web.helper');
 
 		$this->tpl_name = 'acp_bb_items';
 		$this->page_title = $this->language->lang('ACP_BB_' . strtoupper($mode) . 'S');
+		$this->bb_type = $this->ext_helper->get_bb_type_constants($mode);
+		$this->table_prefix = $phpbb_container->getParameter('core.table_prefix');
+		$this->bb_categories_table = $this->table_prefix . constants::BB_CATEGORIES_TABLE;
+		$this->bb_items_table = $this->table_prefix . constants::BB_ITEMS_TABLE;
+		$this->cat_data = $this->cache->get_bb_cats($this->bb_type);
+		$this->lang_data = ($mode == 'lang') ? $this->cache->get_lang_data() : array();
+
+		// Build custom BBCodes
+		if (!function_exists('display_custom_bbcodes'))
+		{
+			include "{$phpbb_root_path}includes/functions_display.$phpEx";
+			display_custom_bbcodes();
+		}
+
+		// Language
 		$this->language->add_lang('posting');
 		$this->language->add_lang('acp_bb', 'vinabb/web');
 
+		// Common variables
 		$action = $this->request->variable('action', '');
 		$action = $this->request->is_set_post('add') ? 'add' : ($this->request->is_set_post('save') ? 'save' : $action);
 		$item_id = $this->request->variable('id', 0);
@@ -55,13 +124,6 @@ class bb_items_module
 		$per_page = constants::BB_ITEMS_PER_PAGE;
 
 		add_form_key('vinabb/web');
-
-		// Build custom BBCodes
-		if (!function_exists('display_custom_bbcodes'))
-		{
-			include "{$phpbb_root_path}includes/functions_display.$phpEx";
-			display_custom_bbcodes();
-		}
 
 		$s_hidden_fields = '';
 		$errors = array();
