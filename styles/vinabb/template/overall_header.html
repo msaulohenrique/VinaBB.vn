@@ -36,12 +36,14 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-xs-6">
+					{# Logo #}
 					<a href="{{ U_INDEX }}" data-toggle="tooltip" data-placement="bottom" title="{{ SITE_DESCRIPTION }}" class="admin-logo">
 						<h1><img src="{{ T_THEME_PATH }}/images/logo.png" alt=""></h1>
 					</a>
+					{# Search form #}
 					<div class="search-form hidden-xs">
 						<form action="{{ U_SEARCH }}" method="get" id="search">
-							<input type="text" name="keywords" id="keywords" class="form-control" placeholder="{{ lang('SEARCH_MINI') }}">
+							<input type="text" name="keywords" class="form-control" placeholder="{{ lang('SEARCH_MINI') }}">
 							<button type="button" class="btn-search"><i class="fa fa-search"></i></button>
 						</form>
 					</div>
@@ -67,7 +69,8 @@
 							</a>
 							<ul class="dropdown-menu top-dropdown lg-dropdown notification-dropdown">
 								<li>
-									<div class="dropdown-header"><a href="{{ U_VIEW_ALL_NOTIFICATIONS }}" class="pull-right text-muted"><small>{{ lang('SEE_ALL') }}</small></a> Notifications </div>
+									<div class="dropdown-header"><a href="{{ U_VIEW_ALL_NOTIFICATIONS }}" class="pull-{{ S_CONTENT_FLOW_END }} text-muted"><small>{{ lang('SEE_ALL') }}</small></a> {{ lang('NOTIFICATIONS') }}</div>
+									{% if notifications %}
 									<div class="scrollDiv">
 										<div class="notification-list">
 											{% for notification in notifications %}
@@ -81,21 +84,19 @@
 											</a>
 											{% endfor %}
 
-											{% if notifications %}
 											<a href="{{ U_MARK_ALL_NOTIFICATIONS }}" class="clearfix">
 												<span class="notification-icon"><i class="icon-info text-warning"></i></span>
 												<span class="notification-title">{{ lang('OPTIONS') }}</span>
 												<span class="notification-description">{{ lang('MARK_ALL_READ') }}</span>
 											</a>
-											{% else %}
-											<a class="clearfix">
-												<span class="notification-icon"><i class="icon-check text-muted"></i></span>
-												<span class="notification-title">{{ lang('NO_NOTIFICATIONS') }}</span>
-												<span class="notification-description">{{ lang('NO_NOTIFICATIONS') }}</span>
-											</a>
-											{% endif %}
 										</div>
 									</div>
+									{% else %}
+									<div class="widget text-center text-muted">
+										<em class="icon-emotsmile fa-3x"></em>
+										<p>{{ lang('NO_NOTIFICATIONS') }}</p>
+									</div>
+									{% endif %}
 								</li>
 							</ul>
 						</li>
