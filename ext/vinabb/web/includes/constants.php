@@ -55,6 +55,15 @@ class constants
 	const OS_IOS = 6;
 	const OS_WP = 7;
 
+	// OS names
+	const OS_NAME_WIN = 'Windows';
+	const OS_NAME_MAC = 'macOS';
+	const OS_NAME_LINUX = 'Linux';
+	const OS_NAME_BSD = 'BSD';
+	const OS_NAME_ANDROID = 'Android';
+	const OS_NAME_IOS = 'iOS';
+	const OS_NAME_WP = 'Windows Phone';
+
 	// Rewrite URLs
 	const REWRITE_URL_PAGE = 'page-';
 	const REWRITE_URL_SEO = '.';

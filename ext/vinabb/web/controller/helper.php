@@ -244,31 +244,31 @@ class helper
 		switch ($os_value)
 		{
 			case constants::OS_WIN:
-				return 'Windows';
+				return constants::OS_NAME_WIN;
 			break;
 
 			case constants::OS_MAC:
-				return 'macOS';
+				return constants::OS_NAME_MAC;
 			break;
 
 			case constants::OS_LINUX:
-				return 'Linux';
+				return constants::OS_NAME_LINUX;
 			break;
 
 			case constants::OS_BSD:
-				return 'BSD';
+				return constants::OS_NAME_BSD;
 			break;
 
 			case constants::OS_ANDROID:
-				return 'Android';
+				return constants::OS_NAME_ANDROID;
 			break;
 
 			case constants::OS_IOS:
-				return 'iOS';
+				return constants::OS_NAME_IOS;
 			break;
 
 			case constants::OS_WP:
-				return 'Windows Phone';
+				return constants::OS_NAME_WP;
 			break;
 
 			case constants::OS_ALL:
