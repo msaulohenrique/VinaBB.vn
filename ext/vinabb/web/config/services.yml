@@ -91,8 +91,6 @@ services:
             - '@controller.helper'
     vinabb.web.helper:
         class: vinabb\web\controller\helper
-        arguments:
-            - '@language'
     vinabb.web.user:
         class: vinabb\web\controller\user
         arguments:

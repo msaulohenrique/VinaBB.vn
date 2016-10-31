@@ -12,19 +12,6 @@ use vinabb\web\includes\constants;
 
 class helper
 {
-	/** @var \phpbb\language\language */
-	protected $language;
-
-	/**
-	* Constructor
-	*
-	* @param \phpbb\language\language $language
-	*/
-	public function __construct(\phpbb\language\language $language)
-	{
-		$this->language = $language;
-	}
-
 	/**
 	* Create clean URLs from titles. It works with many languages
 	*
@@ -220,40 +207,37 @@ class helper
 	{
 		switch ($os_value)
 		{
-			case constants::OS_ALL:
-				return $this->language->lang(['OS_LIST', 'ALL']);
-			break;
-
 			case constants::OS_WIN:
-				return $this->language->lang(['OS_LIST', 'WIN']);
+				return 'Windows';
 			break;
 
 			case constants::OS_MAC:
-				return $this->language->lang(['OS_LIST', 'MAC']);
+				return 'macOS';
 			break;
 
 			case constants::OS_LINUX:
-				return $this->language->lang(['OS_LIST', 'LINUX']);
+				return 'Linux';
 			break;
 
 			case constants::OS_BSD:
-				return $this->language->lang(['OS_LIST', 'BSD']);
+				return 'BSD';
 			break;
 
 			case constants::OS_ANDROID:
-				return $this->language->lang(['OS_LIST', 'ANDROID']);
+				return 'Android';
 			break;
 
 			case constants::OS_IOS:
-				return $this->language->lang(['OS_LIST', 'IOS']);
+				return 'iOS';
 			break;
 
 			case constants::OS_WP:
-				return $this->language->lang(['OS_LIST', 'WP']);
+				return 'Windows Phone';
 			break;
 
+			case constants::OS_ALL:
 			default:
-				return $this->language->lang('UNKNOWN');
+				return '';
 			break;
 		}
 	}

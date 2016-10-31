@@ -253,16 +253,7 @@ $lang = array_merge($lang, array(
 
 	'ORIGINAL_URL'	=> 'Original URL',
 	'OS'			=> 'OS',
-	'OS_LIST'		=> array(
-		'ALL'		=> 'Cross-platform',
-		'ANDROID'	=> 'Android',
-		'BSD'		=> 'BSD',
-		'IOS'		=> 'iOS',
-		'LINUX'		=> 'Linux',
-		'MAC'		=> 'macOS',
-		'WIN'		=> 'Windows',
-		'WP'		=> 'Windows Phone',
-	),
+	'OS_ALL'		=> 'Cross-platform',
 
 	'PAYPAL'					=> 'PayPal',
 	'PHONE'						=> 'Phone',

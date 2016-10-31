@@ -253,16 +253,7 @@ $lang = array_merge($lang, array(
 
 	'ORIGINAL_URL'	=> 'Liên kết gốc',
 	'OS'			=> 'Hệ điều hành',
-	'OS_LIST'		=> array(
-		'ALL'		=> 'Đa nền tảng',
-		'ANDROID'	=> 'Android',
-		'BSD'		=> 'BSD',
-		'IOS'		=> 'iOS',
-		'LINUX'		=> 'Linux',
-		'MAC'		=> 'macOS',
-		'WIN'		=> 'Windows',
-		'WP'		=> 'Windows Phone',
-	),
+	'OS_ALL'		=> 'Đa nền tảng',
 
 	'PAYPAL'					=> 'PayPal',
 	'PHONE'						=> 'Điện thoại',
