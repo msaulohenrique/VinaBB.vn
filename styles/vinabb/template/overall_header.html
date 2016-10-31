@@ -31,7 +31,7 @@
 </head>
 
 <body class="layout-horizontal">
-	<!-- Top panel -->
+	{# Top panel #}
 	<div class="top-bar bg-blue">
 		<div class="container">
 			<div class="row">
@@ -48,7 +48,7 @@
 				</div>
 				<div class="col-xs-6">
 					<ul class="list-inline top-right-nav">
-						<!-- Messages -->
+						{# Messages #}
 						{% if S_REGISTERED_USER and S_DISPLAY_PM %}
 						<li class="dropdown hidden-xs icon-dropdown">
 							<a href="{{ U_PRIVATEMSGS }}">
@@ -58,7 +58,7 @@
 						</li>
 						{% endif %}
 
-						<!-- Notifications -->
+						{# Notifications #}
 						{% if S_REGISTERED_USER %}
 						<li class="dropdown hidden-xs icon-dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -72,19 +72,28 @@
 										<div class="notification-list">
 											{% for notification in notifications %}
 											<a{% if notification.URL %} href="{{ notification.URL }}"{% endif %} class="clearfix">
-												<span class="notification-icon"><i class="icon-info text-warning"></i></span>
+												<span class="notification-icon"><i class="icon-info {{ UNREAD ? 'text-danger' : 'text-success' }}"></i></span>
 												<span class="notification-title">{{ notification.FORMATTED_TITLE }}</span>
-												<span class="notification-description">Praesent dictum nisl non est sagittis luctus.</span>
+												{% if notification.REFERENCE %}<span class="notification-description">{{ notification.REFERENCE }}</span>{% endif %}
+												{% if notification.FORUM %}<span class="notification-description">{{ notification.FORUM }}</span>{% endif %}
+												{% if notification.REASON %}<span class="notification-description">{{ notification.REASON }}</span>{% endif %}
 												<span class="notification-time">{{ notification.TIME }}</span>
+											</a>
+											{% endfor %}
+
+											{% if notifications %}
+											<a href="{{ U_MARK_ALL_NOTIFICATIONS }}" class="clearfix">
+												<span class="notification-icon"><i class="icon-info text-warning"></i></span>
+												<span class="notification-title">{{ lang('OPTIONS') }}</span>
+												<span class="notification-description">{{ lang('MARK_ALL_READ') }}</span>
 											</a>
 											{% else %}
 											<a class="clearfix">
-												<span class="notification-icon"><i class="icon-check text-success"></i></span>
-												<span class="notification-title">Project Task Complete </span>
-												<span class="notification-description">Praesent dictum nisl non est sagittis luctus.</span>
-												<span class="notification-time">40 minutes ago</span>
+												<span class="notification-icon"><i class="icon-check text-muted"></i></span>
+												<span class="notification-title">{{ lang('NO_NOTIFICATIONS') }}</span>
+												<span class="notification-description">{{ lang('NO_NOTIFICATIONS') }}</span>
 											</a>
-											{% endfor %}
+											{% endif %}
 										</div>
 									</div>
 								</li>
@@ -92,17 +101,17 @@
 						</li>
 						{% endif %}
 
-						<!-- Register/Login -->
+						{# Register/Login #}
 						{% if not S_REGISTERED_USER and not S_IS_BOT %}
 						<li><a href="{{ U_LOGIN_LOGOUT }}"><i class="fa fa-address-book-o animate-pulse"></i></a></li>
 						{% endif %}
 
-						<!-- Right panel toggle -->
-						<li class="dropdown">
+						{# Right panel toggle #}
+						{#<li class="dropdown">
 							<a href="#" class="right-sidebar-toggle"><i class="fa fa-chevron-circle-left"></i></a>
-						</li>
+						</li>#}
 
-						<!-- Guest dropdown menu -->
+						{# Guest dropdown menu #}
 						{% if not S_REGISTERED_USER and not S_IS_BOT %}
 						<li class="dropdown avtar-dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -118,7 +127,7 @@
 						</li>
 						{% endif %}
 
-						<!-- Member dropdown menu -->
+						{# Member dropdown menu #}
 						{% if S_REGISTERED_USER %}
 						<li class="dropdown avtar-dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -127,7 +136,7 @@
 							<ul class="dropdown-menu top-dropdown">
 								{% if U_ACP %}<li><a href="{{ U_ACP }}"><i class="icon-equalizer"></i> {{ lang('ACP_SHORT') }}</a></li>{% endif %}
 								{% if U_MCP %}<li><a href="{{ U_MCP }}"><i class="icon-briefcase"></i> {{ lang('MCP_SHORT') }}</a></li>{% endif %}
-								<li><a href="{{ U_PROFILE }}"><i class="icon-settings"></i> {{ lang('PROFILE') }}</a></li>
+								<li><a href="{{ U_PROFILE }}"><i class="icon-settings fa-spin"></i> {{ lang('PROFILE') }}</a></li>
 								<li><a href="{{ U_USER_PROFILE }}"><i class="icon-user"></i> {{ lang('READ_PROFILE') }}</a></li>
 								<li><a href="{{ U_FAQ }}"><i class="icon-question"></i> {{ lang('FAQ') }}</a></li>
 								{% if U_RESTORE_PERMISSIONS %}
@@ -146,8 +155,8 @@
 		</div>
 	</div>
 
-	<!-- Right panel -->
-	<nav id="right-sidebar-toggle" class="right_sidebar">
+	{# Right panel #}
+	{#<nav id="right-sidebar-toggle" class="right_sidebar">
 		<div class="nano">
 			<div class="nano-content">
 				<div>
@@ -210,9 +219,9 @@
 				</div>
 			</div>
 		</div>
-	</nav>
+	</nav>#}
 
-	<!-- Menu -->
+	{# Menu #}
 	<nav class="navbar navbar-default navbar-static-top">
 		<div class="container">
 			<div class="navbar-header">
@@ -228,6 +237,7 @@
 					<li class="dropdown{% if S_INDEX %} active{% endif %}">
 						<a href="{{ U_INDEX }}" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-home"></i> {{ lang('HOME') }}</a>
 					</li>
+					{# Board menu #}
 					<li class="dropdown{% if S_BOARD or S_VIEWFORUM or S_VIEWTOPIC %} active{% endif %}">
 						<a href="{{ U_BOARD }}" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-bubbles"></i> {{ lang('BOARD') }}</a>
 						{% if header_forums %}
@@ -303,6 +313,7 @@
 						</ul>
 						{% endif %}
 					</li>
+					{# phpBB Resource menu #}
 					<li class="dropdown{% if S_BB %} active{% endif %}">
 						<a href="{{ U_BB }}" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-grid"></i> {{ lang('BB') }}</a>
 						<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
@@ -337,7 +348,7 @@
 								{% endif %}
 							</li>
 							<li class="dropdown-submenu">
-								<a tabindex="-1" href="{{ U_BB_LANGS }}"><i class="icon-speech"></i> {{ lang('BB_LANGS') }}</a>
+								<a tabindex="-1" href="{{ U_BB_LANGS }}"><i class="icon-speech"></i> {{ lang('BB_LANGS_ALT') }}</a>
 								{% if lang_cats %}
 								<ul class="dropdown-menu">
 									{% for cat in lang_cats %}
@@ -358,39 +369,13 @@
 							</li>
 						</ul>
 					</li>
-					<li class="dropdown">
-						<a href="http://vinabb.vn/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-settings fa-spin"></i> UI elements</a>
-						<ul class="dropdown-menu dropdown-main dropdown-mega">
-							<li>
-								<div class="row">
-									<div class="col-sm-6">
-										<ul class="list-unstyled">
-											<li><a href="#x"><i class="icon-graph"></i> Typography</a></li>
-										</ul>
-									</div>
-									<div class="col-sm-6">
-										<ul class="list-unstyled">
-											<li><a href="#y"><i class="icon-graph"></i> Grid system</a></li>
-										</ul>
-									</div>
-								</div>
-							</li>
-						</ul>
-					</li>
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-mouse"></i> Components</a>
-						<ul class="dropdown-menu dropdown-main">
-							<li><a href="#"><i class="icon-graph"></i> Dashboard Alpha</a></li>
-							<li><a href="#"><i class="icon-graph"></i> Dashboard beta</a></li>
-						</ul>
-					</li>
 				</ul>
 			</div>
 		</div>
 	</nav>
 
-	<!-- Page content -->
+	{# Page content #}
 	<div class="h-main-content">
 		<div class="container">
-			<!-- Breadcrumb -->
+			{# Breadcrumb #}
 			{% include 'breadcrumb.html' %}
