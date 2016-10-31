@@ -12,9 +12,51 @@ use vinabb\web\includes\constants;
 
 class settings_module
 {
+	/** @var \phpbb\auth\auth */
+	protected $auth;
+
+	/** @var \phpbb\cache\service */
+	protected $cache;
+
+	/** @var \phpbb\config\db */
+	protected $config;
+
+	/** @var \phpbb\config\db_text */
+	protected $config_text;
+
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
+
+	/** @var \phpbb\language\language */
+	protected $language;
+
+	/** @var \phpbb\log\log */
+	protected $log;
+
+	/** @var \phpbb\request\request */
+	protected $request;
+
+	/** @var \phpbb\template\template */
+	protected $template;
+
+	/** @var \phpbb\user */
+	protected $user;
+
+	/** @var string */
+	public $tpl_name;
+
+	/** @var string */
+	public $page_title;
+
 	/** @var string */
 	public $u_action;
 
+	/**
+	* Main method of module
+	*
+	* @param $id
+	* @param $mode
+	*/
 	public function main($id, $mode)
 	{
 		global $phpbb_container;
@@ -24,7 +66,6 @@ class settings_module
 		$this->config = $phpbb_container->get('config');
 		$this->config_text = $phpbb_container->get('config_text');
 		$this->db = $phpbb_container->get('dbal.conn');
-		$this->ext_manager = $phpbb_container->get('ext.manager');
 		$this->language = $phpbb_container->get('language');
 		$this->log = $phpbb_container->get('log');
 		$this->request = $phpbb_container->get('request');
@@ -33,6 +74,8 @@ class settings_module
 
 		$this->tpl_name = 'acp_settings';
 		$this->page_title = $this->language->lang('ACP_VINABB_SETTINGS');
+
+		// Language
 		$this->language->add_lang('acp_settings', 'vinabb/web');
 
 		add_form_key('vinabb/web');
