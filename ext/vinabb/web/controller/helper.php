@@ -197,6 +197,42 @@ class helper
 	}
 
 	/**
+	* Convert BB type from string to constant value
+	*
+	* @param $bb_type
+	* @return string
+	*/
+	public function get_bb_type_varnames($bb_type)
+	{
+		switch ($bb_type)
+		{
+			case 'ext':
+				return constants::BB_TYPE_VARNAME_EXT;
+			break;
+
+			case 'style':
+				return constants::BB_TYPE_VARNAME_STYLE;
+			break;
+
+			case 'acp_style':
+				return constants::BB_TYPE_VARNAME_ACP_STYLE;
+			break;
+
+			case 'lang':
+				return constants::BB_TYPE_VARNAME_LANG;
+			break;
+
+			case 'tool':
+				return constants::BB_TYPE_VARNAME_TOOL;
+			break;
+
+			default:
+				return '';
+			break;
+		}
+	}
+
+	/**
 	* Get OS name from constants
 	*
 	* @param $os_value

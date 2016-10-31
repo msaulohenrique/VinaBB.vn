@@ -13,7 +13,7 @@ vinabb_web_bb_cat_route:
         slash: ''
     requirements:
         type: '(extensions|styles|acp-styles|languages|tools)'
-        cat: '(A-Za-z0-9-)+'
+        cat: '[A-Za-z0-9-]+'
         slash: '(|\/)'
 vinabb_web_bb_item_route:
     path: /{type}/{cat}/{item}{slash}
@@ -22,6 +22,6 @@ vinabb_web_bb_item_route:
         slash: ''
     requirements:
         type: '(extensions|styles|acp-styles|languages|tools)'
-        cat: '(A-Za-z0-9-)+'
-        item: '(A-Za-z0-9-.)+'
+        cat: '[A-Za-z0-9-]+'
+        item: '[A-Za-z0-9-.]+'
         slash: '(|\/)'
