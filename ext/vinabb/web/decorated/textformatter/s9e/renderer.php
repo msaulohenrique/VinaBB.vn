@@ -16,6 +16,16 @@ class renderer extends \phpbb\textformatter\s9e\renderer
 	/** @var \phpbb\language\language */
 	protected $language;
 
+	/**
+	* Constructor
+	*
+	* @param \phpbb\cache\driver\driver_interface $cache
+	* @param string                               $cache_dir
+	* @param string                               $key
+	* @param factory                              $factory
+	* @param \phpbb\event\dispatcher_interface    $dispatcher
+	* @param \phpbb\language\language             $language
+	*/
 	public function __construct(\phpbb\cache\driver\driver_interface $cache, $cache_dir, $key, factory $factory, \phpbb\event\dispatcher_interface $dispatcher, \phpbb\language\language $language)
 	{
 		parent::__construct($cache, $cache_dir, $key, $factory, $dispatcher);
@@ -33,7 +43,6 @@ class renderer extends \phpbb\textformatter\s9e\renderer
 	* @param \phpbb\user $user
 	* @param \phpbb\config\config $config
 	* @param \phpbb\auth\auth $auth
-	* @param \phpbb\language\language $language
 	* @return null
 	*/
 	public function configure_user(\phpbb\user $user, \phpbb\config\config $config, \phpbb\auth\auth $auth)
