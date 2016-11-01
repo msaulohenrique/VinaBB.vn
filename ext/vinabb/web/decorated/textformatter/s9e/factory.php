@@ -17,9 +17,7 @@ use s9e\TextFormatter\Configurator\Items\UnsafeTemplate;
 */
 class factory extends \phpbb\textformatter\s9e\factory
 {
-	/**
-	* @var \phpbb\language\language
-	*/
+	/** @var \phpbb\language\language */
 	protected $language;
 
 	/**
@@ -38,15 +36,17 @@ class factory extends \phpbb\textformatter\s9e\factory
 	* @param string $cache_key_parser   Cache key used for the parser
 	* @param string $cache_key_renderer Cache key used for the renderer
 	*/
-	public function __construct(\phpbb\textformatter\data_access $data_access,
-								\phpbb\cache\driver\driver_interface $cache,
-								\phpbb\event\dispatcher_interface $dispatcher,
-								\phpbb\config\config $config,
-								\phpbb\language\language $language,
-								\phpbb\textformatter\s9e\link_helper $link_helper,
-								$cache_dir,
-								$cache_key_parser,
-								$cache_key_renderer)
+	public function __construct(
+		\phpbb\textformatter\data_access $data_access,
+		\phpbb\cache\driver\driver_interface $cache,
+		\phpbb\event\dispatcher_interface $dispatcher,
+		\phpbb\config\config $config,
+		\phpbb\language\language $language,
+		\phpbb\textformatter\s9e\link_helper $link_helper,
+		$cache_dir,
+		$cache_key_parser,
+		$cache_key_renderer
+	)
 	{
 		$this->data_access = $data_access;
 		$this->cache = $cache;

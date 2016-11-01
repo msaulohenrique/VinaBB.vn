@@ -13,6 +13,15 @@ namespace vinabb\web\decorated\textformatter\s9e;
 */
 class renderer extends \phpbb\textformatter\s9e\renderer
 {
+	/** @var \phpbb\language\language */
+	protected $language;
+
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, $cache_dir, $key, factory $factory, \phpbb\event\dispatcher_interface $dispatcher, \phpbb\language\language $language)
+	{
+		parent::__construct($cache, $cache_dir, $key, $factory, $dispatcher);
+		$this->language = $language;
+	}
+
 	/**
 	* Configure this renderer as per the user's settings
 	*
@@ -24,6 +33,7 @@ class renderer extends \phpbb\textformatter\s9e\renderer
 	* @param \phpbb\user $user
 	* @param \phpbb\config\config $config
 	* @param \phpbb\auth\auth $auth
+	* @param \phpbb\language\language $language
 	* @return null
 	*/
 	public function configure_user(\phpbb\user $user, \phpbb\config\config $config, \phpbb\auth\auth $auth)
@@ -38,15 +48,15 @@ class renderer extends \phpbb\textformatter\s9e\renderer
 		// Set the stylesheet parameters
 		foreach (array_keys($this->renderer->getParameters()) as $param_name)
 		{
+			// L_FOO is set to $this->language->lang('FOO')
 			if (strpos($param_name, 'L_') === 0)
 			{
-				// L_FOO is set to $user->lang('FOO')
-				$this->renderer->setParameter($param_name, $user->lang(substr($param_name, 2)));
+				$this->renderer->setParameter($param_name, $this->language->lang(substr($param_name, 2)));
 			}
+			// LE_FOO is set to $this->language->lang(['EMOTICON_TEXT', 'FOO'])
 			else if (strpos($param_name, 'LE_') === 0)
 			{
-				// LE_FOO is set to $user->lang('EMOTICON_TEXT', 'FOO')
-				$this->renderer->setParameter($param_name, $user->lang(['EMOTICON_TEXT', substr($param_name, 3)]));
+				$this->renderer->setParameter($param_name, $this->language->lang(['EMOTICON_TEXT', substr($param_name, 3)]));
 			}
 		}
 

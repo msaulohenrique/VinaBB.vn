@@ -78,6 +78,7 @@ services:
             - '%text_formatter.cache.renderer.key%'
             - '@text_formatter.s9e.factory'
             - '@dispatcher'
+            - '@language'
         calls:
             - [configure_quote_helper, ['@text_formatter.s9e.quote_helper']]
             - [configure_smilies_path, ['@config', '@path_helper']]
