@@ -1212,7 +1212,7 @@ class posting
 			$post_data['poll_last_vote'] = (isset($post_data['poll_last_vote'])) ? $post_data['poll_last_vote'] : 0;
 
 			if ($post_data['poll_option_text'] &&
-				($mode == 'post' || ($mode == 'edit' && $post_id == $post_data['topic_first_post_id']/* && (!$post_data['poll_last_vote'] || $this->auth->acl_get('m_edit', $forum_id))*/))
+				($mode == 'post' || ($mode == 'edit' && $post_id == $post_data['topic_first_post_id']))
 				&& $this->auth->acl_get('f_poll', $forum_id))
 			{
 				$poll = array(
@@ -1233,12 +1233,6 @@ class posting
 
 				$post_data['poll_options'] = (isset($poll['poll_options'])) ? $poll['poll_options'] : array();
 				$post_data['poll_title'] = (isset($poll['poll_title'])) ? $poll['poll_title'] : '';
-
-				/* We reset votes, therefore also allow removing options
-				if ($post_data['poll_last_vote'] && ($poll['poll_options_size'] < $orig_poll_options_size))
-				{
-					$message_parser->warn_msg[] = $this->user->lang['NO_DELETE_POLL_OPTIONS'];
-				}*/
 			}
 			else if ($mode == 'edit' && $post_id == $post_data['topic_first_post_id'] && $this->auth->acl_get('f_poll', $forum_id))
 			{
@@ -1586,7 +1580,7 @@ class posting
 			$preview_subject = censor_text($post_data['post_subject']);
 
 			// Poll Preview
-			if (!$poll_delete && ($mode == 'post' || ($mode == 'edit' && $post_id == $post_data['topic_first_post_id']/* && (!$post_data['poll_last_vote'] || $this->auth->acl_get('m_edit', $forum_id))*/))
+			if (!$poll_delete && ($mode == 'post' || ($mode == 'edit' && $post_id == $post_data['topic_first_post_id']))
 				&& $this->auth->acl_get('f_poll', $forum_id))
 			{
 				$parse_poll = new parse_message($post_data['poll_title']);
@@ -1910,7 +1904,7 @@ class posting
 		display_custom_bbcodes();
 
 // Poll entry
-		if (($mode == 'post' || ($mode == 'edit' && $post_id == $post_data['topic_first_post_id']/* && (!$post_data['poll_last_vote'] || $this->auth->acl_get('m_edit', $forum_id))*/))
+		if (($mode == 'post' || ($mode == 'edit' && $post_id == $post_data['topic_first_post_id']))
 			&& $this->auth->acl_get('f_poll', $forum_id))
 		{
 			$page_data = array_merge($page_data, array(
