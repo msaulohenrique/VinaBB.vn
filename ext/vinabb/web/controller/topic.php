@@ -105,7 +105,7 @@ class topic
 		$this->php_ext = $php_ext;
 	}
 
-	public function topic($forum_id, $topic_id, $page)
+	public function main($forum_id, $topic_id, $page)
 	{
 		global $_SID, $_EXTRA_URL;
 

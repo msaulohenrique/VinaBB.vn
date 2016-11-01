@@ -117,7 +117,7 @@ class forum
 	* @param $forum_id
 	* @param $page
 	*/
-	public function forum($forum_id, $page)
+	public function main($forum_id, $page)
 	{
 		global $_SID, $_EXTRA_URL;
 

@@ -90,7 +90,7 @@ class board
 	*
 	* @return \Symfony\Component\HttpFoundation\Response
 	*/
-	public function index()
+	public function main()
 	{
 		// Common functions
 		include "{$this->root_path}includes/functions_display.{$this->php_ext}";
