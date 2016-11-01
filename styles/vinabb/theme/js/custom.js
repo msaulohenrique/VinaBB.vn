@@ -86,7 +86,7 @@ $(document).ready(function () {
 				contents: '<i class="fa fa-align-justify"></i>',
 				tooltip: lang,
 				click: function () {
-					context.invoke('editor.justifyJustify');
+					context.invoke('editor.justifyFull');
 				}
 			});
 
