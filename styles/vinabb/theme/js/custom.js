@@ -1,5 +1,12 @@
 $(document).ready(function () {
-	// Google Map on modal
+	/**
+	* Google Map on modal
+	*
+	* global: GMaps
+	* global: google
+	* global: $map_lat
+	* global: $map_lng
+	*/
 	$('#mapModal').on('shown.bs.modal', function () {
 		var map = new GMaps({
 			el: '#markermap',
