@@ -29,7 +29,123 @@ $(document).ready(function () {
 	// Summernote
 	if ($load_summernote)
 	{
-		$('#summernote').summernote();
+		// Button: Align Left
+		var alignLeft = function (context) {
+			var ui = $.summernote.ui;
+			var lang = $.summernote.lang[$summernote_lang].paragraph.left;
+
+			var button = ui.button({
+				contents: '<i class="fa fa-align-left"></i>',
+				tooltip: lang,
+				click: function () {
+					context.invoke('editor.justifyLeft');
+				}
+			});
+
+			return button.render();
+		};
+
+		// Button: Align Center
+		var alignCenter = function (context) {
+			var ui = $.summernote.ui;
+			var lang = $.summernote.lang[$summernote_lang].paragraph.center;
+
+			var button = ui.button({
+				contents: '<i class="fa fa-align-center"></i>',
+				tooltip: lang,
+				click: function () {
+					context.invoke('editor.justifyCenter');
+				}
+			});
+
+			return button.render();
+		};
+
+		// Button: Align Right
+		var alignRight = function (context) {
+			var ui = $.summernote.ui;
+			var lang = $.summernote.lang[$summernote_lang].paragraph.right;
+
+			var button = ui.button({
+				contents: '<i class="fa fa-align-right"></i>',
+				tooltip: lang,
+				click: function () {
+					context.invoke('editor.justifyRight');
+				}
+			});
+
+			return button.render();
+		};
+
+		// Button: Align Justify
+		var alignJustify = function (context) {
+			var ui = $.summernote.ui;
+			var lang = $.summernote.lang[$summernote_lang].paragraph.justify;
+
+			var button = ui.button({
+				contents: '<i class="fa fa-align-justify"></i>',
+				tooltip: lang,
+				click: function () {
+					context.invoke('editor.justifyJustify');
+				}
+			});
+
+			return button.render();
+		};
+
+		// Button: Quote
+		var BlockQuote = function (context) {
+			var ui = $.summernote.ui;
+			var lang = $.summernote.lang[$summernote_lang].style.blockquote;
+
+			var button = ui.button({
+				contents: '<i class="fa fa-quote-left"></i>',
+				tooltip: lang,
+				click: function () {
+					context.invoke('editor.formatBlock', 'Blockquote');
+				}
+			});
+
+			return button.render();
+		};
+
+		// Button: Code
+		var BlockCode = function (context) {
+			var ui = $.summernote.ui;
+			var lang = $.summernote.lang[$summernote_lang].style.pre;
+
+			var button = ui.button({
+				contents: '<i class="fa fa-terminal"></i>',
+				tooltip: lang,
+				click: function () {
+					context.invoke('editor.formatBlock', 'Pre');
+				}
+			});
+
+			return button.render();
+		};
+
+		// Let's run!
+		$('#summernote').summernote({
+			height: 300,
+			lang: $summernote_lang,
+			toolbar: [
+				['font', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript']],
+				['style', ['fontsize', 'color', 'clear']],
+				['align', ['left', 'center', 'right', 'justify']],
+				['list', ['quote', 'code', 'ul', 'ol']],
+				['insert', ['link', 'picture', 'table']],
+				['misc', ['fullscreen', 'codeview']]
+			],
+			buttons: {
+				left: alignLeft,
+				center: alignCenter,
+				right: alignRight,
+				justify: alignJustify,
+				quote: BlockQuote,
+				code: BlockCode
+			}
+		});
 	}
 
 	// iCheck
