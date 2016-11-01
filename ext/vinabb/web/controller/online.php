@@ -257,7 +257,7 @@ class online
 		{
 			if ($row['user_id'] != ANONYMOUS && !isset($prev_id[$row['user_id']]))
 			{
-				$view_online = $s_user_hidden = false;
+				$s_user_hidden = false;
 				$user_colour = ($row['user_colour']) ? ' style="color: #' . $row['user_colour'] . '" class="username-coloured"' : '';
 
 				$username_full = ($row['user_type'] != USER_IGNORE) ? get_username_string('full', $row['user_id'], $row['username'], $row['user_colour']) : '<span' . $user_colour . '>' . $row['username'] . '</span>';
@@ -405,10 +405,8 @@ class online
 						if ($forum_data[$forum_id]['forum_type'] == FORUM_LINK)
 						{
 							$location = $this->language->lang('READING_LINK', $forum_data[$forum_id]['forum_name']);
-							break;
 						}
-
-						if (strpos($row['session_page'], "app.{$this->php_ext}/board/forum") !== false)
+						else if (strpos($row['session_page'], "app.{$this->php_ext}/board/forum") !== false)
 						{
 							$location = $this->language->lang('READING_FORUM', $forum_data[$forum_id]['forum_name']);
 						}
