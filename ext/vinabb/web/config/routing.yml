@@ -28,7 +28,7 @@ vinabb_web_mcp_route:
 vinabb_web_board_route:
     path: /board{slash}
     defaults:
-        _controller: vinabb.web.board:index
+        _controller: vinabb.web.board:main
         slash: ''
     requirements:
         slash: '(|\/)'
