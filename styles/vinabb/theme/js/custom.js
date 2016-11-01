@@ -15,6 +15,23 @@ $(document).ready(function () {
 		google.maps.event.trigger(map, 'resize');
 	});
 
+	// Highlight.js
+	if ($load_highlight)
+	{
+		$('pre code').each(
+			function(i, block)
+			{
+				hljs.highlightBlock(block);
+			}
+		);
+	}
+
+	// Summernote
+	if ($load_summernote)
+	{
+		$('#summernote').summernote();
+	}
+
 	// iCheck
 	$('input').iCheck({
 		checkboxClass: 'icheckbox_flat-blue',
