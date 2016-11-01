@@ -9,9 +9,57 @@
 namespace vinabb\web\controller;
 
 use vinabb\web\includes\constants;
+use vinabb\web\controller\helpers\HTMLConverter;
 
 class helper
 {
+	/**
+	* List of stable phpBB versions
+	*
+	* @return array
+	*/
+	public function get_phpbb_versions()
+	{
+		return array(
+			// Rhea
+			'3.2'	=> array(
+				'3.2.0'		=> array('name' => '3.2.0', 'date' => '2016-12-31'),
+			),
+			// Ascraeus
+			'3.1'	=> array(
+				'3.1.10'	=> array('name' => '3.1.10', 'date' => '2016-10-12'),
+				'3.1.9'		=> array('name' => '3.1.9', 'date' => '2016-04-16'),
+				'3.1.8'		=> array('name' => '3.1.8', 'date' => '2016-02-19'),
+				'3.1.7'		=> array('name' => '3.1.7', 'date' => '2015-12-19'),
+				'3.1.6'		=> array('name' => '3.1.6', 'date' => '2015-09-05'),
+				'3.1.5'		=> array('name' => '3.1.5', 'date' => '2015-06-14'),
+				'3.1.4'		=> array('name' => '3.1.4', 'date' => '2015-05-03'),
+				'3.1.3'		=> array('name' => '3.1.3', 'date' => '2015-02-02'),
+				'3.1.2'		=> array('name' => '3.1.2', 'date' => '2014-11-25'),
+				'3.1.1'		=> array('name' => '3.1.1', 'date' => '2014-11-02'),
+				'3.1.0'		=> array('name' => '3.1.0', 'date' => '2014-10-28'),
+			),
+			// Olympus
+			'3.0'	=> array(
+				'3.0.14'	=> array('name' => '3.0.14', 'date' => '2015-05-03'),
+				'3.0.13'	=> array('name' => '3.0.13', 'date' => '2015-01-27'),
+				'3.0.12'	=> array('name' => '3.0.12', 'date' => '2013-09-28'),
+				'3.0.11'	=> array('name' => '3.0.11', 'date' => '2012-08-20'),
+				'3.0.10'	=> array('name' => '3.0.10', 'date' => '2012-01-03'),
+				'3.0.9'		=> array('name' => '3.0.9', 'date' => '2011-07-11'),
+				'3.0.8'		=> array('name' => '3.0.8', 'date' => '2010-11-20'),
+				'3.0.7'		=> array('name' => '3.0.7', 'date' => '2010-03-01'),
+				'3.0.6'		=> array('name' => '3.0.6', 'date' => '2009-11-17'),
+				'3.0.5'		=> array('name' => '3.0.5', 'date' => '2009-05-31'),
+				'3.0.4'		=> array('name' => '3.0.4', 'date' => '2008-12-13'),
+				'3.0.3'		=> array('name' => '3.0.3', 'date' => '2008-11-13'),
+				'3.0.2'		=> array('name' => '3.0.2', 'date' => '2008-07-11'),
+				'3.0.1'		=> array('name' => '3.0.1', 'date' => '2008-04-08'),
+				'3.0.0'		=> array('name' => '3.0.0', 'date' => '2007-12-12'),
+			),
+		);
+	}
+
 	/**
 	* Create clean URLs from titles. It works with many languages
 	*
@@ -171,22 +219,22 @@ class helper
 		switch ($bb_type)
 		{
 			case 'ext':
-			return constants::BB_TYPE_EXT;
+				return constants::BB_TYPE_EXT;
 
 			case 'style':
-			return constants::BB_TYPE_STYLE;
+				return constants::BB_TYPE_STYLE;
 
 			case 'acp_style':
-			return constants::BB_TYPE_ACP_STYLE;
+				return constants::BB_TYPE_ACP_STYLE;
 
 			case 'lang':
-			return constants::BB_TYPE_LANG;
+				return constants::BB_TYPE_LANG;
 
 			case 'tool':
-			return constants::BB_TYPE_TOOL;
+				return constants::BB_TYPE_TOOL;
 
 			default:
-			return 0;
+				return 0;
 		}
 	}
 
@@ -201,22 +249,22 @@ class helper
 		switch ($bb_type)
 		{
 			case 'ext':
-			return constants::BB_TYPE_VARNAME_EXT;
+				return constants::BB_TYPE_VARNAME_EXT;
 
 			case 'style':
-			return constants::BB_TYPE_VARNAME_STYLE;
+				return constants::BB_TYPE_VARNAME_STYLE;
 
 			case 'acp_style':
-			return constants::BB_TYPE_VARNAME_ACP_STYLE;
+				return constants::BB_TYPE_VARNAME_ACP_STYLE;
 
 			case 'lang':
-			return constants::BB_TYPE_VARNAME_LANG;
+				return constants::BB_TYPE_VARNAME_LANG;
 
 			case 'tool':
-			return constants::BB_TYPE_VARNAME_TOOL;
+				return constants::BB_TYPE_VARNAME_TOOL;
 
 			default:
-			return '';
+				return '';
 		}
 	}
 
@@ -232,76 +280,42 @@ class helper
 		switch ($os_value)
 		{
 			case constants::OS_WIN:
-			return constants::OS_NAME_WIN;
+				return constants::OS_NAME_WIN;
 
 			case constants::OS_MAC:
-			return constants::OS_NAME_MAC;
+				return constants::OS_NAME_MAC;
 
 			case constants::OS_LINUX:
-			return constants::OS_NAME_LINUX;
+				return constants::OS_NAME_LINUX;
 
 			case constants::OS_BSD:
-			return constants::OS_NAME_BSD;
+				return constants::OS_NAME_BSD;
 
 			case constants::OS_ANDROID:
-			return constants::OS_NAME_ANDROID;
+				return constants::OS_NAME_ANDROID;
 
 			case constants::OS_IOS:
-			return constants::OS_NAME_IOS;
+				return constants::OS_NAME_IOS;
 
 			case constants::OS_WP:
-			return constants::OS_NAME_WP;
+				return constants::OS_NAME_WP;
 
 			case constants::OS_ALL:
 			default:
-			return '';
+				return '';
 		}
 	}
 
 	/**
-	* List of stable phpBB versions
+	* Convert HTML to phpBB BBCode tags
 	*
-	* @return array
+	* @param $text
+	* @return string
 	*/
-	public function get_phpbb_versions()
+	public function html_to_bbcode($text)
 	{
-		return array(
-			// Rhea
-			'3.2'	=> array(
-				'3.2.0'		=> array('name' => '3.2.0', 'date' => '2016-12-31'),
-			),
-			// Ascraeus
-			'3.1'	=> array(
-				'3.1.10'	=> array('name' => '3.1.10', 'date' => '2016-10-12'),
-				'3.1.9'		=> array('name' => '3.1.9', 'date' => '2016-04-16'),
-				'3.1.8'		=> array('name' => '3.1.8', 'date' => '2016-02-19'),
-				'3.1.7'		=> array('name' => '3.1.7', 'date' => '2015-12-19'),
-				'3.1.6'		=> array('name' => '3.1.6', 'date' => '2015-09-05'),
-				'3.1.5'		=> array('name' => '3.1.5', 'date' => '2015-06-14'),
-				'3.1.4'		=> array('name' => '3.1.4', 'date' => '2015-05-03'),
-				'3.1.3'		=> array('name' => '3.1.3', 'date' => '2015-02-02'),
-				'3.1.2'		=> array('name' => '3.1.2', 'date' => '2014-11-25'),
-				'3.1.1'		=> array('name' => '3.1.1', 'date' => '2014-11-02'),
-				'3.1.0'		=> array('name' => '3.1.0', 'date' => '2014-10-28'),
-			),
-			// Olympus
-			'3.0'	=> array(
-				'3.0.14'	=> array('name' => '3.0.14', 'date' => '2015-05-03'),
-				'3.0.13'	=> array('name' => '3.0.13', 'date' => '2015-01-27'),
-				'3.0.12'	=> array('name' => '3.0.12', 'date' => '2013-09-28'),
-				'3.0.11'	=> array('name' => '3.0.11', 'date' => '2012-08-20'),
-				'3.0.10'	=> array('name' => '3.0.10', 'date' => '2012-01-03'),
-				'3.0.9'		=> array('name' => '3.0.9', 'date' => '2011-07-11'),
-				'3.0.8'		=> array('name' => '3.0.8', 'date' => '2010-11-20'),
-				'3.0.7'		=> array('name' => '3.0.7', 'date' => '2010-03-01'),
-				'3.0.6'		=> array('name' => '3.0.6', 'date' => '2009-11-17'),
-				'3.0.5'		=> array('name' => '3.0.5', 'date' => '2009-05-31'),
-				'3.0.4'		=> array('name' => '3.0.4', 'date' => '2008-12-13'),
-				'3.0.3'		=> array('name' => '3.0.3', 'date' => '2008-11-13'),
-				'3.0.2'		=> array('name' => '3.0.2', 'date' => '2008-07-11'),
-				'3.0.1'		=> array('name' => '3.0.1', 'date' => '2008-04-08'),
-				'3.0.0'		=> array('name' => '3.0.0', 'date' => '2007-12-12'),
-			),
-		);
+		$converter = new HTMLConverter($text);
+
+		return $converter->toBBCode();
 	}
 }
