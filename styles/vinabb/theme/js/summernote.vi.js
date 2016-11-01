@@ -4,18 +4,18 @@
 			font: {
 				bold: 'In đậm',
 				italic: 'In nghiêng',
-				underline: 'Underline',
-				clear: 'Remove Font Style',
+				underline: 'Gạch dưới',
+				clear: 'Gỡ bỏ định dạng',
 				height: 'Line Height',
 				name: 'Font Family',
-				strikethrough: 'Strikethrough',
-				subscript: 'Subscript',
-				superscript: 'Superscript',
+				strikethrough: 'Gạch bỏ',
+				subscript: 'Chỉ số dưới',
+				superscript: 'Chỉ số trên',
 				size: 'Cỡ chữ'
 			},
 			image: {
-				image: 'Picture',
-				insert: 'Insert Image',
+				image: 'Hình ảnh',
+				insert: 'Chèn hình',
 				resizeFull: 'Resize Full',
 				resizeHalf: 'Resize Half',
 				resizeQuarter: 'Resize Quarter',
@@ -31,8 +31,8 @@
 				selectFromFiles: 'Select from files',
 				maximumFileSize: 'Maximum file size',
 				maximumFileSizeError: 'Maximum file size exceeded.',
-				url: 'Image URL',
-				remove: 'Remove Image'
+				url: 'Liên kết hình',
+				remove: 'Gỡ bỏ'
 			},
 			video: {
 				video: 'Video',
@@ -42,11 +42,11 @@
 				providers: '(YouTube, Vimeo, Vine, Instagram, DailyMotion or Youku)'
 			},
 			link: {
-				link: 'Link',
-				insert: 'Insert Link',
-				unlink: 'Unlink',
-				edit: 'Edit',
-				textToDisplay: 'Text to display',
+				link: 'Liên kết',
+				insert: 'Chèn liên kết',
+				unlink: 'Gỡ bỏ',
+				edit: 'Sửa',
+				textToDisplay: 'Tên hiển thị',
 				url: 'To what URL should this link go?',
 				openInNewWindow: 'Open in new window'
 			},
@@ -60,7 +60,7 @@
 				style: 'Style',
 				normal: 'Normal',
 				blockquote: 'Trích dẫn',
-				pre: 'Code',
+				pre: 'Chèn mã',
 				h1: 'Header 1',
 				h2: 'Header 2',
 				h3: 'Header 3',
@@ -69,32 +69,32 @@
 				h6: 'Header 6'
 			},
 			lists: {
-				unordered: 'Unordered list',
-				ordered: 'Ordered list'
+				unordered: 'Danh sách',
+				ordered: 'Danh sách thứ tự'
 			},
 			options: {
-				help: 'Help',
-				fullscreen: 'Full Screen',
-				codeview: 'Code View'
+				help: 'Trợ giúp',
+				fullscreen: 'Phóng to',
+				codeview: 'Xem mã'
 			},
 			paragraph: {
 				paragraph: 'Paragraph',
 				outdent: 'Outdent',
 				indent: 'Indent',
-				left: 'Align left',
-				center: 'Align center',
-				right: 'Align right',
-				justify: 'Justify full'
+				left: 'Canh trái',
+				center: 'Canh giữa',
+				right: 'Canh phải',
+				justify: 'Canh đều'
 			},
 			color: {
-				recent: 'Recent Color',
-				more: 'More Color',
-				background: 'Background Color',
-				foreground: 'Foreground Color',
-				transparent: 'Transparent',
+				recent: 'Màu vừa dùng',
+				more: 'Màu khác',
+				background: 'Màu nền',
+				foreground: 'Màu chữ',
+				transparent: 'Trong suốt',
 				setTransparent: 'Set transparent',
 				reset: 'Reset',
-				resetToDefault: 'Reset to default'
+				resetToDefault: 'Mặc định'
 			},
 			shortcut: {
 				shortcuts: 'Keyboard shortcuts',
