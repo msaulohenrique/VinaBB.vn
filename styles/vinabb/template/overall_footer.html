@@ -165,6 +165,9 @@
 		);
 	</script>
 	{% endif %}
+	{% if not S_SIMPLE_HEADER and S_WYSIWYG_EDITOR %}
+	<script src="{{ T_THEME_PATH }}/js/summernote.min.js?v={{ T_ASSETS_VERSION }}"></script>
+	{% endif %}
 	{% if not S_SIMPLE_HEADER and S_INDEX %}
 	<script src="https://buttons.github.io/buttons.js"></script>
 	{% endif %}
