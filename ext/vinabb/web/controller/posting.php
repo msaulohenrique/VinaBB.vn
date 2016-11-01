@@ -13,47 +13,44 @@ class posting
 	/** @var \phpbb\auth\auth */
 	protected $auth;
 
-	/** @var \phpbb\db\driver\driver_interface */
-	protected $db;
-
-	/** @var \phpbb\content_visibility */
-	protected $content_visibility;
-
 	/** @var \phpbb\cache\service */
-	protected $cache_service;
+	protected $cache;
+
+	/** @var \phpbb\captcha\factory */
+	protected $captcha_factory;
 
 	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var \phpbb\user */
-	protected $user;
+	/** @var \phpbb\content_visibility */
+	protected $content_visibility;
 
-	/** @var \phpbb\language\language */
-	protected $language;
-
-	/** @var \phpbb\template\template */
-	protected $template;
-
-	/** @var \vinabb\web\controller\pagination */
-	protected $pagination;
-
-	/** @var \phpbb\request\request */
-	protected $request;
-
-	/** @var \phpbb\notification\manager */
-	protected $notifications;
-
-	/** @var \phpbb\cron\manager */
-	protected $cron;
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
 
 	/** @var \phpbb\event\dispatcher_interface */
 	protected $dispatcher;
 
+	/** @var \phpbb\language\language */
+	protected $language;
+
+	/** @var \phpbb\log\log */
+	protected $log;
+
+	/** @var \phpbb\plupload\plupload */
+	protected $plupload;
+
+	/** @var \phpbb\request\request */
+	protected $request;
+
+	/** @var \phpbb\template\template */
+	protected $template;
+
+	/** @var \phpbb\user */
+	protected $user;
+
 	/** @var \phpbb\controller\helper */
 	protected $helper;
-
-	/** @var \phpbb\group\helper */
-	protected $group_helper;
 
 	/** @var string */
 	protected $phpbb_root_path;
@@ -62,61 +59,58 @@ class posting
 	protected $php_ext;
 
 	/**
-	 * Constructor
-	 *
-	 * @param \phpbb\auth\auth $auth
-	 * @param \phpbb\db\driver\driver_interface $db
-	 * @param \phpbb\content_visibility $content_visibility
-	 * @param \phpbb\cache\service $cache_service
-	 * @param \phpbb\config\config $config
-	 * @param \phpbb\user $user
-	 * @param \phpbb\language\language $language
-	 * @param \phpbb\template\template $template
-	 * @param \vinabb\web\controller\pagination $pagination
-	 * @param \phpbb\request\request $request
-	 * @param \phpbb\notification\manager $notification
-	 * @param \phpbb\cron\manager $cron
-	 * @param \phpbb\event\dispatcher_interface $dispatcher
-	 * @param \phpbb\controller\helper $helper
-	 * @param \phpbb\group\helper $group_helper
-	 * @param string $phpbb_root_path
-	 * @param string $php_ext
-	 */
+	* Constructor
+	*
+	* @param \phpbb\auth\auth $auth
+	* @param \phpbb\cache\service $cache
+	* @param \phpbb\captcha\factory $captcha_factory
+	* @param \phpbb\config\config $config
+	* @param \phpbb\content_visibility $content_visibility
+	* @param \phpbb\db\driver\driver_interface $db
+	* @param \phpbb\event\dispatcher_interface $dispatcher
+	* @param \phpbb\language\language $language
+	* @param \phpbb\log\log $log
+	* @param \phpbb\plupload\plupload $plupload
+	* @param \phpbb\request\request $request
+	* @param \phpbb\template\template $template
+	* @param \phpbb\user $user
+	* @param \phpbb\controller\helper $helper
+	* @param string $phpbb_root_path
+	* @param string $php_ext
+	*/
 	public function __construct(
 		\phpbb\auth\auth $auth,
-		\phpbb\db\driver\driver_interface $db,
-		\phpbb\content_visibility $content_visibility,
-		\phpbb\cache\service $cache_service,
+		\phpbb\captcha\factory $captcha_factory,
+		\phpbb\cache\service $cache,
 		\phpbb\config\config $config,
-		\phpbb\user $user,
-		\phpbb\language\language $language,
-		\phpbb\template\template $template,
-		\vinabb\web\controller\pagination $pagination,
-		\phpbb\request\request $request,
-		\phpbb\notification\manager $notification,
-		\phpbb\cron\manager $cron,
+		\phpbb\content_visibility $content_visibility,
+		\phpbb\db\driver\driver_interface $db,
 		\phpbb\event\dispatcher_interface $dispatcher,
+		\phpbb\language\language $language,
+		\phpbb\log\log $log,
+		\phpbb\plupload\plupload $plupload,
+		\phpbb\request\request $request,
+		\phpbb\template\template $template,
+		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
-		\phpbb\group\helper $group_helper,
 		$phpbb_root_path,
 		$php_ext
 	)
 	{
 		$this->auth = $auth;
-		$this->db = $db;
-		$this->content_visibility = $content_visibility;
-		$this->cache_service = $cache_service;
+		$this->cache = $cache;
+		$this->captcha = $captcha_factory;
 		$this->config = $config;
-		$this->user = $user;
-		$this->language = $language;
-		$this->template = $template;
-		$this->pagination = $pagination;
-		$this->request = $request;
-		$this->notification = $notification;
-		$this->cron = $cron;
+		$this->content_visibility = $content_visibility;
+		$this->db = $db;
 		$this->dispatcher = $dispatcher;
+		$this->language = $language;
+		$this->log = $log;
+		$this->plupload = $plupload;
+		$this->request = $request;
+		$this->template = $template;
+		$this->user = $user;
 		$this->helper = $helper;
-		$this->group_helper = $group_helper;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 	}
@@ -158,7 +152,7 @@ class posting
 		*
 		* Note: $refresh must be true to retain previously submitted form data.
 		*
-		* Note: The template class will not work properly until $user->setup() is
+		* Note: The template class will not work properly until $this->user->setup() is
 		* called, and it has not been called yet. Extensions requiring template
 		* assignments should use an event that comes later in this file.
 		*
@@ -303,7 +297,7 @@ class posting
 
 		if (!$sql)
 		{
-			$user->setup('posting');
+			$this->user->setup('posting');
 			trigger_error('NO_POST_MODE');
 		}
 
@@ -315,7 +309,7 @@ class posting
 		{
 			if (!($mode == 'post' || $mode == 'bump' || $mode == 'reply'))
 			{
-				$user->setup('posting');
+				$this->user->setup('posting');
 			}
 			trigger_error(($mode == 'post' || $mode == 'bump' || $mode == 'reply') ? 'NO_TOPIC' : 'NO_POST');
 		}
@@ -332,11 +326,11 @@ class posting
 			return;
 		}
 
-		$user->setup(array('posting', 'mcp', 'viewtopic'), $post_data['forum_style']);
+		$this->user->setup(array('posting', 'mcp', 'viewtopic'), $post_data['forum_style']);
 
-		if ($this->config['enable_post_confirm'] && !$user->data['is_registered'])
+		if ($this->config['enable_post_confirm'] && !$this->user->data['is_registered'])
 		{
-			$captcha = $phpbb_container->get('captcha.factory')->get_instance($this->config['captcha_plugin']);
+			$captcha = $this->captcha->get_instance($this->config['captcha_plugin']);
 			$captcha->init(CONFIRM_POST);
 		}
 
@@ -356,7 +350,7 @@ class posting
 		}
 
 // Check permissions
-		if ($user->data['is_bot'])
+		if ($this->user->data['is_bot'])
 		{
 			redirect(append_sid("{$phpbb_root_path}index.$phpEx"));
 		}
@@ -364,17 +358,17 @@ class posting
 // Is the user able to read within this forum?
 		if (!$this->auth->acl_get('f_read', $forum_id))
 		{
-			if ($user->data['user_id'] != ANONYMOUS)
+			if ($this->user->data['user_id'] != ANONYMOUS)
 			{
 				trigger_error('USER_CANNOT_READ');
 			}
-			$message = $user->lang['LOGIN_EXPLAIN_POST'];
+			$message = $this->user->lang['LOGIN_EXPLAIN_POST'];
 
 			if ($this->request->is_ajax())
 			{
-				$json = new phpbb\json_response();
+				$json = new \phpbb\json_response();
 				$json->send(array(
-					'title'		=> $user->lang['INFORMATION'],
+					'title'		=> $this->user->lang['INFORMATION'],
 					'message'	=> $message,
 				));
 			}
@@ -415,14 +409,14 @@ class posting
 				break;
 
 			case 'edit':
-				if ($user->data['is_registered'] && $this->auth->acl_gets('f_edit', 'm_edit', $forum_id))
+				if ($this->user->data['is_registered'] && $this->auth->acl_gets('f_edit', 'm_edit', $forum_id))
 				{
 					$is_authed = true;
 				}
 				break;
 
 			case 'delete':
-				if ($user->data['is_registered'] && ($this->auth->acl_get('m_delete', $forum_id) || ($post_data['poster_id'] == $user->data['user_id'] && $this->auth->acl_get('f_delete', $forum_id))))
+				if ($this->user->data['is_registered'] && ($this->auth->acl_get('m_delete', $forum_id) || ($post_data['poster_id'] == $this->user->data['user_id'] && $this->auth->acl_get('f_delete', $forum_id))))
 				{
 					$is_authed = true;
 				}
@@ -430,7 +424,7 @@ class posting
 			// no break;
 
 			case 'soft_delete':
-				if (!$is_authed && $user->data['is_registered'] && $this->content_visibility->can_soft_delete($forum_id, $post_data['poster_id'], $post_data['post_edit_locked']))
+				if (!$is_authed && $this->user->data['is_registered'] && $this->content_visibility->can_soft_delete($forum_id, $post_data['poster_id'], $post_data['post_edit_locked']))
 				{
 					// Fall back to soft_delete if we have no permissions to delete posts but to soft delete them
 					$is_authed = true;
@@ -490,17 +484,17 @@ class posting
 		{
 			$check_auth = ($mode == 'quote') ? 'reply' : $mode;
 
-			if ($user->data['is_registered'])
+			if ($this->user->data['is_registered'])
 			{
 				trigger_error('USER_CANNOT_' . strtoupper($check_auth));
 			}
-			$message = $user->lang['LOGIN_EXPLAIN_' . strtoupper($mode)];
+			$message = $this->user->lang['LOGIN_EXPLAIN_' . strtoupper($mode)];
 
 			if ($this->request->is_ajax())
 			{
-				$json = new phpbb\json_response();
+				$json = new \phpbb\json_response();
 				$json->send(array(
-					'title'		=> $user->lang['INFORMATION'],
+					'title'		=> $this->user->lang['INFORMATION'],
 					'message'	=> $message,
 				));
 			}
@@ -526,7 +520,7 @@ class posting
 		{
 			$force_edit_allowed = false;
 
-			$s_cannot_edit = $user->data['user_id'] != $post_data['poster_id'];
+			$s_cannot_edit = $this->user->data['user_id'] != $post_data['poster_id'];
 			$s_cannot_edit_time = $this->config['edit_time'] && $post_data['post_time'] <= time() - ($this->config['edit_time'] * 60);
 			$s_cannot_edit_locked = $post_data['post_edit_locked'];
 
@@ -572,7 +566,7 @@ class posting
 		{
 			if ($mode == 'soft_delete' && $post_data['post_visibility'] == ITEM_DELETED)
 			{
-				$user->setup('posting');
+				$this->user->setup('posting');
 				trigger_error('NO_POST');
 			}
 
@@ -589,12 +583,12 @@ class posting
 			{
 				$meta_url = phpbb_bump_topic($forum_id, $topic_id, $post_data, $current_time);
 				meta_refresh(3, $meta_url);
-				$message = $user->lang['TOPIC_BUMPED'];
+				$message = $this->user->lang['TOPIC_BUMPED'];
 
 				if (!$this->request->is_ajax())
 				{
-					$message .= '<br /><br />' . $user->lang('VIEW_MESSAGE', '<a href="' . $meta_url . '">', '</a>');
-					$message .= '<br /><br />' . $user->lang('RETURN_FORUM', '<a href="' . append_sid("{$phpbb_root_path}viewforum.$phpEx", 'f=' . $forum_id) . '">', '</a>');
+					$message .= '<br><br>' . $this->language->lang('VIEW_MESSAGE', '<a href="' . $meta_url . '">', '</a>');
+					$message .= '<br><br>' . $this->language->lang('RETURN_FORUM', '<a href="' . append_sid("{$phpbb_root_path}viewforum.$phpEx", 'f=' . $forum_id) . '">', '</a>');
 				}
 
 				trigger_error($message);
@@ -612,7 +606,7 @@ class posting
 // Determine some vars
 		if (isset($post_data['poster_id']) && $post_data['poster_id'] == ANONYMOUS)
 		{
-			$post_data['quote_username'] = (!empty($post_data['post_username'])) ? $post_data['post_username'] : $user->lang['GUEST'];
+			$post_data['quote_username'] = (!empty($post_data['post_username'])) ? $post_data['post_username'] : $this->user->lang['GUEST'];
 		}
 		else
 		{
@@ -660,12 +654,7 @@ class posting
 		$orig_poll_options_size = sizeof($post_data['poll_options']);
 
 		$message_parser = new parse_message();
-		/* @var $plupload \phpbb\plupload\plupload */
-		$plupload = $phpbb_container->get('plupload');
-
-		/* @var $mimetype_guesser \phpbb\mimetype\guesser */
-		$mimetype_guesser = $phpbb_container->get('mimetype.guesser');
-		$message_parser->set_plupload($plupload);
+		$message_parser->set_plupload($this->plupload);
 
 		if (isset($post_data['post_text']))
 		{
@@ -674,7 +663,7 @@ class posting
 		}
 
 // Set some default variables
-		$uninit = array('post_attachment' => 0, 'poster_id' => $user->data['user_id'], 'enable_magic_url' => 0, 'topic_status' => 0, 'topic_type' => POST_NORMAL, 'post_subject' => '', 'topic_title' => '', 'post_time' => 0, 'post_edit_reason' => '', 'notify_set' => 0);
+		$uninit = array('post_attachment' => 0, 'poster_id' => $this->user->data['user_id'], 'enable_magic_url' => 0, 'topic_status' => 0, 'topic_type' => POST_NORMAL, 'post_subject' => '', 'topic_title' => '', 'post_time' => 0, 'post_edit_reason' => '', 'notify_set' => 0);
 
 		foreach ($uninit as $var_name => $default_value)
 		{
@@ -716,9 +705,9 @@ class posting
 
 		if ($mode != 'edit')
 		{
-			$post_data['enable_sig']		= ($this->config['allow_sig'] && $user->optionget('attachsig')) ? true: false;
-			$post_data['enable_smilies']	= ($this->config['allow_smilies'] && $user->optionget('smilies')) ? true : false;
-			$post_data['enable_bbcode']		= ($this->config['allow_bbcode'] && $user->optionget('bbcode')) ? true : false;
+			$post_data['enable_sig']		= ($this->config['allow_sig'] && $this->user->optionget('attachsig')) ? true: false;
+			$post_data['enable_smilies']	= ($this->config['allow_smilies'] && $this->user->optionget('smilies')) ? true : false;
+			$post_data['enable_bbcode']		= ($this->config['allow_bbcode'] && $this->user->optionget('bbcode')) ? true : false;
 			$post_data['enable_urls']		= true;
 		}
 
@@ -730,11 +719,11 @@ class posting
 		$post_data['enable_magic_url'] = $post_data['drafts'] = false;
 
 		// User own some drafts?
-		if ($user->data['is_registered'] && $this->auth->acl_get('u_savedrafts') && ($mode == 'reply' || $mode == 'post' || $mode == 'quote'))
+		if ($this->user->data['is_registered'] && $this->auth->acl_get('u_savedrafts') && ($mode == 'reply' || $mode == 'post' || $mode == 'quote'))
 		{
 			$sql = 'SELECT draft_id
 				FROM ' . DRAFTS_TABLE . '
-				WHERE user_id = ' . $user->data['user_id'] .
+				WHERE user_id = ' . $this->user->data['user_id'] .
 					(($forum_id) ? ' AND forum_id = ' . (int) $forum_id : '') .
 					(($topic_id) ? ' AND topic_id = ' . (int) $topic_id : '') .
 					(($draft_id) ? " AND draft_id <> $draft_id" : '');
@@ -750,12 +739,12 @@ class posting
 		$check_value = (($post_data['enable_bbcode']+1) << 8) + (($post_data['enable_smilies']+1) << 4) + (($post_data['enable_urls']+1) << 2) + (($post_data['enable_sig']+1) << 1);
 
 		// Check if user is watching this topic
-		if ($mode != 'post' && $this->config['allow_topic_notify'] && $user->data['is_registered'])
+		if ($mode != 'post' && $this->config['allow_topic_notify'] && $this->user->data['is_registered'])
 		{
 			$sql = 'SELECT topic_id
 				FROM ' . TOPICS_WATCH_TABLE . '
 				WHERE topic_id = ' . $topic_id . '
-					AND user_id = ' . $user->data['user_id'];
+					AND user_id = ' . $this->user->data['user_id'];
 			$result = $this->db->sql_query($sql);
 			$post_data['notify_set'] = (int) $this->db->sql_fetchfield('topic_id');
 			$this->db->sql_freeresult($result);
@@ -776,7 +765,7 @@ class posting
 		$quote_status	= true;
 
 		// Save Draft
-		if ($save && $user->data['is_registered'] && $this->auth->acl_get('u_savedrafts') && ($mode == 'reply' || $mode == 'post' || $mode == 'quote'))
+		if ($save && $this->user->data['is_registered'] && $this->auth->acl_get('u_savedrafts') && ($mode == 'reply' || $mode == 'post' || $mode == 'quote'))
 		{
 			$subject = $this->request->variable('subject', '', true);
 			$subject = (!$subject && $mode != 'post') ? $post_data['topic_title'] : $subject;
@@ -787,7 +776,7 @@ class posting
 				if (confirm_box(true))
 				{
 					$sql = 'INSERT INTO ' . DRAFTS_TABLE . ' ' . $this->db->sql_build_array('INSERT', array(
-								'user_id'		=> (int) $user->data['user_id'],
+								'user_id'		=> (int) $this->user->data['user_id'],
 								'topic_id'		=> (int) $topic_id,
 								'forum_id'		=> (int) $forum_id,
 								'save_time'		=> (int) $current_time,
@@ -800,9 +789,9 @@ class posting
 
 					meta_refresh(3, $meta_info);
 
-					$message = $user->lang['DRAFT_SAVED'] . '<br /><br />';
-					$message .= ($mode != 'post') ? sprintf($user->lang['RETURN_TOPIC'], '<a href="' . $meta_info . '">', '</a>') . '<br /><br />' : '';
-					$message .= sprintf($user->lang['RETURN_FORUM'], '<a href="' . append_sid("{$phpbb_root_path}viewforum.$phpEx", 'f=' . $forum_id) . '">', '</a>');
+					$message = $this->user->lang['DRAFT_SAVED'] . '<br><br>';
+					$message .= ($mode != 'post') ? sprintf($this->user->lang['RETURN_TOPIC'], '<a href="' . $meta_info . '">', '</a>') . '<br><br>' : '';
+					$message .= sprintf($this->user->lang['RETURN_FORUM'], '<a href="' . append_sid("{$phpbb_root_path}viewforum.$phpEx", 'f=' . $forum_id) . '">', '</a>');
 
 					trigger_error($message);
 				}
@@ -867,24 +856,24 @@ class posting
 			{
 				if (utf8_clean_string($subject) === '')
 				{
-					$error[] = $user->lang['EMPTY_SUBJECT'];
+					$error[] = $this->user->lang['EMPTY_SUBJECT'];
 				}
 
 				if (utf8_clean_string($message) === '')
 				{
-					$error[] = $user->lang['TOO_FEW_CHARS'];
+					$error[] = $this->user->lang['TOO_FEW_CHARS'];
 				}
 			}
 			unset($subject, $message);
 		}
 
 // Load requested Draft
-		if ($draft_id && ($mode == 'reply' || $mode == 'quote' || $mode == 'post') && $user->data['is_registered'] && $this->auth->acl_get('u_savedrafts'))
+		if ($draft_id && ($mode == 'reply' || $mode == 'quote' || $mode == 'post') && $this->user->data['is_registered'] && $this->auth->acl_get('u_savedrafts'))
 		{
 			$sql = 'SELECT draft_subject, draft_message
 				FROM ' . DRAFTS_TABLE . "
 				WHERE draft_id = $draft_id
-					AND user_id = " . $user->data['user_id'];
+					AND user_id = " . $this->user->data['user_id'];
 			$result = $this->db->sql_query_limit($sql, 1);
 			$row = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);
@@ -929,9 +918,9 @@ class posting
 			$post_data['enable_bbcode']		= (!$bbcode_status || isset($_POST['disable_bbcode'])) ? false : true;
 			$post_data['enable_smilies']	= (!$smilies_status || isset($_POST['disable_smilies'])) ? false : true;
 			$post_data['enable_urls']		= (isset($_POST['disable_magic_url'])) ? 0 : 1;
-			$post_data['enable_sig']		= (!$this->config['allow_sig'] || !$this->auth->acl_get('f_sigs', $forum_id) || !$this->auth->acl_get('u_sig')) ? false : ((isset($_POST['attach_sig']) && $user->data['is_registered']) ? true : false);
+			$post_data['enable_sig']		= (!$this->config['allow_sig'] || !$this->auth->acl_get('f_sigs', $forum_id) || !$this->auth->acl_get('u_sig')) ? false : ((isset($_POST['attach_sig']) && $this->user->data['is_registered']) ? true : false);
 
-			if ($this->config['allow_topic_notify'] && $user->data['is_registered'])
+			if ($this->config['allow_topic_notify'] && $this->user->data['is_registered'])
 			{
 				$notify = (isset($_POST['notify'])) ? true : false;
 			}
@@ -956,7 +945,7 @@ class posting
 
 			// Delete Poll
 			if ($poll_delete && $mode == 'edit' && sizeof($post_data['poll_options']) &&
-				((!$post_data['poll_last_vote'] && $post_data['poster_id'] == $user->data['user_id'] && $this->auth->acl_get('f_delete', $forum_id)) || $this->auth->acl_get('m_delete', $forum_id)))
+				((!$post_data['poll_last_vote'] && $post_data['poster_id'] == $this->user->data['user_id'] && $this->auth->acl_get('f_delete', $forum_id)) || $this->auth->acl_get('m_delete', $forum_id)))
 			{
 				if ($submit && check_form_key('posting'))
 				{
@@ -1083,8 +1072,8 @@ class posting
 						$this->template->assign_vars(array(
 							'S_POST_REVIEW'			=> true,
 
-							'L_POST_REVIEW'			=> $user->lang['POST_REVIEW_EDIT'],
-							'L_POST_REVIEW_EXPLAIN'	=> $user->lang['POST_REVIEW_EDIT_EXPLAIN'],
+							'L_POST_REVIEW'			=> $this->user->lang['POST_REVIEW_EDIT'],
+							'L_POST_REVIEW_EXPLAIN'	=> $this->user->lang['POST_REVIEW_EDIT_EXPLAIN'],
 						));
 					}
 
@@ -1104,7 +1093,7 @@ class posting
 			{
 				if (sizeof($message_parser->warn_msg))
 				{
-					$error[] = implode('<br />', $message_parser->warn_msg);
+					$error[] = implode('<br>', $message_parser->warn_msg);
 					$message_parser->warn_msg = array();
 				}
 
@@ -1130,15 +1119,15 @@ class posting
 				// Flood check
 				$last_post_time = 0;
 
-				if ($user->data['is_registered'])
+				if ($this->user->data['is_registered'])
 				{
-					$last_post_time = $user->data['user_lastpost_time'];
+					$last_post_time = $this->user->data['user_lastpost_time'];
 				}
 				else
 				{
 					$sql = 'SELECT post_time AS last_post_time
 				FROM ' . POSTS_TABLE . "
-				WHERE poster_ip = '" . $user->ip . "'
+				WHERE poster_ip = '" . $this->user->ip . "'
 					AND post_time > " . ($current_time - $this->config['flood_interval']);
 					$result = $this->db->sql_query_limit($sql, 1);
 					if ($row = $this->db->sql_fetchrow($result))
@@ -1150,30 +1139,30 @@ class posting
 
 				if ($last_post_time && ($current_time - $last_post_time) < intval($this->config['flood_interval']))
 				{
-					$error[] = $user->lang['FLOOD_ERROR'];
+					$error[] = $this->user->lang['FLOOD_ERROR'];
 				}
 			}
 
 			// Validate username
-			if (($post_data['username'] && !$user->data['is_registered']) || ($mode == 'edit' && $post_data['poster_id'] == ANONYMOUS && $post_data['username'] && $post_data['post_username'] && $post_data['post_username'] != $post_data['username']))
+			if (($post_data['username'] && !$this->user->data['is_registered']) || ($mode == 'edit' && $post_data['poster_id'] == ANONYMOUS && $post_data['username'] && $post_data['post_username'] && $post_data['post_username'] != $post_data['username']))
 			{
 				include($phpbb_root_path . 'includes/functions_user.' . $phpEx);
 
-				$user->add_lang('ucp');
+				$this->language->add_lang('ucp');
 
 				if (($result = validate_username($post_data['username'], (!empty($post_data['post_username'])) ? $post_data['post_username'] : '')) !== false)
 				{
-					$error[] = $user->lang[$result . '_USERNAME'];
+					$error[] = $this->user->lang[$result . '_USERNAME'];
 				}
 
 				if (($result = validate_string($post_data['username'], false, $this->config['min_name_chars'], $this->config['max_name_chars'])) !== false)
 				{
 					$min_max_amount = ($result == 'TOO_SHORT') ? $this->config['min_name_chars'] : $this->config['max_name_chars'];
-					$error[] = $user->lang('FIELD_' . $result, $min_max_amount, $user->lang['USERNAME']);
+					$error[] = $this->language->lang('FIELD_' . $result, $min_max_amount, $this->user->lang['USERNAME']);
 				}
 			}
 
-			if ($this->config['enable_post_confirm'] && !$user->data['is_registered'] && in_array($mode, array('quote', 'post', 'reply')))
+			if ($this->config['enable_post_confirm'] && !$this->user->data['is_registered'] && in_array($mode, array('quote', 'post', 'reply')))
 			{
 				$captcha_data = array(
 					'message'	=> $this->request->variable('message', '', true),
@@ -1190,14 +1179,14 @@ class posting
 			// check form
 			if (($submit || $preview) && !check_form_key('posting'))
 			{
-				$error[] = $user->lang['FORM_INVALID'];
+				$error[] = $this->user->lang['FORM_INVALID'];
 			}
 
 			if ($submit && $mode == 'edit' && $post_data['post_visibility'] == ITEM_DELETED && !isset($_POST['soft_delete']) && $this->auth->acl_get('m_approve', $forum_id))
 			{
 				$is_first_post = ($post_id == $post_data['topic_first_post_id'] || !$post_data['topic_posts_approved']);
 				$is_last_post = ($post_id == $post_data['topic_last_post_id'] || !$post_data['topic_posts_approved']);
-				$updated_post_data = $this->content_visibility->set_post_visibility(ITEM_APPROVED, $post_id, $post_data['topic_id'], $post_data['forum_id'], $user->data['user_id'], time(), '', $is_first_post, $is_last_post);
+				$updated_post_data = $this->content_visibility->set_post_visibility(ITEM_APPROVED, $post_id, $post_data['topic_id'], $post_data['forum_id'], $this->user->data['user_id'], time(), '', $is_first_post, $is_last_post);
 
 				if (!empty($updated_post_data))
 				{
@@ -1209,15 +1198,15 @@ class posting
 			// Parse subject
 			if (!$preview && !$refresh && utf8_clean_string($post_data['post_subject']) === '' && ($mode == 'post' || ($mode == 'edit' && $post_data['topic_first_post_id'] == $post_id)))
 			{
-				$error[] = $user->lang['EMPTY_SUBJECT'];
+				$error[] = $this->user->lang['EMPTY_SUBJECT'];
 			}
 
 			// Check for out-of-bounds characters that are currently
 			// not supported by utf8_bin in MySQL
 			if (preg_match_all('/[\x{10000}-\x{10FFFF}]/u', $post_data['post_subject'], $matches))
 			{
-				$character_list = implode('<br />', $matches[0]);
-				$error[] = $user->lang('UNSUPPORTED_CHARACTERS_SUBJECT', $character_list);
+				$character_list = implode('<br>', $matches[0]);
+				$error[] = $this->language->lang('UNSUPPORTED_CHARACTERS_SUBJECT', $character_list);
 			}
 
 			$post_data['poll_last_vote'] = (isset($post_data['poll_last_vote'])) ? $post_data['poll_last_vote'] : 0;
@@ -1248,7 +1237,7 @@ class posting
 				/* We reset votes, therefore also allow removing options
 				if ($post_data['poll_last_vote'] && ($poll['poll_options_size'] < $orig_poll_options_size))
 				{
-					$message_parser->warn_msg[] = $user->lang['NO_DELETE_POLL_OPTIONS'];
+					$message_parser->warn_msg[] = $this->user->lang['NO_DELETE_POLL_OPTIONS'];
 				}*/
 			}
 			else if ($mode == 'edit' && $post_id == $post_data['topic_first_post_id'] && $this->auth->acl_get('f_poll', $forum_id))
@@ -1323,22 +1312,22 @@ class posting
 					}
 					else
 					{
-						$error[] = $user->lang['CANNOT_POST_' . str_replace('F_', '', strtoupper($auth_option))];
+						$error[] = $this->user->lang['CANNOT_POST_' . str_replace('F_', '', strtoupper($auth_option))];
 					}
 				}
 			}
 
 			if (sizeof($message_parser->warn_msg))
 			{
-				$error[] = implode('<br />', $message_parser->warn_msg);
+				$error[] = implode('<br>', $message_parser->warn_msg);
 			}
 
 			// DNSBL check
 			if ($this->config['check_dnsbl'] && !$refresh)
 			{
-				if (($dnsbl = $user->check_dnsbl('post')) !== false)
+				if (($dnsbl = $this->user->check_dnsbl('post')) !== false)
 				{
-					$error[] = sprintf($user->lang['IP_BLACKLISTED'], $user->ip, $dnsbl[1]);
+					$error[] = sprintf($this->user->lang['IP_BLACKLISTED'], $this->user->ip, $dnsbl[1]);
 				}
 			}
 
@@ -1379,7 +1368,7 @@ class posting
 				{
 					// Lock/Unlock Topic
 					$change_topic_status = $post_data['topic_status'];
-					$perm_lock_unlock = ($this->auth->acl_get('m_lock', $forum_id) || ($this->auth->acl_get('f_user_lock', $forum_id) && $user->data['is_registered'] && !empty($post_data['topic_poster']) && $user->data['user_id'] == $post_data['topic_poster'] && $post_data['topic_status'] == ITEM_UNLOCKED)) ? true : false;
+					$perm_lock_unlock = ($this->auth->acl_get('m_lock', $forum_id) || ($this->auth->acl_get('f_user_lock', $forum_id) && $this->user->data['is_registered'] && !empty($post_data['topic_poster']) && $this->user->data['user_id'] == $post_data['topic_poster'] && $post_data['topic_status'] == ITEM_UNLOCKED)) ? true : false;
 
 					if ($post_data['topic_status'] == ITEM_LOCKED && !$topic_lock && $perm_lock_unlock)
 					{
@@ -1398,9 +1387,9 @@ class posting
 						AND topic_moved_id = 0";
 						$this->db->sql_query($sql);
 
-						$user_lock = ($this->auth->acl_get('f_user_lock', $forum_id) && $user->data['is_registered'] && $user->data['user_id'] == $post_data['topic_poster']) ? 'USER_' : '';
+						$user_lock = ($this->auth->acl_get('f_user_lock', $forum_id) && $this->user->data['is_registered'] && $this->user->data['user_id'] == $post_data['topic_poster']) ? 'USER_' : '';
 
-						$phpbb_log->add('mod', $user->data['user_id'], $user->ip, 'LOG_' . $user_lock . (($change_topic_status == ITEM_LOCKED) ? 'LOCK' : 'UNLOCK'), false, array(
+						$this->log->add('mod', $this->user->data['user_id'], $this->user->ip, 'LOG_' . $user_lock . (($change_topic_status == ITEM_LOCKED) ? 'LOCK' : 'UNLOCK'), false, array(
 							'forum_id' => $forum_id,
 							'topic_id' => $topic_id,
 							$post_data['topic_title']
@@ -1436,12 +1425,12 @@ class posting
 						'message_md5'			=> (string) $message_md5,
 						'post_checksum'			=> (isset($post_data['post_checksum'])) ? (string) $post_data['post_checksum'] : '',
 						'post_edit_reason'		=> $post_data['post_edit_reason'],
-						'post_edit_user'		=> ($mode == 'edit') ? $user->data['user_id'] : ((isset($post_data['post_edit_user'])) ? (int) $post_data['post_edit_user'] : 0),
+						'post_edit_user'		=> ($mode == 'edit') ? $this->user->data['user_id'] : ((isset($post_data['post_edit_user'])) ? (int) $post_data['post_edit_user'] : 0),
 						'forum_parents'			=> $post_data['forum_parents'],
 						'forum_name'			=> $post_data['forum_name'],
 						'notify'				=> $notify,
 						'notify_set'			=> $post_data['notify_set'],
-						'poster_ip'				=> (isset($post_data['poster_ip'])) ? $post_data['poster_ip'] : $user->ip,
+						'poster_ip'				=> (isset($post_data['poster_ip'])) ? $post_data['poster_ip'] : $this->user->ip,
 						'post_edit_locked'		=> (int) $post_data['post_edit_locked'],
 						'bbcode_bitfield'		=> $message_parser->bbcode_bitfield,
 						'bbcode_uid'			=> $message_parser->bbcode_uid,
@@ -1465,7 +1454,7 @@ class posting
 					// the username was supplied; otherwise post_data might hold the data of the post that is
 					// being quoted (which could result in the username being returned being that of the quoted
 					// post's poster, not the poster of the current post). See: PHPBB3-11769 for more information.
-					$post_author_name = ((!$user->data['is_registered'] || $mode == 'edit') && $post_data['username'] !== '') ? $post_data['username'] : '';
+					$post_author_name = ((!$this->user->data['is_registered'] || $mode == 'edit') && $post_data['username'] !== '') ? $post_data['username'] : '';
 
 					/**
 					 * This event allows you to define errors before the post action is performed
@@ -1540,7 +1529,7 @@ class posting
 					);
 					extract($this->dispatcher->trigger_event('core.posting_modify_submit_post_after', compact($vars)));
 
-					if ($this->config['enable_post_confirm'] && !$user->data['is_registered'] && (isset($captcha) && $captcha->is_solved() === true) && ($mode == 'post' || $mode == 'reply' || $mode == 'quote'))
+					if ($this->config['enable_post_confirm'] && !$this->user->data['is_registered'] && (isset($captcha) && $captcha->is_solved() === true) && ($mode == 'post' || $mode == 'reply' || $mode == 'quote'))
 					{
 						$captcha->reset();
 					}
@@ -1558,9 +1547,9 @@ class posting
 					if ((!$this->auth->acl_get('f_noapprove', $data['forum_id']) && empty($data['force_approved_state'])) || (isset($data['force_approved_state']) && !$data['force_approved_state']))
 					{
 						meta_refresh(10, $redirect_url);
-						$message = ($mode == 'edit') ? $user->lang['POST_EDITED_MOD'] : $user->lang['POST_STORED_MOD'];
-						$message .= (($user->data['user_id'] == ANONYMOUS) ? '' : ' '. $user->lang['POST_APPROVAL_NOTIFY']);
-						$message .= '<br /><br />' . sprintf($user->lang['RETURN_FORUM'], '<a href="' . append_sid("{$phpbb_root_path}viewforum.$phpEx", 'f=' . $data['forum_id']) . '">', '</a>');
+						$message = ($mode == 'edit') ? $this->user->lang['POST_EDITED_MOD'] : $this->user->lang['POST_STORED_MOD'];
+						$message .= (($this->user->data['user_id'] == ANONYMOUS) ? '' : ' '. $this->user->lang['POST_APPROVAL_NOTIFY']);
+						$message .= '<br><br>' . sprintf($this->user->lang['RETURN_FORUM'], '<a href="' . append_sid("{$phpbb_root_path}viewforum.$phpEx", 'f=' . $data['forum_id']) . '">', '</a>');
 						trigger_error($message);
 					}
 
@@ -1576,9 +1565,9 @@ class posting
 
 			$preview_message = $message_parser->format_display($post_data['enable_bbcode'], $post_data['enable_urls'], $post_data['enable_smilies'], false);
 
-			$preview_signature = ($mode == 'edit') ? $post_data['user_sig'] : $user->data['user_sig'];
-			$preview_signature_uid = ($mode == 'edit') ? $post_data['user_sig_bbcode_uid'] : $user->data['user_sig_bbcode_uid'];
-			$preview_signature_bitfield = ($mode == 'edit') ? $post_data['user_sig_bbcode_bitfield'] : $user->data['user_sig_bbcode_bitfield'];
+			$preview_signature = ($mode == 'edit') ? $post_data['user_sig'] : $this->user->data['user_sig'];
+			$preview_signature_uid = ($mode == 'edit') ? $post_data['user_sig_bbcode_uid'] : $this->user->data['user_sig_bbcode_uid'];
+			$preview_signature_bitfield = ($mode == 'edit') ? $post_data['user_sig_bbcode_bitfield'] : $this->user->data['user_sig_bbcode_bitfield'];
 
 			// Signature
 			if ($post_data['enable_sig'] && $this->config['allow_sig'] && $preview_signature && $this->auth->acl_get('f_sigs', $forum_id))
@@ -1617,8 +1606,8 @@ class posting
 
 					'POLL_QUESTION'		=> $parse_poll->message,
 
-					'L_POLL_LENGTH'		=> ($post_data['poll_length']) ? sprintf($user->lang['POLL_RUN_TILL'], $user->format_date($poll_end)) : '',
-					'L_MAX_VOTES'		=> $user->lang('MAX_OPTIONS_SELECT', (int) $post_data['poll_max_options']),
+					'L_POLL_LENGTH'		=> ($post_data['poll_length']) ? sprintf($this->user->lang['POLL_RUN_TILL'], $this->user->format_date($poll_end)) : '',
+					'L_MAX_VOTES'		=> $this->language->lang('MAX_OPTIONS_SELECT', (int) $post_data['poll_max_options']),
 				));
 
 				$preview_poll_options = array();
@@ -1718,7 +1707,7 @@ class posting
 
 				$message = $quote_string . $message;
 				$message = str_replace("\n", "\n" . $quote_string, $message);
-				$message_parser->message =  $post_data['quote_username'] . " " . $user->lang['WROTE'] . ":\n" . $message . "\n";
+				$message_parser->message =  $post_data['quote_username'] . " " . $this->user->lang['WROTE'] . ":\n" . $message . "\n";
 			}
 		}
 
@@ -1773,16 +1762,16 @@ class posting
 			$s_topic_icons = posting_gen_topic_icons($mode, $post_data['icon_id']);
 		}
 
-		$bbcode_checked		= (isset($post_data['enable_bbcode'])) ? !$post_data['enable_bbcode'] : (($this->config['allow_bbcode']) ? !$user->optionget('bbcode') : 1);
-		$smilies_checked	= (isset($post_data['enable_smilies'])) ? !$post_data['enable_smilies'] : (($this->config['allow_smilies']) ? !$user->optionget('smilies') : 1);
+		$bbcode_checked		= (isset($post_data['enable_bbcode'])) ? !$post_data['enable_bbcode'] : (($this->config['allow_bbcode']) ? !$this->user->optionget('bbcode') : 1);
+		$smilies_checked	= (isset($post_data['enable_smilies'])) ? !$post_data['enable_smilies'] : (($this->config['allow_smilies']) ? !$this->user->optionget('smilies') : 1);
 		$urls_checked		= (isset($post_data['enable_urls'])) ? !$post_data['enable_urls'] : 0;
 		$sig_checked		= $post_data['enable_sig'];
 		$lock_topic_checked	= (isset($topic_lock) && $topic_lock) ? $topic_lock : (($post_data['topic_status'] == ITEM_LOCKED) ? 1 : 0);
 		$lock_post_checked	= (isset($post_lock)) ? $post_lock : $post_data['post_edit_locked'];
 
 // If the user is replying or posting and not already watching this topic but set to always being notified we need to overwrite this setting
-		$notify_set			= ($mode != 'edit' && $this->config['allow_topic_notify'] && $user->data['is_registered'] && !$post_data['notify_set']) ? $user->data['user_notify'] : $post_data['notify_set'];
-		$notify_checked		= (isset($notify)) ? $notify : (($mode == 'post') ? $user->data['user_notify'] : $notify_set);
+		$notify_set			= ($mode != 'edit' && $this->config['allow_topic_notify'] && $this->user->data['is_registered'] && !$post_data['notify_set']) ? $this->user->data['user_notify'] : $post_data['notify_set'];
+		$notify_checked		= (isset($notify)) ? $notify : (($mode == 'post') ? $this->user->data['user_notify'] : $notify_set);
 
 // Page title & action URL
 		$s_action = append_sid("{$phpbb_root_path}posting.$phpEx", "mode=$mode&amp;f=$forum_id");
@@ -1792,17 +1781,17 @@ class posting
 		switch ($mode)
 		{
 			case 'post':
-				$page_title = $user->lang['POST_TOPIC'];
+				$page_title = $this->user->lang['POST_TOPIC'];
 				break;
 
 			case 'quote':
 			case 'reply':
-				$page_title = $user->lang['POST_REPLY'];
+				$page_title = $this->user->lang['POST_REPLY'];
 				break;
 
 			case 'delete':
 			case 'edit':
-				$page_title = $user->lang['EDIT_POST'];
+				$page_title = $this->user->lang['EDIT_POST'];
 				break;
 		}
 
@@ -1813,7 +1802,7 @@ class posting
 		generate_forum_rules($post_data);
 
 // Posting uses is_solved for legacy reasons. Plugins have to use is_solved to force themselves to be displayed.
-		if ($this->config['enable_post_confirm'] && !$user->data['is_registered'] && (isset($captcha) && $captcha->is_solved() === false) && ($mode == 'post' || $mode == 'reply' || $mode == 'quote'))
+		if ($this->config['enable_post_confirm'] && !$this->user->data['is_registered'] && (isset($captcha) && $captcha->is_solved() === false) && ($mode == 'post' || $mode == 'reply' || $mode == 'quote'))
 		{
 
 			$this->template->assign_vars(array(
@@ -1849,25 +1838,25 @@ class posting
 // Build array of variables for main posting page
 		$page_data = array(
 			'L_POST_A'					=> $page_title,
-			'L_ICON'					=> ($mode == 'reply' || $mode == 'quote' || ($mode == 'edit' && $post_id != $post_data['topic_first_post_id'])) ? $user->lang['POST_ICON'] : $user->lang['TOPIC_ICON'],
-			'L_MESSAGE_BODY_EXPLAIN'	=> $user->lang('MESSAGE_BODY_EXPLAIN', (int) $this->config['max_post_chars']),
+			'L_ICON'					=> ($mode == 'reply' || $mode == 'quote' || ($mode == 'edit' && $post_id != $post_data['topic_first_post_id'])) ? $this->user->lang['POST_ICON'] : $this->user->lang['TOPIC_ICON'],
+			'L_MESSAGE_BODY_EXPLAIN'	=> $this->language->lang('MESSAGE_BODY_EXPLAIN', (int) $this->config['max_post_chars']),
 
 			'FORUM_NAME'			=> $post_data['forum_name'],
 			'FORUM_DESC'			=> ($post_data['forum_desc']) ? generate_text_for_display($post_data['forum_desc'], $post_data['forum_desc_uid'], $post_data['forum_desc_bitfield'], $post_data['forum_desc_options']) : '',
 			'TOPIC_TITLE'			=> censor_text($post_data['topic_title']),
-			'MODERATORS'			=> (sizeof($moderators)) ? implode($user->lang['COMMA_SEPARATOR'], $moderators[$forum_id]) : '',
+			'MODERATORS'			=> (sizeof($moderators)) ? implode($this->user->lang['COMMA_SEPARATOR'], $moderators[$forum_id]) : '',
 			'USERNAME'				=> ((!$preview && $mode != 'quote') || $preview) ? $post_data['username'] : '',
 			'SUBJECT'				=> $post_data['post_subject'],
 			'MESSAGE'				=> $post_data['post_text'],
-			'BBCODE_STATUS'			=> $user->lang(($bbcode_status ? 'BBCODE_IS_ON' : 'BBCODE_IS_OFF'), '<a href="' . $controller_helper->route('phpbb_help_bbcode_controller') . '">', '</a>'),
-			'IMG_STATUS'			=> ($img_status) ? $user->lang['IMAGES_ARE_ON'] : $user->lang['IMAGES_ARE_OFF'],
-			'FLASH_STATUS'			=> ($flash_status) ? $user->lang['FLASH_IS_ON'] : $user->lang['FLASH_IS_OFF'],
-			'SMILIES_STATUS'		=> ($smilies_status) ? $user->lang['SMILIES_ARE_ON'] : $user->lang['SMILIES_ARE_OFF'],
-			'URL_STATUS'			=> ($bbcode_status && $url_status) ? $user->lang['URL_IS_ON'] : $user->lang['URL_IS_OFF'],
+			'BBCODE_STATUS'			=> $this->language->lang(($bbcode_status ? 'BBCODE_IS_ON' : 'BBCODE_IS_OFF'), '<a href="' . $controller_helper->route('phpbb_help_bbcode_controller') . '">', '</a>'),
+			'IMG_STATUS'			=> ($img_status) ? $this->user->lang['IMAGES_ARE_ON'] : $this->user->lang['IMAGES_ARE_OFF'],
+			'FLASH_STATUS'			=> ($flash_status) ? $this->user->lang['FLASH_IS_ON'] : $this->user->lang['FLASH_IS_OFF'],
+			'SMILIES_STATUS'		=> ($smilies_status) ? $this->user->lang['SMILIES_ARE_ON'] : $this->user->lang['SMILIES_ARE_OFF'],
+			'URL_STATUS'			=> ($bbcode_status && $url_status) ? $this->user->lang['URL_IS_ON'] : $this->user->lang['URL_IS_OFF'],
 			'MAX_FONT_SIZE'			=> (int) $this->config['max_post_font_size'],
-			'MINI_POST_IMG'			=> $user->img('icon_post_target', $user->lang['POST']),
-			'POST_DATE'				=> ($post_data['post_time']) ? $user->format_date($post_data['post_time']) : '',
-			'ERROR'					=> (sizeof($error)) ? implode('<br />', $error) : '',
+			'MINI_POST_IMG'			=> $this->user->img('icon_post_target', $this->user->lang['POST']),
+			'POST_DATE'				=> ($post_data['post_time']) ? $this->user->format_date($post_data['post_time']) : '',
+			'ERROR'					=> (sizeof($error)) ? implode('<br>', $error) : '',
 			'TOPIC_TIME_LIMIT'		=> (int) $post_data['topic_time_limit'],
 			'EDIT_REASON'			=> $this->request->variable('edit_reason', '', true),
 			'SHOW_PANEL'			=> $this->request->variable('show_panel', ''),
@@ -1880,18 +1869,18 @@ class posting
 			'S_CLOSE_PROGRESS_WINDOW'	=> (isset($_POST['add_file'])) ? true : false,
 			'S_EDIT_POST'				=> ($mode == 'edit') ? true : false,
 			'S_EDIT_REASON'				=> ($mode == 'edit' && $this->auth->acl_get('m_edit', $forum_id)) ? true : false,
-			'S_DISPLAY_USERNAME'		=> (!$user->data['is_registered'] || ($mode == 'edit' && $post_data['poster_id'] == ANONYMOUS)) ? true : false,
+			'S_DISPLAY_USERNAME'		=> (!$this->user->data['is_registered'] || ($mode == 'edit' && $post_data['poster_id'] == ANONYMOUS)) ? true : false,
 			'S_SHOW_TOPIC_ICONS'		=> $s_topic_icons,
-			'S_DELETE_ALLOWED'			=> ($mode == 'edit' && (($post_id == $post_data['topic_last_post_id'] && $post_data['poster_id'] == $user->data['user_id'] && $this->auth->acl_get('f_delete', $forum_id) && !$post_data['post_edit_locked'] && ($post_data['post_time'] > time() - ($this->config['delete_time'] * 60) || !$this->config['delete_time'])) || $this->auth->acl_get('m_delete', $forum_id))) ? true : false,
+			'S_DELETE_ALLOWED'			=> ($mode == 'edit' && (($post_id == $post_data['topic_last_post_id'] && $post_data['poster_id'] == $this->user->data['user_id'] && $this->auth->acl_get('f_delete', $forum_id) && !$post_data['post_edit_locked'] && ($post_data['post_time'] > time() - ($this->config['delete_time'] * 60) || !$this->config['delete_time'])) || $this->auth->acl_get('m_delete', $forum_id))) ? true : false,
 			'S_BBCODE_ALLOWED'			=> ($bbcode_status) ? 1 : 0,
 			'S_BBCODE_CHECKED'			=> ($bbcode_checked) ? ' checked="checked"' : '',
 			'S_SMILIES_ALLOWED'			=> $smilies_status,
 			'S_SMILIES_CHECKED'			=> ($smilies_checked) ? ' checked="checked"' : '',
-			'S_SIG_ALLOWED'				=> ($this->auth->acl_get('f_sigs', $forum_id) && $this->config['allow_sig'] && $user->data['is_registered']) ? true : false,
+			'S_SIG_ALLOWED'				=> ($this->auth->acl_get('f_sigs', $forum_id) && $this->config['allow_sig'] && $this->user->data['is_registered']) ? true : false,
 			'S_SIGNATURE_CHECKED'		=> ($sig_checked) ? ' checked="checked"' : '',
-			'S_NOTIFY_ALLOWED'			=> (!$user->data['is_registered'] || ($mode == 'edit' && $user->data['user_id'] != $post_data['poster_id']) || !$this->config['allow_topic_notify'] || !$this->config['email_enable']) ? false : true,
+			'S_NOTIFY_ALLOWED'			=> (!$this->user->data['is_registered'] || ($mode == 'edit' && $this->user->data['user_id'] != $post_data['poster_id']) || !$this->config['allow_topic_notify'] || !$this->config['email_enable']) ? false : true,
 			'S_NOTIFY_CHECKED'			=> ($notify_checked) ? ' checked="checked"' : '',
-			'S_LOCK_TOPIC_ALLOWED'		=> (($mode == 'edit' || $mode == 'reply' || $mode == 'quote' || $mode == 'post') && ($this->auth->acl_get('m_lock', $forum_id) || ($this->auth->acl_get('f_user_lock', $forum_id) && $user->data['is_registered'] && !empty($post_data['topic_poster']) && $user->data['user_id'] == $post_data['topic_poster'] && $post_data['topic_status'] == ITEM_UNLOCKED))) ? true : false,
+			'S_LOCK_TOPIC_ALLOWED'		=> (($mode == 'edit' || $mode == 'reply' || $mode == 'quote' || $mode == 'post') && ($this->auth->acl_get('m_lock', $forum_id) || ($this->auth->acl_get('f_user_lock', $forum_id) && $this->user->data['is_registered'] && !empty($post_data['topic_poster']) && $this->user->data['user_id'] == $post_data['topic_poster'] && $post_data['topic_status'] == ITEM_UNLOCKED))) ? true : false,
 			'S_LOCK_TOPIC_CHECKED'		=> ($lock_topic_checked) ? ' checked="checked"' : '',
 			'S_LOCK_POST_ALLOWED'		=> ($mode == 'edit' && $this->auth->acl_get('m_edit', $forum_id)) ? true : false,
 			'S_LOCK_POST_CHECKED'		=> ($lock_post_checked) ? ' checked="checked"' : '',
@@ -1902,8 +1891,8 @@ class posting
 			'S_LINKS_ALLOWED'			=> $url_status,
 			'S_MAGIC_URL_CHECKED'		=> ($urls_checked) ? ' checked="checked"' : '',
 			'S_TYPE_TOGGLE'				=> $topic_type_toggle,
-			'S_SAVE_ALLOWED'			=> ($this->auth->acl_get('u_savedrafts') && $user->data['is_registered'] && $mode != 'edit') ? true : false,
-			'S_HAS_DRAFTS'				=> ($this->auth->acl_get('u_savedrafts') && $user->data['is_registered'] && $post_data['drafts']) ? true : false,
+			'S_SAVE_ALLOWED'			=> ($this->auth->acl_get('u_savedrafts') && $this->user->data['is_registered'] && $mode != 'edit') ? true : false,
+			'S_HAS_DRAFTS'				=> ($this->auth->acl_get('u_savedrafts') && $this->user->data['is_registered'] && $post_data['drafts']) ? true : false,
 			'S_FORM_ENCTYPE'			=> $form_enctype,
 
 			'S_BBCODE_IMG'			=> $img_status,
@@ -1927,10 +1916,10 @@ class posting
 			$page_data = array_merge($page_data, array(
 					'S_SHOW_POLL_BOX'		=> true,
 					'S_POLL_VOTE_CHANGE'	=> ($this->auth->acl_get('f_votechg', $forum_id) && $this->auth->acl_get('f_vote', $forum_id)),
-					'S_POLL_DELETE'			=> ($mode == 'edit' && sizeof($post_data['poll_options']) && ((!$post_data['poll_last_vote'] && $post_data['poster_id'] == $user->data['user_id'] && $this->auth->acl_get('f_delete', $forum_id)) || $this->auth->acl_get('m_delete', $forum_id))),
+					'S_POLL_DELETE'			=> ($mode == 'edit' && sizeof($post_data['poll_options']) && ((!$post_data['poll_last_vote'] && $post_data['poster_id'] == $this->user->data['user_id'] && $this->auth->acl_get('f_delete', $forum_id)) || $this->auth->acl_get('m_delete', $forum_id))),
 					'S_POLL_DELETE_CHECKED'	=> (!empty($poll_delete)) ? true : false,
 
-					'L_POLL_OPTIONS_EXPLAIN'	=> $user->lang('POLL_OPTIONS_' . (($mode == 'edit') ? 'EDIT_' : '') . 'EXPLAIN', (int) $this->config['max_poll_options']),
+					'L_POLL_OPTIONS_EXPLAIN'	=> $this->language->lang('POLL_OPTIONS_' . (($mode == 'edit') ? 'EDIT_' : '') . 'EXPLAIN', (int) $this->config['max_poll_options']),
 
 					'VOTE_CHANGE_CHECKED'	=> (!empty($post_data['poll_vote_change'])) ? ' checked="checked"' : '',
 					'POLL_TITLE'			=> (isset($post_data['poll_title'])) ? $post_data['poll_title'] : '',
@@ -2017,7 +2006,7 @@ class posting
 		if ($allowed)
 		{
 			$max_files = ($this->auth->acl_get('a_') || $this->auth->acl_get('m_', $forum_id)) ? 0 : (int) $this->config['max_attachments'];
-			$plupload->configure($cache, $template, $s_action, $forum_id, $max_files);
+			$this->plupload->configure($this->cache, $this->template, $s_action, $forum_id, $max_files);
 		}
 
 		// Attachment entry
