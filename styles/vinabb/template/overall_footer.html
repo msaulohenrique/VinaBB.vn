@@ -137,7 +137,8 @@
 		var $map_lat = {{ MAP_LAT }},
 			$map_lng = {{ MAP_LNG }},
 			$load_highlight = {% if not S_SIMPLE_HEADER and (S_IN_POSTING or S_COMPOSE_PM or S_LOAD_HIGHLIGHT) %}true{% else %}false{% endif %},
-			$load_summernote = {% if not S_SIMPLE_HEADER and S_WYSIWYG_EDITOR %}true{% else %}false{% endif %};
+			$load_summernote = {% if not S_SIMPLE_HEADER and S_WYSIWYG_EDITOR %}true{% else %}false{% endif %},
+			$summernote_lang = '{{ S_VIETNAMESE ? 'vi-VN' : 'en-US' }}';
 	</script>
 
 	{# JS files #}
@@ -159,6 +160,7 @@
 	{% endif %}
 	{% if not S_SIMPLE_HEADER and S_WYSIWYG_EDITOR %}
 	<script src="{{ T_THEME_PATH }}/js/summernote.min.js?v={{ T_ASSETS_VERSION }}"></script>
+	{% if S_VIETNAMESE %}<script src="{{ T_THEME_PATH }}/js/summernote.vi.js?v={{ T_ASSETS_VERSION }}"></script>{% endif %}
 	{% endif %}
 	{% if not S_SIMPLE_HEADER and S_INDEX %}
 	<script src="https://buttons.github.io/buttons.js"></script>
