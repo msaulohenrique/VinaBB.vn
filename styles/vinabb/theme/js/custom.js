@@ -26,125 +26,32 @@ $(document).ready(function () {
 		);
 	}
 
-	// Summernote
-	if ($load_summernote)
+	// SCEditor
+	if ($load_sceditor)
 	{
-		// Button: Align Left
-		var alignLeft = function (context) {
-			var ui = $.summernote.ui;
-			var lang = $.summernote.lang[$summernote_lang].paragraph.left;
-
-			var button = ui.button({
-				contents: '<i class="fa fa-align-left"></i>',
-				tooltip: lang,
-				click: function () {
-					context.invoke('editor.justifyLeft');
+		$('textarea').sceditor({
+			plugins: 'bbcode',
+			enablePasteFiltering: true,
+			toolbar: 'bold,italic,underline,strike,superscript,subscript|size,color,removeformat|left,center,right,justify|bulletlist,orderedlist,table|quote,code,emoticon|image,link,unlink|source,maximize',
+			style: './styles/vinabb/theme/css/jquery.sceditor.min.css',
+			emoticonsRoot: "",
+			emoticons: {
+				dropdown: {
+					" :)": './images/smilies/1.png',
+					" :(": './images/smilies/1.png',
+					" :))": './images/smilies/1.png',
+					" :((": './images/smilies/1.png',
+					" :p": './images/smilies/1.png',
+					" :d": './images/smilies/1.png',
+					" :f": './images/smilies/1.png',
+					" :g": './images/smilies/1.png',
+					" :d": './images/smilies/1.png',
+					" :r": './images/smilies/1.png',
+					" :e": './images/smilies/1.png',
 				}
-			});
-
-			return button.render();
-		};
-
-		// Button: Align Center
-		var alignCenter = function (context) {
-			var ui = $.summernote.ui;
-			var lang = $.summernote.lang[$summernote_lang].paragraph.center;
-
-			var button = ui.button({
-				contents: '<i class="fa fa-align-center"></i>',
-				tooltip: lang,
-				click: function () {
-					context.invoke('editor.justifyCenter');
-				}
-			});
-
-			return button.render();
-		};
-
-		// Button: Align Right
-		var alignRight = function (context) {
-			var ui = $.summernote.ui;
-			var lang = $.summernote.lang[$summernote_lang].paragraph.right;
-
-			var button = ui.button({
-				contents: '<i class="fa fa-align-right"></i>',
-				tooltip: lang,
-				click: function () {
-					context.invoke('editor.justifyRight');
-				}
-			});
-
-			return button.render();
-		};
-
-		// Button: Align Justify
-		var alignJustify = function (context) {
-			var ui = $.summernote.ui;
-			var lang = $.summernote.lang[$summernote_lang].paragraph.justify;
-
-			var button = ui.button({
-				contents: '<i class="fa fa-align-justify"></i>',
-				tooltip: lang,
-				click: function () {
-					context.invoke('editor.justifyFull');
-				}
-			});
-
-			return button.render();
-		};
-
-		// Button: Quote
-		var BlockQuote = function (context) {
-			var ui = $.summernote.ui;
-			var lang = $.summernote.lang[$summernote_lang].style.blockquote;
-
-			var button = ui.button({
-				contents: '<i class="fa fa-quote-left"></i>',
-				tooltip: lang,
-				click: function () {
-					context.invoke('editor.formatBlock', 'Blockquote');
-				}
-			});
-
-			return button.render();
-		};
-
-		// Button: Code
-		var BlockCode = function (context) {
-			var ui = $.summernote.ui;
-			var lang = $.summernote.lang[$summernote_lang].style.pre;
-
-			var button = ui.button({
-				contents: '<i class="fa fa-terminal"></i>',
-				tooltip: lang,
-				click: function () {
-					context.invoke('editor.formatBlock', 'Pre');
-				}
-			});
-
-			return button.render();
-		};
-
-		// Let's run!
-		$('#summernote').summernote({
-			height: 300,
-			lang: $summernote_lang,
-			toolbar: [
-				['font', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript']],
-				['style', ['fontsize', 'color', 'clear']],
-				['align', ['left', 'center', 'right', 'justify']],
-				['list', ['quote', 'code', 'ul', 'ol']],
-				['insert', ['link', 'picture', 'table']],
-				['misc', ['fullscreen', 'codeview']]
-			],
-			buttons: {
-				left: alignLeft,
-				center: alignCenter,
-				right: alignRight,
-				justify: alignJustify,
-				quote: BlockQuote,
-				code: BlockCode
-			}
+			},
+			emoticonsEnabled: true,
+			colors: '#fff, #aaa, #555, #000,#16a085,#27ae60,#2980b9,#8e44ad,#2c3e50,#c0392b,#d35400,#f39c12'
 		});
 	}
 
