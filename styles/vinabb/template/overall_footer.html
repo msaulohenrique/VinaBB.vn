@@ -136,7 +136,8 @@
 	<script>
 		var $map_lat = {{ MAP_LAT }},
 			$map_lng = {{ MAP_LNG }},
-			$load_highlight = {% if not S_SIMPLE_HEADER and (S_IN_POSTING or S_COMPOSE_PM or S_LOAD_HIGHLIGHT) %}true{% else %}false{% endif %};
+			$load_highlight = {% if not S_SIMPLE_HEADER and (S_IN_POSTING or S_COMPOSE_PM or S_LOAD_HIGHLIGHT) %}true{% else %}false{% endif %},
+			$load_sceditor = {% if S_WYSIWYG_EDITOR %}true{% else %}false{% endif %};
 	</script>
 
 	{# JS files #}
@@ -155,6 +156,9 @@
 	{% endif %}
 	{% if not S_SIMPLE_HEADER and (S_IN_POSTING or S_COMPOSE_PM or S_LOAD_HIGHLIGHT) %}
 	<script src="{{ T_THEME_PATH }}/js/highlight.min.js?v={{ T_ASSETS_VERSION }}"></script>
+	{% endif %}
+	{% if not S_SIMPLE_HEADER and S_WYSIWYG_EDITOR %}
+	<script src="{{ T_THEME_PATH }}/js/jquery.sceditor.bbcode.min.js?v={{ T_ASSETS_VERSION }}"></script>
 	{% endif %}
 	{% if not S_SIMPLE_HEADER and S_INDEX %}
 	<script src="https://buttons.github.io/buttons.js"></script>
