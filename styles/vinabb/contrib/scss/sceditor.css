@@ -170,7 +170,7 @@ div.sceditor-grip:after {
 .sceditor-container div,
 div.sceditor-dropdown,
 div.sceditor-dropdown div {
-	padding: 0;
+	/*padding: 0;*/
 	margin: 0;
 	z-index: 3;
 }

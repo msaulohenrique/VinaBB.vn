@@ -37,22 +37,24 @@ $(document).ready(function () {
 			emoticonsRoot: "",
 			emoticons: {
 				dropdown: {
-					" :)": './images/smilies/1.png',
-					" :(": './images/smilies/1.png',
-					" :))": './images/smilies/1.png',
-					" :((": './images/smilies/1.png',
-					" :p": './images/smilies/1.png',
-					" :d": './images/smilies/1.png',
-					" :f": './images/smilies/1.png',
-					" :g": './images/smilies/1.png',
-					" :d": './images/smilies/1.png',
-					" :r": './images/smilies/1.png',
-					" :e": './images/smilies/1.png',
+					":)": './images/smilies/1.png',
+					":(": './images/smilies/1.png',
+					":))": './images/smilies/1.png',
+					":((": './images/smilies/1.png',
+					":p": './images/smilies/1.png',
+					":d": './images/smilies/1.png',
+					":f": './images/smilies/1.png',
+					":g": './images/smilies/1.png',
+					":d": './images/smilies/1.png',
+					":r": './images/smilies/1.png',
+					":e": './images/smilies/1.png',
 				}
 			},
 			emoticonsEnabled: true,
 			colors: '#fff, #aaa, #555, #000,#16a085,#27ae60,#2980b9,#8e44ad,#2c3e50,#c0392b,#d35400,#f39c12'
 		});
+
+		$('a[data-sceditor-command]').attr('data-toggle', 'tooltip').attr('data-placement', 'bottom');
 	}
 
 	// iCheck
