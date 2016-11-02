@@ -21,9 +21,6 @@
 	{% if not S_SIMPLE_HEADER and (S_IN_POSTING or S_COMPOSE_PM or S_LOAD_HIGHLIGHT) %}
 	<link href="{{ T_THEME_PATH }}/css/highlight-github-gist.min.css?v={{ T_ASSETS_VERSION }}" rel="stylesheet">
 	{% endif %}
-	{% if not S_SIMPLE_HEADER and S_WYSIWYG_EDITOR %}
-	<link href="{{ T_THEME_PATH }}/css/summernote.min.css?v={{ T_ASSETS_VERSION }}" rel="stylesheet">
-	{% endif %}
 	<link href="{{ T_THEME_PATH }}/css/style.css?v={{ T_ASSETS_VERSION }}" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Prompt:300,400,500,600,700,800" rel="stylesheet">
 

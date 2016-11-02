@@ -9,7 +9,6 @@
 namespace vinabb\web\controller;
 
 use vinabb\web\includes\constants;
-use vinabb\web\controller\helpers\HTMLConverter;
 
 class helper
 {
@@ -304,18 +303,5 @@ class helper
 			default:
 				return '';
 		}
-	}
-
-	/**
-	* Convert HTML to phpBB BBCode tags
-	*
-	* @param $text
-	* @return string
-	*/
-	public function html_to_bbcode($text)
-	{
-		$converter = new HTMLConverter($text);
-
-		return $converter->toBBCode();
 	}
 }
