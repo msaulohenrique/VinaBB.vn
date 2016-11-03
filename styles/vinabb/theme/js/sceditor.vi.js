@@ -32,7 +32,6 @@
 		'More': 'Xem thêm',
 		'Insert an emoticon': 'Biểu tượng vui',
 		'Insert': 'Chèn',
-		'Print': 'In',
 		'View source': 'Chế độ BBCode',
 		'Description (optional):': 'Tên liên kết (Tùy chọn):',
 		'Insert a Quote': 'Trích dẫn',
