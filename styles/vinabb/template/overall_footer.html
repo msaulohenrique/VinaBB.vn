@@ -3,7 +3,7 @@
 				<div class="col-md-6">
 					<div class="panel">
 						<div class="panel-body">
-							<h4>{{ lang('FOOTER_RULE_TITLE') }} <i data-toggle="tooltip" data-placement="right" title="{{ lang('FOOTER_RULE_EXPLAIN') }}" class="fa fa-question-circle-o"></i></h4>
+							<h4>{{ lang('FOOTER_RULE_TITLE') }} <i data-tooltip="true" data-placement="right" title="{{ lang('FOOTER_RULE_EXPLAIN') }}" class="fa fa-question-circle-o"></i></h4>
 							<ul>{{ lang('FOOTER_RULE_TEXT') }}</ul>
 							<h4>{{ lang('FOOTER_HISTORY_TITLE') }}</h4>
 							<p class="text-justify">{{ lang('FOOTER_HISTORY_TEXT') }}</p>
@@ -21,10 +21,10 @@
 						<h4 class="font-400 margin-b-10">{{ lang('ADMINISTRATOR') }}</h4>
 						<p class="margin-b-0">{{ MANAGER_USERNAME ?: lang('ELLIPSIS') }}</p>
 						<ul class="list-inline text-center margin-b-0">
-							{% if U_CONTACT_PM %}<li><a href="{{ U_CONTACT_PM }}" data-toggle="tooltip" data-placement="bottom" title="{{ lang('PM') }}"><i class="fa fa-comment"></i></a></li>{% endif %}
-							{% if U_CONTACT_US %}<li><a href="{{ U_CONTACT_US }}" data-toggle="tooltip" data-placement="bottom" title="{{ lang('SEND_EMAIL') }}"><i class="fa fa-envelope"></i></a></li>{% endif %}
-							{% if MAP_PHONE %}<li><a href="#" data-toggle="tooltip" data-placement="bottom" title="{{ lang('PHONE') ~ lang('COLON') }} {{ MAP_PHONE }}{% if MAP_PHONE_NAME %} ({{ MAP_PHONE_NAME }}){% endif %}"><i class="fa fa-phone"></i></a></li>{% endif %}
-							{% if S_FOUNDER and DEBUG_OUTPUT %}<li><a data-toggle="modal" data-target="#debugModal"><i data-toggle="tooltip" data-placement="bottom" title="{{ lang('DEBUG') }}" class="fa fa-bug"></i></a></li>{% endif %}
+							{% if U_CONTACT_PM %}<li><a href="{{ U_CONTACT_PM }}" data-tooltip="true" data-placement="bottom" title="{{ lang('PM') }}"><i class="fa fa-comment"></i></a></li>{% endif %}
+							{% if U_CONTACT_US %}<li><a href="{{ U_CONTACT_US }}" data-tooltip="true" data-placement="bottom" title="{{ lang('SEND_EMAIL') }}"><i class="fa fa-envelope"></i></a></li>{% endif %}
+							{% if MAP_PHONE %}<li><a href="#" data-tooltip="true" data-placement="bottom" title="{{ lang('PHONE') ~ lang('COLON') }} {{ MAP_PHONE }}{% if MAP_PHONE_NAME %} ({{ MAP_PHONE_NAME }}){% endif %}"><i class="fa fa-phone"></i></a></li>{% endif %}
+							{% if S_FOUNDER and DEBUG_OUTPUT %}<li><a data-toggle="modal" data-target="#debugModal"><i data-tooltip="true" data-placement="bottom" title="{{ lang('DEBUG') }}" class="fa fa-bug"></i></a></li>{% endif %}
 						</ul>
 					</div>
 				</div>
@@ -50,10 +50,10 @@
 			<div class="container">
 				<span class="pull-{{ S_CONTENT_FLOW_BEGIN }}"><i class="fa fa-code"></i> {% EVENT overall_footer_copyright_prepend %}{{ CREDIT_LINE }}{% EVENT overall_footer_copyright_append %}</span>
 				<span class="pull-{{ S_CONTENT_FLOW_END }} hidden-xs">
-					{% if FACEBOOK_URL %}<a href="{{ FACEBOOK_URL }}" target="_blank" data-toggle="tooltip" title="{{ lang('FACEBOOK') }}"><i class="fa fa-facebook-square fa-2x btn-icon-facebook media-middle"></i></a>{% endif %}
-					{% if TWITTER_URL %}<a href="{{ TWITTER_URL }}" target="_blank" data-toggle="tooltip" title="{{ lang('TWITTER') }}"><i class="fa fa-twitter-square fa-2x btn-icon-twitter media-middle"></i></a>{% endif %}
-					{% if GOOGLE_PLUS_URL %}<a href="{{ GOOGLE_PLUS_URL }}" target="_blank" data-toggle="tooltip" title="{{ lang('GOOGLEPLUS') }}"><i class="fa fa-google-plus-square fa-2x btn-icon-googleplus media-middle"></i></a>{% endif %}
-					{% if GITHUB_URL %}<a href="{{ GITHUB_URL }}" target="_blank" data-toggle="tooltip" title="{{ lang('GITHUB') }}"><i class="fa fa-github-square fa-2x btn-icon-github media-middle"></i></a>{% endif %}
+					{% if FACEBOOK_URL %}<a href="{{ FACEBOOK_URL }}" target="_blank" data-tooltip="true" title="{{ lang('FACEBOOK') }}"><i class="fa fa-facebook-square fa-2x btn-icon-facebook media-middle"></i></a>{% endif %}
+					{% if TWITTER_URL %}<a href="{{ TWITTER_URL }}" target="_blank" data-tooltip="true" title="{{ lang('TWITTER') }}"><i class="fa fa-twitter-square fa-2x btn-icon-twitter media-middle"></i></a>{% endif %}
+					{% if GOOGLE_PLUS_URL %}<a href="{{ GOOGLE_PLUS_URL }}" target="_blank" data-tooltip="true" title="{{ lang('GOOGLEPLUS') }}"><i class="fa fa-google-plus-square fa-2x btn-icon-googleplus media-middle"></i></a>{% endif %}
+					{% if GITHUB_URL %}<a href="{{ GITHUB_URL }}" target="_blank" data-tooltip="true" title="{{ lang('GITHUB') }}"><i class="fa fa-github-square fa-2x btn-icon-github media-middle"></i></a>{% endif %}
 				</span>
 			</div>
 		</footer>

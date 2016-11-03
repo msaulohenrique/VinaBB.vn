@@ -29,7 +29,7 @@ $(document).ready(function () {
 	// SCEditor
 	if ($load_sceditor)
 	{
-		$('textarea').sceditor({
+		$('textarea[data-toggle="sceditor"]').sceditor({
 			plugins: 'bbcode',
 			enablePasteFiltering: true,
 			toolbar: 'bold,italic,underline,strike,superscript,subscript|size,color,removeformat|left,center,right,justify|bulletlist,orderedlist,table|quote,code,emoticon|image,link,unlink|source,maximize',
@@ -47,7 +47,7 @@ $(document).ready(function () {
 					":g": './images/smilies/1.png',
 					":x": './images/smilies/1.png',
 					":r": './images/smilies/1.png',
-					":e": './images/smilies/1.png',
+					":e": './images/smilies/1.png'
 				}
 			},
 			emoticonsEnabled: true,
@@ -246,6 +246,6 @@ $(document).ready(function () {
 	});
 
 	// Tooltip and popover
-	$('[data-toggle="tooltip"]').tooltip();
-	$('[data-toggle="popover"]').popover();
+	$('[data-tooltip="true"]').tooltip();
+	$('[data-popover="true"]').popover();
 });

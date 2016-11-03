@@ -265,7 +265,7 @@ $lang = array_merge($lang, array(
 	'PHPBB_IVNPLUS_VERSION_X'	=> 'phpBB iVN+ %s',
 	'PHPBB_VERSION'				=> 'phpBB version',
 	'PHPBB_VERSION_X'			=> 'phpBB %s',
-	'POWERED_BY'				=> 'Powered by <a href="https://www.phpbb.com/" data-toggle="tooltip" title="Forum software &copy; phpBB Limited">phpBB</a> with <i class="fa fa-heart animate-pulse text-danger"></i>',
+	'POWERED_BY'				=> 'Powered by <a href="https://www.phpbb.com/" data-tooltip="true" title="Forum software &copy; phpBB Limited">phpBB</a> with <i class="fa fa-heart animate-pulse text-danger"></i>',
 	'PRICE'						=> 'Price',
 
 	'RANK_TITLES'	=> array(

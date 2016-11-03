@@ -265,7 +265,7 @@ $lang = array_merge($lang, array(
 	'PHPBB_IVNPLUS_VERSION_X'	=> 'phpBB iVN+ %s',
 	'PHPBB_VERSION'				=> 'Phiên bản phpBB',
 	'PHPBB_VERSION_X'			=> 'phpBB %s',
-	'POWERED_BY'				=> 'Sử dụng phần mềm <a href="https://www.phpbb.com/" data-toggle="tooltip" title="&copy; phpBB Limited">phpBB</a> <i class="fa fa-heart animate-pulse text-danger"></i>',
+	'POWERED_BY'				=> 'Sử dụng phần mềm <a href="https://www.phpbb.com/" data-tooltip="true" title="&copy; phpBB Limited">phpBB</a> <i class="fa fa-heart animate-pulse text-danger"></i>',
 	'PRICE'						=> 'Giá',
 
 	'RANK_TITLES'	=> array(

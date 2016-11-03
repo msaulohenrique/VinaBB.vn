@@ -40,7 +40,7 @@
 			<div class="row">
 				<div class="col-xs-6">
 					{# Logo #}
-					<a href="{{ U_INDEX }}" data-toggle="tooltip" data-placement="bottom" title="{{ SITE_DESCRIPTION }}" class="admin-logo">
+					<a href="{{ U_INDEX }}" data-tooltip="true" data-placement="bottom" title="{{ SITE_DESCRIPTION }}" class="admin-logo">
 						<h1><img src="{{ T_THEME_PATH }}/images/logo.png" alt=""></h1>
 					</a>
 					{# Search form #}
@@ -55,7 +55,7 @@
 					<ul class="list-inline top-right-nav">
 						{# Messages #}
 						{% if S_REGISTERED_USER and S_DISPLAY_PM %}
-						<li class="dropdown hidden-xs icon-dropdown">
+						<li data-tooltip="true" data-placement="bottom" title="{{ lang('PRIVATE_MESSAGES') }}" class="dropdown hidden-xs icon-dropdown">
 							<a href="{{ U_PRIVATEMSGS }}">
 								<i class="fa fa-envelope-open"></i>
 								{% if PRIVATE_MESSAGE_COUNT %}<span class="badge badge-danger">{{ PRIVATE_MESSAGE_COUNT }}</span>{% endif %}
@@ -65,7 +65,7 @@
 
 						{# Notifications #}
 						{% if S_REGISTERED_USER %}
-						<li class="dropdown hidden-xs icon-dropdown">
+						<li data-tooltip="true" data-placement="bottom" title="{{ lang('NOTIFICATIONS') }}" class="dropdown hidden-xs icon-dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 								<i class="fa fa-eercast"></i>
 								{% if NOTIFICATIONS_COUNT %}<span class="badge badge-danger">{{ NOTIFICATIONS_COUNT }}</span>{% endif %}
@@ -107,11 +107,11 @@
 
 						{# Register/Login #}
 						{% if not S_REGISTERED_USER and not S_IS_BOT %}
-						<li><a href="#" data-toggle="modal" data-target="#loginModal"><i class="fa fa-address-book-o animate-pulse"></i></a></li>
+						<li data-tooltip="true" data-placement="bottom" title="{{ lang('LOGIN') }}"><a href="#" data-toggle="modal" data-target="#loginModal"><i class="fa fa-address-book-o animate-pulse"></i></a></li>
 						{% endif %}
 
 						{# Right panel toggle #}
-						{#<li class="dropdown">
+						{#<li class="hidden-xs">
 							<a href="#" class="right-sidebar-toggle"><i class="fa fa-chevron-circle-left"></i></a>
 						</li>#}
 
