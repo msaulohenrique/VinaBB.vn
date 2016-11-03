@@ -31,32 +31,33 @@ $(document).ready(function () {
 	{
 		$('textarea[data-toggle="sceditor"]').sceditor({
 			plugins: 'bbcode',
+			locate: $sceditor_lang,
 			enablePasteFiltering: true,
 			toolbar: 'bold,italic,underline,strike,superscript,subscript|size,color,removeformat|left,center,right,justify|bulletlist,orderedlist,table|quote,code,emoticon|image,link,unlink|source,maximize',
 			style: $t_theme_path + '/css/jquery.sceditor.min.css',
-			emoticonsRoot: "",
+			emoticonsRoot: "./images/smilies/",
 			emoticons: {
 				dropdown: {
-					":)": './images/smilies/1.png',
-					":(": './images/smilies/1.png',
-					":))": './images/smilies/1.png',
-					":((": './images/smilies/1.png',
-					":p": './images/smilies/1.png',
-					":d": './images/smilies/1.png',
-					":f": './images/smilies/1.png',
-					":g": './images/smilies/1.png',
-					":x": './images/smilies/1.png',
-					":r": './images/smilies/1.png',
-					":e": './images/smilies/1.png'
+					":a": '1.png',
+					":b": '2.png',
+					":c": '3.png',
+					":d": '4.png'
 				}
 			},
 			emoticonsEnabled: true,
 			colors: '#fff, #aaa, #555, #000,#16a085,#27ae60,#2980b9,#8e44ad,#2c3e50,#c0392b,#d35400,#f39c12'
 		});
 
-		// Show tooltip
+		// Show tooltip for buttons
 		$('a[data-sceditor-command]').tooltip({
 			placement: 'bottom'
+		});
+
+		// Show tooltip for emoticons
+		$('a[data-sceditor-command="emoticon"]').on('click', function () {
+			$('img[unselectable="on"]').tooltip({
+				placement: 'bottom'
+			});
 		});
 
 		$.sceditor.plugins.bbcode.bbcode
