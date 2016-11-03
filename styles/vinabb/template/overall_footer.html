@@ -134,7 +134,8 @@
 
 	{# Global JS variables #}
 	<script>
-		var $map_lat = {{ MAP_LAT }},
+		var $t_theme_path = '{{ T_THEME_PATH }}',
+			$map_lat = {{ MAP_LAT }},
 			$map_lng = {{ MAP_LNG }},
 			$load_highlight = {% if not S_SIMPLE_HEADER and (S_IN_POSTING or S_COMPOSE_PM or S_LOAD_HIGHLIGHT) %}true{% else %}false{% endif %},
 			$load_sceditor = {% if S_WYSIWYG_EDITOR %}true{% else %}false{% endif %};
