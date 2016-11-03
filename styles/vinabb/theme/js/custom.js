@@ -29,7 +29,7 @@ $(document).ready(function () {
 	// SCEditor
 	if ($load_sceditor)
 	{
-		$('textarea[data-toggle="sceditor"]').sceditor({
+		$('textarea[data-toggle="wysiwyg-editor"]').sceditor({
 			plugins: 'bbcode',
 			locate: $sceditor_lang,
 			enablePasteFiltering: true,
@@ -37,12 +37,8 @@ $(document).ready(function () {
 			style: $t_theme_path + '/css/jquery.sceditor.min.css',
 			emoticonsRoot: "./images/smilies/",
 			emoticons: {
-				dropdown: {
-					":a": '1.png',
-					":b": '2.png',
-					":c": '3.png',
-					":d": '4.png'
-				}
+				dropdown: $sceditor_smilies,
+				hidden: $sceditor_hidden_smilies
 			},
 			emoticonsEnabled: true,
 			colors: '#fff, #aaa, #555, #000,#16a085,#27ae60,#2980b9,#8e44ad,#2c3e50,#c0392b,#d35400,#f39c12'
@@ -55,6 +51,13 @@ $(document).ready(function () {
 
 		// Show tooltip for emoticons
 		$('a[data-sceditor-command="emoticon"]').on('click', function () {
+			$('img[unselectable="on"]').each(
+				function(i, img)
+				{
+					$(this).attr('title', $sceditor_smilies_desc[img.alt]);
+				}
+			);
+
 			$('img[unselectable="on"]').tooltip({
 				placement: 'bottom'
 			});
