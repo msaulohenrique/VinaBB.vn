@@ -103,10 +103,31 @@ class bb
 			'NAME'	=> !empty($type) ? $this->language->lang('BB_' . strtoupper($type) . 'S') : $this->language->lang('STATISTICS')
 		));
 
+		// Testing SCEditor
+		$sceditor_smilies = $sceditor_hidden_smilies = $sceditor_smilies_desc = array();
+
+		foreach ($this->cache->get_smilies() as $smiley_code => $smiley_data)
+		{
+			if ($smiley_data['display'])
+			{
+				$sceditor_smilies[$smiley_code] = $smiley_data['url'];
+			}
+			else
+			{
+				$sceditor_hidden_smilies[$smiley_code] = $smiley_data['url'];
+			}
+
+			$sceditor_smilies_desc[$smiley_code] = $this->language->is_set(['EMOTICON_TEXT', strtoupper($smiley_data['emotion'])]) ? $this->language->lang(['EMOTICON_TEXT', strtoupper($smiley_data['emotion'])]) : $smiley_code;
+		}
+
 		// Output
 		$this->template->assign_vars(array(
-			'S_BB'				=> true,
-			'S_WYSIWYG_EDITOR'	=> true
+			'S_BB'	=> true,
+
+			'SCEDITOR_SMILIES'			=> json_encode($sceditor_smilies),
+			'SCEDITOR_HIDDEN_SMILIES'	=> json_encode($sceditor_hidden_smilies),
+			'SCEDITOR_SMILIES_DESC'		=> json_encode($sceditor_smilies_desc),
+			'S_WYSIWYG_EDITOR'			=> true,
 		));
 
 		// Page title
