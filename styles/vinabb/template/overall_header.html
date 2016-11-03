@@ -65,7 +65,7 @@
 
 						{# Notifications #}
 						{% if S_REGISTERED_USER %}
-						<li data-tooltip="true" data-placement="bottom" title="{{ lang('NOTIFICATIONS') }}" class="dropdown hidden-xs icon-dropdown">
+						<li id="iconNotification" data-tooltip="true" data-placement="bottom" title="{{ lang('NOTIFICATIONS') }}" class="dropdown hidden-xs icon-dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 								<i class="fa fa-eercast"></i>
 								{% if NOTIFICATIONS_COUNT %}<span class="badge badge-danger">{{ NOTIFICATIONS_COUNT }}</span>{% endif %}

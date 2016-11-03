@@ -1,19 +1,23 @@
-$(document).ready(function () {
+$(document).ready(function()
+{
 	// Google Map on modal
-	$('#mapModal').on('shown.bs.modal', function () {
-		var map = new GMaps({
-			el: '#markermap',
-			lat: $map_lat,
-			lng: $map_lng
-		});
+	$('#mapModal').on('shown.bs.modal',
+		function()
+		{
+			var map = new GMaps({
+				el: '#markermap',
+				lat: $map_lat,
+				lng: $map_lng
+			});
 
-		map.addMarker({
-			lat: $map_lat,
-			lng: $map_lng
-		});
+			map.addMarker({
+				lat: $map_lat,
+				lng: $map_lng
+			});
 
-		google.maps.event.trigger(map, 'resize');
-	});
+			google.maps.event.trigger(map, 'resize');
+		}
+	);
 
 	// Highlight.js
 	if ($load_highlight)
@@ -219,6 +223,14 @@ $(document).ready(function () {
 		});
 	}
 
+	// Close tooltip when clicking into the notification box
+	$('#iconNotification').on('click',
+		function(event)
+		{
+			$('#iconNotification').tooltip('hide');
+		}
+	);
+
 	// iCheck
 	$('input').iCheck({
 		checkboxClass: 'icheckbox_flat-blue',
@@ -229,17 +241,23 @@ $(document).ready(function () {
 	$('.nano').nanoScroller();
 
 	// Left menu collapse
-	$('.left-nav-toggle a').on('click', function (event) {
-		event.preventDefault();
-		$('body').toggleClass('nav-toggle');
-	});
+	$('.left-nav-toggle a').on('click',
+		function(event)
+		{
+			event.preventDefault();
+			$('body').toggleClass('nav-toggle');
+		}
+	);
 
 	// Right panel collapse
-	$('.right-sidebar-toggle').on('click', function (event) {
-		event.preventDefault();
-		$('#right-sidebar-toggle').toggleClass('right-sidebar-toggle');
-		$('.right-sidebar-toggle i').toggleClass('fa-chevron-circle-right');
-	});
+	$('.right-sidebar-toggle').on('click',
+		function(event)
+		{
+			event.preventDefault();
+			$('#right-sidebar-toggle').toggleClass('right-sidebar-toggle');
+			$('.right-sidebar-toggle i').toggleClass('fa-chevron-circle-right');
+		}
+	);
 
 	// Menu
 	$('#menu').metisMenu();
