@@ -1080,7 +1080,7 @@ class topic
 
 			$topic_data['poll_title'] = generate_text_for_display($topic_data['poll_title'], $poll_info[0]['bbcode_uid'], $poll_info[0]['bbcode_bitfield'], $parse_flags, true);
 
-			$poll_template_data = $poll_options_template_data = array();
+			$poll_options_template_data = array();
 			foreach ($poll_info as $poll_option)
 			{
 				$option_pct = ($poll_total > 0) ? $poll_option['poll_option_total'] / $poll_total : 0;
@@ -1164,7 +1164,6 @@ class topic
 		// If the user is trying to reach the second half of the topic, fetch it starting from the end
 		$store_reverse = false;
 		$sql_limit = $this->config['posts_per_page'];
-		$sql_sort_order = $direction = '';
 
 		if ($start > $total_posts / 2)
 		{
@@ -1195,7 +1194,7 @@ class topic
 		// Container for user details, only process once
 		$post_list = $user_cache = $id_cache = $attachments = $attach_list = $rowset = $update_count = $post_edit_list = $post_delete_list = array();
 		$has_unapproved_attachments = $has_approved_attachments = $display_notice = false;
-		$i = $i_total = 0;
+		$i_total = 0;
 
 		// Go ahead and pull all data for this topic
 		$sql = 'SELECT p.post_id
