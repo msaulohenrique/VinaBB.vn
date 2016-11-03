@@ -105,7 +105,8 @@ class bb
 
 		// Output
 		$this->template->assign_vars(array(
-			'S_BB'	=> true
+			'S_BB'				=> true,
+			'S_WYSIWYG_EDITOR'	=> true
 		));
 
 		// Page title
