@@ -142,20 +142,15 @@ class service extends \phpbb\cache\service
 	/**
 	* Get cache from table: _forums
 	*
-	* @param bool $sort Sorting by left_id
 	* @return array|mixed
 	*/
-	public function get_forum_data($sort = false)
+	public function get_forum_data()
 	{
-		$sort_suffix = ($sort) ? '_sorted' : '';
-
-		if (($forum_data = $this->driver->get('_vinabb_web_forums' . $sort_suffix)) === false)
+		if (($forum_data = $this->driver->get('_vinabb_web_forums')) === false)
 		{
-			$sql_order = ($sort) ? 'ORDER BY left_id' : '';
-
 			$sql = 'SELECT *
-				FROM ' . FORUMS_TABLE . "
-				$sql_order";
+				FROM ' . FORUMS_TABLE . '
+				ORDER BY left_id';
 			$result = $this->db->sql_query($sql);
 
 			$forum_data = array();
@@ -177,7 +172,7 @@ class service extends \phpbb\cache\service
 			}
 			$this->db->sql_freeresult($result);
 
-			$this->driver->put('_vinabb_web_forums' . $sort_suffix, $forum_data);
+			$this->driver->put('_vinabb_web_forums', $forum_data);
 		}
 
 		return $forum_data;
@@ -189,7 +184,6 @@ class service extends \phpbb\cache\service
 	public function clear_forum_data()
 	{
 		$this->driver->destroy('_vinabb_web_forums');
-		$this->driver->destroy('_vinabb_web_forums_sorted');
 	}
 
 	/**
