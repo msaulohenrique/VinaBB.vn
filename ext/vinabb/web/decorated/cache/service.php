@@ -66,6 +66,11 @@ class service extends \phpbb\cache\service
 		$this->portal_articles_table = $portal_articles_table;
 	}
 
+	/**
+	* Get cache from table: _config_text
+	*
+	* @return array|mixed
+	*/
 	public function get_config_text()
 	{
 		if (($config_text = $this->driver->get('_vinabb_web_config_text')) === false)
@@ -87,11 +92,19 @@ class service extends \phpbb\cache\service
 		return $config_text;
 	}
 
+	/**
+	* Clear cache from table: _config_text
+	*/
 	public function clear_config_text()
 	{
 		$this->driver->destroy('_vinabb_web_config_text');
 	}
 
+	/**
+	* Get cache from table: _lang
+	*
+	* @return array|mixed
+	*/
 	public function get_lang_data()
 	{
 		if (($lang_data = $this->driver->get('_vinabb_web_languages')) === false)
@@ -118,11 +131,20 @@ class service extends \phpbb\cache\service
 		return $lang_data;
 	}
 
+	/**
+	* Clear cache from table: _lang
+	*/
 	public function clear_lang_data()
 	{
 		$this->driver->destroy('_vinabb_web_languages');
 	}
 
+	/**
+	* Get cache from table: _forums
+	*
+	* @param bool $sort Sorting by left_id
+	* @return array|mixed
+	*/
 	public function get_forum_data($sort = false)
 	{
 		$sort_suffix = ($sort) ? '_sorted' : '';
@@ -161,12 +183,21 @@ class service extends \phpbb\cache\service
 		return $forum_data;
 	}
 
+	/**
+	* Clear cache from table: _forums
+	*/
 	public function clear_forum_data()
 	{
 		$this->driver->destroy('_vinabb_web_forums');
 		$this->driver->destroy('_vinabb_web_forums_sorted');
 	}
 
+	/**
+	* Get cache from table: _bb_categories
+	*
+	* @param int $bb_type phpBB resource type (ext, style, lang...)
+	* @return array|mixed
+	*/
 	public function get_bb_cats($bb_type)
 	{
 		if (($bb_cats = $this->driver->get('_vinabb_web_bb_' . strtolower($bb_type) . '_categories')) === false)
@@ -194,11 +225,22 @@ class service extends \phpbb\cache\service
 		return $bb_cats;
 	}
 
+	/**
+	* Clear cache from table: _bb_categories
+	*
+	* @param $bb_type phpBB resource type (ext, style, lang...)
+	*/
 	public function clear_bb_cats($bb_type)
 	{
 		$this->driver->destroy('_vinabb_web_bb_' . strtolower($bb_type) . '_categories');
 	}
 
+	/**
+	* Get cache from table: _bb_items
+	*
+	* @param $bb_type phpBB resource type (ext, style, lang...)
+	* @return array|mixed
+	*/
 	public function get_new_bb_items($bb_type)
 	{
 		if (($new_items = $this->driver->get('_vinabb_web_bb_new_' . strtolower($bb_type) . 's')) === false)
@@ -230,11 +272,21 @@ class service extends \phpbb\cache\service
 		return $new_items;
 	}
 
+	/**
+	* Clear cache from table: _bb_items
+	*
+	* @param $bb_type phpBB resource type (ext, style, lang...)
+	*/
 	public function clear_new_bb_items($bb_type)
 	{
 		$this->driver->destroy('_vinabb_web_bb_new_' . strtolower($bb_type) . 's');
 	}
 
+	/**
+	* Get cache from table: _portal_categories
+	*
+	* @return array|mixed
+	*/
 	public function get_portal_cats()
 	{
 		if (($portal_cats = $this->driver->get('_vinabb_web_portal_categories')) === false)
@@ -262,11 +314,20 @@ class service extends \phpbb\cache\service
 		return $portal_cats;
 	}
 
+	/**
+	* Clear cache from table: _portal_categories
+	*/
 	public function clear_portal_cats()
 	{
 		$this->driver->destroy('_vinabb_web_portal_categories');
 	}
 
+	/**
+	* Get cache from table: _portal_articles
+	*
+	* @param $lang 2-letter language ISO code
+	* @return array|mixed
+	*/
 	public function get_index_articles($lang)
 	{
 		if (($index_articles = $this->driver->get('_vinabb_web_index_articles_' . $lang)) === false)
@@ -302,6 +363,11 @@ class service extends \phpbb\cache\service
 		return $index_articles;
 	}
 
+	/**
+	* Clear cache from table: _portal_articles
+	*
+	* @param $lang 2-letter language ISO code
+	*/
 	public function clear_index_articles($lang)
 	{
 		$this->driver->destroy('_vinabb_web_index_articles_' . $lang);
