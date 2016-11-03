@@ -220,6 +220,48 @@ class service extends \phpbb\cache\service
 	}
 
 	/**
+	* Get cache from table: _smilies
+	*
+	* @return array|mixed
+	*/
+	public function get_smilies()
+	{
+		if (($smilies = $this->driver->get('_vinabb_web_smilies')) === false)
+		{
+			$sql = 'SELECT *
+				FROM ' . SMILIES_TABLE . '
+				ORDER BY smiley_order';
+			$result = $this->db->sql_query($sql);
+
+			$smilies = array();
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$smilies[$row['code']] = array(
+					'id'		=> $row['smiley_id'],
+					'emoticon'	=> $row['emoticon'],
+					'url'		=> $row['smiley_url'],
+					'width'		=> $row['smiley_width'],
+					'height'	=> $row['smiley_height'],
+					'display'	=> $row['display_on_posting'],
+				);
+			}
+			$this->db->sql_freeresult($result);
+
+			$this->driver->put('_vinabb_web_smilies', $smilies);
+		}
+
+		return $smilies;
+	}
+
+	/**
+	* Clear cache from table: _smilies
+	*/
+	public function clear_smilies()
+	{
+		$this->driver->destroy('_vinabb_web_smilies');
+	}
+
+	/**
 	* Clear cache from table: _bb_categories
 	*
 	* @param $bb_type phpBB resource type (ext, style, lang...)
