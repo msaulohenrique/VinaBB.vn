@@ -35,7 +35,7 @@ $(document).ready(function () {
 			enablePasteFiltering: true,
 			toolbar: 'bold,italic,underline,strike,superscript,subscript|size,color,removeformat|left,center,right,justify|bulletlist,orderedlist,table|quote,code,emoticon|image,link,unlink|source,maximize',
 			style: $t_theme_path + '/css/jquery.sceditor.min.css',
-			emoticonsRoot: "./images/smilies/",
+			emoticonsRoot: $t_smilies_path,
 			emoticons: {
 				dropdown: $sceditor_smilies,
 				hidden: $sceditor_hidden_smilies
