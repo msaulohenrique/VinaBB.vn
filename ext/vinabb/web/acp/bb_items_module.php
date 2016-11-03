@@ -88,7 +88,7 @@ class bb_items_module
 		$this->db = $phpbb_container->get('dbal.conn');
 		$this->language = $phpbb_container->get('language');
 		$this->log = $phpbb_container->get('log');
-		$this->pagination= $phpbb_container->get('pagination');
+		$this->pagination = $phpbb_container->get('pagination');
 		$this->request = $phpbb_container->get('request');
 		$this->template = $phpbb_container->get('template');
 		$this->user = $phpbb_container->get('user');
@@ -133,7 +133,7 @@ class bb_items_module
 			case 'edit':
 				if (!$item_id)
 				{
-					trigger_error($this->language->lang('NO_BB_' . strtoupper($mode) .'_ID') . adm_back_link($this->u_action), E_USER_WARNING);
+					trigger_error($this->language->lang('NO_BB_' . strtoupper($mode) . '_ID') . adm_back_link($this->u_action), E_USER_WARNING);
 				}
 
 				$sql = 'SELECT *
@@ -157,17 +157,17 @@ class bb_items_module
 				$this->db->sql_freeresult($result);
 
 				$cat_id = isset($item_data['cat_id']) ? $item_data['cat_id'] : 0;
-				$cat_options = '<option value=""' . (($cat_id == 0) ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_CATEGORY') . '</option>';
+				$cat_options = '<option value=""' . (($cat_id == 0) ? ' selected' : '') . '>' . $this->language->lang('SELECT_CATEGORY') . '</option>';
 
 				foreach ($rows as $row)
 				{
-					$cat_options .= '<option value="' . $row['cat_id'] . '"' . (($cat_id == $row['cat_id']) ? ' selected' : '' ) . '>' . $row['cat_name'] . ' (' . $row['cat_name_vi'] . ')</option>';
+					$cat_options .= '<option value="' . $row['cat_id'] . '"' . (($cat_id == $row['cat_id']) ? ' selected' : '') . '>' . $row['cat_name'] . ' (' . $row['cat_name_vi'] . ')</option>';
 				}
 
 				// Select a phpBB version
 				$phpbb_versions = $this->ext_helper->get_phpbb_versions();
 				$item_phpbb_version = isset($item_data['item_phpbb_version']) ? $item_data['item_phpbb_version'] : '';
-				$phpbb_version_options = '<option value=""' . (($item_phpbb_version == '') ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_PHPBB_VERSION') . '</option>';
+				$phpbb_version_options = '<option value=""' . (($item_phpbb_version == '') ? ' selected' : '') . '>' . $this->language->lang('SELECT_PHPBB_VERSION') . '</option>';
 
 				foreach ($phpbb_versions as $branch => $branch_data)
 				{
@@ -175,7 +175,7 @@ class bb_items_module
 
 					foreach ($branch_data as $phpbb_version => $phpbb_version_data)
 					{
-						$phpbb_version_options .= '<option value="' . $phpbb_version . '"' . (($item_phpbb_version == $phpbb_version) ? ' selected' : '' ) . '>' . $phpbb_version_data['name'] . '</option>';
+						$phpbb_version_options .= '<option value="' . $phpbb_version . '"' . (($item_phpbb_version == $phpbb_version) ? ' selected' : '') . '>' . $phpbb_version_data['name'] . '</option>';
 					}
 
 					$phpbb_version_options .= '</optgroup>';
@@ -192,11 +192,11 @@ class bb_items_module
 					$this->db->sql_freeresult($result);
 
 					$item_lang_iso = isset($item_data['item_lang_iso']) ? $item_data['item_lang_iso'] : $this->config['default_lang'];
-					$lang_options = '<option value=""' . (($item_lang_iso == '') ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_LANGUAGE') . '</option>';
+					$lang_options = '<option value=""' . (($item_lang_iso == '') ? ' selected' : '') . '>' . $this->language->lang('SELECT_LANGUAGE') . '</option>';
 
 					foreach ($rows as $row)
 					{
-						$lang_options .= '<option value="' . $row['lang_iso'] . '"' . (($item_lang_iso == $row['lang_iso']) ? ' selected' : '' ) . '>' . $row['lang_english_name'] . ' (' . $row['lang_local_name'] . ')</option>';
+						$lang_options .= '<option value="' . $row['lang_iso'] . '"' . (($item_lang_iso == $row['lang_iso']) ? ' selected' : '') . '>' . $row['lang_english_name'] . ' (' . $row['lang_local_name'] . ')</option>';
 					}
 				}
 
@@ -215,11 +215,11 @@ class bb_items_module
 					);
 
 					$item_tool_os = isset($item_data['item_tool_os']) ? $item_data['item_tool_os'] : constants::OS_ALL;
-					$os_options = '<option value=""' . (($item_tool_os == '') ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_OS') . '</option>';
+					$os_options = '<option value=""' . (($item_tool_os == '') ? ' selected' : '') . '>' . $this->language->lang('SELECT_OS') . '</option>';
 
 					foreach ($os_list as $os_value)
 					{
-						$os_options .= '<option value="' . $os_value . '"' . (($item_tool_os == $os_value) ? ' selected' : '' ) . '>' . (($os_value == constants::OS_ALL) ? $this->language->lang('OS_ALL') : $this->ext_helper->get_os_name($os_value)) . '</option>';
+						$os_options .= '<option value="' . $os_value . '"' . (($item_tool_os == $os_value) ? ' selected' : '') . '>' . (($os_value == constants::OS_ALL) ? $this->language->lang('OS_ALL') : $this->ext_helper->get_os_name($os_value)) . '</option>';
 					}
 				}
 
@@ -489,7 +489,7 @@ class bb_items_module
 			case 'delete':
 				if (!$item_id)
 				{
-					trigger_error($this->language->lang('NO_BB_' . strtoupper($mode) .'_ID') . adm_back_link($this->u_action), E_USER_WARNING);
+					trigger_error($this->language->lang('NO_BB_' . strtoupper($mode) . '_ID') . adm_back_link($this->u_action), E_USER_WARNING);
 				}
 
 				if (confirm_box(true))

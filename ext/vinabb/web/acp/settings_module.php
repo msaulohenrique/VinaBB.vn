@@ -363,7 +363,7 @@ class settings_module
 		{
 			if (sizeof($rows) > 1)
 			{
-				$lang_switch_options .= '<option value=""' . (($selected_lang_switch == '') ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_LANGUAGE') . '</option>';
+				$lang_switch_options .= '<option value=""' . (($selected_lang_switch == '') ? ' selected' : '') . '>' . $this->language->lang('SELECT_LANGUAGE') . '</option>';
 			}
 
 			foreach ($rows as $row)
@@ -374,7 +374,7 @@ class settings_module
 				}
 				else
 				{
-					$lang_switch_options .= '<option value="' . $row['lang_iso'] . '"' . (($selected_lang_switch == $row['lang_iso']) ? ' selected' : '' ) . '>' . $row['lang_english_name'] . ' (' . $row['lang_local_name'] . ')</option>';
+					$lang_switch_options .= '<option value="' . $row['lang_iso'] . '"' . (($selected_lang_switch == $row['lang_iso']) ? ' selected' : '') . '>' . $row['lang_english_name'] . ' (' . $row['lang_local_name'] . ')</option>';
 				}
 			}
 		}
@@ -394,29 +394,29 @@ class settings_module
 		$rows = $this->db->sql_fetchrowset($result);
 		$this->db->sql_freeresult($result);
 
-		$forum_vietnamese_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_vietnamese']) ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
-		$forum_vietnamese_support_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_vietnamese_support']) ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
-		$forum_vietnamese_ext_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_vietnamese_ext']) ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
-		$forum_vietnamese_style_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_vietnamese_style']) ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
-		$forum_vietnamese_tutorial_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_vietnamese_tutorial']) ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
-		$forum_vietnamese_discussion_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_vietnamese_discussion']) ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
-		$forum_english_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_english']) ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
-		$forum_english_support_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_english_support']) ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
-		$forum_english_tutorial_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_english_tutorial']) ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
-		$forum_english_discussion_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_english_discussion']) ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
+		$forum_vietnamese_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_vietnamese']) ? ' selected' : '') . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
+		$forum_vietnamese_support_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_vietnamese_support']) ? ' selected' : '') . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
+		$forum_vietnamese_ext_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_vietnamese_ext']) ? ' selected' : '') . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
+		$forum_vietnamese_style_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_vietnamese_style']) ? ' selected' : '') . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
+		$forum_vietnamese_tutorial_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_vietnamese_tutorial']) ? ' selected' : '') . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
+		$forum_vietnamese_discussion_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_vietnamese_discussion']) ? ' selected' : '') . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
+		$forum_english_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_english']) ? ' selected' : '') . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
+		$forum_english_support_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_english_support']) ? ' selected' : '') . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
+		$forum_english_tutorial_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_english_tutorial']) ? ' selected' : '') . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
+		$forum_english_discussion_options = '<option value=""' . ((!$this->config['vinabb_web_forum_id_english_discussion']) ? ' selected' : '') . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
 
 		foreach ($rows as $row)
 		{
-			$forum_vietnamese_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_vietnamese'] == $row['forum_id']) ? ' selected' : '' ) . '>' . $row['forum_name'] . '</option>';
-			$forum_vietnamese_support_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_vietnamese_support'] == $row['forum_id']) ? ' selected' : '' ) . '>' . $row['forum_name'] . '</option>';
-			$forum_vietnamese_ext_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_vietnamese_ext'] == $row['forum_id']) ? ' selected' : '' ) . '>' . $row['forum_name'] . '</option>';
-			$forum_vietnamese_style_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_vietnamese_style'] == $row['forum_id']) ? ' selected' : '' ) . '>' . $row['forum_name'] . '</option>';
-			$forum_vietnamese_tutorial_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_vietnamese_tutorial'] == $row['forum_id']) ? ' selected' : '' ) . '>' . $row['forum_name'] . '</option>';
-			$forum_vietnamese_discussion_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_vietnamese_discussion'] == $row['forum_id']) ? ' selected' : '' ) . '>' . $row['forum_name'] . '</option>';
-			$forum_english_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_english'] == $row['forum_id']) ? ' selected' : '' ) . '>' . $row['forum_name'] . '</option>';
-			$forum_english_support_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_english_support'] == $row['forum_id']) ? ' selected' : '' ) . '>' . $row['forum_name'] . '</option>';
-			$forum_english_tutorial_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_english_tutorial'] == $row['forum_id']) ? ' selected' : '' ) . '>' . $row['forum_name'] . '</option>';
-			$forum_english_discussion_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_english_discussion'] == $row['forum_id']) ? ' selected' : '' ) . '>' . $row['forum_name'] . '</option>';
+			$forum_vietnamese_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_vietnamese'] == $row['forum_id']) ? ' selected' : '') . '>' . $row['forum_name'] . '</option>';
+			$forum_vietnamese_support_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_vietnamese_support'] == $row['forum_id']) ? ' selected' : '') . '>' . $row['forum_name'] . '</option>';
+			$forum_vietnamese_ext_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_vietnamese_ext'] == $row['forum_id']) ? ' selected' : '') . '>' . $row['forum_name'] . '</option>';
+			$forum_vietnamese_style_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_vietnamese_style'] == $row['forum_id']) ? ' selected' : '') . '>' . $row['forum_name'] . '</option>';
+			$forum_vietnamese_tutorial_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_vietnamese_tutorial'] == $row['forum_id']) ? ' selected' : '') . '>' . $row['forum_name'] . '</option>';
+			$forum_vietnamese_discussion_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_vietnamese_discussion'] == $row['forum_id']) ? ' selected' : '') . '>' . $row['forum_name'] . '</option>';
+			$forum_english_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_english'] == $row['forum_id']) ? ' selected' : '') . '>' . $row['forum_name'] . '</option>';
+			$forum_english_support_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_english_support'] == $row['forum_id']) ? ' selected' : '') . '>' . $row['forum_name'] . '</option>';
+			$forum_english_tutorial_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_english_tutorial'] == $row['forum_id']) ? ' selected' : '') . '>' . $row['forum_name'] . '</option>';
+			$forum_english_discussion_options .= '<option value="' . $row['forum_id'] . '"' . (($this->config['vinabb_web_forum_id_english_discussion'] == $row['forum_id']) ? ' selected' : '') . '>' . $row['forum_name'] . '</option>';
 		}
 
 		// Output

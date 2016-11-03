@@ -934,7 +934,7 @@ class listener implements EventSubscriberInterface
 
 		return preg_replace_callback(
 			'(<!-- s9e:mediaembed:([^ ]+) --><!-- m -->.*?<!-- m -->)',
-			function ($m)
+			function($m)
 			{
 				return MediaPack::render(base64_decode($m[1]));
 			},
@@ -960,7 +960,7 @@ class listener implements EventSubscriberInterface
 
 		return preg_replace_callback(
 			'(<!-- m -->.*?href="([^"]+).*?<!-- m -->)',
-			function ($m)
+			function($m)
 			{
 				$xml = MediaPack::parse(htmlspecialchars_decode($m[1]));
 

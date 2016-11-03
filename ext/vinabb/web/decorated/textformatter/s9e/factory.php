@@ -165,7 +165,7 @@ class factory extends \phpbb\textformatter\s9e\factory
 			// Insert the board's URL before {LOCAL_URL} tokens
 			$tpl = preg_replace_callback(
 				'#\\{LOCAL_URL\\d*\\}#',
-				function ($m)
+				function($m)
 				{
 					return generate_board_url() . '/' . $m[0];
 				},
@@ -218,7 +218,7 @@ class factory extends \phpbb\textformatter\s9e\factory
 			foreach ($censor as $row)
 			{
 				// NOTE: words are stored as HTML, we need to decode them to plain text
-				$configurator->Censor->add(htmlspecialchars_decode($row['word']),  htmlspecialchars_decode($row['replacement']));
+				$configurator->Censor->add(htmlspecialchars_decode($row['word']), htmlspecialchars_decode($row['replacement']));
 			}
 		}
 

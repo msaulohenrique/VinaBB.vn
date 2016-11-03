@@ -148,11 +148,11 @@ class portal_articles_module
 				$this->db->sql_freeresult($result);
 
 				$article_cat = isset($article_data['cat_id']) ? $article_data['cat_id'] : 0;
-				$cat_options = '<option value=""' . (($article_cat == 0) ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_CATEGORY') . '</option>';
+				$cat_options = '<option value=""' . (($article_cat == 0) ? ' selected' : '') . '>' . $this->language->lang('SELECT_CATEGORY') . '</option>';
 
 				foreach ($rows as $row)
 				{
-					$cat_options .= '<option value="' . $row['cat_id'] . '"' . (($article_cat == $row['cat_id']) ? ' selected' : '' ) . '>' . $row['cat_name'] . ' (' . $row['cat_name_vi'] . ')</option>';
+					$cat_options .= '<option value="' . $row['cat_id'] . '"' . (($article_cat == $row['cat_id']) ? ' selected' : '') . '>' . $row['cat_name'] . ' (' . $row['cat_name_vi'] . ')</option>';
 				}
 
 				// Select a language
@@ -164,11 +164,11 @@ class portal_articles_module
 				$this->db->sql_freeresult($result);
 
 				$article_lang = isset($article_data['article_lang']) ? $article_data['article_lang'] : $this->config['default_lang'];
-				$lang_options = '<option value=""' . (($article_lang == '') ? ' selected' : '' ) . '>' . $this->language->lang('SELECT_LANGUAGE') . '</option>';
+				$lang_options = '<option value=""' . (($article_lang == '') ? ' selected' : '') . '>' . $this->language->lang('SELECT_LANGUAGE') . '</option>';
 
 				foreach ($rows as $row)
 				{
-					$lang_options .= '<option value="' . $row['lang_iso'] . '"' . (($article_lang == $row['lang_iso']) ? ' selected' : '' ) . '>' . $row['lang_english_name'] . ' (' . $row['lang_local_name'] . ')</option>';
+					$lang_options .= '<option value="' . $row['lang_iso'] . '"' . (($article_lang == $row['lang_iso']) ? ' selected' : '') . '>' . $row['lang_english_name'] . ' (' . $row['lang_local_name'] . ')</option>';
 				}
 
 				// Prepare a fresh article preview

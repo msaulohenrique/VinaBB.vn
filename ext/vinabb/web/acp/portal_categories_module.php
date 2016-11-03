@@ -75,7 +75,7 @@ class portal_categories_module
 		$this->db = $phpbb_container->get('dbal.conn');
 		$this->language = $phpbb_container->get('language');
 		$this->log = $phpbb_container->get('log');
-		$this->pagination= $phpbb_container->get('pagination');
+		$this->pagination = $phpbb_container->get('pagination');
 		$this->request = $phpbb_container->get('request');
 		$this->template = $phpbb_container->get('template');
 		$this->user = $phpbb_container->get('user');

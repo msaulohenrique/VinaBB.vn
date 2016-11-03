@@ -133,7 +133,7 @@ class mcp
 
 		if (sizeof($action_ary))
 		{
-			list($action, ) = each($action_ary);
+			list($action,) = each($action_ary);
 		}
 		unset($action_ary);
 
