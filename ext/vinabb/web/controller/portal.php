@@ -622,8 +622,8 @@ class portal
 
 		$sql_ary = array(
 			'SELECT'	=> 'f.forum_id, f.forum_name,
-							t.topic_id, t.topic_title, t.topic_poster, t.topic_first_poster_name, t.topic_posts_approved, t.topic_posts_unapproved, t.topic_posts_softdeleted, t.topic_views, t.topic_time, t.topic_last_post_time,
-							p.post_id, p.post_time, p.post_edit_time, p.post_text, p.bbcode_bitfield, p.bbcode_uid, p.enable_bbcode, p.enable_smilies, p.enable_magic_url, p.post_attachment, t.topic_visibility',
+							t.topic_id, t.topic_title, t.topic_time,
+							p.post_id, p.post_time',
 			'FROM'		=> array(
 				TOPICS_TABLE	=> 't',
 				POSTS_TABLE		=> 'p',
@@ -683,9 +683,9 @@ class portal
 
 		// Get the actual data
 		$sql_ary = array(
-			'SELECT'	=>	'f.forum_id, f.forum_name, ' .
-				'p.post_id, p.topic_id, p.post_time, p.post_edit_time, p.post_visibility, p.post_subject, p.post_text, p.bbcode_bitfield, p.bbcode_uid, p.enable_bbcode, p.enable_smilies, p.enable_magic_url, p.post_attachment, ' .
-				'u.username, u.user_id',
+			'SELECT'	=>	'f.forum_id, f.forum_name,
+							p.post_id, p.topic_id, p.post_time, p.post_subject,
+							u.username, u.user_id',
 			'FROM'		=> array(
 				USERS_TABLE		=> 'u',
 				POSTS_TABLE		=> 'p',
