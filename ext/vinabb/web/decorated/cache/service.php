@@ -238,7 +238,7 @@ class service extends \phpbb\cache\service
 			{
 				$smilies[$row['code']] = array(
 					'id'		=> $row['smiley_id'],
-					'emoticon'	=> $row['emoticon'],
+					'emotion'	=> $row['emotion'],
 					'url'		=> $row['smiley_url'],
 					'width'		=> $row['smiley_width'],
 					'height'	=> $row['smiley_height'],
