@@ -26,3 +26,16 @@ vinabb_web_board_post_route:
         _controller: vinabb.web.board.post:main
     requirements:
         post_id: '\d+'
+vinabb_web_board_posting_route:
+    path: /posting/{mode}
+    defaults:
+        _controller: vinabb.web.board.posting:main
+    requirements:
+        mode: '([a-z0-9-_]*)(\/{0,1})'
+vinabb_web_board_search_route:
+    path: /search/{mode}
+    defaults:
+        _controller: vinabb.web.board.search:main
+        mode: ''
+    requirements:
+        mode: '[a-z_]+'

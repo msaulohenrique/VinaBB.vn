@@ -35,22 +35,6 @@ vinabb_web_board_route:
 vinabb_web_board_routing:
     resource: routing_board.yml
     prefix: /board
-vinabb_web_embed_routing:
-    resource: routing_embed.yml
-    prefix: /embed
-vinabb_web_posting_route:
-    path: /posting/{mode}
-    defaults:
-        _controller: vinabb.web.posting:main
-    requirements:
-        mode: '([a-z0-9-_]*)(\/{0,1})'
-vinabb_web_search_route:
-    path: /search/{mode}
-    defaults:
-        _controller: vinabb.web.search:index
-        mode: ''
-    requirements:
-        mode: '[a-z_]+'
 vinabb_web_online_route:
     path: /online/{mode}
     defaults:
@@ -58,6 +42,9 @@ vinabb_web_online_route:
         mode: ''
     requirements:
         mode: '(|whois|lookup)(\/{0,1})'
+vinabb_web_board_embed_routing:
+    resource: routing_embed.yml
+    prefix: /embed
 vinabb_web_portal_route:
     path: /news
     defaults:

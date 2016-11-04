@@ -141,7 +141,7 @@ services:
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.board:
-        class: vinabb\web\controller\board
+        class: vinabb\web\controller\board\board
         arguments:
             - '@auth'
             - '@config'
@@ -155,7 +155,7 @@ services:
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.board.forum:
-        class: vinabb\web\controller\forum
+        class: vinabb\web\controller\board\forum
         arguments:
             - '@auth'
             - '@cache'
@@ -173,7 +173,7 @@ services:
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.board.topic:
-        class: vinabb\web\controller\topic
+        class: vinabb\web\controller\board\topic
         arguments:
             - '@auth'
             - '@cache'
@@ -190,7 +190,7 @@ services:
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.board.post:
-        class: vinabb\web\controller\post
+        class: vinabb\web\controller\board\post
         arguments:
             - '@auth'
             - '@cache'
@@ -208,20 +208,8 @@ services:
             - '@controller.helper'
             - '%core.root_path%'
             - '%core.php_ext%'
-    vinabb.web.embed:
-        class: vinabb\web\controller\embed
-        arguments:
-            - '@auth'
-            - '@dbal.conn'
-            - '@language'
-            - '@request'
-            - '@template'
-            - '@user'
-            - '@controller.helper'
-            - '%core.root_path%'
-            - '%core.php_ext%'
-    vinabb.web.posting:
-        class: vinabb\web\controller\posting
+    vinabb.web.board.posting:
+        class: vinabb\web\controller\board\posting
         arguments:
             - '@auth'
             - '@cache'
@@ -239,8 +227,8 @@ services:
             - '@controller.helper'
             - '%core.root_path%'
             - '%core.php_ext%'
-    vinabb.web.search:
-        class: vinabb\web\controller\search
+    vinabb.web.board.search:
+        class: vinabb\web\controller\board\search
         arguments:
             - '%core.root_path%'
             - '%core.php_ext%'
@@ -260,6 +248,18 @@ services:
             - '@group_helper'
             - '%core.root_path%'
             - '%core.adm_relative_path%'
+            - '%core.php_ext%'
+    vinabb.web.board.embed:
+        class: vinabb\web\controller\embed
+        arguments:
+            - '@auth'
+            - '@dbal.conn'
+            - '@language'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.portal:
         class: vinabb\web\controller\portal

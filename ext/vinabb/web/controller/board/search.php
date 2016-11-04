@@ -6,7 +6,7 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\controller;
+namespace vinabb\web\controller\board;
 
 class search
 {
@@ -28,7 +28,7 @@ class search
 		$this->php_ext = $php_ext;
 	}
 
-	public function index()
+	public function main()
 	{
 		trigger_error('Hello :)');
 	}
