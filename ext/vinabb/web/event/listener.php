@@ -44,11 +44,11 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\controller\helper */
 	protected $helper;
 
-	/** @var \phpbb\path_helper */
-	protected $path_helper;
-
 	/** @var \vinabb\web\controller\helper */
 	protected $ext_helper;
+
+	/** @var \phpbb\path_helper */
+	protected $path_helper;
 
 	/** @var string */
 	protected $root_path;
@@ -72,8 +72,8 @@ class listener implements EventSubscriberInterface
 	* @param \phpbb\template\template $template
 	* @param \phpbb\user $user
 	* @param \phpbb\controller\helper $helper
-	* @param \phpbb\path_helper $path_helper
 	* @param \vinabb\web\controller\helper $ext_helper
+	* @param \phpbb\path_helper $path_helper
 	* @param string $root_path
 	* @param string $php_ext
 	*/
@@ -88,8 +88,8 @@ class listener implements EventSubscriberInterface
 		\phpbb\template\template $template,
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
-		\phpbb\path_helper $path_helper,
 		\vinabb\web\controller\helper $ext_helper,
+		\phpbb\path_helper $path_helper,
 		$root_path,
 		$admin_path,
 		$php_ext
@@ -105,8 +105,8 @@ class listener implements EventSubscriberInterface
 		$this->template = $template;
 		$this->user = $user;
 		$this->helper = $helper;
-		$this->path_helper = $path_helper;
 		$this->ext_helper = $ext_helper;
+		$this->path_helper = $path_helper;
 		$this->root_path = $root_path;
 		$this->admin_path = $admin_path;
 		$this->php_ext = $php_ext;

@@ -304,4 +304,44 @@ class helper
 				return '';
 		}
 	}
+
+	/**
+	* Fetch content from an URL
+	*
+	* @param $url
+	* @return string
+	*/
+	public function fetch_url($url)
+	{
+		$raw = '';
+
+		// Test URL
+		$test = get_headers($url);
+
+		if (strpos($test[0], '200') !== false)
+		{
+			if (function_exists('curl_version'))
+			{
+				$curl = curl_init($url);
+				curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+				$raw = curl_exec($curl);
+				curl_close($curl);
+			}
+			else
+			{
+				$url_parts = parse_url($url);
+
+				try
+				{
+					$raw = $this->file_downloader->get($url_parts['host'], '', $url_parts['path'], ($url_parts['scheme'] == 'https') ? 443 : 80);
+				}
+				catch (\phpbb\exception\runtime_exception $e)
+				{
+					throw new \RuntimeException($this->file_downloader->get_error_string());
+				}
+			}
+		}
+
+		return $raw;
+	}
 }
