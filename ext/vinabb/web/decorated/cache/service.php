@@ -424,7 +424,7 @@ class service extends \phpbb\cache\service
 	*/
 	public function get_index_comment_counter($lang)
 	{
-		if (($portal_cats = $this->driver->get('_vinabb_web_index_comment_counter_' . $lang)) === false)
+		if (($comment_count = $this->driver->get('_vinabb_web_index_comment_counter_' . $lang)) === false)
 		{
 			$article_ids = [0];
 
