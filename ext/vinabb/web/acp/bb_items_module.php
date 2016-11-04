@@ -586,11 +586,11 @@ class bb_items_module
 	/**
 	* List items with pagination
 	*
-	* @param     $bb_items_table
-	* @param     $items
-	* @param     $item_count
-	* @param int $limit
-	* @param int $offset
+	* @param string	$bb_items_table
+	* @param array		$items
+	* @param int		$item_count
+	* @param int		$limit
+	* @param int		$offset
 	*
 	* @return int
 	*/

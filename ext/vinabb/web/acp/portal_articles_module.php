@@ -372,11 +372,11 @@ class portal_articles_module
 	/**
 	* List articles with pagination
 	*
-	* @param     $portal_articles_table
-	* @param     $articles
-	* @param     $article_count
-	* @param int $limit
-	* @param int $offset
+	* @param string	$portal_articles_table
+	* @param array		$articles
+	* @param int		$article_count
+	* @param int		$limit
+	* @param int		$offset
 	*
 	* @return int
 	*/

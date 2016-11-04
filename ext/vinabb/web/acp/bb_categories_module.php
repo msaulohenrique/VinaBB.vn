@@ -371,12 +371,11 @@ class bb_categories_module
 	/**
 	* List categories with pagination
 	*
-	* @param     $bb_categories_table
-	* @param     $mode
-	* @param     $cats
-	* @param     $cat_count
-	* @param int $limit
-	* @param int $offset
+	* @param string	$bb_categories_table
+	* @param array	$cats
+	* @param int	$cat_count
+	* @param int	$limit
+	* @param int	$offset
 	*
 	* @return int
 	*/
