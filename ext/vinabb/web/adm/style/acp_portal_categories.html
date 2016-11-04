@@ -48,13 +48,6 @@
 		</p>
 	</form>
 
-	{% if pagination %}
-	<div class="pagination">
-		<span style="float: {{ S_CONTENT_FLOW_BEGIN }};">&raquo; {{ lang('COUNTER_CATEGORY', TOTAL_CATS) }}</span>
-		{% include 'pagination.html' %}
-	</div>
-	{% endif %}
-
 	<table class="table1 zebra-table">
 		<thead>
 		<tr>
@@ -88,13 +81,6 @@
 		{% endfor %}
 		</tbody>
 	</table>
-
-	{% if pagination %}
-	<div class="pagination">
-		<span style="float: {{ S_CONTENT_FLOW_BEGIN }};">&raquo; {{ lang('COUNTER_CATEGORY', TOTAL_CATS) }}</span>
-		{% include 'pagination.html' %}
-	</div>
-	{% endif %}
 
 {% endif %}
 

@@ -27,9 +27,6 @@ class portal_categories_module
 	/** @var \phpbb\log\log */
 	protected $log;
 
-	/** @var \phpbb\pagination */
-	protected $pagination;
-
 	/** @var \phpbb\request\request */
 	protected $request;
 
@@ -75,7 +72,6 @@ class portal_categories_module
 		$this->db = $phpbb_container->get('dbal.conn');
 		$this->language = $phpbb_container->get('language');
 		$this->log = $phpbb_container->get('log');
-		$this->pagination = $phpbb_container->get('pagination');
 		$this->request = $phpbb_container->get('request');
 		$this->template = $phpbb_container->get('template');
 		$this->user = $phpbb_container->get('user');
@@ -94,10 +90,6 @@ class portal_categories_module
 		$action = $this->request->variable('action', '');
 		$action = $this->request->is_set_post('add') ? 'add' : ($this->request->is_set_post('save') ? 'save' : $action);
 		$cat_id = $this->request->variable('id', 0);
-
-		// Pagination
-		$start = $this->request->variable('start', 0);
-		$per_page = constants::PORTAL_CATS_PER_PAGE;
 
 		add_form_key('vinabb/web');
 
@@ -309,7 +301,7 @@ class portal_categories_module
 			break;
 		}
 
-		// Item counter
+		// Article counter
 		$sql = 'SELECT cat_id, COUNT(article_id) AS article_count
 			FROM ' . $this->portal_articles_table . '
 			GROUP BY cat_id';
@@ -323,11 +315,14 @@ class portal_categories_module
 		$this->db->sql_freeresult($result);
 
 		// Manage categories
-		$cats = array();
-		$cat_count = 0;
-		$start = $this->list_portal_cats($this->portal_categories_table, $cats, $cat_count, $per_page, $start);
+		$sql = 'SELECT *
+			FROM ' . $this->portal_categories_table . '
+			ORDER BY cat_order';
+		$result = $this->db->sql_query($sql);
+		$rows = $this->db->sql_fetchrowset($result);
+		$this->db->sql_freeresult($result);
 
-		foreach ($cats as $row)
+		foreach ($rows as $row)
 		{
 			$this->template->assign_block_vars('cats', array(
 				'NAME'		=> $row['cat_name'],
@@ -343,61 +338,14 @@ class portal_categories_module
 			));
 		}
 
-		$this->pagination->generate_template_pagination($this->u_action, 'pagination', 'start', $cat_count, $per_page, $start);
-
 		// Output
 		$this->template->assign_vars(array(
-			'TOTAL_CATS'	=> $cat_count,
-
 			'MODULE'	=> $id,
 			'MODE'		=> $mode,
 
-			'U_ACTION'	=> $this->u_action . "&action=$action&start=$start",
+			'U_ACTION'	=> $this->u_action . "&action=$action",
 
 			'S_HIDDEN_FIELDS'	=> $s_hidden_fields,
 		));
-	}
-
-	/**
-	* List categories with pagination
-	*
-	* @param string	$portal_categories_table
-	* @param array		$cats
-	* @param int		$cat_count
-	* @param int		$limit
-	* @param int		$offset
-	*
-	* @return int
-	*/
-	private function list_portal_cats(&$portal_categories_table, &$cats, &$cat_count, $limit = 0, $offset = 0)
-	{
-		$sql = "SELECT COUNT(cat_id) AS cat_count
-			FROM $portal_categories_table";
-		$result = $this->db->sql_query($sql);
-		$cat_count = (int) $this->db->sql_fetchfield('cat_count');
-		$this->db->sql_freeresult($result);
-
-		if ($cat_count == 0)
-		{
-			return 0;
-		}
-
-		if ($offset >= $cat_count)
-		{
-			$offset = ($offset - $limit < 0) ? 0 : $offset - $limit;
-		}
-
-		$sql = "SELECT *
-			FROM $portal_categories_table
-			ORDER BY cat_order";
-		$result = $this->db->sql_query_limit($sql, $limit, $offset);
-
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$cats[] = $row;
-		}
-		$this->db->sql_freeresult($result);
-
-		return $offset;
 	}
 }

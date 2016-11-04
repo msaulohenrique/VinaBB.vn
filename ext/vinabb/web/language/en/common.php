@@ -56,11 +56,6 @@ $lang = array_merge($lang, array(
 		1	=> '%d article',
 		2	=> '%d articles',
 	),
-	'COUNTER_CATEGORY'	=> array(
-		0	=> 'No categories',
-		1	=> '%d category',
-		2	=> '%d categories',
-	),
 	'COUNTER_EXT'		=> array(
 		0	=> 'No extensions',
 		1	=> '%d extension',
