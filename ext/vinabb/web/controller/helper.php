@@ -12,6 +12,19 @@ use vinabb\web\includes\constants;
 
 class helper
 {
+	/** @var \phpbb\file_downloader */
+	protected $file_downloader;
+
+	/**
+	* Constructor
+	*
+	* @param \phpbb\file_downloader $file_downloader
+	*/
+	public function __construct(\phpbb\file_downloader $file_downloader)
+	{
+		$this->file_downloader = $file_downloader;
+	}
+
 	/**
 	* List of stable phpBB versions
 	*
