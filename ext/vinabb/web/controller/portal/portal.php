@@ -51,6 +51,9 @@ class portal
 	/** @var \phpbb\controller\helper */
 	protected $helper;
 
+	/** @var \vinabb\web\controller\helper */
+	protected $ext_helper;
+
 	/** @var \phpbb\group\helper */
 	protected $group_helper;
 
@@ -91,6 +94,7 @@ class portal
 	* @param \phpbb\template\template $template
 	* @param \phpbb\user $user
 	* @param \phpbb\controller\helper $helper
+	* @param \vinabb\web\controller\helper $ext_helper
 	* @param \phpbb\group\helper $group_helper
 	* @param \phpbb\path_helper $path_helper
 	* @param string $root_path
@@ -110,6 +114,7 @@ class portal
 		\phpbb\template\template $template,
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
+		\vinabb\web\controller\helper $ext_helper,
 		\phpbb\group\helper $group_helper,
 		\phpbb\path_helper $path_helper,
 		$root_path,
@@ -129,6 +134,7 @@ class portal
 		$this->template = $template;
 		$this->user = $user;
 		$this->helper = $helper;
+		$this->ext_helper = $ext_helper;
 		$this->group_helper = $group_helper;
 		$this->path_helper = $path_helper;
 		$this->root_path = $root_path;
@@ -145,109 +151,9 @@ class portal
 		// Check new versions
 		if (time() > $this->config['vinabb_web_check_gc'] + (constants::CHECK_VERSION_HOURS * 60 * 60))
 		{
-			// Get latest phpBB versions
-			if ($this->config['vinabb_web_check_phpbb_url'])
-			{
-				$raw = $this->fetch_url($this->config['vinabb_web_check_phpbb_url']);
-
-				// Parse JSON
-				if (!empty($raw))
-				{
-					$phpbb_data = json_decode($raw, true);
-
-					// Latest version
-					if ($this->config['vinabb_web_check_phpbb_branch'])
-					{
-						$latest_phpbb_version = isset($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_branch']]['current']) ? strtoupper($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_branch']]['current']) : '';
-
-						if (!empty($latest_phpbb_version) && version_compare($latest_phpbb_version, $this->config['vinabb_web_check_phpbb_version'], '>'))
-						{
-							$this->config->set('vinabb_web_check_phpbb_version', $latest_phpbb_version);
-						}
-					}
-
-					// Legacy version
-					if ($this->config['vinabb_web_check_phpbb_legacy_branch'])
-					{
-						$latest_phpbb_legacy_version = isset($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_legacy_branch']]['current']) ? strtoupper($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_legacy_branch']]['current']) : '';
-
-						if (!empty($latest_phpbb_legacy_version) && version_compare($latest_phpbb_legacy_version, $this->config['vinabb_web_check_phpbb_legacy_version'], '>'))
-						{
-							$this->config->set('vinabb_web_check_phpbb_legacy_version', $latest_phpbb_legacy_version);
-						}
-					}
-
-					// Development version
-					if ($this->config['vinabb_web_check_phpbb_dev_branch'])
-					{
-						$latest_phpbb_dev_version = isset($phpbb_data['unstable'][$this->config['vinabb_web_check_phpbb_dev_branch']]['current']) ? strtoupper($phpbb_data['unstable'][$this->config['vinabb_web_check_phpbb_dev_branch']]['current']) : '';
-
-						if (!empty($latest_phpbb_dev_version) && version_compare($latest_phpbb_dev_version, $this->config['vinabb_web_check_phpbb_dev_version'], '>'))
-						{
-							$this->config->set('vinabb_web_check_phpbb_dev_version', $latest_phpbb_dev_version);
-						}
-					}
-				}
-			}
-
-			// Get latest PHP versions
-			if ($this->config['vinabb_web_check_php_url'])
-			{
-				$raw = $this->fetch_url($this->config['vinabb_web_check_php_url']);
-				$raw = str_replace('php:version', 'php-version', $raw);
-
-				// Parse XML
-				if (!empty($raw))
-				{
-					$php_data = simplexml_load_string($raw);
-					$latest_php_version = $latest_php_version_url = $latest_php_legacy_version = $latest_php_legacy_version_url = '';
-
-					// Find the latest version from feed data
-					foreach ($php_data->entry as $entry)
-					{
-						$php_version = isset($entry->{'php-version'}) ? $entry->{'php-version'} : '';
-						$php_version_url = isset($entry->id) ? $entry->id : '';
-
-						if (!empty($this->config['vinabb_web_check_php_branch']) && substr($php_version, 0, strlen($this->config['vinabb_web_check_php_branch'])) == $this->config['vinabb_web_check_php_branch'] && version_compare($php_version, $latest_php_version, '>'))
-						{
-							$latest_php_version = $php_version;
-							$latest_php_version_url = $php_version_url;
-						}
-						else if (!empty($this->config['vinabb_web_check_php_legacy_branch']) && substr($php_version, 0, strlen($this->config['vinabb_web_check_php_legacy_branch'])) == $this->config['vinabb_web_check_php_legacy_branch'] && version_compare($php_version, $latest_php_legacy_version, '>'))
-						{
-							$latest_php_legacy_version = $php_version;
-							$latest_php_legacy_version_url = $php_version_url;
-						}
-					}
-
-					if (!empty($latest_php_version) && version_compare($latest_php_version, $this->config['vinabb_web_check_php_version'], '>'))
-					{
-						$this->config->set('vinabb_web_check_php_version', $latest_php_version);
-						$this->config->set('vinabb_web_check_php_version_url', $latest_php_version_url);
-					}
-
-					if (!empty($latest_php_legacy_version) && version_compare($latest_php_legacy_version, $this->config['vinabb_web_check_php_legacy_version'], '>'))
-					{
-						$this->config->set('vinabb_web_check_php_legacy_version', $latest_php_legacy_version);
-						$this->config->set('vinabb_web_check_php_legacy_version_url', $latest_php_legacy_version_url);
-					}
-				}
-			}
-
-			// Get latest VinaBB version
-			$raw = file_get_contents("{$this->ext_root_path}composer.json");
-
-			// Parse JSON
-			if (!empty($raw))
-			{
-				$vinabb_data = json_decode($raw, true);
-				$vinabb_version = isset($vinabb_data['version']) ? $vinabb_data['version'] : '';
-
-				if (!empty($vinabb_version) && version_compare($vinabb_version, $this->config['vinabb_web_check_vinabb_version'], '>'))
-				{
-					$this->config->set('vinabb_web_check_vinabb_version', $vinabb_version);
-				}
-			}
+			$this->fetch_phpbb_version();
+			$this->fetch_php_version();
+			$this->fetch_vinabb_version();
 
 			// Save this time
 			$this->config->set('vinabb_web_check_gc', time(), true);
@@ -346,123 +252,9 @@ class portal
 			));
 		}
 
-		// Group legend for online users
-		$order_legend = ($this->config['legend_sort_groupname']) ? 'group_name' : 'group_legend';
-
-		if ($this->auth->acl_gets('a_group', 'a_groupadd', 'a_groupdel'))
-		{
-			$sql = 'SELECT group_id, group_name, group_colour, group_type, group_legend
-				FROM ' . GROUPS_TABLE . '
-				WHERE group_legend > 0
-				ORDER BY ' . $order_legend;
-		}
-		else
-		{
-			$sql = 'SELECT g.group_id, g.group_name, g.group_colour, g.group_type, g.group_legend
-				FROM ' . GROUPS_TABLE . ' g
-				LEFT JOIN ' . USER_GROUP_TABLE . ' ug
-					ON (
-						g.group_id = ug.group_id
-						AND ug.user_id = ' . $this->user->data['user_id'] . '
-						AND ug.user_pending = 0
-					)
-				WHERE g.group_legend > 0
-					AND (g.group_type <> ' . GROUP_HIDDEN . ' OR ug.user_id = ' . $this->user->data['user_id'] . ')
-				ORDER BY g.' . $order_legend;
-		}
-		$result = $this->db->sql_query($sql);
-
-		$legend = array();
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$colour_text = ($row['group_colour']) ? ' style="color: #' . $row['group_colour'] . '"' : '';
-			$group_name = $this->group_helper->get_name($row['group_name']);
-
-			if ($row['group_name'] == 'BOTS' || ($this->user->data['user_id'] != ANONYMOUS && !$this->auth->acl_get('u_viewprofile')))
-			{
-				$legend[] = '<span' . $colour_text . '>' . $group_name . '</span>';
-			}
-			else
-			{
-				$legend[] = '<a' . $colour_text . ' href="' . $this->helper->route('vinabb_web_user_group_route', array('group_id' => $row['group_id'])) . '">' . $group_name . '</a>';
-			}
-		}
-		$this->db->sql_freeresult($result);
-
-		$legend = implode($this->language->lang('COMMA_SEPARATOR'), $legend);
-
 		// Birthday list
-		$birthdays = array();
-
-		if ($this->config['load_birthdays'] && $this->config['allow_birthdays'] && $this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel'))
-		{
-			$time = $this->user->create_datetime();
-			$now = phpbb_gmgetdate($time->getTimestamp() + $time->getOffset());
-
-			// Display birthdays of 29th february on 28th february in non-leap-years
-			$leap_year_birthdays = '';
-
-			if ($now['mday'] == 28 && $now['mon'] == 2 && !$time->format('L'))
-			{
-				$leap_year_birthdays = " OR u.user_birthday LIKE '" . $this->db->sql_escape(sprintf('%2d-%2d-', 29, 2)) . "%'";
-			}
-			$sql_ary = array(
-				'SELECT' => 'u.user_id, u.username, u.user_colour, u.user_birthday',
-				'FROM' => array(
-					USERS_TABLE => 'u',
-				),
-				'LEFT_JOIN' => array(
-					array(
-						'FROM' => array(BANLIST_TABLE => 'b'),
-						'ON' => 'u.user_id = b.ban_userid',
-					),
-				),
-				'WHERE' => "(b.ban_id IS NULL OR b.ban_exclude = 1)
-					AND (u.user_birthday LIKE '" . $this->db->sql_escape(sprintf('%2d-%2d-', $now['mday'], $now['mon'])) . "%' $leap_year_birthdays)
-					AND u.user_type IN (" . USER_NORMAL . ', ' . USER_FOUNDER . ')',
-			);
-
-			/**
-			* Event to modify the SQL query to get birthdays data
-			*
-			* @event core.index_modify_birthdays_sql
-			* @var	array	now			The assoc array with the 'now' local timestamp data
-			* @var	array	sql_ary		The SQL array to get the birthdays data
-			* @var	object	time		The user related Datetime object
-			* @since 3.1.7-RC1
-			*/
-			$vars = array('now', 'sql_ary', 'time');
-			extract($this->dispatcher->trigger_event('core.index_modify_birthdays_sql', compact($vars)));
-
-			$sql = $this->db->sql_build_query('SELECT', $sql_ary);
-			$result = $this->db->sql_query($sql);
-			$rows = $this->db->sql_fetchrowset($result);
-			$this->db->sql_freeresult($result);
-
-			foreach ($rows as $row)
-			{
-				$birthday_username = get_username_string('full', $row['user_id'], $row['username'], $row['user_colour']);
-				$birthday_year = (int) substr($row['user_birthday'], -4);
-				$birthday_age = ($birthday_year) ? max(0, $now['year'] - $birthday_year) : '';
-				$birthdays[] = array(
-					'USERNAME'	=> $birthday_username,
-					'AGE'		=> $birthday_age,
-				);
-			}
-
-			/**
-			* Event to modify the birthdays list
-			*
-			* @event core.index_modify_birthdays_list
-			* @var	array	birthdays		Array with the users birthdays data
-			* @var	array	rows			Array with the birthdays SQL query result
-			* @since 3.1.7-RC1
-			*/
-			$vars = array('birthdays', 'rows');
-			extract($this->dispatcher->trigger_event('core.index_modify_birthdays_list', compact($vars)));
-
-			$this->template->assign_block_vars_array('birthdays', $birthdays);
-		}
+		$birthdays = $this->get_birthdays();
+		$this->template->assign_block_vars_array('birthdays', $birthdays);
 
 		// Breadcrumb
 		$this->template->assign_block_vars('breadcrumb', array(
@@ -471,9 +263,8 @@ class portal
 
 		// Output
 		$this->template->assign_vars(array(
-			'LEGEND'				=> $legend,
+			'LEGEND'				=> $this->get_group_legend(),
 			'TOTAL_BIRTHDAY_USERS'	=> sizeof($birthdays),
-			'NEWEST_USER'			=> $this->language->lang('NEWEST_USER', get_username_string('full', $this->config['newest_user_id'], $this->config['newest_username'], $this->config['newest_user_colour'])),
 
 			'LATEST_PHPBB_VERSION'				=> $this->config['vinabb_web_check_phpbb_version'],
 			'LATEST_PHPBB_DOWNLOAD_URL'			=> str_replace(array('{branch}', '{version}'), array($this->config['vinabb_web_check_phpbb_branch'], $this->config['vinabb_web_check_phpbb_version']), htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_download_url'])),
@@ -529,43 +320,122 @@ class portal
 	}
 
 	/**
-	* Fetch content from an URL
-	*
-	* @param $url
-	* @return string
+	* Get and set latest phpBB versions
 	*/
-	protected function fetch_url($url)
+	protected function fetch_phpbb_version()
 	{
-		$raw = '';
-
-		// Test URL
-		$test = get_headers($url);
-
-		if (strpos($test[0], '200') !== false)
+		if ($this->config['vinabb_web_check_phpbb_url'])
 		{
-			if (function_exists('curl_version'))
-			{
-				$curl = curl_init($url);
-				curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-				$raw = curl_exec($curl);
-				curl_close($curl);
-			}
-			else
-			{
-				$url_parts = parse_url($url);
+			$raw = $this->ext_helper->fetch_url($this->config['vinabb_web_check_phpbb_url']);
 
-				try
+			// Parse JSON
+			if (!empty($raw))
+			{
+				$phpbb_data = json_decode($raw, true);
+
+				// Latest version
+				if ($this->config['vinabb_web_check_phpbb_branch'])
 				{
-					$raw = $this->file_downloader->get($url_parts['host'], '', $url_parts['path'], ($url_parts['scheme'] == 'https') ? 443 : 80);
+					$latest_phpbb_version = isset($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_branch']]['current']) ? strtoupper($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_branch']]['current']) : '';
+
+					if (!empty($latest_phpbb_version) && version_compare($latest_phpbb_version, $this->config['vinabb_web_check_phpbb_version'], '>'))
+					{
+						$this->config->set('vinabb_web_check_phpbb_version', $latest_phpbb_version);
+					}
 				}
-				catch (\phpbb\exception\runtime_exception $e)
+
+				// Legacy version
+				if ($this->config['vinabb_web_check_phpbb_legacy_branch'])
 				{
-					throw new \RuntimeException($this->file_downloader->get_error_string());
+					$latest_phpbb_legacy_version = isset($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_legacy_branch']]['current']) ? strtoupper($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_legacy_branch']]['current']) : '';
+
+					if (!empty($latest_phpbb_legacy_version) && version_compare($latest_phpbb_legacy_version, $this->config['vinabb_web_check_phpbb_legacy_version'], '>'))
+					{
+						$this->config->set('vinabb_web_check_phpbb_legacy_version', $latest_phpbb_legacy_version);
+					}
+				}
+
+				// Development version
+				if ($this->config['vinabb_web_check_phpbb_dev_branch'])
+				{
+					$latest_phpbb_dev_version = isset($phpbb_data['unstable'][$this->config['vinabb_web_check_phpbb_dev_branch']]['current']) ? strtoupper($phpbb_data['unstable'][$this->config['vinabb_web_check_phpbb_dev_branch']]['current']) : '';
+
+					if (!empty($latest_phpbb_dev_version) && version_compare($latest_phpbb_dev_version, $this->config['vinabb_web_check_phpbb_dev_version'], '>'))
+					{
+						$this->config->set('vinabb_web_check_phpbb_dev_version', $latest_phpbb_dev_version);
+					}
 				}
 			}
 		}
+	}
 
-		return $raw;
+	/**
+	* Get and set latest PHP versions
+	*/
+	protected function fetch_php_version()
+	{
+		if ($this->config['vinabb_web_check_php_url'])
+		{
+			$raw = $this->ext_helper->fetch_url($this->config['vinabb_web_check_php_url']);
+			$raw = str_replace('php:version', 'php-version', $raw);
+
+			// Parse XML
+			if (!empty($raw))
+			{
+				$php_data = simplexml_load_string($raw);
+				$latest_php_version = $latest_php_version_url = $latest_php_legacy_version = $latest_php_legacy_version_url = '';
+
+				// Find the latest version from feed data
+				foreach ($php_data->entry as $entry)
+				{
+					$php_version = isset($entry->{'php-version'}) ? $entry->{'php-version'} : '';
+					$php_version_url = isset($entry->id) ? $entry->id : '';
+
+					if (!empty($this->config['vinabb_web_check_php_branch']) && substr($php_version, 0, strlen($this->config['vinabb_web_check_php_branch'])) == $this->config['vinabb_web_check_php_branch'] && version_compare($php_version, $latest_php_version, '>'))
+					{
+						$latest_php_version = $php_version;
+						$latest_php_version_url = $php_version_url;
+					}
+					else if (!empty($this->config['vinabb_web_check_php_legacy_branch']) && substr($php_version, 0, strlen($this->config['vinabb_web_check_php_legacy_branch'])) == $this->config['vinabb_web_check_php_legacy_branch'] && version_compare($php_version, $latest_php_legacy_version, '>'))
+					{
+						$latest_php_legacy_version = $php_version;
+						$latest_php_legacy_version_url = $php_version_url;
+					}
+				}
+
+				if (!empty($latest_php_version) && version_compare($latest_php_version, $this->config['vinabb_web_check_php_version'], '>'))
+				{
+					$this->config->set('vinabb_web_check_php_version', $latest_php_version);
+					$this->config->set('vinabb_web_check_php_version_url', $latest_php_version_url);
+				}
+
+				if (!empty($latest_php_legacy_version) && version_compare($latest_php_legacy_version, $this->config['vinabb_web_check_php_legacy_version'], '>'))
+				{
+					$this->config->set('vinabb_web_check_php_legacy_version', $latest_php_legacy_version);
+					$this->config->set('vinabb_web_check_php_legacy_version_url', $latest_php_legacy_version_url);
+				}
+			}
+		}
+	}
+
+	/**
+	* Get and set latest VinaBB.vn version
+	*/
+	protected function fetch_vinabb_version()
+	{
+		$raw = file_get_contents("{$this->ext_root_path}composer.json");
+
+		// Parse JSON
+		if (!empty($raw))
+		{
+			$vinabb_data = json_decode($raw, true);
+			$vinabb_version = isset($vinabb_data['version']) ? $vinabb_data['version'] : '';
+
+			if (!empty($vinabb_version) && version_compare($vinabb_version, $this->config['vinabb_web_check_vinabb_version'], '>'))
+			{
+				$this->config->set('vinabb_web_check_vinabb_version', $vinabb_version);
+			}
+		}
 	}
 
 	/**
@@ -704,5 +574,137 @@ class portal
 		);
 
 		return $sql_ary;
+	}
+
+	/**
+	* Group legend for online users
+	*
+	* @return mixed
+	*/
+	protected function get_group_legend()
+	{
+		$order_legend = ($this->config['legend_sort_groupname']) ? 'group_name' : 'group_legend';
+
+		if ($this->auth->acl_gets('a_group', 'a_groupadd', 'a_groupdel'))
+		{
+			$sql = 'SELECT group_id, group_name, group_colour, group_type, group_legend
+				FROM ' . GROUPS_TABLE . '
+				WHERE group_legend > 0
+				ORDER BY ' . $order_legend;
+		}
+		else
+		{
+			$sql = 'SELECT g.group_id, g.group_name, g.group_colour, g.group_type, g.group_legend
+				FROM ' . GROUPS_TABLE . ' g
+				LEFT JOIN ' . USER_GROUP_TABLE . ' ug
+					ON (
+						g.group_id = ug.group_id
+						AND ug.user_id = ' . $this->user->data['user_id'] . '
+						AND ug.user_pending = 0
+					)
+				WHERE g.group_legend > 0
+					AND (g.group_type <> ' . GROUP_HIDDEN . ' OR ug.user_id = ' . $this->user->data['user_id'] . ')
+				ORDER BY g.' . $order_legend;
+		}
+		$result = $this->db->sql_query($sql);
+
+		$legend = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$colour_text = ($row['group_colour']) ? ' style="color: #' . $row['group_colour'] . '"' : '';
+			$group_name = $this->group_helper->get_name($row['group_name']);
+
+			if ($row['group_name'] == 'BOTS' || ($this->user->data['user_id'] != ANONYMOUS && !$this->auth->acl_get('u_viewprofile')))
+			{
+				$legend[] = '<span' . $colour_text . '>' . $group_name . '</span>';
+			}
+			else
+			{
+				$legend[] = '<a' . $colour_text . ' href="' . $this->helper->route('vinabb_web_user_group_route', array('group_id' => $row['group_id'])) . '">' . $group_name . '</a>';
+			}
+		}
+		$this->db->sql_freeresult($result);
+
+		return implode($this->language->lang('COMMA_SEPARATOR'), $legend);
+	}
+
+	/**
+	* Get birthday list
+	*
+	* @return array
+	*/
+	protected function get_birthdays()
+	{
+		$birthdays = array();
+
+		if ($this->config['load_birthdays'] && $this->config['allow_birthdays'] && $this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel'))
+		{
+			$time = $this->user->create_datetime();
+			$now = phpbb_gmgetdate($time->getTimestamp() + $time->getOffset());
+
+			// Display birthdays of 29th february on 28th february in non-leap-years
+			$leap_year_birthdays = '';
+
+			if ($now['mday'] == 28 && $now['mon'] == 2 && !$time->format('L'))
+			{
+				$leap_year_birthdays = " OR u.user_birthday LIKE '" . $this->db->sql_escape(sprintf('%2d-%2d-', 29, 2)) . "%'";
+			}
+			$sql_ary = array(
+				'SELECT' => 'u.user_id, u.username, u.user_colour, u.user_birthday',
+				'FROM' => array(
+					USERS_TABLE => 'u',
+				),
+				'LEFT_JOIN' => array(
+					array(
+						'FROM' => array(BANLIST_TABLE => 'b'),
+						'ON' => 'u.user_id = b.ban_userid',
+					),
+				),
+				'WHERE' => "(b.ban_id IS NULL OR b.ban_exclude = 1)
+					AND (u.user_birthday LIKE '" . $this->db->sql_escape(sprintf('%2d-%2d-', $now['mday'], $now['mon'])) . "%' $leap_year_birthdays)
+					AND u.user_type IN (" . USER_NORMAL . ', ' . USER_FOUNDER . ')',
+			);
+
+			/**
+			* Event to modify the SQL query to get birthdays data
+			*
+			* @event core.index_modify_birthdays_sql
+			* @var	array	now			The assoc array with the 'now' local timestamp data
+			* @var	array	sql_ary		The SQL array to get the birthdays data
+			* @var	object	time		The user related Datetime object
+			* @since 3.1.7-RC1
+			*/
+			$vars = array('now', 'sql_ary', 'time');
+			extract($this->dispatcher->trigger_event('core.index_modify_birthdays_sql', compact($vars)));
+
+			$sql = $this->db->sql_build_query('SELECT', $sql_ary);
+			$result = $this->db->sql_query($sql);
+			$rows = $this->db->sql_fetchrowset($result);
+			$this->db->sql_freeresult($result);
+
+			foreach ($rows as $row)
+			{
+				$birthday_username = get_username_string('full', $row['user_id'], $row['username'], $row['user_colour']);
+				$birthday_year = (int) substr($row['user_birthday'], -4);
+				$birthday_age = ($birthday_year) ? max(0, $now['year'] - $birthday_year) : '';
+				$birthdays[] = array(
+					'USERNAME'	=> $birthday_username,
+					'AGE'		=> $birthday_age,
+				);
+			}
+
+			/**
+			* Event to modify the birthdays list
+			*
+			* @event core.index_modify_birthdays_list
+			* @var	array	birthdays		Array with the users birthdays data
+			* @var	array	rows			Array with the birthdays SQL query result
+			* @since 3.1.7-RC1
+			*/
+			$vars = array('birthdays', 'rows');
+			extract($this->dispatcher->trigger_event('core.index_modify_birthdays_list', compact($vars)));
+
+			return $birthdays;
+		}
 	}
 }
