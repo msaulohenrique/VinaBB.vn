@@ -45,7 +45,10 @@ $(document).ready(function()
 				hidden: $sceditor_hidden_smilies
 			},
 			emoticonsEnabled: true,
-			colors: '#fff, #aaa, #555, #000,#16a085,#27ae60,#2980b9,#8e44ad,#2c3e50,#c0392b,#d35400,#f39c12'
+			colors: '#fff, #afeeee, #56afd7, #b9f9b2, #fff68f, #fad7a0, #ffb6c1, #d7bde2,' +
+					'#aaa, #00ffff, #03a9f4, #48f548, #fdfd35, #ff7043, #f96ef9, #a569bd,' +
+					'#555, #00cde1, #047094, #9acd32, #f9ea3e, #b38b63, #f44336, #6c3483,' +
+					'#000, #088da5, #1e48e0, #4caf50, #ffd700, #ba4a00, #ff0000, #8a2be2'
 		});
 
 		// Show tooltip for buttons
