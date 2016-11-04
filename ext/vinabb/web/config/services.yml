@@ -262,7 +262,7 @@ services:
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.portal:
-        class: vinabb\web\controller\portal
+        class: vinabb\web\controller\portal\portal
         arguments:
             - '@auth'
             - '@cache'
@@ -282,7 +282,7 @@ services:
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.bb:
-        class: vinabb\web\controller\bb
+        class: vinabb\web\controller\bb\bb
         arguments:
             - '@cache'
             - '@config'
