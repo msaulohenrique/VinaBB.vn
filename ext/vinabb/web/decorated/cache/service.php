@@ -27,6 +27,9 @@ class service extends \phpbb\cache\service
 	/** @var string */
 	protected $portal_articles_table;
 
+	/** @var string */
+	protected $portal_comments_table;
+
 	/**
 	* Constructor
 	*
@@ -40,6 +43,7 @@ class service extends \phpbb\cache\service
 	* @param string $bb_items_table
 	* @param string $portal_categories_table
 	* @param string $portal_articles_table
+	* @param string $portal_comments_table
 	*/
 	public function __construct(
 		\phpbb\cache\driver\driver_interface $driver,
@@ -51,7 +55,8 @@ class service extends \phpbb\cache\service
 		$bb_categories_table,
 		$bb_items_table,
 		$portal_categories_table,
-		$portal_articles_table
+		$portal_articles_table,
+		$portal_comments_table
 	)
 	{
 		$this->set_driver($driver);
@@ -64,6 +69,7 @@ class service extends \phpbb\cache\service
 		$this->bb_items_table = $bb_items_table;
 		$this->portal_categories_table = $portal_categories_table;
 		$this->portal_articles_table = $portal_articles_table;
+		$this->portal_comments_table = $portal_comments_table;
 	}
 
 	/**
@@ -407,5 +413,52 @@ class service extends \phpbb\cache\service
 	public function clear_index_articles($lang)
 	{
 		$this->driver->destroy('_vinabb_web_index_articles_' . $lang);
+		$this->driver->destroy('_vinabb_web_index_comment_counter_' . $lang);
+	}
+
+	/**
+	* Get comment counter for get_index_articles()
+	*
+	* @param $lang 2-letter language ISO code
+	* @return array
+	*/
+	public function get_index_comment_counter($lang)
+	{
+		if (($portal_cats = $this->driver->get('_vinabb_web_index_comment_counter_' . $lang)) === false)
+		{
+			$article_ids = [0];
+
+			foreach ($this->get_index_articles($lang) as $article_data)
+			{
+				$article_ids[] = $article_data['id'];
+			}
+
+			$sql = 'SELECT COUNT(comment_id) AS total_comments
+				FROM ' . $this->portal_comments_table . '
+				WHERE ' . $this->db->sql_in_set('article_id', $article_ids) . '
+				GROUP BY article_id';
+			$result = $this->db->sql_query($sql);
+
+			$comment_count = array();
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$comment_count[$row['article_id']] = $row['total_comments'];
+			}
+			$this->db->sql_freeresult($result);
+
+			$this->driver->put('_vinabb_web_index_comment_counter_' . $lang, $comment_count);
+		}
+
+		return $comment_count;
+	}
+
+	/**
+	* Clear comment counter for get_index_articles()
+	*
+	* @param $lang 2-letter language ISO code
+	*/
+	public function clear_index_comment_counter($lang)
+	{
+		$this->driver->destroy('_vinabb_web_index_comment_counter_' . $lang);
 	}
 }

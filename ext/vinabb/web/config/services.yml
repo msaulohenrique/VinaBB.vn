@@ -16,6 +16,7 @@ services:
             - '%vinabb.web.tables.bb_items%'
             - '%vinabb.web.tables.portal_categories%'
             - '%vinabb.web.tables.portal_articles%'
+            - '%vinabb.web.tables.portal_comments%'
     vinabb.web.decorated.help.controller.faq:
         class: vinabb\web\decorated\help\controller\faq
         decorates: phpbb.help.controller.faq
