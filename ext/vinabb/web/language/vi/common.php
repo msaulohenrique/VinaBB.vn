@@ -56,6 +56,11 @@ $lang = array_merge($lang, array(
 		1	=> '%d bài viết',
 		2	=> '%d bài viết',
 	),
+	'COUNTER_COMMENT'	=> array(
+		0	=> 'Không có bình luận nào',
+		1	=> '%d bình luận',
+		2	=> '%d bình luận',
+	),
 	'COUNTER_EXT'		=> array(
 		0	=> 'Không có gói mở rộng nào',
 		1	=> '%d gói mở rộng',

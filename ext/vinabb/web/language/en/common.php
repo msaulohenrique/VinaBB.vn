@@ -56,6 +56,11 @@ $lang = array_merge($lang, array(
 		1	=> '%d article',
 		2	=> '%d articles',
 	),
+	'COUNTER_COMMENT'	=> array(
+		0	=> 'No comments',
+		1	=> '%d comment',
+		2	=> '%d comments',
+	),
 	'COUNTER_EXT'		=> array(
 		0	=> 'No extensions',
 		1	=> '%d extension',

@@ -165,13 +165,16 @@ class portal
 		}
 
 		// Latest articles
-		foreach ($this->cache->get_index_articles($this->user->lang_name) as $article)
+		$comment_counter = $this->cache->get_index_comment_counter($this->user->lang_name);
+
+		foreach ($this->cache->get_index_articles($this->user->lang_name) as $article_data)
 		{
 			$this->template->assign_block_vars('articles', array(
-				'CATEGORY'	=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->portal_cats[$article['cat_id']]['name_vi'] : $this->portal_cats[$article['cat_id']]['name'],
-				'NAME'		=> $article['name'],
-				'DESC'		=> $article['desc'],
-				'TIME'		=> $this->user->format_date($article['time']),
+				'CATEGORY'	=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->portal_cats[$article_data['cat_id']]['name_vi'] : $this->portal_cats[$article_data['cat_id']]['name'],
+				'NAME'		=> $article_data['name'],
+				'DESC'		=> $article_data['desc'],
+				'TIME'		=> $this->user->format_date($article_data['time']),
+				'COMMENTS'	=> isset($comment_counter[$article_data['id']]) ? $comment_counter[$article_data['id']] : 0,
 			));
 		}
 
