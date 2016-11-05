@@ -110,19 +110,6 @@ $lang = array_merge($lang, array(
 	'MESSAGE_BB_TOOL_DELETE'		=> 'The tool has been removed.',
 	'MESSAGE_BB_TOOL_EDIT'			=> 'The tool information has been edited.',
 
-	'NO_BB_ACP_STYLE'		=> 'The ACP style does not exist.',
-	'NO_BB_ACP_STYLE_ID'	=> 'No ACP styles specified.',
-	'NO_BB_CAT'				=> 'The category does not exist.',
-	'NO_BB_CAT_ID'			=> 'No categories specified.',
-	'NO_BB_EXT'				=> 'The extension does not exist.',
-	'NO_BB_EXT_ID'			=> 'No extensions specified.',
-	'NO_BB_LANG'			=> 'The language package does not exist.',
-	'NO_BB_LANG_ID'			=> 'No language packages specified.',
-	'NO_BB_STYLE'			=> 'The style does not exist.',
-	'NO_BB_STYLE_ID'		=> 'No styles specified.',
-	'NO_BB_TOOL'			=> 'The tool does not exist.',
-	'NO_BB_TOOL_ID'			=> 'No tools specified.',
-
 	'STYLE_VARNAME'	=> 'Varname',
 
 	'TOOL_VARNAME'	=> 'Varname',

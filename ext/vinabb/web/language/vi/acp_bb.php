@@ -110,19 +110,6 @@ $lang = array_merge($lang, array(
 	'MESSAGE_BB_TOOL_DELETE'		=> 'Đã gỡ bỏ công cụ.',
 	'MESSAGE_BB_TOOL_EDIT'			=> 'Đã sửa thông tin công cụ.',
 
-	'NO_BB_ACP_STYLE'		=> 'Giao diện quản trị không tồn tại.',
-	'NO_BB_ACP_STYLE_ID'	=> 'Giao diện quản trị không xác định.',
-	'NO_BB_CAT'				=> 'Danh mục không tồn tại.',
-	'NO_BB_CAT_ID'			=> 'Danh mục không xác định.',
-	'NO_BB_EXT'				=> 'Gói mở rộng không tồn tại.',
-	'NO_BB_EXT_ID'			=> 'Gói mở rộng không xác định.',
-	'NO_BB_LANG'			=> 'Gói ngôn ngữ không tồn tại.',
-	'NO_BB_LANG_ID'			=> 'Gói ngôn ngữ không xác định.',
-	'NO_BB_STYLE'			=> 'Giao diện không tồn tại.',
-	'NO_BB_STYLE_ID'		=> 'Giao diện không xác định.',
-	'NO_BB_TOOL'			=> 'Công cụ không tồn tại.',
-	'NO_BB_TOOL_ID'			=> 'Công cụ không xác định.',
-
 	'STYLE_VARNAME'	=> 'Tên biến',
 
 	'TOOL_VARNAME'	=> 'Tên biến',
