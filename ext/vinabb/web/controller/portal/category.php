@@ -31,12 +31,14 @@ class category extends portal
 
 		// Get cat_id from $cat_varname
 		$current_cat_id = 0;
+		$current_category_name = '';
 
 		foreach ($this->portal_cats as $cat_id => $cat_data)
 		{
 			if ($varname == $cat_data['varname'])
 			{
 				$current_cat_id = $cat_id;
+				$current_category_name = ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->portal_cats[$cat_id]['name_vi'] : $this->portal_cats[$cat_id]['name'];
 			}
 		}
 
@@ -49,15 +51,30 @@ class category extends portal
 		{
 			$this->template->assign_block_vars('articles', array(
 				'CATEGORY'	=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->portal_cats[$row['cat_id']]['name_vi'] : $this->portal_cats[$row['cat_id']]['name'],
+				'CAT_URL'	=> $this->helper->route('vinabb_web_portal_cat_route', array('varname' => $this->portal_cats[$row['cat_id']]['varname'])),
 				'NAME'		=> $row['article_name'],
 				'DESC'		=> $row['article_desc'],
 				'TIME'		=> $this->user->format_date($row['article_time']),
+				'URL'		=> $this->helper->route('vinabb_web_portal_article_route', array('varname' => $this->portal_cats[$row['cat_id']]['varname'], 'article_id' => $row['article_id'], 'seo' => $row['article_name_seo'] . constants::REWRITE_URL_SEO))
 			));
 		}
 
 		// Generate pagination
 		$this->pagination->generate_template_pagination('vinabb_web_portal_cat_route', array('varname' => ($current_cat_id ? $varname : 'all')), 'pagination', 'start', $article_count, constants::NUM_ARTICLES_ON_INDEX, $start);
 
-		return $this->helper->render('portal_body.html', $this->language->lang('VINABB'), 200, true);
+		// Breadcrumb
+		if ($current_cat_id)
+		{
+			$this->template->assign_block_vars('breadcrumb', array(
+				'NAME'	=> $this->language->lang('NEWS'),
+				'URL'	=> $this->helper->route('vinabb_web_portal_route'),
+			));
+
+			$this->template->assign_block_vars('breadcrumb', array(
+				'NAME'	=> $current_category_name,
+			));
+		}
+
+		return $this->helper->render('portal.html', !empty($current_category_name) ? $current_category_name : $this->language->lang('NEWS'), 200, true);
 	}
 }

@@ -181,6 +181,11 @@ class portal
 		if ($index_page)
 		{
 			$this->get_latest_articles();
+
+			// Breadcrumb
+			$this->template->assign_block_vars('breadcrumb', array(
+				'NAME'	=> $this->language->lang('NEWS')
+			));
 		}
 
 		// Latest phpBB resources
@@ -258,11 +263,6 @@ class portal
 		$birthdays = $this->get_birthdays();
 		$this->template->assign_block_vars_array('birthdays', $birthdays);
 
-		// Breadcrumb
-		$this->template->assign_block_vars('breadcrumb', array(
-			'NAME'	=> $this->language->lang('NEWS')
-		));
-
 		// Output
 		$this->template->assign_vars(array(
 			'LEGEND'				=> $this->get_group_legend(),
@@ -330,7 +330,7 @@ class portal
 	{
 		$this->index();
 
-		return $this->helper->render('portal_body.html', $this->language->lang('VINABB'), 200, true);
+		return $this->helper->render('portal.html', $this->language->lang('VINABB'), 200, true);
 	}
 
 	/**
@@ -463,9 +463,11 @@ class portal
 		{
 			$this->template->assign_block_vars('articles', array(
 				'CATEGORY'	=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->portal_cats[$article_data['cat_id']]['name_vi'] : $this->portal_cats[$article_data['cat_id']]['name'],
+				'CAT_URL'	=> $this->helper->route('vinabb_web_portal_cat_route', array('varname' => $this->portal_cats[$article_data['cat_id']]['varname'])),
 				'NAME'		=> $article_data['name'],
 				'DESC'		=> $article_data['desc'],
 				'TIME'		=> $this->user->format_date($article_data['time']),
+				'URL'		=> $this->helper->route('vinabb_web_portal_article_route', array('varname' => $this->portal_cats[$article_data['cat_id']]['varname'], 'article_id' => $article_data['id'], 'seo' => $article_data['name_seo'] . constants::REWRITE_URL_SEO)),
 				'COMMENTS'	=> isset($comment_counter[$article_data['id']]) ? $comment_counter[$article_data['id']] : 0,
 			));
 		}
