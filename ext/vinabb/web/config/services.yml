@@ -292,6 +292,23 @@ services:
         class: vinabb\web\controller\portal\category
         shared: false
         parent: vinabb.web.portal
+    vinabb.web.portal.article:
+        class: vinabb\web\controller\portal\article
+        arguments:
+            - '@cache'
+            - '@config'
+            - '@dbal.conn'
+            - '@language'
+            - '@vinabb.web.pagination'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '@vinabb.web.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+            - '%vinabb.web.tables.portal_articles%'
+            - '%vinabb.web.tables.portal_comments%'
     vinabb.web.bb:
         class: vinabb\web\controller\bb\bb
         arguments:

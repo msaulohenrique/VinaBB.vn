@@ -1,0 +1,67 @@
+{% include 'overall_header.html' %}
+
+<div class="panel panel-default">
+	<div class="panel-body">
+		<div class="pull-right">
+			<button type="button" class="btn btn-default btn-sm">
+				<em class="fa fa-print"></em>
+			</button>
+		</div>
+		<h3 class="font-300">{{ ARTICLE_NAME }}</h3>
+		<hr class="clearfix">
+		<div class="media margin-b-20">
+			<a class="pull-left" href="#"> <img class="media-object img-circle" src="images/avtar-2.jpg" width="40" alt=""> </a>
+			<div class="media-body">
+				<span class=" pull-right">
+					<a href="mail-compose.html" class="btn btn-info btn-sm">
+						<em class="fa fa-reply"></em> Reply
+					</a>
+				</span>
+				<h4 class="text-danger font-300 margin-b-0">John Doe</h4>
+				<small class="text-muted">{{ ARTICLE_TIME }}</small>
+			</div>
+		</div>
+
+		<p>{{ ARTICLE_DESC }}</p>
+		<p>{{ ARTICLE_TEXT }}</p>
+
+		<hr>
+
+		<div class="inbox-attachments margin-b-20">
+			<span>2 Attachments - </span>
+			<a href="#">Download All Attachments</a>
+			<a href="#">Download All Images</a>
+		</div>
+		<div class="clearfix row">
+			<div class="col-sm-4">
+				<div class="attachment-box">
+					<img src="images/img1.jpg" alt="" class="margin-b-10 img-responsive">
+					<div class="attachment-overlay">
+						<h5>493495.jpg</h5>
+						<a href="#"><i class="fa fa-download"></i></a>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="attachment-box">
+					<img src="images/img2.jpg" alt="" class="margin-b-10 img-responsive">
+					<div class="attachment-overlay">
+						<h5>493495.jpg</h5>
+						<a href="#"><i class="fa fa-download"></i></a>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="attachment-box">
+					<img src="images/img3.jpg" alt="" class="margin-b-10 img-responsive">
+					<div class="attachment-overlay">
+						<h5>493495.jpg</h5>
+						<a href="#"><i class="fa fa-download"></i></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% include 'overall_footer.html' %}
