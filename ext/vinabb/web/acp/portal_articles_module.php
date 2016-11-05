@@ -125,7 +125,7 @@ class portal_articles_module
 			case 'edit':
 				if (!$article_id)
 				{
-					trigger_error($this->language->lang('NO_ARTICLE_ID') . adm_back_link($this->u_action), E_USER_WARNING);
+					trigger_error($this->language->lang('NO_PORTAL_ARTICLE_ID') . adm_back_link($this->u_action), E_USER_WARNING);
 				}
 
 				$sql = 'SELECT *
@@ -300,7 +300,7 @@ class portal_articles_module
 			case 'delete':
 				if (!$article_id)
 				{
-					trigger_error($this->language->lang('NO_ARTICLE_ID') . adm_back_link($this->u_action), E_USER_WARNING);
+					trigger_error($this->language->lang('NO_PORTAL_ARTICLE_ID') . adm_back_link($this->u_action), E_USER_WARNING);
 				}
 
 				if (confirm_box(true))
