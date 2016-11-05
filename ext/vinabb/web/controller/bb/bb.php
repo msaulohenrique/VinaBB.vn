@@ -133,7 +133,7 @@ class bb
 		// Page title
 		$page_title = !empty($type) ? $this->language->lang('BB_' . strtoupper($type) . 'S') : $this->language->lang('BB');
 
-		return $this->helper->render('bb_body.html', $page_title);
+		return $this->helper->render('bb.html', $page_title);
 	}
 
 	/**

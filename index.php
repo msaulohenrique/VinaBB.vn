@@ -41,7 +41,7 @@ if ($phpbb_extension_manager->is_enabled('vinabb/web'))
 	page_header($page_title, true);
 
 	$template->set_filenames(array(
-		'body' => '@vinabb_web/portal_body.html'
+		'body' => '@vinabb_web/portal.html'
 	));
 
 	page_footer();
