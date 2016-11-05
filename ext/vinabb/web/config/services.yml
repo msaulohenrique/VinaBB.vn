@@ -288,6 +288,10 @@ services:
             - '@path_helper'
             - '%core.root_path%'
             - '%core.php_ext%'
+    vinabb.web.portal.category:
+        class: vinabb\web\controller\portal\category
+        shared: false
+        parent: vinabb.web.portal
     vinabb.web.bb:
         class: vinabb\web\controller\bb\bb
         arguments:

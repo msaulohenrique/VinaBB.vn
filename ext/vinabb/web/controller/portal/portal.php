@@ -334,22 +334,6 @@ class portal
 	}
 
 	/**
-	* Display articles from a news category
-	*
-	* @param $varname
-	* @param $page
-	*
-	* @return \Symfony\Component\HttpFoundation\Response
-	*/
-	public function category($varname, $page)
-	{
-		$this->index(false);
-		$this->get_articles_by_cat($varname, $page);
-
-		return $this->helper->render('portal_body.html', $this->language->lang('VINABB'), 200, true);
-	}
-
-	/**
 	* Get and set latest phpBB versions
 	*/
 	protected function fetch_phpbb_version()
@@ -485,41 +469,6 @@ class portal
 				'COMMENTS'	=> isset($comment_counter[$article_data['id']]) ? $comment_counter[$article_data['id']] : 0,
 			));
 		}
-	}
-
-	protected function get_articles_by_cat($varname, $page)
-	{
-		// Pagination
-		$page = max(1, floor(str_replace(constants::REWRITE_URL_PAGE, '', $page)));
-		$start = floor(($page - 1) * constants::NUM_ARTICLES_ON_INDEX);
-
-		// Get cat_id from $cat_varname
-		$current_cat_id = 0;
-
-		foreach ($this->portal_cats as $cat_id => $cat_data)
-		{
-			if ($varname == $cat_data['varname'])
-			{
-				$current_cat_id = $cat_id;
-			}
-		}
-
-		$articles = array();
-		$article_count = 0;
-		$start = $this->ext_helper->list_articles($current_cat_id, $articles, $article_count, constants::NUM_ARTICLES_ON_INDEX, $start);
-
-		foreach ($articles as $row)
-		{
-			$this->template->assign_block_vars('articles', array(
-				'CATEGORY'	=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->portal_cats[$row['cat_id']]['name_vi'] : $this->portal_cats[$row['cat_id']]['name'],
-				'NAME'		=> $row['article_name'],
-				'DESC'		=> $row['article_desc'],
-				'TIME'		=> $this->user->format_date($row['article_time']),
-				//'COMMENTS'	=> isset($comment_counter[$row['article_id']]) ? $comment_counter[$row['article_id']] : 0,
-			));
-		}
-
-		$this->pagination->generate_template_pagination('vinabb_web_portal_cat_route', array('varname' => $varname), 'pagination', 'start', $article_count, constants::NUM_ARTICLES_ON_INDEX, $start);
 	}
 
 	/**
