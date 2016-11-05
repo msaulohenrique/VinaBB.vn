@@ -1,0 +1,19 @@
+vinabb_web_portal_cat_route:
+    path: /{varname}/{page}
+    defaults:
+        _controller: vinabb.web.portal:category
+        page: ''
+    requirements:
+        varname: '[a-z0-9-]+'
+        page: '(|((page-)(\d+)))'
+vinabb_web_portal_article_route:
+    path: /{varname}/article/{seo}{article_id}/{page}
+    defaults:
+        _controller: vinabb.web.portal:main
+        seo: ''
+        page: ''
+    requirements:
+        varname: '[a-z0-9-]+'
+        article_id: '\d*'
+        seo: '(|([a-zA-Z0-9-]*)(\.*))'
+        page: '(|((page-)(\d+)))'
