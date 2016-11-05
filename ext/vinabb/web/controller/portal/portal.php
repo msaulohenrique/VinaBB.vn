@@ -36,6 +36,9 @@ class portal
 	/** @var \phpbb\language\language */
 	protected $language;
 
+	/** @var \vinabb\web\controller\pagination */
+	protected $pagination;
+
 	/** @var \phpbb\request\request */
 	protected $request;
 
@@ -86,6 +89,7 @@ class portal
 	* @param \phpbb\event\dispatcher_interface $dispatcher
 	* @param \phpbb\extension\manager $ext_manager
 	* @param \phpbb\language\language $language
+	* @param \vinabb\web\controller\pagination $pagination
 	* @param \phpbb\request\request $request
 	* @param \phpbb\template\template $template
 	* @param \phpbb\user $user
@@ -105,6 +109,7 @@ class portal
 		\phpbb\event\dispatcher_interface $dispatcher,
 		\phpbb\extension\manager $ext_manager,
 		\phpbb\language\language $language,
+		\vinabb\web\controller\pagination $pagination,
 		\phpbb\request\request $request,
 		\phpbb\template\template $template,
 		\phpbb\user $user,
@@ -124,6 +129,7 @@ class portal
 		$this->dispatcher = $dispatcher;
 		$this->ext_manager = $ext_manager;
 		$this->language = $language;
+		$this->pagination = $pagination;
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
@@ -140,7 +146,13 @@ class portal
 		$this->portal_cats = $this->cache->get_portal_cats();
 	}
 
-	public function index()
+	/**
+	* Index page
+	*
+	* @param bool $index_page	true: Use on the index page (Get x latest articles from all categories - cached)
+	*							false: Use with a news category (Get all articles from that category)
+	*/
+	public function index($index_page = true)
 	{
 		// Check new versions
 		if (time() > $this->config['vinabb_web_check_gc'] + (constants::CHECK_VERSION_HOURS * 60 * 60))
@@ -161,21 +173,14 @@ class portal
 				'NAME'		=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $cat_data['name_vi'] : $cat_data['name'],
 				'VARNAME'	=> $cat_data['varname'],
 				'ICON'		=> $cat_data['icon'],
+				'URL'		=> $this->helper->route('vinabb_web_portal_cat_route', array('varname' => $cat_data['varname']))
 			));
 		}
 
 		// Latest articles
-		$comment_counter = $this->cache->get_index_comment_counter($this->user->lang_name);
-
-		foreach ($this->cache->get_index_articles($this->user->lang_name) as $article_data)
+		if ($index_page)
 		{
-			$this->template->assign_block_vars('articles', array(
-				'CATEGORY'	=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->portal_cats[$article_data['cat_id']]['name_vi'] : $this->portal_cats[$article_data['cat_id']]['name'],
-				'NAME'		=> $article_data['name'],
-				'DESC'		=> $article_data['desc'],
-				'TIME'		=> $this->user->format_date($article_data['time']),
-				'COMMENTS'	=> isset($comment_counter[$article_data['id']]) ? $comment_counter[$article_data['id']] : 0,
-			));
+			$this->get_latest_articles();
 		}
 
 		// Latest phpBB resources
@@ -317,6 +322,34 @@ class portal
 	}
 
 	/**
+	* Alternative method for index page
+	*
+	* @return \Symfony\Component\HttpFoundation\Response
+	*/
+	public function news()
+	{
+		$this->index();
+
+		return $this->helper->render('portal_body.html', $this->language->lang('VINABB'), 200, true);
+	}
+
+	/**
+	* Display articles from a news category
+	*
+	* @param $varname
+	* @param $page
+	*
+	* @return \Symfony\Component\HttpFoundation\Response
+	*/
+	public function category($varname, $page)
+	{
+		$this->index(false);
+		$this->get_articles_by_cat($varname, $page);
+
+		return $this->helper->render('portal_body.html', $this->language->lang('VINABB'), 200, true);
+	}
+
+	/**
 	* Get and set latest phpBB versions
 	*/
 	protected function fetch_phpbb_version()
@@ -433,6 +466,60 @@ class portal
 				$this->config->set('vinabb_web_check_vinabb_version', $vinabb_version);
 			}
 		}
+	}
+
+	/**
+	* Get latest articles on index page
+	*/
+	protected function get_latest_articles()
+	{
+		$comment_counter = $this->cache->get_index_comment_counter($this->user->lang_name);
+
+		foreach ($this->cache->get_index_articles($this->user->lang_name) as $article_data)
+		{
+			$this->template->assign_block_vars('articles', array(
+				'CATEGORY'	=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->portal_cats[$article_data['cat_id']]['name_vi'] : $this->portal_cats[$article_data['cat_id']]['name'],
+				'NAME'		=> $article_data['name'],
+				'DESC'		=> $article_data['desc'],
+				'TIME'		=> $this->user->format_date($article_data['time']),
+				'COMMENTS'	=> isset($comment_counter[$article_data['id']]) ? $comment_counter[$article_data['id']] : 0,
+			));
+		}
+	}
+
+	protected function get_articles_by_cat($varname, $page)
+	{
+		// Pagination
+		$page = max(1, floor(str_replace(constants::REWRITE_URL_PAGE, '', $page)));
+		$start = floor(($page - 1) * constants::NUM_ARTICLES_ON_INDEX);
+
+		// Get cat_id from $cat_varname
+		$current_cat_id = 0;
+
+		foreach ($this->portal_cats as $cat_id => $cat_data)
+		{
+			if ($varname == $cat_data['varname'])
+			{
+				$current_cat_id = $cat_id;
+			}
+		}
+
+		$articles = array();
+		$article_count = 0;
+		$start = $this->ext_helper->list_articles($current_cat_id, $articles, $article_count, constants::NUM_ARTICLES_ON_INDEX, $start);
+
+		foreach ($articles as $row)
+		{
+			$this->template->assign_block_vars('articles', array(
+				'CATEGORY'	=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->portal_cats[$row['cat_id']]['name_vi'] : $this->portal_cats[$row['cat_id']]['name'],
+				'NAME'		=> $row['article_name'],
+				'DESC'		=> $row['article_desc'],
+				'TIME'		=> $this->user->format_date($row['article_time']),
+				//'COMMENTS'	=> isset($comment_counter[$row['article_id']]) ? $comment_counter[$row['article_id']] : 0,
+			));
+		}
+
+		$this->pagination->generate_template_pagination('vinabb_web_portal_cat_route', array('varname' => $varname), 'pagination', 'start', $article_count, constants::NUM_ARTICLES_ON_INDEX, $start);
 	}
 
 	/**

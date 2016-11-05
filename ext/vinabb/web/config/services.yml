@@ -94,7 +94,10 @@ services:
     vinabb.web.helper:
         class: vinabb\web\controller\helper
         arguments:
+            - '@dbal.conn'
             - '@file_downloader'
+            - '%vinabb.web.tables.bb_items%'
+            - '%vinabb.web.tables.portal_articles%'
     vinabb.web.user:
         class: vinabb\web\controller\user
         arguments:
@@ -275,6 +278,7 @@ services:
             - '@dispatcher'
             - '@ext.manager'
             - '@language'
+            - '@vinabb.web.pagination'
             - '@request'
             - '@template'
             - '@user'

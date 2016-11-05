@@ -133,7 +133,7 @@
 						</li>
 						{% for cat in portal_cats %}
 						<li>
-							<a href="#">
+							<a href="{{ cat.URL }}">
 								<em class="{{ cat.ICON ?: 'fa fa-home' }}"></em>
 								<span>{{ cat.NAME }}</span>
 								<span class="label label-success pull-right">153</span>
@@ -448,15 +448,7 @@
 		</div>
 		{% endfor %}
 
-		<ul class="pagination margin-t-0 pull-right">
-			<li class="footable-page-arrow disabled"><a data-page="first" href="#first">«</a></li>
-			<li class="footable-page-arrow disabled"><a data-page="prev" href="#prev">‹</a></li>
-			<li class="footable-page active"><a data-page="0" href="#">1</a></li>
-			<li class="footable-page"><a data-page="1" href="#">2</a></li>
-			<li class="footable-page"><a data-page="2" href="#">3</a></li>
-			<li class="footable-page-arrow"><a data-page="next" href="#next">›</a></li>
-			<li class="footable-page-arrow"><a data-page="last" href="#last">»</a></li>
-		</ul>
+		{% if pagination %}{% include 'pagination.html' %}{% endif %}
 	</div>
 </div>
 
