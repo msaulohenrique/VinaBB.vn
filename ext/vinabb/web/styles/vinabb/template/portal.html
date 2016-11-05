@@ -437,14 +437,19 @@
 				<img src="{{ T_THEME_PATH }}/images/2.jpg" alt="" class="img-responsive">
 			</div>
 			<div class="panel-body">
-				<a href="#"><h4>{{ article.NAME }}</h4></a>
+				<a href="{{ article.URL }}"><h4>{{ article.NAME }}</h4></a>
 				<p class="text-muted">{{ article.TIME }}</p>
 				<p class="text-justify">{{ article.DESC }}</p>
 			</div>
 			<div class="panel-footer">
 				<span class="pull-right"><a href="#"><i class="fa fa-comments-o"></i> {{ lang('COUNTER_COMMENT', article.COMMENTS) }}</a></span>
-				<a href="#" class="btn btn-primary btn-xs"><i class="fa fa-tags"></i> {{ article.CATEGORY }}</a>
+				<a href="{{ article.CAT_URL }}" class="btn btn-primary btn-xs"><i class="fa fa-tags"></i> {{ article.CATEGORY }}</a>
 			</div>
+		</div>
+		{% else %}
+		<div class="panel panel-primary">
+			<div class="panel-heading">{{ lang('INFORMATION') }}</div>
+			<div class="panel-body">{{ lang('NO_PORTAL_ARTICLES') }}</div>
 		</div>
 		{% endfor %}
 
