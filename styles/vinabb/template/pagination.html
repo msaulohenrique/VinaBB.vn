@@ -1,0 +1,17 @@
+<ul class="pagination margin-t-0 pull-right">
+	{% for page in pagination %}
+
+	{% if page.S_IS_PREV %}
+	<li class="footable-page-arrow"><a href="{{ page.PAGE_URL }}"><i class="fa fa-chevron-left"></i></a></li>
+	{% elseif page.S_IS_NEXT %}
+	<li class="footable-page-arrow"><a href="{{ page.PAGE_URL }}"><i class="fa fa-chevron-right"></i></a></li>
+	{% elseif page.S_IS_CURRENT %}
+	<li class="footable-page active"><a>{{ page.PAGE_NUMBER }}</a></li>
+	{% elseif page.S_IS_ELLIPSIS %}
+	<li class="footable-page disabled"><a>{{ lang('ELLIPSIS') }}</a></li>
+	{% else %}
+	<li class="footable-page"><a href="{{ page.PAGE_URL }}">{{ page.PAGE_NUMBER }}</a></li>
+	{% endif %}
+
+	{% endfor %}
+</ul>
