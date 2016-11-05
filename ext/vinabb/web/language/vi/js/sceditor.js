@@ -34,6 +34,10 @@
 		'Insert': 'Chèn',
 		'View source': 'Chế độ BBCode',
 		'Description (optional):': 'Tên liên kết (Tùy chọn):',
+		'Enter the image URL:': 'Nhập liên kết hình:',
+		'Enter the e-mail address:': 'Nhập địa chỉ thư:',
+		'Enter the displayed text:': 'Nhập tên liên kết:',
+		'Enter URL:': 'Nhập liên kết:',
 		'Insert a Quote': 'Trích dẫn',
 		'Maximize': 'Phóng to',
 

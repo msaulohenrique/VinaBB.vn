@@ -255,6 +255,8 @@ class listener implements EventSubscriberInterface
 			'S_FOUNDER'		=> $this->user->data['user_type'] == USER_FOUNDER,
 			'S_VIETNAMESE'	=> $this->user->lang_name == constants::LANG_VIETNAMESE,
 
+			'T_JS_LANG_PATH'	=> "{$this->ext_web_path}language/{$this->user->lang_name}/js",
+
 			'U_BOARD'			=> $this->helper->route('vinabb_web_board_route'),
 			'U_BB'				=> $this->helper->route('vinabb_web_bb_route'),
 			'U_BB_EXTS'			=> $this->helper->route('vinabb_web_bb_type_route', array('type' => constants::BB_TYPE_VARNAME_EXT)),

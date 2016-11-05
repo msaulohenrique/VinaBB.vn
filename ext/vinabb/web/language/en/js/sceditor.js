@@ -34,6 +34,10 @@
 		'Insert': '',
 		'View source': 'BBCode mode',
 		'Description (optional):': 'Text (Optional):',
+		'Enter the image URL:': '',
+		'Enter the e-mail address:': 'Enter the email address:',
+		'Enter the displayed text:': '',
+		'Enter URL:': '',
 		'Insert a Quote': 'Quote',
 		'Maximize': '',
 
