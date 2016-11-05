@@ -12,17 +12,37 @@ use vinabb\web\includes\constants;
 
 class helper
 {
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
+
 	/** @var \phpbb\file_downloader */
 	protected $file_downloader;
+
+	/** @var string */
+	protected $bb_items_table;
+
+	/** @var string */
+	protected $portal_articles_table;
 
 	/**
 	* Constructor
 	*
+	* @param \phpbb\db\driver\driver_interface $db
 	* @param \phpbb\file_downloader $file_downloader
+	* @param string $bb_items_table
+	* @param string $portal_articles_table
 	*/
-	public function __construct(\phpbb\file_downloader $file_downloader)
+	public function __construct(
+		\phpbb\db\driver\driver_interface $db,
+		\phpbb\file_downloader $file_downloader,
+		$bb_items_table,
+		$portal_articles_table
+	)
 	{
+		$this->db = $db;
 		$this->file_downloader = $file_downloader;
+		$this->bb_items_table = $bb_items_table;
+		$this->portal_articles_table = $portal_articles_table;
 	}
 
 	/**
@@ -356,5 +376,102 @@ class helper
 		}
 
 		return $raw;
+	}
+
+	/**
+	* List items with pagination
+	*
+	* @param int	$bb_type
+	* @param int	$cat_id
+	* @param array	$items
+	* @param int	$item_count
+	* @param int	$limit
+	* @param int	$offset
+	*
+	* @return int
+	*/
+	public function list_bb_items($bb_type, $cat_id = 0, &$items, &$item_count, $limit = 0, $offset = 0)
+	{
+		$sql_and = $cat_id ? "AND cat_id = $cat_id" : '';
+
+		$sql = 'SELECT COUNT(item_id) AS item_count
+			FROM ' . $this->bb_items_table . "
+			WHERE bb_type = $bb_type
+				$sql_and";
+		$result = $this->db->sql_query($sql);
+		$item_count = (int) $this->db->sql_fetchfield('item_count');
+		$this->db->sql_freeresult($result);
+
+		if ($item_count == 0)
+		{
+			return 0;
+		}
+
+		if ($offset >= $item_count)
+		{
+			$offset = ($offset - $limit < 0) ? 0 : $offset - $limit;
+		}
+
+		$sql = 'SELECT *
+			FROM ' . $this->bb_items_table . "
+			WHERE bb_type = $bb_type
+				$sql_and
+			ORDER BY item_name";
+		$result = $this->db->sql_query_limit($sql, $limit, $offset);
+
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$items[] = $row;
+		}
+		$this->db->sql_freeresult($result);
+
+		return $offset;
+	}
+
+	/**
+	* List articles with pagination
+	*
+	* @param int	$cat_id
+	* @param array	$articles
+	* @param int	$article_count
+	* @param int	$limit
+	* @param int	$offset
+	*
+	* @return int
+	*/
+	public function list_articles($cat_id = 0, &$articles, &$article_count, $limit = 0, $offset = 0)
+	{
+		$sql_where = $cat_id ? "WHERE cat_id = $cat_id" : '';
+
+		$sql = 'SELECT COUNT(article_id) AS article_count
+			FROM ' . $this->portal_articles_table . "
+			$sql_where";
+		$result = $this->db->sql_query($sql);
+		$article_count = (int) $this->db->sql_fetchfield('article_count');
+		$this->db->sql_freeresult($result);
+
+		if ($article_count == 0)
+		{
+			return 0;
+		}
+
+		if ($offset >= $article_count)
+		{
+			$offset = ($offset - $limit < 0) ? 0 : $offset - $limit;
+		}
+
+		$sql = 'SELECT *
+			FROM ' . $this->portal_articles_table . "
+			$sql_where
+			ORDER BY article_time DESC";
+		$result = $this->db->sql_query_limit($sql, $limit, $offset);
+
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$articles[] = $row;
+		}
+		$this->db->sql_freeresult($result);
+
+		return $offset;
 	}
 }

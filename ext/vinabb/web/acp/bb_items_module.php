@@ -528,7 +528,7 @@ class bb_items_module
 		// Manage items
 		$items = array();
 		$item_count = 0;
-		$start = $this->list_bb_items($this->bb_items_table, $cats, $item_count, $per_page, $start);
+		$start = $this->ext_helper->list_bb_items($this->bb_type, 0, $items, $item_count, $per_page, $start);
 
 		foreach ($items as $row)
 		{
@@ -581,50 +581,5 @@ class bb_items_module
 
 			'S_HIDDEN_FIELDS'	=> $s_hidden_fields,
 		));
-	}
-
-	/**
-	* List items with pagination
-	*
-	* @param string	$bb_items_table
-	* @param array		$items
-	* @param int		$item_count
-	* @param int		$limit
-	* @param int		$offset
-	*
-	* @return int
-	*/
-	private function list_bb_items(&$bb_items_table, &$items, &$item_count, $limit = 0, $offset = 0)
-	{
-		$sql = "SELECT COUNT(item_id) AS item_count
-			FROM $bb_items_table
-			WHERE bb_type = " . $this->bb_type;
-		$result = $this->db->sql_query($sql);
-		$item_count = (int) $this->db->sql_fetchfield('item_count');
-		$this->db->sql_freeresult($result);
-
-		if ($item_count == 0)
-		{
-			return 0;
-		}
-
-		if ($offset >= $item_count)
-		{
-			$offset = ($offset - $limit < 0) ? 0 : $offset - $limit;
-		}
-
-		$sql = "SELECT *
-			FROM $bb_items_table
-			WHERE bb_type = " . $this->bb_type . '
-			ORDER BY item_name';
-		$result = $this->db->sql_query_limit($sql, $limit, $offset);
-
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$items[] = $row;
-		}
-		$this->db->sql_freeresult($result);
-
-		return $offset;
 	}
 }

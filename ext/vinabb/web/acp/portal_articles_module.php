@@ -339,7 +339,7 @@ class portal_articles_module
 		// Manage articles
 		$articles = array();
 		$article_count = 0;
-		$start = $this->list_articles($this->portal_articles_table, $articles, $article_count, $per_page, $start);
+		$start = $this->ext_helper->list_articles(0, $articles, $article_count, $per_page, $start);
 
 		foreach ($articles as $row)
 		{
@@ -367,48 +367,5 @@ class portal_articles_module
 
 			'S_HIDDEN_FIELDS'	=> $s_hidden_fields,
 		));
-	}
-
-	/**
-	* List articles with pagination
-	*
-	* @param string	$portal_articles_table
-	* @param array		$articles
-	* @param int		$article_count
-	* @param int		$limit
-	* @param int		$offset
-	*
-	* @return int
-	*/
-	private function list_articles(&$portal_articles_table, &$articles, &$article_count, $limit = 0, $offset = 0)
-	{
-		$sql = "SELECT COUNT(article_id) AS article_count
-			FROM $portal_articles_table";
-		$result = $this->db->sql_query($sql);
-		$article_count = (int) $this->db->sql_fetchfield('article_count');
-		$this->db->sql_freeresult($result);
-
-		if ($article_count == 0)
-		{
-			return 0;
-		}
-
-		if ($offset >= $article_count)
-		{
-			$offset = ($offset - $limit < 0) ? 0 : $offset - $limit;
-		}
-
-		$sql = "SELECT *
-			FROM $portal_articles_table
-			ORDER BY article_time";
-		$result = $this->db->sql_query_limit($sql, $limit, $offset);
-
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$articles[] = $row;
-		}
-		$this->db->sql_freeresult($result);
-
-		return $offset;
 	}
 }
