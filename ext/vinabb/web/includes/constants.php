@@ -80,6 +80,7 @@ class constants
 	// Number of display items
 	const NUM_NEW_ITEMS_ON_INDEX = 10;
 	const NUM_ARTICLES_ON_INDEX = 5;
+	const PORTAL_ARTICLES_PER_PAGE = 20;
 
 	// Pagination
 	const BB_CATS_PER_PAGE = 20;
