@@ -104,8 +104,8 @@ class helper
 	{
 		return strtolower(
 			preg_replace(
-				array('/[^a-zA-Z0-9 -]/', '/[ -]+/', '/^-|-$/'),
-				array('', '-', ''),
+				array('/[^a-zA-Z0-9 -.]/', '/[.]/', '/[ -]+/', '/^-|-$/'),
+				array('', '-', '-', ''),
 				$this->ivn_convert_accent($text)
 			)
 		);
