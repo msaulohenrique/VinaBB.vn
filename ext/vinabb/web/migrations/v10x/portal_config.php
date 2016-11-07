@@ -10,13 +10,21 @@ namespace vinabb\web\migrations\v10x;
 
 use phpbb\db\migration\migration;
 
+/**
+* Config items for portal
+*/
 class portal_config extends migration
 {
+	/**
+	* Update data
+	*
+	* @return array
+	*/
 	public function update_data()
 	{
-		return array(
+		return [
 			// Counter
-			array('config.add', array('vinabb_web_total_articles', 0, true)),
-		);
+			['config.add', ['vinabb_web_total_articles', 0, true]]
+		];
 	}
 }

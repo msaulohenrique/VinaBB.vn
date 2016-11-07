@@ -10,32 +10,51 @@ namespace vinabb\web\migrations\v10x;
 
 use phpbb\db\migration\migration;
 
+/**
+* Add ACP modules for portal
+*/
 class portal_modules extends migration
 {
+	/**
+	* List of required migrations
+	*
+	* @return array
+	*/
 	static public function depends_on()
 	{
-		return array('\vinabb\web\migrations\v10x\portal_categories');
+		return ['\vinabb\web\migrations\v10x\portal_categories'];
 	}
 
+	/**
+	* Update data
+	*
+	* @return array
+	*/
 	public function update_data()
 	{
-		return array(
-			array('module.add', array(
-				'acp',
-				'ACP_CAT_PORTAL',
-				array(
-					'module_basename' => '\vinabb\web\acp\portal_categories_module',
-					'modes' => array('cats'),
-				),
-			)),
-			array('module.add', array(
-				'acp',
-				'ACP_CAT_PORTAL',
-				array(
-					'module_basename' => '\vinabb\web\acp\portal_articles_module',
-					'modes' => array('articles'),
-				),
-			)),
-		);
+		return [
+			[
+				'module.add',
+				[
+					'acp',
+					'ACP_CAT_PORTAL',
+					[
+						'module_basename'	=> '\vinabb\web\acp\portal_categories_module',
+						'modes'				=> ['cats']
+					]
+				]
+			],
+			[
+				'module.add',
+				[
+					'acp',
+					'ACP_CAT_PORTAL',
+					[
+						'module_basename'	=> '\vinabb\web\acp\portal_articles_module',
+						'modes'				=> ['articles']
+					]
+				]
+			]
+		];
 	}
 }
