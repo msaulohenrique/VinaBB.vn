@@ -30,6 +30,7 @@ class bb_schema extends migration
 						'parent_id'		=> ['UINT', 0],
 						'left_id'		=> ['UINT', 0],
 						'right_id'		=> ['UINT', 0],
+						'cat_parents'	=> ['MTEXT_UNI', ''],
 						'bb_type'		=> ['TINT:1', 0],
 						'cat_name'		=> ['VCHAR_UNI', ''],
 						'cat_name_vi'	=> ['VCHAR_UNI', ''],
