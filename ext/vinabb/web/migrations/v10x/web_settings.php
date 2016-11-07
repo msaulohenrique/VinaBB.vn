@@ -10,34 +10,50 @@ namespace vinabb\web\migrations\v10x;
 
 use phpbb\db\migration\migration;
 
+/**
+* Common ACP settings
+*/
 class web_settings extends migration
 {
+	/**
+	* List of required migrations
+	*
+	* @return array
+	*/
 	static public function depends_on()
 	{
-		return array('\vinabb\web\migrations\v10x\module_categories');
+		return ['\vinabb\web\migrations\v10x\module_categories'];
 	}
 
+	/**
+	* Update data
+	*
+	* @return array
+	*/
 	public function update_data()
 	{
-		return array(
+		return [
 			// Config
-			array('config.add', array('vinabb_web_lang_enable', 0)),
-			array('config.add', array('vinabb_web_lang_switch', '')),
-			array('config.add', array('vinabb_web_maintenance_mode', 0)),
-			array('config.add', array('vinabb_web_maintenance_tpl', 1)),
-			array('config.add', array('vinabb_web_maintenance_time', 0)),
-			array('config_text.add', array('vinabb_web_maintenance_text', '')),
-			array('config_text.add', array('vinabb_web_maintenance_text_vi', '')),
+			['config.add', ['vinabb_web_lang_enable', 0]],
+			['config.add', ['vinabb_web_lang_switch', '']],
+			['config.add', ['vinabb_web_maintenance_mode', 0]],
+			['config.add', ['vinabb_web_maintenance_tpl', 1]],
+			['config.add', ['vinabb_web_maintenance_time', 0]],
+			['config_text.add', ['vinabb_web_maintenance_text', '']],
+			['config_text.add', ['vinabb_web_maintenance_text_vi', '']],
 
-			// Modules
-			array('module.add', array(
-				'acp',
-				'ACP_CAT_VINABB_SETTINGS',
-				array(
-					'module_basename'	=> '\vinabb\web\acp\settings_module',
-					'modes'				=> array('settings'),
-				),
-			)),
-		);
+			// Main setting module
+			[
+				'module.add',
+				[
+					'acp',
+					'ACP_CAT_VINABB_SETTINGS',
+					[
+						'module_basename'	=> '\vinabb\web\acp\settings_module',
+						'modes'				=> ['settings']
+					]
+				]
+			]
+		];
 	}
 }

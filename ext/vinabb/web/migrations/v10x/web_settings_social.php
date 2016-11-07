@@ -10,16 +10,23 @@ namespace vinabb\web\migrations\v10x;
 
 use phpbb\db\migration\migration;
 
+/**
+* ACP settings for the social links
+*/
 class web_settings_social extends migration
 {
+	/**
+	* Update data
+	*
+	* @return array
+	*/
 	public function update_data()
 	{
-		return array(
-			// Config
-			array('config.add', array('vinabb_web_facebook_url', '')),
-			array('config.add', array('vinabb_web_twitter_url', '')),
-			array('config.add', array('vinabb_web_google_plus_url', '')),
-			array('config.add', array('vinabb_web_github_url', '')),
-		);
+		return [
+			['config.add', ['vinabb_web_facebook_url', '']],
+			['config.add', ['vinabb_web_twitter_url', '']],
+			['config.add', ['vinabb_web_google_plus_url', '']],
+			['config.add', ['vinabb_web_github_url', '']]
+		];
 	}
 }

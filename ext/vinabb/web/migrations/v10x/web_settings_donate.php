@@ -10,23 +10,31 @@ namespace vinabb\web\migrations\v10x;
 
 use phpbb\db\migration\migration;
 
+/**
+* ACP settings for the block "Donate"
+*/
 class web_settings_donate extends migration
 {
+	/**
+	* Update data
+	*
+	* @return array
+	*/
 	public function update_data()
 	{
-		return array(
-			array('config.add', array('vinabb_web_donate_year', 0)),
-			array('config.add', array('vinabb_web_donate_year_value', 0)),
-			array('config.add', array('vinabb_web_donate_fund', 0)),
-			array('config.add', array('vinabb_web_donate_currency', '')),
-			array('config.add', array('vinabb_web_donate_owner', '')),
-			array('config.add', array('vinabb_web_donate_owner_vi', '')),
-			array('config.add', array('vinabb_web_donate_email', '')),
-			array('config.add', array('vinabb_web_donate_bank', '')),
-			array('config.add', array('vinabb_web_donate_bank_vi', '')),
-			array('config.add', array('vinabb_web_donate_bank_acc', '')),
-			array('config.add', array('vinabb_web_donate_bank_swift', '')),
-			array('config.add', array('vinabb_web_donate_paypal', '')),
-		);
+		return [
+			['config.add', ['vinabb_web_donate_year', 0]],
+			['config.add', ['vinabb_web_donate_year_value', 0]],
+			['config.add', ['vinabb_web_donate_fund', 0]],
+			['config.add', ['vinabb_web_donate_currency', '']],
+			['config.add', ['vinabb_web_donate_owner', '']],
+			['config.add', ['vinabb_web_donate_owner_vi', '']],
+			['config.add', ['vinabb_web_donate_email', '']],
+			['config.add', ['vinabb_web_donate_bank', '']],
+			['config.add', ['vinabb_web_donate_bank_vi', '']],
+			['config.add', ['vinabb_web_donate_bank_acc', '']],
+			['config.add', ['vinabb_web_donate_bank_swift', '']],
+			['config.add', ['vinabb_web_donate_paypal', '']]
+		];
 	}
 }
