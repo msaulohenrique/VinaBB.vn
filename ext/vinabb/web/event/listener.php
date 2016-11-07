@@ -214,63 +214,20 @@ class listener implements EventSubscriberInterface
 		}
 
 		// Add template variables
-		$this->template->assign_vars([
-			'CONFIG_TOTAL_USERS'			=> $this->config['num_users'],
-			'CONFIG_TOTAL_FORUMS'			=> $this->config['num_forums'],
-			'CONFIG_TOTAL_TOPICS'			=> $this->config['num_topics'],
-			'CONFIG_TOTAL_POSTS'			=> $this->config['num_posts'],
-			'CONFIG_TOTAL_BB_EXTS'			=> $this->config['vinabb_web_total_bb_exts'],
-			'CONFIG_TOTAL_BB_STYLES'		=> $this->config['vinabb_web_total_bb_styles'],
-			'CONFIG_TOTAL_BB_ACP_STYLES'	=> $this->config['vinabb_web_total_bb_acp_styles'],
-			'CONFIG_TOTAL_BB_LANGS'			=> $this->config['vinabb_web_total_bb_langs'],
-			'CONFIG_TOTAL_BB_TOOLS'			=> $this->config['vinabb_web_total_bb_tools'],
-			'CONFIG_TOTAL_BB_AUTHORS'		=> $this->config['vinabb_web_total_bb_authors'],
-			'CONFIG_TOTAL_BB_SUBSCRIBERS'	=> $this->config['vinabb_web_total_bb_subscribers'],
+		$this->config_to_template();
+		$this->add_new_routes();
 
+		$this->template->assign_vars([
 			'LANG_SWITCH_CURRENT'	=> $this->user->lang_name,
 			'LANG_SWITCH_DEFAULT'	=> $this->config['default_lang'],
 			'LANG_SWITCH_NEW'		=> $lang_switch_new,
 			'LANG_SWITCH_TITLE'		=> $lang_switch_title,
-
-			'FORUM_ID_VIETNAMESE'				=> $this->config['vinabb_web_forum_id_vietnamese'],
-			'FORUM_ID_VIETNAMESE_SUPPORT'		=> $this->config['vinabb_web_forum_id_vietnamese_support'],
-			'FORUM_ID_VIETNAMESE_EXT'			=> $this->config['vinabb_web_forum_id_vietnamese_ext'],
-			'FORUM_ID_VIETNAMESE_STYLE'			=> $this->config['vinabb_web_forum_id_vietnamese_style'],
-			'FORUM_ID_VIETNAMESE_TUTORIAL'		=> $this->config['vinabb_web_forum_id_vietnamese_tutorial'],
-			'FORUM_ID_VIETNAMESE_DISCUSSION'	=> $this->config['vinabb_web_forum_id_vietnamese_discussion'],
-			'FORUM_ID_ENGLISH'					=> $this->config['vinabb_web_forum_id_english'],
-			'FORUM_ID_ENGLISH_SUPPORT'			=> $this->config['vinabb_web_forum_id_english_support'],
-			'FORUM_ID_ENGLISH_TUTORIAL'			=> $this->config['vinabb_web_forum_id_english_tutorial'],
-			'FORUM_ID_ENGLISH_DISCUSSION'		=> $this->config['vinabb_web_forum_id_english_discussion'],
-
-			'MANAGER_NAME'		=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->config['vinabb_web_manager_name_vi'] : $this->config['vinabb_web_manager_name'],
-			'MANAGER_USERNAME'	=> $this->config['vinabb_web_manager_username'],
-
-			'MAP_API'			=> $this->config['vinabb_web_map_api'],
-			'MAP_LAT'			=> $this->config['vinabb_web_map_lat'],
-			'MAP_LNG'			=> $this->config['vinabb_web_map_lng'],
-			'MAP_ADDRESS'		=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->config['vinabb_web_map_address_vi'] : $this->config['vinabb_web_map_address'],
-			'MAP_PHONE'			=> $this->config['vinabb_web_map_phone'],
-			'MAP_PHONE_NAME'	=> $this->config['vinabb_web_map_phone_name'],
-
-			'FACEBOOK_URL'		=> htmlspecialchars_decode($this->config['vinabb_web_facebook_url']),
-			'TWITTER_URL'		=> htmlspecialchars_decode($this->config['vinabb_web_twitter_url']),
-			'GOOGLE_PLUS_URL'	=> htmlspecialchars_decode($this->config['vinabb_web_google_plus_url']),
-			'GITHUB_URL'		=> htmlspecialchars_decode($this->config['vinabb_web_github_url']),
 
 			'S_FOUNDER'		=> $this->user->data['user_type'] == USER_FOUNDER,
 			'S_VIETNAMESE'	=> $this->user->lang_name == constants::LANG_VIETNAMESE,
 
 			'T_JS_LANG_PATH'	=> "{$this->ext_web_path}language/{$this->user->lang_name}/js",
 
-			'U_BOARD'			=> $this->helper->route('vinabb_web_board_route'),
-			'U_BB'				=> $this->helper->route('vinabb_web_bb_route'),
-			'U_BB_EXTS'			=> $this->helper->route('vinabb_web_bb_type_route', ['type' => constants::BB_TYPE_VARNAME_EXT]),
-			'U_BB_STYLES'		=> $this->helper->route('vinabb_web_bb_type_route', ['type' => constants::BB_TYPE_VARNAME_STYLE]),
-			'U_BB_ACP_STYLES'	=> $this->helper->route('vinabb_web_bb_type_route', ['type' => constants::BB_TYPE_VARNAME_ACP_STYLE]),
-			'U_BB_LANGS'		=> $this->helper->route('vinabb_web_bb_type_route', ['type' => constants::BB_TYPE_VARNAME_LANG]),
-			'U_BB_TOOLS'		=> $this->helper->route('vinabb_web_bb_type_route', ['type' => constants::BB_TYPE_VARNAME_TOOL]),
-			'U_FAQ_BBCODE'		=> $this->helper->route('phpbb_help_bbcode_controller'),
 			'U_MCP'				=> ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? append_sid("{$this->root_path}mcp.{$this->php_ext}", 'i=main&mode=front', true, $this->user->session_id) : '',
 			'U_LANG'			=> ($this->user->data['user_id'] == ANONYMOUS && $this->config['vinabb_web_lang_enable']) ? append_sid("{$this->root_path}index.{$this->php_ext}", "language=$lang_switch") : '',
 			'U_CONTACT_PM'		=> ($this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm') && $this->config['vinabb_web_manager_user_id']) ? $this->helper->route('vinabb_web_ucp_route', ['id' => 'pm', 'mode' => 'compose', 'u' => $this->config['vinabb_web_manager_user_id']]) : '',
@@ -874,6 +831,73 @@ class listener implements EventSubscriberInterface
 				]);
 			}
 		}
+
+		return;
+	}
+
+	/**
+	* Get value from config items and export to template variables
+	*/
+	private function config_to_template()
+	{
+		$this->template->assign_vars([
+			'CONFIG_TOTAL_USERS'			=> $this->config['num_users'],
+			'CONFIG_TOTAL_FORUMS'			=> $this->config['num_forums'],
+			'CONFIG_TOTAL_TOPICS'			=> $this->config['num_topics'],
+			'CONFIG_TOTAL_POSTS'			=> $this->config['num_posts'],
+			'CONFIG_TOTAL_BB_EXTS'			=> $this->config['vinabb_web_total_bb_exts'],
+			'CONFIG_TOTAL_BB_STYLES'		=> $this->config['vinabb_web_total_bb_styles'],
+			'CONFIG_TOTAL_BB_ACP_STYLES'	=> $this->config['vinabb_web_total_bb_acp_styles'],
+			'CONFIG_TOTAL_BB_LANGS'			=> $this->config['vinabb_web_total_bb_langs'],
+			'CONFIG_TOTAL_BB_TOOLS'			=> $this->config['vinabb_web_total_bb_tools'],
+			'CONFIG_TOTAL_BB_AUTHORS'		=> $this->config['vinabb_web_total_bb_authors'],
+			'CONFIG_TOTAL_BB_SUBSCRIBERS'	=> $this->config['vinabb_web_total_bb_subscribers'],
+
+			'FORUM_ID_VIETNAMESE'				=> $this->config['vinabb_web_forum_id_vietnamese'],
+			'FORUM_ID_VIETNAMESE_SUPPORT'		=> $this->config['vinabb_web_forum_id_vietnamese_support'],
+			'FORUM_ID_VIETNAMESE_EXT'			=> $this->config['vinabb_web_forum_id_vietnamese_ext'],
+			'FORUM_ID_VIETNAMESE_STYLE'			=> $this->config['vinabb_web_forum_id_vietnamese_style'],
+			'FORUM_ID_VIETNAMESE_TUTORIAL'		=> $this->config['vinabb_web_forum_id_vietnamese_tutorial'],
+			'FORUM_ID_VIETNAMESE_DISCUSSION'	=> $this->config['vinabb_web_forum_id_vietnamese_discussion'],
+			'FORUM_ID_ENGLISH'					=> $this->config['vinabb_web_forum_id_english'],
+			'FORUM_ID_ENGLISH_SUPPORT'			=> $this->config['vinabb_web_forum_id_english_support'],
+			'FORUM_ID_ENGLISH_TUTORIAL'			=> $this->config['vinabb_web_forum_id_english_tutorial'],
+			'FORUM_ID_ENGLISH_DISCUSSION'		=> $this->config['vinabb_web_forum_id_english_discussion'],
+
+			'MANAGER_NAME'		=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->config['vinabb_web_manager_name_vi'] : $this->config['vinabb_web_manager_name'],
+			'MANAGER_USERNAME'	=> $this->config['vinabb_web_manager_username'],
+
+			'MAP_API'			=> $this->config['vinabb_web_map_api'],
+			'MAP_LAT'			=> $this->config['vinabb_web_map_lat'],
+			'MAP_LNG'			=> $this->config['vinabb_web_map_lng'],
+			'MAP_ADDRESS'		=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->config['vinabb_web_map_address_vi'] : $this->config['vinabb_web_map_address'],
+			'MAP_PHONE'			=> $this->config['vinabb_web_map_phone'],
+			'MAP_PHONE_NAME'	=> $this->config['vinabb_web_map_phone_name'],
+
+			'FACEBOOK_URL'		=> htmlspecialchars_decode($this->config['vinabb_web_facebook_url']),
+			'TWITTER_URL'		=> htmlspecialchars_decode($this->config['vinabb_web_twitter_url']),
+			'GOOGLE_PLUS_URL'	=> htmlspecialchars_decode($this->config['vinabb_web_google_plus_url']),
+			'GITHUB_URL'		=> htmlspecialchars_decode($this->config['vinabb_web_github_url'])
+		]);
+
+		return;
+	}
+
+	/**
+	* Add our new links to the header
+	*/
+	private function add_new_routes()
+	{
+		$this->template->assign_vars([
+			'U_BOARD'			=> $this->helper->route('vinabb_web_board_route'),
+			'U_BB'				=> $this->helper->route('vinabb_web_bb_route'),
+			'U_BB_EXTS'			=> $this->helper->route('vinabb_web_bb_type_route', ['type' => constants::BB_TYPE_VARNAME_EXT]),
+			'U_BB_STYLES'		=> $this->helper->route('vinabb_web_bb_type_route', ['type' => constants::BB_TYPE_VARNAME_STYLE]),
+			'U_BB_ACP_STYLES'	=> $this->helper->route('vinabb_web_bb_type_route', ['type' => constants::BB_TYPE_VARNAME_ACP_STYLE]),
+			'U_BB_LANGS'		=> $this->helper->route('vinabb_web_bb_type_route', ['type' => constants::BB_TYPE_VARNAME_LANG]),
+			'U_BB_TOOLS'		=> $this->helper->route('vinabb_web_bb_type_route', ['type' => constants::BB_TYPE_VARNAME_TOOL]),
+			'U_FAQ_BBCODE'		=> $this->helper->route('phpbb_help_bbcode_controller'),
+		]);
 
 		return;
 	}
