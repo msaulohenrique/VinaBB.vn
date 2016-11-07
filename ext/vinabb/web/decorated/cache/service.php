@@ -75,7 +75,7 @@ class service extends \phpbb\cache\service
 	/**
 	* Get cache from table: _config_text
 	*
-	* @return array|mixed
+	* @return array
 	*/
 	public function get_config_text()
 	{
@@ -85,7 +85,7 @@ class service extends \phpbb\cache\service
 				FROM ' . CONFIG_TEXT_TABLE;
 			$result = $this->db->sql_query($sql);
 
-			$config_text = array();
+			$config_text = [];
 			while ($row = $this->db->sql_fetchrow($result))
 			{
 				$config_text[$row['config_name']] = $row['config_value'];
@@ -109,7 +109,7 @@ class service extends \phpbb\cache\service
 	/**
 	* Get cache from table: _lang
 	*
-	* @return array|mixed
+	* @return array
 	*/
 	public function get_lang_data()
 	{
@@ -119,15 +119,15 @@ class service extends \phpbb\cache\service
 				FROM ' . LANG_TABLE;
 			$result = $this->db->sql_query($sql);
 
-			$lang_data = array();
+			$lang_data = [];
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				$lang_data[$row['lang_iso']] = array(
+				$lang_data[$row['lang_iso']] = [
 					'dir'			=> $row['lang_dir'],
 					'english_name'	=> $row['lang_english_name'],
 					'local_name'	=> $row['lang_local_name'],
-					'author'		=> $row['lang_author'],
-				);
+					'author'		=> $row['lang_author']
+				];
 			}
 			$this->db->sql_freeresult($result);
 
@@ -148,7 +148,7 @@ class service extends \phpbb\cache\service
 	/**
 	* Get cache from table: _forums
 	*
-	* @return array|mixed
+	* @return array
 	*/
 	public function get_forum_data()
 	{
@@ -159,10 +159,10 @@ class service extends \phpbb\cache\service
 				ORDER BY left_id';
 			$result = $this->db->sql_query($sql);
 
-			$forum_data = array();
+			$forum_data = [];
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				$forum_data[$row['forum_id']] = array(
+				$forum_data[$row['forum_id']] = [
 					'parent_id'		=> $row['parent_id'],
 					'left_id'		=> $row['left_id'],
 					'right_id'		=> $row['right_id'],
@@ -173,8 +173,8 @@ class service extends \phpbb\cache\service
 					'desc_uid'		=> $row['forum_desc_uid'],
 					'type'			=> $row['forum_type'],
 					'status'		=> $row['forum_status'],
-					'name_seo'		=> $row['forum_name_seo'],
-				);
+					'name_seo'		=> $row['forum_name_seo']
+				];
 			}
 			$this->db->sql_freeresult($result);
 
@@ -193,42 +193,9 @@ class service extends \phpbb\cache\service
 	}
 
 	/**
-	* Get cache from table: _bb_categories
-	*
-	* @param int $bb_type phpBB resource type (ext, style, lang...)
-	* @return array|mixed
-	*/
-	public function get_bb_cats($bb_type)
-	{
-		if (($bb_cats = $this->driver->get('_vinabb_web_bb_' . strtolower($bb_type) . '_categories')) === false)
-		{
-			$sql = 'SELECT *
-				FROM ' . $this->bb_categories_table . '
-				WHERE bb_type = ' . $this->ext_helper->get_bb_type_constants($bb_type);
-			$result = $this->db->sql_query($sql);
-
-			$bb_cats = array();
-			while ($row = $this->db->sql_fetchrow($result))
-			{
-				$bb_cats[$row['cat_id']] = array(
-					'name'		=> $row['cat_name'],
-					'name_vi'	=> $row['cat_name_vi'],
-					'varname'	=> $row['cat_varname'],
-					'icon'		=> $row['cat_icon'],
-				);
-			}
-			$this->db->sql_freeresult($result);
-
-			$this->driver->put('_vinabb_web_bb_' . strtolower($bb_type) . '_categories', $bb_cats);
-		}
-
-		return $bb_cats;
-	}
-
-	/**
 	* Get cache from table: _smilies
 	*
-	* @return array|mixed
+	* @return array
 	*/
 	public function get_smilies()
 	{
@@ -239,17 +206,17 @@ class service extends \phpbb\cache\service
 				ORDER BY smiley_order';
 			$result = $this->db->sql_query($sql);
 
-			$smilies = array();
+			$smilies = [];
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				$smilies[$row['code']] = array(
+				$smilies[$row['code']] = [
 					'id'		=> $row['smiley_id'],
 					'emotion'	=> $row['emotion'],
 					'url'		=> $row['smiley_url'],
 					'width'		=> $row['smiley_width'],
 					'height'	=> $row['smiley_height'],
-					'display'	=> $row['display_on_posting'],
-				);
+					'display'	=> $row['display_on_posting']
+				];
 			}
 			$this->db->sql_freeresult($result);
 
@@ -268,9 +235,46 @@ class service extends \phpbb\cache\service
 	}
 
 	/**
+	* Get cache from table: _bb_categories
+	*
+	* @param int	$bb_type	phpBB resource type (ext, style, lang...)
+	* @return array
+	*/
+	public function get_bb_cats($bb_type)
+	{
+		if (($bb_cats = $this->driver->get('_vinabb_web_bb_' . strtolower($bb_type) . '_categories')) === false)
+		{
+			$sql = 'SELECT *
+				FROM ' . $this->bb_categories_table . '
+				WHERE bb_type = ' . (int) $this->ext_helper->get_bb_type_constants($bb_type) . '
+				ORDER BY left_id';
+			$result = $this->db->sql_query($sql);
+
+			$bb_cats = [];
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$bb_cats[$row['cat_id']] = [
+					'parent_id'	=> $row['parent_id'],
+					'left_id'	=> $row['left_id'],
+					'right_id'	=> $row['right_id'],
+					'name'		=> $row['cat_name'],
+					'name_vi'	=> $row['cat_name_vi'],
+					'varname'	=> $row['cat_varname'],
+					'icon'		=> $row['cat_icon']
+				];
+			}
+			$this->db->sql_freeresult($result);
+
+			$this->driver->put('_vinabb_web_bb_' . strtolower($bb_type) . '_categories', $bb_cats);
+		}
+
+		return $bb_cats;
+	}
+
+	/**
 	* Clear cache from table: _bb_categories
 	*
-	* @param $bb_type phpBB resource type (ext, style, lang...)
+	* @param int	$bb_type	phpBB resource type (ext, style, lang...)
 	*/
 	public function clear_bb_cats($bb_type)
 	{
@@ -280,8 +284,8 @@ class service extends \phpbb\cache\service
 	/**
 	* Get cache from table: _bb_items
 	*
-	* @param $bb_type phpBB resource type (ext, style, lang...)
-	* @return array|mixed
+	* @param int	$bb_type	phpBB resource type (ext, style, lang...)
+	* @return array
 	*/
 	public function get_new_bb_items($bb_type)
 	{
@@ -289,22 +293,22 @@ class service extends \phpbb\cache\service
 		{
 			$sql = 'SELECT *
 				FROM ' . $this->bb_items_table . '
-				WHERE bb_type = ' . $this->ext_helper->get_bb_type_constants($bb_type) . '
+				WHERE bb_type = ' . (int) $this->ext_helper->get_bb_type_constants($bb_type) . '
 				ORDER BY item_updated DESC';
 			$result = $this->db->sql_query_limit($sql, constants::NUM_NEW_ITEMS_ON_INDEX);
 
-			$new_items = array();
+			$new_items = [];
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				$new_items[] = array(
+				$new_items[] = [
 					'id'		=> $row['item_id'],
 					'name'		=> $row['item_name'],
 					'varname'	=> $row['item_varname'],
 					'version'	=> $row['item_version'],
 					'price'		=> $row['item_price'],
 					'added'		=> $row['item_added'],
-					'updated'	=> $row['item_updated'],
-				);
+					'updated'	=> $row['item_updated']
+				];
 			}
 			$this->db->sql_freeresult($result);
 
@@ -317,7 +321,7 @@ class service extends \phpbb\cache\service
 	/**
 	* Clear cache from table: _bb_items
 	*
-	* @param $bb_type phpBB resource type (ext, style, lang...)
+	* @param int	$bb_type	phpBB resource type (ext, style, lang...)
 	*/
 	public function clear_new_bb_items($bb_type)
 	{
@@ -327,7 +331,7 @@ class service extends \phpbb\cache\service
 	/**
 	* Get cache from table: _portal_categories
 	*
-	* @return array|mixed
+	* @return array
 	*/
 	public function get_portal_cats()
 	{
@@ -335,18 +339,21 @@ class service extends \phpbb\cache\service
 		{
 			$sql = 'SELECT *
 				FROM ' . $this->portal_categories_table . '
-				ORDER BY cat_order';
+				ORDER BY left_id';
 			$result = $this->db->sql_query($sql);
 
-			$portal_cats = array();
+			$portal_cats = [];
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				$portal_cats[$row['cat_id']] = array(
+				$portal_cats[$row['cat_id']] = [
+					'parent_id'	=> $row['parent_id'],
+					'left_id'	=> $row['left_id'],
+					'right_id'	=> $row['right_id'],
 					'name'		=> $row['cat_name'],
 					'name_vi'	=> $row['cat_name_vi'],
 					'varname'	=> $row['cat_varname'],
-					'icon'		=> $row['cat_icon'],
-				);
+					'icon'		=> $row['cat_icon']
+				];
 			}
 			$this->db->sql_freeresult($result);
 
@@ -367,8 +374,8 @@ class service extends \phpbb\cache\service
 	/**
 	* Get cache from table: _portal_articles
 	*
-	* @param $lang 2-letter language ISO code
-	* @return array|mixed
+	* @param string	$lang	2-letter language ISO code
+	* @return array
 	*/
 	public function get_index_articles($lang)
 	{
@@ -380,10 +387,10 @@ class service extends \phpbb\cache\service
 				ORDER BY article_time DESC";
 			$result = $this->db->sql_query_limit($sql, constants::NUM_ARTICLES_ON_INDEX);
 
-			$index_articles = array();
+			$index_articles = [];
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				$index_articles[] = array(
+				$index_articles[] = [
 					'cat_id'		=> $row['cat_id'],
 					'id'			=> $row['article_id'],
 					'name'			=> $row['article_name'],
@@ -394,8 +401,8 @@ class service extends \phpbb\cache\service
 					'text_bitfield'	=> $row['article_text_bitfield'],
 					'text_options'	=> $row['article_text_options'],
 					'views'			=> $row['article_views'],
-					'time'			=> $row['article_time'],
-				);
+					'time'			=> $row['article_time']
+				];
 			}
 			$this->db->sql_freeresult($result);
 
@@ -408,7 +415,7 @@ class service extends \phpbb\cache\service
 	/**
 	* Clear cache from table: _portal_articles
 	*
-	* @param $lang 2-letter language ISO code
+	* @param string	$lang	2-letter language ISO code
 	*/
 	public function clear_index_articles($lang)
 	{
@@ -419,7 +426,7 @@ class service extends \phpbb\cache\service
 	/**
 	* Get comment counter for get_index_articles()
 	*
-	* @param $lang 2-letter language ISO code
+	* @param string	$lang	2-letter language ISO code
 	* @return array
 	*/
 	public function get_index_comment_counter($lang)
@@ -439,7 +446,7 @@ class service extends \phpbb\cache\service
 				GROUP BY article_id';
 			$result = $this->db->sql_query($sql);
 
-			$comment_count = array();
+			$comment_count = [];
 			while ($row = $this->db->sql_fetchrow($result))
 			{
 				$comment_count[$row['article_id']] = $row['total_comments'];
@@ -455,7 +462,7 @@ class service extends \phpbb\cache\service
 	/**
 	* Clear comment counter for get_index_articles()
 	*
-	* @param $lang 2-letter language ISO code
+	* @param string	$lang	2-letter language ISO code
 	*/
 	public function clear_index_comment_counter($lang)
 	{
