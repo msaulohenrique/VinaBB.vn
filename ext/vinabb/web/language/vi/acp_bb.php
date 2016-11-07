@@ -11,7 +11,7 @@
 */
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 /**
@@ -19,7 +19,7 @@ if (empty($lang) || !is_array($lang))
 * and the files must not contain a BOM.
 */
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 	'ACP_BB_ACP_STYLES_EXPLAIN'	=> '',
 	'ACP_BB_EXTS_EXPLAIN'		=> '',
 	'ACP_BB_LANGS_EXPLAIN'		=> '',
@@ -112,5 +112,5 @@ $lang = array_merge($lang, array(
 
 	'STYLE_VARNAME'	=> 'Tên biến',
 
-	'TOOL_VARNAME'	=> 'Tên biến',
-));
+	'TOOL_VARNAME'	=> 'Tên biến'
+]);

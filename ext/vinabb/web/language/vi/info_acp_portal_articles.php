@@ -11,7 +11,7 @@
 */
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 /**
@@ -19,11 +19,11 @@ if (empty($lang) || !is_array($lang))
 * and the files must not contain a BOM.
 */
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 	'ACP_PORTAL_ARTICLES'			=> 'Quản lý bài viết',
 	'ACP_PORTAL_ARTICLES_EXPLAIN'	=> '',
 
 	'LOG_PORTAL_ARTICLE_ADD'	=> '<strong>Trang chủ: Đã tạo bài viết mới</strong><br>» %s',
 	'LOG_PORTAL_ARTICLE_DELETE'	=> '<strong>Trang chủ: Đã xóa bài viết</strong><br>» %s',
-	'LOG_PORTAL_ARTICLE_EDIT'	=> '<strong>Trang chủ: Đã sửa bài viết</strong><br>» %s',
-));
+	'LOG_PORTAL_ARTICLE_EDIT'	=> '<strong>Trang chủ: Đã sửa bài viết</strong><br>» %s'
+]);

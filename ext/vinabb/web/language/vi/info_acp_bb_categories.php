@@ -11,7 +11,7 @@
 */
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 /**
@@ -19,7 +19,7 @@ if (empty($lang) || !is_array($lang))
 * and the files must not contain a BOM.
 */
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 	'ACP_BB_ACP_STYLE_CATS'			=> 'Danh mục giao diện quản trị',
 	'ACP_BB_ACP_STYLE_CATS_EXPLAIN'	=> '',
 	'ACP_BB_EXT_CATS'				=> 'Danh mục gói mở rộng',
@@ -45,5 +45,5 @@ $lang = array_merge($lang, array(
 	'LOG_BB_STYLE_CAT_EDIT'			=> '<strong>Thư viện phpBB: Đã sửa danh mục giao diện</strong><br>» %s',
 	'LOG_BB_TOOL_CAT_ADD'			=> '<strong>Thư viện phpBB: Đã tạo danh mục công cụ mới</strong><br>» %s',
 	'LOG_BB_TOOL_CAT_DELETE'		=> '<strong>Thư viện phpBB: Đã xóa danh mục công cụ</strong><br>» %s',
-	'LOG_BB_TOOL_CAT_EDIT'			=> '<strong>Thư viện phpBB: Đã sửa danh mục công cụ</strong><br>» %s',
-));
+	'LOG_BB_TOOL_CAT_EDIT'			=> '<strong>Thư viện phpBB: Đã sửa danh mục công cụ</strong><br>» %s'
+]);

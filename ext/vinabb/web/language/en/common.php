@@ -11,7 +11,7 @@
 */
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 /**
@@ -19,7 +19,7 @@ if (empty($lang) || !is_array($lang))
 * and the files must not contain a BOM.
 */
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 	'ACP_CAT_BB'				=> 'phpBB Resource',
 	'ACP_CAT_PORTAL'			=> 'Portal',
 	'ACP_CAT_VINABB'			=> 'VinaBB',
@@ -46,42 +46,42 @@ $lang = array_merge($lang, array(
 	'COMMENTS'			=> 'Comments',
 	'COMMUNITY'			=> 'Community',
 	'COORDINATES'		=> 'Coordinates',
-	'COUNTER_ACP_STYLE'	=> array(
+	'COUNTER_ACP_STYLE'	=> [
 		0	=> 'No styles',
 		1	=> '%d style',
-		2	=> '%d styles',
-	),
-	'COUNTER_ARTICLE'	=> array(
+		2	=> '%d styles'
+	],
+	'COUNTER_ARTICLE'	=> [
 		0	=> 'No articles',
 		1	=> '%d article',
-		2	=> '%d articles',
-	),
-	'COUNTER_COMMENT'	=> array(
+		2	=> '%d articles'
+	],
+	'COUNTER_COMMENT'	=> [
 		0	=> 'No comments',
 		1	=> '%d comment',
-		2	=> '%d comments',
-	),
-	'COUNTER_EXT'		=> array(
+		2	=> '%d comments'
+	],
+	'COUNTER_EXT'		=> [
 		0	=> 'No extensions',
 		1	=> '%d extension',
-		2	=> '%d extensions',
-	),
-	'COUNTER_LANG'		=> array(
+		2	=> '%d extensions'
+	],
+	'COUNTER_LANG'		=> [
 		0	=> 'No language packages',
 		1	=> '%d language package',
-		2	=> '%d language packages',
-	),
-	'COUNTER_STYLE'		=> array(
+		2	=> '%d language packages'
+	],
+	'COUNTER_STYLE'		=> [
 		0	=> 'No styles',
 		1	=> '%d style',
-		2	=> '%d styles',
-	),
-	'COUNTER_TOOL'		=> array(
+		2	=> '%d styles'
+	],
+	'COUNTER_TOOL'		=> [
 		0	=> 'No tools',
 		1	=> '%d tool',
-		2	=> '%d tools',
-	),
-	'CURRENCY'		=> 'Currency',
+		2	=> '%d tools'
+	],
+	'CURRENCY'			=> 'Currency',
 
 	'DEBUG'				=> 'Debug',
 	'DEBUG_INFO'		=> 'Debug information',
@@ -96,7 +96,7 @@ $lang = array_merge($lang, array(
 	'DONATE_OWNER'		=> 'Account owner',
 	'DOWNLOADS'			=> 'Downloads',
 
-	'EMOTICON_TEXT'	=> array(
+	'EMOTICON_TEXT'	=> [
 		'ALIEN'				=> 'Alien',
 		'ANGEL'				=> 'Angel',
 		'ANGRY'				=> 'Angry',
@@ -160,8 +160,8 @@ $lang = array_merge($lang, array(
 		'WINKING'			=> 'Winking',
 		'WORLD_WEARY'		=> 'World weary',
 		'WORRIED'			=> 'Worried',
-		'WTF'				=> 'WTF',
-	),
+		'WTF'				=> 'WTF'
+	],
 	'ENGLISH'		=> 'English',
 	'EXT_DETAILS'	=> 'Extension information',
 	'EXT_NAME'		=> 'Extension name',
@@ -289,7 +289,7 @@ $lang = array_merge($lang, array(
 	'POWERED_BY'				=> 'Powered by <a href="https://www.phpbb.com/" data-tooltip="true" title="Forum software &copy; phpBB Limited">phpBB</a> with <i class="fa fa-heart animate-pulse text-danger"></i>',
 	'PRICE'						=> 'Price',
 
-	'RANK_TITLES'	=> array(
+	'RANK_TITLES'	=> [
 		'ADMINISTRATOR'		=> 'Administrator',
 		'DEVELOPER'			=> 'Development Team',
 		'FOUNDER'			=> 'Founder',
@@ -297,8 +297,8 @@ $lang = array_merge($lang, array(
 		'MANAGER'			=> 'Management Team',
 		'MEMBER'			=> 'Member',
 		'MODERATOR'			=> 'Moderator',
-		'SUPPORTER'			=> 'Support Team',
-	),
+		'SUPPORTER'			=> 'Support Team'
+	],
 	'RESOURCES'		=> 'Resources',
 
 	'SELECT_CATEGORY'		=> 'Select a category',
@@ -332,5 +332,5 @@ $lang = array_merge($lang, array(
 	'VINABB_VERSION_X'	=> 'VinaBB %s',
 	'VINABB_VN'			=> 'VinaBB.vn',
 
-	'WEBSITE_FUND'	=> 'Website fund',
-));
+	'WEBSITE_FUND'	=> 'Website fund'
+]);

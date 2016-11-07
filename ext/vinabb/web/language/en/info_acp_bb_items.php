@@ -11,7 +11,7 @@
 */
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 /**
@@ -19,7 +19,7 @@ if (empty($lang) || !is_array($lang))
 * and the files must not contain a BOM.
 */
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 	'ACP_BB_ACP_STYLES'			=> 'Manage ACP styles',
 	'ACP_BB_ACP_STYLES_EXPLAIN'	=> '',
 	'ACP_BB_EXTS'				=> 'Manage extensions',
@@ -55,5 +55,5 @@ $lang = array_merge($lang, array(
 	'LOG_BB_TOOL_DELETE'		=> '<strong>phpBB Resource: Deleted tool</strong><br>» %s',
 	'LOG_BB_TOOL_DISABLE'		=> '<strong>phpBB Resource: Disabled tool</strong><br>» %s',
 	'LOG_BB_TOOL_EDIT'			=> '<strong>phpBB Resource: Edited tool</strong><br>» %s',
-	'LOG_BB_TOOL_ENABLE'		=> '<strong>phpBB Resource: Enabled tool</strong><br>» %s',
-));
+	'LOG_BB_TOOL_ENABLE'		=> '<strong>phpBB Resource: Enabled tool</strong><br>» %s'
+]);

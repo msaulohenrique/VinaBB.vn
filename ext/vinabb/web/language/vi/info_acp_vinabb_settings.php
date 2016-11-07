@@ -11,7 +11,7 @@
 */
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 /**
@@ -19,8 +19,8 @@ if (empty($lang) || !is_array($lang))
 * and the files must not contain a BOM.
 */
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 	'ACP_VINABB_SETTINGS'	=> 'Thiết lập VinaBB.vn',
 
-	'LOG_VINABB_SETTINGS'	=> '<strong>Đã chỉnh thiết lập VinaBB.vn</strong>',
-));
+	'LOG_VINABB_SETTINGS'	=> '<strong>Đã chỉnh thiết lập VinaBB.vn</strong>'
+]);

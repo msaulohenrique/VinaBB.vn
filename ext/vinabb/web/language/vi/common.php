@@ -11,7 +11,7 @@
 */
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 /**
@@ -19,7 +19,7 @@ if (empty($lang) || !is_array($lang))
 * and the files must not contain a BOM.
 */
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 	'ACP_CAT_BB'				=> 'Thư viện phpBB',
 	'ACP_CAT_PORTAL'			=> 'Trang chủ',
 	'ACP_CAT_VINABB'			=> 'VinaBB',
@@ -46,41 +46,41 @@ $lang = array_merge($lang, array(
 	'COMMENTS'			=> 'Bình luận',
 	'COMMUNITY'			=> 'Cộng đồng',
 	'COORDINATES'		=> 'Tọa độ',
-	'COUNTER_ACP_STYLE'	=> array(
+	'COUNTER_ACP_STYLE'	=> [
 		0	=> 'Không có giao diện nào',
 		1	=> '%d giao diện',
-		2	=> '%d giao diện',
-	),
-	'COUNTER_ARTICLE'	=> array(
+		2	=> '%d giao diện'
+	],
+	'COUNTER_ARTICLE'	=> [
 		0	=> 'Không có bài viết nào',
 		1	=> '%d bài viết',
-		2	=> '%d bài viết',
-	),
-	'COUNTER_COMMENT'	=> array(
+		2	=> '%d bài viết'
+	],
+	'COUNTER_COMMENT'	=> [
 		0	=> 'Không có bình luận nào',
 		1	=> '%d bình luận',
-		2	=> '%d bình luận',
-	),
-	'COUNTER_EXT'		=> array(
+		2	=> '%d bình luận'
+	],
+	'COUNTER_EXT'		=> [
 		0	=> 'Không có gói mở rộng nào',
 		1	=> '%d gói mở rộng',
-		2	=> '%d gói mở rộng',
-	),
-	'COUNTER_LANG'		=> array(
+		2	=> '%d gói mở rộng'
+	],
+	'COUNTER_LANG'		=> [
 		0	=> 'Không có gói ngôn ngữ nào',
 		1	=> '%d gói ngôn ngữ',
-		2	=> '%d gói ngôn ngữ',
-	),
-	'COUNTER_STYLE'		=> array(
+		2	=> '%d gói ngôn ngữ'
+	],
+	'COUNTER_STYLE'		=> [
 		0	=> 'Không có giao diện nào',
 		1	=> '%d giao diện',
-		2	=> '%d giao diện',
-	),
-	'COUNTER_TOOL'		=> array(
+		2	=> '%d giao diện'
+	],
+	'COUNTER_TOOL'		=> [
 		0	=> 'Không có công cụ nào',
 		1	=> '%d công cụ',
-		2	=> '%d công cụ',
-	),
+		2	=> '%d công cụ'
+	],
 	'CURRENCY'			=> 'Tiền tệ',
 
 	'DEBUG'				=> 'Dò lỗi',
@@ -96,7 +96,7 @@ $lang = array_merge($lang, array(
 	'DONATE_OWNER'		=> 'Tên tài khoản',
 	'DOWNLOADS'			=> 'Lượt tải về',
 
-	'EMOTICON_TEXT'	=> array(
+	'EMOTICON_TEXT'	=> [
 		'ALIEN'				=> '!@#$%',
 		'ANGEL'				=> 'Sẽ có thiên thần sửa lỗi cho em',
 		'ANGRY'				=> 'Phẫn nộ cái tốc độ',
@@ -160,8 +160,8 @@ $lang = array_merge($lang, array(
 		'WINKING'			=> 'Thiếu dấu chấm phẩy rồi',
 		'WORLD_WEARY'		=> 'Cú pháp nhìn muốn ngáp',
 		'WORRIED'			=> 'Hốt hoảng cái tài khoản',
-		'WTF'				=> 'Biến tìm muốn tắt tiếng',
-	),
+		'WTF'				=> 'Biến tìm muốn tắt tiếng'
+	],
 	'ENGLISH'		=> 'Tiếng Anh',
 	'EXT_DETAILS'	=> 'Thông tin gói mở rộng',
 	'EXT_NAME'		=> 'Tên gói mở rộng',
@@ -289,7 +289,7 @@ $lang = array_merge($lang, array(
 	'POWERED_BY'				=> 'Sử dụng phần mềm <a href="https://www.phpbb.com/" data-tooltip="true" title="&copy; phpBB Limited">phpBB</a> <i class="fa fa-heart animate-pulse text-danger"></i>',
 	'PRICE'						=> 'Giá',
 
-	'RANK_TITLES'	=> array(
+	'RANK_TITLES'	=> [
 		'ADMINISTRATOR'		=> 'Quản trị viên',
 		'DEVELOPER'			=> 'Nhóm phát triển',
 		'FOUNDER'			=> 'Sáng lập viên',
@@ -297,8 +297,8 @@ $lang = array_merge($lang, array(
 		'MANAGER'			=> 'Nhóm quản lý',
 		'MEMBER'			=> 'Thành viên',
 		'MODERATOR'			=> 'Điều hành viên',
-		'SUPPORTER'			=> 'Nhóm hỗ trợ',
-	),
+		'SUPPORTER'			=> 'Nhóm hỗ trợ'
+	],
 	'RESOURCES'		=> 'Tài nguyên',
 
 	'SELECT_CATEGORY'		=> 'Chọn danh mục',
@@ -333,4 +333,4 @@ $lang = array_merge($lang, array(
 	'VINABB_VN'			=> 'VinaBB.vn',
 
 	'WEBSITE_FUND'	=> 'Kinh phí hoạt động',
-));
+]);

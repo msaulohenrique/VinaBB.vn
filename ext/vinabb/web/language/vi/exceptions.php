@@ -28,8 +28,8 @@ if (empty($lang) || !is_array($lang))
 *
 * Translators: Do not need to translate these language strings ;)
 */
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 	'EXCEPTION_INVALID_ARGUMENT'	=> 'Invalid argument specified for “%1$s”. Reason: %2$s.',
 	'EXCEPTION_OUT_OF_BOUNDS'		=> 'The field “%1$s” received data beyond its bounds.',
-	'EXCEPTION_UNEXPECTED_VALUE'	=> 'The field “%1$s” received unexpected data. Reason: %2$s.',
-));
+	'EXCEPTION_UNEXPECTED_VALUE'	=> 'The field “%1$s” received unexpected data. Reason: %2$s.'
+]);

@@ -11,7 +11,7 @@
 */
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 /**
@@ -19,7 +19,7 @@ if (empty($lang) || !is_array($lang))
 * and the files must not contain a BOM.
 */
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 	'ADD_ARTICLE'		=> 'Create new article',
 	'ADD_PORTAL_CAT'	=> 'Create new category',
 	'ARTICLE_DESC'		=> 'Description',
@@ -56,5 +56,5 @@ $lang = array_merge($lang, array(
 	'PORTAL_CAT_ICON'			=> 'Category icon',
 	'PORTAL_CAT_ICON_EXPLAIN'	=> 'Example: <code>fa fa-home</code> or <code>icon-home</code>',
 	'PORTAL_CAT_NAME'			=> 'Category name',
-	'PORTAL_CAT_VARNAME'		=> 'Varname',
-));
+	'PORTAL_CAT_VARNAME'		=> 'Varname'
+]);

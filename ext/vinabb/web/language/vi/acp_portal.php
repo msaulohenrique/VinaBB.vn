@@ -11,7 +11,7 @@
 */
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 /**
@@ -19,7 +19,7 @@ if (empty($lang) || !is_array($lang))
 * and the files must not contain a BOM.
 */
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 	'ADD_ARTICLE'		=> 'Tạo bài viết mới',
 	'ADD_PORTAL_CAT'	=> 'Tạo danh mục mới',
 	'ARTICLE_DESC'		=> 'Giới thiệu',
@@ -56,5 +56,5 @@ $lang = array_merge($lang, array(
 	'PORTAL_CAT_ICON'			=> 'Biểu tượng',
 	'PORTAL_CAT_ICON_EXPLAIN'	=> 'Ví dụ: <code>fa fa-home</code> hoặc <code>icon-home</code>',
 	'PORTAL_CAT_NAME'			=> 'Tên danh mục',
-	'PORTAL_CAT_VARNAME'		=> 'Tên biến',
-));
+	'PORTAL_CAT_VARNAME'		=> 'Tên biến'
+]);

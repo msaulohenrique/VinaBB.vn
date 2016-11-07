@@ -11,7 +11,7 @@
 */
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 /**
@@ -19,7 +19,7 @@ if (empty($lang) || !is_array($lang))
 * and the files must not contain a BOM.
 */
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 	'ACP_BB_ACP_STYLE_CATS'			=> 'ACP style categories',
 	'ACP_BB_ACP_STYLE_CATS_EXPLAIN'	=> '',
 	'ACP_BB_EXT_CATS'				=> 'Extension categories',
@@ -45,5 +45,5 @@ $lang = array_merge($lang, array(
 	'LOG_BB_STYLE_CAT_EDIT'			=> '<strong>phpBB Resource: Edited style category</strong><br>» %s',
 	'LOG_BB_TOOL_CAT_ADD'			=> '<strong>phpBB Resource: Created new tool category</strong><br>» %s',
 	'LOG_BB_TOOL_CAT_DELETE'		=> '<strong>phpBB Resource: Deleted tool category</strong><br>» %s',
-	'LOG_BB_TOOL_CAT_EDIT'			=> '<strong>phpBB Resource: Edited tool category</strong><br>» %s',
-));
+	'LOG_BB_TOOL_CAT_EDIT'			=> '<strong>phpBB Resource: Edited tool category</strong><br>» %s'
+]);

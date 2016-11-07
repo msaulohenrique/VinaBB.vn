@@ -11,7 +11,7 @@
 */
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 /**
@@ -19,7 +19,7 @@ if (empty($lang) || !is_array($lang))
 * and the files must not contain a BOM.
 */
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 	'ACP_VINABB_SETTINGS_EXPLAIN'	=> '',
 
 	'CHECK_PHP_BRANCH'					=> 'Latest PHP branch',
@@ -88,5 +88,5 @@ $lang = array_merge($lang, array(
 	'SELECT_LANGUAGE'	=> 'Select a language',
 	'SOCIAL_LINKS'		=> 'Social links',
 
-	'VINABB_SETTINGS_UPDATED'	=> 'The VinaBB.vn settings have been updated.',
-));
+	'VINABB_SETTINGS_UPDATED'	=> 'The VinaBB.vn settings have been updated.'
+]);
