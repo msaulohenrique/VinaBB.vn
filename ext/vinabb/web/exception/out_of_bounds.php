@@ -15,7 +15,7 @@ class out_of_bounds extends base
 	* Translate this exception
 	*
 	* @param \phpbb\language\language $language
-	* @return array|string
+	* @return string
 	*/
 	public function get_message(\phpbb\language\language $language)
 	{
