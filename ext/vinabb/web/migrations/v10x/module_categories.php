@@ -10,24 +10,24 @@ namespace vinabb\web\migrations\v10x;
 
 use phpbb\db\migration\migration;
 
+/**
+* Add the ACP tab "VinaBB" and the first module category "VinaBB.vn Settings"
+*/
 class module_categories extends migration
 {
+	/**
+	* Update data
+	*
+	* @return array
+	*/
 	public function update_data()
 	{
-		return array(
-			// Categories
-			array('module.add', array(
-				'acp',
-				'',
-				'ACP_CAT_VINABB'
-			)),
+		return [
+			// Root category
+			['module.add', ['acp', '', 'ACP_CAT_VINABB']],
 
-			// Sub-categories
-			array('module.add', array(
-				'acp',
-				'ACP_CAT_VINABB',
-				'ACP_CAT_VINABB_SETTINGS'
-			)),
-		);
+			// Sub-category
+			['module.add', ['acp', 'ACP_CAT_VINABB', 'ACP_CAT_VINABB_SETTINGS']]
+		];
 	}
 }
