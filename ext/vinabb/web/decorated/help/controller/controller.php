@@ -9,8 +9,8 @@
 namespace vinabb\web\decorated\help\controller;
 
 /**
- * BBCode help page
- */
+* BBCode help page
+*/
 abstract class controller
 {
 	/** @var \phpbb\controller\helper */
@@ -32,15 +32,15 @@ abstract class controller
 	protected $php_ext;
 
 	/**
-	 * Constructor
-	 *
-	 * @param \phpbb\controller\helper	$helper
-	 * @param \phpbb\help\manager		$manager
-	 * @param \phpbb\template\template	$template
-	 * @param \phpbb\language\language	$language
-	 * @param string					$root_path
-	 * @param string					$php_ext
-	 */
+	* Constructor
+	*
+	* @param \phpbb\controller\helper	$helper
+	* @param \phpbb\help\manager		$manager
+	* @param \phpbb\template\template	$template
+	* @param \phpbb\language\language	$language
+	* @param string					$root_path
+	* @param string					$php_ext
+	*/
 	public function __construct(
 		\phpbb\controller\helper $helper,
 		\phpbb\help\manager $manager,
@@ -59,24 +59,24 @@ abstract class controller
 	}
 
 	/**
-	 * @return string
-	 */
+	* @return string
+	*/
 	abstract protected function display();
 
 	public function handle()
 	{
 		// Breadcrumb
-		$this->template->assign_block_vars('breadcrumb', array(
+		$this->template->assign_block_vars('breadcrumb', [
 			'NAME'	=> $this->language->lang('FAQ'),
-			'URL'	=> $this->helper->route('phpbb_help_faq_controller'),
-		));
+			'URL'	=> $this->helper->route('phpbb_help_faq_controller')
+		]);
 
 		$title = $this->display();
 
-		$this->template->assign_vars(array(
+		$this->template->assign_vars([
 			'L_FAQ_TITLE'	=> $title,
-			'S_IN_FAQ'		=> true,
-		));
+			'S_IN_FAQ'		=> true
+		]);
 
 		return $this->helper->render('faq_body.html', $title);
 	}

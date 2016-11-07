@@ -10,6 +10,9 @@ namespace vinabb\web\decorated\cache;
 
 use vinabb\web\includes\constants;
 
+/**
+* Extend the base cache service
+*/
 class service extends \phpbb\cache\service
 {
 	/** @var \vinabb\web\controller\helper */

@@ -79,7 +79,7 @@ class factory extends \phpbb\textformatter\s9e\factory
 		* @var \s9e\TextFormatter\Configurator configurator Configurator instance
 		* @since 3.2.0-a1
 		*/
-		$vars = array('configurator');
+		$vars = ['configurator'];
 		extract($this->dispatcher->trigger_event('core.text_formatter_s9e_configure_before', compact($vars)));
 
 		// Reset the list of allowed schemes
@@ -153,7 +153,7 @@ class factory extends \phpbb\textformatter\s9e\factory
 		}
 
 		// Modify the template to disable images/flash depending on user's settings
-		foreach (array('FLASH', 'IMG') as $name)
+		foreach (['FLASH', 'IMG'] as $name)
 		{
 			$tag = $configurator->tags[$name];
 			$tag->template = '<xsl:choose><xsl:when test="$S_VIEW' . $name . '">' . $tag->template . '</xsl:when><xsl:otherwise><xsl:apply-templates/></xsl:otherwise></xsl:choose>';
@@ -214,7 +214,7 @@ class factory extends \phpbb\textformatter\s9e\factory
 		if (!empty($censor))
 		{
 			// Use a namespaced tag to avoid collisions
-			$configurator->plugins->load('Censor', array('tagName' => 'censor:tag'));
+			$configurator->plugins->load('Censor', ['tagName' => 'censor:tag']);
 			foreach ($censor as $row)
 			{
 				// NOTE: words are stored as HTML, we need to decode them to plain text
@@ -243,7 +243,7 @@ class factory extends \phpbb\textformatter\s9e\factory
 		* @var \s9e\TextFormatter\Configurator configurator Configurator instance
 		* @since 3.2.0-a1
 		*/
-		$vars = array('configurator');
+		$vars = ['configurator'];
 		extract($this->dispatcher->trigger_event('core.text_formatter_s9e_configure_after', compact($vars)));
 
 		return $configurator;

@@ -70,11 +70,11 @@ class renderer extends \phpbb\textformatter\s9e\renderer
 		}
 
 		// Set this user's style id and other parameters
-		$this->renderer->setParameters(array(
+		$this->renderer->setParameters([
 			'S_IS_BOT'          => $user->data['is_bot'],
 			'S_REGISTERED_USER' => $user->data['is_registered'],
 			'S_USER_LOGGED_IN'  => ($user->data['user_id'] != ANONYMOUS),
-			'STYLE_ID'          => $user->style['style_id'],
-		));
+			'STYLE_ID'          => $user->style['style_id']
+		]);
 	}
 }

@@ -79,8 +79,10 @@ class p_master extends \p_master
 							$empty_category = false;
 							break;
 						}
+
 						continue;
 					}
+
 					break;
 				}
 
@@ -116,14 +118,14 @@ class p_master extends \p_master
 
 			$u_title = $module_url . $delim . 'i=';
 
-			// if the item has a name use it, else use its id
+			// If the item has a name use it, else use its id
 			if (empty($item_ary['name']))
 			{
 				$u_title .= $item_ary['id'];
 			}
 			else
 			{
-				// if the category has a name, then use it.
+				// If the category has a name, then use it.
 				$u_title .= $this->get_module_identifier($item_ary['name']);
 			}
 
@@ -149,24 +151,24 @@ class p_master extends \p_master
 			{
 				$use_tabular_offset = (!$depth) ? 't_block1' : $tabular_offset;
 
-				$tpl_ary = array(
+				$tpl_ary = [
 					'MODULE'		=> $item_ary['name'],
 					'MODE'			=> $item_ary['mode'],
 					'L_TITLE'		=> $item_ary['lang'],
-					'S_SELECTED'	=> (isset($this->module_cache['parents'][$item_ary['id']]) || $item_ary['id'] == $this->p_id) ? true : false,
+					'S_SELECTED'	=> (isset($this->module_cache['parents'][$item_ary['id']]) || $item_ary['id'] == $this->p_id),
 					'U_TITLE'		=> $u_title
-				);
+				];
 
 				$template->assign_block_vars($use_tabular_offset, array_merge($tpl_ary, array_change_key_case($item_ary, CASE_UPPER)));
 			}
 
-			$tpl_ary = array(
+			$tpl_ary = [
 				'MODULE'		=> $item_ary['name'],
 				'MODE'			=> $item_ary['mode'],
 				'L_TITLE'		=> $item_ary['lang'],
-				'S_SELECTED'	=> (isset($this->module_cache['parents'][$item_ary['id']]) || $item_ary['id'] == $this->p_id) ? true : false,
+				'S_SELECTED'	=> (isset($this->module_cache['parents'][$item_ary['id']]) || $item_ary['id'] == $this->p_id),
 				'U_TITLE'		=> $u_title
-			);
+			];
 
 			$template->assign_block_vars($linear_offset, array_merge($tpl_ary, array_change_key_case($item_ary, CASE_UPPER)));
 
