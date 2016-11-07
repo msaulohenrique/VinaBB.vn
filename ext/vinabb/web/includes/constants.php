@@ -82,6 +82,10 @@ class constants
 	const NUM_ARTICLES_ON_INDEX = 5;
 	const PORTAL_ARTICLES_PER_PAGE = 20;
 
+	// Maximum length
+	const MAX_PORTAL_CAT_NAME = 32;
+	const MAX_BB_CAT_NAME = 48;
+
 	// Pagination
 	const BB_CATS_PER_PAGE = 20;
 	const BB_ITEMS_PER_PAGE = 10;
