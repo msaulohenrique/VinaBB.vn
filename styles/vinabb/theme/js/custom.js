@@ -1,3 +1,16 @@
+/* global GMaps */
+/* global google */
+/* global $t_theme_path */
+/* global $t_smilies_path */
+/* global $map_lat */
+/* global $map_lng */
+/* global $load_highlight */
+/* global $load_sceditor */
+/* global $sceditor_lang */
+/* global $sceditor_smilies */
+/* global $sceditor_hidden_smilies */
+/* global $sceditor_smilies_desc */
+
 $(document).ready(function()
 {
 	// Google Map on modal
