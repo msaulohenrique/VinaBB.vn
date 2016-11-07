@@ -14,233 +14,135 @@ namespace vinabb\web\entity;
 interface portal_category_interface
 {
 	/**
-	 * Load the data from the database for this rule
-	 *
-	 * @param int $id Rule identifier
-	 * @return rule_interface $this object for chaining calls; load()->set()->save()
-	 * @access public
-	 * @throws \phpbb\boardrules\exception\out_of_bounds
-	 */
+	* Load the data from the database for this rule
+	*
+	* @param int									$id		Category ID
+	* @return portal_category_interface				$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exception\out_of_bounds
+	*/
 	public function load($id);
 
 	/**
-	 * Import data for this rule
-	 *
-	 * Used when the data is already loaded externally.
-	 * Any existing data on this rule is over-written.
-	 * All data is validated and an exception is thrown if any data is invalid.
-	 *
-	 * @param array $data Data array, typically from the database
-	 * @return rule_interface $this object for chaining calls; load()->set()->save()
-	 * @access public
-	 * @throws \phpbb\boardrules\exception\base
-	 */
+	* Import data for this entity
+	*
+	* Used when the data is already loaded externally.
+	* Any existing data on this entity is over-written.
+	* All data is validated and an exception is thrown if any data is invalid.
+	*
+	* @param array						$data	Data array from the database
+	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exception\base
+	*/
 	public function import($data);
 
 	/**
-	 * Insert the rule for the first time
-	 *
-	 * Will throw an exception if the rule was already inserted (call save() instead)
-	 *
-	 * @param int $language The language identifier
-	 * @return rule_interface $this object for chaining calls; load()->set()->save()
-	 * @access public
-	 * @throws \phpbb\boardrules\exception\out_of_bounds
-	 */
-	public function insert($language = 0);
+	* Insert the entity for the first time
+	*
+	* Will throw an exception if the entity was already inserted (call save() instead)
+	*
+	* @return portal_category_interface $this Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exception\out_of_bounds
+	*/
+	public function insert();
 
 	/**
-	 * Save the current settings to the database
-	 *
-	 * This must be called before closing or any changes will not be saved!
-	 * If adding a rule (saving for the first time), you must call insert() or an exception will be thrown
-	 *
-	 * @return rule_interface $this object for chaining calls; load()->set()->save()
-	 * @access public
-	 * @throws \phpbb\boardrules\exception\out_of_bounds
-	 */
+	* Save the current settings to the database
+	*
+	* This must be called before closing or any changes will not be saved!
+	* If adding an entity (saving for the first time), you must call insert() or an exception will be thrown
+	*
+	* @return portal_category_interface $this Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exception\out_of_bounds
+	*/
 	public function save();
 
 	/**
-	 * Get id
-	 *
-	 * @return int Rule identifier
-	 * @access public
-	 */
+	* Get the cat_id
+	*
+	* @return int cat_id
+	*/
 	public function get_id();
 
 	/**
-	 * Get title
-	 *
-	 * @return string Title
-	 * @access public
-	 */
-	public function get_title();
-
-	/**
-	 * Set title
-	 *
-	 * @param string $title
-	 * @return rule_interface $this object for chaining calls; load()->set()->save()
-	 * @access public
-	 * @throws \phpbb\boardrules\exception\unexpected_value
-	 */
-	public function set_title($title);
-
-	/**
-	 * Get message for edit
-	 *
-	 * @return string
-	 * @access public
-	 */
-	public function get_message_for_edit();
-
-	/**
-	 * Get message for display
-	 *
-	 * @param bool $censor_text True to censor the text (Default: true)
-	 * @return string
-	 * @access public
-	 */
-	public function get_message_for_display($censor_text = true);
-
-	/**
-	 * Set message
-	 *
-	 * @param string $message
-	 * @return rule_interface $this object for chaining calls; load()->set()->save()
-	 * @access public
-	 */
-	public function set_message($message);
-
-	/**
-	 * Check if bbcode is enabled on the message
-	 *
-	 * @return bool
-	 * @access public
-	 */
-	public function message_bbcode_enabled();
-
-	/**
-	 * Enable bbcode on the message
-	 *
-	 * @return rule_interface $this object for chaining calls; load()->set()->save()
-	 * @access public
-	 */
-	public function message_enable_bbcode();
-
-	/**
-	 * Disable bbcode on the message
-	 *
-	 * @return rule_interface $this object for chaining calls; load()->set()->save()
-	 * @access public
-	 */
-	public function message_disable_bbcode();
-
-	/**
-	 * Check if magic_url is enabled on the message
-	 *
-	 * @return bool
-	 * @access public
-	 */
-	public function message_magic_url_enabled();
-
-	/**
-	 * Enable magic url on the message
-	 *
-	 * @return rule_interface $this object for chaining calls; load()->set()->save()
-	 * @access public
-	 */
-	public function message_enable_magic_url();
-
-	/**
-	 * Disable magic url on the message
-	 *
-	 * @return rule_interface $this object for chaining calls; load()->set()->save()
-	 * @access public
-	 */
-	public function message_disable_magic_url();
-
-	/**
-	 * Check if smilies are enabled on the message
-	 *
-	 * @return bool
-	 * @access public
-	 */
-	public function message_smilies_enabled();
-
-	/**
-	 * Enable smilies on the message
-	 *
-	 * @return rule_interface $this object for chaining calls; load()->set()->save()
-	 * @access public
-	 */
-	public function message_enable_smilies();
-
-	/**
-	 * Disable smilies on the message
-	 *
-	 * @return rule_interface $this object for chaining calls; load()->set()->save()
-	 * @access public
-	 */
-	public function message_disable_smilies();
-
-	/**
-	 * Get anchor
-	 *
-	 * @return string anchor
-	 * @access public
-	 */
-	public function get_anchor();
-
-	/**
-	 * Set anchor
-	 *
-	 * @param string $anchor Anchor text
-	 * @return rule_interface $this object for chaining calls; load()->set()->save()
-	 * @access public
-	 * @throws \phpbb\boardrules\exception\unexpected_value
-	 */
-	public function set_anchor($anchor);
-
-	/**
-	 * Get the language identifier
-	 *
-	 * @return int language identifier
-	 * @access public
-	 */
-	public function get_language();
-
-	/**
-	 * Set the language identifier
-	 *
-	 * @param int $language language identifier
-	 * @return rule_interface $this object for chaining calls; load()->set()->save()
-	 * @access public
-	 */
-	public function set_language($language);
-
-	/**
-	 * Get the parent identifier
-	 *
-	 * @return int parent identifier
-	 * @access public
-	 */
+	* Get the parent_id
+	*
+	* @return int parent_id
+	*/
 	public function get_parent_id();
 
 	/**
-	 * Get the left identifier (for the tree)
-	 *
-	 * @return int left identifier
-	 * @access public
-	 */
+	* Get the left_id for the tree
+	*
+	* @return int left_id
+	*/
 	public function get_left_id();
 
 	/**
-	 * Get the right identifier (for the tree)
-	 *
-	 * @return int right identifier
-	 * @access public
-	 */
+	* Get the right_id for the tree
+	*
+	* @return int right_id
+	*/
 	public function get_right_id();
+
+	/**
+	* Get the category name
+	*
+	* @return string Title
+	*/
+	public function get_cat_name();
+
+	/**
+	* Set the category name
+	*
+	* @param string						$name
+	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exception\unexpected_value
+	*/
+	public function set_cat_name($name);
+
+	/**
+	* Get the Vietnamese category name
+	*
+	* @return string Title
+	*/
+	public function get_cat_name_vi();
+
+	/**
+	* Set the Vietnamese category name
+	*
+	* @param string						$name
+	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exception\unexpected_value
+	*/
+	public function set_cat_name_vi($name);
+
+	/**
+	* Get the category varname
+	*
+	* @return string Category varname
+	*/
+	public function get_cat_varname();
+
+	/**
+	* Set the category varname
+	*
+	* @param int						$varname	Category varname
+	* @return portal_category_interface	$this		Object for chaining calls: load()->set()->save()
+	*/
+	public function set_cat_varname($varname);
+	
+	/**
+	* Get the language identifier
+	*
+	* @return string Category icon
+	*/
+	public function get_cat_icon();
+
+	/**
+	* Set the language identifier
+	*
+	* @param int						$icon	Category icon
+	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_cat_icon($icon);
 }

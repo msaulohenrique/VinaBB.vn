@@ -8,6 +8,8 @@
 
 namespace vinabb\web\entity;
 
+use vinabb\web\includes\constants;
+
 /**
 * Entity for a single news category
 */
@@ -18,11 +20,13 @@ class portal_category implements portal_category_interface
 	*
 	* @var array
 	*	cat_id
+	*	parent_id
+	*	left_id
+	*	right_id
 	*	cat_name
 	*	cat_name_vi
 	*	cat_varname
 	*	cat_icon
-	*	cat_order
 	*/
 	protected $data;
 
@@ -45,7 +49,7 @@ class portal_category implements portal_category_interface
 	}
 
 	/**
-	* Load the data from the database for this rule
+	* Load the data from the database for this entity
 	*
 	* @param int									$id		Category ID
 	* @return portal_category_interface				$this	Object for chaining calls: load()->set()->save()
@@ -60,7 +64,7 @@ class portal_category implements portal_category_interface
 		$this->data = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 
-		// This entity does not exist
+		// The entity does not exist
 		if ($this->data === false)
 		{
 			throw new \vinabb\web\exception\out_of_bounds('cat_id');
@@ -70,17 +74,16 @@ class portal_category implements portal_category_interface
 	}
 
 	/**
-	 * Import data for this rule
-	 *
-	 * Used when the data is already loaded externally.
-	 * Any existing data on this rule is over-written.
-	 * All data is validated and an exception is thrown if any data is invalid.
-	 *
-	 * @param array $data Data array, typically from the database
-	 * @return rule_interface $this object for chaining calls; load()->set()->save()
-	 * @access public
-	 * @throws \vinabb\web\exception\base
-	 */
+	* Import data for this entity
+	*
+	* Used when the data is already loaded externally.
+	* Any existing data on this entity is over-written.
+	* All data is validated and an exception is thrown if any data is invalid.
+	*
+	* @param array						$data	Data array from the database
+	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exception\base
+	*/
 	public function import($data)
 	{
 		// Clear out any saved data
@@ -92,10 +95,10 @@ class portal_category implements portal_category_interface
 			'parent_id'		=> 'integer',
 			'left_id'		=> 'integer',
 			'right_id'		=> 'integer',
-			'cat_name'		=> 'string',
-			'cat_name_vi'	=> 'string',
-			'cat_varname'	=> 'string',
-			'cat_icon'		=> 'string'
+			'cat_name'		=> 'set_cat_name',
+			'cat_name_vi'	=> 'set_cat_name_vi',
+			'cat_varname'	=> 'set_cat_varname',
+			'cat_icon'		=> 'set_cat_icon'
 		];
 
 		// Go through the basic fields and set them to our data array
@@ -140,453 +143,227 @@ class portal_category implements portal_category_interface
 	}
 
 	/**
-	 * Insert the rule for the first time
-	 *
-	 * Will throw an exception if the rule was already inserted (call save() instead)
-	 *
-	 * @param int $language The language identifier
-	 * @return rule_interface $this object for chaining calls; load()->set()->save()
-	 * @access public
-	 * @throws \phpbb\boardrules\exception\out_of_bounds
-	 */
-	public function insert($language = 0)
+	* Insert the entity for the first time
+	*
+	* Will throw an exception if the entity was already inserted (call save() instead)
+	*
+	* @return portal_category_interface $this Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exception\out_of_bounds
+	*/
+	public function insert()
 	{
-		if (!empty($this->data['rule_id']))
+		// The entity already exists
+		if (!empty($this->data['cat_id']))
 		{
-			// The rule already exists
-			throw new \phpbb\boardrules\exception\out_of_bounds('rule_id');
+			throw new \vinabb\web\exception\out_of_bounds('cat_id');
 		}
 
 		// Resets values required for the nested set system
-		$this->data['rule_parent_id'] = 0;
-		$this->data['rule_left_id'] = 0;
-		$this->data['rule_right_id'] = 0;
-		$this->data['rule_parents'] = '';
+		$this->data['parent_id'] = 0;
+		$this->data['left_id'] = 0;
+		$this->data['right_id'] = 0;
+		$this->data['cat_parents'] = '';
 
 		// Make extra sure there is no rule_id set
-		unset($this->data['rule_id']);
-
-		// Add the language identifier to the data array
-		$this->data['rule_language'] = $language;
+		unset($this->data['cat_id']);
 
 		// Insert the rule data to the database
-		$sql = 'INSERT INTO ' . $this->boardrules_table . ' ' . $this->db->sql_build_array('INSERT', $this->data);
+		$sql = 'INSERT INTO ' . $this->portal_categories_table . ' ' . $this->db->sql_build_array('INSERT', $this->data);
 		$this->db->sql_query($sql);
 
-		// Set the rule_id using the id created by the SQL insert
-		$this->data['rule_id'] = (int) $this->db->sql_nextid();
+		// Set the ID using the ID created by the SQL insert
+		$this->data['cat_id'] = (int) $this->db->sql_nextid();
 
 		return $this;
 	}
 
 	/**
-	 * Save the current settings to the database
-	 *
-	 * This must be called before closing or any changes will not be saved!
-	 * If adding a rule (saving for the first time), you must call insert() or an exception will be thrown
-	 *
-	 * @return rule_interface $this object for chaining calls; load()->set()->save()
-	 * @access public
-	 * @throws \phpbb\boardrules\exception\out_of_bounds
-	 */
+	* Save the current settings to the database
+	*
+	* This must be called before closing or any changes will not be saved!
+	* If adding an entity (saving for the first time), you must call insert() or an exception will be thrown
+	*
+	* @return portal_category_interface $this Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exception\out_of_bounds
+	*/
 	public function save()
 	{
-		if (empty($this->data['rule_id']))
+		// The entity does not exist
+		if (empty($this->data['cat_id']))
 		{
-			// The rule does not exist
-			throw new \phpbb\boardrules\exception\out_of_bounds('rule_id');
+			throw new \vinabb\web\exception\out_of_bounds('cat_id');
 		}
 
 		// Copy the data array, filtering out the rule_id identifier
 		// so we do not attempt to update the row's identity column.
-		$sql_array = array_diff_key($this->data, array('rule_id' => null));
+		$sql_array = array_diff_key($this->data, array('cat_id' => null));
 
 		// Update the page data in the database
-		$sql = 'UPDATE ' . $this->boardrules_table . '
+		$sql = 'UPDATE ' . $this->portal_categories_table . '
 			SET ' . $this->db->sql_build_array('UPDATE', $sql_array) . '
-			WHERE rule_id = ' . $this->get_id();
+			WHERE cat_id = ' . $this->get_id();
 		$this->db->sql_query($sql);
 
 		return $this;
 	}
 
 	/**
-	 * Get id
-	 *
-	 * @return int Rule identifier
-	 * @access public
-	 */
+	* Get the cat_id
+	*
+	* @return int cat_id
+	*/
 	public function get_id()
 	{
-		return isset($this->data['rule_id']) ? (int) $this->data['rule_id'] : 0;
+		return isset($this->data['cat_id']) ? (int) $this->data['cat_id'] : 0;
 	}
 
 	/**
-	 * Get title
-	 *
-	 * @return string Title
-	 * @access public
-	 */
-	public function get_title()
+	* Get the parent_id
+	*
+	* @return int parent_id
+	*/
+	public function get_parent_id()
 	{
-		return isset($this->data['rule_title']) ? (string) $this->data['rule_title'] : '';
+		return isset($this->data['parent_id']) ? (int) $this->data['parent_id'] : 0;
 	}
 
 	/**
-	 * Set title
-	 *
-	 * @param string $title
-	 * @return rule_interface $this object for chaining calls; load()->set()->save()
-	 * @access public
-	 * @throws \phpbb\boardrules\exception\unexpected_value
-	 */
-	public function set_title($title)
+	* Get the left_id for the tree
+	*
+	* @return int left_id
+	*/
+	public function get_left_id()
+	{
+		return isset($this->data['left_id']) ? (int) $this->data['left_id'] : 0;
+	}
+
+	/**
+	* Get the right_id for the tree
+	*
+	* @return int right_id
+	*/
+	public function get_right_id()
+	{
+		return isset($this->data['right_id']) ? (int) $this->data['right_id'] : 0;
+	}
+
+	/**
+	* Get the category name
+	*
+	* @return string Title
+	*/
+	public function get_cat_name()
+	{
+		return isset($this->data['cat_name']) ? (string) $this->data['cat_name'] : '';
+	}
+
+	/**
+	* Set the category name
+	*
+	* @param string						$name
+	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exception\unexpected_value
+	*/
+	public function set_cat_name($name)
 	{
 		// Enforce a string
-		$title = (string) $title;
+		$name = (string) $name;
 
-		// We limit the title length to 200 characters
-		if (truncate_string($title, 200) != $title)
+		// Check the max length
+		if (truncate_string($name, constants::MAX_PORTAL_CAT_NAME) != $name)
 		{
-			throw new \phpbb\boardrules\exception\unexpected_value(array('title', 'TOO_LONG'));
+			throw new \vinabb\web\exception\unexpected_value(array('cat_name', 'TOO_LONG'));
 		}
 
 		// Set the title on our data array
-		$this->data['rule_title'] = $title;
+		$this->data['cat_name'] = $name;
 
 		return $this;
 	}
 
 	/**
-	 * Get message for edit
-	 *
-	 * @return string
-	 * @access public
-	 */
-	public function get_message_for_edit()
+	* Get the Vietnamese category name
+	*
+	* @return string Title
+	*/
+	public function get_cat_name_vi()
 	{
-		// Use defaults if these haven't been set yet
-		$message = isset($this->data['rule_message']) ? $this->data['rule_message'] : '';
-		$uid = isset($this->data['rule_message_bbcode_uid']) ? $this->data['rule_message_bbcode_uid'] : '';
-		$options = isset($this->data['rule_message_bbcode_options']) ? (int) $this->data['rule_message_bbcode_options'] : 0;
-
-		// Generate for edit
-		$message_data = generate_text_for_edit($message, $uid, $options);
-
-		return $message_data['text'];
+		return isset($this->data['cat_name_vi']) ? (string) $this->data['cat_name_vi'] : '';
 	}
 
 	/**
-	 * Get message for display
-	 *
-	 * @param bool $censor_text True to censor the text (Default: true)
-	 * @return string
-	 * @access public
-	 */
-	public function get_message_for_display($censor_text = true)
-	{
-		// If these haven't been set yet; use defaults
-		$message = isset($this->data['rule_message']) ? $this->data['rule_message'] : '';
-		$uid = isset($this->data['rule_message_bbcode_uid']) ? $this->data['rule_message_bbcode_uid'] : '';
-		$bitfield = isset($this->data['rule_message_bbcode_bitfield']) ? $this->data['rule_message_bbcode_bitfield'] : '';
-		$options = isset($this->data['rule_message_bbcode_options']) ? (int) $this->data['rule_message_bbcode_options'] : 0;
-
-		// Generate for display
-		return generate_text_for_display($message, $uid, $bitfield, $options, $censor_text);
-	}
-
-	/**
-	 * Set message
-	 *
-	 * @param string $message
-	 * @return rule_interface $this object for chaining calls; load()->set()->save()
-	 * @access public
-	 */
-	public function set_message($message)
-	{
-		// Prepare the text for storage
-		$uid = $bitfield = $flags = '';
-		generate_text_for_storage($message, $uid, $bitfield, $flags, $this->message_bbcode_enabled(), $this->message_magic_url_enabled(), $this->message_smilies_enabled());
-
-		// Set the message to our data array
-		$this->data['rule_message'] = $message;
-		$this->data['rule_message_bbcode_uid'] = $uid;
-		$this->data['rule_message_bbcode_bitfield'] = $bitfield;
-		// Flags are already set
-
-		return $this;
-	}
-
-	/**
-	 * Check if bbcode is enabled on the message
-	 *
-	 * @return bool
-	 * @access public
-	 */
-	public function message_bbcode_enabled()
-	{
-		return ($this->data['rule_message_bbcode_options'] & OPTION_FLAG_BBCODE);
-	}
-
-	/**
-	 * Enable bbcode on the message
-	 *
-	 * @return rule_interface $this object for chaining calls; load()->set()->save()
-	 * @access public
-	 */
-	public function message_enable_bbcode()
-	{
-		$this->set_message_option(OPTION_FLAG_BBCODE);
-
-		return $this;
-	}
-
-	/**
-	 * Disable bbcode on the message
-	 *
-	 * @return rule_interface $this object for chaining calls; load()->set()->save()
-	 * @access public
-	 */
-	public function message_disable_bbcode()
-	{
-		$this->set_message_option(OPTION_FLAG_BBCODE, true);
-
-		return $this;
-	}
-
-	/**
-	 * Check if magic_url is enabled on the message
-	 *
-	 * @return bool
-	 * @access public
-	 */
-	public function message_magic_url_enabled()
-	{
-		return ($this->data['rule_message_bbcode_options'] & OPTION_FLAG_LINKS);
-	}
-
-	/**
-	 * Enable magic url on the message
-	 *
-	 * @return rule_interface $this object for chaining calls; load()->set()->save()
-	 * @access public
-	 */
-	public function message_enable_magic_url()
-	{
-		$this->set_message_option(OPTION_FLAG_LINKS);
-
-		return $this;
-	}
-
-	/**
-	 * Disable magic url on the message
-	 *
-	 * @return rule_interface $this object for chaining calls; load()->set()->save()
-	 * @access public
-	 */
-	public function message_disable_magic_url()
-	{
-		$this->set_message_option(OPTION_FLAG_LINKS, true);
-
-		return $this;
-	}
-
-	/**
-	 * Check if smilies are enabled on the message
-	 *
-	 * @return bool
-	 * @access public
-	 */
-	public function message_smilies_enabled()
-	{
-		return ($this->data['rule_message_bbcode_options'] & OPTION_FLAG_SMILIES);
-	}
-
-	/**
-	 * Enable smilies on the message
-	 *
-	 * @return rule_interface $this object for chaining calls; load()->set()->save()
-	 * @access public
-	 */
-	public function message_enable_smilies()
-	{
-		$this->set_message_option(OPTION_FLAG_SMILIES);
-
-		return $this;
-	}
-
-	/**
-	 * Disable smilies on the message
-	 *
-	 * @return rule_interface $this object for chaining calls; load()->set()->save()
-	 * @access public
-	 */
-	public function message_disable_smilies()
-	{
-		$this->set_message_option(OPTION_FLAG_SMILIES, true);
-
-		return $this;
-	}
-
-	/**
-	 * Get anchor
-	 *
-	 * @return string anchor
-	 * @access public
-	 */
-	public function get_anchor()
-	{
-		return isset($this->data['rule_anchor']) ? (string) $this->data['rule_anchor'] : '';
-	}
-
-	/**
-	 * Set anchor
-	 *
-	 * @param string $anchor Anchor text
-	 * @return rule_interface $this object for chaining calls; load()->set()->save()
-	 * @access public
-	 * @throws \phpbb\boardrules\exception\unexpected_value
-	 */
-	public function set_anchor($anchor)
+	* Set the Vietnamese category name
+	*
+	* @param string						$name
+	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exception\unexpected_value
+	*/
+	public function set_cat_name_vi($name)
 	{
 		// Enforce a string
-		$anchor = (string) $anchor;
+		$name = (string) $name;
 
-		// Anchor should not contain any special characters
-		if (($anchor != '') && !preg_match('/^[^!"#$%&*\'()+,.\/\\\\:;<=>?@\[\]^`{|}~ ]*$/', $anchor))
+		// Check the max length
+		if (truncate_string($name, constants::MAX_PORTAL_CAT_NAME) != $name)
 		{
-			throw new \phpbb\boardrules\exception\unexpected_value(array('anchor', 'ILLEGAL_CHARACTERS'));
+			throw new \vinabb\web\exception\unexpected_value(array('cat_name_vi', 'TOO_LONG'));
 		}
 
-		// We limit the anchor length to 255 characters
-		if (truncate_string($anchor, 255) != $anchor)
-		{
-			throw new \phpbb\boardrules\exception\unexpected_value(array('anchor', 'TOO_LONG'));
-		}
-
-		// Make sure rule anchors are unique for the current language
-		// Test if new page and anchor field has data or...
-		//    if existing page and anchor field has new data not equal to existing anchor data
-		if ((!$this->get_id() && $anchor !== '') || ($this->get_id() && $anchor !== '' && $this->get_anchor() !== $anchor))
-		{
-			$sql = 'SELECT 1
-				FROM ' . $this->boardrules_table . "
-				WHERE rule_anchor = '" . $this->db->sql_escape($anchor) . "'
-					AND rule_id <> " . $this->get_id() .
-				($this->get_language() ? ' AND rule_language = ' . $this->get_language() : '');
-			$result = $this->db->sql_query_limit($sql, 1);
-			$row = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
-
-			if ($row)
-			{
-				throw new \phpbb\boardrules\exception\unexpected_value(array('anchor', 'NOT_UNIQUE'));
-			}
-		}
-
-		// Set the anchor on our data array
-		$this->data['rule_anchor'] = $anchor;
+		// Set the title on our data array
+		$this->data['cat_name_vi'] = $name;
 
 		return $this;
 	}
 
 	/**
-	 * Get the language identifier
-	 *
-	 * @return int language identifier
-	 * @access public
-	 */
-	public function get_language()
+	* Get the category varname
+	*
+	* @return string Category varname
+	*/
+	public function get_cat_varname()
 	{
-		return isset($this->data['rule_language']) ? (int) $this->data['rule_language'] : 0;
+		return isset($this->data['cat_varname']) ? (string) $this->data['cat_varname'] : '';
 	}
 
 	/**
-	 * Set the language identifier
-	 *
-	 * @param int $language language identifier
-	 * @return rule_interface $this object for chaining calls; load()->set()->save()
-	 * @access public
-	 */
-	public function set_language($language)
+	* Set the category varname
+	*
+	* @param int						$varname	Category varname
+	* @return portal_category_interface	$this		Object for chaining calls: load()->set()->save()
+	*/
+	public function set_cat_varname($varname)
 	{
-		if (!isset($this->data['rule_language']))
+		if (!isset($this->data['cat_varname']))
 		{
-			$this->data['rule_language'] = (int) $language;
+			$this->data['cat_varname'] = (string) $varname;
 		}
 
 		return $this;
 	}
 
 	/**
-	 * Get the parent identifier
-	 *
-	 * @return int parent identifier
-	 * @access public
-	 */
-	public function get_parent_id()
+	* Get the category icon
+	*
+	* @return string Category icon
+	*/
+	public function get_cat_icon()
 	{
-		return isset($this->data['rule_parent_id']) ? (int) $this->data['rule_parent_id'] : 0;
+		return isset($this->data['cat_icon']) ? (string) $this->data['cat_icon'] : '';
 	}
 
 	/**
-	 * Get the left identifier (for the tree)
-	 *
-	 * @return int left identifier
-	 * @access public
-	 */
-	public function get_left_id()
+	* Set the category icon
+	*
+	* @param int						$icon	Category icon
+	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_cat_icon($icon)
 	{
-		return isset($this->data['rule_left_id']) ? (int) $this->data['rule_left_id'] : 0;
-	}
-
-	/**
-	 * Get the right identifier (for the tree)
-	 *
-	 * @return int right identifier
-	 * @access public
-	 */
-	public function get_right_id()
-	{
-		return isset($this->data['rule_right_id']) ? (int) $this->data['rule_right_id'] : 0;
-	}
-
-	/**
-	 * Set option helper
-	 *
-	 * @param int $option_value Value of the option
-	 * @param bool $negate Negate (unset) option (Default: False)
-	 * @param bool $reparse_message Re-parse the message after setting option (Default: True)
-	 * @return void
-	 * @access protected
-	 */
-	protected function set_message_option($option_value, $negate = false, $reparse_message = true)
-	{
-		// Set rule_message_bbcode_options to 0 if it does not yet exist
-		$this->data['rule_message_bbcode_options'] = isset($this->data['rule_message_bbcode_options']) ? $this->data['rule_message_bbcode_options'] : 0;
-
-		// If we're setting the option and the option is not already set
-		if (!$negate && !($this->data['rule_message_bbcode_options'] & $option_value))
+		if (!isset($this->data['cat_icon']))
 		{
-			// Add the option to the options
-			$this->data['rule_message_bbcode_options'] += $option_value;
+			$this->data['cat_icon'] = (string) $icon;
 		}
 
-		// If we're un-setting the option and the option is already set
-		if ($negate && $this->data['rule_message_bbcode_options'] & $option_value)
-		{
-			// Subtract the option from the options
-			$this->data['rule_message_bbcode_options'] -= $option_value;
-		}
-
-		// Re-parse the message
-		if ($reparse_message && !empty($this->data['rule_message']))
-		{
-			$message = $this->data['rule_message'];
-
-			decode_message($message, $this->data['rule_message_bbcode_uid']);
-
-			$this->set_message($message);
-		}
+		return $this;
 	}
 }
