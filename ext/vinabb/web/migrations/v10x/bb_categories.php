@@ -10,21 +10,30 @@ namespace vinabb\web\migrations\v10x;
 
 use phpbb\db\migration\migration;
 
+/**
+* Add the ACP module category for phpBB Resource
+*/
 class bb_categories extends migration
 {
+	/**
+	* List of required migrations
+	*
+	* @return array
+	*/
 	static public function depends_on()
 	{
-		return array('\vinabb\web\migrations\v10x\module_categories');
+		return ['\vinabb\web\migrations\v10x\module_categories'];
 	}
 
+	/**
+	* Update data
+	*
+	* @return array
+	*/
 	public function update_data()
 	{
-		return array(
-			array('module.add', array(
-				'acp',
-				'ACP_CAT_VINABB',
-				'ACP_CAT_BB'
-			)),
-		);
+		return [
+			['module.add', ['acp', 'ACP_CAT_VINABB', 'ACP_CAT_BB']]
+		];
 	}
 }

@@ -10,32 +10,51 @@ namespace vinabb\web\migrations\v10x;
 
 use phpbb\db\migration\migration;
 
+/**
+* Add ACP modules for phpBB Resource
+*/
 class bb_modules extends migration
 {
+	/**
+	* List of required migrations
+	*
+	* @return array
+	*/
 	static public function depends_on()
 	{
-		return array('\vinabb\web\migrations\v10x\bb_categories');
+		return ['\vinabb\web\migrations\v10x\bb_categories'];
 	}
 
+	/**
+	* Update data
+	*
+	* @return array
+	*/
 	public function update_data()
 	{
-		return array(
-			array('module.add', array(
-				'acp',
-				'ACP_CAT_BB',
-				array(
-					'module_basename' => '\vinabb\web\acp\bb_categories_module',
-					'modes' => array('ext', 'style', 'acp_style', 'lang', 'tool'),
-				),
-			)),
-			array('module.add', array(
-				'acp',
-				'ACP_CAT_BB',
-				array(
-					'module_basename' => '\vinabb\web\acp\bb_items_module',
-					'modes' => array('ext', 'style', 'acp_style', 'lang', 'tool'),
-				),
-			)),
-		);
+		return [
+			[
+				'module.add',
+				[
+					'acp',
+					'ACP_CAT_BB',
+					[
+						'module_basename'	=> '\vinabb\web\acp\bb_categories_module',
+						'modes' 			=> ['ext', 'style', 'acp_style', 'lang', 'tool']
+					],
+				]
+			],
+			[
+				'module.add',
+				[
+					'acp',
+					'ACP_CAT_BB',
+					[
+						'module_basename'	=> '\vinabb\web\acp\bb_items_module',
+						'modes'				=> ['ext', 'style', 'acp_style', 'lang', 'tool']
+					]
+				]
+			]
+		];
 	}
 }
