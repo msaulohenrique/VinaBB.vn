@@ -12,6 +12,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use s9e\TextFormatter\Bundles\MediaPack;
 use vinabb\web\includes\constants;
 
+/**
+* PHP events
+*/
 class listener implements EventSubscriberInterface
 {
 	/** @var \phpbb\auth\auth */
@@ -59,6 +62,15 @@ class listener implements EventSubscriberInterface
 	/** @var string */
 	protected $php_ext;
 
+	/** @var string */
+	protected $ext_root_path;
+
+	/** @var string */
+	protected $ext_web_path;
+
+	/** @var array */
+	protected $config_text = [];
+
 	/**
 	* Constructor
 	*
@@ -75,6 +87,7 @@ class listener implements EventSubscriberInterface
 	* @param \vinabb\web\controller\helper $ext_helper
 	* @param \phpbb\path_helper $path_helper
 	* @param string $root_path
+	* @param string $admin_path
 	* @param string $php_ext
 	*/
 	public function __construct(
@@ -116,9 +129,14 @@ class listener implements EventSubscriberInterface
 		$this->config_text = $this->cache->get_config_text();
 	}
 
+	/**
+	* List of phpBB's PHP events to be used
+	*
+	* @return array
+	*/
 	static public function getSubscribedEvents()
 	{
-		return array(
+		return [
 			'core.user_setup'			=> 'user_setup',
 			'core.page_header_after'	=> 'page_header_after',
 			'core.adm_page_header'		=> 'adm_page_header',
@@ -146,30 +164,30 @@ class listener implements EventSubscriberInterface
 			'core.text_formatter_s9e_configure_after'	=> 'text_formatter_s9e_configure_after',
 			'core.text_formatter_s9e_configure_before'	=> 'text_formatter_s9e_configure_before',
 
-			'core.acp_manage_forums_update_data_before'	=> 'acp_manage_forums_update_data_before',
-		);
+			'core.acp_manage_forums_update_data_before'	=> 'acp_manage_forums_update_data_before'
+		];
 	}
 
 	/**
 	* core.user_setup
 	*
-	* @param $event
+	* @param array $event Data from the PHP event
 	*/
 	public function user_setup($event)
 	{
 		// Add our common language variables
 		$lang_set_ext = $event['lang_set_ext'];
-		$lang_set_ext[] = array(
+		$lang_set_ext[] = [
 			'ext_name' => 'vinabb/web',
-			'lang_set' => 'common',
-		);
+			'lang_set' => 'common'
+		];
 		$event['lang_set_ext'] = $lang_set_ext;
 	}
 
 	/**
 	* core.page_header_after
 	*
-	* @param $event
+	* @param array $event Data from the PHP event
 	*/
 	public function page_header_after($event)
 	{
@@ -177,38 +195,26 @@ class listener implements EventSubscriberInterface
 		$this->list_forums();
 
 		// Display phpBB Resource's category list on every page
-		$bb_types = array('ext', 'style', 'acp_style', 'lang', 'tool');
-
-		foreach ($bb_types as $bb_type)
-		{
-			foreach ($this->cache->get_bb_cats($bb_type) as $cat_id => $cat_data)
-			{
-				$this->template->assign_block_vars($bb_type . '_cats', array(
-					'ID'		=> $cat_id,
-					'NAME'		=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $cat_data['name_vi'] : $cat_data['name'],
-					'VARNAME'	=> $cat_data['varname'],
-					'ICON'		=> $cat_data['icon'],
-					'URL'		=> $this->helper->route('vinabb_web_bb_cat_route', array('type' => $this->ext_helper->get_bb_type_varnames($bb_type), 'cat' => $cat_data['varname'])),
-				));
-			}
-		}
-
-		// Get language data from cache
-		$lang_data = $this->cache->get_lang_data();
+		$this->list_bb_cats();
 
 		// Language switcher for guests
-		if ($this->config['vinabb_web_lang_enable'] && $this->config['vinabb_web_lang_switch'])
+		if ($this->user->data['user_id'] == ANONYMOUS && $this->config['vinabb_web_lang_enable'] && $this->config['vinabb_web_lang_switch'])
 		{
+			// Get language data from cache
+			$lang_data = $this->cache->get_lang_data();
+
+			// Language titles
 			$lang_switch = ($this->user->lang_name == $this->config['default_lang']) ? $this->config['vinabb_web_lang_switch'] : $this->config['default_lang'];
+			$lang_switch_new = $lang_data[$lang_switch]['local_name'];
 			$lang_switch_title = ($this->user->lang_name == $this->config['default_lang']) ? $this->language->lang('LANG_SWITCH', $lang_data[$this->config['default_lang']]['local_name'], $lang_data[$this->config['vinabb_web_lang_switch']]['local_name']) : $this->language->lang('LANG_SWITCH', $lang_data[$this->config['vinabb_web_lang_switch']]['local_name'], $lang_data[$this->config['default_lang']]['local_name']);
 		}
 		else
 		{
-			$lang_switch = $lang_switch_title = '';
+			$lang_switch = $lang_switch_new = $lang_switch_title = '';
 		}
 
 		// Add template variables
-		$this->template->assign_vars(array(
+		$this->template->assign_vars([
 			'CONFIG_TOTAL_USERS'			=> $this->config['num_users'],
 			'CONFIG_TOTAL_FORUMS'			=> $this->config['num_forums'],
 			'CONFIG_TOTAL_TOPICS'			=> $this->config['num_topics'],
@@ -223,7 +229,7 @@ class listener implements EventSubscriberInterface
 
 			'LANG_SWITCH_CURRENT'	=> $this->user->lang_name,
 			'LANG_SWITCH_DEFAULT'	=> $this->config['default_lang'],
-			'LANG_SWITCH_NEW'		=> ($this->config['vinabb_web_lang_enable'] && $this->config['vinabb_web_lang_switch']) ? $lang_data[$lang_switch]['local_name'] : '',
+			'LANG_SWITCH_NEW'		=> $lang_switch_new,
 			'LANG_SWITCH_TITLE'		=> $lang_switch_title,
 
 			'FORUM_ID_VIETNAMESE'				=> $this->config['vinabb_web_forum_id_vietnamese'],
@@ -259,109 +265,40 @@ class listener implements EventSubscriberInterface
 
 			'U_BOARD'			=> $this->helper->route('vinabb_web_board_route'),
 			'U_BB'				=> $this->helper->route('vinabb_web_bb_route'),
-			'U_BB_EXTS'			=> $this->helper->route('vinabb_web_bb_type_route', array('type' => constants::BB_TYPE_VARNAME_EXT)),
-			'U_BB_STYLES'		=> $this->helper->route('vinabb_web_bb_type_route', array('type' => constants::BB_TYPE_VARNAME_STYLE)),
-			'U_BB_ACP_STYLES'	=> $this->helper->route('vinabb_web_bb_type_route', array('type' => constants::BB_TYPE_VARNAME_ACP_STYLE)),
-			'U_BB_LANGS'		=> $this->helper->route('vinabb_web_bb_type_route', array('type' => constants::BB_TYPE_VARNAME_LANG)),
-			'U_BB_TOOLS'		=> $this->helper->route('vinabb_web_bb_type_route', array('type' => constants::BB_TYPE_VARNAME_TOOL)),
+			'U_BB_EXTS'			=> $this->helper->route('vinabb_web_bb_type_route', ['type' => constants::BB_TYPE_VARNAME_EXT]),
+			'U_BB_STYLES'		=> $this->helper->route('vinabb_web_bb_type_route', ['type' => constants::BB_TYPE_VARNAME_STYLE]),
+			'U_BB_ACP_STYLES'	=> $this->helper->route('vinabb_web_bb_type_route', ['type' => constants::BB_TYPE_VARNAME_ACP_STYLE]),
+			'U_BB_LANGS'		=> $this->helper->route('vinabb_web_bb_type_route', ['type' => constants::BB_TYPE_VARNAME_LANG]),
+			'U_BB_TOOLS'		=> $this->helper->route('vinabb_web_bb_type_route', ['type' => constants::BB_TYPE_VARNAME_TOOL]),
 			'U_FAQ_BBCODE'		=> $this->helper->route('phpbb_help_bbcode_controller'),
 			'U_MCP'				=> ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? append_sid("{$this->root_path}mcp.{$this->php_ext}", 'i=main&mode=front', true, $this->user->session_id) : '',
 			'U_LANG'			=> ($this->user->data['user_id'] == ANONYMOUS && $this->config['vinabb_web_lang_enable']) ? append_sid("{$this->root_path}index.{$this->php_ext}", "language=$lang_switch") : '',
-			'U_CONTACT_PM'		=> ($this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm') && $this->config['vinabb_web_manager_user_id']) ? $this->helper->route('vinabb_web_ucp_route', array('id' => 'pm', 'mode' => 'compose', 'u' => $this->config['vinabb_web_manager_user_id'])) : '',
-			'U_LOGIN_ACTION'	=> $this->helper->route('vinabb_web_ucp_route', array('id' => 'front', 'mode' => 'login')),
-			'U_SEND_PASSWORD'	=> ($this->config['email_enable']) ? $this->helper->route('vinabb_web_ucp_route', array('id' => 'front', 'mode' => 'sendpassword')) : '',
-		));
+			'U_CONTACT_PM'		=> ($this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm') && $this->config['vinabb_web_manager_user_id']) ? $this->helper->route('vinabb_web_ucp_route', ['id' => 'pm', 'mode' => 'compose', 'u' => $this->config['vinabb_web_manager_user_id']]) : '',
+			'U_LOGIN_ACTION'	=> $this->helper->route('vinabb_web_ucp_route',['id' => 'front', 'mode' => 'login']),
+			'U_SEND_PASSWORD'	=> ($this->config['email_enable']) ? $this->helper->route('vinabb_web_ucp_route', ['id' => 'front', 'mode' => 'sendpassword']) : ''
+		]);
 
 		// Maintenance mode
-		global $msg_title;
-
-		if (!defined('IN_LOGIN') && (
-				($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_FOUNDER && $this->user->data['user_type'] != USER_FOUNDER)
-				|| ($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_ADMIN && !$this->auth->acl_gets('a_'))
-				|| ($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_MOD && !$this->auth->acl_gets('a_', 'm_') && !$this->auth->acl_getf_global('m_'))
-				|| ($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_USER && ($this->user->data['user_id'] == ANONYMOUS || $this->user->data['is_bot']))
-			))
-		{
-			// Get current time
-			$now = time();
-			$in_maintenance_time = ($this->config['vinabb_web_maintenance_time'] > $now) ? true : false;
-
-			// Get maintenance text with/without the end time
-			if (empty($this->config_text['vinabb_web_maintenance_text']) || empty($this->config_text['vinabb_web_maintenance_text_vi']))
-			{
-				if ($in_maintenance_time)
-				{
-					// Short maintenance time: 12 hours
-					if (($this->config['vinabb_web_maintenance_time'] - $now) > (12 * 60 * 60))
-					{
-						$message = $this->language->lang('MAINTENANCE_TEXT_TIME_LONG', $this->user->format_date($this->config['vinabb_web_maintenance_time'], 'd/m/Y H:i'));
-					}
-					else
-					{
-						$message = $this->language->lang('MAINTENANCE_TEXT_TIME_SHORT', $this->user->format_date($this->config['vinabb_web_maintenance_time'], 'H:i'));
-					}
-				}
-				else
-				{
-					$message = $this->language->lang('MAINTENANCE_TEXT');
-				}
-
-				$message .= '<br>';
-			}
-			else
-			{
-				$message = ($this->user->lang_name == 'vi') ? $this->config_text['vinabb_web_maintenance_text_vi'] : $this->config_text['vinabb_web_maintenance_text'];
-				$message = str_replace("\n", '<br>', $message);
-
-				if ($in_maintenance_time)
-				{
-					$message .= '<br ><br >' . $this->language->lang('MAINTENANCE_TEXT_TIME_END', $this->user->format_date($this->config['vinabb_web_maintenance_time'], 'd/m/Y H:i'));
-				}
-			}
-
-			// Get timezone data
-			$dt = $this->user->create_datetime();
-			$timezone_offset = $this->language->lang(['timezones', 'UTC_OFFSET'], phpbb_format_timezone_offset($dt->getOffset()));
-			$timezone_name = $this->user->timezone->getName();
-
-			if ($this->language->is_set(['timezones', $timezone_name]))
-			{
-				$timezone_name = $this->language->lang(['timezones', $timezone_name]);
-			}
-
-			if ($in_maintenance_time)
-			{
-				$message .= '<br>' . $this->language->lang('MAINTENANCE_TEXT_TIMEZONE', $timezone_offset, $timezone_name);
-			}
-
-			// Use simple header
-			$this->template->assign_vars(array(
-				'S_SIMPLE_HEADER'	=> true
-			));
-
-			// Display the maintenance text
-			$msg_title = $this->language->lang('MAINTENANCE_TITLE');
-			trigger_error($message, ($this->config['vinabb_web_maintenance_tpl']) ? E_USER_WARNING : E_USER_ERROR);
-		}
+		$this->maintenance_mode();
 	}
 
 	/**
 	* core.adm_page_header
 	*
-	* @param $event
+	* @param array $event Data from the PHP event
 	*/
 	public function adm_page_header($event)
 	{
 		// Add template variables
-		$this->template->assign_vars(array(
+		$this->template->assign_vars([
 			'S_FOUNDER'	=> $this->user->data['user_type'] == USER_FOUNDER
-		));
+		]);
 	}
 
 	/**
 	* core.append_sid
 	*
-	* @param $event
+	* @param array $event Data from the PHP event
 	*/
 	public function append_sid($event)
 	{
@@ -369,7 +306,7 @@ class listener implements EventSubscriberInterface
 		if (!$event['is_route'] && $this->ext_manager->is_enabled('vinabb/web'))
 		{
 			// Get parameters
-			$params_ary = array();
+			$params_ary = [];
 
 			if ($event['params'] !== false || strpos($event['url'], "ucp.{$this->php_ext}") !== false || strpos($event['url'], "mcp.{$this->php_ext}") !== false)
 			{
@@ -377,7 +314,7 @@ class listener implements EventSubscriberInterface
 
 				if (!empty($event_params))
 				{
-					$params = explode('&', str_replace(array('&amp;', '?'), array('&', ''), $event_params));
+					$params = explode('&', str_replace(['&amp;', '?'], ['&', ''], $event_params));
 
 					foreach ($params as $param)
 					{
@@ -434,7 +371,7 @@ class listener implements EventSubscriberInterface
 					$params_ary['id'] = (substr($params_ary['i'], 0, 4) == 'ucp_') ? substr($params_ary['i'], 4) : $params_ary['i'];
 					unset($params_ary['i']);
 				}
-				else if (isset($params_ary['mode']) && in_array($params_ary['mode'], array('activate', 'resend_act', 'sendpassword', 'register', 'confirm', 'login', 'login_link', 'logout', 'terms', 'privacy', 'delete_cookies', 'switch_perm', 'restore_perm')))
+				else if (isset($params_ary['mode']) && in_array($params_ary['mode'], ['activate', 'resend_act', 'sendpassword', 'register', 'confirm', 'login', 'login_link', 'logout', 'terms', 'privacy', 'delete_cookies', 'switch_perm', 'restore_perm']))
 				{
 					$params_ary['id'] = 'front';
 				}
@@ -502,7 +439,7 @@ class listener implements EventSubscriberInterface
 	/**
 	* core.add_log
 	*
-	* @param $event
+	* @param array $event Data from the PHP event
 	*/
 	public function add_log($event)
 	{
@@ -541,23 +478,23 @@ class listener implements EventSubscriberInterface
 	/**
 	* core.get_avatar_after
 	*
-	* @param $event
+	* @param array $event Data from the PHP event
 	*/
 	public function get_avatar_after($event)
 	{
 		$avatar_data = $event['avatar_data'];
 
-		$this->template->assign_vars(array(
+		$this->template->assign_vars([
 			'CURRENT_USER_AVATAR_URL'		=>	$avatar_data['src'],
 			'CURRENT_USER_AVATAR_WIDTH'		=>	$avatar_data['width'],
-			'CURRENT_USER_AVATAR_HEIGHT'	=>	$avatar_data['height'],
-		));
+			'CURRENT_USER_AVATAR_HEIGHT'	=>	$avatar_data['height']
+		]);
 	}
 
 	/**
 	* core.user_add_modify_data
 	*
-	* @param $event
+	* @param array $event Data from the PHP event
 	*/
 	public function user_add_modify_data($event)
 	{
@@ -570,7 +507,7 @@ class listener implements EventSubscriberInterface
 	/**
 	* core.update_username
 	*
-	* @param $event
+	* @param array $event Data from the PHP event
 	*/
 	public function update_username($event)
 	{
@@ -586,7 +523,7 @@ class listener implements EventSubscriberInterface
 	/**
 	* core.submit_post_modify_sql_data
 	*
-	* @param $event
+	* @param array $event Data from the PHP event
 	*/
 	public function submit_post_modify_sql_data($event)
 	{
@@ -602,7 +539,7 @@ class listener implements EventSubscriberInterface
 	/**
 	* core.generate_smilies_after
 	*
-	* @param $event
+	* @param array $event Data from the PHP event
 	*/
 	public function generate_smilies_after($event)
 	{
@@ -613,7 +550,7 @@ class listener implements EventSubscriberInterface
 	/**
 	* core.login_box_redirect
 	*
-	* @param $event
+	* @param array $event Data from the PHP event
 	*/
 	public function login_box_redirect($event)
 	{
@@ -627,7 +564,7 @@ class listener implements EventSubscriberInterface
 	/**
 	* core.memberlist_memberrow_before
 	*
-	* @param $event
+	* @param array $event Data from the PHP event
 	*/
 	public function memberlist_memberrow_before($event)
 	{
@@ -638,7 +575,7 @@ class listener implements EventSubscriberInterface
 	/**
 	* core.memberlist_prepare_profile_data
 	*
-	* @param $event
+	* @param array $event Data from the PHP event
 	*/
 	public function memberlist_prepare_profile_data($event)
 	{
@@ -649,14 +586,14 @@ class listener implements EventSubscriberInterface
 		$template_data['USER_ID'] = $data['user_id'];
 		$template_data['RANK_TITLE_RAW'] = $template_data['RANK_TITLE'];
 		$template_data['RANK_TITLE'] = ($this->language->is_set(['RANK_TITLES', strtoupper($template_data['RANK_TITLE'])])) ? $this->language->lang(['RANK_TITLES', strtoupper($template_data['RANK_TITLE'])]) : $template_data['RANK_TITLE'];
-		$template_data['U_PM_ALT'] = ($this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm')) ? $this->helper->route('vinabb_web_ucp_route', array('id' => 'pm', 'mode' => 'compose', 'u' => $data['user_id'])) : '';
+		$template_data['U_PM_ALT'] = ($this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm')) ? $this->helper->route('vinabb_web_ucp_route', ['id' => 'pm', 'mode' => 'compose', 'u' => $data['user_id']]) : '';
 		$event['template_data'] = $template_data;
 	}
 
 	/**
 	* core.memberlist_team_modify_template_vars
 	*
-	* @param $event
+	* @param array $event Data from the PHP event
 	*/
 	public function memberlist_team_modify_template_vars($event)
 	{
@@ -670,7 +607,7 @@ class listener implements EventSubscriberInterface
 	/**
 	* core.modify_format_display_text_after
 	*
-	* @param $event
+	* @param array $event Data from the PHP event
 	*/
 	public function modify_format_display_text_after($event)
 	{
@@ -680,7 +617,7 @@ class listener implements EventSubscriberInterface
 	/**
 	* core.modify_submit_post_data
 	*
-	* @param $event
+	* @param array $event Data from the PHP event
 	*/
 	public function modify_submit_post_data($event)
 	{
@@ -692,22 +629,22 @@ class listener implements EventSubscriberInterface
 	/**
 	* core.modify_text_for_display_after
 	*
-	* @param $event
+	* @param array $event Data from the PHP event
 	*/
 	public function modify_text_for_display_after($event)
 	{
 		$event['text'] = $this->render($event['text']);
 
 		// Load highlight.js
-		$this->template->assign_vars(array(
-			'S_LOAD_HIGHLIGHT'	=> true,
-		));
+		$this->template->assign_vars([
+			'S_LOAD_HIGHLIGHT'	=> true
+		]);
 	}
 
 	/**
 	* core.modify_text_for_edit_before
 	*
-	* @param $event
+	* @param array $event Data from the PHP event
 	*/
 	public function modify_text_for_edit_before($event)
 	{
@@ -717,7 +654,7 @@ class listener implements EventSubscriberInterface
 	/**
 	* core.modify_text_for_storage_after
 	*
-	* @param $event
+	* @param array $event Data from the PHP event
 	*/
 	public function modify_text_for_storage_after($event)
 	{
@@ -727,7 +664,7 @@ class listener implements EventSubscriberInterface
 	/**
 	* core.submit_pm_before
 	*
-	* @param $event
+	* @param array $event Data from the PHP event
 	*/
 	public function submit_pm_before($event)
 	{
@@ -739,7 +676,7 @@ class listener implements EventSubscriberInterface
 	/**
 	* core.ucp_pm_view_messsage
 	*
-	* @param $event
+	* @param array $event Data from the PHP event
 	*/
 	public function ucp_pm_view_messsage($event)
 	{
@@ -753,7 +690,7 @@ class listener implements EventSubscriberInterface
 	/**
 	* core.viewtopic_modify_post_row
 	*
-	* @param $event
+	* @param array $event Data from the PHP event
 	*/
 	public function viewtopic_modify_post_row($event)
 	{
@@ -767,22 +704,22 @@ class listener implements EventSubscriberInterface
 	/**
 	* core.obtain_users_online_string_sql
 	*
-	* @param $event
+	* @param array $event Data from the PHP event
 	*/
 	public function obtain_users_online_string_sql($event)
 	{
 		// Get total online users (only number)
 		$online_users = $event['online_users'];
 
-		$this->template->assign_vars(array(
+		$this->template->assign_vars([
 			'TOTAL_ONLINE_USERS'	=> $online_users['total_online']
-		));
+		]);
 	}
 
 	/**
 	* core.text_formatter_s9e_configure_after
 	*
-	* @param $event
+	* @param array $event Data from the PHP event
 	*/
 	public function text_formatter_s9e_configure_after($event)
 	{
@@ -807,7 +744,7 @@ class listener implements EventSubscriberInterface
 	/**
 	* core.text_formatter_s9e_configure_before
 	*
-	* @param $event
+	* @param array $event Data from the PHP event
 	*/
 	public function text_formatter_s9e_configure_before($event)
 	{
@@ -815,32 +752,31 @@ class listener implements EventSubscriberInterface
 
 		foreach ($configurator->MediaEmbed->defaultSites->getIds() as $site_id)
 		{
-			if (in_array($site_id, array('facebook', 'twitter', 'googleplus', 'youtube', 'flickr', 'instagram', 'gist')))
+			if (in_array($site_id, ['facebook', 'twitter', 'googleplus', 'youtube', 'flickr', 'instagram', 'gist']))
 			{
 				$configurator->MediaEmbed->add($site_id);
 			}
 		}
 
 		// Add our site
-		$configurator->MediaEmbed->add('vinabb', array(
-				'host'		=> 'vinabb.vn',
-				'extract'	=> array(
-					"!vinabb\\.vn/viewtopic\\.php\\?f=(?'f'[0-9]+)\\&t=(?'t'[0-9]+)!",
-					"!vinabb\\.vn/viewtopic\\.php\\?t=(?'t'[0-9]+)!",
-				),
-				'iframe'	=> array(
-					'width'		=> 560,
-					'height'	=> 260,
-					'src'		=> 'http://localhost/vinabb/embed/topic/{@t}',
-				),
-			)
-		);
+		$configurator->MediaEmbed->add('vinabb', [
+			'host'		=> 'vinabb.vn',
+			'extract'	=> [
+				"!vinabb\\.vn/viewtopic\\.php\\?f=(?'f'[0-9]+)\\&t=(?'t'[0-9]+)!",
+				"!vinabb\\.vn/viewtopic\\.php\\?t=(?'t'[0-9]+)!",
+			],
+			'iframe'	=> [
+				'width'		=> 560,
+				'height'	=> 260,
+				'src'		=> 'http://localhost/vinabb/embed/topic/{@t}',
+			]
+		]);
 	}
 
 	/**
 	* core.acp_manage_forums_update_data_before
 	*
-	* @param $event
+	* @param array $event Data from the PHP event
 	*/
 	public function acp_manage_forums_update_data_before($event)
 	{
@@ -899,23 +835,124 @@ class listener implements EventSubscriberInterface
 				continue;
 			}
 
-			$this->template->assign_block_vars('header_forums', array(
+			$this->template->assign_block_vars('header_forums', [
 				'PARENT_ID'	=> $forum_data['parent_id'],
 				'FORUM_ID'	=> $forum_id,
 				'NAME'		=> $forum_data['name'],
-				'URL'		=> $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $forum_id, 'seo' => $forum_data['name_seo'] . constants::REWRITE_URL_SEO)),
+				'URL'		=> $this->helper->route('vinabb_web_board_forum_route', ['forum_id' => $forum_id, 'seo' => $forum_data['name_seo'] . constants::REWRITE_URL_SEO]),
 				'COUNT'		=> $iteration,
 
 				'S_HAS_SUBFORUMS'	=> $forum_data['left_id'] + 1 != $forum_data['right_id'],
 				'S_IS_CAT'			=> $forum_data['type'] == FORUM_CAT,
 				'S_IS_LINK'			=> $forum_data['type'] == FORUM_LINK,
-				'S_IS_POST'			=> $forum_data['type'] == FORUM_POST,
-			));
+				'S_IS_POST'			=> $forum_data['type'] == FORUM_POST
+			]);
 
 			$iteration++;
 		}
 
 		return;
+	}
+
+	/**
+	* Generate the category list of all phpBB resourse types
+	*/
+	private function list_bb_cats()
+	{
+		$bb_types = ['ext', 'style', 'acp_style', 'lang', 'tool'];
+
+		foreach ($bb_types as $bb_type)
+		{
+			foreach ($this->cache->get_bb_cats($bb_type) as $cat_id => $cat_data)
+			{
+				$this->template->assign_block_vars($bb_type . '_cats', [
+					'ID'		=> $cat_id,
+					'NAME'		=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $cat_data['name_vi'] : $cat_data['name'],
+					'VARNAME'	=> $cat_data['varname'],
+					'ICON'		=> $cat_data['icon'],
+					'URL'		=> $this->helper->route('vinabb_web_bb_cat_route', ['type' => $this->ext_helper->get_bb_type_varnames($bb_type), 'cat' => $cat_data['varname']])
+				]);
+			}
+		}
+
+		return;
+	}
+
+	/**
+	* Maintenance mode by user levels
+	*/
+	private function maintenance_mode()
+	{
+		global $msg_title;
+
+		if (!defined('IN_LOGIN') && (
+				($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_FOUNDER && $this->user->data['user_type'] != USER_FOUNDER)
+				|| ($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_ADMIN && !$this->auth->acl_gets('a_'))
+				|| ($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_MOD && !$this->auth->acl_gets('a_', 'm_') && !$this->auth->acl_getf_global('m_'))
+				|| ($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_USER && ($this->user->data['user_id'] == ANONYMOUS || $this->user->data['is_bot']))
+			))
+		{
+			// Get current time
+			$now = time();
+			$in_maintenance_time = ($this->config['vinabb_web_maintenance_time'] > $now) ? true : false;
+
+			// Get maintenance text with/without the end time
+			if (empty($this->config_text['vinabb_web_maintenance_text']) || empty($this->config_text['vinabb_web_maintenance_text_vi']))
+			{
+				if ($in_maintenance_time)
+				{
+					// Short maintenance time: 12 hours
+					if (($this->config['vinabb_web_maintenance_time'] - $now) > (12 * 60 * 60))
+					{
+						$message = $this->language->lang('MAINTENANCE_TEXT_TIME_LONG', $this->user->format_date($this->config['vinabb_web_maintenance_time'], 'd/m/Y H:i'));
+					}
+					else
+					{
+						$message = $this->language->lang('MAINTENANCE_TEXT_TIME_SHORT', $this->user->format_date($this->config['vinabb_web_maintenance_time'], 'H:i'));
+					}
+				}
+				else
+				{
+					$message = $this->language->lang('MAINTENANCE_TEXT');
+				}
+
+				$message .= '<br>';
+			}
+			else
+			{
+				$message = ($this->user->lang_name == 'vi') ? $this->config_text['vinabb_web_maintenance_text_vi'] : $this->config_text['vinabb_web_maintenance_text'];
+				$message = str_replace("\n", '<br>', $message);
+
+				if ($in_maintenance_time)
+				{
+					$message .= '<br ><br >' . $this->language->lang('MAINTENANCE_TEXT_TIME_END', $this->user->format_date($this->config['vinabb_web_maintenance_time'], 'd/m/Y H:i'));
+				}
+			}
+
+			// Get timezone data
+			$dt = $this->user->create_datetime();
+			$timezone_offset = $this->language->lang(['timezones', 'UTC_OFFSET'], phpbb_format_timezone_offset($dt->getOffset()));
+			$timezone_name = $this->user->timezone->getName();
+
+			if ($this->language->is_set(['timezones', $timezone_name]))
+			{
+				$timezone_name = $this->language->lang(['timezones', $timezone_name]);
+			}
+
+			if ($in_maintenance_time)
+			{
+				$message .= '<br>' . $this->language->lang('MAINTENANCE_TEXT_TIMEZONE', $timezone_offset, $timezone_name);
+			}
+
+			// Use simple header
+			$this->template->assign_vars([
+				'S_SIMPLE_HEADER'	=> true
+			]);
+
+			// Display the maintenance text
+			$msg_title = $this->language->lang('MAINTENANCE_TITLE');
+			trigger_error($message, ($this->config['vinabb_web_maintenance_tpl']) ? E_USER_WARNING : E_USER_ERROR);
+		}
 	}
 
 	/**
