@@ -972,7 +972,8 @@ class listener implements EventSubscriberInterface
 
 			// Use simple header
 			$this->template->assign_vars([
-				'S_SIMPLE_HEADER'	=> true
+				'S_SIMPLE_HEADER'	=> true,
+				'S_ERROR'			=> true
 			]);
 
 			// Display the maintenance text
