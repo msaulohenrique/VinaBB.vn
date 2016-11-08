@@ -27,17 +27,14 @@ class bb_schema extends migration
 				$this->table_prefix . 'bb_categories' => [
 					'COLUMNS' => [
 						'cat_id'		=> ['UINT', null, 'auto_increment'],
-						'parent_id'		=> ['UINT', 0],
-						'left_id'		=> ['UINT', 0],
-						'right_id'		=> ['UINT', 0],
-						'cat_parents'	=> ['MTEXT_UNI', ''],
 						'bb_type'		=> ['TINT:1', 0],
 						'cat_name'		=> ['VCHAR_UNI', ''],
 						'cat_name_vi'	=> ['VCHAR_UNI', ''],
 						'cat_varname'	=> ['VCHAR', ''],
-						'cat_desc'		=> ['TEXT_UNI', ''],
-						'cat_desc_vi'	=> ['TEXT_UNI', ''],
-						'cat_icon'		=> ['VCHAR', '']
+						'cat_desc'		=> ['VCHAR_UNI', ''],
+						'cat_desc_vi'	=> ['VCHAR_UNI', ''],
+						'cat_icon'		=> ['VCHAR', ''],
+						'cat_order'		=> ['USINT', 0]
 					],
 					'PRIMARY_KEY' => 'cat_id',
 					'KEYS' => [
