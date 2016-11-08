@@ -14,7 +14,7 @@ namespace vinabb\web\entity;
 interface bb_category_interface
 {
 	/**
-	* Load the data from the database for this rule
+	* Load the data from the database for an entity
 	*
 	* @param int					$id		Category ID
 	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
@@ -23,7 +23,7 @@ interface bb_category_interface
 	public function load($id);
 
 	/**
-	* Import data for this entity
+	* Import data for an entity
 	*
 	* Used when the data is already loaded externally.
 	* Any existing data on this entity is over-written.
@@ -66,14 +66,14 @@ interface bb_category_interface
 	/**
 	* Get the category name
 	*
-	* @return string Title
+	* @return string Category name
 	*/
 	public function get_cat_name();
 
 	/**
 	* Set the category name
 	*
-	* @param string					$name
+	* @param string					$name	Category name
 	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exception\unexpected_value
 	*/
@@ -82,14 +82,14 @@ interface bb_category_interface
 	/**
 	* Get the Vietnamese category name
 	*
-	* @return string Title
+	* @return string Vietnamese category name
 	*/
 	public function get_cat_name_vi();
 
 	/**
 	* Set the Vietnamese category name
 	*
-	* @param string					$name
+	* @param string					$name	Vietnamese category name
 	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exception\unexpected_value
 	*/
@@ -113,14 +113,14 @@ interface bb_category_interface
 	/**
 	* Get the category description
 	*
-	* @return string Title
+	* @return string Category description
 	*/
 	public function get_cat_desc();
 
 	/**
 	* Set the category description
 	*
-	* @param string					$desc
+	* @param string					$desc	Category description
 	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exception\unexpected_value
 	*/
@@ -129,28 +129,28 @@ interface bb_category_interface
 	/**
 	* Get the Vietnamese category description
 	*
-	* @return string Title
+	* @return string Vietnamese category description
 	*/
 	public function get_cat_desc_vi();
 
 	/**
 	* Set the Vietnamese category description
 	*
-	* @param string					$desc
+	* @param string					$desc	Vietnamese category description
 	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exception\unexpected_value
 	*/
 	public function set_cat_desc_vi($desc);
 
 	/**
-	* Get the language identifier
+	* Get the category icon
 	*
 	* @return string Category icon
 	*/
 	public function get_cat_icon();
 
 	/**
-	* Set the language identifier
+	* Set the category icon
 	*
 	* @param int					$icon	Category icon
 	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
