@@ -359,6 +359,7 @@ services:
             - '@template'
             - '@user'
             - '@controller.helper'
+            - '@vinabb.web.helper'
     # Listeners
     vinabb.web.listener:
         class: vinabb\web\event\listener

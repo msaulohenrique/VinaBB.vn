@@ -65,14 +65,8 @@ class category extends portal
 		// Breadcrumb
 		if ($current_cat_id)
 		{
-			$this->template->assign_block_vars('breadcrumb', array(
-				'NAME'	=> $this->language->lang('NEWS'),
-				'URL'	=> $this->helper->route('vinabb_web_portal_route'),
-			));
-
-			$this->template->assign_block_vars('breadcrumb', array(
-				'NAME'	=> $current_category_name,
-			));
+			$this->ext_helper->set_breadcrumb($this->language->lang('NEWS'), $this->helper->route('vinabb_web_portal_route'));
+			$this->ext_helper->set_breadcrumb($current_category_name);
 		}
 
 		return $this->helper->render('portal.html', !empty($current_category_name) ? $current_category_name : $this->language->lang('NEWS'), 200, true);

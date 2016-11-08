@@ -181,11 +181,7 @@ class portal
 		if ($index_page)
 		{
 			$this->get_latest_articles();
-
-			// Breadcrumb
-			$this->template->assign_block_vars('breadcrumb', array(
-				'NAME'	=> $this->language->lang('NEWS')
-			));
+			$this->ext_helper->set_breadcrumb($this->language->lang('NEWS'));
 		}
 
 		// Latest phpBB resources

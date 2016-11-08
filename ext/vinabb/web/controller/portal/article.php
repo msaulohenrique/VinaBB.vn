@@ -138,20 +138,9 @@ class article
 				$cat_varname = $this->portal_cats[$article_data['cat_id']]['varname'];
 
 				// Breadcrumb
-				$this->template->assign_block_vars('breadcrumb', array(
-					'NAME'	=> $this->language->lang('NEWS'),
-					'URL'	=> $this->helper->route('vinabb_web_portal_route'),
-				));
-
-				$this->template->assign_block_vars('breadcrumb', array(
-					'NAME'	=> $category_name,
-					'URL'	=> $this->helper->route('vinabb_web_portal_cat_route', array('varname' => $cat_varname)),
-				));
-
-				$this->template->assign_block_vars('breadcrumb', array(
-					'NAME'	=> $this->language->lang('PORTAL_ARTICLE'),
-				));
-
+				$this->ext_helper->set_breadcrumb($this->language->lang('NEWS'), $this->helper->route('vinabb_web_portal_route'));
+				$this->ext_helper->set_breadcrumb($category_name, $this->helper->route('vinabb_web_portal_cat_route', array('varname' => $cat_varname)));
+				$this->ext_helper->set_breadcrumb($this->language->lang('PORTAL_ARTICLE'));
 
 				$this->template->assign_vars(array(
 					'ARTICLE_NAME'	=> $article_data['article_name'],

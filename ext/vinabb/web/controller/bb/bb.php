@@ -36,6 +36,9 @@ class bb
 	/** @var \phpbb\controller\helper */
 	protected $helper;
 
+	/** @var \vinabb\web\controller\helper */
+	protected $ext_helper;
+
 	/**
 	* Constructor
 	*
@@ -47,6 +50,7 @@ class bb
 	* @param \phpbb\template\template $template
 	* @param \phpbb\user $user
 	* @param \phpbb\controller\helper $helper
+	* @param \vinabb\web\controller\helper $ext_helper
 	*/
 	public function __construct(
 		\phpbb\cache\service $cache,
@@ -56,7 +60,8 @@ class bb
 		\phpbb\request\request $request,
 		\phpbb\template\template $template,
 		\phpbb\user $user,
-		\phpbb\controller\helper $helper
+		\phpbb\controller\helper $helper,
+		\vinabb\web\controller\helper $ext_helper
 	)
 	{
 		$this->cache = $cache;
@@ -67,6 +72,7 @@ class bb
 		$this->template = $template;
 		$this->user = $user;
 		$this->helper = $helper;
+		$this->ext_helper = $ext_helper;
 	}
 
 	/**
@@ -94,14 +100,8 @@ class bb
 		}
 
 		// Breadcrumb
-		$this->template->assign_block_vars('breadcrumb', array(
-			'NAME'	=> $this->language->lang('BB'),
-			'URL'	=> $this->helper->route('vinabb_web_bb_route'),
-		));
-
-		$this->template->assign_block_vars('breadcrumb', array(
-			'NAME'	=> !empty($type) ? $this->language->lang('BB_' . strtoupper($type) . 'S') : $this->language->lang('STATISTICS')
-		));
+		$this->ext_helper->set_breadcrumb($this->language->lang('BB'), $this->helper->route('vinabb_web_bb_route'));
+		$this->ext_helper->set_breadcrumb(!empty($type) ? $this->language->lang('BB_' . strtoupper($type) . 'S') : $this->language->lang('STATISTICS'));
 
 		// Testing SCEditor
 		$sceditor_smilies = $sceditor_hidden_smilies = $sceditor_smilies_desc = array();
