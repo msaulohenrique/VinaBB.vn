@@ -2,6 +2,7 @@ imports:
     - { resource: tables.yml }
 
 services:
+    # Decorates
     vinabb.web.decorated.cache:
         class: vinabb\web\decorated\cache\service
         decorates: cache
@@ -84,6 +85,7 @@ services:
             - [configure_quote_helper, ['@text_formatter.s9e.quote_helper']]
             - [configure_smilies_path, ['@config', '@path_helper']]
             - [configure_user, ['@user', '@config', '@auth']]
+    # Common classes
     vinabb.web.pagination:
         class: vinabb\web\controller\pagination
         arguments:
@@ -97,8 +99,10 @@ services:
             - '@dbal.conn'
             - '@file_downloader'
             - '@language'
+            - '@template'
             - '%vinabb.web.tables.bb_items%'
             - '%vinabb.web.tables.portal_articles%'
+    # Controllers replace original phpBB front files
     vinabb.web.user:
         class: vinabb\web\controller\user
         arguments:
@@ -256,7 +260,8 @@ services:
             - '%core.root_path%'
             - '%core.adm_relative_path%'
             - '%core.php_ext%'
-    vinabb.web.board.embed:
+    # Embed
+    vinabb.web.embed:
         class: vinabb\web\controller\embed
         arguments:
             - '@auth'
@@ -268,6 +273,39 @@ services:
             - '@controller.helper'
             - '%core.root_path%'
             - '%core.php_ext%'
+    # Entities
+    vinabb.web.entity.portal_category:
+        class: vinabb\web\entity\portal_category
+        shared: false
+        arguments:
+            - '@dbal.conn'
+            - '%vinabb.web.tables.portal_categories%'
+    vinabb.web.entity.bb_category:
+        class: vinabb\web\entity\bb_category
+        shared: false
+        arguments:
+            - '@dbal.conn'
+            - '%vinabb.web.tables.bb_categories%'
+    # Operators
+    vinabb.web.operator.nestedset_portal_categories:
+        class: vinabb\web\operators\nestedset_portal_categories
+        arguments:
+            - '@dbal.conn'
+            - '@vinabb.web.table_lock.portal_categories'
+            - '%vinabb.web.tables.portal_categories%'
+    vinabb.web.operator.portal_category:
+        class: vinabb\web\operators\portal_category
+        arguments:
+            - '@service_container'
+            - '@vinabb.web.operator.nestedset_portal_categories'
+    # Table lock
+    vinabb.web.table_lock.portal_categories:
+        class: phpbb\lock\db
+        arguments:
+            - 'vinabb.web.table_lock.%vinabb.web.tables.portal_categories%'
+            - '@config'
+            - '@dbal.conn'
+    # Controllers
     vinabb.web.portal:
         class: vinabb\web\controller\portal\portal
         arguments:
@@ -321,6 +359,7 @@ services:
             - '@template'
             - '@user'
             - '@controller.helper'
+    # Listeners
     vinabb.web.listener:
         class: vinabb\web\event\listener
         arguments:
