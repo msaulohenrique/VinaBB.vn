@@ -21,6 +21,9 @@ class helper
 	/** @var \phpbb\language\language */
 	protected $language;
 
+	/** @var \phpbb\template\template */
+	protected $template;
+
 	/** @var string */
 	protected $bb_items_table;
 
@@ -33,6 +36,7 @@ class helper
 	* @param \phpbb\db\driver\driver_interface $db
 	* @param \phpbb\file_downloader $file_downloader
 	* @param \phpbb\language\language $language
+	* @param \phpbb\template\template $template
 	* @param string $bb_items_table
 	* @param string $portal_articles_table
 	*/
@@ -40,6 +44,7 @@ class helper
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\file_downloader $file_downloader,
 		\phpbb\language\language $language,
+		\phpbb\template\template $template,
 		$bb_items_table,
 		$portal_articles_table
 	)
@@ -47,6 +52,7 @@ class helper
 		$this->db = $db;
 		$this->file_downloader = $file_downloader;
 		$this->language = $language;
+		$this->template = $template;
 		$this->bb_items_table = $bb_items_table;
 		$this->portal_articles_table = $portal_articles_table;
 	}
@@ -405,6 +411,20 @@ class helper
 			default:
 				return '';
 		}
+	}
+
+	/**
+	* Adding items to the breadcrumb
+	*
+	* @param string	$name	Name of item
+	* @param string	$url	URL of item
+	*/
+	public function set_breadcrumb($name, $url = '')
+	{
+		$this->template->assign_block_vars('breadcrumb', [
+			'NAME'	=> $name,
+			'URL'	=> $url
+		]);
 	}
 
 	/**
