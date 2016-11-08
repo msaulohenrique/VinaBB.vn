@@ -155,105 +155,29 @@ class portal
 	public function index($index_page = true)
 	{
 		// Check new versions
-		if (time() > $this->config['vinabb_web_check_gc'] + (constants::CHECK_VERSION_HOURS * 60 * 60))
-		{
-			$this->fetch_phpbb_version();
-			$this->fetch_php_version();
-			$this->fetch_vinabb_version();
-
-			// Save this time
-			$this->config->set('vinabb_web_check_gc', time(), true);
-		}
+		$this->check_new_versions();
 
 		// News categories
-		foreach ($this->portal_cats as $cat_id => $cat_data)
-		{
-			$this->template->assign_block_vars('portal_cats', [
-				'ID'		=> $cat_id,
-				'NAME'		=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $cat_data['name_vi'] : $cat_data['name'],
-				'VARNAME'	=> $cat_data['varname'],
-				'ICON'		=> $cat_data['icon'],
-				'URL'		=> $this->helper->route('vinabb_web_portal_cat_route', ['varname' => $cat_data['varname']])
-			]);
-		}
+		$this->output_portal_cats();
 
 		// Latest articles
 		if ($index_page)
 		{
-			$this->get_latest_articles();
+			$this->output_latest_articles('articles');
 			$this->ext_helper->set_breadcrumb($this->language->lang('NEWS'));
 		}
 
 		// Latest phpBB resources
-		$bb_types = ['ext', 'style', 'acp_style', 'tool'];
-
-		foreach ($bb_types as $bb_type)
-		{
-			$new_items = $this->cache->get_new_bb_items($bb_type);
-			
-			foreach ($new_items as $new_item)
-			{
-				$this->template->assign_block_vars('bb_new_' . $bb_type . 's', [
-					'NAME'		=> $new_item['name'],
-					'VARNAME'	=> $new_item['varname'],
-					'VERSION'	=> $new_item['version'],
-					'PRICE'		=> $new_item['price'],
-					'NEW'		=> $new_item['added'] + (24 * 60 * 60) > $new_item['updated']
-				]);
-			}
-		}
+		$this->output_latest_bb_items();
 
 		// Latest topics
-		$sql_ary = $this->get_latest_topics_sql();
-
-		if ($sql_ary !== false)
-		{
-			$sql = $this->db->sql_build_query('SELECT', $sql_ary);
-			$result = $this->db->sql_query_limit($sql, constants::NUM_NEW_ITEMS_ON_INDEX);
-			$rows = $this->db->sql_fetchrowset($result);
-			$this->db->sql_freeresult($result);
-
-			foreach ($rows as $row)
-			{
-				$this->template->assign_block_vars('latest_topics', [
-					'TITLE'	=> truncate_string($row['topic_title'], 48, 255, false, $this->language->lang('ELLIPSIS'))
-				]);
-			}
-		}
+		$this->output_latest_topics();
 
 		// Latest posts
-		$sql_ary = $this->get_latest_posts_sql();
-
-		if ($sql_ary !== false)
-		{
-			$sql = $this->db->sql_build_query('SELECT', $sql_ary);
-			$result = $this->db->sql_query_limit($sql, constants::NUM_NEW_ITEMS_ON_INDEX);
-			$rows = $this->db->sql_fetchrowset($result);
-			$this->db->sql_freeresult($result);
-
-			foreach ($rows as $row)
-			{
-				$this->template->assign_block_vars('latest_posts', [
-					'SUBJECT'	=> truncate_string($row['post_subject'], 48, 255, false, $this->language->lang('ELLIPSIS'))
-				]);
-			}
-		}
+		$this->output_latest_posts();
 
 		// Latest users
-		$sql = 'SELECT user_id, username, user_colour
-			FROM ' . USERS_TABLE . '
-			WHERE ' . $this->db->sql_in_set('user_type', [USER_NORMAL, USER_FOUNDER]) . '
-			ORDER BY user_regdate DESC';
-		$result = $this->db->sql_query_limit($sql, constants::NUM_NEW_ITEMS_ON_INDEX);
-		$rows = $this->db->sql_fetchrowset($result);
-		$this->db->sql_freeresult($result);
-
-		foreach ($rows as $row)
-		{
-			$this->template->assign_block_vars('latest_users', [
-				'NAME'	=> get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'])
-			]);
-		}
+		$this->output_latest_users();
 
 		// Birthday list
 		$birthdays = $this->get_birthdays();
@@ -449,15 +373,52 @@ class portal
 	}
 
 	/**
-	* Get latest articles on index page
+	* Check all of new versions
 	*/
-	protected function get_latest_articles()
+	protected function check_new_versions()
+	{
+		if (time() > $this->config['vinabb_web_check_gc'] + (constants::CHECK_VERSION_HOURS * 60 * 60))
+		{
+			$this->fetch_phpbb_version();
+			$this->fetch_php_version();
+			$this->fetch_vinabb_version();
+
+			// Save this time
+			$this->config->set('vinabb_web_check_gc', time(), true);
+		}
+	}
+
+	/**
+	* Get all of news categories
+	*
+	* @param string $block_name Twig loop name
+	*/
+	protected function output_portal_cats($block_name = 'portal_cats')
+	{
+		foreach ($this->portal_cats as $cat_id => $cat_data)
+		{
+			$this->template->assign_block_vars($block_name, [
+				'ID'		=> $cat_id,
+				'NAME'		=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $cat_data['name_vi'] : $cat_data['name'],
+				'VARNAME'	=> $cat_data['varname'],
+				'ICON'		=> $cat_data['icon'],
+				'URL'		=> $this->helper->route('vinabb_web_portal_cat_route', ['varname' => $cat_data['varname']])
+			]);
+		}
+	}
+
+	/**
+	* Get latest articles on index page
+	*
+	* @param string $block_name Twig loop name
+	*/
+	protected function output_latest_articles($block_name = 'latest_articles')
 	{
 		$comment_counter = $this->cache->get_index_comment_counter($this->user->lang_name);
 
 		foreach ($this->cache->get_index_articles($this->user->lang_name) as $article_data)
 		{
-			$this->template->assign_block_vars('articles', [
+			$this->template->assign_block_vars($block_name, [
 				'CATEGORY'	=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->portal_cats[$article_data['cat_id']]['name_vi'] : $this->portal_cats[$article_data['cat_id']]['name'],
 				'CAT_URL'	=> $this->helper->route('vinabb_web_portal_cat_route', ['varname' => $this->portal_cats[$article_data['cat_id']]['varname']]),
 				'NAME'		=> $article_data['name'],
@@ -466,6 +427,33 @@ class portal
 				'URL'		=> $this->helper->route('vinabb_web_portal_article_route', ['varname' => $this->portal_cats[$article_data['cat_id']]['varname'], 'article_id' => $article_data['id'], 'seo' => $article_data['name_seo'] . constants::REWRITE_URL_SEO]),
 				'COMMENTS'	=> isset($comment_counter[$article_data['id']]) ? $comment_counter[$article_data['id']] : 0
 			]);
+		}
+	}
+
+	/**
+	* Get latest phpBB resource items
+	*
+	* @param string $block_name_prefix	Prefix of Twig loop name
+	* @param string $block_name_suffix	Suffix of Twig loop name
+	*/
+	protected function output_latest_bb_items($block_name_prefix = 'bb_new_', $block_name_suffix = 's')
+	{
+		$bb_types = ['ext', 'style', 'acp_style', 'tool'];
+
+		foreach ($bb_types as $bb_type)
+		{
+			$new_items = $this->cache->get_new_bb_items($bb_type);
+
+			foreach ($new_items as $new_item)
+			{
+				$this->template->assign_block_vars($block_name_prefix . $bb_type . $block_name_suffix, [
+					'NAME'		=> $new_item['name'],
+					'VARNAME'	=> $new_item['varname'],
+					'VERSION'	=> $new_item['version'],
+					'PRICE'		=> $new_item['price'],
+					'NEW'		=> $new_item['added'] + (24 * 60 * 60) > $new_item['updated']
+				]);
+			}
 		}
 	}
 
@@ -544,6 +532,31 @@ class portal
 	}
 
 	/**
+	* Get latest topics
+	*
+	* @param string $block_name Twig loop name
+	*/
+	protected function output_latest_topics($block_name = 'latest_topics')
+	{
+		$sql_ary = $this->get_latest_topics_sql();
+
+		if ($sql_ary !== false)
+		{
+			$sql = $this->db->sql_build_query('SELECT', $sql_ary);
+			$result = $this->db->sql_query_limit($sql, constants::NUM_NEW_ITEMS_ON_INDEX);
+			$rows = $this->db->sql_fetchrowset($result);
+			$this->db->sql_freeresult($result);
+
+			foreach ($rows as $row)
+			{
+				$this->template->assign_block_vars($block_name, [
+					'TITLE'	=> truncate_string($row['topic_title'], 48, 255, false, $this->language->lang('ELLIPSIS'))
+				]);
+			}
+		}
+	}
+
+	/**
 	* Build query for latest posts
 	*
 	* @return array|bool
@@ -605,6 +618,54 @@ class portal
 		];
 
 		return $sql_ary;
+	}
+
+	/**
+	* Get latest reply posts (Not the first post in each topic)
+	*
+	* @param string $block_name Twig loop name
+	*/
+	protected function output_latest_posts($block_name = 'latest_posts')
+	{
+		$sql_ary = $this->get_latest_posts_sql();
+
+		if ($sql_ary !== false)
+		{
+			$sql = $this->db->sql_build_query('SELECT', $sql_ary);
+			$result = $this->db->sql_query_limit($sql, constants::NUM_NEW_ITEMS_ON_INDEX);
+			$rows = $this->db->sql_fetchrowset($result);
+			$this->db->sql_freeresult($result);
+
+			foreach ($rows as $row)
+			{
+				$this->template->assign_block_vars($block_name, [
+					'SUBJECT'	=> truncate_string($row['post_subject'], 48, 255, false, $this->language->lang('ELLIPSIS'))
+				]);
+			}
+		}
+	}
+
+	/**
+	* Get latest members
+	*
+	* @param string $block_name Twig loop name
+	*/
+	protected function output_latest_users($block_name = 'latest_users')
+	{
+		$sql = 'SELECT user_id, username, user_colour
+			FROM ' . USERS_TABLE . '
+			WHERE ' . $this->db->sql_in_set('user_type', [USER_NORMAL, USER_FOUNDER]) . '
+			ORDER BY user_regdate DESC';
+		$result = $this->db->sql_query_limit($sql, constants::NUM_NEW_ITEMS_ON_INDEX);
+		$rows = $this->db->sql_fetchrowset($result);
+		$this->db->sql_freeresult($result);
+
+		foreach ($rows as $row)
+		{
+			$this->template->assign_block_vars($block_name, [
+				'NAME'	=> get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'])
+			]);
+		}
 	}
 
 	/**
