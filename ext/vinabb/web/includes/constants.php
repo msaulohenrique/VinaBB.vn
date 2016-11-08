@@ -93,12 +93,4 @@ class constants
 
 	// Number of hours to check new versions again
 	const CHECK_VERSION_HOURS = 8;
-
-	// Table names
-	const BB_CATEGORIES_TABLE = 'bb_categories';
-	const BB_ITEMS_TABLE = 'bb_items';
-	const BB_AUTHORS_TABLE = 'bb_authors';
-	const PORTAL_CATEGORIES_TABLE = 'portal_categories';
-	const PORTAL_ARTICLES_TABLE = 'portal_articles';
-	const PORTAL_COMMENTS_TABLE = 'portal_comments';
 }
