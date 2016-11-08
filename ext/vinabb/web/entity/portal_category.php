@@ -23,6 +23,7 @@ class portal_category implements portal_category_interface
 	*	parent_id
 	*	left_id
 	*	right_id
+	*	cat_parents
 	*	cat_name
 	*	cat_name_vi
 	*	cat_varname
@@ -51,8 +52,8 @@ class portal_category implements portal_category_interface
 	/**
 	* Load the data from the database for this entity
 	*
-	* @param int									$id		Category ID
-	* @return portal_category_interface				$this	Object for chaining calls: load()->set()->save()
+	* @param int						$id		Category ID
+	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exception\out_of_bounds
 	*/
 	public function load($id)
@@ -95,6 +96,7 @@ class portal_category implements portal_category_interface
 			'parent_id'		=> 'integer',
 			'left_id'		=> 'integer',
 			'right_id'		=> 'integer',
+			'cat_parents'	=> 'string',
 			'cat_name'		=> 'set_cat_name',
 			'cat_name_vi'	=> 'set_cat_name_vi',
 			'cat_varname'	=> 'set_cat_varname',
@@ -275,7 +277,7 @@ class portal_category implements portal_category_interface
 			throw new \vinabb\web\exception\unexpected_value(array('cat_name', 'TOO_LONG'));
 		}
 
-		// Set the title on our data array
+		// Set the value on our data array
 		$this->data['cat_name'] = $name;
 
 		return $this;
@@ -309,7 +311,7 @@ class portal_category implements portal_category_interface
 			throw new \vinabb\web\exception\unexpected_value(array('cat_name_vi', 'TOO_LONG'));
 		}
 
-		// Set the title on our data array
+		// Set the value on our data array
 		$this->data['cat_name_vi'] = $name;
 
 		return $this;
