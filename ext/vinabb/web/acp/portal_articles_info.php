@@ -12,17 +12,17 @@ class portal_articles_info
 {
 	public function module()
 	{
-		return array(
+		return [
 			'filename'	=> '\vinabb\web\acp\portal_articles_module',
 			'title'		=> 'ACP_PORTAL_ARTICLES',
 			'version'	=> '1.0.0',
-			'modes'		=> array(
-				'articles'	=> array(
+			'modes'		=> [
+				'articles'	=> [
 					'title'	=> 'ACP_PORTAL_ARTICLES',
 					'auth'	=> 'ext_vinabb/web && acl_a_board',
-					'cat'	=> array('ACP_CAT_PORTAL'),
-				),
-			),
-		);
+					'cat'	=> ['ACP_CAT_PORTAL']
+				]
+			]
+		];
 	}
 }

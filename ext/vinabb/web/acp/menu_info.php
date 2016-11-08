@@ -12,17 +12,17 @@ class menu_info
 {
 	public function module()
 	{
-		return array(
+		return [
 			'filename'	=> '\vinabb\web\acp\menu_module',
 			'title'		=> 'ACP_MENU',
 			'version'	=> '1.0.0',
-			'modes'		=> array(
-				'cats'	=> array(
+			'modes'		=> [
+				'cats'	=> [
 					'title'	=> 'ACP_MENU',
 					'auth'	=> 'ext_vinabb/web && acl_a_board',
-					'cat'	=> array('ACP_CAT_PORTAL'),
-				),
-			),
-		);
+					'cat'	=> ['ACP_CAT_PORTAL']
+				]
+			]
+		];
 	}
 }

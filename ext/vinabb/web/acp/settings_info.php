@@ -12,17 +12,17 @@ class settings_info
 {
 	public function module()
 	{
-		return array(
+		return [
 			'filename'		=> '\vinabb\web\acp\settings_module',
 			'title'			=> 'ACP_VINABB_SETTINGS',
 			'version'		=> '1.0.0',
-			'modes'			=> array(
-				'settings'	=> array(
+			'modes'			=> [
+				'settings'	=> [
 					'title'	=> 'ACP_VINABB_SETTINGS',
 					'auth'	=> 'ext_vinabb/web && acl_a_board',
-					'cat'	=> array('ACP_CAT_VINABB_SETTINGS'),
-				),
-			),
-		);
+					'cat'	=> ['ACP_CAT_VINABB_SETTINGS']
+				]
+			]
+		];
 	}
 }
