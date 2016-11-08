@@ -217,6 +217,11 @@ strong, b {
 	font-weight: 600 !important;
 }
 
+/* _panels.scss */
+.panel-heading {
+	text-transform: none;
+}
+
 /* _buttons.scss */
 .btn {
 	text-transform: none;
@@ -224,6 +229,24 @@ strong, b {
 
 .btn-github {
 	background-color: #424040 !important;
+}
+
+/* _page-header.scss */
+.page-header {
+	padding-top: 0;
+	padding-bottom: 0;
+	margin-bottom: 20px;
+	border-bottom: 0;
+	.breadcrumb {
+		text-transform: none;
+	}
+}
+
+/* _modal-popups.scss */
+.modal-header {
+	.modal-title {
+		text-transform: none;
+	}
 }
 
 /* _layout-horizontal.scss */
@@ -250,16 +273,4 @@ body.layout-horizontal {
 
 .dropdown-submenu:hover > a:after {
 	border-left-color: $bg-primary;
-}
-
-/* _modal-popups.scss */
-.modal-header {
-	.modal-title {
-		text-transform: none;
-	}
-}
-
-/* _panels.scss */
-.panel-heading {
-	text-transform: none;
 }

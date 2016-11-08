@@ -1,31 +1,24 @@
-<div class="row">
-	<div class="col-sm-6">
-		<ol class="breadcrumb">
-			{% if breadcrumb %}
-			<li><a href="{{ U_INDEX }}" data-tooltip="true" title="{{ lang('HOME') }}"><i class="icon-home"></i></a></li>
-			{% else %}
-			<li><a href="{{ U_INDEX }}"><i class="fa fa-home"></i> {{ lang('HOME') }}</a></li>
-			{% endif %}
+<div class="page-header">
+	<div class="row">
+		<div class="col-sm-9">
+			<ol class="breadcrumb">
+				{% if breadcrumb %}
+				<li><a href="{{ U_INDEX }}" data-tooltip="true" data-placement="{{ S_CONTENT_FLOW_END }}" title="{{ lang('HOME') }}"><i class="icon-home"></i></a></li>
+				{% else %}
+				<li><a href="{{ U_INDEX }}"><i class="fa fa-home"></i> {{ lang('HOME') }}</a></li>
+				{% endif %}
 
-			{% for item in breadcrumb %}
-			{% if item.URL and not loop.last %}
-			<li><a href="{{ item.URL }}">{{ item.NAME }}</a></li>
-			{% else %}
-			<li>{{ item.NAME }}</li>
-			{% endif %}
-			{% endfor %}
-		</ol>
-	</div>
-	<div class="col-sm-6 text-{{ S_CONTENT_FLOW_END }}">
-		<div class="btn-group">
-			<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Dropdown <span class="caret"></span></button>
-			<ul class="dropdown-menu" role="menu">
-				<li><a href="#">Action</a></li>
-				<li><a href="#">Another action</a></li>
-				<li><a href="#">Something else here</a></li>
-				<li class="divider"></li>
-				<li><a href="#">Separated link</a></li>
-			</ul>
+				{% for item in breadcrumb %}
+				{% if item.URL and not loop.last %}
+				<li><a href="{{ item.URL }}">{{ item.NAME }}</a></li>
+				{% else %}
+				<li>{{ item.NAME }}</li>
+				{% endif %}
+				{% endfor %}
+			</ol>
+		</div>
+		<div class="hidden-xs col-sm-3 text-{{ S_CONTENT_FLOW_END }}">
+			<span data-tooltip="true" data-placement="{{ S_CONTENT_FLOW_BEGIN }}" title="{{ S_TIMEZONE }}">{{ CURRENT_TIME }}</span>
 		</div>
 	</div>
 </div>

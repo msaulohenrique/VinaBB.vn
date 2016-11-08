@@ -27,6 +27,7 @@ $lang = array_merge($lang, [
 	'ACP_STYLE_DETAILS'			=> 'Thông tin giao diện',
 	'ACP_STYLE_NAME'			=> 'Tên giao diện',
 	'ACP_STYLE_VERSION'			=> 'Phiên bản giao diện',
+	'ALL_TIMES'					=> 'Múi giờ %1$s',
 
 	'BB'				=> 'Thư viện',
 	'BB_ACP_STYLES'		=> 'Giao diện quản trị',
