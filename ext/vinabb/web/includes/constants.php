@@ -13,7 +13,7 @@ class constants
 	// Project URLs
 	const VINABB_GITHUB_PATH = 'VinaBB/VinaBB.vn';
 	const VINABB_GITHUB_URL = 'https://github.com/VinaBB/VinaBB.vn';
-	const VINABB_GITHUB_DOWNLOAD_URL = 'https://github.com/VinaBB/VinaBB.vn/archive/master.zip';
+	const VINABB_GITHUB_DOWNLOAD_URL = '';
 	const VINABB_GITHUB_FORK_URL = 'https://github.com/VinaBB/VinaBB.vn/fork';
 	const VINABB_TRAVIS_URL = 'http://tv.vinabb.vn/';
 	const VINABB_TRAVIS_IMG_URL = 'https://travis-ci.org/VinaBB/VinaBB.vn.svg?branch=master';

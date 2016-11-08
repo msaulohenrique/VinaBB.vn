@@ -235,7 +235,7 @@ $lang = array_merge($lang, [
 	'LATEST_VERSIONS'			=> 'Phiên bản mới nhất',
 	'LATEST_VERSIONS_INFO'		=> 'Thông tin phiên bản mới nhất',
 	'LATEST_VINABB'				=> 'Phiên bản VinaBB',
-	'LATEST_VINABB_TITLE'		=> 'Tải mã nguồn VinaBB.vn',
+	'LATEST_VINABB_TITLE'		=> 'Mã nguồn VinaBB.vn',
 	'LATITUDE'					=> 'Vĩ độ',
 	'LONGITUDE'					=> 'Kinh độ',
 

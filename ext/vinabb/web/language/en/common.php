@@ -235,7 +235,7 @@ $lang = array_merge($lang, [
 	'LATEST_VERSIONS'			=> 'Latest versions',
 	'LATEST_VERSIONS_INFO'		=> 'Latest version information',
 	'LATEST_VINABB'				=> 'VinaBB version',
-	'LATEST_VINABB_TITLE'		=> 'Get VinaBB.vn source code',
+	'LATEST_VINABB_TITLE'		=> 'VinaBB.vn source code',
 	'LATITUDE'					=> 'Latitude',
 	'LONGITUDE'					=> 'Longitude',
 
