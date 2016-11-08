@@ -84,6 +84,14 @@ class bb_schema extends migration
 						'a_id'	=> ['INDEX', 'author_id']
 					]
 				],
+				$this->table_prefix . 'bb_item_versions' => [
+					'COLUMNS' => [
+						'item_id'	=> ['UINT', 0],
+					],
+					'KEYS' => [
+						'i_id'	=> ['INDEX', 'item_id'],
+					]
+				],
 				$this->table_prefix . 'bb_authors' => [
 					'COLUMNS' => [
 						'author_id'				=> ['UINT', null, 'auto_increment'],
@@ -107,6 +115,19 @@ class bb_schema extends migration
 					'KEYS' => [
 						'u_id'	=> ['INDEX', 'user_id']
 					]
+				],
+				$this->table_prefix . 'bb_rates' => [
+					'COLUMNS' => [
+						'user_id'		=> ['ULINT', 0],
+						'item_id'		=> ['UINT', 0],
+						'author_id'		=> ['UINT', 0],
+						'rate_value'	=> ['TINT:1', 0]
+					],
+					'KEYS' => [
+						'u_id'	=> ['INDEX', 'user_id'],
+						'i_id'	=> ['INDEX', 'item_id'],
+						'a_id'	=> ['INDEX', 'author_id']
+					]
 				]
 			]
 		];
@@ -123,7 +144,9 @@ class bb_schema extends migration
 			'drop_tables' => [
 				$this->table_prefix . 'bb_categories',
 				$this->table_prefix . 'bb_items',
-				$this->table_prefix . 'bb_authors'
+				$this->table_prefix . 'bb_item_versions',
+				$this->table_prefix . 'bb_authors',
+				$this->table_prefix . 'bb_rates'
 			]
 		];
 	}
