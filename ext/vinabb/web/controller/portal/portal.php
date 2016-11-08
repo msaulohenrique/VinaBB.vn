@@ -738,8 +738,8 @@ class portal
 			*/
 			$vars = array('birthdays', 'rows');
 			extract($this->dispatcher->trigger_event('core.index_modify_birthdays_list', compact($vars)));
-
-			return $birthdays;
 		}
+
+		return $birthdays;
 	}
 }
