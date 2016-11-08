@@ -16,8 +16,8 @@ interface bb_category_interface
 	/**
 	* Load the data from the database for this rule
 	*
-	* @param int									$id		Category ID
-	* @return portal_category_interface				$this	Object for chaining calls: load()->set()->save()
+	* @param int					$id		Category ID
+	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exception\out_of_bounds
 	*/
 	public function load($id);
@@ -29,8 +29,8 @@ interface bb_category_interface
 	* Any existing data on this entity is over-written.
 	* All data is validated and an exception is thrown if any data is invalid.
 	*
-	* @param array						$data	Data array from the database
-	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
+	* @param array					$data	Data array from the database
+	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exception\base
 	*/
 	public function import($data);
@@ -40,7 +40,7 @@ interface bb_category_interface
 	*
 	* Will throw an exception if the entity was already inserted (call save() instead)
 	*
-	* @return portal_category_interface $this Object for chaining calls: load()->set()->save()
+	* @return bb_category_interface $this Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exception\out_of_bounds
 	*/
 	public function insert();
@@ -51,7 +51,7 @@ interface bb_category_interface
 	* This must be called before closing or any changes will not be saved!
 	* If adding an entity (saving for the first time), you must call insert() or an exception will be thrown
 	*
-	* @return portal_category_interface $this Object for chaining calls: load()->set()->save()
+	* @return bb_category_interface $this Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exception\out_of_bounds
 	*/
 	public function save();
@@ -73,8 +73,8 @@ interface bb_category_interface
 	/**
 	* Set the category name
 	*
-	* @param string						$name
-	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
+	* @param string					$name
+	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exception\unexpected_value
 	*/
 	public function set_cat_name($name);
@@ -89,8 +89,8 @@ interface bb_category_interface
 	/**
 	* Set the Vietnamese category name
 	*
-	* @param string						$name
-	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
+	* @param string					$name
+	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exception\unexpected_value
 	*/
 	public function set_cat_name_vi($name);
@@ -105,8 +105,8 @@ interface bb_category_interface
 	/**
 	* Set the category varname
 	*
-	* @param int						$varname	Category varname
-	* @return portal_category_interface	$this		Object for chaining calls: load()->set()->save()
+	* @param int					$varname	Category varname
+	* @return bb_category_interface	$this		Object for chaining calls: load()->set()->save()
 	*/
 	public function set_cat_varname($varname);
 
@@ -152,8 +152,8 @@ interface bb_category_interface
 	/**
 	* Set the language identifier
 	*
-	* @param int						$icon	Category icon
-	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
+	* @param int					$icon	Category icon
+	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
 	public function set_cat_icon($icon);
 }
