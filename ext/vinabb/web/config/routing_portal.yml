@@ -1,7 +1,7 @@
 vinabb_web_portal_cat_route:
     path: /{varname}/{page}
     defaults:
-        _controller: vinabb.web.portal.category:category
+        _controller: vinabb.web.portal:category
         page: ''
     requirements:
         varname: '[a-z0-9-]+'
