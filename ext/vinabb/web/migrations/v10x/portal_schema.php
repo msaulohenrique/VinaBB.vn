@@ -78,6 +78,17 @@ class portal_schema extends migration
 						'u_id'	=> ['INDEX', 'user_id'],
 						'a_id'	=> ['INDEX', 'article_id']
 					]
+				],
+				$this->table_prefix . 'portal_rates' => [
+					'COLUMNS' => [
+						'user_id'		=> ['ULINT', 0],
+						'article_id'	=> ['UINT', 0],
+						'rate_value'	=> ['TINT:1', 0]
+					],
+					'KEYS' => [
+						'u_id'	=> ['INDEX', 'user_id'],
+						'a_id'	=> ['INDEX', 'article_id']
+					]
 				]
 			]
 		];
@@ -94,7 +105,8 @@ class portal_schema extends migration
 			'drop_tables' => [
 				$this->table_prefix . 'portal_categories',
 				$this->table_prefix . 'portal_articles',
-				$this->table_prefix . 'portal_comments'
+				$this->table_prefix . 'portal_comments',
+				$this->table_prefix . 'portal_rates'
 			]
 		];
 	}
