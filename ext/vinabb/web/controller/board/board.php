@@ -8,7 +8,7 @@
 
 namespace vinabb\web\controller\board;
 
-class board
+class board implements board_interface
 {
 	/** @var \phpbb\auth\auth */
 	protected $auth;
