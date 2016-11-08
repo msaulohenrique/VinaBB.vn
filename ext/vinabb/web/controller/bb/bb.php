@@ -10,7 +10,7 @@ namespace vinabb\web\controller\bb;
 
 use vinabb\web\includes\constants;
 
-class bb
+class bb implements bb_interface
 {
 	/** @var \phpbb\cache\service */
 	protected $cache;
@@ -78,7 +78,7 @@ class bb
 	/**
 	* List categories of each resource types (bb_type)
 	*
-	* @param $type
+	* @param $type phpBB resource type URL varname
 	* @return \Symfony\Component\HttpFoundation\Response
 	*/
 	public function index($type)
@@ -140,7 +140,7 @@ class bb
 	* Convert BB types from URL varnames to standard varnames
 	* Example: For ACP styles, URL varname is 'acp-styles' but standard varname is 'acp_style'
 	*
-	* @param $varname
+	* @param $varname phpBB resource type URL varname
 	* @return string
 	*/
 	private function convert_bb_type_varname($varname)
