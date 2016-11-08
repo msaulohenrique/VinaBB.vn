@@ -35,18 +35,18 @@ class portal_category implements portal_category_interface
 	protected $db;
 
 	/** @var string */
-	protected $portal_categories_table;
+	protected $table_name;
 
 	/**
 	* Constructor
 	*
-	* @param \phpbb\db\driver\driver_interface    $db						Database object
-	* @param string                               $portal_categories_table	Table name
+	* @param \phpbb\db\driver\driver_interface    $db			Database object
+	* @param string                               $table_name	Table name
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, $portal_categories_table)
+	public function __construct(\phpbb\db\driver\driver_interface $db, $table_name)
 	{
 		$this->db = $db;
-		$this->portal_categories_table = $portal_categories_table;
+		$this->table_name = $table_name;
 	}
 
 	/**
@@ -59,7 +59,7 @@ class portal_category implements portal_category_interface
 	public function load($id)
 	{
 		$sql = 'SELECT *
-			FROM ' . $this->portal_categories_table . '
+			FROM ' . $this->table_name . '
 			WHERE cat_id = ' . (int) $id;
 		$result = $this->db->sql_query($sql);
 		$this->data = $this->db->sql_fetchrow($result);
@@ -169,7 +169,7 @@ class portal_category implements portal_category_interface
 		// Make extra sure there is no ID set
 		unset($this->data['cat_id']);
 
-		$sql = 'INSERT INTO ' . $this->portal_categories_table . ' ' . $this->db->sql_build_array('INSERT', $this->data);
+		$sql = 'INSERT INTO ' . $this->table_name . ' ' . $this->db->sql_build_array('INSERT', $this->data);
 		$this->db->sql_query($sql);
 
 		// Set the ID using the ID created by the SQL INSERT
@@ -199,7 +199,7 @@ class portal_category implements portal_category_interface
 		// so we do not attempt to update the row's identity column.
 		$sql_array = array_diff_key($this->data, array('cat_id' => null));
 
-		$sql = 'UPDATE ' . $this->portal_categories_table . '
+		$sql = 'UPDATE ' . $this->table_name . '
 			SET ' . $this->db->sql_build_array('UPDATE', $sql_array) . '
 			WHERE cat_id = ' . $this->get_id();
 		$this->db->sql_query($sql);
@@ -252,7 +252,7 @@ class portal_category implements portal_category_interface
 	*
 	* @return string Category name
 	*/
-	public function get_cat_name()
+	public function get_name()
 	{
 		return isset($this->data['cat_name']) ? (string) $this->data['cat_name'] : '';
 	}
@@ -264,9 +264,15 @@ class portal_category implements portal_category_interface
 	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exception\unexpected_value
 	*/
-	public function set_cat_name($name)
+	public function set_name($name)
 	{
 		$name = (string) $name;
+
+		// This is a required field
+		if (empty($name))
+		{
+			throw new \vinabb\web\exception\unexpected_value(array('cat_name', 'FIELD_MISSING'));
+		}
 
 		// Check the max length
 		if (truncate_string($name, constants::MAX_PORTAL_CAT_NAME) != $name)
@@ -285,7 +291,7 @@ class portal_category implements portal_category_interface
 	*
 	* @return string Vietnamese category name
 	*/
-	public function get_cat_name_vi()
+	public function get_name_vi()
 	{
 		return isset($this->data['cat_name_vi']) ? (string) $this->data['cat_name_vi'] : '';
 	}
@@ -297,9 +303,15 @@ class portal_category implements portal_category_interface
 	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exception\unexpected_value
 	*/
-	public function set_cat_name_vi($name)
+	public function set_name_vi($name)
 	{
 		$name = (string) $name;
+
+		// This is a required field
+		if (empty($name))
+		{
+			throw new \vinabb\web\exception\unexpected_value(array('cat_name_vi', 'FIELD_MISSING'));
+		}
 
 		// Check the max length
 		if (truncate_string($name, constants::MAX_PORTAL_CAT_NAME) != $name)
@@ -318,7 +330,7 @@ class portal_category implements portal_category_interface
 	*
 	* @return string Category varname
 	*/
-	public function get_cat_varname()
+	public function get_varname()
 	{
 		return isset($this->data['cat_varname']) ? (string) $this->data['cat_varname'] : '';
 	}
@@ -328,13 +340,49 @@ class portal_category implements portal_category_interface
 	*
 	* @param int						$varname	Category varname
 	* @return portal_category_interface	$this		Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exception\unexpected_value
 	*/
-	public function set_cat_varname($varname)
+	public function set_varname($varname)
 	{
-		if (!isset($this->data['cat_varname']))
+		$varname = strtolower($varname);
+
+		// This is a required field
+		if (empty($varname))
 		{
-			$this->data['cat_varname'] = (string) $varname;
+			throw new \vinabb\web\exception\unexpected_value(array('cat_varname', 'FIELD_MISSING'));
 		}
+
+		// Check the max length
+		if (truncate_string($varname, constants::MAX_PORTAL_CAT_VARNAME) != $varname)
+		{
+			throw new \vinabb\web\exception\unexpected_value(array('cat_varname', 'TOO_LONG'));
+		}
+
+		// Check invalid characters
+		if (!preg_match('#^[a-z0-9-]+$#', $varname))
+		{
+			throw new \vinabb\web\exception\unexpected_value(array('cat_varname', 'ILLEGAL_CHARACTERS'));
+		}
+
+		// This field value must be unique
+		if (!$this->get_id() || ($this->get_id() && $this->get_varname() !== '' && $this->get_varname() != $varname))
+		{
+			$sql = 'SELECT 1
+				FROM ' . $this->table_name . "
+				WHERE cat_varname = '" . $this->db->sql_escape($varname) . "'
+					AND cat_id <> " . $this->get_id();
+			$result = $this->db->sql_query_limit($sql, 1);
+			$row = $this->db->sql_fetchrow($result);
+			$this->db->sql_freeresult($result);
+
+			if ($row)
+			{
+				throw new \vinabb\web\exception\unexpected_value(array('cat_varname', 'NOT_UNIQUE'));
+			}
+		}
+
+		// Set the value on our data array
+		$this->data['cat_varname'] = $varname;
 
 		return $this;
 	}
@@ -344,7 +392,7 @@ class portal_category implements portal_category_interface
 	*
 	* @return string Category icon
 	*/
-	public function get_cat_icon()
+	public function get_icon()
 	{
 		return isset($this->data['cat_icon']) ? (string) $this->data['cat_icon'] : '';
 	}
@@ -355,7 +403,7 @@ class portal_category implements portal_category_interface
 	* @param int						$icon	Category icon
 	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function set_cat_icon($icon)
+	public function set_icon($icon)
 	{
 		if (!isset($this->data['cat_icon']))
 		{

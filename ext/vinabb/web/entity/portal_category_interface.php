@@ -89,7 +89,7 @@ interface portal_category_interface
 	*
 	* @return string Category name
 	*/
-	public function get_cat_name();
+	public function get_name();
 
 	/**
 	* Set the category name
@@ -98,14 +98,14 @@ interface portal_category_interface
 	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exception\unexpected_value
 	*/
-	public function set_cat_name($name);
+	public function set_name($name);
 
 	/**
 	* Get the Vietnamese category name
 	*
 	* @return string Vietnamese category name
 	*/
-	public function get_cat_name_vi();
+	public function get_name_vi();
 
 	/**
 	* Set the Vietnamese category name
@@ -114,29 +114,30 @@ interface portal_category_interface
 	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exception\unexpected_value
 	*/
-	public function set_cat_name_vi($name);
+	public function set_name_vi($name);
 
 	/**
 	* Get the category varname
 	*
 	* @return string Category varname
 	*/
-	public function get_cat_varname();
+	public function get_varname();
 
 	/**
 	* Set the category varname
 	*
 	* @param int						$varname	Category varname
 	* @return portal_category_interface	$this		Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exception\unexpected_value
 	*/
-	public function set_cat_varname($varname);
+	public function set_varname($varname);
 
 	/**
 	* Get the category icon
 	*
 	* @return string Category icon
 	*/
-	public function get_cat_icon();
+	public function get_icon();
 
 	/**
 	* Set the category icon
@@ -144,5 +145,5 @@ interface portal_category_interface
 	* @param int						$icon	Category icon
 	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function set_cat_icon($icon);
+	public function set_icon($icon);
 }
