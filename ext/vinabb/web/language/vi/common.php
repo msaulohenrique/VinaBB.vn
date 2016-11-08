@@ -302,6 +302,7 @@ $lang = array_merge($lang, [
 	'RESOURCES'		=> 'Tài nguyên',
 
 	'SELECT_CATEGORY'		=> 'Chọn danh mục',
+	'SELECT_ICON'			=> 'Chọn biểu tượng',
 	'SELECT_LANGUAGE'		=> 'Chọn ngôn ngữ',
 	'SELECT_OS'				=> 'Chọn hệ điều hành',
 	'SELECT_PHPBB_VERSION'	=> 'Chọn phiên bản phpBB',

@@ -302,6 +302,7 @@ $lang = array_merge($lang, [
 	'RESOURCES'		=> 'Resources',
 
 	'SELECT_CATEGORY'		=> 'Select a category',
+	'SELECT_ICON'			=> 'Select a icon',
 	'SELECT_LANGUAGE'		=> 'Select a language',
 	'SELECT_OS'				=> 'Select an OS',
 	'SELECT_PHPBB_VERSION'	=> 'Select a phpBB version',

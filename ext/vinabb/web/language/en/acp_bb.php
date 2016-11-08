@@ -34,7 +34,7 @@ $lang = array_merge($lang, [
 	'ADD_BB_TOOL'				=> 'Add new tool',
 
 	'BB_CAT_DESC'		=> 'Description',
-	'BB_CAT_ICON'		=> 'Category icon',
+	'BB_CAT_ICON'		=> 'Menu icon',
 	'BB_CAT_NAME'		=> 'Category name',
 	'BB_CAT_VARNAME'	=> 'Varname',
 
