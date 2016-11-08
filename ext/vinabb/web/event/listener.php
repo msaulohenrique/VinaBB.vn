@@ -891,6 +891,7 @@ class listener implements EventSubscriberInterface
 	{
 		$this->template->assign_vars([
 			'U_BOARD'			=> $this->helper->route('vinabb_web_board_route'),
+			'U_PORTAL'			=> $this->helper->route('vinabb_web_portal_route'),
 			'U_BB'				=> $this->helper->route('vinabb_web_bb_route'),
 			'U_BB_EXTS'			=> $this->helper->route('vinabb_web_bb_type_route', ['type' => constants::BB_TYPE_VARNAME_EXT]),
 			'U_BB_STYLES'		=> $this->helper->route('vinabb_web_bb_type_route', ['type' => constants::BB_TYPE_VARNAME_STYLE]),
