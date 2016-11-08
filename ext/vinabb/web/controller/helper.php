@@ -10,7 +10,7 @@ namespace vinabb\web\controller;
 
 use vinabb\web\includes\constants;
 
-class helper
+class helper implements helper_interface
 {
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
@@ -171,8 +171,7 @@ class helper
 	* Create clean URLs from titles. It works with many languages
 	*
 	* @author hello@weblap.ro
-	* @param $text
-	*
+	* @param string $text Input text
 	* @return mixed
 	*/
 	public function clean_url($text)
@@ -318,7 +317,7 @@ class helper
 	/**
 	* Convert BB type from string to constant value
 	*
-	* @param $bb_type
+	* @param string $bb_type phpBB resource type (ext|style|acp_style|lang|tool)
 	* @return int
 	*/
 	public function get_bb_type_constants($bb_type)
@@ -346,9 +345,9 @@ class helper
 	}
 
 	/**
-	* Convert BB type from string to constant value
+	* Convert BB type from string to URL varnames
 	*
-	* @param $bb_type
+	* @param string $bb_type phpBB resource type (ext|style|acp_style|lang|tool)
 	* @return string
 	*/
 	public function get_bb_type_varnames($bb_type)
@@ -378,7 +377,7 @@ class helper
 	/**
 	* Get OS name from constants
 	*
-	* @param $os_value
+	* @param int $os_value OS constant value
 	*
 	* @return string
 	*/
@@ -430,8 +429,8 @@ class helper
 	/**
 	* Fetch content from an URL
 	*
-	* @param $url
-	* @return string
+	* @param string $url URL
+	* @return string Raw value
 	*/
 	public function fetch_url($url)
 	{
@@ -468,16 +467,16 @@ class helper
 	}
 
 	/**
-	* List items with pagination
+	* List phpBB resource items with pagination
 	*
-	* @param int	$bb_type
-	* @param int	$cat_id
-	* @param array	$items
-	* @param int	$item_count
-	* @param int	$limit
-	* @param int	$offset
+	* @param int	$bb_type	phpBB resource type in constant value
+	* @param int	$cat_id		Category ID
+	* @param array	$items		Array of items
+	* @param int	$item_count	Number of items
+	* @param int	$limit		Items per page
+	* @param int	$offset		Position of the start
 	*
-	* @return int
+	* @return int Position of the start
 	*/
 	public function list_bb_items($bb_type, $cat_id = 0, &$items, &$item_count, $limit = 0, $offset = 0)
 	{
@@ -518,15 +517,15 @@ class helper
 	}
 
 	/**
-	* List articles with pagination
+	* List news articles with pagination
 	*
-	* @param int	$cat_id
-	* @param array	$articles
-	* @param int	$article_count
-	* @param int	$limit
-	* @param int	$offset
+	* @param int	$cat_id			Category ID
+	* @param array	$articles		Array of articles
+	* @param int	$article_count	Number of articles
+	* @param int	$limit			Articles per page
+	* @param int	$offset			Position of the start
 	*
-	* @return int
+	* @return int Position of the start
 	*/
 	public function list_articles($cat_id = 0, &$articles, &$article_count, $limit = 0, $offset = 0)
 	{
