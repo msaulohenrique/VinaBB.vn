@@ -10,7 +10,7 @@ namespace vinabb\web\controller;
 
 use vinabb\web\includes\constants;
 
-class online
+class online implements online_interface
 {
 	/** @var \phpbb\auth\auth */
 	protected $auth;
@@ -105,6 +105,12 @@ class online
 		$this->php_ext = $php_ext;
 	}
 
+	/**
+	* 'Who is online' page
+	*
+	* @param $mode View mode
+	* @return \Symfony\Component\HttpFoundation\Response
+	*/
 	public function main($mode)
 	{
 		$mode = (substr($mode, -1) == '/') ? substr($mode, 0, -1) : $mode;
