@@ -50,7 +50,7 @@ class portal_category implements portal_category_interface
 	}
 
 	/**
-	* Load the data from the database for this entity
+	* Load the data from the database for an entity
 	*
 	* @param int						$id		Category ID
 	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
@@ -75,7 +75,7 @@ class portal_category implements portal_category_interface
 	}
 
 	/**
-	* Import data for this entity
+	* Import data for an entity
 	*
 	* Used when the data is already loaded externally.
 	* Any existing data on this entity is over-written.
@@ -106,7 +106,7 @@ class portal_category implements portal_category_interface
 		// Go through the basic fields and set them to our data array
 		foreach ($fields as $field => $type)
 		{
-			// If the data wasn't sent to us, throw an exception
+			// The data wasn't sent to us
 			if (!isset($data[$field]))
 			{
 				throw new \vinabb\web\exception\invalid_argument(array($field, 'FIELD_MISSING'));
@@ -119,17 +119,17 @@ class portal_category implements portal_category_interface
 			}
 			else
 			{
-				// settype passes values by reference
+				// settype() passes values by reference
 				$value = $data[$field];
 
-				// We're using settype to enforce data types
+				// We're using settype() to enforce data types
 				settype($value, $type);
 
 				$this->data[$field] = $value;
 			}
 		}
 
-		// Some fields must be unsigned (>= 0)
+		// Some fields must be >= 0
 		$validate_unsigned = ['cat_id', 'parent_id', 'left_id', 'right_id'];
 
 		foreach ($validate_unsigned as $field)
@@ -166,14 +166,13 @@ class portal_category implements portal_category_interface
 		$this->data['right_id'] = 0;
 		$this->data['cat_parents'] = '';
 
-		// Make extra sure there is no rule_id set
+		// Make extra sure there is no ID set
 		unset($this->data['cat_id']);
 
-		// Insert the rule data to the database
 		$sql = 'INSERT INTO ' . $this->portal_categories_table . ' ' . $this->db->sql_build_array('INSERT', $this->data);
 		$this->db->sql_query($sql);
 
-		// Set the ID using the ID created by the SQL insert
+		// Set the ID using the ID created by the SQL INSERT
 		$this->data['cat_id'] = (int) $this->db->sql_nextid();
 
 		return $this;
@@ -196,11 +195,10 @@ class portal_category implements portal_category_interface
 			throw new \vinabb\web\exception\out_of_bounds('cat_id');
 		}
 
-		// Copy the data array, filtering out the rule_id identifier
+		// Copy the data array, filtering out the ID
 		// so we do not attempt to update the row's identity column.
 		$sql_array = array_diff_key($this->data, array('cat_id' => null));
 
-		// Update the page data in the database
 		$sql = 'UPDATE ' . $this->portal_categories_table . '
 			SET ' . $this->db->sql_build_array('UPDATE', $sql_array) . '
 			WHERE cat_id = ' . $this->get_id();
@@ -252,7 +250,7 @@ class portal_category implements portal_category_interface
 	/**
 	* Get the category name
 	*
-	* @return string Title
+	* @return string Category name
 	*/
 	public function get_cat_name()
 	{
@@ -262,13 +260,12 @@ class portal_category implements portal_category_interface
 	/**
 	* Set the category name
 	*
-	* @param string						$name
+	* @param string						$name	Category name
 	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exception\unexpected_value
 	*/
 	public function set_cat_name($name)
 	{
-		// Enforce a string
 		$name = (string) $name;
 
 		// Check the max length
@@ -286,7 +283,7 @@ class portal_category implements portal_category_interface
 	/**
 	* Get the Vietnamese category name
 	*
-	* @return string Title
+	* @return string Vietnamese category name
 	*/
 	public function get_cat_name_vi()
 	{
@@ -296,13 +293,12 @@ class portal_category implements portal_category_interface
 	/**
 	* Set the Vietnamese category name
 	*
-	* @param string						$name
+	* @param string						$name	Vietnamese category name
 	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exception\unexpected_value
 	*/
 	public function set_cat_name_vi($name)
 	{
-		// Enforce a string
 		$name = (string) $name;
 
 		// Check the max length

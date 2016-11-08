@@ -14,16 +14,16 @@ namespace vinabb\web\entity;
 interface portal_category_interface
 {
 	/**
-	* Load the data from the database for this rule
+	* Load the data from the database for an entity
 	*
-	* @param int									$id		Category ID
-	* @return portal_category_interface				$this	Object for chaining calls: load()->set()->save()
+	* @param int						$id		Category ID
+	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exception\out_of_bounds
 	*/
 	public function load($id);
 
 	/**
-	* Import data for this entity
+	* Import data for an entity
 	*
 	* Used when the data is already loaded externally.
 	* Any existing data on this entity is over-written.
@@ -87,14 +87,14 @@ interface portal_category_interface
 	/**
 	* Get the category name
 	*
-	* @return string Title
+	* @return string Category name
 	*/
 	public function get_cat_name();
 
 	/**
 	* Set the category name
 	*
-	* @param string						$name
+	* @param string						$name	Category name
 	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exception\unexpected_value
 	*/
@@ -103,14 +103,14 @@ interface portal_category_interface
 	/**
 	* Get the Vietnamese category name
 	*
-	* @return string Title
+	* @return string Vietnamese category name
 	*/
 	public function get_cat_name_vi();
 
 	/**
 	* Set the Vietnamese category name
 	*
-	* @param string						$name
+	* @param string						$name	Vietnamese category name
 	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exception\unexpected_value
 	*/
@@ -130,16 +130,16 @@ interface portal_category_interface
 	* @return portal_category_interface	$this		Object for chaining calls: load()->set()->save()
 	*/
 	public function set_cat_varname($varname);
-	
+
 	/**
-	* Get the language identifier
+	* Get the category icon
 	*
 	* @return string Category icon
 	*/
 	public function get_cat_icon();
 
 	/**
-	* Set the language identifier
+	* Set the category icon
 	*
 	* @param int						$icon	Category icon
 	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
