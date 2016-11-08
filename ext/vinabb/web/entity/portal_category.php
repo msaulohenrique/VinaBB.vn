@@ -109,7 +109,7 @@ class portal_category implements portal_category_interface
 			// The data wasn't sent to us
 			if (!isset($data[$field]))
 			{
-				throw new \vinabb\web\exception\invalid_argument(array($field, 'FIELD_MISSING'));
+				throw new \vinabb\web\exception\invalid_argument([$field, 'FIELD_MISSING']);
 			}
 
 			// If the type is a method on this class, call it
@@ -197,7 +197,7 @@ class portal_category implements portal_category_interface
 
 		// Copy the data array, filtering out the ID
 		// so we do not attempt to update the row's identity column.
-		$sql_array = array_diff_key($this->data, array('cat_id' => null));
+		$sql_array = array_diff_key($this->data, ['cat_id' => null]);
 
 		$sql = 'UPDATE ' . $this->table_name . '
 			SET ' . $this->db->sql_build_array('UPDATE', $sql_array) . '
@@ -271,13 +271,13 @@ class portal_category implements portal_category_interface
 		// This is a required field
 		if (empty($name))
 		{
-			throw new \vinabb\web\exception\unexpected_value(array('cat_name', 'FIELD_MISSING'));
+			throw new \vinabb\web\exception\unexpected_value(['cat_name', 'FIELD_MISSING']);
 		}
 
 		// Check the max length
 		if (truncate_string($name, constants::MAX_PORTAL_CAT_NAME) != $name)
 		{
-			throw new \vinabb\web\exception\unexpected_value(array('cat_name', 'TOO_LONG'));
+			throw new \vinabb\web\exception\unexpected_value(['cat_name', 'TOO_LONG']);
 		}
 
 		// Set the value on our data array
@@ -310,13 +310,13 @@ class portal_category implements portal_category_interface
 		// This is a required field
 		if (empty($name))
 		{
-			throw new \vinabb\web\exception\unexpected_value(array('cat_name_vi', 'FIELD_MISSING'));
+			throw new \vinabb\web\exception\unexpected_value(['cat_name_vi', 'FIELD_MISSING']);
 		}
 
 		// Check the max length
 		if (truncate_string($name, constants::MAX_PORTAL_CAT_NAME) != $name)
 		{
-			throw new \vinabb\web\exception\unexpected_value(array('cat_name_vi', 'TOO_LONG'));
+			throw new \vinabb\web\exception\unexpected_value(['cat_name_vi', 'TOO_LONG']);
 		}
 
 		// Set the value on our data array
@@ -349,19 +349,19 @@ class portal_category implements portal_category_interface
 		// This is a required field
 		if (empty($varname))
 		{
-			throw new \vinabb\web\exception\unexpected_value(array('cat_varname', 'FIELD_MISSING'));
+			throw new \vinabb\web\exception\unexpected_value(['cat_varname', 'FIELD_MISSING']);
 		}
 
 		// Check the max length
 		if (truncate_string($varname, constants::MAX_PORTAL_CAT_VARNAME) != $varname)
 		{
-			throw new \vinabb\web\exception\unexpected_value(array('cat_varname', 'TOO_LONG'));
+			throw new \vinabb\web\exception\unexpected_value(['cat_varname', 'TOO_LONG']);
 		}
 
 		// Check invalid characters
 		if (!preg_match('#^[a-z0-9-]+$#', $varname))
 		{
-			throw new \vinabb\web\exception\unexpected_value(array('cat_varname', 'ILLEGAL_CHARACTERS'));
+			throw new \vinabb\web\exception\unexpected_value(['cat_varname', 'ILLEGAL_CHARACTERS']);
 		}
 
 		// This field value must be unique
@@ -377,7 +377,7 @@ class portal_category implements portal_category_interface
 
 			if ($row)
 			{
-				throw new \vinabb\web\exception\unexpected_value(array('cat_varname', 'NOT_UNIQUE'));
+				throw new \vinabb\web\exception\unexpected_value(['cat_varname', 'NOT_UNIQUE']);
 			}
 		}
 
