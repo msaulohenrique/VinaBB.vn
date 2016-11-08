@@ -10,7 +10,7 @@ namespace vinabb\web\controller\board;
 
 use vinabb\web\includes\constants;
 
-class forum
+class forum implements forum_interface
 {
 	/** @var \phpbb\auth\auth */
 	protected $auth;
@@ -114,8 +114,8 @@ class forum
 	/**
 	* Forum page
 	*
-	* @param $forum_id
-	* @param $page
+	* @param int $forum_id	Forum ID
+	* @param string $page	The page number
 	*/
 	public function main($forum_id, $page)
 	{
