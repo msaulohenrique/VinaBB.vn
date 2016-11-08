@@ -84,8 +84,12 @@ class constants
 
 	// Maximum length
 	const MAX_PORTAL_CAT_NAME = 32;
+	const MAX_PORTAL_CAT_VARNAME = 16;
 	const MAX_BB_CAT_NAME = 48;
+	const MAX_BB_CAT_VARNAME = 24;
 	const MAX_BB_CAT_DESC = 255;
+	const MAX_PAGE_NAME = 48;
+	const MAX_PAGE_VARNAME = 24;
 
 	// Pagination
 	const BB_CATS_PER_PAGE = 20;
