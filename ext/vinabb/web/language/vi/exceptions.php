@@ -30,6 +30,7 @@ if (empty($lang) || !is_array($lang))
 */
 $lang = array_merge($lang, [
 	'EXCEPTION_FIELD_MISSING'		=> 'The required field “%s” is missing.',
+	'EXCEPTION_ILLEGAL_CHARACTERS'	=> 'The field “%s” contains invalid characters.',
 	'EXCEPTION_INVALID_ARGUMENT'	=> 'Invalid argument specified for “%1$s”. Reason: %2$s.',
 	'EXCEPTION_NOT_UNIQUE'			=> 'The unique field “%s” is duplicate.',
 	'EXCEPTION_OUT_OF_BOUNDS'		=> 'The field “%1$s” received data beyond its bounds.',
