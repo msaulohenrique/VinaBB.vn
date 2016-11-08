@@ -32,7 +32,7 @@
 			</dl>
 			<dl>
 				<dt><label for="cat_icon">{{ lang('BB_CAT_ICON') ~ lang('COLON') }}</label></dt>
-				<dd><input type="text" name="cat_icon" id="cat_icon" value="{{ CAT_ICON }}" maxlength="255"></dd>
+				<dd><select name="cat_icon" id="cat_icon">{{ ICON_OPTIONS }}</select></dd>
 			</dl>
 			{{ S_HIDDEN_FIELDS }}
 

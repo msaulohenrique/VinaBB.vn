@@ -119,7 +119,8 @@ class portal_categories_module
 					'CAT_NAME'		=> isset($cat_data['cat_name']) ? $cat_data['cat_name'] : '',
 					'CAT_NAME_VI'	=> isset($cat_data['cat_name_vi']) ? $cat_data['cat_name_vi'] : '',
 					'CAT_VARNAME'	=> isset($cat_data['cat_varname']) ? $cat_data['cat_varname'] : '',
-					'CAT_ICON'		=> isset($cat_data['cat_icon']) ? $cat_data['cat_icon'] : '',
+
+					'ICON_OPTIONS'	=> $this->ext_helper->build_icon_list(isset($cat_data['cat_icon']) ? $cat_data['cat_icon'] : ''),
 
 					'MODULE'	=> $id,
 					'MODE'		=> $mode,

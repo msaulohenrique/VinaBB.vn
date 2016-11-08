@@ -96,6 +96,7 @@ services:
         arguments:
             - '@dbal.conn'
             - '@file_downloader'
+            - '@language'
             - '%vinabb.web.tables.bb_items%'
             - '%vinabb.web.tables.portal_articles%'
     vinabb.web.user:

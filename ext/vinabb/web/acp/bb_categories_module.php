@@ -127,6 +127,8 @@ class bb_categories_module
 					'CAT_DESC_VI'	=> isset($cat_data['cat_desc_vi']) ? $cat_data['cat_desc_vi'] : '',
 					'CAT_ICON'		=> isset($cat_data['cat_icon']) ? $cat_data['cat_icon'] : '',
 
+					'ICON_OPTIONS'	=> $this->ext_helper->build_icon_list(isset($cat_data['cat_icon']) ? $cat_data['cat_icon'] : ''),
+
 					'MODULE'	=> $id,
 					'MODE'		=> $mode,
 
