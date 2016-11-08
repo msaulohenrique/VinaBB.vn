@@ -2,7 +2,7 @@
 	<div class="col-sm-6">
 		<ol class="breadcrumb">
 			{% if breadcrumb %}
-			<li><a href="{{ U_INDEX }}" data-toggle="tooltip" title="{{ lang('HOME') }}"><i class="fa fa-home"></i></a></li>
+			<li><a href="{{ U_INDEX }}" data-tooltip="true" title="{{ lang('HOME') }}"><i class="fa fa-home"></i></a></li>
 			{% else %}
 			<li><a href="{{ U_INDEX }}"><i class="fa fa-home"></i> {{ lang('HOME') }}</a></li>
 			{% endif %}
