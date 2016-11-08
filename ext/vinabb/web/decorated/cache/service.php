@@ -250,19 +250,18 @@ class service extends \phpbb\cache\service
 			$sql = 'SELECT *
 				FROM ' . $this->bb_categories_table . '
 				WHERE bb_type = ' . (int) $this->ext_helper->get_bb_type_constants($bb_type) . '
-				ORDER BY left_id';
+				ORDER BY cat_order';
 			$result = $this->db->sql_query($sql);
 
 			$bb_cats = [];
 			while ($row = $this->db->sql_fetchrow($result))
 			{
 				$bb_cats[$row['cat_id']] = [
-					'parent_id'	=> $row['parent_id'],
-					'left_id'	=> $row['left_id'],
-					'right_id'	=> $row['right_id'],
 					'name'		=> $row['cat_name'],
 					'name_vi'	=> $row['cat_name_vi'],
 					'varname'	=> $row['cat_varname'],
+					'desc'		=> $row['cat_desc'],
+					'desc_vi'	=> $row['cat_desc_vi'],
 					'icon'		=> $row['cat_icon']
 				];
 			}
