@@ -286,6 +286,13 @@ services:
         arguments:
             - '@dbal.conn'
             - '%vinabb.web.tables.bb_categories%'
+    vinabb.web.entity.page:
+        class: vinabb\web\entity\page
+        shared: false
+        arguments:
+            - '@config'
+            - '@dbal.conn'
+            - '%vinabb.web.tables.pages%'
     # Operators
     vinabb.web.operator.nestedset_portal_categories:
         class: vinabb\web\operators\nestedset_portal_categories
@@ -298,6 +305,12 @@ services:
         arguments:
             - '@service_container'
             - '@vinabb.web.operator.nestedset_portal_categories'
+    vinabb.web.operator.page:
+        class: vinabb\web\operators\page
+        arguments:
+            - '@dbal.conn'
+            - '@vinabb.web.entity.page'
+            - '%vinabb.web.tables.pages%'
     # Table lock
     vinabb.web.table_lock.portal_categories:
         class: phpbb\lock\db
