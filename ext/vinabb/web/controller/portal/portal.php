@@ -168,13 +168,13 @@ class portal
 		// News categories
 		foreach ($this->portal_cats as $cat_id => $cat_data)
 		{
-			$this->template->assign_block_vars('portal_cats', array(
+			$this->template->assign_block_vars('portal_cats', [
 				'ID'		=> $cat_id,
 				'NAME'		=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $cat_data['name_vi'] : $cat_data['name'],
 				'VARNAME'	=> $cat_data['varname'],
 				'ICON'		=> $cat_data['icon'],
-				'URL'		=> $this->helper->route('vinabb_web_portal_cat_route', array('varname' => $cat_data['varname']))
-			));
+				'URL'		=> $this->helper->route('vinabb_web_portal_cat_route', ['varname' => $cat_data['varname']])
+			]);
 		}
 
 		// Latest articles
@@ -185,7 +185,7 @@ class portal
 		}
 
 		// Latest phpBB resources
-		$bb_types = array('ext', 'style', 'acp_style', 'tool');
+		$bb_types = ['ext', 'style', 'acp_style', 'tool'];
 
 		foreach ($bb_types as $bb_type)
 		{
@@ -193,13 +193,13 @@ class portal
 			
 			foreach ($new_items as $new_item)
 			{
-				$this->template->assign_block_vars('bb_new_' . $bb_type . 's', array(
+				$this->template->assign_block_vars('bb_new_' . $bb_type . 's', [
 					'NAME'		=> $new_item['name'],
 					'VARNAME'	=> $new_item['varname'],
 					'VERSION'	=> $new_item['version'],
 					'PRICE'		=> $new_item['price'],
-					'NEW'		=> $new_item['added'] + (24 * 60 * 60) > $new_item['updated'],
-				));
+					'NEW'		=> $new_item['added'] + (24 * 60 * 60) > $new_item['updated']
+				]);
 			}
 		}
 
@@ -215,9 +215,9 @@ class portal
 
 			foreach ($rows as $row)
 			{
-				$this->template->assign_block_vars('latest_topics', array(
-					'TITLE'	=> truncate_string($row['topic_title'], 48, 255, false, $this->language->lang('ELLIPSIS')),
-				));
+				$this->template->assign_block_vars('latest_topics', [
+					'TITLE'	=> truncate_string($row['topic_title'], 48, 255, false, $this->language->lang('ELLIPSIS'))
+				]);
 			}
 		}
 
@@ -233,16 +233,16 @@ class portal
 
 			foreach ($rows as $row)
 			{
-				$this->template->assign_block_vars('latest_posts', array(
-					'SUBJECT'	=> truncate_string($row['post_subject'], 48, 255, false, $this->language->lang('ELLIPSIS')),
-				));
+				$this->template->assign_block_vars('latest_posts', [
+					'SUBJECT'	=> truncate_string($row['post_subject'], 48, 255, false, $this->language->lang('ELLIPSIS'))
+				]);
 			}
 		}
 
 		// Latest users
 		$sql = 'SELECT user_id, username, user_colour
 			FROM ' . USERS_TABLE . '
-			WHERE ' . $this->db->sql_in_set('user_type', array(USER_NORMAL, USER_FOUNDER)) . '
+			WHERE ' . $this->db->sql_in_set('user_type', [USER_NORMAL, USER_FOUNDER]) . '
 			ORDER BY user_regdate DESC';
 		$result = $this->db->sql_query_limit($sql, constants::NUM_NEW_ITEMS_ON_INDEX);
 		$rows = $this->db->sql_fetchrowset($result);
@@ -250,9 +250,9 @@ class portal
 
 		foreach ($rows as $row)
 		{
-			$this->template->assign_block_vars('latest_users', array(
-				'NAME'	=> get_username_string('full', $row['user_id'], $row['username'], $row['user_colour']),
-			));
+			$this->template->assign_block_vars('latest_users', [
+				'NAME'	=> get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'])
+			]);
 		}
 
 		// Birthday list
@@ -260,19 +260,19 @@ class portal
 		$this->template->assign_block_vars_array('birthdays', $birthdays);
 
 		// Output
-		$this->template->assign_vars(array(
+		$this->template->assign_vars([
 			'LEGEND'				=> $this->get_group_legend(),
 			'TOTAL_BIRTHDAY_USERS'	=> sizeof($birthdays),
 
 			'LATEST_PHPBB_VERSION'				=> $this->config['vinabb_web_check_phpbb_version'],
-			'LATEST_PHPBB_DOWNLOAD_URL'			=> str_replace(array('{branch}', '{version}'), array($this->config['vinabb_web_check_phpbb_branch'], $this->config['vinabb_web_check_phpbb_version']), htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_download_url'])),
-			'LATEST_PHPBB_GITHUB_URL'			=> str_replace(array('{branch}', '{version}'), array($this->config['vinabb_web_check_phpbb_branch'], $this->config['vinabb_web_check_phpbb_version']), htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_github_url'])),
+			'LATEST_PHPBB_DOWNLOAD_URL'			=> str_replace(['{branch}', '{version}'], [$this->config['vinabb_web_check_phpbb_branch'], $this->config['vinabb_web_check_phpbb_version']], htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_download_url'])),
+			'LATEST_PHPBB_GITHUB_URL'			=> str_replace(['{branch}', '{version}'], [$this->config['vinabb_web_check_phpbb_branch'], $this->config['vinabb_web_check_phpbb_version']], htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_github_url'])),
 			'LATEST_PHPBB_LEGACY_VERSION'		=> $this->config['vinabb_web_check_phpbb_legacy_version'],
-			'LATEST_PHPBB_LEGACY_DOWNLOAD_URL'	=> str_replace(array('{branch}', '{version}'), array($this->config['vinabb_web_check_phpbb_legacy_branch'], $this->config['vinabb_web_check_phpbb_legacy_version']), htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_download_url'])),
-			'LATEST_PHPBB_LEGACY_GITHUB_URL'	=> str_replace(array('{branch}', '{version}'), array($this->config['vinabb_web_check_phpbb_legacy_branch'], $this->config['vinabb_web_check_phpbb_legacy_version']), htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_github_url'])),
+			'LATEST_PHPBB_LEGACY_DOWNLOAD_URL'	=> str_replace(['{branch}', '{version}'], [$this->config['vinabb_web_check_phpbb_legacy_branch'], $this->config['vinabb_web_check_phpbb_legacy_version']], htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_download_url'])),
+			'LATEST_PHPBB_LEGACY_GITHUB_URL'	=> str_replace(['{branch}', '{version}'], [$this->config['vinabb_web_check_phpbb_legacy_branch'], $this->config['vinabb_web_check_phpbb_legacy_version']], htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_github_url'])),
 			'LATEST_PHPBB_DEV_VERSION'			=> $this->config['vinabb_web_check_phpbb_dev_version'],
-			'LATEST_PHPBB_DEV_DOWNLOAD_URL'		=> str_replace(array('{branch}', '{version}'), array($this->config['vinabb_web_check_phpbb_dev_branch'], $this->config['vinabb_web_check_phpbb_dev_version']), htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_download_dev_url'])),
-			'LATEST_PHPBB_DEV_GITHUB_URL'		=> str_replace(array('{branch}', '{version}'), array($this->config['vinabb_web_check_phpbb_dev_branch'], $this->config['vinabb_web_check_phpbb_dev_version']), htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_github_url'])),
+			'LATEST_PHPBB_DEV_DOWNLOAD_URL'		=> str_replace(['{branch}', '{version}'], [$this->config['vinabb_web_check_phpbb_dev_branch'], $this->config['vinabb_web_check_phpbb_dev_version']], htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_download_dev_url'])),
+			'LATEST_PHPBB_DEV_GITHUB_URL'		=> str_replace(['{branch}', '{version}'], [$this->config['vinabb_web_check_phpbb_dev_branch'], $this->config['vinabb_web_check_phpbb_dev_version']], htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_github_url'])),
 			'LATEST_IVN_VERSION'				=> $this->config['vinabb_web_check_ivn_version'],
 			'LATEST_IVN_LEGACY_VERSION'			=> $this->config['vinabb_web_check_ivn_legacy_version'],
 			'LATEST_IVN_DEV_VERSION'			=> $this->config['vinabb_web_check_ivn_dev_version'],
@@ -309,12 +309,12 @@ class portal
 			'DONATE_BANK_SWIFT'	=> $this->config['vinabb_web_donate_bank_swift'],
 			'DONATE_PAYPAL'		=> htmlspecialchars_decode($this->config['vinabb_web_donate_paypal']),
 
-			'U_FORUM_VIETNAMESE'	=> $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $this->config['vinabb_web_forum_id_vietnamese'], 'seo' => ($this->config['vinabb_web_forum_id_vietnamese'] ? $this->forum_data[$this->config['vinabb_web_forum_id_vietnamese']]['name_seo'] : constants::LANG_VIETNAMESE) . constants::REWRITE_URL_SEO)),
-			'U_FORUM_ENGLISH'		=> $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $this->config['vinabb_web_forum_id_english'], 'seo' => ($this->config['vinabb_web_forum_id_english'] ? $this->forum_data[$this->config['vinabb_web_forum_id_english']]['name_seo'] : constants::LANG_ENGLISH) . constants::REWRITE_URL_SEO)),
+			'U_FORUM_VIETNAMESE'	=> $this->helper->route('vinabb_web_board_forum_route', ['forum_id' => $this->config['vinabb_web_forum_id_vietnamese'], 'seo' => ($this->config['vinabb_web_forum_id_vietnamese'] ? $this->forum_data[$this->config['vinabb_web_forum_id_vietnamese']]['name_seo'] : constants::LANG_VIETNAMESE) . constants::REWRITE_URL_SEO]),
+			'U_FORUM_ENGLISH'		=> $this->helper->route('vinabb_web_board_forum_route', ['forum_id' => $this->config['vinabb_web_forum_id_english'], 'seo' => ($this->config['vinabb_web_forum_id_english'] ? $this->forum_data[$this->config['vinabb_web_forum_id_english']]['name_seo'] : constants::LANG_ENGLISH) . constants::REWRITE_URL_SEO]),
 
 			'S_INDEX'					=> true,
-			'S_DISPLAY_BIRTHDAY_LIST'	=> $this->config['load_birthdays'],
-		));
+			'S_DISPLAY_BIRTHDAY_LIST'	=> $this->config['load_birthdays']
+		]);
 	}
 
 	/**
@@ -457,15 +457,15 @@ class portal
 
 		foreach ($this->cache->get_index_articles($this->user->lang_name) as $article_data)
 		{
-			$this->template->assign_block_vars('articles', array(
+			$this->template->assign_block_vars('articles', [
 				'CATEGORY'	=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->portal_cats[$article_data['cat_id']]['name_vi'] : $this->portal_cats[$article_data['cat_id']]['name'],
-				'CAT_URL'	=> $this->helper->route('vinabb_web_portal_cat_route', array('varname' => $this->portal_cats[$article_data['cat_id']]['varname'])),
+				'CAT_URL'	=> $this->helper->route('vinabb_web_portal_cat_route', ['varname' => $this->portal_cats[$article_data['cat_id']]['varname']]),
 				'NAME'		=> $article_data['name'],
 				'DESC'		=> $article_data['desc'],
 				'TIME'		=> $this->user->format_date($article_data['time']),
-				'URL'		=> $this->helper->route('vinabb_web_portal_article_route', array('varname' => $this->portal_cats[$article_data['cat_id']]['varname'], 'article_id' => $article_data['id'], 'seo' => $article_data['name_seo'] . constants::REWRITE_URL_SEO)),
-				'COMMENTS'	=> isset($comment_counter[$article_data['id']]) ? $comment_counter[$article_data['id']] : 0,
-			));
+				'URL'		=> $this->helper->route('vinabb_web_portal_article_route', ['varname' => $this->portal_cats[$article_data['cat_id']]['varname'], 'article_id' => $article_data['id'], 'seo' => $article_data['name_seo'] . constants::REWRITE_URL_SEO]),
+				'COMMENTS'	=> isset($comment_counter[$article_data['id']]) ? $comment_counter[$article_data['id']] : 0
+			]);
 		}
 	}
 
@@ -509,7 +509,7 @@ class portal
 			ORDER BY topic_time DESC';
 		$result = $this->db->sql_query_limit($sql, constants::NUM_NEW_ITEMS_ON_INDEX);
 
-		$post_ids = array();
+		$post_ids = [];
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$post_ids[] = (int) $row['topic_first_post_id'];
@@ -521,24 +521,24 @@ class portal
 			return false;
 		}
 
-		$sql_ary = array(
+		$sql_ary = [
 			'SELECT'	=> 'f.forum_id, f.forum_name,
 							t.topic_id, t.topic_title, t.topic_time,
 							p.post_id, p.post_time',
-			'FROM'		=> array(
+			'FROM'		=> [
 				TOPICS_TABLE	=> 't',
-				POSTS_TABLE		=> 'p',
-			),
-			'LEFT_JOIN'	=> array(
-				array(
-					'FROM'	=> array(FORUMS_TABLE => 'f'),
-					'ON'	=> 'p.forum_id = f.forum_id',
-				),
-			),
+				POSTS_TABLE		=> 'p'
+			],
+			'LEFT_JOIN'	=> [
+				[
+					'FROM'	=> [FORUMS_TABLE => 'f'],
+					'ON'	=> 'p.forum_id = f.forum_id'
+				],
+			],
 			'WHERE'		=> 'p.topic_id = t.topic_id
 				AND ' . $this->db->sql_in_set('p.post_id', $post_ids),
-			'ORDER_BY'	=> 'p.post_time DESC, p.post_id DESC',
-		);
+			'ORDER_BY'	=> 'p.post_time DESC, p.post_id DESC'
+		];
 
 		return $sql_ary;
 	}
@@ -567,7 +567,7 @@ class portal
 			ORDER BY topic_last_post_time DESC, topic_last_post_id DESC';
 		$result = $this->db->sql_query_limit($sql, constants::NUM_NEW_ITEMS_ON_INDEX);
 
-		$topic_ids = array();
+		$topic_ids = [];
 		$min_post_time = 0;
 
 		while ($row = $this->db->sql_fetchrow())
@@ -583,26 +583,26 @@ class portal
 		}
 
 		// Get the actual data
-		$sql_ary = array(
+		$sql_ary = [
 			'SELECT'	=>	'f.forum_id, f.forum_name,
 							p.post_id, p.topic_id, p.post_time, p.post_subject,
 							u.username, u.user_id',
-			'FROM'		=> array(
+			'FROM'		=> [
 				USERS_TABLE		=> 'u',
-				POSTS_TABLE		=> 'p',
-			),
-			'LEFT_JOIN'	=> array(
-				array(
-					'FROM'	=> array(FORUMS_TABLE	=> 'f'),
-					'ON'	=> 'f.forum_id = p.forum_id',
-				),
-			),
+				POSTS_TABLE		=> 'p'
+			],
+			'LEFT_JOIN'	=> [
+				[
+					'FROM'	=> [FORUMS_TABLE	=> 'f'],
+					'ON'	=> 'f.forum_id = p.forum_id'
+				],
+			],
 			'WHERE'		=> $this->db->sql_in_set('p.topic_id', $topic_ids) . '
 				AND ' . $this->content_visibility->get_forums_visibility_sql('post', $forum_ids, 'p.') . '
 				AND p.post_time >= ' . $min_post_time . '
 				AND u.user_id = p.poster_id',
-			'ORDER_BY'	=> 'p.post_time DESC, p.post_id DESC',
-		);
+			'ORDER_BY'	=> 'p.post_time DESC, p.post_id DESC'
+		];
 
 		return $sql_ary;
 	}
@@ -639,7 +639,7 @@ class portal
 		}
 		$result = $this->db->sql_query($sql);
 
-		$legend = array();
+		$legend = [];
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$colour_text = ($row['group_colour']) ? ' style="color: #' . $row['group_colour'] . '"' : '';
@@ -651,7 +651,7 @@ class portal
 			}
 			else
 			{
-				$legend[] = '<a' . $colour_text . ' href="' . $this->helper->route('vinabb_web_user_group_route', array('group_id' => $row['group_id'])) . '">' . $group_name . '</a>';
+				$legend[] = '<a' . $colour_text . ' href="' . $this->helper->route('vinabb_web_user_group_route', ['group_id' => $row['group_id']]) . '">' . $group_name . '</a>';
 			}
 		}
 		$this->db->sql_freeresult($result);
@@ -666,7 +666,7 @@ class portal
 	*/
 	protected function get_birthdays()
 	{
-		$birthdays = array();
+		$birthdays = [];
 
 		if ($this->config['load_birthdays'] && $this->config['allow_birthdays'] && $this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel'))
 		{
@@ -680,21 +680,21 @@ class portal
 			{
 				$leap_year_birthdays = " OR u.user_birthday LIKE '" . $this->db->sql_escape(sprintf('%2d-%2d-', 29, 2)) . "%'";
 			}
-			$sql_ary = array(
+			$sql_ary = [
 				'SELECT' => 'u.user_id, u.username, u.user_colour, u.user_birthday',
-				'FROM' => array(
-					USERS_TABLE => 'u',
-				),
-				'LEFT_JOIN' => array(
-					array(
-						'FROM' => array(BANLIST_TABLE => 'b'),
-						'ON' => 'u.user_id = b.ban_userid',
-					),
-				),
+				'FROM' => [
+					USERS_TABLE => 'u'
+				],
+				'LEFT_JOIN' => [
+					[
+						'FROM' => [BANLIST_TABLE => 'b'],
+						'ON' => 'u.user_id = b.ban_userid'
+					]
+				],
 				'WHERE' => "(b.ban_id IS NULL OR b.ban_exclude = 1)
 					AND (u.user_birthday LIKE '" . $this->db->sql_escape(sprintf('%2d-%2d-', $now['mday'], $now['mon'])) . "%' $leap_year_birthdays)
-					AND u.user_type IN (" . USER_NORMAL . ', ' . USER_FOUNDER . ')',
-			);
+					AND u.user_type IN (" . USER_NORMAL . ', ' . USER_FOUNDER . ')'
+			];
 
 			/**
 			* Event to modify the SQL query to get birthdays data
@@ -705,7 +705,7 @@ class portal
 			* @var	object	time		The user related Datetime object
 			* @since 3.1.7-RC1
 			*/
-			$vars = array('now', 'sql_ary', 'time');
+			$vars = ['now', 'sql_ary', 'time'];
 			extract($this->dispatcher->trigger_event('core.index_modify_birthdays_sql', compact($vars)));
 
 			$sql = $this->db->sql_build_query('SELECT', $sql_ary);
@@ -718,10 +718,10 @@ class portal
 				$birthday_username = get_username_string('full', $row['user_id'], $row['username'], $row['user_colour']);
 				$birthday_year = (int) substr($row['user_birthday'], -4);
 				$birthday_age = ($birthday_year) ? max(0, $now['year'] - $birthday_year) : '';
-				$birthdays[] = array(
+				$birthdays[] = [
 					'USERNAME'	=> $birthday_username,
-					'AGE'		=> $birthday_age,
-				);
+					'AGE'		=> $birthday_age
+				];
 			}
 
 			/**
@@ -732,7 +732,7 @@ class portal
 			* @var	array	rows			Array with the birthdays SQL query result
 			* @since 3.1.7-RC1
 			*/
-			$vars = array('birthdays', 'rows');
+			$vars = ['birthdays', 'rows'];
 			extract($this->dispatcher->trigger_event('core.index_modify_birthdays_list', compact($vars)));
 		}
 

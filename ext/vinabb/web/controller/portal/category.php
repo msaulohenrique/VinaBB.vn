@@ -43,24 +43,24 @@ class category extends portal
 		}
 
 		// Display articles
-		$articles = array();
+		$articles = [];
 		$article_count = 0;
 		$start = $this->ext_helper->list_articles($current_cat_id, $articles, $article_count, constants::NUM_ARTICLES_ON_INDEX, $start);
 
 		foreach ($articles as $row)
 		{
-			$this->template->assign_block_vars('articles', array(
+			$this->template->assign_block_vars('articles', [
 				'CATEGORY'	=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->portal_cats[$row['cat_id']]['name_vi'] : $this->portal_cats[$row['cat_id']]['name'],
-				'CAT_URL'	=> $this->helper->route('vinabb_web_portal_cat_route', array('varname' => $this->portal_cats[$row['cat_id']]['varname'])),
+				'CAT_URL'	=> $this->helper->route('vinabb_web_portal_cat_route', ['varname' => $this->portal_cats[$row['cat_id']]['varname']]),
 				'NAME'		=> $row['article_name'],
 				'DESC'		=> $row['article_desc'],
 				'TIME'		=> $this->user->format_date($row['article_time']),
-				'URL'		=> $this->helper->route('vinabb_web_portal_article_route', array('varname' => $this->portal_cats[$row['cat_id']]['varname'], 'article_id' => $row['article_id'], 'seo' => $row['article_name_seo'] . constants::REWRITE_URL_SEO))
-			));
+				'URL'		=> $this->helper->route('vinabb_web_portal_article_route', ['varname' => $this->portal_cats[$row['cat_id']]['varname'], 'article_id' => $row['article_id'], 'seo' => $row['article_name_seo'] . constants::REWRITE_URL_SEO])
+			]);
 		}
 
 		// Generate pagination
-		$this->pagination->generate_template_pagination('vinabb_web_portal_cat_route', array('varname' => ($current_cat_id ? $varname : 'all')), 'pagination', 'start', $article_count, constants::NUM_ARTICLES_ON_INDEX, $start);
+		$this->pagination->generate_template_pagination('vinabb_web_portal_cat_route', ['varname' => $current_cat_id ? $varname : 'all'], 'pagination', 'start', $article_count, constants::NUM_ARTICLES_ON_INDEX, $start);
 
 		// Breadcrumb
 		if ($current_cat_id)

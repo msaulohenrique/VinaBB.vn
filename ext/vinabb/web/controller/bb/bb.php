@@ -87,16 +87,16 @@ class bb
 
 		if (!empty($type))
 		{
-			$this->template->assign_vars(array(
+			$this->template->assign_vars([
 				'S_BB_' . strtoupper($type) . 'S'	=> true
-			));
+			]);
 		}
 		// Default mode is 'Statistics'
 		else
 		{
-			$this->template->assign_vars(array(
+			$this->template->assign_vars([
 				'S_BB_STATS'	=> true
-			));
+			]);
 		}
 
 		// Breadcrumb
@@ -104,7 +104,7 @@ class bb
 		$this->ext_helper->set_breadcrumb(!empty($type) ? $this->language->lang('BB_' . strtoupper($type) . 'S') : $this->language->lang('STATISTICS'));
 
 		// Testing SCEditor
-		$sceditor_smilies = $sceditor_hidden_smilies = $sceditor_smilies_desc = array();
+		$sceditor_smilies = $sceditor_hidden_smilies = $sceditor_smilies_desc = [];
 
 		foreach ($this->cache->get_smilies() as $smiley_code => $smiley_data)
 		{
@@ -121,14 +121,14 @@ class bb
 		}
 
 		// Output
-		$this->template->assign_vars(array(
+		$this->template->assign_vars([
 			'S_BB'	=> true,
 
 			'SCEDITOR_SMILIES'			=> json_encode($sceditor_smilies),
 			'SCEDITOR_HIDDEN_SMILIES'	=> json_encode($sceditor_hidden_smilies),
 			'SCEDITOR_SMILIES_DESC'		=> json_encode($sceditor_smilies_desc),
-			'S_WYSIWYG_EDITOR'			=> true,
-		));
+			'S_WYSIWYG_EDITOR'			=> true
+		]);
 
 		// Page title
 		$page_title = !empty($type) ? $this->language->lang('BB_' . strtoupper($type) . 'S') : $this->language->lang('BB');

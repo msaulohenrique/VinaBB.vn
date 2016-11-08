@@ -139,15 +139,15 @@ class article
 
 				// Breadcrumb
 				$this->ext_helper->set_breadcrumb($this->language->lang('NEWS'), $this->helper->route('vinabb_web_portal_route'));
-				$this->ext_helper->set_breadcrumb($category_name, $this->helper->route('vinabb_web_portal_cat_route', array('varname' => $cat_varname)));
+				$this->ext_helper->set_breadcrumb($category_name, $this->helper->route('vinabb_web_portal_cat_route', ['varname' => $cat_varname]));
 				$this->ext_helper->set_breadcrumb($this->language->lang('PORTAL_ARTICLE'));
 
-				$this->template->assign_vars(array(
+				$this->template->assign_vars([
 					'ARTICLE_NAME'	=> $article_data['article_name'],
 					'ARTICLE_DESC'	=> $article_data['article_desc'],
 					'ARTICLE_TEXT'	=> generate_text_for_display($article_data['article_text'], $article_data['article_text_uid'], $article_data['article_text_bitfield'], $article_data['article_text_options']),
 					'ARTICLE_TIME'	=> $this->user->format_date($article_data['article_time'])
-				));
+				]);
 			}
 		}
 
