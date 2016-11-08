@@ -17,7 +17,7 @@ class portal_categories_info
 			'title'		=> 'ACP_PORTAL_CATS',
 			'version'	=> '1.0.0',
 			'modes'		=> [
-				'cats'	=> [
+				'main'	=> [
 					'title'	=> 'ACP_PORTAL_CATS',
 					'auth'	=> 'ext_vinabb/web && acl_a_board',
 					'cat'	=> ['ACP_CAT_PORTAL']

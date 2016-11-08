@@ -50,7 +50,7 @@ class web_settings extends migration
 					'ACP_CAT_VINABB_SETTINGS',
 					[
 						'module_basename'	=> '\vinabb\web\acp\settings_module',
-						'modes'				=> ['settings']
+						'modes'				=> ['main']
 					]
 				]
 			]

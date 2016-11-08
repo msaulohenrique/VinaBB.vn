@@ -17,7 +17,7 @@ class menu_info
 			'title'		=> 'ACP_MENU',
 			'version'	=> '1.0.0',
 			'modes'		=> [
-				'cats'	=> [
+				'main'	=> [
 					'title'	=> 'ACP_MENU',
 					'auth'	=> 'ext_vinabb/web && acl_a_board',
 					'cat'	=> ['ACP_CAT_PORTAL']

@@ -40,7 +40,7 @@ class portal_modules extends migration
 					'ACP_CAT_PORTAL',
 					[
 						'module_basename'	=> '\vinabb\web\acp\portal_categories_module',
-						'modes'				=> ['cats']
+						'modes'				=> ['main']
 					]
 				]
 			],
@@ -51,7 +51,7 @@ class portal_modules extends migration
 					'ACP_CAT_PORTAL',
 					[
 						'module_basename'	=> '\vinabb\web\acp\portal_articles_module',
-						'modes'				=> ['articles']
+						'modes'				=> ['main']
 					]
 				]
 			]

@@ -17,7 +17,7 @@ class portal_articles_info
 			'title'		=> 'ACP_PORTAL_ARTICLES',
 			'version'	=> '1.0.0',
 			'modes'		=> [
-				'articles'	=> [
+				'main'	=> [
 					'title'	=> 'ACP_PORTAL_ARTICLES',
 					'auth'	=> 'ext_vinabb/web && acl_a_board',
 					'cat'	=> ['ACP_CAT_PORTAL']
