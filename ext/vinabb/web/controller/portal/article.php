@@ -10,7 +10,7 @@ namespace vinabb\web\controller\portal;
 
 use vinabb\web\includes\constants;
 
-class article
+class article implements article_interface
 {
 	/** @var \phpbb\cache\service */
 	protected $cache;
@@ -110,6 +110,12 @@ class article
 		$this->portal_cats = $this->cache->get_portal_cats();
 	}
 
+	/**
+	* View details an article
+	*
+	* @param $article_id Article ID
+	* @return \Symfony\Component\HttpFoundation\Response
+	*/
 	public function article($article_id)
 	{
 		$page_title = $this->language->lang('VINABB');
