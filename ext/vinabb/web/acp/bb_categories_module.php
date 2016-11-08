@@ -123,6 +123,8 @@ class bb_categories_module
 					'CAT_NAME'		=> isset($cat_data['cat_name']) ? $cat_data['cat_name'] : '',
 					'CAT_NAME_VI'	=> isset($cat_data['cat_name_vi']) ? $cat_data['cat_name_vi'] : '',
 					'CAT_VARNAME'	=> isset($cat_data['cat_varname']) ? $cat_data['cat_varname'] : '',
+					'CAT_DESC'		=> isset($cat_data['cat_desc']) ? $cat_data['cat_desc'] : '',
+					'CAT_DESC_VI'	=> isset($cat_data['cat_desc_vi']) ? $cat_data['cat_desc_vi'] : '',
 					'CAT_ICON'		=> isset($cat_data['cat_icon']) ? $cat_data['cat_icon'] : '',
 
 					'MODULE'	=> $id,
@@ -145,6 +147,8 @@ class bb_categories_module
 				$cat_name = $this->request->variable('cat_name', '', true);
 				$cat_name_vi = $this->request->variable('cat_name_vi', '', true);
 				$cat_varname = strtolower($this->request->variable('cat_varname', ''));
+				$cat_desc = $this->request->variable('cat_desc', '', true);
+				$cat_desc_vi = $this->request->variable('cat_desc_vi', '', true);
 				$cat_icon = strtolower($this->request->variable('cat_icon', ''));
 
 				if (empty($cat_name) || empty($cat_name_vi))
@@ -189,6 +193,8 @@ class bb_categories_module
 					'cat_name'		=> $cat_name,
 					'cat_name_vi'	=> $cat_name_vi,
 					'cat_varname'	=> $cat_varname,
+					'cat_desc'		=> $cat_desc,
+					'cat_desc_vi'	=> $cat_desc_vi,
 					'cat_icon'		=> $cat_icon,
 				);
 
@@ -337,6 +343,8 @@ class bb_categories_module
 				'NAME'		=> $row['cat_name'],
 				'NAME_VI'	=> $row['cat_name_vi'],
 				'VARNAME'	=> $row['cat_varname'],
+				'DESC'		=> $row['cat_desc'],
+				'DESC_VI'	=> $row['cat_desc_vi'],
 				'ICON'		=> $row['cat_icon'],
 				'ITEMS'		=> isset($item_count[$row['cat_id']]) ? $item_count[$row['cat_id']] : 0,
 

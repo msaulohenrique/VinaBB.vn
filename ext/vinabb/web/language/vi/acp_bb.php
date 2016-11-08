@@ -33,6 +33,7 @@ $lang = array_merge($lang, [
 	'ADD_BB_STYLE'				=> 'Thêm giao diện mới',
 	'ADD_BB_TOOL'				=> 'Thêm công cụ mới',
 
+	'BB_CAT_DESC'		=> 'Giới thiệu',
 	'BB_CAT_ICON'		=> 'Biểu tượng',
 	'BB_CAT_NAME'		=> 'Tên danh mục',
 	'BB_CAT_VARNAME'	=> 'Tên biến',
