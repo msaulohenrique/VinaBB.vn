@@ -45,7 +45,7 @@
 						<img src="{{ T_THEME_PATH }}/images/bb_icons/{{ cat.ID }}.png" alt="" width="64" class="img-circle">
 						<div class="content">
 							<div class="comments-header margin-t-10">
-								<span><a href="#" data-toggle="tooltip" data-placement="right" title="{{ SITE_DESCRIPTION }}" class="btn btn-primary btn-icon"><i>{{ loop.index }}</i> {{ cat.NAME }}</a></span>
+								<span><a href="{{ cat.URL }}"{% if cat.DESC %} data-toggle="tooltip" data-placement="right" title="{{ cat.DESC }}"{% endif %} class="btn btn-primary btn-icon"><i>{{ loop.index }}</i> {{ cat.NAME }}</a></span>
 								<ul class="list-inline pull-right">
 									<li><a data-toggle="tooltip" data-placement="bottom" title="{{ lang('BB_EXTS') }}"><i class="icon-paper-clip fa-2x"></i> 94</a></li>
 									<li><a data-toggle="tooltip" data-placement="bottom" title="{{ lang('LIKES') }}"><i class="icon-like fa-2x"></i> 94</a></li>
