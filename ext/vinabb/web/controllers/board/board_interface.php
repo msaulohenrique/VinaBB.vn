@@ -6,15 +6,14 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\controller;
+namespace vinabb\web\controllers\board;
 
-interface online_interface
+interface board_interface
 {
 	/**
-	* 'Who is online' page
+	* Board index page
 	*
-	* @param $mode View mode
 	* @return \Symfony\Component\HttpFoundation\Response
 	*/
-	public function main($mode);
+	public function main();
 }

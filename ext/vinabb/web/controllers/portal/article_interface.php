@@ -6,14 +6,15 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\controller\board;
+namespace vinabb\web\controllers\portal;
 
-interface board_interface
+interface article_interface
 {
 	/**
-	* Board index page
+	* View details an article
 	*
+	* @param $article_id Article ID
 	* @return \Symfony\Component\HttpFoundation\Response
 	*/
-	public function main();
+	public function article($article_id);
 }

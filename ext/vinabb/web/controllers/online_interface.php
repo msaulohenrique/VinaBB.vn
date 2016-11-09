@@ -6,15 +6,15 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\controller\portal;
+namespace vinabb\web\controllers;
 
-interface article_interface
+interface online_interface
 {
 	/**
-	* View details an article
+	* 'Who is online' page
 	*
-	* @param $article_id Article ID
+	* @param $mode View mode
 	* @return \Symfony\Component\HttpFoundation\Response
 	*/
-	public function article($article_id);
+	public function main($mode);
 }

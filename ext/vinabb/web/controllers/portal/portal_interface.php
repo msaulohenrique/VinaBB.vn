@@ -6,7 +6,7 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\controller\portal;
+namespace vinabb\web\controllers\portal;
 
 interface portal_interface
 {
