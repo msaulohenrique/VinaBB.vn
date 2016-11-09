@@ -1,0 +1,17 @@
+services:
+    vinabb.web.pagination:
+        class: vinabb\web\controllers\pagination
+        arguments:
+            - '@language'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+    vinabb.web.helper:
+        class: vinabb\web\controllers\helper
+        arguments:
+            - '@dbal.conn'
+            - '@file_downloader'
+            - '@language'
+            - '@template'
+            - '%vinabb.web.tables.bb_items%'
+            - '%vinabb.web.tables.portal_articles%'

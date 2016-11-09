@@ -1,0 +1,51 @@
+services:
+    vinabb.web.portal:
+        class: vinabb\web\controllers\portal\portal
+        arguments:
+            - '@auth'
+            - '@cache'
+            - '@config'
+            - '@content.visibility'
+            - '@dbal.conn'
+            - '@dispatcher'
+            - '@ext.manager'
+            - '@language'
+            - '@vinabb.web.pagination'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '@vinabb.web.helper'
+            - '@group_helper'
+            - '@path_helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+    vinabb.web.portal.article:
+        class: vinabb\web\controllers\portal\article
+        arguments:
+            - '@cache'
+            - '@config'
+            - '@dbal.conn'
+            - '@language'
+            - '@vinabb.web.pagination'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '@vinabb.web.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+            - '%vinabb.web.tables.portal_articles%'
+            - '%vinabb.web.tables.portal_comments%'
+    vinabb.web.bb:
+        class: vinabb\web\controllers\bb\bb
+        arguments:
+            - '@cache'
+            - '@config'
+            - '@dbal.conn'
+            - '@language'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '@vinabb.web.helper'

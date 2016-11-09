@@ -1,0 +1,21 @@
+services:
+    vinabb.web.listener:
+        class: vinabb\web\events\listener
+        arguments:
+            - '@auth'
+            - '@dbal.conn'
+            - '@cache'
+            - '@config'
+            - '@ext.manager'
+            - '@language'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '@vinabb.web.helper'
+            - '@path_helper'
+            - '%core.root_path%'
+            - '%core.adm_relative_path%'
+            - '%core.php_ext%'
+        tags:
+            - { name: event.listener }

@@ -1,0 +1,18 @@
+services:
+    vinabb.web.operators.nestedset_portal_categories:
+        class: vinabb\web\operators\nestedset_portal_categories
+        arguments:
+            - '@dbal.conn'
+            - '@vinabb.web.table_lock.portal_categories'
+            - '%vinabb.web.tables.portal_categories%'
+    vinabb.web.operators.portal_category:
+        class: vinabb\web\operators\portal_category
+        arguments:
+            - '@service_container'
+            - '@vinabb.web.operators.nestedset_portal_categories'
+    vinabb.web.operators.page:
+        class: vinabb\web\operators\page
+        arguments:
+            - '@dbal.conn'
+            - '@vinabb.web.entities.page'
+            - '%vinabb.web.tables.pages%'

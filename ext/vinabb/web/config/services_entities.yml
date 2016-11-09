@@ -1,0 +1,20 @@
+services:
+    vinabb.web.entities.portal_category:
+        class: vinabb\web\entities\portal_category
+        shared: false
+        arguments:
+            - '@dbal.conn'
+            - '%vinabb.web.tables.portal_categories%'
+    vinabb.web.entities.bb_category:
+        class: vinabb\web\entities\bb_category
+        shared: false
+        arguments:
+            - '@dbal.conn'
+            - '%vinabb.web.tables.bb_categories%'
+    vinabb.web.entities.page:
+        class: vinabb\web\entities\page
+        shared: false
+        arguments:
+            - '@config'
+            - '@dbal.conn'
+            - '%vinabb.web.tables.pages%'

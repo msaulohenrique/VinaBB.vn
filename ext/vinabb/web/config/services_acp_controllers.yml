@@ -1,0 +1,14 @@
+services:
+    vinabb.web.acp.pages:
+        class: vinabb\web\controllers\acp\pages
+        arguments:
+            - '@cache'
+            - '@vinabb.web.entities.page'
+            - '@language'
+            - '@log'
+            - '@vinabb.web.operators.page'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '%core.root_path%'
+            - '%core.php_ext%'

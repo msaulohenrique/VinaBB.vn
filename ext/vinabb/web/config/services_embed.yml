@@ -1,0 +1,13 @@
+services:
+    vinabb.web.embed:
+        class: vinabb\web\controllers\embed
+        arguments:
+            - '@auth'
+            - '@dbal.conn'
+            - '@language'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'

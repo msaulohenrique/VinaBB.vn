@@ -1,0 +1,84 @@
+services:
+    vinabb.web.decorates.cache:
+        class: vinabb\web\decorates\cache\service
+        decorates: cache
+        arguments:
+            - '@cache.driver'
+            - '@config'
+            - '@dbal.conn'
+            - '@vinabb.web.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+            - '%vinabb.web.tables.bb_categories%'
+            - '%vinabb.web.tables.bb_items%'
+            - '%vinabb.web.tables.portal_categories%'
+            - '%vinabb.web.tables.portal_articles%'
+            - '%vinabb.web.tables.portal_comments%'
+            - '%vinabb.web.tables.pages%'
+    vinabb.web.decorates.help.controller.faq:
+        class: vinabb\web\decorates\help\controllers\faq
+        decorates: phpbb.help.controller.faq
+        arguments:
+            - '@controller.helper'
+            - '@phpbb.help.manager'
+            - '@template'
+            - '@language'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+    vinabb.web.decorates.help.controller.bbcode:
+        class: vinabb\web\decorates\help\controllers\bbcode
+        decorates: phpbb.help.controller.bbcode
+        arguments:
+            - '@controller.helper'
+            - '@phpbb.help.manager'
+            - '@template'
+            - '@language'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+    vinabb.web.decorates.message.form.topic:
+        class: vinabb\web\decorates\message\topic_form
+        decorates: message.form.topic
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@dbal.conn'
+            - '@user'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+    vinabb.web.decorates.message.form.user:
+        class: vinabb\web\decorates\message\user_form
+        decorates: message.form.user
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@dbal.conn'
+            - '@user'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+    vinabb.web.decorates.text_formatter.s9e.factory:
+        class: vinabb\web\decorates\textformatter\s9e\factory
+        decorates: text_formatter.s9e.factory
+        arguments:
+            - '@text_formatter.data_access'
+            - '@cache.driver'
+            - '@dispatcher'
+            - '@config'
+            - '@language'
+            - '@text_formatter.s9e.link_helper'
+            - '%text_formatter.cache.dir%'
+            - '%text_formatter.cache.parser.key%'
+            - '%text_formatter.cache.renderer.key%'
+    vinabb.web.decorates.text_formatter.s9e.renderer:
+        class: vinabb\web\decorates\textformatter\s9e\renderer
+        decorates: text_formatter.s9e.renderer
+        arguments:
+            - '@cache.driver'
+            - '%text_formatter.cache.dir%'
+            - '%text_formatter.cache.renderer.key%'
+            - '@text_formatter.s9e.factory'
+            - '@dispatcher'
+            - '@language'
+        calls:
+            - [configure_quote_helper, ['@text_formatter.s9e.quote_helper']]
+            - [configure_smilies_path, ['@config', '@path_helper']]
+            - [configure_user, ['@user', '@config', '@auth']]

@@ -1,0 +1,158 @@
+services:
+    vinabb.web.user:
+        class: vinabb\web\controllers\user
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@dbal.conn'
+            - '@dispatcher'
+            - '@language'
+            - '@message.form.admin'
+            - '@message.form.topic'
+            - '@message.form.user'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '@group_helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+    vinabb.web.ucp:
+        class: vinabb\web\controllers\ucp
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@dbal.conn'
+            - '@dispatcher'
+            - '@ext.manager'
+            - '@language'
+            - '@log'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+    vinabb.web.mcp:
+        class: vinabb\web\controllers\mcp
+        arguments:
+            - '@auth'
+            - '@dbal.conn'
+            - '@dispatcher'
+            - '@ext.manager'
+            - '@language'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+    vinabb.web.board:
+        class: vinabb\web\controllers\board\board
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@dbal.conn'
+            - '@language'
+            - '@notification_manager'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+    vinabb.web.board.forum:
+        class: vinabb\web\controllers\board\forum
+        arguments:
+            - '@auth'
+            - '@cache'
+            - '@config'
+            - '@content.visibility'
+            - '@cron.manager'
+            - '@dbal.conn'
+            - '@dispatcher'
+            - '@language'
+            - '@vinabb.web.pagination'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+    vinabb.web.board.topic:
+        class: vinabb\web\controllers\board\topic
+        arguments:
+            - '@auth'
+            - '@cache'
+            - '@config'
+            - '@content.visibility'
+            - '@dbal.conn'
+            - '@dispatcher'
+            - '@language'
+            - '@vinabb.web.pagination'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+    vinabb.web.board.post:
+        class: vinabb\web\controllers\board\post
+        arguments:
+            - '@auth'
+            - '@cache'
+            - '@config'
+            - '@content.visibility'
+            - '@cron.manager'
+            - '@dbal.conn'
+            - '@dispatcher'
+            - '@language'
+            - '@notification_manager'
+            - '@vinabb.web.pagination'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+    vinabb.web.board.posting:
+        class: vinabb\web\controllers\board\posting
+        arguments:
+            - '@auth'
+            - '@cache'
+            - '@captcha.factory'
+            - '@config'
+            - '@content.visibility'
+            - '@dbal.conn'
+            - '@dispatcher'
+            - '@language'
+            - '@log'
+            - '@plupload'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+    vinabb.web.board.search:
+        class: vinabb\web\controllers\board\search
+        arguments:
+            - '%core.root_path%'
+            - '%core.php_ext%'
+    vinabb.web.online:
+        class: vinabb\web\controllers\online
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@dbal.conn'
+            - '@dispatcher'
+            - '@language'
+            - '@pagination'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '@group_helper'
+            - '%core.root_path%'
+            - '%core.adm_relative_path%'
+            - '%core.php_ext%'

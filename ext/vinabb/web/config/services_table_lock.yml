@@ -1,0 +1,7 @@
+services:
+    vinabb.web.table_lock.portal_categories:
+        class: phpbb\lock\db
+        arguments:
+            - 'vinabb.web.table_lock.%vinabb.web.tables.portal_categories%'
+            - '@config'
+            - '@dbal.conn'
