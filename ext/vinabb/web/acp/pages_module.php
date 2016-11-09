@@ -52,6 +52,8 @@ class pages_module
 		$action = $this->request->variable('action', '');
 		$page_id = $this->request->variable('id', 0);
 
+		$this->controller->set_form_action($this->u_action);
+
 		switch ($action)
 		{
 			case 'add':
