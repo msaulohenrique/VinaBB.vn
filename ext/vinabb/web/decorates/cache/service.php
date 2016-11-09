@@ -33,6 +33,9 @@ class service extends \phpbb\cache\service
 	/** @var string */
 	protected $portal_comments_table;
 
+	/** @var string */
+	protected $pages_table;
+
 	/**
 	* Constructor
 	*
@@ -47,6 +50,7 @@ class service extends \phpbb\cache\service
 	* @param string $portal_categories_table
 	* @param string $portal_articles_table
 	* @param string $portal_comments_table
+	* @param string $pages_table
 	*/
 	public function __construct(
 		\phpbb\cache\driver\driver_interface $driver,
@@ -59,7 +63,8 @@ class service extends \phpbb\cache\service
 		$bb_items_table,
 		$portal_categories_table,
 		$portal_articles_table,
-		$portal_comments_table
+		$portal_comments_table,
+		$pages_table
 	)
 	{
 		$this->set_driver($driver);
@@ -73,6 +78,7 @@ class service extends \phpbb\cache\service
 		$this->portal_categories_table = $portal_categories_table;
 		$this->portal_articles_table = $portal_articles_table;
 		$this->portal_comments_table = $portal_comments_table;
+		$this->pages_table = $pages_table;
 	}
 
 	/**
@@ -469,5 +475,54 @@ class service extends \phpbb\cache\service
 	public function clear_index_comment_counter($lang)
 	{
 		$this->driver->destroy('_vinabb_web_index_comment_counter_' . $lang);
+	}
+
+	/**
+	* Get cache from table: _pages
+	*
+	* @return array
+	*/
+	public function get_pages()
+	{
+		if (($pages = $this->driver->get('_vinabb_web_pages')) === false)
+		{
+			$sql = 'SELECT *
+				FROM ' . $this->pages_table . '
+				WHERE page_enable = 1';
+			$result = $this->db->sql_query($sql);
+
+			$pages = [];
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$pages[$row['page_id']] = [
+					'name'				=> $row['page_name'],
+					'name_vi'			=> $row['page_name_vi'],
+					'varname'			=> $row['page_varname'],
+					'desc'				=> $row['page_desc'],
+					'desc_vi'			=> $row['page_desc_vi'],
+					'text'				=> $row['page_text'],
+					'text_uid'			=> $row['page_text_uid'],
+					'text_bitfield'		=> $row['page_text_bitfield'],
+					'text_options'		=> $row['page_text_options'],
+					'text_vi'			=> $row['page_text_vi'],
+					'text_vi_uid'		=> $row['page_text_vi_uid'],
+					'text_vi_bitfield'	=> $row['page_text_vi_bitfield'],
+					'text_vi_options'	=> $row['page_text_vi_options']
+				];
+			}
+			$this->db->sql_freeresult($result);
+
+			$this->driver->put('_vinabb_web_pages', $pages);
+		}
+
+		return $pages;
+	}
+
+	/**
+	* Clear cache from table: _pages
+	*/
+	public function clear_pages()
+	{
+		$this->driver->destroy('_vinabb_web_pages');
 	}
 }
