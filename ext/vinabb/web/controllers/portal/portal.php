@@ -51,7 +51,7 @@ class portal implements portal_interface
 	/** @var \phpbb\controller\helper */
 	protected $helper;
 
-	/** @var \vinabb\web\controllers\helper */
+	/** @var \vinabb\web\controllers\helper_interface */
 	protected $ext_helper;
 
 	/** @var \phpbb\group\helper */
@@ -94,7 +94,7 @@ class portal implements portal_interface
 	* @param \phpbb\template\template $template
 	* @param \phpbb\user $user
 	* @param \phpbb\controller\helper $helper
-	* @param \vinabb\web\controllers\helper $ext_helper
+	* @param \vinabb\web\controllers\helper_interface $ext_helper
 	* @param \phpbb\group\helper $group_helper
 	* @param \phpbb\path_helper $path_helper
 	* @param string $root_path
@@ -114,7 +114,7 @@ class portal implements portal_interface
 		\phpbb\template\template $template,
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
-		\vinabb\web\controllers\helper $ext_helper,
+		\vinabb\web\controllers\helper_interface $ext_helper,
 		\phpbb\group\helper $group_helper,
 		\phpbb\path_helper $path_helper,
 		$root_path,

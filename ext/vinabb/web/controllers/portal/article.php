@@ -39,7 +39,7 @@ class article implements article_interface
 	/** @var \phpbb\controller\helper */
 	protected $helper;
 
-	/** @var \vinabb\web\controllers\helper */
+	/** @var \vinabb\web\controllers\helper_interface */
 	protected $ext_helper;
 
 	/** @var string */
@@ -69,7 +69,7 @@ class article implements article_interface
 	* @param \phpbb\template\template $template
 	* @param \phpbb\user $user
 	* @param \phpbb\controller\helper $helper
-	* @param \vinabb\web\controllers\helper $ext_helper
+	* @param \vinabb\web\controllers\helper_interface $ext_helper
 	* @param string $root_path
 	* @param string $php_ext
 	* @param string $portal_articles_table
@@ -85,7 +85,7 @@ class article implements article_interface
 		\phpbb\template\template $template,
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
-		\vinabb\web\controllers\helper $ext_helper,
+		\vinabb\web\controllers\helper_interface $ext_helper,
 		$root_path,
 		$php_ext,
 		$portal_articles_table,
