@@ -6,10 +6,10 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\exception;
+namespace vinabb\web\exceptions;
 
 
-class out_of_bounds extends base
+class invalid_argument extends base
 {
 	/**
 	* Translate this exception
@@ -19,6 +19,6 @@ class out_of_bounds extends base
 	*/
 	public function get_message(\phpbb\language\language $language)
 	{
-		return $this->translate_portions($language, $this->message_full, 'EXCEPTION_OUT_OF_BOUNDS');
+		return $this->translate_portions($language, $this->message_full, 'EXCEPTION_INVALID_ARGUMENT');
 	}
 }

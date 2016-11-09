@@ -6,10 +6,9 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\exception;
+namespace vinabb\web\exceptions;
 
-
-class invalid_argument extends base
+class unexpected_value extends base
 {
 	/**
 	* Translate this exception
@@ -19,6 +18,6 @@ class invalid_argument extends base
 	*/
 	public function get_message(\phpbb\language\language $language)
 	{
-		return $this->translate_portions($language, $this->message_full, 'EXCEPTION_INVALID_ARGUMENT');
+		return $this->translate_portions($language, $this->message_full, 'EXCEPTION_UNEXPECTED_VALUE');
 	}
 }

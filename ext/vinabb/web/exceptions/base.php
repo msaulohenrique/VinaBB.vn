@@ -6,7 +6,7 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\exception;
+namespace vinabb\web\exceptions;
 
 class base extends \Exception
 {
