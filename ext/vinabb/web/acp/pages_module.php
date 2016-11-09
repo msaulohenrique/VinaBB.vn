@@ -42,7 +42,7 @@ class pages_module
 		$this->language = $phpbb_container->get('language');
 		$this->request = $phpbb_container->get('request');
 
-		$this->tpl_name = 'acp_bb_categories';
+		$this->tpl_name = 'acp_pages';
 		$this->page_title = $this->language->lang('ACP_PAGES');
 
 		// Language
