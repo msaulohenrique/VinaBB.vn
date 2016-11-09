@@ -368,6 +368,58 @@ class page implements page_interface
 	}
 
 	/**
+	* Get the page description
+	*
+	* @return string Page description
+	*/
+	public function get_desc()
+	{
+		return isset($this->data['cat_desc']) ? (string) $this->data['cat_desc'] : '';
+	}
+
+	/**
+	* Set the page description
+	*
+	* @param string				$desc	Page description
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_desc($desc)
+	{
+		if (!isset($this->data['cat_desc']))
+		{
+			$this->data['cat_desc'] = (string) $desc;
+		}
+
+		return $this;
+	}
+
+	/**
+	* Get the Vietnamese page description
+	*
+	* @return string Vietnamese page description
+	*/
+	public function get_desc_vi()
+	{
+		return isset($this->data['cat_desc_vi']) ? (string) $this->data['cat_desc_vi'] : '';
+	}
+
+	/**
+	* Set the Vietnamese page description
+	*
+	* @param string				$desc	Vietnamese page description
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_desc_vi($desc)
+	{
+		if (!isset($this->data['cat_desc_vi']))
+		{
+			$this->data['cat_desc_vi'] = (string) $desc;
+		}
+
+		return $this;
+	}
+
+	/**
 	* Get page content for edit
 	*
 	* @return string
@@ -706,7 +758,7 @@ class page implements page_interface
 	*/
 	public function get_enable()
 	{
-		return isset($this->data['page_enable']) ? (bool) $this->data['page_enable'] : false;
+		return isset($this->data['page_enable']) ? (bool) $this->data['page_enable'] : true;
 	}
 
 	/**

@@ -112,6 +112,36 @@ interface page_interface
 	public function set_varname($varname);
 
 	/**
+	* Get the page description
+	*
+	* @return string Page description
+	*/
+	public function get_desc();
+
+	/**
+	* Set the page description
+	*
+	* @param string				$desc	Page description
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	 */
+	public function set_desc($desc);
+
+	/**
+	* Get the Vietnamese page description
+	*
+	* @return string Vietnamese page description
+	*/
+	public function get_desc_vi();
+
+	/**
+	* Set the Vietnamese page description
+	*
+	* @param string				$desc	Vietnamese page description
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	 */
+	public function set_desc_vi($desc);
+
+	/**
 	* Get page content for edit
 	*
 	* @return string
