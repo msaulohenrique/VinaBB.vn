@@ -11,9 +11,9 @@ namespace vinabb\web\migrations\v10x;
 use phpbb\db\migration\migration;
 
 /**
-* Database schema for portal
+* Database schema for menu manager
 */
-class menu_schema extends migration
+class menus_schema extends migration
 {
 	/**
 	* Update schema
@@ -24,7 +24,7 @@ class menu_schema extends migration
 	{
 		return [
 			'add_tables' => [
-				$this->table_prefix . 'menu' => [
+				$this->table_prefix . 'menus' => [
 					'COLUMNS' => [
 						'menu_id'			=> ['UINT', null, 'auto_increment'],
 						'parent_id'			=> ['UINT', 0],
@@ -52,7 +52,7 @@ class menu_schema extends migration
 	{
 		return [
 			'drop_tables' => [
-				$this->table_prefix . 'menu'
+				$this->table_prefix . 'menus'
 			]
 		];
 	}

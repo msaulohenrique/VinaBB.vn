@@ -8,17 +8,17 @@
 
 namespace vinabb\web\acp;
 
-class menu_info
+class menus_info
 {
 	public function module()
 	{
 		return [
-			'filename'	=> '\vinabb\web\acp\menu_module',
-			'title'		=> 'ACP_MENU',
+			'filename'	=> '\vinabb\web\acp\menus_module',
+			'title'		=> 'ACP_MENUS',
 			'version'	=> '1.0.0',
 			'modes'		=> [
 				'main'	=> [
-					'title'	=> 'ACP_MENU',
+					'title'	=> 'ACP_MENUS',
 					'auth'	=> 'ext_vinabb/web && acl_a_board',
 					'cat'	=> ['ACP_CAT_PORTAL']
 				]

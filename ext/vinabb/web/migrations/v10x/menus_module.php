@@ -13,7 +13,7 @@ use phpbb\db\migration\migration;
 /**
 * Add ACP module for menu manager
 */
-class menu_module extends migration
+class menus_module extends migration
 {
 	/**
 	* List of required migrations
@@ -39,7 +39,7 @@ class menu_module extends migration
 					'acp',
 					'ACP_CAT_PORTAL',
 					[
-						'module_basename'	=> '\vinabb\web\acp\menu_module',
+						'module_basename'	=> '\vinabb\web\acp\menus_module',
 						'modes'				=> ['main']
 					]
 				]

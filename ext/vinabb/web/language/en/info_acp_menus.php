@@ -20,10 +20,10 @@ if (empty($lang) || !is_array($lang))
 */
 
 $lang = array_merge($lang, [
-	'ACP_MENU'			=> 'Trình đơn',
-	'ACP_MENU_EXPLAIN'	=> 'Trình đơn xuất hiện đầu mỗi trang.',
+	'ACP_MENUS'			=> 'Menu',
+	'ACP_MENUS_EXPLAIN'	=> 'Menu items on the top of every page.',
 
-	'LOG_MENU_ADD'		=> '<strong>Đã tạo trình đơn mới</strong><br>» %s',
-	'LOG_MENU_DELETE'	=> '<strong>Đã xóa trình đơn</strong><br>» %s',
-	'LOG_MENU_EDIT'		=> '<strong>Đã sửa trình đơn</strong><br>» %s'
+	'LOG_MENU_ADD'		=> '<strong>Created new menu</strong><br>» %s',
+	'LOG_MENU_DELETE'	=> '<strong>Deleted menu</strong><br>» %s',
+	'LOG_MENU_EDIT'		=> '<strong>Edited menu</strong><br>» %s'
 ]);
