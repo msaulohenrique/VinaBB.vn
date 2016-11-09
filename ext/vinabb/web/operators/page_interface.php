@@ -23,7 +23,7 @@ interface page_interface
 	/**
 	* Add a page
 	*
-	* @return \vinabb\web\entity\page_interface
+	* @return \vinabb\web\entities\page_interface
 	*/
 	public function add_page();
 
@@ -32,7 +32,7 @@ interface page_interface
 	*
 	* @param int $id Page ID
 	* @return bool True if row was deleted, false otherwise
-	* @throws \vinabb\web\exception\out_of_bounds
+	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function delete_page($id);
 }

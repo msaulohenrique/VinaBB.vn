@@ -56,7 +56,7 @@ class portal_category implements portal_category_interface
 	/**
 	* Add an entity
 	*
-	* @param \vinabb\web\entity\portal_category_interface	$entity		Entity with new data to insert
+	* @param \vinabb\web\entities\portal_category_interface	$entity		Entity with new data to insert
 	* @param int											$parent_id	Parent to display sub-entities from
 	* @return portal_category_interface Added entity
 	*/
@@ -87,7 +87,7 @@ class portal_category implements portal_category_interface
 	* @param int	$cat_id		Category ID
 	* @param string	$direction	The direction: up|down
 	* @param int	$amount		The number of places to move the entity
-	* @throws \vinabb\web\exception\out_of_bounds
+	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function move($cat_id, $direction = 'up', $amount = 1)
 	{
@@ -101,7 +101,7 @@ class portal_category implements portal_category_interface
 		}
 		catch (\OutOfBoundsException $e)
 		{
-			throw new \vinabb\web\exception\out_of_bounds('cat_id');
+			throw new \vinabb\web\exceptions\out_of_bounds('cat_id');
 		}
 	}
 
@@ -109,7 +109,7 @@ class portal_category implements portal_category_interface
 	* Delete the entity
 	*
 	* @param int $cat_id Category ID
-	* @throws \vinabb\web\exception\out_of_bounds
+	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function delete($cat_id)
 	{
@@ -122,7 +122,7 @@ class portal_category implements portal_category_interface
 		}
 		catch (\OutOfBoundsException $e)
 		{
-			throw new \vinabb\web\exception\out_of_bounds('cat_id');
+			throw new \vinabb\web\exceptions\out_of_bounds('cat_id');
 		}
 	}
 
@@ -131,7 +131,7 @@ class portal_category implements portal_category_interface
 	*
 	* @param int	$cat_id			Category ID
 	* @param int	$new_parent_id	The new parent ID
-	* @throws \vinabb\web\exception\out_of_bounds
+	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function change_parent($cat_id, $new_parent_id)
 	{
@@ -146,7 +146,7 @@ class portal_category implements portal_category_interface
 		catch (\OutOfBoundsException $e)
 		{
 			$field = (strpos($e->getMessage(), 'INVALID_ITEM') !== false) ? 'cat_id' : 'new_parent_id';
-			throw new \vinabb\web\exception\out_of_bounds($field);
+			throw new \vinabb\web\exceptions\out_of_bounds($field);
 		}
 	}
 

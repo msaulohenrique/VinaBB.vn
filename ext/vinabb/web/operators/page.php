@@ -16,7 +16,7 @@ class page implements page_interface
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var \vinabb\web\entity\page_interface */
+	/** @var \vinabb\web\entities\page_interface */
 	protected $entity;
 
 	/** @var string */
@@ -25,11 +25,11 @@ class page implements page_interface
 	/**
 	* Constructor
 	*
-	* @param \phpbb\db\driver\driver_interface	$db			Database object
-	* @param \vinabb\web\entity\page_interface	$entity		Page entity
-	* @param string								$table_name	Table name
+	* @param \phpbb\db\driver\driver_interface		$db			Database object
+	* @param \vinabb\web\entities\page_interface	$entity		Page entity
+	* @param string									$table_name	Table name
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \vinabb\web\entity\page_interface $entity, $table_name)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \vinabb\web\entities\page_interface $entity, $table_name)
 	{
 		$this->db = $db;
 		$this->entity = $entity;
@@ -61,7 +61,7 @@ class page implements page_interface
 	/**
 	* Add a page
 	*
-	* @return \vinabb\web\entity\page_interface
+	* @return \vinabb\web\entities\page_interface
 	*/
 	public function add_page()
 	{
@@ -80,7 +80,7 @@ class page implements page_interface
 	*
 	* @param int $id Page ID
 	* @return bool True if row was deleted, false otherwise
-	* @throws \vinabb\web\exception\out_of_bounds
+	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function delete_page($id)
 	{

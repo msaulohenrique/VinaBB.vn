@@ -24,7 +24,7 @@ interface portal_category_interface
 	/**
 	* Add an entity
 	*
-	* @param \vinabb\web\entity\portal_category_interface	$entity		Entity with new data to insert
+	* @param \vinabb\web\entities\portal_category_interface	$entity		Entity with new data to insert
 	* @param int											$parent_id	Parent to display sub-entities from
 	* @return portal_category_interface Added entity
 	*/
@@ -36,7 +36,7 @@ interface portal_category_interface
 	* @param int	$cat_id		Category ID
 	* @param string	$direction	The direction: up|down
 	* @param int	$amount		The number of places to move the entity
-	* @throws \vinabb\web\exception\out_of_bounds
+	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function move($cat_id, $direction = 'up', $amount = 1);
 
@@ -44,7 +44,7 @@ interface portal_category_interface
 	* Delete the entity
 	*
 	* @param int $cat_id Category ID
-	* @throws \vinabb\web\exception\out_of_bounds
+	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function delete($cat_id);
 
@@ -53,7 +53,7 @@ interface portal_category_interface
 	*
 	* @param int	$cat_id			Category ID
 	* @param int	$new_parent_id	The new parent ID
-	* @throws \vinabb\web\exception\out_of_bounds
+	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function change_parent($cat_id, $new_parent_id);
 
