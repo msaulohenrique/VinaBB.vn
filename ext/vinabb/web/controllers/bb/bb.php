@@ -6,7 +6,7 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\controller\bb;
+namespace vinabb\web\controllers\bb;
 
 use vinabb\web\includes\constants;
 
@@ -36,7 +36,7 @@ class bb implements bb_interface
 	/** @var \phpbb\controller\helper */
 	protected $helper;
 
-	/** @var \vinabb\web\controller\helper */
+	/** @var \vinabb\web\controllers\helper */
 	protected $ext_helper;
 
 	/**
@@ -50,7 +50,7 @@ class bb implements bb_interface
 	* @param \phpbb\template\template $template
 	* @param \phpbb\user $user
 	* @param \phpbb\controller\helper $helper
-	* @param \vinabb\web\controller\helper $ext_helper
+	* @param \vinabb\web\controllers\helper $ext_helper
 	*/
 	public function __construct(
 		\phpbb\cache\service $cache,
@@ -61,7 +61,7 @@ class bb implements bb_interface
 		\phpbb\template\template $template,
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
-		\vinabb\web\controller\helper $ext_helper
+		\vinabb\web\controllers\helper $ext_helper
 	)
 	{
 		$this->cache = $cache;

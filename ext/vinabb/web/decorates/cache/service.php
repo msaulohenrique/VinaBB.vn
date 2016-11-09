@@ -15,7 +15,7 @@ use vinabb\web\includes\constants;
 */
 class service extends \phpbb\cache\service
 {
-	/** @var \vinabb\web\controller\helper */
+	/** @var \vinabb\web\controllers\helper */
 	protected $ext_helper;
 
 	/** @var string */
@@ -39,7 +39,7 @@ class service extends \phpbb\cache\service
 	* @param \phpbb\cache\driver\driver_interface $driver
 	* @param \phpbb\config\config $config
 	* @param \phpbb\db\driver\driver_interface $db
-	* @param \vinabb\web\controller\helper $ext_helper
+	* @param \vinabb\web\controllers\helper $ext_helper
 	* @param string $root_path
 	* @param string $php_ext
 	* @param string $bb_categories_table
@@ -52,7 +52,7 @@ class service extends \phpbb\cache\service
 		\phpbb\cache\driver\driver_interface $driver,
 		\phpbb\config\config $config,
 		\phpbb\db\driver\driver_interface $db,
-		\vinabb\web\controller\helper $ext_helper,
+		\vinabb\web\controllers\helper $ext_helper,
 		$root_path,
 		$php_ext,
 		$bb_categories_table,

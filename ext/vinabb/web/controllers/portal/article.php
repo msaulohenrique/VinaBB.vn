@@ -24,7 +24,7 @@ class article implements article_interface
 	/** @var \phpbb\language\language */
 	protected $language;
 
-	/** @var \vinabb\web\controller\pagination */
+	/** @var \vinabb\web\controllers\pagination */
 	protected $pagination;
 
 	/** @var \phpbb\request\request */
@@ -39,7 +39,7 @@ class article implements article_interface
 	/** @var \phpbb\controller\helper */
 	protected $helper;
 
-	/** @var \vinabb\web\controller\helper */
+	/** @var \vinabb\web\controllers\helper */
 	protected $ext_helper;
 
 	/** @var string */
@@ -64,12 +64,12 @@ class article implements article_interface
 	* @param \phpbb\config\config $config
 	* @param \phpbb\db\driver\driver_interface $db
 	* @param \phpbb\language\language $language
-	* @param \vinabb\web\controller\pagination $pagination
+	* @param \vinabb\web\controllers\pagination $pagination
 	* @param \phpbb\request\request $request
 	* @param \phpbb\template\template $template
 	* @param \phpbb\user $user
 	* @param \phpbb\controller\helper $helper
-	* @param \vinabb\web\controller\helper $ext_helper
+	* @param \vinabb\web\controllers\helper $ext_helper
 	* @param string $root_path
 	* @param string $php_ext
 	* @param string $portal_articles_table
@@ -80,12 +80,12 @@ class article implements article_interface
 		\phpbb\config\config $config,
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\language\language $language,
-		\vinabb\web\controller\pagination $pagination,
+		\vinabb\web\controllers\pagination $pagination,
 		\phpbb\request\request $request,
 		\phpbb\template\template $template,
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
-		\vinabb\web\controller\helper $ext_helper,
+		\vinabb\web\controllers\helper $ext_helper,
 		$root_path,
 		$php_ext,
 		$portal_articles_table,

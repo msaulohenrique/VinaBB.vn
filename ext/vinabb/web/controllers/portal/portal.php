@@ -36,7 +36,7 @@ class portal implements portal_interface
 	/** @var \phpbb\language\language */
 	protected $language;
 
-	/** @var \vinabb\web\controller\pagination */
+	/** @var \vinabb\web\controllers\pagination */
 	protected $pagination;
 
 	/** @var \phpbb\request\request */
@@ -51,7 +51,7 @@ class portal implements portal_interface
 	/** @var \phpbb\controller\helper */
 	protected $helper;
 
-	/** @var \vinabb\web\controller\helper */
+	/** @var \vinabb\web\controllers\helper */
 	protected $ext_helper;
 
 	/** @var \phpbb\group\helper */
@@ -89,12 +89,12 @@ class portal implements portal_interface
 	* @param \phpbb\event\dispatcher_interface $dispatcher
 	* @param \phpbb\extension\manager $ext_manager
 	* @param \phpbb\language\language $language
-	* @param \vinabb\web\controller\pagination $pagination
+	* @param \vinabb\web\controllers\pagination $pagination
 	* @param \phpbb\request\request $request
 	* @param \phpbb\template\template $template
 	* @param \phpbb\user $user
 	* @param \phpbb\controller\helper $helper
-	* @param \vinabb\web\controller\helper $ext_helper
+	* @param \vinabb\web\controllers\helper $ext_helper
 	* @param \phpbb\group\helper $group_helper
 	* @param \phpbb\path_helper $path_helper
 	* @param string $root_path
@@ -109,12 +109,12 @@ class portal implements portal_interface
 		\phpbb\event\dispatcher_interface $dispatcher,
 		\phpbb\extension\manager $ext_manager,
 		\phpbb\language\language $language,
-		\vinabb\web\controller\pagination $pagination,
+		\vinabb\web\controllers\pagination $pagination,
 		\phpbb\request\request $request,
 		\phpbb\template\template $template,
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
-		\vinabb\web\controller\helper $ext_helper,
+		\vinabb\web\controllers\helper $ext_helper,
 		\phpbb\group\helper $group_helper,
 		\phpbb\path_helper $path_helper,
 		$root_path,

@@ -36,7 +36,7 @@ class forum implements forum_interface
 	/** @var \phpbb\language\language */
 	protected $language;
 
-	/** @var \vinabb\web\controller\pagination */
+	/** @var \vinabb\web\controllers\pagination */
 	protected $pagination;
 
 	/** @var \phpbb\request\request */
@@ -68,7 +68,7 @@ class forum implements forum_interface
 	* @param \phpbb\db\driver\driver_interface $db
 	* @param \phpbb\event\dispatcher_interface $dispatcher
 	* @param \phpbb\language\language $language
-	* @param \vinabb\web\controller\pagination $pagination
+	* @param \vinabb\web\controllers\pagination $pagination
 	* @param \phpbb\request\request $request
 	* @param \phpbb\template\template $template
 	* @param \phpbb\user $user
@@ -85,7 +85,7 @@ class forum implements forum_interface
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\event\dispatcher_interface $dispatcher,
 		\phpbb\language\language $language,
-		\vinabb\web\controller\pagination $pagination,
+		\vinabb\web\controllers\pagination $pagination,
 		\phpbb\request\request $request,
 		\phpbb\template\template $template,
 		\phpbb\user $user,

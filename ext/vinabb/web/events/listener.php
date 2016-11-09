@@ -47,7 +47,7 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\controller\helper */
 	protected $helper;
 
-	/** @var \vinabb\web\controller\helper */
+	/** @var \vinabb\web\controllers\helper */
 	protected $ext_helper;
 
 	/** @var \phpbb\path_helper */
@@ -84,7 +84,7 @@ class listener implements EventSubscriberInterface
 	* @param \phpbb\template\template $template
 	* @param \phpbb\user $user
 	* @param \phpbb\controller\helper $helper
-	* @param \vinabb\web\controller\helper $ext_helper
+	* @param \vinabb\web\controllers\helper $ext_helper
 	* @param \phpbb\path_helper $path_helper
 	* @param string $root_path
 	* @param string $admin_path
@@ -101,7 +101,7 @@ class listener implements EventSubscriberInterface
 		\phpbb\template\template $template,
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
-		\vinabb\web\controller\helper $ext_helper,
+		\vinabb\web\controllers\helper $ext_helper,
 		\phpbb\path_helper $path_helper,
 		$root_path,
 		$admin_path,
