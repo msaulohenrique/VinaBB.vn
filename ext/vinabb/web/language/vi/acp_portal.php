@@ -28,9 +28,13 @@ $lang = array_merge($lang, [
 	'ARTICLE_REVISION'	=> 'Tạo mới ngày gửi',
 	'ARTICLE_TEXT'		=> 'Nội dung',
 
-	'CONFIRM_ARTICLE_DELETE'	=> 'Bạn chắc chắn muốn xóa bài viết này?',
-	'CONFIRM_PORTAL_CAT_DELETE'	=> 'Bạn chắc chắn muốn xóa danh mục này?',
+	'CONFIRM_DELETE_ARTICLE'	=> 'Bạn chắc chắn muốn xóa bài viết này?',
+	'CONFIRM_DELETE_PORTAL_CAT'	=> 'Bạn chắc chắn muốn xóa danh mục này?',
 
+	'DELETE_ARTICLE'	=> 'Xóa bài viết',
+	'DELETE_PORTAL_CAT'	=> 'Xóa danh mục',
+
+	'EDIT_ARTICLE'							=> 'Sửa bài viết',
 	'EDIT_PORTAL_CAT'						=> 'Sửa danh mục',
 	'ERROR_ARTICLE_CAT_SELECT'				=> 'Chưa chọn danh mục.',
 	'ERROR_ARTICLE_DESC_EMPTY'				=> 'Chưa nhập giới thiệu.',

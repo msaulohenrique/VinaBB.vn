@@ -28,9 +28,13 @@ $lang = array_merge($lang, [
 	'ARTICLE_REVISION'	=> 'Reset article time',
 	'ARTICLE_TEXT'		=> 'Article text',
 
-	'CONFIRM_ARTICLE_DELETE'	=> 'Are you sure you want to delete this article?',
-	'CONFIRM_PORTAL_CAT_DELETE'	=> 'Are you sure you want to delete this category?',
+	'CONFIRM_DELETE_ARTICLE'	=> 'Are you sure you want to delete this article?',
+	'CONFIRM_DELETE_PORTAL_CAT'	=> 'Are you sure you want to delete this category?',
 
+	'DELETE_ARTICLE'	=> 'Delete article',
+	'DELETE_PORTAL_CAT'	=> 'Delete category',
+
+	'EDIT_ARTICLE'							=> 'Edit article',
 	'EDIT_PORTAL_CAT'						=> 'Edit category',
 	'ERROR_ARTICLE_CAT_SELECT'				=> 'You must select a category.',
 	'ERROR_ARTICLE_DESC_EMPTY'				=> 'You must enter a description.',
