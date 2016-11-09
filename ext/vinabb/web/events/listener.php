@@ -6,7 +6,7 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\event;
+namespace vinabb\web\events;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use s9e\TextFormatter\Bundles\MediaPack;
