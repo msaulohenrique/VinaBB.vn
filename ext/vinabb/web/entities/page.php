@@ -6,7 +6,7 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\entity;
+namespace vinabb\web\entities;
 
 use vinabb\web\includes\constants;
 
@@ -65,7 +65,7 @@ class page implements page_interface
 	*
 	* @param int				$id		Page ID
 	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\out_of_bounds
+	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function load($id = 0)
 	{
@@ -79,7 +79,7 @@ class page implements page_interface
 		// The entity does not exist
 		if ($this->data === false)
 		{
-			throw new \vinabb\web\exception\out_of_bounds('page_id');
+			throw new \vinabb\web\exceptions\out_of_bounds('page_id');
 		}
 
 		return $this;
@@ -94,7 +94,7 @@ class page implements page_interface
 	*
 	* @param array				$data	Data array from the database
 	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\base
+	* @throws \vinabb\web\exceptions\base
 	*/
 	public function import($data)
 	{
@@ -128,7 +128,7 @@ class page implements page_interface
 			// The data wasn't sent to us
 			if (!isset($data[$field]))
 			{
-				throw new \vinabb\web\exception\invalid_argument([$field, 'FIELD_MISSING']);
+				throw new \vinabb\web\exceptions\invalid_argument([$field, 'FIELD_MISSING']);
 			}
 
 			// If the type is a method on this class, call it
@@ -156,7 +156,7 @@ class page implements page_interface
 			// If the data is less than 0, it's not unsigned and we'll throw an exception
 			if ($this->data[$field] < 0)
 			{
-				throw new \vinabb\web\exception\out_of_bounds($field);
+				throw new \vinabb\web\exceptions\out_of_bounds($field);
 			}
 		}
 
@@ -169,14 +169,14 @@ class page implements page_interface
 	* Will throw an exception if the entity was already inserted (call save() instead)
 	*
 	* @return page_interface $this Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\out_of_bounds
+	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function insert()
 	{
 		// The entity already exists
 		if (!empty($this->data['page_id']))
 		{
-			throw new \vinabb\web\exception\out_of_bounds('page_id');
+			throw new \vinabb\web\exceptions\out_of_bounds('page_id');
 		}
 
 		$sql = 'INSERT INTO ' . $this->table_name . ' ' . $this->db->sql_build_array('INSERT', $this->data);
@@ -195,14 +195,14 @@ class page implements page_interface
 	* If adding an entity (saving for the first time), you must call insert() or an exception will be thrown
 	*
 	* @return page_interface $this Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\out_of_bounds
+	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function save()
 	{
 		// The entity does not exist
 		if (empty($this->data['page_id']))
 		{
-			throw new \vinabb\web\exception\out_of_bounds('page_id');
+			throw new \vinabb\web\exceptions\out_of_bounds('page_id');
 		}
 
 		// Copy the data array, filtering out the ID
@@ -242,7 +242,7 @@ class page implements page_interface
 	*
 	* @param string				$name	Page title
 	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\unexpected_value
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_name($name)
 	{
@@ -251,13 +251,13 @@ class page implements page_interface
 		// This is a required field
 		if (empty($name))
 		{
-			throw new \vinabb\web\exception\unexpected_value(['page_name', 'FIELD_MISSING']);
+			throw new \vinabb\web\exceptions\unexpected_value(['page_name', 'FIELD_MISSING']);
 		}
 
 		// Check the max length
 		if (truncate_string($name, constants::MAX_PAGE_NAME) != $name)
 		{
-			throw new \vinabb\web\exception\unexpected_value(['page_name', 'TOO_LONG']);
+			throw new \vinabb\web\exceptions\unexpected_value(['page_name', 'TOO_LONG']);
 		}
 
 		// Set the value on our data array
@@ -281,7 +281,7 @@ class page implements page_interface
 	*
 	* @param string				$name	Vietnamese page title
 	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\unexpected_value
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_name_vi($name)
 	{
@@ -290,13 +290,13 @@ class page implements page_interface
 		// This is a required field
 		if (empty($name))
 		{
-			throw new \vinabb\web\exception\unexpected_value(['page_name_vi', 'FIELD_MISSING']);
+			throw new \vinabb\web\exceptions\unexpected_value(['page_name_vi', 'FIELD_MISSING']);
 		}
 
 		// Check the max length
 		if (truncate_string($name, constants::MAX_PAGE_NAME) != $name)
 		{
-			throw new \vinabb\web\exception\unexpected_value(['page_name_vi', 'TOO_LONG']);
+			throw new \vinabb\web\exceptions\unexpected_value(['page_name_vi', 'TOO_LONG']);
 		}
 
 		// Set the value on our data array
@@ -320,7 +320,7 @@ class page implements page_interface
 	*
 	* @param int				$varname	Page varname
 	* @return page_interface	$this		Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\unexpected_value
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_varname($varname)
 	{
@@ -329,19 +329,19 @@ class page implements page_interface
 		// This is a required field
 		if (empty($varname))
 		{
-			throw new \vinabb\web\exception\unexpected_value(['page_varname', 'FIELD_MISSING']);
+			throw new \vinabb\web\exceptions\unexpected_value(['page_varname', 'FIELD_MISSING']);
 		}
 
 		// Check the max length
 		if (truncate_string($varname, constants::MAX_PAGE_VARNAME) != $varname)
 		{
-			throw new \vinabb\web\exception\unexpected_value(['page_varname', 'TOO_LONG']);
+			throw new \vinabb\web\exceptions\unexpected_value(['page_varname', 'TOO_LONG']);
 		}
 
 		// Check invalid characters
 		if (!preg_match('#^[a-z0-9-]+$#', $varname))
 		{
-			throw new \vinabb\web\exception\unexpected_value(['page_varname', 'ILLEGAL_CHARACTERS']);
+			throw new \vinabb\web\exceptions\unexpected_value(['page_varname', 'ILLEGAL_CHARACTERS']);
 		}
 
 		// This field value must be unique
@@ -357,7 +357,7 @@ class page implements page_interface
 
 			if ($row)
 			{
-				throw new \vinabb\web\exception\unexpected_value(['page_varname', 'NOT_UNIQUE']);
+				throw new \vinabb\web\exceptions\unexpected_value(['page_varname', 'NOT_UNIQUE']);
 			}
 		}
 

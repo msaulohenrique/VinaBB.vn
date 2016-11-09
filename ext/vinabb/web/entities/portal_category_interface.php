@@ -6,7 +6,7 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\entity;
+namespace vinabb\web\entities;
 
 /**
 * Interface for a single news category
@@ -18,7 +18,7 @@ interface portal_category_interface
 	*
 	* @param int						$id		Category ID
 	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\out_of_bounds
+	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function load($id);
 
@@ -31,7 +31,7 @@ interface portal_category_interface
 	*
 	* @param array						$data	Data array from the database
 	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\base
+	* @throws \vinabb\web\exceptions\base
 	*/
 	public function import($data);
 
@@ -41,7 +41,7 @@ interface portal_category_interface
 	* Will throw an exception if the entity was already inserted (call save() instead)
 	*
 	* @return portal_category_interface $this Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\out_of_bounds
+	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function insert();
 
@@ -52,7 +52,7 @@ interface portal_category_interface
 	* If adding an entity (saving for the first time), you must call insert() or an exception will be thrown
 	*
 	* @return portal_category_interface $this Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\out_of_bounds
+	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function save();
 
@@ -96,7 +96,7 @@ interface portal_category_interface
 	*
 	* @param string						$name	Category name
 	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\unexpected_value
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_name($name);
 
@@ -112,7 +112,7 @@ interface portal_category_interface
 	*
 	* @param string						$name	Vietnamese category name
 	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\unexpected_value
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_name_vi($name);
 
@@ -128,7 +128,7 @@ interface portal_category_interface
 	*
 	* @param int						$varname	Category varname
 	* @return portal_category_interface	$this		Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\unexpected_value
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_varname($varname);
 

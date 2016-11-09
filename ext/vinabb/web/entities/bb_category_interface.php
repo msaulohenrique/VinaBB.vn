@@ -6,7 +6,7 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\entity;
+namespace vinabb\web\entities;
 
 /**
 * Interface for a single phpBB resource category
@@ -18,7 +18,7 @@ interface bb_category_interface
 	*
 	* @param int					$id		Category ID
 	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\out_of_bounds
+	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function load($id);
 
@@ -31,7 +31,7 @@ interface bb_category_interface
 	*
 	* @param array					$data	Data array from the database
 	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\base
+	* @throws \vinabb\web\exceptions\base
 	*/
 	public function import($data);
 
@@ -41,7 +41,7 @@ interface bb_category_interface
 	* Will throw an exception if the entity was already inserted (call save() instead)
 	*
 	* @return bb_category_interface $this Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\out_of_bounds
+	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function insert();
 
@@ -52,7 +52,7 @@ interface bb_category_interface
 	* If adding an entity (saving for the first time), you must call insert() or an exception will be thrown
 	*
 	* @return bb_category_interface $this Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\out_of_bounds
+	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function save();
 
@@ -82,7 +82,7 @@ interface bb_category_interface
 	*
 	* @param string					$name	Category name
 	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\unexpected_value
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_name($name);
 
@@ -98,7 +98,7 @@ interface bb_category_interface
 	*
 	* @param string					$name	Vietnamese category name
 	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\unexpected_value
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_name_vi($name);
 
@@ -114,7 +114,7 @@ interface bb_category_interface
 	*
 	* @param int					$varname	Category varname
 	* @return bb_category_interface	$this		Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\unexpected_value
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_varname($varname);
 
@@ -130,7 +130,7 @@ interface bb_category_interface
 	*
 	* @param string					$desc	Category description
 	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\unexpected_value
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_desc($desc);
 
@@ -146,7 +146,7 @@ interface bb_category_interface
 	*
 	* @param string					$desc	Vietnamese category description
 	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\unexpected_value
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_desc_vi($desc);
 

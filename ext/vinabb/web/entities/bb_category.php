@@ -6,28 +6,28 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\entity;
+namespace vinabb\web\entities;
 
 use vinabb\web\includes\constants;
 
 /**
-* Entity for a single news category
+* Entity for a single phpBB resource category
 */
-class portal_category implements portal_category_interface
+class bb_category implements bb_category_interface
 {
 	/**
 	* Data for this entity
 	*
 	* @var array
 	*	cat_id
-	*	parent_id
-	*	left_id
-	*	right_id
-	*	cat_parents
+	*	bb_type
 	*	cat_name
 	*	cat_name_vi
 	*	cat_varname
+	*	cat_desc
+	*	cat_desc_vi
 	*	cat_icon
+	*	cat_order
 	*/
 	protected $data;
 
@@ -52,8 +52,8 @@ class portal_category implements portal_category_interface
 	/**
 	* Load the data from the database for an entity
 	*
-	* @param int						$id		Category ID
-	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
+	* @param int					$id		Category ID
+	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exception\out_of_bounds
 	*/
 	public function load($id)
@@ -81,8 +81,8 @@ class portal_category implements portal_category_interface
 	* Any existing data on this entity is over-written.
 	* All data is validated and an exception is thrown if any data is invalid.
 	*
-	* @param array						$data	Data array from the database
-	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
+	* @param array					$data	Data array from the database
+	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exception\base
 	*/
 	public function import($data)
@@ -93,13 +93,13 @@ class portal_category implements portal_category_interface
 		// All of our fields
 		$fields = [
 			'cat_id'		=> 'integer',
-			'parent_id'		=> 'integer',
-			'left_id'		=> 'integer',
-			'right_id'		=> 'integer',
-			'cat_parents'	=> 'string',
+			'bb_type'		=> 'integer',
 			'cat_name'		=> 'set_cat_name',
 			'cat_name_vi'	=> 'set_cat_name_vi',
 			'cat_varname'	=> 'set_cat_varname',
+			'cat_desc'		=> 'set_cat_desc',
+			'cat_desc_vi'	=> 'set_cat_desc_vi',
+			'cat_order'		=> 'integer',
 			'cat_icon'		=> 'set_cat_icon'
 		];
 
@@ -130,7 +130,7 @@ class portal_category implements portal_category_interface
 		}
 
 		// Some fields must be >= 0
-		$validate_unsigned = ['cat_id', 'parent_id', 'left_id', 'right_id'];
+		$validate_unsigned = ['cat_id', 'cat_order'];
 
 		foreach ($validate_unsigned as $field)
 		{
@@ -149,7 +149,7 @@ class portal_category implements portal_category_interface
 	*
 	* Will throw an exception if the entity was already inserted (call save() instead)
 	*
-	* @return portal_category_interface $this Object for chaining calls: load()->set()->save()
+	* @return bb_category_interface $this Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exception\out_of_bounds
 	*/
 	public function insert()
@@ -159,12 +159,6 @@ class portal_category implements portal_category_interface
 		{
 			throw new \vinabb\web\exception\out_of_bounds('cat_id');
 		}
-
-		// Resets values required for the nested set system
-		$this->data['parent_id'] = 0;
-		$this->data['left_id'] = 0;
-		$this->data['right_id'] = 0;
-		$this->data['cat_parents'] = '';
 
 		// Make extra sure there is no ID set
 		unset($this->data['cat_id']);
@@ -184,7 +178,7 @@ class portal_category implements portal_category_interface
 	* This must be called before closing or any changes will not be saved!
 	* If adding an entity (saving for the first time), you must call insert() or an exception will be thrown
 	*
-	* @return portal_category_interface $this Object for chaining calls: load()->set()->save()
+	* @return bb_category_interface $this Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exception\out_of_bounds
 	*/
 	public function save()
@@ -218,33 +212,13 @@ class portal_category implements portal_category_interface
 	}
 
 	/**
-	* Get the parent_id
+	* Get the bb_type
 	*
-	* @return int parent_id
+	* @return int bb_type
 	*/
-	public function get_parent_id()
+	public function get_bb_type()
 	{
-		return isset($this->data['parent_id']) ? (int) $this->data['parent_id'] : 0;
-	}
-
-	/**
-	* Get the left_id for the tree
-	*
-	* @return int left_id
-	*/
-	public function get_left_id()
-	{
-		return isset($this->data['left_id']) ? (int) $this->data['left_id'] : 0;
-	}
-
-	/**
-	* Get the right_id for the tree
-	*
-	* @return int right_id
-	*/
-	public function get_right_id()
-	{
-		return isset($this->data['right_id']) ? (int) $this->data['right_id'] : 0;
+		return isset($this->data['bb_type']) ? (int) $this->data['bb_type'] : 0;
 	}
 
 	/**
@@ -260,8 +234,8 @@ class portal_category implements portal_category_interface
 	/**
 	* Set the category name
 	*
-	* @param string						$name	Category name
-	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
+	* @param string					$name	Category name
+	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exception\unexpected_value
 	*/
 	public function set_name($name)
@@ -299,8 +273,8 @@ class portal_category implements portal_category_interface
 	/**
 	* Set the Vietnamese category name
 	*
-	* @param string						$name	Vietnamese category name
-	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
+	* @param string					$name	Vietnamese category name
+	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exception\unexpected_value
 	*/
 	public function set_name_vi($name)
@@ -338,8 +312,8 @@ class portal_category implements portal_category_interface
 	/**
 	* Set the category varname
 	*
-	* @param int						$varname	Category varname
-	* @return portal_category_interface	$this		Object for chaining calls: load()->set()->save()
+	* @param int					$varname	Category varname
+	* @return bb_category_interface	$this		Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exception\unexpected_value
 	*/
 	public function set_varname($varname)
@@ -353,7 +327,7 @@ class portal_category implements portal_category_interface
 		}
 
 		// Check the max length
-		if (truncate_string($varname, constants::MAX_PORTAL_CAT_VARNAME) != $varname)
+		if (truncate_string($varname, constants::MAX_BB_CAT_VARNAME) != $varname)
 		{
 			throw new \vinabb\web\exception\unexpected_value(['cat_varname', 'TOO_LONG']);
 		}
@@ -365,12 +339,13 @@ class portal_category implements portal_category_interface
 		}
 
 		// This field value must be unique
-		if (!$this->get_id() || ($this->get_id() && $this->get_varname() !== '' && $this->get_varname() != $varname))
+		if (!$this->get_id() || !$this->get_bb_type() || ($this->get_id() && $this->get_bb_type() && $this->get_varname() !== '' && $this->get_varname() != $varname))
 		{
 			$sql = 'SELECT 1
 				FROM ' . $this->table_name . "
 				WHERE cat_varname = '" . $this->db->sql_escape($varname) . "'
-					AND cat_id <> " . $this->get_id();
+					AND bb_type = " . $this->get_bb_type() . '
+					AND cat_id <> ' . $this->get_id();
 			$result = $this->db->sql_query_limit($sql, 1);
 			$row = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);
@@ -388,6 +363,72 @@ class portal_category implements portal_category_interface
 	}
 
 	/**
+	* Get the category description
+	*
+	* @return string Category description
+	*/
+	public function get_desc()
+	{
+		return isset($this->data['cat_desc']) ? (string) $this->data['cat_desc'] : '';
+	}
+
+	/**
+	* Set the category description
+	*
+	* @param string					$desc	Category description
+	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exception\unexpected_value
+	*/
+	public function set_desc($desc)
+	{
+		$desc = (string) $desc;
+
+		// Check the max length
+		if (truncate_string($desc, constants::MAX_BB_CAT_DESC) != $desc)
+		{
+			throw new \vinabb\web\exception\unexpected_value(['cat_desc', 'TOO_LONG']);
+		}
+
+		// Set the value on our data array
+		$this->data['cat_desc'] = $desc;
+
+		return $this;
+	}
+
+	/**
+	* Get the Vietnamese category description
+	*
+	* @return string Vietnamese category description
+	*/
+	public function get_desc_vi()
+	{
+		return isset($this->data['cat_desc_vi']) ? (string) $this->data['cat_desc_vi'] : '';
+	}
+
+	/**
+	* Set the Vietnamese category description
+	*
+	* @param string					$desc	Vietnamese category description
+	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exception\unexpected_value
+	*/
+	public function set_desc_vi($desc)
+	{
+		$desc = (string) $desc;
+
+		// Check the max length
+		if (truncate_string($desc, constants::MAX_BB_CAT_DESC) != $desc)
+		{
+			throw new \vinabb\web\exception\unexpected_value(['cat_desc_vi', 'TOO_LONG']);
+		}
+
+		// Set the value on our data array
+		$this->data['cat_desc_vi'] = $desc;
+
+		return $this;
+	}
+
+	/**
 	* Get the category icon
 	*
 	* @return string Category icon
@@ -400,8 +441,8 @@ class portal_category implements portal_category_interface
 	/**
 	* Set the category icon
 	*
-	* @param int						$icon	Category icon
-	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
+	* @param int					$icon	Category icon
+	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
 	public function set_icon($icon)
 	{
