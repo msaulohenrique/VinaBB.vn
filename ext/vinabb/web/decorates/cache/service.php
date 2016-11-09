@@ -6,7 +6,7 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\decorated\cache;
+namespace vinabb\web\decorates\cache;
 
 use vinabb\web\includes\constants;
 

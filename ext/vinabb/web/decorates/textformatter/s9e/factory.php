@@ -6,7 +6,7 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\decorated\textformatter\s9e;
+namespace vinabb\web\decorates\textformatter\s9e;
 
 use s9e\TextFormatter\Configurator;
 use s9e\TextFormatter\Configurator\Items\AttributeFilters\RegexpFilter;

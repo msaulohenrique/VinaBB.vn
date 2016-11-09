@@ -6,7 +6,7 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\decorated\message;
+namespace vinabb\web\decorates\message;
 
 class user_form extends \phpbb\message\user_form
 {

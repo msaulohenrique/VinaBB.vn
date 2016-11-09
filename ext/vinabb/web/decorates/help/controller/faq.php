@@ -6,7 +6,7 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\decorated\help\controller;
+namespace vinabb\web\decorates\help\controller;
 
 /**
 * FAQ help page
