@@ -6,7 +6,7 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\controller\bb;
+namespace vinabb\web\controllers\acp;
 
 class pages
 {
@@ -34,6 +34,9 @@ class pages
 	/** @var \phpbb\user */
 	protected $user;
 
+	/** @var \phpbb\controller\helper */
+	protected $helper;
+
 	/** @var string */
 	protected $root_path;
 
@@ -54,6 +57,7 @@ class pages
 	* @param \phpbb\request\request					$request	Request object
 	* @param \phpbb\template\template				$template	Template object
 	* @param \phpbb\user							$user		User object
+	* @param \phpbb\controller\helper				$helper		Controller helper
 	* @param string									$root_path	phpBB root path
 	* @param string									$php_ext	PHP file extension
 	*/
@@ -66,6 +70,7 @@ class pages
 		\phpbb\request\request $request,
 		\phpbb\template\template $template,
 		\phpbb\user $user,
+		\phpbb\controller\helper $helper,
 		$root_path,
 		$php_ext
 	)
@@ -78,6 +83,7 @@ class pages
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
+		$this->helper = $helper;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 	}
@@ -246,18 +252,18 @@ class pages
 					// Save the edited page entity to the database
 					$entity->save();
 
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'ACP_PAGES_EDITED_LOG', time(), array($entity->get_varname()));
+					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_EDIT', time(), array($entity->get_varname()));
 
-					$message = 'ACP_PAGES_EDIT_SUCCESS';
+					$message = 'MESSAGE_PAGE_EDIT';
 				}
 				else
 				{
 					// Add the new page entity to the database
 					$entity = $this->operator->add_page($entity);
 
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'ACP_PAGES_ADDED_LOG', time(), array($entity->get_varname()));
+					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_ADD', time(), array($entity->get_varname()));
 
-					$message = 'ACP_PAGES_ADD_SUCCESS';
+					$message = 'MESSAGE_PAGE_ADD';
 				}
 
 				// Purge the cache
@@ -267,6 +273,22 @@ class pages
 				trigger_error($this->language->lang($message) . adm_back_link($this->u_action));
 			}
 		}
+
+		$this->template->assign_vars([
+			'S_ERROR'	=> (bool) sizeof($errors),
+			'ERROR_MSG'	=> sizeof($errors) ? implode('<br>', $errors) : '',
+
+			'PAGE_NAME'		=> $entity->get_name(),
+			'PAGE_NAME_VI'	=> $entity->get_name_vi(),
+			'PAGE_VARNAME'	=> $entity->get_varname(),
+			'PAGE_DESC'		=> $entity->get_desc(),
+			'PAGE_DESC_VI'	=> $entity->get_desc_vi(),
+			'PAGE_TEXT'		=> $entity->get_text_for_edit(),
+			'PAGE_TEXT_VI'	=> $entity->get_text_vi_for_edit(),
+			'PAGE_ENABLE'	=> $entity->get_enable(),
+
+			'U_BACK'			=> $this->u_action
+		]);
 
 		// Build custom BBCode
 		include_once $this->root_path . 'includes/functions_display.' . $this->php_ext;
@@ -286,7 +308,7 @@ class pages
 			trigger_error($this->language->lang('ACP_PAGES_DELETE_ERRORED') . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
-		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'ACP_PAGES_DELETED_LOG', time(), [$this->entity->load($page_id)->get_title()]);
+		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_DELETE', time(), [$this->entity->load($page_id)->get_title()]);
 
 		// If AJAX was used, show user a result message
 		if ($this->request->is_ajax())
@@ -294,7 +316,7 @@ class pages
 			$json_response = new \phpbb\json_response;
 			$json_response->send([
 				'MESSAGE_TITLE'	=> $this->language->lang('INFORMATION'),
-				'MESSAGE_TEXT'	=> $this->language->lang('ACP_PAGES_DELETE_SUCCESS'),
+				'MESSAGE_TEXT'	=> $this->language->lang('MESSAGE_PAGE_DELETE'),
 				'REFRESH_DATA'	=> [
 					'time'	=> 3
 				]

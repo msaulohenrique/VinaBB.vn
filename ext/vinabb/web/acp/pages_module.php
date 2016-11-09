@@ -46,6 +46,7 @@ class pages_module
 		$this->page_title = $this->language->lang('ACP_PAGES');
 
 		// Language
+		$this->language->add_lang('posting');
 		$this->language->add_lang('acp_pages', 'vinabb/web');
 
 		// Requests
@@ -57,14 +58,14 @@ class pages_module
 		switch ($action)
 		{
 			case 'add':
-				$this->page_title = $this->language->lang('ACP_PAGES');
+				$this->page_title = $this->language->lang('ADD_PAGE');
 				$this->controller->add_page();
 
 				// Return to stop execution of this script
 				return;
 
 			case 'edit':
-				$this->page_title = $this->language->lang('ACP_PAGES');
+				$this->page_title = $this->language->lang('EDIT_PAGE');
 				$this->controller->edit_page($page_id);
 
 				// Return to stop execution of this script
