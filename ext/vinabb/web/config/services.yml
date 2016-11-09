@@ -3,8 +3,8 @@ imports:
 
 services:
     # Decorates
-    vinabb.web.decorated.cache:
-        class: vinabb\web\decorated\cache\service
+    vinabb.web.decorates.cache:
+        class: vinabb\web\decorates\cache\service
         decorates: cache
         arguments:
             - '@cache.driver'
@@ -18,8 +18,8 @@ services:
             - '%vinabb.web.tables.portal_categories%'
             - '%vinabb.web.tables.portal_articles%'
             - '%vinabb.web.tables.portal_comments%'
-    vinabb.web.decorated.help.controller.faq:
-        class: vinabb\web\decorated\help\controller\faq
+    vinabb.web.decorates.help.controller.faq:
+        class: vinabb\web\decorates\help\controllers\faq
         decorates: phpbb.help.controller.faq
         arguments:
             - '@controller.helper'
@@ -28,8 +28,8 @@ services:
             - '@language'
             - '%core.root_path%'
             - '%core.php_ext%'
-    vinabb.web.decorated.help.controller.bbcode:
-        class: vinabb\web\decorated\help\controller\bbcode
+    vinabb.web.decorates.help.controller.bbcode:
+        class: vinabb\web\decorates\help\controllers\bbcode
         decorates: phpbb.help.controller.bbcode
         arguments:
             - '@controller.helper'
@@ -38,8 +38,8 @@ services:
             - '@language'
             - '%core.root_path%'
             - '%core.php_ext%'
-    vinabb.web.decorated.message.form.topic:
-        class: vinabb\web\decorated\message\topic_form
+    vinabb.web.decorates.message.form.topic:
+        class: vinabb\web\decorates\message\topic_form
         decorates: message.form.topic
         arguments:
             - '@auth'
@@ -48,8 +48,8 @@ services:
             - '@user'
             - '%core.root_path%'
             - '%core.php_ext%'
-    vinabb.web.decorated.message.form.user:
-        class: vinabb\web\decorated\message\user_form
+    vinabb.web.decorates.message.form.user:
+        class: vinabb\web\decorates\message\user_form
         decorates: message.form.user
         arguments:
             - '@auth'
@@ -58,8 +58,8 @@ services:
             - '@user'
             - '%core.root_path%'
             - '%core.php_ext%'
-    vinabb.web.decorated.text_formatter.s9e.factory:
-        class: vinabb\web\decorated\textformatter\s9e\factory
+    vinabb.web.decorates.text_formatter.s9e.factory:
+        class: vinabb\web\decorates\textformatter\s9e\factory
         decorates: text_formatter.s9e.factory
         arguments:
             - '@text_formatter.data_access'
@@ -71,8 +71,8 @@ services:
             - '%text_formatter.cache.dir%'
             - '%text_formatter.cache.parser.key%'
             - '%text_formatter.cache.renderer.key%'
-    vinabb.web.decorated.text_formatter.s9e.renderer:
-        class: vinabb\web\decorated\textformatter\s9e\renderer
+    vinabb.web.decorates.text_formatter.s9e.renderer:
+        class: vinabb\web\decorates\textformatter\s9e\renderer
         decorates: text_formatter.s9e.renderer
         arguments:
             - '@cache.driver'
@@ -87,14 +87,14 @@ services:
             - [configure_user, ['@user', '@config', '@auth']]
     # Common classes
     vinabb.web.pagination:
-        class: vinabb\web\controller\pagination
+        class: vinabb\web\controllers\pagination
         arguments:
             - '@language'
             - '@template'
             - '@user'
             - '@controller.helper'
     vinabb.web.helper:
-        class: vinabb\web\controller\helper
+        class: vinabb\web\controllers\helper
         arguments:
             - '@dbal.conn'
             - '@file_downloader'
@@ -104,7 +104,7 @@ services:
             - '%vinabb.web.tables.portal_articles%'
     # Controllers replace original phpBB front files
     vinabb.web.user:
-        class: vinabb\web\controller\user
+        class: vinabb\web\controllers\user
         arguments:
             - '@auth'
             - '@config'
@@ -122,7 +122,7 @@ services:
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.ucp:
-        class: vinabb\web\controller\ucp
+        class: vinabb\web\controllers\ucp
         arguments:
             - '@auth'
             - '@config'
@@ -138,7 +138,7 @@ services:
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.mcp:
-        class: vinabb\web\controller\mcp
+        class: vinabb\web\controllers\mcp
         arguments:
             - '@auth'
             - '@dbal.conn'
@@ -152,7 +152,7 @@ services:
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.board:
-        class: vinabb\web\controller\board\board
+        class: vinabb\web\controllers\board\board
         arguments:
             - '@auth'
             - '@config'
@@ -166,7 +166,7 @@ services:
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.board.forum:
-        class: vinabb\web\controller\board\forum
+        class: vinabb\web\controllers\board\forum
         arguments:
             - '@auth'
             - '@cache'
@@ -184,7 +184,7 @@ services:
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.board.topic:
-        class: vinabb\web\controller\board\topic
+        class: vinabb\web\controllers\board\topic
         arguments:
             - '@auth'
             - '@cache'
@@ -201,7 +201,7 @@ services:
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.board.post:
-        class: vinabb\web\controller\board\post
+        class: vinabb\web\controllers\board\post
         arguments:
             - '@auth'
             - '@cache'
@@ -220,7 +220,7 @@ services:
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.board.posting:
-        class: vinabb\web\controller\board\posting
+        class: vinabb\web\controllers\board\posting
         arguments:
             - '@auth'
             - '@cache'
@@ -239,12 +239,12 @@ services:
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.board.search:
-        class: vinabb\web\controller\board\search
+        class: vinabb\web\controllers\board\search
         arguments:
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.online:
-        class: vinabb\web\controller\online
+        class: vinabb\web\controllers\online
         arguments:
             - '@auth'
             - '@config'
@@ -262,7 +262,7 @@ services:
             - '%core.php_ext%'
     # Embed
     vinabb.web.embed:
-        class: vinabb\web\controller\embed
+        class: vinabb\web\controllers\embed
         arguments:
             - '@auth'
             - '@dbal.conn'
@@ -274,42 +274,42 @@ services:
             - '%core.root_path%'
             - '%core.php_ext%'
     # Entities
-    vinabb.web.entity.portal_category:
-        class: vinabb\web\entity\portal_category
+    vinabb.web.entities.portal_category:
+        class: vinabb\web\entities\portal_category
         shared: false
         arguments:
             - '@dbal.conn'
             - '%vinabb.web.tables.portal_categories%'
-    vinabb.web.entity.bb_category:
-        class: vinabb\web\entity\bb_category
+    vinabb.web.entities.bb_category:
+        class: vinabb\web\entities\bb_category
         shared: false
         arguments:
             - '@dbal.conn'
             - '%vinabb.web.tables.bb_categories%'
-    vinabb.web.entity.page:
-        class: vinabb\web\entity\page
+    vinabb.web.entities.page:
+        class: vinabb\web\entities\page
         shared: false
         arguments:
             - '@config'
             - '@dbal.conn'
             - '%vinabb.web.tables.pages%'
     # Operators
-    vinabb.web.operator.nestedset_portal_categories:
+    vinabb.web.operators.nestedset_portal_categories:
         class: vinabb\web\operators\nestedset_portal_categories
         arguments:
             - '@dbal.conn'
             - '@vinabb.web.table_lock.portal_categories'
             - '%vinabb.web.tables.portal_categories%'
-    vinabb.web.operator.portal_category:
+    vinabb.web.operators.portal_category:
         class: vinabb\web\operators\portal_category
         arguments:
             - '@service_container'
-            - '@vinabb.web.operator.nestedset_portal_categories'
-    vinabb.web.operator.page:
+            - '@vinabb.web.operators.nestedset_portal_categories'
+    vinabb.web.operators.page:
         class: vinabb\web\operators\page
         arguments:
             - '@dbal.conn'
-            - '@vinabb.web.entity.page'
+            - '@vinabb.web.entities.page'
             - '%vinabb.web.tables.pages%'
     # Table lock
     vinabb.web.table_lock.portal_categories:
@@ -320,7 +320,7 @@ services:
             - '@dbal.conn'
     # Controllers
     vinabb.web.portal:
-        class: vinabb\web\controller\portal\portal
+        class: vinabb\web\controllers\portal\portal
         arguments:
             - '@auth'
             - '@cache'
@@ -341,7 +341,7 @@ services:
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.portal.article:
-        class: vinabb\web\controller\portal\article
+        class: vinabb\web\controllers\portal\article
         arguments:
             - '@cache'
             - '@config'
@@ -358,7 +358,7 @@ services:
             - '%vinabb.web.tables.portal_articles%'
             - '%vinabb.web.tables.portal_comments%'
     vinabb.web.bb:
-        class: vinabb\web\controller\bb\bb
+        class: vinabb\web\controllers\bb\bb
         arguments:
             - '@cache'
             - '@config'
@@ -371,7 +371,7 @@ services:
             - '@vinabb.web.helper'
     # Listeners
     vinabb.web.listener:
-        class: vinabb\web\event\listener
+        class: vinabb\web\events\listener
         arguments:
             - '@auth'
             - '@dbal.conn'
