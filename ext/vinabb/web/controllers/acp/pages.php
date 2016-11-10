@@ -257,7 +257,7 @@ class pages
 				else
 				{
 					// Add the new page entity to the database
-					$entity = $this->operator->add_page($page);
+					$page = $this->operator->add_page($page);
 
 					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_ADD', time(), array($page->get_varname()));
 
