@@ -54,6 +54,17 @@ class portal_modules extends migration
 						'modes'				=> ['main']
 					]
 				]
+			],
+			[
+				'module.add',
+				[
+					'acp',
+					'ACP_CAT_PORTAL',
+					[
+						'module_basename'	=> '\vinabb\web\acp\portal_comments_module',
+						'modes'				=> ['main']
+					]
+				]
 			]
 		];
 	}
