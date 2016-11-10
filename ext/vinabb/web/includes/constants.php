@@ -80,7 +80,10 @@ class constants
 	// Number of display items
 	const NUM_NEW_ITEMS_ON_INDEX = 10;
 	const NUM_ARTICLES_ON_INDEX = 5;
+
+	// Pagination
 	const PORTAL_ARTICLES_PER_PAGE = 20;
+	const BB_ITEMS_PER_PAGE = 10;
 
 	// Maximum length
 	const MAX_PORTAL_CAT_NAME = 32;
@@ -95,10 +98,7 @@ class constants
 	const MAX_BB_AUTHOR_NAME = 32;
 	const MAX_PAGE_NAME = 48;
 	const MAX_PAGE_VARNAME = 24;
-
-	// Pagination
-	const BB_CATS_PER_PAGE = 20;
-	const BB_ITEMS_PER_PAGE = 10;
+	const MAX_MENU_NAME = 24;
 
 	// Number of hours to check new versions again
 	const CHECK_VERSION_HOURS = 8;
