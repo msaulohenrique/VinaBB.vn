@@ -14,54 +14,53 @@ namespace vinabb\web\operators;
 interface portal_category_interface
 {
 	/**
-	* Get the entities
+	* Get all categories
 	*
-	* @param int $parent_id Parent to display sub-entities from
+	* @param int $parent_id Parent ID
 	* @return array Array of entities
 	*/
 	public function get_cats($parent_id = 0);
 
 	/**
-	* Add an entity
+	* Add a category
 	*
-	* @param \vinabb\web\entities\portal_category_interface	$entity		Entity with new data to insert
-	* @param int											$parent_id	Parent to display sub-entities from
+	* @param int $parent_id Parent ID
 	* @return portal_category_interface Added entity
 	*/
-	public function add($entity, $parent_id = 0);
+	public function add_cat($parent_id = 0);
 
 	/**
-	* Move the entity up/down
+	* Move a category up/down
 	*
-	* @param int	$cat_id		Category ID
+	* @param int	$id			Category ID
 	* @param string	$direction	The direction: up|down
 	* @param int	$amount		The number of places to move the entity
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
-	public function move($cat_id, $direction = 'up', $amount = 1);
+	public function move($id, $direction = 'up', $amount = 1);
 
 	/**
-	* Delete the entity
+	* Delete a category
 	*
-	* @param int $cat_id Category ID
+	* @param int $id Category ID
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
-	public function delete($cat_id);
+	public function delete($id);
 
 	/**
 	* Change the parent
 	*
-	* @param int	$cat_id			Category ID
-	* @param int	$new_parent_id	The new parent ID
+	* @param int	$id				Category ID
+	* @param int	$new_parent_id	New parent ID
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
-	public function change_parent($cat_id, $new_parent_id);
+	public function change_parent($id, $new_parent_id);
 
 	/**
-	* Get an entity's parent entities (for use in breadcrumbs)
+	* Get a category's parent categories (for use in breadcrumbs)
 	*
-	* @param int $parent_id Parent to display sub-entities from
-	* @return array Array of entity data for an entity's parent entities
+	* @param int $parent_id Parent ID
+	* @return array
 	*/
 	public function get_parents($parent_id);
 }
