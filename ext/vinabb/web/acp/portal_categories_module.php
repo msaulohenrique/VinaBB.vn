@@ -11,7 +11,7 @@ namespace vinabb\web\acp;
 /**
 * ACP module: acp_portal_categories
 */
-class bb_categories_module
+class portal_categories_module
 {
 	/** @var \vinabb\web\controllers\acp\portal_categories_interface */
 	protected $controller;
