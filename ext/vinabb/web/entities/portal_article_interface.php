@@ -282,7 +282,7 @@ interface portal_article_interface
 	/**
 	* Set the article time
 	*
-	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	* @return page_interface $this Object for chaining calls: load()->set()->save()
 	*/
 	public function set_time();
 }
