@@ -92,6 +92,9 @@ class mcp
 
 	public function main($id, $mode)
 	{
+		// If do not define global, the module acp_main will not be accessed
+		global $module;
+
 		// Common functions
 		require "{$this->root_path}includes/functions_admin.{$this->php_ext}";
 		require "{$this->root_path}includes/functions_mcp.{$this->php_ext}";
