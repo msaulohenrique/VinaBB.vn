@@ -5,6 +5,12 @@ services:
             - '@dbal.conn'
             - '@vinabb.web.table_lock.portal_categories'
             - '%vinabb.web.tables.portal_categories%'
+    vinabb.web.operators.nestedset_menus:
+        class: vinabb\web\operators\nestedset_menus
+        arguments:
+            - '@dbal.conn'
+            - '@vinabb.web.table_lock.menus'
+            - '%vinabb.web.tables.menus%'
     vinabb.web.operators.portal_category:
         class: vinabb\web\operators\portal_category
         arguments:
@@ -14,6 +20,10 @@ services:
         class: vinabb\web\operators\portal_article
         arguments:
             - '@vinabb.web.entities.portal_article'
+    vinabb.web.operators.portal_comment:
+        class: vinabb\web\operators\portal_comment
+        arguments:
+            - '@vinabb.web.entities.portal_comment'
     vinabb.web.operators.bb_category:
         class: vinabb\web\operators\bb_category
         arguments:
@@ -32,3 +42,8 @@ services:
             - '@dbal.conn'
             - '@vinabb.web.entities.page'
             - '%vinabb.web.tables.pages%'
+    vinabb.web.operators.menu:
+        class: vinabb\web\operators\menu
+        arguments:
+            - '@vinabb.web.entities.menu'
+            - '@vinabb.web.operators.nestedset_menus'
