@@ -429,45 +429,6 @@ class bb_item implements bb_item_interface
 	}
 
 	/**
-	* Get the Vietnamese item name
-	*
-	* @return string
-	*/
-	public function get_name_vi()
-	{
-		return isset($this->data['item_name_vi']) ? (string) $this->data['item_name_vi'] : '';
-	}
-
-	/**
-	* Set the Vietnamese item name
-	*
-	* @param string						$text	Vietnamese item name
-	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\unexpected_value
-	*/
-	public function set_name_vi($text)
-	{
-		$text = (string) $text;
-
-		// This is a required field
-		if (empty($text))
-		{
-			throw new \vinabb\web\exceptions\unexpected_value(['item_name_vi', 'FIELD_MISSING']);
-		}
-
-		// Check the max length
-		if (truncate_string($text, constants::MAX_BB_ITEM_NAME) != $text)
-		{
-			throw new \vinabb\web\exceptions\unexpected_value(['item_name_vi', 'TOO_LONG']);
-		}
-
-		// Set the value on our data array
-		$this->data['item_name_vi'] = $text;
-
-		return $this;
-	}
-
-	/**
 	* Get the item varname
 	*
 	* @return string

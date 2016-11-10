@@ -113,22 +113,6 @@ interface bb_item_interface
 	public function set_name($text);
 
 	/**
-	* Get the Vietnamese item name
-	*
-	* @return string
-	*/
-	public function get_name_vi();
-
-	/**
-	* Set the Vietnamese item name
-	*
-	* @param string						$text	Vietnamese item name
-	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\unexpected_value
-	*/
-	public function set_name_vi($text);
-
-	/**
 	* Get the item varname
 	*
 	* @return string
