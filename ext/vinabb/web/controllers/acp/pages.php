@@ -8,6 +8,9 @@
 
 namespace vinabb\web\controllers\acp;
 
+/**
+* Controller for the pages_module
+*/
 class pages
 {
 	/** @var \phpbb\cache\service */
