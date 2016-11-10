@@ -26,16 +26,25 @@ class menus_schema extends migration
 			'add_tables' => [
 				$this->table_prefix . 'menus' => [
 					'COLUMNS' => [
-						'menu_id'			=> ['UINT', null, 'auto_increment'],
-						'parent_id'			=> ['UINT', 0],
-						'left_id'			=> ['UINT', 0],
-						'right_id'			=> ['UINT', 0],
-						'menu_parents'		=> ['MTEXT_UNI', ''],
-						'menu_name'			=> ['VCHAR_UNI', ''],
-						'menu_type'			=> ['TINT:1', 0],
-						'menu_icon'			=> ['VCHAR', ''],
-						'menu_link'			=> ['VCHAR', ''],
-						'menu_link_target'	=> ['BOOL', 0]
+						'menu_id'					=> ['UINT', null, 'auto_increment'],
+						'parent_id'					=> ['UINT', 0],
+						'left_id'					=> ['UINT', 0],
+						'right_id'					=> ['UINT', 0],
+						'menu_parents'				=> ['MTEXT_UNI', ''],
+						'menu_name'					=> ['VCHAR_UNI', ''],
+						'menu_name_vi'				=> ['VCHAR_UNI', ''],
+						'menu_type'					=> ['TINT:1', 0],
+						'menu_icon'					=> ['VCHAR', ''],
+						'menu_data'					=> ['VCHAR', ''],
+						'menu_target'				=> ['BOOL', 0],
+						'menu_enable_guest'			=> ['BOOL', 0],
+						'menu_enable_bot'			=> ['BOOL', 0],
+						'menu_enable_new_user'		=> ['BOOL', 0],
+						'menu_enable_user'			=> ['BOOL', 0],
+						'menu_enable_mod'			=> ['BOOL', 0],
+						'menu_enable_global_mod'	=> ['BOOL', 0],
+						'menu_enable_admin'			=> ['BOOL', 0],
+						'menu_enable_founder'		=> ['BOOL', 0]
 					],
 					'PRIMARY_KEY' => 'menu_id'
 				]
