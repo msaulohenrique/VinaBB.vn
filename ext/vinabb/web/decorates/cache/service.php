@@ -264,7 +264,7 @@ class service extends \phpbb\cache\service
 			{
 				$bb_cats[$row['cat_id']] = [
 					'name'		=> $row['cat_name'],
-					'name_vi'	=> $row['cat_name_vi'],
+					'name_vi'	=> empty($row['cat_name_vi']) ? $row['cat_name'] : $row['cat_name_vi'],
 					'varname'	=> $row['cat_varname'],
 					'desc'		=> $row['cat_desc'],
 					'desc_vi'	=> $row['cat_desc_vi'],
@@ -358,7 +358,7 @@ class service extends \phpbb\cache\service
 					'left_id'	=> $row['left_id'],
 					'right_id'	=> $row['right_id'],
 					'name'		=> $row['cat_name'],
-					'name_vi'	=> $row['cat_name_vi'],
+					'name_vi'	=> empty($row['cat_name_vi']) ? $row['cat_name'] : $row['cat_name_vi'],
 					'varname'	=> $row['cat_varname'],
 					'icon'		=> $row['cat_icon']
 				];
@@ -496,7 +496,7 @@ class service extends \phpbb\cache\service
 			{
 				$pages[$row['page_id']] = [
 					'name'				=> $row['page_name'],
-					'name_vi'			=> $row['page_name_vi'],
+					'name_vi'			=> empty($row['page_name_vi']) ? $row['page_name'] : $row['page_name_vi'],
 					'varname'			=> $row['page_varname'],
 					'desc'				=> $row['page_desc'],
 					'desc_vi'			=> $row['page_desc_vi'],
