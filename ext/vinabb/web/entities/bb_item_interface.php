@@ -533,7 +533,7 @@ interface bb_item_interface
 	/**
 	* Get the time of adding item
 	*
-	* @return bool
+	* @return int
 	*/
 	public function get_added();
 
@@ -547,7 +547,7 @@ interface bb_item_interface
 	/**
 	* Get the last updated time of item
 	*
-	* @return bool
+	* @return int
 	*/
 	public function get_updated();
 

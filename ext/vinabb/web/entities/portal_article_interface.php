@@ -260,29 +260,29 @@ interface portal_article_interface
 	/**
 	* Set article display setting
 	*
-	* @param bool				$value	Article display setting
-	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	* @param bool						$value	Article display setting
+	* @return portal_article_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
 	public function set_enable($value);
 
 	/**
 	* Get the article views
 	*
-	* @return bool
+	* @return int
 	*/
 	public function get_views();
 
 	/**
 	* Get the article time
 	*
-	* @return bool
+	* @return int
 	*/
 	public function get_time();
 
 	/**
 	* Set the article time
 	*
-	* @return page_interface $this Object for chaining calls: load()->set()->save()
+	* @return portal_article_interface $this Object for chaining calls: load()->set()->save()
 	*/
 	public function set_time();
 }
