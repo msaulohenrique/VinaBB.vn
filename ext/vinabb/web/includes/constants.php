@@ -85,9 +85,13 @@ class constants
 	// Maximum length
 	const MAX_PORTAL_CAT_NAME = 32;
 	const MAX_PORTAL_CAT_VARNAME = 16;
+	const MAX_PORTAL_ARTICLE_NAME = 64;
+	const MAX_PORTAL_ARTICLE_DESC = 200;
 	const MAX_BB_CAT_NAME = 48;
 	const MAX_BB_CAT_VARNAME = 24;
 	const MAX_BB_CAT_DESC = 255;
+	const MAX_BB_ITEM_NAME = 64;
+	const MAX_BB_ITEM_VARNAME = 64;
 	const MAX_PAGE_NAME = 48;
 	const MAX_PAGE_VARNAME = 24;
 
