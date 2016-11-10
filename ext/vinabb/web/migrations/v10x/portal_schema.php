@@ -65,7 +65,6 @@ class portal_schema extends migration
 						'comment_id'			=> ['UINT', null, 'auto_increment'],
 						'user_id'				=> ['ULINT', 0],
 						'article_id'			=> ['UINT', 0],
-						'comment_rate'			=> ['TINT:1', 0],
 						'comment_text'			=> ['TEXT_UNI', ''],
 						'comment_text_uid'		=> ['VCHAR:8', ''],
 						'comment_text_bitfield'	=> ['VCHAR:255', ''],
