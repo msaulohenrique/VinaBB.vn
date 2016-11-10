@@ -5,3 +5,9 @@ services:
             - 'vinabb.web.table_lock.%vinabb.web.tables.portal_categories%'
             - '@config'
             - '@dbal.conn'
+    vinabb.web.table_lock.bb_categories:
+        class: phpbb\lock\db
+        arguments:
+            - 'vinabb.web.table_lock.%vinabb.web.tables.bb_categories%'
+            - '@config'
+            - '@dbal.conn'
