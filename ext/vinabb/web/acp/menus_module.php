@@ -8,9 +8,12 @@
 
 namespace vinabb\web\acp;
 
+/**
+* ACP module: acp_menus
+*/
 class menus_module
 {
-	/** @var \vinabb\web\controller\acp\menus */
+	/** @var \vinabb\web\controllers\acp\menus_interface */
 	protected $controller;
 
 	/** @var \phpbb\language\language */
@@ -20,16 +23,16 @@ class menus_module
 	protected $request;
 
 	/** @var string */
-	public $tpl_name;
+	protected $tpl_name;
 
 	/** @var string */
-	public $page_title;
+	protected $page_title;
 
 	/** @var string */
-	public $u_action;
+	protected $u_action;
 
 	/**
-	* Main method of module
+	* Main method of the module
 	*
 	* @param $id
 	* @param $mode
@@ -42,6 +45,7 @@ class menus_module
 		$this->language = $phpbb_container->get('language');
 		$this->request = $phpbb_container->get('request');
 
+		// ACP template file
 		$this->tpl_name = 'acp_menus';
 		$this->page_title = $this->language->lang('ACP_MENUS');
 
@@ -52,17 +56,20 @@ class menus_module
 		$action = $this->request->variable('action', '');
 		$menu_id = $this->request->variable('id', 0);
 
+		$this->controller->set_form_action($this->u_action);
+
+		// Do actions via the controller
 		switch ($action)
 		{
 			case 'add':
-				$this->page_title = $this->language->lang('ACP_MENUS');
+				$this->page_title = $this->language->lang('ADD_MENU');
 				$this->controller->add_menu();
 
 				// Return to stop execution of this script
 				return;
 
 			case 'edit':
-				$this->page_title = $this->language->lang('ACP_MENUS');
+				$this->page_title = $this->language->lang('EDIT_MENU');
 				$this->controller->edit_menu($menu_id);
 
 				// Return to stop execution of this script
@@ -79,13 +86,13 @@ class menus_module
 						'i'			=> $id,
 						'mode'		=> $mode,
 						'action'	=> $action,
-						'page_id'	=> $menu_id
+						'id'		=> $menu_id
 					]));
 				}
 			break;
 		}
 
-		// Display pages
+		// Manage menus
 		$this->controller->display_menus();
 	}
 }
