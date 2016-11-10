@@ -66,3 +66,12 @@ vinabb_web_bb_route:
 vinabb_web_bb_routing:
     resource: routing_bb.yml
     prefix: /bb
+vinabb_web_page_route:
+    path: /page/{varname}{slash}
+    defaults:
+        _controller: vinabb.web.page:main
+        type: ''
+        slash: ''
+    requirements:
+        varname: '[a-z0-9-]*'
+        slash: '(|\/)'
