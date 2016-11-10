@@ -75,14 +75,6 @@ class portal_articles_module
 				// Return to stop execution of this script
 				return;
 
-			case 'move_down':
-				$this->controller->move_article($article_id, 'down');
-			break;
-
-			case 'move_up':
-				$this->controller->move_article($article_id, 'up');
-			break;
-
 			case 'delete':
 				if (confirm_box(true))
 				{
