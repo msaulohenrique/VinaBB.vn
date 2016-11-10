@@ -59,109 +59,109 @@ interface bb_category_interface
 	/**
 	* Get the cat_id
 	*
-	* @return int cat_id
+	* @return int
 	*/
 	public function get_id();
 
 	/**
 	* Get the bb_type
 	*
-	* @return int bb_type
+	* @return int
 	*/
 	public function get_bb_type();
 
 	/**
 	* Get the category name
 	*
-	* @return string Category name
+	* @return string
 	*/
 	public function get_name();
 
 	/**
 	* Set the category name
 	*
-	* @param string					$name	Category name
+	* @param string					$text	Category name
 	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
-	public function set_name($name);
+	public function set_name($text);
 
 	/**
 	* Get the Vietnamese category name
 	*
-	* @return string Vietnamese category name
+	* @return string
 	*/
 	public function get_name_vi();
 
 	/**
 	* Set the Vietnamese category name
 	*
-	* @param string					$name	Vietnamese category name
+	* @param string					$text	Vietnamese category name
 	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
-	public function set_name_vi($name);
+	public function set_name_vi($text);
 
 	/**
 	* Get the category varname
 	*
-	* @return string Category varname
+	* @return string
 	*/
 	public function get_varname();
 
 	/**
 	* Set the category varname
 	*
-	* @param int					$varname	Category varname
-	* @return bb_category_interface	$this		Object for chaining calls: load()->set()->save()
+	* @param int					$text	Category varname
+	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
-	public function set_varname($varname);
+	public function set_varname($text);
 
 	/**
 	* Get the category description
 	*
-	* @return string Category description
+	* @return string
 	*/
 	public function get_desc();
 
 	/**
 	* Set the category description
 	*
-	* @param string					$desc	Category description
+	* @param string					$text	Category description
 	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
-	public function set_desc($desc);
+	public function set_desc($text);
 
 	/**
 	* Get the Vietnamese category description
 	*
-	* @return string Vietnamese category description
+	* @return string
 	*/
 	public function get_desc_vi();
 
 	/**
 	* Set the Vietnamese category description
 	*
-	* @param string					$desc	Vietnamese category description
+	* @param string					$text	Vietnamese category description
 	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
-	public function set_desc_vi($desc);
+	public function set_desc_vi($text);
 
 	/**
 	* Get the category icon
 	*
-	* @return string Category icon
+	* @return string
 	*/
 	public function get_icon();
 
 	/**
 	* Set the category icon
 	*
-	* @param int					$icon	Category icon
+	* @param int					$text	Category icon
 	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function set_icon($icon);
+	public function set_icon($text);
 }
