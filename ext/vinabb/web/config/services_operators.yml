@@ -22,6 +22,10 @@ services:
         class: vinabb\web\operators\bb_item
         arguments:
             - '@vinabb.web.entities.bb_item'
+    vinabb.web.operators.bb_author:
+        class: vinabb\web\operators\bb_author
+        arguments:
+            - '@vinabb.web.entities.bb_author'
     vinabb.web.operators.page:
         class: vinabb\web\operators\page
         arguments:
