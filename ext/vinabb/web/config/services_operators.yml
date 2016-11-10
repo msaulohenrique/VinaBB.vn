@@ -8,8 +8,20 @@ services:
     vinabb.web.operators.portal_category:
         class: vinabb\web\operators\portal_category
         arguments:
-            - '@service_container'
+            - '@vinabb.web.entities.portal_category'
             - '@vinabb.web.operators.nestedset_portal_categories'
+    vinabb.web.operators.portal_article:
+        class: vinabb\web\operators\portal_article
+        arguments:
+            - '@vinabb.web.entities.portal_article'
+    vinabb.web.operators.bb_category:
+        class: vinabb\web\operators\bb_category
+        arguments:
+            - '@vinabb.web.entities.bb_category'
+    vinabb.web.operators.bb_item:
+        class: vinabb\web\operators\bb_item
+        arguments:
+            - '@vinabb.web.entities.bb_item'
     vinabb.web.operators.page:
         class: vinabb\web\operators\page
         arguments:
