@@ -59,91 +59,91 @@ interface portal_category_interface
 	/**
 	* Get the cat_id
 	*
-	* @return int cat_id
+	* @return int
 	*/
 	public function get_id();
 
 	/**
 	* Get the parent_id
 	*
-	* @return int parent_id
+	* @return int
 	*/
 	public function get_parent_id();
 
 	/**
 	* Get the left_id for the tree
 	*
-	* @return int left_id
+	* @return int
 	*/
 	public function get_left_id();
 
 	/**
 	* Get the right_id for the tree
 	*
-	* @return int right_id
+	* @return int
 	*/
 	public function get_right_id();
 
 	/**
 	* Get the category name
 	*
-	* @return string Category name
+	* @return string
 	*/
 	public function get_name();
 
 	/**
 	* Set the category name
 	*
-	* @param string						$name	Category name
+	* @param string						$text	Category name
 	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
-	public function set_name($name);
+	public function set_name($text);
 
 	/**
 	* Get the Vietnamese category name
 	*
-	* @return string Vietnamese category name
+	* @return string
 	*/
 	public function get_name_vi();
 
 	/**
 	* Set the Vietnamese category name
 	*
-	* @param string						$name	Vietnamese category name
+	* @param string						$text	Vietnamese category name
 	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
-	public function set_name_vi($name);
+	public function set_name_vi($text);
 
 	/**
 	* Get the category varname
 	*
-	* @return string Category varname
+	* @return string
 	*/
 	public function get_varname();
 
 	/**
 	* Set the category varname
 	*
-	* @param int						$varname	Category varname
-	* @return portal_category_interface	$this		Object for chaining calls: load()->set()->save()
+	* @param int						$text	Category varname
+	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
-	public function set_varname($varname);
+	public function set_varname($text);
 
 	/**
 	* Get the category icon
 	*
-	* @return string Category icon
+	* @return string
 	*/
 	public function get_icon();
 
 	/**
 	* Set the category icon
 	*
-	* @param int						$icon	Category icon
+	* @param int						$text	Category icon
 	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function set_icon($icon);
+	public function set_icon($text);
 }
