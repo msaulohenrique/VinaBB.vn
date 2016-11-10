@@ -8,9 +8,12 @@
 
 namespace vinabb\web\acp;
 
+/**
+* ACP module: acp_pages
+*/
 class pages_module
 {
-	/** @var \vinabb\web\controller\acp\pages */
+	/** @var \vinabb\web\controllers\acp\pages_interface */
 	protected $controller;
 
 	/** @var \phpbb\language\language */
@@ -20,16 +23,16 @@ class pages_module
 	protected $request;
 
 	/** @var string */
-	public $tpl_name;
+	protected $tpl_name;
 
 	/** @var string */
-	public $page_title;
+	protected $page_title;
 
 	/** @var string */
-	public $u_action;
+	protected $u_action;
 
 	/**
-	* Main method of module
+	* Main method of the module
 	*
 	* @param $id
 	* @param $mode
@@ -42,6 +45,7 @@ class pages_module
 		$this->language = $phpbb_container->get('language');
 		$this->request = $phpbb_container->get('request');
 
+		// ACP template file
 		$this->tpl_name = 'acp_pages';
 		$this->page_title = $this->language->lang('ACP_PAGES');
 
@@ -55,6 +59,7 @@ class pages_module
 
 		$this->controller->set_form_action($this->u_action);
 
+		// Do actions via the controller
 		switch ($action)
 		{
 			case 'add':
@@ -82,13 +87,13 @@ class pages_module
 						'i'			=> $id,
 						'mode'		=> $mode,
 						'action'	=> $action,
-						'page_id'	=> $page_id
+						'id'		=> $page_id
 					]));
 				}
 			break;
 		}
 
-		// Display pages
+		// Manage pages
 		$this->controller->display_pages();
 	}
 }
