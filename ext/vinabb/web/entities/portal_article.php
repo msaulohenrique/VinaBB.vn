@@ -13,7 +13,7 @@ use vinabb\web\includes\constants;
 /**
 * Entity for a single article
 */
-class portal_article
+class portal_article implements portal_article_interface
 {
 	/**
 	* Data for this entity
