@@ -113,8 +113,6 @@ class online implements online_interface
 	*/
 	public function main($mode)
 	{
-		$mode = (substr($mode, -1) == '/') ? substr($mode, 0, -1) : $mode;
-
 		$this->language->add_lang('memberlist');
 
 		// Get and set some variables
@@ -324,7 +322,7 @@ class online implements online_interface
 				),
 				"app.{$this->php_ext}/search"	=> array(
 					'lang'	=> $this->language->lang('SEARCHING_FORUMS'),
-					'url'	=> $this->helper->route('vinabb_web_search_route'),
+					'url'	=> $this->helper->route('vinabb_web_board_search_route'),
 				),
 				"app.{$this->php_ext}/online"	=> array(
 					'lang'	=> $this->language->lang('VIEWING_ONLINE'),
@@ -537,7 +535,7 @@ class online implements online_interface
 			}
 			else
 			{
-				$legend .= (($legend != '') ? ', ' : '') . '<a style="color: #' . $row['group_colour'] . '" href="' . $this->helper->route('vinabb_web_user_group_route', array('id' => $row['group_id'])) . '">' . $this->group_helper->get_name($row['group_name']) . '</a>';
+				$legend .= (($legend != '') ? ', ' : '') . '<a style="color: #' . $row['group_colour'] . '" href="' . $this->helper->route('vinabb_web_user_group_route', array('group_id' => $row['group_id'])) . '">' . $this->group_helper->get_name($row['group_name']) . '</a>';
 			}
 		}
 		$this->db->sql_freeresult($result);

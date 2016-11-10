@@ -104,12 +104,6 @@ class ucp
 
 	public function main($id, $mode)
 	{
-		// Allow to use '/' at the end
-		if (substr($mode, -1) == '/')
-		{
-			$mode = substr($mode, 0, -1);
-		}
-
 		// Common functions
 		require "{$this->root_path}includes/functions_user.{$this->php_ext}";
 		require "{$this->ext_root_path}includes/functions_module.{$this->php_ext}";

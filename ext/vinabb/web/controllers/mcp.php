@@ -92,12 +92,6 @@ class mcp
 
 	public function main($id, $mode)
 	{
-		// Allow to use '/' at the end
-		if (substr($mode, -1) == '/')
-		{
-			$mode = substr($mode, 0, -1);
-		}
-
 		// Common functions
 		require "{$this->root_path}includes/functions_admin.{$this->php_ext}";
 		require "{$this->root_path}includes/functions_mcp.{$this->php_ext}";

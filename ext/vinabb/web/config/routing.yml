@@ -1,30 +1,28 @@
 vinabb_web_user_routing:
     resource: routing_user.yml
     prefix: /user
-vinabb_web_ucp_default_route:
-    path: /ucp
+vinabb_web_ucp_route:
+    path: /ucp/{id}/{mode}{slash}
     defaults:
         _controller: vinabb.web.ucp:main
         id: 'main'
-        mode: 'front'
-vinabb_web_ucp_route:
-    path: /ucp/{id}/{mode}
-    defaults:
-        _controller: vinabb.web.ucp:main
-        id: 'front'
         mode: ''
+        slash: ''
     requirements:
         id: '[a-z0-9-_]*'
-        mode: '([a-z0-9-_]*)(\/{0,1})'
+        mode: '[a-z0-9-_]*'
+        slash: '(|\/)'
 vinabb_web_mcp_route:
-    path: /mcp/{id}/{mode}
+    path: /mcp/{id}/{mode}{slash}
     defaults:
         _controller: vinabb.web.mcp:main
         id: 'main'
         mode: ''
+        slash: ''
     requirements:
         id: '[a-z0-9-_]*'
-        mode: '([a-z0-9-_]*)(\/{0,1})'
+        mode: '[a-z0-9-_]*'
+        slash: '(|\/)'
 vinabb_web_board_route:
     path: /board{slash}
     defaults:
@@ -36,12 +34,14 @@ vinabb_web_board_routing:
     resource: routing_board.yml
     prefix: /board
 vinabb_web_online_route:
-    path: /online/{mode}
+    path: /online/{mode}{slash}
     defaults:
         _controller: vinabb.web.online:main
         mode: ''
+        slash: ''
     requirements:
-        mode: '(|whois|lookup)(\/{0,1})'
+        mode: '(|whois|lookup)'
+        slash: '(|\/)'
 vinabb_web_board_embed_routing:
     resource: routing_embed.yml
     prefix: /embed
