@@ -36,6 +36,9 @@ class portal_article
 	*/
 	protected $data;
 
+	/** @var \phpbb\config\config */
+	protected $config;
+
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
@@ -48,12 +51,14 @@ class portal_article
 	/**
 	* Constructor
 	*
-	* @param \phpbb\db\driver\driver_interface    $db				Database object
-	* @param string                               $table_name		Table name
-	* @param string                               $cat_table_name	Table name of categories
+	* @param \phpbb\config\config				$config			Config object
+	* @param \phpbb\db\driver\driver_interface	$db				Database object
+	* @param string								$table_name		Table name
+	* @param string								$cat_table_name	Table name of categories
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, $table_name, $cat_table_name)
+	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, $table_name, $cat_table_name)
 	{
+		$this->config = $config;
 		$this->db = $db;
 		$this->table_name = $table_name;
 		$this->cat_table_name = $cat_table_name;
@@ -381,7 +386,7 @@ class portal_article
 		$text = (string) $text;
 
 		// This is a required field
-		if (!empty($iso))
+		if (!empty($text))
 		{
 			$sql = 'SELECT 1
 				FROM ' . LANG_TABLE . "

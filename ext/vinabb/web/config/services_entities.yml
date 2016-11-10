@@ -9,6 +9,7 @@ services:
         class: vinabb\web\entities\portal_article
         shared: false
         arguments:
+            - '@config'
             - '@dbal.conn'
             - '%vinabb.web.tables.portal_articles%'
             - '%vinabb.web.tables.portal_categories%'
@@ -22,6 +23,7 @@ services:
         class: vinabb\web\entities\bb_item
         shared: false
         arguments:
+            - '@config'
             - '@dbal.conn'
             - '%vinabb.web.tables.bb_items%'
             - '%vinabb.web.tables.bb_categories%'

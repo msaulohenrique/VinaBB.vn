@@ -62,6 +62,9 @@ class bb_item
 	*/
 	protected $data;
 
+	/** @var \phpbb\config\config */
+	protected $config;
+
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
@@ -77,13 +80,15 @@ class bb_item
 	/**
 	* Constructor
 	*
-	* @param \phpbb\db\driver\driver_interface    $db					Database object
-	* @param string                               $table_name			Table name
-	* @param string                               $cat_table_name		Table name of categories
-	* @param string                               $author_table_name	Table name of authors
+	* @param \phpbb\config\config				$config				Config object
+	* @param \phpbb\db\driver\driver_interface	$db					Database object
+	* @param string								$table_name			Table name
+	* @param string								$cat_table_name		Table name of categories
+	* @param string								$author_table_name	Table name of authors
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, $table_name, $cat_table_name, $author_table_name)
+	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, $table_name, $cat_table_name, $author_table_name)
 	{
+		$this->config = $config;
 		$this->db = $db;
 		$this->table_name = $table_name;
 		$this->cat_table_name = $cat_table_name;
