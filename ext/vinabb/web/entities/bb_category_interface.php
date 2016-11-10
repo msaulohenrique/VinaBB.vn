@@ -40,10 +40,11 @@ interface bb_category_interface
 	*
 	* Will throw an exception if the entity was already inserted (call save() instead)
 	*
+	* @param int $bb_type phpBB resource type
 	* @return bb_category_interface $this Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
-	public function insert();
+	public function insert($bb_type);
 
 	/**
 	* Save the current settings to the database
