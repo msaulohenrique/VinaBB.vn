@@ -43,7 +43,7 @@ class page implements page_interface
 	*/
 	public function get_pages()
 	{
-		$entities = array();
+		$entities = [];
 
 		$sql = 'SELECT *
 			FROM ' . $this->table_name;
