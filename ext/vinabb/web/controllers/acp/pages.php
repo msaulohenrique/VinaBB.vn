@@ -37,9 +37,6 @@ class pages
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \phpbb\controller\helper */
-	protected $helper;
-
 	/** @var string */
 	protected $root_path;
 
@@ -60,7 +57,6 @@ class pages
 	* @param \phpbb\request\request					$request	Request object
 	* @param \phpbb\template\template				$template	Template object
 	* @param \phpbb\user							$user		User object
-	* @param \phpbb\controller\helper				$helper		Controller helper
 	* @param string									$root_path	phpBB root path
 	* @param string									$php_ext	PHP file extension
 	*/
@@ -73,7 +69,6 @@ class pages
 		\phpbb\request\request $request,
 		\phpbb\template\template $template,
 		\phpbb\user $user,
-		\phpbb\controller\helper $helper,
 		$root_path,
 		$php_ext
 	)
@@ -86,7 +81,6 @@ class pages
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
-		$this->helper = $helper;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 	}
