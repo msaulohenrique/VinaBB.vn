@@ -28,6 +28,12 @@ services:
             - '%vinabb.web.tables.bb_items%'
             - '%vinabb.web.tables.bb_categories%'
             - '%vinabb.web.tables.bb_authors%'
+    vinabb.web.entities.bb_author:
+        class: vinabb\web\entities\bb_author
+        shared: false
+        arguments:
+            - '@dbal.conn'
+            - '%vinabb.web.tables.bb_authors%'
     vinabb.web.entities.page:
         class: vinabb\web\entities\page
         shared: false
