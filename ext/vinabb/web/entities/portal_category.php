@@ -307,12 +307,6 @@ class portal_category implements portal_category_interface
 	{
 		$text = (string) $text;
 
-		// This is a required field
-		if (empty($text))
-		{
-			throw new \vinabb\web\exceptions\unexpected_value(['cat_name_vi', 'FIELD_MISSING']);
-		}
-
 		// Check the max length
 		if (truncate_string($text, constants::MAX_PORTAL_CAT_NAME) != $text)
 		{
