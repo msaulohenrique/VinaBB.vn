@@ -13,7 +13,7 @@ use vinabb\web\includes\constants;
 /**
 * Entity for a single phpBB resource item
 */
-class bb_item
+class bb_item implements bb_item_interface
 {
 	/**
 	* Data for this entity
@@ -709,5 +709,662 @@ class bb_item
 
 			$this->set_desc($text);
 		}
+	}
+
+	/**
+	* Get Vietnamese item description for edit
+	*
+	* @return string
+	*/
+	public function get_desc_vi_for_edit()
+	{
+		// Use defaults if these haven't been set yet
+		$text = isset($this->data['item_desc_vi']) ? $this->data['item_desc_vi'] : '';
+		$uid = isset($this->data['item_desc_vi_uid']) ? $this->data['item_desc_vi_uid'] : '';
+		$options = isset($this->data['item_desc_vi_options']) ? (int) $this->data['item_desc_vi_options'] : 0;
+
+		$text_data = generate_text_for_edit($text, $uid, $options);
+
+		return $text_data['text'];
+	}
+
+	/**
+	* Get Vietnamese item description for display
+	*
+	* @param bool $censor True to censor the text
+	* @return string
+	*/
+	public function get_desc_vi_for_display($censor = true)
+	{
+		// If these haven't been set yet; use defaults
+		$text = isset($this->data['item_desc_vi']) ? $this->data['item_desc_vi'] : '';
+		$uid = isset($this->data['item_desc_vi_uid']) ? $this->data['item_desc_vi_uid'] : '';
+		$bitfield = isset($this->data['item_desc_vi_bitfield']) ? $this->data['item_desc_vi_bitfield'] : '';
+		$options = isset($this->data['item_desc_vi_options']) ? (int) $this->data['item_desc_vi_options'] : 0;
+
+		return generate_text_for_display($text, $uid, $bitfield, $options, $censor);
+	}
+
+	/**
+	* Set Vietnamese item description
+	*
+	* @param string				$text	Vietnamese item description
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_desc_vi($text)
+	{
+		// Override maximum post characters limit
+		$this->config['max_post_chars'] = 0;
+
+		// Prepare the text for storage
+		$uid = $bitfield = $flags = '';
+		generate_text_for_storage($text, $uid, $bitfield, $flags, $this->desc_vi_bbcode_enabled(), $this->desc_vi_urls_enabled(), $this->desc_vi_smilies_enabled());
+
+		// Set the value on our data array
+		$this->data['item_desc_vi'] = $text;
+		$this->data['item_desc_vi_uid'] = $uid;
+		$this->data['item_desc_vi_bitfield'] = $bitfield;
+		// Option flags are already set
+
+		return $this;
+	}
+
+	/**
+	* Check if BBCode is enabled on the Vietnamese item description
+	*
+	* @return bool
+	*/
+	public function desc_vi_bbcode_enabled()
+	{
+		return ($this->data['item_desc_vi_options'] & OPTION_FLAG_BBCODE);
+	}
+
+	/**
+	* Enable BBCode on the Vietnamese item description
+	* This should be called before set_desc_vi(); desc_vi_enable_bbcode()->set_desc_vi()
+	*
+	* @return bb_item_interface $this Object for chaining calls: load()->set()->save()
+	*/
+	public function desc_vi_enable_bbcode()
+	{
+		$this->set_desc_vi_options(OPTION_FLAG_BBCODE);
+
+		return $this;
+	}
+
+	/**
+	* Disable BBCode on the Vietnamese item description
+	* This should be called before set_desc_vi(); desc_vi_disable_bbcode()->set_desc_vi()
+	*
+	* @return bb_item_interface $this Object for chaining calls: load()->set()->save()
+	*/
+	public function desc_vi_disable_bbcode()
+	{
+		$this->set_desc_vi_options(OPTION_FLAG_BBCODE, true);
+
+		return $this;
+	}
+
+	/**
+	* Check if URLs is enabled on the Vietnamese item description
+	*
+	* @return bool
+	*/
+	public function desc_vi_urls_enabled()
+	{
+		return ($this->data['item_desc_vi_options'] & OPTION_FLAG_LINKS);
+	}
+
+	/**
+	* Enable URLs on the Vietnamese item description
+	* This should be called before set_desc_vi(); desc_vi_enable_urls()->set_desc_vi()
+	*
+	* @return bb_item_interface $this Object for chaining calls: load()->set()->save()
+	*/
+	public function desc_vi_enable_urls()
+	{
+		$this->set_desc_vi_options(OPTION_FLAG_LINKS);
+
+		return $this;
+	}
+
+	/**
+	* Disable URLs on the Vietnamese item description
+	* This should be called before set_desc_vi(); desc_vi_disable_urls()->set_desc_vi()
+	*
+	* @return bb_item_interface $this Object for chaining calls: load()->set()->save()
+	*/
+	public function desc_vi_disable_urls()
+	{
+		$this->set_desc_vi_options(OPTION_FLAG_LINKS, true);
+
+		return $this;
+	}
+
+	/**
+	* Check if smilies are enabled on the Vietnamese item description
+	*
+	* @return bool
+	*/
+	public function desc_vi_smilies_enabled()
+	{
+		return ($this->data['item_desc_vi_options'] & OPTION_FLAG_SMILIES);
+	}
+
+	/**
+	* Enable smilies on the Vietnamese item description
+	* This should be called before set_desc_vi(); desc_vi_enable_smilies()->set_desc_vi()
+	*
+	* @return bb_item_interface $this Object for chaining calls: load()->set()->save()
+	*/
+	public function desc_vi_enable_smilies()
+	{
+		$this->set_desc_vi_options(OPTION_FLAG_SMILIES);
+
+		return $this;
+	}
+
+	/**
+	* Disable smilies on the Vietnamese item description
+	* This should be called before set_desc_vi(); desc_vi_disable_smilies()->set_desc_vi()
+	*
+	* @return bb_item_interface $this Object for chaining calls: load()->set()->save()
+	*/
+	public function desc_vi_disable_smilies()
+	{
+		$this->set_desc_vi_options(OPTION_FLAG_SMILIES, true);
+
+		return $this;
+	}
+
+	/**
+	* Set BBCode options for the Vietnamese item description
+	*
+	* @param int	$value				Value of the option
+	* @param bool	$negate				Negate (Unset) option
+	* @param bool	$reparse_content	Reparse the content after setting option
+	*/
+	protected function set_desc_vi_options($value, $negate = false, $reparse_content = true)
+	{
+		// Set item_desc_vi_options to 0 if it does not yet exist
+		$this->data['item_desc_vi_options'] = isset($this->data['item_desc_vi_options']) ? $this->data['item_desc_vi_options'] : 0;
+
+		// If we're setting the option and the option is not already set
+		if (!$negate && !($this->data['item_desc_options'] & $value))
+		{
+			// Add the option to the options
+			$this->data['item_desc_vi_options'] += $value;
+		}
+
+		// If we're unsetting the option and the option is already set
+		if ($negate && $this->data['item_desc_vi_options'] & $value)
+		{
+			// Subtract the option from the options
+			$this->data['item_desc_vi_options'] -= $value;
+		}
+
+		// Reparse the content
+		if ($reparse_content && !empty($this->data['item_desc_vi']))
+		{
+			$text = $this->data['item_desc_vi'];
+
+			decode_message($text, $this->data['item_desc_vi_uid']);
+
+			$this->set_desc_vi($text);
+		}
+	}
+
+	/**
+	* Get the extension property: Style Changes
+	*
+	* @return bool
+	*/
+	public function get_ext_style()
+	{
+		return ($this->get_bb_type() === constants::BB_TYPE_EXT && isset($this->data['item_ext_style'])) ? (bool) $this->data['item_ext_style'] : false;
+	}
+
+	/**
+	* Set the extension property: Style Changes
+	*
+	* @param bool				$value	Config value
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_ext_style($value)
+	{
+		$value = (bool) $value;
+
+		// This is a field only for extensions
+		if ($this->get_bb_type() !== constants::BB_TYPE_EXT)
+		{
+			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
+		}
+
+		// Set the value on our data array
+		$this->data['item_ext_style'] = $value;
+
+		return $this;
+	}
+
+	/**
+	* Get the extension property: ACP Style Changes
+	*
+	* @return bool
+	*/
+	public function get_ext_acp_style()
+	{
+		return ($this->get_bb_type() === constants::BB_TYPE_EXT && isset($this->data['item_ext_acp_style'])) ? (bool) $this->data['item_ext_acp_style'] : false;
+	}
+
+	/**
+	* Set the extension property: ACP Style Changes
+	*
+	* @param bool				$value	Config value
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_ext_acp_style($value)
+	{
+		$value = (bool) $value;
+
+		// This is a field only for extensions
+		if ($this->get_bb_type() !== constants::BB_TYPE_EXT)
+		{
+			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
+		}
+
+		// Set the value on our data array
+		$this->data['item_ext_acp_style'] = $value;
+
+		return $this;
+	}
+
+	/**
+	* Get the extension property: Language Changes
+	*
+	* @return bool
+	*/
+	public function get_ext_lang()
+	{
+		return ($this->get_bb_type() === constants::BB_TYPE_EXT && isset($this->data['item_ext_lang'])) ? (bool) $this->data['item_ext_lang'] : false;
+	}
+
+	/**
+	* Set the extension property: Language Changes
+	*
+	* @param bool				$value	Config value
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_ext_lang($value)
+	{
+		$value = (bool) $value;
+
+		// This is a field only for extensions
+		if ($this->get_bb_type() !== constants::BB_TYPE_EXT)
+		{
+			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
+		}
+
+		// Set the value on our data array
+		$this->data['item_ext_lang'] = $value;
+
+		return $this;
+	}
+
+	/**
+	* Get the extension property: Schema Changes
+	*
+	* @return bool
+	*/
+	public function get_ext_db_schema()
+	{
+		return ($this->get_bb_type() === constants::BB_TYPE_EXT && isset($this->data['item_ext_db_schema'])) ? (bool) $this->data['item_ext_db_schema'] : false;
+	}
+
+	/**
+	* Set the extension property: Schema Changes
+	*
+	* @param bool				$value	Config value
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_ext_db_schema($value)
+	{
+		$value = (bool) $value;
+
+		// This is a field only for extensions
+		if ($this->get_bb_type() !== constants::BB_TYPE_EXT)
+		{
+			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
+		}
+
+		// Set the value on our data array
+		$this->data['item_ext_db_schema'] = $value;
+
+		return $this;
+	}
+
+	/**
+	* Get the extension property: Data Changes
+	*
+	* @return bool
+	*/
+	public function get_ext_db_data()
+	{
+		return ($this->get_bb_type() === constants::BB_TYPE_EXT && isset($this->data['item_ext_db_data'])) ? (bool) $this->data['item_ext_db_data'] : false;
+	}
+
+	/**
+	* Set the extension property: Data Changes
+	*
+	* @param bool				$value	Config value
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_ext_db_data($value)
+	{
+		$value = (bool) $value;
+
+		// This is a field only for extensions
+		if ($this->get_bb_type() !== constants::BB_TYPE_EXT)
+		{
+			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
+		}
+
+		// Set the value on our data array
+		$this->data['item_ext_db_data'] = $value;
+
+		return $this;
+	}
+
+	/**
+	* Get the style property: Number of Presets
+	*
+	* @return int
+	*/
+	public function get_style_presets()
+	{
+		return (($this->get_bb_type() === constants::BB_TYPE_STYLE || $this->get_bb_type() === constants::BB_TYPE_ACP_STYLE) && isset($this->data['item_style_presets'])) ? (int) $this->data['item_style_presets'] : 0;
+	}
+
+	/**
+	* Set the style property: Number of Presets
+	*
+	* @param int				$value	Config value
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_style_presets($value)
+	{
+		$value = (int) $value;
+
+		// This is a field only for styles
+		if ($this->get_bb_type() !== constants::BB_TYPE_STYLE && $this->get_bb_type() !== constants::BB_TYPE_ACP_STYLE)
+		{
+			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
+		}
+
+		// Set the value on our data array
+		$this->data['item_style_presets'] = $value;
+
+		return $this;
+	}
+
+	/**
+	* Get the style property: All Presets in One Style
+	*
+	* @return bool
+	*/
+	public function get_style_presets_aio()
+	{
+		return (($this->get_bb_type() === constants::BB_TYPE_STYLE || $this->get_bb_type() === constants::BB_TYPE_ACP_STYLE) && isset($this->data['item_style_presets_aio'])) ? (bool) $this->data['item_style_presets_aio'] : false;
+	}
+
+	/**
+	* Set the style property: All Presets in One Style
+	*
+	* @param bool				$value	Config value
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_style_presets_aio($value)
+	{
+		$value = (bool) $value;
+
+		// This is a field only for styles
+		if ($this->get_bb_type() !== constants::BB_TYPE_STYLE && $this->get_bb_type() !== constants::BB_TYPE_ACP_STYLE)
+		{
+			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
+		}
+
+		// Set the value on our data array
+		$this->data['item_style_presets_aio'] = $value;
+
+		return $this;
+	}
+
+	/**
+	* Get the style property: Source Files
+	*
+	* @return bool
+	*/
+	public function get_style_source()
+	{
+		return (($this->get_bb_type() === constants::BB_TYPE_STYLE || $this->get_bb_type() === constants::BB_TYPE_ACP_STYLE) && isset($this->data['item_style_source'])) ? (bool) $this->data['item_style_source'] : false;
+	}
+
+	/**
+	* Set the style property: Source Files
+	*
+	* @param bool				$value	Config value
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_style_source($value)
+	{
+		$value = (bool) $value;
+
+		// This is a field only for styles
+		if ($this->get_bb_type() !== constants::BB_TYPE_STYLE && $this->get_bb_type() !== constants::BB_TYPE_ACP_STYLE)
+		{
+			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
+		}
+
+		// Set the value on our data array
+		$this->data['item_style_source'] = $value;
+
+		return $this;
+	}
+
+	/**
+	* Get the style property: Responsive Support
+	*
+	* @return bool
+	*/
+	public function get_style_responsive()
+	{
+		return (($this->get_bb_type() === constants::BB_TYPE_STYLE || $this->get_bb_type() === constants::BB_TYPE_ACP_STYLE) && isset($this->data['item_style_responsive'])) ? (bool) $this->data['item_style_responsive'] : false;
+	}
+
+	/**
+	* Set the style property: Responsive Support
+	*
+	* @param bool				$value	Config value
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_style_responsive($value)
+	{
+		$value = (bool) $value;
+
+		// This is a field only for styles
+		if ($this->get_bb_type() !== constants::BB_TYPE_STYLE && $this->get_bb_type() !== constants::BB_TYPE_ACP_STYLE)
+		{
+			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
+		}
+
+		// Set the value on our data array
+		$this->data['item_style_responsive'] = $value;
+
+		return $this;
+	}
+
+	/**
+	* Get the style property: Bootstrap Support
+	*
+	* @return bool
+	*/
+	public function get_style_bootstrap()
+	{
+		return (($this->get_bb_type() === constants::BB_TYPE_STYLE || $this->get_bb_type() === constants::BB_TYPE_ACP_STYLE) && isset($this->data['item_style_bootstrap'])) ? (bool) $this->data['item_style_bootstrap'] : false;
+	}
+
+	/**
+	* Set the style property: Bootstrap Support
+	*
+	* @param bool				$value	Config value
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_style_bootstrap($value)
+	{
+		$value = (bool) $value;
+
+		// This is a field only for styles
+		if ($this->get_bb_type() !== constants::BB_TYPE_STYLE && $this->get_bb_type() !== constants::BB_TYPE_ACP_STYLE)
+		{
+			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
+		}
+
+		// Set the value on our data array
+		$this->data['item_style_bootstrap'] = $value;
+
+		return $this;
+	}
+
+	/**
+	* Get the item price
+	*
+	* @return int
+	*/
+	public function get_price()
+	{
+		return isset($this->data['item_price']) ? (int) $this->data['item_price'] : 0;
+	}
+
+	/**
+	* Set the item price
+	*
+	* @param int					$value	Item price
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_price($value)
+	{
+		if (!isset($this->data['item_price']))
+		{
+			$this->data['item_price'] = (int) $value;
+		}
+
+		return $this;
+	}
+
+	/**
+	* Get the item URL
+	*
+	* @return string
+	*/
+	public function get_url()
+	{
+		return isset($this->data['item_url']) ? (string) $this->data['item_url'] : '';
+	}
+
+	/**
+	* Set the item URL
+	*
+	* @param string				$text	Item URL
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_url($text)
+	{
+		if (!isset($this->data['item_url']))
+		{
+			$this->data['item_url'] = (string) $text;
+		}
+
+		return $this;
+	}
+
+	/**
+	* Get the item GitHub URL
+	*
+	* @return string
+	*/
+	public function get_github()
+	{
+		return isset($this->data['item_github']) ? (string) $this->data['item_github'] : '';
+	}
+
+	/**
+	* Set the item GitHub URL
+	*
+	* @param string				$text	Item GitHub URL
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_github($text)
+	{
+		if (!isset($this->data['item_github']))
+		{
+			$this->data['item_github'] = (string) $text;
+		}
+
+		return $this;
+	}
+
+	/**
+	* Get the time of adding item
+	*
+	* @return bool
+	*/
+	public function get_added()
+	{
+		return isset($this->data['item_added']) ? (int) $this->data['item_added'] : 0;
+	}
+
+	/**
+	* Set the time of adding item
+	*
+	* @return bb_item_interface $this Object for chaining calls: load()->set()->save()
+	*/
+	public function set_added()
+	{
+		// Set the value on our data array
+		$this->data['item_added'] = time();
+
+		return $this;
+	}
+
+	/**
+	* Get the last updated time of item
+	*
+	* @return bool
+	*/
+	public function get_updated()
+	{
+		return isset($this->data['item_updated']) ? (int) $this->data['item_updated'] : 0;
+	}
+
+	/**
+	* Set the last updated time of item
+	*
+	* @return bb_item_interface $this Object for chaining calls: load()->set()->save()
+	*/
+	public function set_updated()
+	{
+		// Set the value on our data array
+		$this->data['item_updated'] = time();
+
+		return $this;
 	}
 }
