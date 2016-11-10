@@ -219,10 +219,11 @@ class bb_item implements bb_item_interface
 	*
 	* Will throw an exception if the entity was already inserted (call save() instead)
 	*
+	* @param int $bb_type phpBB resource type
 	* @return bb_item_interface $this Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
-	public function insert()
+	public function insert($bb_type)
 	{
 		// The entity already exists
 		if (!empty($this->data['item_id']))
@@ -232,6 +233,9 @@ class bb_item implements bb_item_interface
 
 		// Make extra sure there is no ID set
 		unset($this->data['item_id']);
+
+		// Add the bb_type to the data array
+		$this->data['bb_type'] = (int) $bb_type;
 
 		$sql = 'INSERT INTO ' . $this->table_name . ' ' . $this->db->sql_build_array('INSERT', $this->data);
 		$this->db->sql_query($sql);
