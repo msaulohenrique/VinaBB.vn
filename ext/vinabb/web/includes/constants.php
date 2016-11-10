@@ -47,6 +47,17 @@ class constants
 	const BB_TYPE_VARNAME_LANG = 'languages';
 	const BB_TYPE_VARNAME_TOOL = 'tools';
 
+	// Menu types
+	const MENU_TYPE_URL = 1;
+	const MENU_TYPE_ROUTE = 2;
+	const MENU_TYPE_PAGE = 3;
+	const MENU_TYPE_FORUM = 4;
+	const MENU_TYPE_USER = 5;
+	const MENU_TYPE_GROUP = 6;
+	const MENU_TYPE_BOARD = 7;
+	const MENU_TYPE_PORTAL = 8;
+	const MENU_TYPE_BB = 9;
+
 	// OS
 	const OS_ALL = 0;
 	const OS_WIN = 1;
