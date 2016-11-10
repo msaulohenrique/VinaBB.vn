@@ -54,7 +54,7 @@ class bb_category implements bb_category_interface
 	*
 	* @param int					$id		Category ID
 	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\out_of_bounds
+	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function load($id)
 	{
@@ -68,7 +68,7 @@ class bb_category implements bb_category_interface
 		// The entity does not exist
 		if ($this->data === false)
 		{
-			throw new \vinabb\web\exception\out_of_bounds('cat_id');
+			throw new \vinabb\web\exceptions\out_of_bounds('cat_id');
 		}
 
 		return $this;
@@ -83,7 +83,7 @@ class bb_category implements bb_category_interface
 	*
 	* @param array					$data	Data array from the database
 	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\base
+	* @throws \vinabb\web\exceptions\base
 	*/
 	public function import($data)
 	{
@@ -109,7 +109,7 @@ class bb_category implements bb_category_interface
 			// The data wasn't sent to us
 			if (!isset($data[$field]))
 			{
-				throw new \vinabb\web\exception\invalid_argument([$field, 'FIELD_MISSING']);
+				throw new \vinabb\web\exceptions\invalid_argument([$field, 'FIELD_MISSING']);
 			}
 
 			// If the type is a method on this class, call it
@@ -137,7 +137,7 @@ class bb_category implements bb_category_interface
 			// If the data is less than 0, it's not unsigned and we'll throw an exception
 			if ($this->data[$field] < 0)
 			{
-				throw new \vinabb\web\exception\out_of_bounds($field);
+				throw new \vinabb\web\exceptions\out_of_bounds($field);
 			}
 		}
 
@@ -150,14 +150,14 @@ class bb_category implements bb_category_interface
 	* Will throw an exception if the entity was already inserted (call save() instead)
 	*
 	* @return bb_category_interface $this Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\out_of_bounds
+	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function insert()
 	{
 		// The entity already exists
 		if (!empty($this->data['cat_id']))
 		{
-			throw new \vinabb\web\exception\out_of_bounds('cat_id');
+			throw new \vinabb\web\exceptions\out_of_bounds('cat_id');
 		}
 
 		// Make extra sure there is no ID set
@@ -179,14 +179,14 @@ class bb_category implements bb_category_interface
 	* If adding an entity (saving for the first time), you must call insert() or an exception will be thrown
 	*
 	* @return bb_category_interface $this Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\out_of_bounds
+	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function save()
 	{
 		// The entity does not exist
 		if (empty($this->data['cat_id']))
 		{
-			throw new \vinabb\web\exception\out_of_bounds('cat_id');
+			throw new \vinabb\web\exceptions\out_of_bounds('cat_id');
 		}
 
 		// Copy the data array, filtering out the ID
@@ -236,7 +236,7 @@ class bb_category implements bb_category_interface
 	*
 	* @param string					$name	Category name
 	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\unexpected_value
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_name($name)
 	{
@@ -245,13 +245,13 @@ class bb_category implements bb_category_interface
 		// This is a required field
 		if (empty($name))
 		{
-			throw new \vinabb\web\exception\unexpected_value(['cat_name', 'FIELD_MISSING']);
+			throw new \vinabb\web\exceptions\unexpected_value(['cat_name', 'FIELD_MISSING']);
 		}
 
 		// Check the max length
 		if (truncate_string($name, constants::MAX_PORTAL_CAT_NAME) != $name)
 		{
-			throw new \vinabb\web\exception\unexpected_value(['cat_name', 'TOO_LONG']);
+			throw new \vinabb\web\exceptions\unexpected_value(['cat_name', 'TOO_LONG']);
 		}
 
 		// Set the value on our data array
@@ -275,7 +275,7 @@ class bb_category implements bb_category_interface
 	*
 	* @param string					$name	Vietnamese category name
 	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\unexpected_value
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_name_vi($name)
 	{
@@ -284,13 +284,13 @@ class bb_category implements bb_category_interface
 		// This is a required field
 		if (empty($name))
 		{
-			throw new \vinabb\web\exception\unexpected_value(['cat_name_vi', 'FIELD_MISSING']);
+			throw new \vinabb\web\exceptions\unexpected_value(['cat_name_vi', 'FIELD_MISSING']);
 		}
 
 		// Check the max length
 		if (truncate_string($name, constants::MAX_PORTAL_CAT_NAME) != $name)
 		{
-			throw new \vinabb\web\exception\unexpected_value(['cat_name_vi', 'TOO_LONG']);
+			throw new \vinabb\web\exceptions\unexpected_value(['cat_name_vi', 'TOO_LONG']);
 		}
 
 		// Set the value on our data array
@@ -314,7 +314,7 @@ class bb_category implements bb_category_interface
 	*
 	* @param int					$varname	Category varname
 	* @return bb_category_interface	$this		Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\unexpected_value
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_varname($varname)
 	{
@@ -323,19 +323,19 @@ class bb_category implements bb_category_interface
 		// This is a required field
 		if (empty($varname))
 		{
-			throw new \vinabb\web\exception\unexpected_value(['cat_varname', 'FIELD_MISSING']);
+			throw new \vinabb\web\exceptions\unexpected_value(['cat_varname', 'FIELD_MISSING']);
 		}
 
 		// Check the max length
 		if (truncate_string($varname, constants::MAX_BB_CAT_VARNAME) != $varname)
 		{
-			throw new \vinabb\web\exception\unexpected_value(['cat_varname', 'TOO_LONG']);
+			throw new \vinabb\web\exceptions\unexpected_value(['cat_varname', 'TOO_LONG']);
 		}
 
 		// Check invalid characters
 		if (!preg_match('#^[a-z0-9-]+$#', $varname))
 		{
-			throw new \vinabb\web\exception\unexpected_value(['cat_varname', 'ILLEGAL_CHARACTERS']);
+			throw new \vinabb\web\exceptions\unexpected_value(['cat_varname', 'ILLEGAL_CHARACTERS']);
 		}
 
 		// This field value must be unique
@@ -352,7 +352,7 @@ class bb_category implements bb_category_interface
 
 			if ($row)
 			{
-				throw new \vinabb\web\exception\unexpected_value(['cat_varname', 'NOT_UNIQUE']);
+				throw new \vinabb\web\exceptions\unexpected_value(['cat_varname', 'NOT_UNIQUE']);
 			}
 		}
 
@@ -377,7 +377,7 @@ class bb_category implements bb_category_interface
 	*
 	* @param string					$desc	Category description
 	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\unexpected_value
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_desc($desc)
 	{
@@ -386,7 +386,7 @@ class bb_category implements bb_category_interface
 		// Check the max length
 		if (truncate_string($desc, constants::MAX_BB_CAT_DESC) != $desc)
 		{
-			throw new \vinabb\web\exception\unexpected_value(['cat_desc', 'TOO_LONG']);
+			throw new \vinabb\web\exceptions\unexpected_value(['cat_desc', 'TOO_LONG']);
 		}
 
 		// Set the value on our data array
@@ -410,7 +410,7 @@ class bb_category implements bb_category_interface
 	*
 	* @param string					$desc	Vietnamese category description
 	* @return bb_category_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exception\unexpected_value
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_desc_vi($desc)
 	{
@@ -419,7 +419,7 @@ class bb_category implements bb_category_interface
 		// Check the max length
 		if (truncate_string($desc, constants::MAX_BB_CAT_DESC) != $desc)
 		{
-			throw new \vinabb\web\exception\unexpected_value(['cat_desc_vi', 'TOO_LONG']);
+			throw new \vinabb\web\exceptions\unexpected_value(['cat_desc_vi', 'TOO_LONG']);
 		}
 
 		// Set the value on our data array
