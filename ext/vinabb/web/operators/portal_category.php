@@ -35,7 +35,7 @@ class portal_category implements portal_category_interface
 	* Get all categories
 	*
 	* @param int $parent_id Parent ID
-	* @return array Array of entities
+	* @return array
 	*/
 	public function get_cats($parent_id = 0)
 	{
@@ -56,7 +56,7 @@ class portal_category implements portal_category_interface
 	* Add a category
 	*
 	* @param int $parent_id Parent ID
-	* @return portal_category_interface Added entity
+	* @return \vinabb\web\entities\portal_category_interface
 	*/
 	public function add_cat($parent_id = 0)
 	{
