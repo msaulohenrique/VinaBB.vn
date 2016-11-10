@@ -8,6 +8,9 @@
 
 namespace vinabb\web\acp;
 
+/**
+* ACP module info: acp_vinabb_settings
+*/
 class settings_info
 {
 	public function module()

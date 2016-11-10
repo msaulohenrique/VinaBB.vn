@@ -8,6 +8,9 @@
 
 namespace vinabb\web\acp;
 
+/**
+* ACP module info: acp_portal_articles
+*/
 class portal_articles_info
 {
 	public function module()

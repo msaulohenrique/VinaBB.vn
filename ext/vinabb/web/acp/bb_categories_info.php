@@ -8,6 +8,9 @@
 
 namespace vinabb\web\acp;
 
+/**
+* ACP module info: acp_bb_categories
+*/
 class bb_categories_info
 {
 	public function module()

@@ -8,6 +8,9 @@
 
 namespace vinabb\web\acp;
 
+/**
+* ACP module info: acp_pages
+*/
 class pages_info
 {
 	public function module()

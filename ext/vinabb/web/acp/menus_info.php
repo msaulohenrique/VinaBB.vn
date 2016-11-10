@@ -8,6 +8,9 @@
 
 namespace vinabb\web\acp;
 
+/**
+* ACP module info: acp_menus
+*/
 class menus_info
 {
 	public function module()

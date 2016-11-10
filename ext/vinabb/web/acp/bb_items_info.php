@@ -8,13 +8,16 @@
 
 namespace vinabb\web\acp;
 
+/**
+* ACP module info: acp_bb_items
+*/
 class bb_items_info
 {
 	public function module()
 	{
 		return [
 			'filename'	=> '\vinabb\web\acp\bb_items_module',
-			'title'		=> 'ACP_BB_EXT_CATS',
+			'title'		=> 'ACP_BB_EXTS',
 			'version'	=> '1.0.0',
 			'modes'		=> [
 				'ext'		=> [
