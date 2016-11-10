@@ -92,6 +92,7 @@ class constants
 	const MAX_BB_CAT_DESC = 255;
 	const MAX_BB_ITEM_NAME = 64;
 	const MAX_BB_ITEM_VARNAME = 64;
+	const MAX_BB_AUTHOR_NAME = 32;
 	const MAX_PAGE_NAME = 48;
 	const MAX_PAGE_VARNAME = 24;
 
