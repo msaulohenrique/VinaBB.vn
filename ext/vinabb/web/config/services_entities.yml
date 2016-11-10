@@ -13,6 +13,14 @@ services:
             - '@dbal.conn'
             - '%vinabb.web.tables.portal_articles%'
             - '%vinabb.web.tables.portal_categories%'
+    vinabb.web.entities.portal_comment:
+        class: vinabb\web\entities\portal_comment
+        shared: false
+        arguments:
+            - '@config'
+            - '@dbal.conn'
+            - '%vinabb.web.tables.portal_comments%'
+            - '%vinabb.web.tables.portal_articles%'
     vinabb.web.entities.bb_category:
         class: vinabb\web\entities\bb_category
         shared: false
@@ -40,4 +48,12 @@ services:
         arguments:
             - '@config'
             - '@dbal.conn'
+            - '%vinabb.web.tables.pages%'
+    vinabb.web.entities.menu:
+        class: vinabb\web\entities\menu
+        shared: false
+        arguments:
+            - '@config'
+            - '@dbal.conn'
+            - '%vinabb.web.tables.menus%'
             - '%vinabb.web.tables.pages%'
