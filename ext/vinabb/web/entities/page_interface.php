@@ -326,17 +326,137 @@ interface page_interface
 	public function text_vi_disable_smilies();
 
 	/**
-	* Get page display setting
+	* Get page display setting in template
 	*
 	* @return bool
 	*/
 	public function get_enable();
 
 	/**
-	* Set page display setting
+	* Set page display setting in template
 	*
-	* @param bool				$value	Page display setting
+	* @param bool				$value	Config value
 	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
 	public function set_enable($value);
+
+	/**
+	* Get page display setting for guests
+	*
+	* @return bool
+	*/
+	public function get_enable_guest();
+
+	/**
+	* Set page display setting for guests
+	*
+	* @param bool				$value	Config value
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_guest($value);
+
+	/**
+	* Get page display setting for bots
+	*
+	* @return bool
+	*/
+	public function get_enable_bot();
+
+	/**
+	* Set page display setting for bots
+	*
+	* @param bool				$value	Config value
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_bot($value);
+
+	/**
+	* Get page display setting for newly registered users
+	*
+	* @return bool
+	*/
+	public function get_enable_new_user();
+
+	/**
+	* Set page display setting for newly registered users
+	*
+	* @param bool				$value	Config value
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_new_user($value);
+
+	/**
+	* Get page display setting for registered users
+	*
+	* @return bool
+	*/
+	public function get_enable_user();
+
+	/**
+	* Set page display setting for registered users
+	*
+	* @param bool				$value	Config value
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_user($value);
+
+	/**
+	* Get page display setting for moderators
+	*
+	* @return bool
+	*/
+	public function get_enable_mod();
+
+	/**
+	* Set page display setting for moderators
+	*
+	* @param bool				$value	Config value
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_mod($value);
+
+	/**
+	* Get page display setting for global moderators
+	*
+	* @return bool
+	*/
+	public function get_enable_global_mod();
+
+	/**
+	* Set page display setting for global moderators
+	*
+	* @param bool				$value	Config value
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_global_mod($value);
+
+	/**
+	* Get page display setting for administrators
+	*
+	* @return bool
+	*/
+	public function get_enable_admin();
+
+	/**
+	* Set page display setting for administrators
+	*
+	* @param bool				$value	Config value
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_admin($value);
+
+	/**
+	* Get page display setting for founders
+	*
+	* @return bool
+	*/
+	public function get_enable_founder();
+
+	/**
+	* Set page display setting for founders
+	*
+	* @param bool				$value	Config value
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_founder($value);
 }

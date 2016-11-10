@@ -33,7 +33,14 @@ class page implements page_interface
 	*	page_text_vi_uid
 	*	page_text_vi_bitfield
 	*	page_text_vi_options
-	*	page_enable
+	*	page_enable_guest
+	*	page_enable_bot
+	*	page_enable_new_user
+	*	page_enable_user
+	*	page_enable_mod
+	*	page_enable_global_mod
+	*	page_enable_admin
+	*	page_enable_founder
 	*/
 	protected $data;
 
@@ -103,13 +110,21 @@ class page implements page_interface
 
 		// All of our fields
 		$fields = [
-			'page_id'			=> 'integer',
-			'page_name'			=> 'set_name',
-			'page_name_vi'		=> 'set_name_vi',
-			'page_varname'		=> 'set_varname',
-			'page_desc'			=> 'set_desc',
-			'page_desc_vi'		=> 'set_desc_vi',
-			'page_enable'		=> 'bool',
+			'page_id'					=> 'integer',
+			'page_name'					=> 'set_name',
+			'page_name_vi'				=> 'set_name_vi',
+			'page_varname'				=> 'set_varname',
+			'page_desc'					=> 'set_desc',
+			'page_desc_vi'				=> 'set_desc_vi',
+			'page_enable'				=> 'set_enable_',
+			'page_enable_guest'			=> 'set_enable_guest',
+			'page_enable_bot'			=> 'set_enable_bot',
+			'page_enable_new_user'		=> 'set_enable_new_user',
+			'page_enable_user'			=> 'set_enable_user',
+			'page_enable_mod'			=> 'set_enable_mod',
+			'page_enable_global_mod'	=> 'set_enable_global_mod',
+			'page_enable_admin'			=> 'set_enable_admin',
+			'page_enable_founder'		=> 'set_enable_founder',
 
 			// We do not pass to set_text() or set_text_vi() as generate_text_for_storage() would run twice
 			'page_text'				=> 'string',
@@ -178,6 +193,9 @@ class page implements page_interface
 		{
 			throw new \vinabb\web\exceptions\out_of_bounds('page_id');
 		}
+
+		// Make extra sure there is no ID set
+		unset($this->data['page_id']);
 
 		$sql = 'INSERT INTO ' . $this->table_name . ' ' . $this->db->sql_build_array('INSERT', $this->data);
 		$this->db->sql_query($sql);
@@ -286,12 +304,6 @@ class page implements page_interface
 	public function set_name_vi($text)
 	{
 		$text = (string) $text;
-
-		// This is a required field
-		if (empty($text))
-		{
-			throw new \vinabb\web\exceptions\unexpected_value(['page_name_vi', 'FIELD_MISSING']);
-		}
 
 		// Check the max length
 		if (truncate_string($text, constants::MAX_PAGE_NAME) != $text)
@@ -826,7 +838,7 @@ class page implements page_interface
 	}
 
 	/**
-	* Get page display setting
+	* Get page display setting in template
 	*
 	* @return bool
 	*/
@@ -836,17 +848,225 @@ class page implements page_interface
 	}
 
 	/**
-	* Set page display setting
+	* Set page display setting in template
 	*
-	* @param bool				$value	Page display setting
+	* @param bool				$value	Config value
 	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
 	public function set_enable($value)
 	{
-		$value = (bool) $value;
+		if (!isset($this->data['page_enable']))
+		{
+			$this->data['page_enable'] = (bool) $value;
+		}
 
-		// Set the value on our data array
-		$this->data['page_enable'] = $value;
+		return $this;
+	}
+
+	/**
+	* Get page display setting for guests
+	*
+	* @return bool
+	*/
+	public function get_enable_guest()
+	{
+		return isset($this->data['page_enable_guest']) ? (bool) $this->data['page_enable_guest'] : true;
+	}
+
+	/**
+	* Set page display setting for guests
+	*
+	* @param bool				$value	Config value
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_guest($value)
+	{
+		if (!isset($this->data['page_enable_guest']))
+		{
+			$this->data['page_enable_guest'] = (bool) $value;
+		}
+
+		return $this;
+	}
+
+	/**
+	* Get page display setting for bots
+	*
+	* @return bool
+	*/
+	public function get_enable_bot()
+	{
+		return isset($this->data['page_enable_bot']) ? (bool) $this->data['page_enable_bot'] : true;
+	}
+
+	/**
+	* Set page display setting for bots
+	*
+	* @param bool				$value	Config value
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_bot($value)
+	{
+		if (!isset($this->data['page_enable_bot']))
+		{
+			$this->data['page_enable_bot'] = (bool) $value;
+		}
+
+		return $this;
+	}
+
+	/**
+	* Get page display setting for newly registered users
+	*
+	* @return bool
+	*/
+	public function get_enable_new_user()
+	{
+		return isset($this->data['page_enable_new_user']) ? (bool) $this->data['page_enable_new_user'] : true;
+	}
+
+	/**
+	* Set page display setting for newly registered users
+	*
+	* @param bool				$value	Config value
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_new_user($value)
+	{
+		if (!isset($this->data['page_enable_new_user']))
+		{
+			$this->data['page_enable_new_user'] = (bool) $value;
+		}
+
+		return $this;
+	}
+
+	/**
+	* Get page display setting for registered users
+	*
+	* @return bool
+	*/
+	public function get_enable_user()
+	{
+		return isset($this->data['page_enable_user']) ? (bool) $this->data['page_enable_user'] : true;
+	}
+
+	/**
+	* Set page display setting for registered users
+	*
+	* @param bool				$value	Config value
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_user($value)
+	{
+		if (!isset($this->data['page_enable_user']))
+		{
+			$this->data['page_enable_user'] = (bool) $value;
+		}
+
+		return $this;
+	}
+
+	/**
+	* Get page display setting for moderators
+	*
+	* @return bool
+	*/
+	public function get_enable_mod()
+	{
+		return isset($this->data['page_enable_mod']) ? (bool) $this->data['page_enable_mod'] : true;
+	}
+
+	/**
+	* Set page display setting for moderators
+	*
+	* @param bool				$value	Config value
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_mod($value)
+	{
+		if (!isset($this->data['page_enable_mod']))
+		{
+			$this->data['page_enable_mod'] = (bool) $value;
+		}
+
+		return $this;
+	}
+
+	/**
+	* Get page display setting for global moderators
+	*
+	* @return bool
+	*/
+	public function get_enable_global_mod()
+	{
+		return isset($this->data['page_enable_global_mod']) ? (bool) $this->data['page_enable_global_mod'] : true;
+	}
+
+	/**
+	* Set page display setting for global moderators
+	*
+	* @param bool				$value	Config value
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_global_mod($value)
+	{
+		if (!isset($this->data['page_enable_global_mod']))
+		{
+			$this->data['page_enable_global_mod'] = (bool) $value;
+		}
+
+		return $this;
+	}
+
+	/**
+	* Get page display setting for administrators
+	*
+	* @return bool
+	*/
+	public function get_enable_admin()
+	{
+		return isset($this->data['page_enable_admin']) ? (bool) $this->data['page_enable_admin'] : true;
+	}
+
+	/**
+	* Set page display setting for administrators
+	*
+	* @param bool				$value	Config value
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_admin($value)
+	{
+		if (!isset($this->data['page_enable_admin']))
+		{
+			$this->data['page_enable_admin'] = (bool) $value;
+		}
+
+		return $this;
+	}
+
+	/**
+	* Get page display setting for founders
+	*
+	* @return bool
+	*/
+	public function get_enable_founder()
+	{
+		return isset($this->data['page_enable_founder']) ? (bool) $this->data['page_enable_founder'] : true;
+	}
+
+	/**
+	* Set page display setting for founders
+	*
+	* @param bool				$value	Config value
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_founder($value)
+	{
+		if (!isset($this->data['page_enable_founder']))
+		{
+			$this->data['page_enable_founder'] = (bool) $value;
+		}
 
 		return $this;
 	}
