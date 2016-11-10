@@ -124,7 +124,7 @@ class pages
 
 	public function add_page()
 	{
-		$this->add_edit_page_data($this->entity);
+		$this->add_edit_page_data();
 
 		$this->template->assign_vars([
 			'S_ADD'		=> true,
@@ -134,7 +134,7 @@ class pages
 
 	public function edit_page($page_id)
 	{
-		$this->add_edit_page_data($this->entity)->load($page_id);
+		$this->add_edit_page_data($page_id);
 
 		$this->template->assign_vars([
 			'S_EDIT'	=> true,
@@ -142,8 +142,9 @@ class pages
 		]);
 	}
 
-	public function add_edit_page_data($entity)
+	public function add_edit_page_data($page_id = 0)
 	{
+		$page = $page_id ? $this->entity->load($page_id) : $this->entity;
 		$errors = [];
 		$submit = $this->request->is_set_post('submit');
 
@@ -176,26 +177,26 @@ class pages
 		*	In add mode, use default values
 		*/
 		$text_options = [
-			'bbcode'	=> $submit ? $data['text_bbcode'] : ($entity->get_id() ? $entity->text_bbcode_enabled() : true),
-			'urls'	=> $submit ? $data['text_urls'] : ($entity->get_id() ? $entity->text_urls_enabled() : true),
-			'smilies'	=> $submit ? $data['text_smilies'] : ($entity->get_id() ? $entity->text_smilies_enabled() : true)
+			'bbcode'	=> $submit ? $data['text_bbcode'] : ($page_id ? $page->text_bbcode_enabled() : true),
+			'urls'		=> $submit ? $data['text_urls'] : ($page_id ? $page->text_urls_enabled() : true),
+			'smilies'	=> $submit ? $data['text_smilies'] : ($page_id ? $page->text_smilies_enabled() : true)
 		];
 
 		$text_vi_options = [
-			'bbcode'	=> $submit ? $data['text_vi_bbcode'] : ($entity->get_id() ? $entity->text_vi_bbcode_enabled() : true),
-			'urls'	=> $submit ? $data['text_vi_urls'] : ($entity->get_id() ? $entity->text_vi_urls_enabled() : true),
-			'smilies'	=> $submit ? $data['text_vi_smilies'] : ($entity->get_id() ? $entity->text_vi_smilies_enabled() : true)
+			'bbcode'	=> $submit ? $data['text_vi_bbcode'] : ($page_id ? $page->text_vi_bbcode_enabled() : true),
+			'urls'		=> $submit ? $data['text_vi_urls'] : ($page_id ? $page->text_vi_urls_enabled() : true),
+			'smilies'	=> $submit ? $data['text_vi_smilies'] : ($page_id ? $page->text_vi_smilies_enabled() : true)
 		];
 
 		// Set the parse options in the entity
 		foreach ($text_options as $function => $enabled)
 		{
-			$entity->{($enabled ? 'text_enable_' : 'text_disable_') . $function}();
+			$page->{($enabled ? 'text_enable_' : 'text_disable_') . $function}();
 		}
 
 		foreach ($text_vi_options as $function => $enabled)
 		{
-			$entity->{($enabled ? 'text_vi_enable_' : 'text_vi_disable_') . $function}();
+			$page->{($enabled ? 'text_vi_enable_' : 'text_vi_disable_') . $function}();
 		}
 
 		// Purge temporary variable
@@ -229,7 +230,7 @@ class pages
 				try
 				{
 					// Calling the $entity_function on the entity and passing it $page_data
-					$entity->$entity_function($page_data);
+					$page->$entity_function($page_data);
 				}
 				catch (\vinabb\web\exceptions\base $e)
 				{
@@ -244,21 +245,21 @@ class pages
 			// Insert or update page
 			if (empty($errors))
 			{
-				if ($entity->get_id())
+				if ($page_id)
 				{
 					// Save the edited page entity to the database
-					$entity->save();
+					$page->save();
 
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_EDIT', time(), array($entity->get_varname()));
+					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_EDIT', time(), array($page->get_varname()));
 
 					$message = 'MESSAGE_PAGE_EDIT';
 				}
 				else
 				{
 					// Add the new page entity to the database
-					$entity = $this->operator->add_page($entity);
+					$entity = $this->operator->add_page($page);
 
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_ADD', time(), array($entity->get_varname()));
+					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_ADD', time(), array($page->get_varname()));
 
 					$message = 'MESSAGE_PAGE_ADD';
 				}
@@ -275,16 +276,16 @@ class pages
 			'S_ERROR'	=> (bool) sizeof($errors),
 			'ERROR_MSG'	=> sizeof($errors) ? implode('<br>', $errors) : '',
 
-			'PAGE_NAME'		=> $entity->get_name(),
-			'PAGE_NAME_VI'	=> $entity->get_name_vi(),
-			'PAGE_VARNAME'	=> $entity->get_varname(),
-			'PAGE_DESC'		=> $entity->get_desc(),
-			'PAGE_DESC_VI'	=> $entity->get_desc_vi(),
-			'PAGE_TEXT'		=> $entity->get_text_for_edit(),
-			'PAGE_TEXT_VI'	=> $entity->get_text_vi_for_edit(),
-			'PAGE_ENABLE'	=> $entity->get_enable(),
+			'PAGE_NAME'		=> $page->get_name(),
+			'PAGE_NAME_VI'	=> $page->get_name_vi(),
+			'PAGE_VARNAME'	=> $page->get_varname(),
+			'PAGE_DESC'		=> $page->get_desc(),
+			'PAGE_DESC_VI'	=> $page->get_desc_vi(),
+			'PAGE_TEXT'		=> $page->get_text_for_edit(),
+			'PAGE_TEXT_VI'	=> $page->get_text_vi_for_edit(),
+			'PAGE_ENABLE'	=> $page->get_enable(),
 
-			'U_BACK'			=> $this->u_action
+			'U_BACK'	=> $this->u_action
 		]);
 
 		// Build custom BBCode
