@@ -66,80 +66,80 @@ interface page_interface
 	/**
 	* Get the page title
 	*
-	* @return string Page title
+	* @return string
 	*/
 	public function get_name();
 
 	/**
 	* Set the page title
 	*
-	* @param string				$name	Page title
+	* @param string				$text	Page title
 	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
-	public function set_name($name);
+	public function set_name($text);
 
 	/**
 	* Get the Vietnamese page title
 	*
-	* @return string Vietnamese page title
+	* @return string
 	*/
 	public function get_name_vi();
 
 	/**
 	* Set the Vietnamese page title
 	*
-	* @param string				$name	Vietnamese page title
+	* @param string				$text	Vietnamese page title
 	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
-	public function set_name_vi($name);
+	public function set_name_vi($text);
 
 	/**
 	* Get the page varname
 	*
-	* @return string Page varname
+	* @return string
 	*/
 	public function get_varname();
 
 	/**
 	* Set the page varname
 	*
-	* @param int				$varname	Page varname
-	* @return page_interface	$this		Object for chaining calls: load()->set()->save()
+	* @param int				$text	Page varname
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
-	public function set_varname($varname);
+	public function set_varname($text);
 
 	/**
 	* Get the page description
 	*
-	* @return string Page description
+	* @return string
 	*/
 	public function get_desc();
 
 	/**
 	* Set the page description
 	*
-	* @param string				$desc	Page description
+	* @param string				$text	Page description
 	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
 	 */
-	public function set_desc($desc);
+	public function set_desc($text);
 
 	/**
 	* Get the Vietnamese page description
 	*
-	* @return string Vietnamese page description
+	* @return string
 	*/
 	public function get_desc_vi();
 
 	/**
 	* Set the Vietnamese page description
 	*
-	* @param string				$desc	Vietnamese page description
+	* @param string				$text	Vietnamese page description
 	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
 	 */
-	public function set_desc_vi($desc);
+	public function set_desc_vi($text);
 
 	/**
 	* Get page content for edit
@@ -151,10 +151,10 @@ interface page_interface
 	/**
 	* Get page content for display
 	*
-	* @param bool $censor_text True to censor the text
+	* @param bool $censor True to censor the text
 	* @return string
 	*/
-	public function get_text_for_display($censor_text = true);
+	public function get_text_for_display($censor = true);
 
 	/**
 	* Set page content
@@ -243,10 +243,10 @@ interface page_interface
 	/**
 	* Get Vietnamese page content for display
 	*
-	* @param bool $censor_text True to censor the text
+	* @param bool $censor True to censor the text
 	* @return string
 	*/
-	public function get_text_vi_for_display($censor_text = true);
+	public function get_text_vi_for_display($censor = true);
 
 	/**
 	* Set Vietnamese page content
@@ -335,8 +335,8 @@ interface page_interface
 	/**
 	* Set page display setting
 	*
-	* @param bool				$option	Page display setting
+	* @param bool				$value	Page display setting
 	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function set_enable($option);
+	public function set_enable($value);
 }

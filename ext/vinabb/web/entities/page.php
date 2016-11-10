@@ -220,7 +220,7 @@ class page implements page_interface
 	/**
 	* Get the page_id
 	*
-	* @return int page_id
+	* @return int
 	*/
 	public function get_id()
 	{
@@ -230,7 +230,7 @@ class page implements page_interface
 	/**
 	* Get the page title
 	*
-	* @return string Page title
+	* @return string
 	*/
 	public function get_name()
 	{
@@ -240,28 +240,28 @@ class page implements page_interface
 	/**
 	* Set the page title
 	*
-	* @param string				$name	Page title
+	* @param string				$text	Page title
 	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
-	public function set_name($name)
+	public function set_name($text)
 	{
-		$name = (string) $name;
+		$text = (string) $text;
 
 		// This is a required field
-		if (empty($name))
+		if (empty($text))
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['page_name', 'FIELD_MISSING']);
 		}
 
 		// Check the max length
-		if (truncate_string($name, constants::MAX_PAGE_NAME) != $name)
+		if (truncate_string($text, constants::MAX_PAGE_NAME) != $text)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['page_name', 'TOO_LONG']);
 		}
 
 		// Set the value on our data array
-		$this->data['page_name'] = $name;
+		$this->data['page_name'] = $text;
 
 		return $this;
 	}
@@ -269,7 +269,7 @@ class page implements page_interface
 	/**
 	* Get the Vietnamese page title
 	*
-	* @return string Vietnamese page title
+	* @return string
 	*/
 	public function get_name_vi()
 	{
@@ -279,28 +279,28 @@ class page implements page_interface
 	/**
 	* Set the Vietnamese page title
 	*
-	* @param string				$name	Vietnamese page title
+	* @param string				$text	Vietnamese page title
 	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
-	public function set_name_vi($name)
+	public function set_name_vi($text)
 	{
-		$name = (string) $name;
+		$text = (string) $text;
 
 		// This is a required field
-		if (empty($name))
+		if (empty($text))
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['page_name_vi', 'FIELD_MISSING']);
 		}
 
 		// Check the max length
-		if (truncate_string($name, constants::MAX_PAGE_NAME) != $name)
+		if (truncate_string($text, constants::MAX_PAGE_NAME) != $text)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['page_name_vi', 'TOO_LONG']);
 		}
 
 		// Set the value on our data array
-		$this->data['page_name_vi'] = $name;
+		$this->data['page_name_vi'] = $text;
 
 		return $this;
 	}
@@ -308,7 +308,7 @@ class page implements page_interface
 	/**
 	* Get the page varname
 	*
-	* @return string Page varname
+	* @return string
 	*/
 	public function get_varname()
 	{
@@ -318,38 +318,38 @@ class page implements page_interface
 	/**
 	* Set the page varname
 	*
-	* @param int				$varname	Page varname
-	* @return page_interface	$this		Object for chaining calls: load()->set()->save()
+	* @param int				$text	Page varname
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
-	public function set_varname($varname)
+	public function set_varname($text)
 	{
-		$varname = strtolower($varname);
+		$text = strtolower($text);
 
 		// This is a required field
-		if (empty($varname))
+		if (empty($text))
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['page_varname', 'FIELD_MISSING']);
 		}
 
 		// Check the max length
-		if (truncate_string($varname, constants::MAX_PAGE_VARNAME) != $varname)
+		if (truncate_string($text, constants::MAX_PAGE_VARNAME) != $text)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['page_varname', 'TOO_LONG']);
 		}
 
 		// Check invalid characters
-		if (!preg_match('#^[a-z0-9-]+$#', $varname))
+		if (!preg_match('#^[a-z0-9-]+$#', $text))
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['page_varname', 'ILLEGAL_CHARACTERS']);
 		}
 
 		// This field value must be unique
-		if (!$this->get_id() || ($this->get_id() && $this->get_varname() !== '' && $this->get_varname() != $varname))
+		if (!$this->get_id() || ($this->get_id() && $this->get_varname() !== '' && $this->get_varname() != $text))
 		{
 			$sql = 'SELECT 1
 				FROM ' . $this->table_name . "
-				WHERE page_varname = '" . $this->db->sql_escape($varname) . "'
+				WHERE page_varname = '" . $this->db->sql_escape($text) . "'
 					AND page_id <> " . $this->get_id();
 			$result = $this->db->sql_query_limit($sql, 1);
 			$row = $this->db->sql_fetchrow($result);
@@ -362,7 +362,7 @@ class page implements page_interface
 		}
 
 		// Set the value on our data array
-		$this->data['page_varname'] = $varname;
+		$this->data['page_varname'] = $text;
 
 		return $this;
 	}
@@ -370,7 +370,7 @@ class page implements page_interface
 	/**
 	* Get the page description
 	*
-	* @return string Page description
+	* @return string
 	*/
 	public function get_desc()
 	{
@@ -380,14 +380,14 @@ class page implements page_interface
 	/**
 	* Set the page description
 	*
-	* @param string				$desc	Page description
+	* @param string				$text	Page description
 	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function set_desc($desc)
+	public function set_desc($text)
 	{
 		if (!isset($this->data['cat_desc']))
 		{
-			$this->data['cat_desc'] = (string) $desc;
+			$this->data['cat_desc'] = (string) $text;
 		}
 
 		return $this;
@@ -396,7 +396,7 @@ class page implements page_interface
 	/**
 	* Get the Vietnamese page description
 	*
-	* @return string Vietnamese page description
+	* @return string
 	*/
 	public function get_desc_vi()
 	{
@@ -406,14 +406,14 @@ class page implements page_interface
 	/**
 	* Set the Vietnamese page description
 	*
-	* @param string				$desc	Vietnamese page description
+	* @param string				$text	Vietnamese page description
 	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function set_desc_vi($desc)
+	public function set_desc_vi($text)
 	{
 		if (!isset($this->data['cat_desc_vi']))
 		{
-			$this->data['cat_desc_vi'] = (string) $desc;
+			$this->data['cat_desc_vi'] = (string) $text;
 		}
 
 		return $this;
@@ -439,10 +439,10 @@ class page implements page_interface
 	/**
 	* Get page content for display
 	*
-	* @param bool $censor_text True to censor the text
+	* @param bool $censor True to censor the text
 	* @return string
 	*/
-	public function get_text_for_display($censor_text = true)
+	public function get_text_for_display($censor = true)
 	{
 		// If these haven't been set yet; use defaults
 		$text = isset($this->data['page_text']) ? $this->data['page_text'] : '';
@@ -450,7 +450,7 @@ class page implements page_interface
 		$bitfield = isset($this->data['page_text_bitfield']) ? $this->data['page_text_bitfield'] : '';
 		$options = isset($this->data['page_text_options']) ? (int) $this->data['page_text_options'] : 0;
 
-		return generate_text_for_display($text, $uid, $bitfield, $options, $censor_text);
+		return generate_text_for_display($text, $uid, $bitfield, $options, $censor);
 	}
 
 	/**
@@ -586,6 +586,43 @@ class page implements page_interface
 	}
 
 	/**
+	* Set BBCode options for the page content
+	*
+	* @param int	$value				Value of the option
+	* @param bool	$negate				Negate (Unset) option
+	* @param bool	$reparse_content	Reparse the content after setting option
+	*/
+	protected function set_text_options($value, $negate = false, $reparse_content = true)
+	{
+		// Set page_text_options to 0 if it does not yet exist
+		$this->data['page_text_options'] = isset($this->data['page_text_options']) ? $this->data['page_text_options'] : 0;
+
+		// If we're setting the option and the option is not already set
+		if (!$negate && !($this->data['page_text_options'] & $value))
+		{
+			// Add the option to the options
+			$this->data['page_text_options'] += $value;
+		}
+
+		// If we're unsetting the option and the option is already set
+		if ($negate && $this->data['page_text_options'] & $value)
+		{
+			// Subtract the option from the options
+			$this->data['page_text_options'] -= $value;
+		}
+
+		// Reparse the content
+		if ($reparse_content && !empty($this->data['page_text']))
+		{
+			$text = $this->data['page_text'];
+
+			decode_message($text, $this->data['page_text_uid']);
+
+			$this->set_text($text);
+		}
+	}
+
+	/**
 	* Get Vietnamese page content for edit
 	*
 	* @return string
@@ -605,10 +642,10 @@ class page implements page_interface
 	/**
 	* Get Vietnamese page content for display
 	*
-	* @param bool $censor_text True to censor the text
+	* @param bool $censor True to censor the text
 	* @return string
 	*/
-	public function get_text_vi_for_display($censor_text = true)
+	public function get_text_vi_for_display($censor = true)
 	{
 		// If these haven't been set yet; use defaults
 		$text = isset($this->data['page_text_vi']) ? $this->data['page_text_vi'] : '';
@@ -616,7 +653,7 @@ class page implements page_interface
 		$bitfield = isset($this->data['page_text_vi_bitfield']) ? $this->data['page_text_vi_bitfield'] : '';
 		$options = isset($this->data['page_text_vi_options']) ? (int) $this->data['page_text_vi_options'] : 0;
 
-		return generate_text_for_display($text, $uid, $bitfield, $options, $censor_text);
+		return generate_text_for_display($text, $uid, $bitfield, $options, $censor);
 	}
 
 	/**
@@ -752,6 +789,43 @@ class page implements page_interface
 	}
 
 	/**
+	* Set BBCode options for the Vietnamese page content
+	*
+	* @param int	$value				Value of the option
+	* @param bool	$negate				Negate (Unset) option
+	* @param bool	$reparse_content	Reparse the content after setting option
+	*/
+	protected function set_text_vi_options($value, $negate = false, $reparse_content = true)
+	{
+		// Set page_text_vi_options to 0 if it does not yet exist
+		$this->data['page_text_vi_options'] = isset($this->data['page_text_vi_options']) ? $this->data['page_text_vi_options'] : 0;
+
+		// If we're setting the option and the option is not already set
+		if (!$negate && !($this->data['page_text_vi_options'] & $value))
+		{
+			// Add the option to the options
+			$this->data['page_text_vi_options'] += $value;
+		}
+
+		// If we're unsetting the option and the option is already set
+		if ($negate && $this->data['page_text_vi_options'] & $value)
+		{
+			// Subtract the option from the options
+			$this->data['page_text_vi_options'] -= $value;
+		}
+
+		// Reparse the content
+		if ($reparse_content && !empty($this->data['page_text_vi']))
+		{
+			$text = $this->data['page_text_vi'];
+
+			decode_message($text, $this->data['page_text_vi_uid']);
+
+			$this->set_text_vi($text);
+		}
+	}
+
+	/**
 	* Get page display setting
 	*
 	* @return bool
@@ -764,90 +838,16 @@ class page implements page_interface
 	/**
 	* Set page display setting
 	*
-	* @param bool				$option	Page display setting
+	* @param bool				$value	Page display setting
 	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function set_enable($option)
+	public function set_enable($value)
 	{
-		$option = (bool) $option;
+		$value = (bool) $value;
 
 		// Set the value on our data array
-		$this->data['page_enable'] = $option;
+		$this->data['page_enable'] = $value;
 
 		return $this;
-	}
-
-	/**
-	* Set BBCode options for the page content
-	*
-	* @param int	$option_value		Value of the option
-	* @param bool	$negate				Negate (Unset) option
-	* @param bool	$reparse_content	Reparse the content after setting option
-	*/
-	protected function set_text_options($option_value, $negate = false, $reparse_content = true)
-	{
-		// Set page_text_options to 0 if it does not yet exist
-		$this->data['page_text_options'] = isset($this->data['page_text_options']) ? $this->data['page_text_options'] : 0;
-
-		// If we're setting the option and the option is not already set
-		if (!$negate && !($this->data['page_text_options'] & $option_value))
-		{
-			// Add the option to the options
-			$this->data['page_text_options'] += $option_value;
-		}
-
-		// If we're unsetting the option and the option is already set
-		if ($negate && $this->data['page_text_options'] & $option_value)
-		{
-			// Subtract the option from the options
-			$this->data['page_text_options'] -= $option_value;
-		}
-
-		// Reparse the content
-		if ($reparse_content && !empty($this->data['page_text']))
-		{
-			$text = $this->data['page_text'];
-
-			decode_message($text, $this->data['page_text_uid']);
-
-			$this->set_text($text);
-		}
-	}
-
-	/**
-	* Set BBCode options for the Vietnamese page content
-	*
-	* @param int	$option_value		Value of the option
-	* @param bool	$negate				Negate (Unset) option
-	* @param bool	$reparse_content	Reparse the content after setting option
-	*/
-	protected function set_text_vi_options($option_value, $negate = false, $reparse_content = true)
-	{
-		// Set page_text_vi_options to 0 if it does not yet exist
-		$this->data['page_text_vi_options'] = isset($this->data['page_text_vi_options']) ? $this->data['page_text_vi_options'] : 0;
-
-		// If we're setting the option and the option is not already set
-		if (!$negate && !($this->data['page_text_vi_options'] & $option_value))
-		{
-			// Add the option to the options
-			$this->data['page_text_vi_options'] += $option_value;
-		}
-
-		// If we're unsetting the option and the option is already set
-		if ($negate && $this->data['page_text_vi_options'] & $option_value)
-		{
-			// Subtract the option from the options
-			$this->data['page_text_vi_options'] -= $option_value;
-		}
-
-		// Reparse the content
-		if ($reparse_content && !empty($this->data['page_text_vi']))
-		{
-			$text = $this->data['page_text_vi'];
-
-			decode_message($text, $this->data['page_text_vi_uid']);
-
-			$this->set_text_vi($text);
-		}
 	}
 }
