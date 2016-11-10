@@ -92,7 +92,7 @@ class mcp
 
 	public function main($id, $mode)
 	{
-		// If do not define global, the module acp_main will not be accessed
+		// If do not define global, the module mcp_main will not be accessed
 		global $module;
 
 		// Common functions
