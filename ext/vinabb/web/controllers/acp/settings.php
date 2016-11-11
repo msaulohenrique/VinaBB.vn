@@ -51,6 +51,9 @@ class settings
 	/** @var array */
 	protected $errors = [];
 
+	/** @var array */
+	protected $forum_data = [];
+
 	/**
 	* Constructor
 	*
@@ -88,6 +91,8 @@ class settings
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
+
+		$this->forum_data = $this->cache->get_forum_data();
 	}
 
 	/**
@@ -302,16 +307,26 @@ class settings
 			'default_lang'			=> ['type' => 'tpl', 'default' => $this->get_default_lang_name(), 'check' => ''],
 			'lang_switch_options'	=> ['type' => 'tpl', 'default' => $this->build_lang_list($this->config['vinabb_web_lang_switch']), 'check' => ''],
 
-			'forum_id_vietnamese'				=> ['type' => 'int', 'default' => 0, 'check' => ''],
-			'forum_id_vietnamese_support'		=> ['type' => 'int', 'default' => 0, 'check' => ''],
-			'forum_id_vietnamese_ext'			=> ['type' => 'int', 'default' => 0, 'check' => ''],
-			'forum_id_vietnamese_style'			=> ['type' => 'int', 'default' => 0, 'check' => ''],
-			'forum_id_vietnamese_tutorial'		=> ['type' => 'int', 'default' => 0, 'check' => ''],
-			'forum_id_vietnamese_discussion'	=> ['type' => 'int', 'default' => 0, 'check' => ''],
-			'forum_id_english'					=> ['type' => 'int', 'default' => 0, 'check' => ''],
-			'forum_id_english_support'			=> ['type' => 'int', 'default' => 0, 'check' => ''],
-			'forum_id_english_tutorial'			=> ['type' => 'int', 'default' => 0, 'check' => ''],
-			'forum_id_english_discussion'		=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'forum_id_vietnamese'					=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'forum_id_vietnamese_support'			=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'forum_id_vietnamese_ext'				=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'forum_id_vietnamese_style'				=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'forum_id_vietnamese_tutorial'			=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'forum_id_vietnamese_discussion'		=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'forum_id_english'						=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'forum_id_english_support'				=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'forum_id_english_tutorial'				=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'forum_id_english_discussion'			=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'forum_vietnamese_options'				=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_vietnamese']), 'check' => ''],
+			'forum_vietnamese_support_options'		=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_vietnamese_support']), 'check' => ''],
+			'forum_vietnamese_ext_options'			=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_vietnamese_ext']), 'check' => ''],
+			'forum_vietnamese_style_options'		=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_vietnamese_style']), 'check' => ''],
+			'forum_vietnamese_tutorial_options'		=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_vietnamese_tutorial']), 'check' => ''],
+			'forum_vietnamese_discussion_options'	=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_vietnamese_discussion']), 'check' => ''],
+			'forum_english_options'					=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_english']), 'check' => ''],
+			'forum_english_support_options'			=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_english_support']), 'check' => ''],
+			'forum_english_tutorial_options'		=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_english_tutorial']), 'check' => ''],
+			'forum_english_discussion_options'		=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_english_discussion']), 'check' => ''],
 
 			'manager_name'		=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
 			'manager_name_vi'	=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
@@ -442,5 +457,26 @@ class settings
 		}
 
 		return $lang_switch_options;
+	}
+
+	/**
+	* Select categories (not postable forums)
+	*
+	* @param int $selected_forum Selected forum ID
+	* @return string HTML code
+	*/
+	protected function build_forum_list($selected_forum)
+	{
+		$forum_options = '<option value=""' . (($selected_forum == 0) ? ' selected' : '') . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
+
+		foreach ($this->forum_data as $forum_id => $data)
+		{
+			if ($data['type'] == FORUM_CAT)
+			{
+				$forum_options .= '<option value="' . $forum_id . '"' . (($selected_forum == $forum_id) ? ' selected' : '') . '>' . $data['name'] . '</option>';
+			}
+		}
+
+		return $forum_options;
 	}
 }
