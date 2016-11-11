@@ -46,6 +46,9 @@ class settings
 	/** @var string */
 	protected $u_action;
 
+	/** @var array */
+	protected $errors = [];
+
 	/**
 	* Constructor
 	*
@@ -86,6 +89,16 @@ class settings
 	}
 
 	/**
+	* Set form action URL
+	*
+	* @param string $u_action Form action
+	*/
+	public function set_form_action($u_action)
+	{
+		$this->u_action = $u_action;
+	}
+
+	/**
 	* Display main settings
 	*/
 	public function display_main_settings()
@@ -93,18 +106,16 @@ class settings
 		// Create a form key for preventing CSRF attacks
 		add_form_key('acp_settings');
 
-		$errors = [];
-
 		// Submit
 		if ($this->request->is_set_post('submit'))
 		{
 			// Test if the submitted form is valid
 			if (!check_form_key('acp_settings'))
 			{
-				$errors[] = $this->language->lang('FORM_INVALID');
+				$this->errors[] = $this->language->lang('FORM_INVALID');
 			}
 
-			if (empty($errors))
+			if (!sizeof($this->errors))
 			{
 				$this->set_main_settings();
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_SETTINGS');
@@ -116,9 +127,14 @@ class settings
 
 		// Output
 		$this->template->assign_vars([
-			'ERROR_MSG'	=> sizeof($errors) ? implode('<br>', $errors) : '',
+			'ERROR_MSG'	=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
 			'U_ACTION'	=> $this->u_action
 		]);
+
+		foreach ($this->list_main_settings() as $name => $data)
+		{
+			$this->template->assign_var(strtoupper($name), $this->config['vinabb_web_' . $name]);
+		}
 	}
 
 	/**
@@ -126,7 +142,47 @@ class settings
 	*/
 	public function set_main_settings()
 	{
-		$this->config->set('vinabb_web_', 0);
+		foreach ($this->list_main_settings() as $name => $data)
+		{
+			// Get form input
+			${$name} = $this->request->variable($name, $data['default'], (substr($data['type'], -4) == '_uni'));
+
+			// Save if the data has changed
+			if (${$name} != $this->config['vinabb_web_' . $name])
+			{
+				$this->config->set('vinabb_web_' . $name, ${$name});
+			}
+		}
+	}
+
+	/**
+	* List of main setting items
+	*
+	* @return array
+	*/
+	public function list_main_settings()
+	{
+		return [
+			'maintenance_mode'			=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'maintenance_tpl'			=> ['type' => 'bool', 'default' => true, 'check' => ''],
+			'maintenance_time'			=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'maintenance_time_reset'	=> ['type' => 'bool', 'default' => false, 'check' => ''],
+			'maintenance_text'			=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
+			'maintenance_text_vi'		=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
+
+			'donate_year'		=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'donate_year_value'	=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'donate_fund'		=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'donate_currency'	=> ['type' => 'string', 'default' => '', 'check' => ''],
+			'donate_owner'		=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
+			'donate_owner_vi'	=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
+			'donate_email'		=> ['type' => 'string', 'default' => '', 'check' => ''],
+			'donate_bank'		=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
+			'donate_bank_vi'	=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
+			'donate_bank_acc'	=> ['type' => 'string', 'default' => '', 'check' => ''],
+			'donate_bank_swift'	=> ['type' => 'string', 'default' => '', 'check' => ''],
+			'donate_paypal'		=> ['type' => 'string', 'default' => '', 'check' => '']
+		];
 	}
 
 	/**
@@ -147,6 +203,27 @@ class settings
 	}
 
 	/**
+	* List of version setting items
+	*
+	* @return array
+	*/
+	public function list_version_settings()
+	{
+		return [
+			'check_phpbb_url'				=> ['type' => 'string', 'default' => '', 'check' => ''],
+			'check_phpbb_download_url'		=> ['type' => 'string', 'default' => '', 'check' => ''],
+			'check_phpbb_download_dev_url'	=> ['type' => 'string', 'default' => '', 'check' => ''],
+			'check_phpbb_github_url'		=> ['type' => 'string', 'default' => '', 'check' => ''],
+			'check_phpbb_branch'			=> ['type' => 'string', 'default' => '', 'check' => ''],
+			'check_phpbb_legacy_branch'		=> ['type' => 'string', 'default' => '', 'check' => ''],
+			'check_phpbb_dev_branch'		=> ['type' => 'string', 'default' => '', 'check' => ''],
+			'check_php_url'					=> ['type' => 'string', 'default' => '', 'check' => ''],
+			'check_php_branch'				=> ['type' => 'string', 'default' => '', 'check' => ''],
+			'check_php_legacy_branch'		=> ['type' => 'string', 'default' => '', 'check' => '']
+		];
+	}
+
+	/**
 	* Display main settings
 	*/
 	public function display_setup_settings()
@@ -161,5 +238,77 @@ class settings
 	public function set_setup_settings()
 	{
 		$this->config->set('vinabb_web_', 0);
+	}
+
+	/**
+	* List of setup setting items
+	*
+	* @return array
+	*/
+	public function list_setup_settings()
+	{
+		return [
+			'lang_enable'	=> ['type' => 'bool', 'default' => false, 'check' => ''],
+			'lang_switch'	=> ['type' => 'string', 'default' => '', 'check' => ''],
+
+			'forum_id_vietnamese'				=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'forum_id_vietnamese_support'		=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'forum_id_vietnamese_ext'			=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'forum_id_vietnamese_style'			=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'forum_id_vietnamese_tutorial'		=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'forum_id_vietnamese_discussion'	=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'forum_id_english'					=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'forum_id_english_support'			=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'forum_id_english_tutorial'			=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'forum_id_english_discussion'		=> ['type' => 'int', 'default' => 0, 'check' => ''],
+
+			'manager_name'		=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
+			'manager_name_vi'	=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
+			'manager_username'	=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
+			'manager_user_id'	=> ['type' => 'int', 'default' => 0, 'check' => ''],
+
+			'map_api'			=> ['type' => 'string', 'default' => '', 'check' => ''],
+			'map_lat'			=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'map_lng'			=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'map_address'		=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
+			'map_address_vi'	=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
+			'map_phone'			=> ['type' => 'string', 'default' => '', 'check' => ''],
+			'map_phone_name'	=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
+
+			'facebook_url'		=> ['type' => 'string', 'default' => '', 'check' => ''],
+			'twitter_url'		=> ['type' => 'string', 'default' => '', 'check' => ''],
+			'google_plus_url'	=> ['type' => 'string', 'default' => '', 'check' => ''],
+			'github_url'		=> ['type' => 'string', 'default' => '', 'check' => '']
+		];
+	}
+
+	/**
+	* Kill out all normal administrators from the ACP
+	* keep only founder-level sessions
+	*/
+	protected function kill_admin_sessions()
+	{
+		$founder_user_ids = [];
+
+		$sql = 'SELECT user_id
+			FROM ' . USERS_TABLE . '
+			WHERE user_type = ' . USER_FOUNDER;
+		$result = $this->db->sql_query($sql);
+		$rows = $this->db->sql_fetchrowset($result);
+		$this->db->sql_freeresult($result);
+
+		foreach ($rows as $row)
+		{
+			$founder_user_ids[] = $row['user_id'];
+		}
+
+		if (sizeof($founder_user_ids))
+		{
+			$sql = 'UPDATE ' . SESSIONS_TABLE . '
+				SET session_admin = 0
+				WHERE session_admin = 1
+					AND ' . $this->db->sql_in_set('session_user_id', $founder_user_ids, true);
+			$this->db->sql_query($sql);
+		}
 	}
 }

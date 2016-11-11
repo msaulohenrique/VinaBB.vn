@@ -14,6 +14,13 @@ namespace vinabb\web\controllers\acp;
 interface settings_interface
 {
 	/**
+	* Set form action URL
+	*
+	* @param string $u_action Form action
+	*/
+	public function set_form_action($u_action);
+
+	/**
 	* Display main settings
 	*/
 	public function display_main_settings();
@@ -22,6 +29,13 @@ interface settings_interface
 	* Save main settings
 	*/
 	public function set_main_settings();
+
+	/**
+	* List of main setting items
+	*
+	* @return array
+	*/
+	public function list_main_settings();
 
 	/**
 	* Display main settings
@@ -34,6 +48,13 @@ interface settings_interface
 	public function set_version_settings();
 
 	/**
+	* List of version setting items
+	*
+	* @return array
+	*/
+	public function list_version_settings();
+
+	/**
 	* Display main settings
 	*/
 	public function display_setup_settings();
@@ -42,4 +63,11 @@ interface settings_interface
 	* Save main settings
 	*/
 	public function set_setup_settings();
+
+	/**
+	* List of setup setting items
+	*
+	* @return array
+	*/
+	public function list_setup_settings();
 }
