@@ -94,9 +94,10 @@ class bb_schema extends migration
 					'COLUMNS' => [
 						'author_id'				=> ['UINT', null, 'auto_increment'],
 						'user_id'				=> ['ULINT', 0],
-						'author_name'			=> ['VCHAR_UNI', ''],
-						'author_firstname'		=> ['VCHAR_UNI', ''],
-						'author_lastname'		=> ['VCHAR_UNI', ''],
+						'author_name'			=> ['VCHAR_UNI', '', 'true_sort'],
+						'author_name_seo'		=> ['VCHAR', ''],
+						'author_firstname'		=> ['VCHAR_UNI', '', 'true_sort'],
+						'author_lastname'		=> ['VCHAR_UNI', '', 'true_sort'],
 						'author_is_group'		=> ['BOOL', 0],
 						'author_group'			=> ['UINT', 0],
 						'author_www'			=> ['VCHAR_UNI', 0],
