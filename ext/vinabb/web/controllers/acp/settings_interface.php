@@ -26,11 +26,6 @@ interface settings_interface
 	public function display_main_settings();
 
 	/**
-	* Save main settings
-	*/
-	public function set_main_settings();
-
-	/**
 	* List of main setting items
 	*
 	* @return array
@@ -43,11 +38,6 @@ interface settings_interface
 	public function display_version_settings();
 
 	/**
-	* Save main settings
-	*/
-	public function set_version_settings();
-
-	/**
 	* List of version setting items
 	*
 	* @return array
@@ -58,11 +48,6 @@ interface settings_interface
 	* Display main settings
 	*/
 	public function display_setup_settings();
-
-	/**
-	* Save main settings
-	*/
-	public function set_setup_settings();
 
 	/**
 	* List of setup setting items
