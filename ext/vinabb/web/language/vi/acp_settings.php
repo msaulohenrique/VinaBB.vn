@@ -38,12 +38,12 @@ $lang = array_merge($lang, [
 	'DONATE_YEAR'		=> 'Năm đóng góp',
 	'DONATE_YEAR_VALUE'	=> 'Số tiền đóng góp',
 
-	'ERROR_MAINTENANCE_MODE_FOUNDER'	=> 'Không được phép đổi chế độ bảo trì thành “Sáng lập viên”.',
-	'ERROR_PHP_BRANCH_INVALID'			=> 'Số phiên bản nhánh PHP mới nhất không hợp lệ.',
-	'ERROR_PHP_LEGACY_BRANCH_INVALID'	=> 'Số phiên bản nhánh PHP còn hỗ trợ không hợp lệ.',
-	'ERROR_PHPBB_BRANCH_INVALID'		=> 'Số phiên bản nhánh phpBB mới nhất không hợp lệ.',
-	'ERROR_PHPBB_DEV_BRANCH_INVALID'	=> 'Số phiên bản nhánh phpBB phát triển không hợp lệ.',
-	'ERROR_PHPBB_LEGACY_BRANCH_INVALID'	=> 'Số phiên bản nhánh phpBB còn hỗ trợ không hợp lệ.',
+	'ERROR_MAINTENANCE_MODE_FOUNDER'			=> 'Không được phép đổi chế độ bảo trì thành “Sáng lập viên”.',
+	'ERROR_CHECK_PHP_BRANCH_INVALID'			=> 'Số phiên bản nhánh PHP mới nhất không hợp lệ.',
+	'ERROR_CHECK_PHP_LEGACY_BRANCH_INVALID'		=> 'Số phiên bản nhánh PHP còn hỗ trợ không hợp lệ.',
+	'ERROR_CHECK_PHPBB_BRANCH_INVALID'			=> 'Số phiên bản nhánh phpBB mới nhất không hợp lệ.',
+	'ERROR_CHECK_PHPBB_DEV_BRANCH_INVALID'		=> 'Số phiên bản nhánh phpBB phát triển không hợp lệ.',
+	'ERROR_CHECK_PHPBB_LEGACY_BRANCH_INVALID'	=> 'Số phiên bản nhánh phpBB còn hỗ trợ không hợp lệ.',
 
 	'FORUM_ID_ENGLISH'					=> 'Danh mục tiếng Anh',
 	'FORUM_ID_ENGLISH_DISCUSSION'		=> 'Thảo luận (Tiếng Anh)',
