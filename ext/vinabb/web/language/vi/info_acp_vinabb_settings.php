@@ -20,7 +20,11 @@ if (empty($lang) || !is_array($lang))
 */
 
 $lang = array_merge($lang, [
-	'ACP_VINABB_SETTINGS'	=> 'Thiết lập VinaBB.vn',
+	'ACP_VINABB_SETTINGS'			=> 'Thiết lập chung',
+	'ACP_VINABB_SETTINGS_SETUP'		=> 'Thiết lập một lần',
+	'ACP_VINABB_SETTINGS_VERSION'	=> 'Thiết lập phiên bản',
 
-	'LOG_VINABB_SETTINGS'	=> '<strong>Đã chỉnh thiết lập VinaBB.vn</strong>'
+	'LOG_VINABB_SETTINGS'			=> '<strong>VinaBB: Đã chỉnh thiết lập chung</strong>',
+	'LOG_VINABB_SETTINGS_SETUP'		=> '<strong>VinaBB: Đã chỉnh thiết lập một lần</strong>',
+	'LOG_VINABB_SETTINGS_VERSION'	=> '<strong>VinaBB: Đã chỉnh thiết lập phiên bản</strong>'
 ]);
