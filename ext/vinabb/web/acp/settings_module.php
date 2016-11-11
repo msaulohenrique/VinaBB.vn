@@ -52,20 +52,20 @@ class settings_module
 			case 'version':
 				$this->tpl_name = 'acp_settings_version';
 				$this->page_title = $this->language->lang('ACP_VINABB_SETTINGS_VERSION');
-				$this->controller->version_settings();
+				$this->controller->display_version_settings();
 			break;
 
 			case 'setup':
 				$this->tpl_name = 'acp_settings_setup';
 				$this->page_title = $this->language->lang('ACP_VINABB_SETTINGS_SETUP');
-				$this->controller->setup_settings();
+				$this->controller->display_setup_settings();
 			break;
 
 			default:
 			case 'main':
 				$this->tpl_name = 'acp_settings';
 				$this->page_title = $this->language->lang('ACP_VINABB_SETTINGS');
-				$this->controller->main_settings();
+				$this->controller->display_main_settings();
 			break;
 		}
 	}
