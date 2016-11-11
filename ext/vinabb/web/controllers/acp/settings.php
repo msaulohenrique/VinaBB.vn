@@ -195,7 +195,7 @@ class settings
 		if ($this->request->is_set_post('submit'))
 		{
 			// Test if the submitted form is valid
-			if (!check_form_key('preventing'))
+			if (!check_form_key('acp_settings_version'))
 			{
 				$this->errors[] = $this->language->lang('FORM_INVALID');
 			}
