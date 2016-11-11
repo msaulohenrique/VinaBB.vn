@@ -1,4 +1,17 @@
 services:
+    vinabb.web.acp.settings:
+        class: vinabb\web\controllers\acp\settings
+        arguments:
+            - '@auth'
+            - '@cache'
+            - '@config'
+            - '@config_text'
+            - '@dbal.conn'
+            - '@language'
+            - '@log'
+            - '@request'
+            - '@template'
+            - '@user'
     vinabb.web.acp.pages:
         class: vinabb\web\controllers\acp\pages
         arguments:
