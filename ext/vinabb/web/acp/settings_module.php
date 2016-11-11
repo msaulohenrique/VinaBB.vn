@@ -20,13 +20,13 @@ class settings_module
 	protected $language;
 
 	/** @var string */
-	protected $tpl_name;
+	public $tpl_name;
 
 	/** @var string */
-	protected $page_title;
+	public $page_title;
 
 	/** @var string */
-	protected $u_action;
+	public $u_action;
 
 	/**
 	* Main method of the module
