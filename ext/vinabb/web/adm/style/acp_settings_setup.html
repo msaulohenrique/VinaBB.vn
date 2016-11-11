@@ -1,0 +1,148 @@
+{% include 'overall_header.html' %}
+
+<h1>{{ lang('ACP_VINABB_SETTINGS_SETUP') }}</h1>
+<p>{{ lang('ACP_VINABB_SETTINGS_SETUP_EXPLAIN') }}</p>
+
+<form id="acp_vinabb_settings_setup" method="post" action="{{ U_ACTION }}">
+	<fieldset>
+		<legend>{{ lang('ACP_LANGUAGE') }}</legend>
+		<dl>
+			<dt><label for="lang_enable">{{ lang('LANG_ENABLE') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="lang_enable" value="1" id="lang_enable"{% if LANG_ENABLE %} checked{% endif %} onclick="phpbb.toggleDisplay('lang_enable_options', 1)"> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="lang_enable" value="0"{% if not LANG_ENABLE %} checked{% endif %} onclick="phpbb.toggleDisplay('lang_enable_options', -1)"> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<div id="lang_enable_options"{% if not LANG_ENABLE %} style="display: none;"{% endif %}>
+			<dl>
+				<dt><label>{{ lang('DEFAULT_LANGUAGE') ~ lang('COLON') }}</label></dt>
+				<dd><strong>{{ DEFAULT_LANG }}</strong></dd>
+			</dl>
+			<dl>
+				<dt><label for="lang_switch">{{ lang('LANG_SWITCH') ~ lang('COLON') }}</label><br /><span>{{ lang('LANG_SWITCH_EXPLAIN') }}</span></dt>
+				<dd>{% if LANG_SWITCH_OPTIONS %}<select name="lang_switch" id="lang_switch">{{ LANG_SWITCH_OPTIONS }}</select>{% else %}{{ lang('NO_EXTRA_LANG_TO_SELECT') }}{% endif %}</dd>
+			</dl>
+		</div>
+	</fieldset>
+	<fieldset>
+		<legend>{{ lang('FORUMS') }}</legend>
+		<dl>
+			<dt><label for="forum_id_vietnamese">{{ lang('FORUM_ID_VIETNAMESE') ~ lang('COLON') }}</label></dt>
+			<dd><select name="forum_id_vietnamese" id="forum_id_vietnamese">{{ FORUM_VIETNAMESE_OPTIONS }}</select></dd>
+		</dl>
+		<dl>
+			<dt><label for="forum_id_vietnamese_support">{{ lang('FORUM_ID_VIETNAMESE_SUPPORT') ~ lang('COLON') }}</label></dt>
+			<dd><select name="forum_id_vietnamese_support" id="forum_id_vietnamese_support">{{ FORUM_VIETNAMESE_SUPPORT_OPTIONS }}</select></dd>
+		</dl>
+		<dl>
+			<dt><label for="forum_id_vietnamese_ext">{{ lang('FORUM_ID_VIETNAMESE_EXT') ~ lang('COLON') }}</label></dt>
+			<dd><select name="forum_id_vietnamese_ext" id="forum_id_vietnamese_ext">{{ FORUM_VIETNAMESE_EXT_OPTIONS }}</select></dd>
+		</dl>
+		<dl>
+			<dt><label for="forum_id_vietnamese_style">{{ lang('FORUM_ID_VIETNAMESE_STYLE') ~ lang('COLON') }}</label></dt>
+			<dd><select name="forum_id_vietnamese_style" id="forum_id_vietnamese_style">{{ FORUM_VIETNAMESE_STYLE_OPTIONS }}</select></dd>
+		</dl>
+		<dl>
+			<dt><label for="forum_id_vietnamese_tutorial">{{ lang('FORUM_ID_VIETNAMESE_TUTORIAL') ~ lang('COLON') }}</label></dt>
+			<dd><select name="forum_id_vietnamese_tutorial" id="forum_id_vietnamese_tutorial">{{ FORUM_VIETNAMESE_TUTORIAL_OPTIONS }}</select></dd>
+		</dl>
+		<dl>
+			<dt><label for="forum_id_vietnamese_discussion">{{ lang('FORUM_ID_VIETNAMESE_DISCUSSION') ~ lang('COLON') }}</label></dt>
+			<dd><select name="forum_id_vietnamese_discussion" id="forum_id_vietnamese_discussion">{{ FORUM_VIETNAMESE_DISCUSSION_OPTIONS }}</select></dd>
+		</dl>
+		<dl>
+			<dt><label for="forum_id_english">{{ lang('FORUM_ID_ENGLISH') ~ lang('COLON') }}</label></dt>
+			<dd><select name="forum_id_english" id="forum_id_english">{{ FORUM_ENGLISH_OPTIONS }}</select></dd>
+		</dl>
+		<dl>
+			<dt><label for="forum_id_english_support">{{ lang('FORUM_ID_ENGLISH_SUPPORT') ~ lang('COLON') }}</label></dt>
+			<dd><select name="forum_id_english_support" id="forum_id_english_support">{{ FORUM_ENGLISH_SUPPORT_OPTIONS }}</select></dd>
+		</dl>
+		<dl>
+			<dt><label for="forum_id_english_tutorial">{{ lang('FORUM_ID_ENGLISH_TUTORIAL') ~ lang('COLON') }}</label></dt>
+			<dd><select name="forum_id_english_tutorial" id="forum_id_english_tutorial">{{ FORUM_ENGLISH_TUTORIAL_OPTIONS }}</select></dd>
+		</dl>
+		<dl>
+			<dt><label for="forum_id_english_discussion">{{ lang('FORUM_ID_ENGLISH_DISCUSSION') ~ lang('COLON') }}</label></dt>
+			<dd><select name="forum_id_english_discussion" id="forum_id_english_discussion">{{ FORUM_ENGLISH_DISCUSSION_OPTIONS }}</select></dd>
+		</dl>
+	</fieldset>
+	<fieldset>
+		<legend>{{ lang('FOOTER_MANAGER_ROLE') }}</legend>
+		<dl>
+			<dt><label for="manager_name">{{ lang('MANAGER_NAME') ~ ' (' ~ lang('ENGLISH') ~ ')' ~ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="manager_name" id="manager_name" maxlength="255" value="{{ MANAGER_NAME }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="manager_name_vi">{{ lang('MANAGER_NAME') ~ ' (' ~ lang('VIETNAMESE') ~ ')' ~ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="manager_name_vi" id="manager_name_vi" maxlength="255" value="{{ MANAGER_NAME_VI }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="manager_username">{{ lang('MANAGER_USERNAME') ~ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="manager_username" id="manager_username" maxlength="255" value="{{ MANAGER_USERNAME }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="manager_user_id">{{ lang('MANAGER_USER_ID') ~ lang('COLON') }}</label></dt>
+			<dd><input type="number" name="manager_user_id" id="manager_user_id" min="0" value="{{ MANAGER_USER_ID }}"></dd>
+		</dl>
+	</fieldset>
+	<fieldset>
+		<legend>{{ lang('MAP') }}</legend>
+		<dl>
+			<dt><label for="map_api">{{ lang('MAP_API') ~ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="map_api" id="map_api" size="40" maxlength="255" value="{{ MAP_API }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="map_api">{{ lang('COORDINATES') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<input type="number" name="map_lat" id="map_lat" step="0.000001" placeholder="{{ lang('LATITUDE') ~ lang('COLON') }}" style="width: 100px;" value="{{ MAP_LAT }}">
+				<input type="number" name="map_lng" id="map_lng" step="0.000001" placeholder="{{ lang('LONGITUDE') ~ lang('COLON') }}" style="width: 100px;" value="{{ MAP_LNG }}">
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="map_address">{{ lang('MAP_ADDRESS') ~ ' (' ~ lang('ENGLISH') ~ ')' ~ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="map_address" id="map_address" size="40" maxlength="255" value="{{ MAP_ADDRESS }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="map_address_vi">{{ lang('MAP_ADDRESS') ~ ' (' ~ lang('VIETNAMESE') ~ ')' ~ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="map_address_vi" id="map_address_vi" size="40" maxlength="255" value="{{ MAP_ADDRESS_VI }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="map_phone">{{ lang('MAP_PHONE') ~ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="map_phone" id="map_phone" size="40" maxlength="255" value="{{ MAP_PHONE }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="map_phone_name">{{ lang('MAP_PHONE_NAME') ~ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="map_phone_name" id="map_phone_name" maxlength="255" value="{{ MAP_PHONE_NAME }}"></dd>
+		</dl>
+	</fieldset>
+	<fieldset>
+		<legend>{{ lang('SOCIAL_LINKS') }}</legend>
+		<dl>
+			<dt><label for="facebook_url">{{ lang('FACEBOOK') ~ lang('COLON') }}</label></dt>
+			<dd><input type="url" name="facebook_url" id="facebook_url" size="40" maxlength="255" value="{{ FACEBOOK_URL }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="twitter_url">{{ lang('TWITTER') ~ lang('COLON') }}</label></dt>
+			<dd><input type="url" name="twitter_url" id="twitter_url" size="40" maxlength="255" value="{{ TWITTER_URL }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="google_plus_url">{{ lang('GOOGLEPLUS') ~ lang('COLON') }}</label></dt>
+			<dd><input type="url" name="google_plus_url" id="google_plus_url" size="40" maxlength="255" value="{{ GOOGLE_PLUS_URL }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="github_url">{{ lang('GITHUB') ~ lang('COLON') }}</label></dt>
+			<dd><input type="url" name="github_url" id="github_url" size="40" maxlength="255" value="{{ GITHUB_URL }}"></dd>
+		</dl>
+	</fieldset>
+	<fieldset>
+		<legend>{{ lang('ACP_SUBMIT_CHANGES') }}</legend>
+		<p class="submit-buttons">
+			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}">
+			<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}">
+		</p>
+		{{ S_FORM_TOKEN }}
+	</fieldset>
+</form>
+
+{% include 'overall_footer.html' %}
