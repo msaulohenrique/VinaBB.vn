@@ -125,7 +125,7 @@ class settings
 			// Checking setting values
 			$this->check_group_settings('main');
 
-			if (!sizeof($this->errors))
+			if (empty($this->errors))
 			{
 				$this->set_group_settings('main');
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_SETTINGS');
@@ -133,13 +133,16 @@ class settings
 
 				trigger_error($this->language->lang('MESSAGE_MAIN_SETTINGS_UPDATE') . adm_back_link($this->u_action));
 			}
+			else
+			{
+				trigger_error(implode('<br>', $this->errors) . adm_back_link($this->u_action), E_USER_WARNING);
+			}
 		}
 
 		// Output
 		$this->output_group_settings('main');
 
 		$this->template->assign_vars([
-			'ERROR_MSG'	=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
 			'U_ACTION'	=> $this->u_action
 		]);
 	}
@@ -200,7 +203,7 @@ class settings
 			// Checking setting values
 			$this->check_group_settings('version');
 
-			if (!sizeof($this->errors))
+			if (empty($this->errors))
 			{
 				$this->set_group_settings('version');
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_SETTINGS_VERSION');
@@ -208,13 +211,16 @@ class settings
 
 				trigger_error($this->language->lang('MESSAGE_VERSION_SETTINGS_UPDATE') . adm_back_link($this->u_action));
 			}
+			else
+			{
+				trigger_error(implode('<br>', $this->errors) . adm_back_link($this->u_action), E_USER_WARNING);
+			}
 		}
 
 		// Output
 		$this->output_group_settings('version');
 
 		$this->template->assign_vars([
-			'ERROR_MSG'	=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
 			'U_ACTION'	=> $this->u_action
 		]);
 	}
@@ -260,7 +266,7 @@ class settings
 			// Checking setting values
 			$this->check_group_settings('setup');
 
-			if (!sizeof($this->errors))
+			if (empty($this->errors))
 			{
 				$this->set_group_settings('setup');
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_SETTINGS_SETUP');
@@ -268,13 +274,16 @@ class settings
 
 				trigger_error($this->language->lang('MESSAGE_SETUP_SETTINGS_UPDATE') . adm_back_link($this->u_action));
 			}
+			else
+			{
+				trigger_error(implode('<br>', $this->errors) . adm_back_link($this->u_action), E_USER_WARNING);
+			}
 		}
 
 		// Output
 		$this->output_group_settings('setup');
 
 		$this->template->assign_vars([
-			'ERROR_MSG'	=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
 			'U_ACTION'	=> $this->u_action
 		]);
 	}
@@ -365,6 +374,16 @@ class settings
 			if ($data['type'] != 'tpl')
 			{
 				${$name} = $this->request->variable($name, $data['default'], (substr($data['type'], -4) == '_uni'));
+
+				switch ($data['check'])
+				{
+					case 'empty':
+						if (empty(${$name}))
+						{
+							$this->errors[] = $this->language->lang('ERROR_' . strtoupper($name) . '_EMPTY');
+						}
+					break;
+				}
 			}
 		}
 	}
