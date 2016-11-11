@@ -8,8 +8,6 @@
 
 namespace vinabb\web\entities;
 
-use vinabb\web\includes\constants;
-
 /**
 * Interface for a single comment
 */
