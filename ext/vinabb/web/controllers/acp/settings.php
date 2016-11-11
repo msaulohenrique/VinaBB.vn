@@ -237,12 +237,12 @@ class settings
 			'check_phpbb_download_url'		=> ['type' => 'string', 'default' => '', 'check' => ''],
 			'check_phpbb_download_dev_url'	=> ['type' => 'string', 'default' => '', 'check' => ''],
 			'check_phpbb_github_url'		=> ['type' => 'string', 'default' => '', 'check' => ''],
-			'check_phpbb_branch'			=> ['type' => 'string', 'default' => '', 'check' => ''],
-			'check_phpbb_legacy_branch'		=> ['type' => 'string', 'default' => '', 'check' => ''],
-			'check_phpbb_dev_branch'		=> ['type' => 'string', 'default' => '', 'check' => ''],
+			'check_phpbb_branch'			=> ['type' => 'string', 'default' => '', 'check' => 'regex', 'check_data' => '#^(\d+\.\d+)?$#'],
+			'check_phpbb_legacy_branch'		=> ['type' => 'string', 'default' => '', 'check' => 'regex', 'check_data' => '#^(\d+\.\d+)?$#'],
+			'check_phpbb_dev_branch'		=> ['type' => 'string', 'default' => '', 'check' => 'regex', 'check_data' => '#^(\d+\.\d+)?$#'],
 			'check_php_url'					=> ['type' => 'string', 'default' => '', 'check' => ''],
-			'check_php_branch'				=> ['type' => 'string', 'default' => '', 'check' => ''],
-			'check_php_legacy_branch'		=> ['type' => 'string', 'default' => '', 'check' => '']
+			'check_php_branch'				=> ['type' => 'string', 'default' => '', 'check' => 'regex', 'check_data' => '#^(\d+\.\d+)?$#'],
+			'check_php_legacy_branch'		=> ['type' => 'string', 'default' => '', 'check' => 'regex', 'check_data' => '#^(\d+\.\d+)?$#']
 		];
 	}
 
@@ -381,6 +381,13 @@ class settings
 						if (empty(${$name}))
 						{
 							$this->errors[] = $this->language->lang('ERROR_' . strtoupper($name) . '_EMPTY');
+						}
+					break;
+
+					case 'regex':
+						if (isset($data['check_data']) && !empty($data['check_data']) && !preg_match($data['check_data'], ${$name}))
+						{
+							$this->errors[] = $this->language->lang('ERROR_' . strtoupper($name) . '_INVALID');
 						}
 					break;
 				}
