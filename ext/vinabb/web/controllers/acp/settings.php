@@ -123,7 +123,7 @@ class settings
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_SETTINGS');
 				$this->cache->clear_config_text();
 
-				trigger_error($this->language->lang('MESSAGE_VINABB_SETTINGS_UPDATE') . adm_back_link($this->u_action));
+				trigger_error($this->language->lang('MESSAGE_MAIN_SETTINGS_UPDATE') . adm_back_link($this->u_action));
 			}
 		}
 
@@ -203,7 +203,7 @@ class settings
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_SETTINGS_VERSION');
 				$this->cache->clear_config_text();
 
-				trigger_error($this->language->lang('MESSAGE_VINABB_SETTINGS_VERSION_UPDATE') . adm_back_link($this->u_action));
+				trigger_error($this->language->lang('MESSAGE_VERSION_SETTINGS_UPDATE') . adm_back_link($this->u_action));
 			}
 		}
 
@@ -268,7 +268,7 @@ class settings
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_SETTINGS_SETUP');
 				$this->cache->clear_config_text();
 
-				trigger_error($this->language->lang('MESSAGE_VINABB_SETTINGS_SETUP_UPDATE') . adm_back_link($this->u_action));
+				trigger_error($this->language->lang('MESSAGE_SETUP_SETTINGS_UPDATE') . adm_back_link($this->u_action));
 			}
 		}
 
@@ -297,8 +297,10 @@ class settings
 	public function list_setup_settings()
 	{
 		return [
-			'lang_enable'	=> ['type' => 'bool', 'default' => false, 'check' => ''],
-			'lang_switch'	=> ['type' => 'string', 'default' => '', 'check' => ''],
+			'lang_enable'			=> ['type' => 'bool', 'default' => false, 'check' => ''],
+			'lang_switch'			=> ['type' => 'string', 'default' => '', 'check' => ''],
+			'default_lang'			=> ['type' => 'tpl', 'default' => $this->get_default_lang_name(), 'check' => ''],
+			'lang_switch_options'	=> ['type' => 'tpl', 'default' => $this->build_lang_list($this->config['vinabb_web_lang_switch']), 'check' => ''],
 
 			'forum_id_vietnamese'				=> ['type' => 'int', 'default' => 0, 'check' => ''],
 			'forum_id_vietnamese_support'		=> ['type' => 'int', 'default' => 0, 'check' => ''],
@@ -402,5 +404,43 @@ class settings
 					AND ' . $this->db->sql_in_set('session_user_id', $founder_user_ids, true);
 			$this->db->sql_query($sql);
 		}
+	}
+
+	/**
+	* Get default language name
+	*
+	* @return string
+	*/
+	protected function get_default_lang_name()
+	{
+		$data = $this->cache->get_lang_data();
+
+		return $data[$this->config['default_lang']]['english_name'] . ' (' . $data[$this->config['default_lang']]['local_name'] . ')';
+	}
+
+	/**
+	* Select an extra language to switch
+	*
+	* @param string $selected_lang 2-letter language ISO code
+	* @return string HTML code
+	*/
+	protected function build_lang_list($selected_lang)
+	{
+		$sql = 'SELECT *
+			FROM ' . LANG_TABLE . "
+			WHERE lang_iso <> '" . $this->db->sql_escape($selected_lang) . "'
+			ORDER BY lang_english_name";
+		$result = $this->db->sql_query($sql);
+		$rows = $this->db->sql_fetchrowset($result);
+		$this->db->sql_freeresult($result);
+
+		$lang_switch_options = '<option value=""' . (($selected_lang == '') ? ' selected' : '') . '>' . $this->language->lang('SELECT_LANGUAGE') . '</option>';
+
+		foreach ($rows as $row)
+		{
+			$lang_switch_options .= '<option value="' . $row['lang_iso'] . '"' . (($selected_lang == $row['lang_iso']) ? ' selected' : '') . '>' . $row['lang_english_name'] . ' (' . $row['lang_local_name'] . ')</option>';
+		}
+
+		return $lang_switch_options;
 	}
 }
