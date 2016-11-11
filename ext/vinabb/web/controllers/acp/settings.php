@@ -128,4 +128,38 @@ class settings
 	{
 		$this->config->set('vinabb_web_', 0);
 	}
+
+	/**
+	* Display main settings
+	*/
+	public function display_version_settings()
+	{
+		// Create a form key for preventing CSRF attacks
+		add_form_key('acp_settings_version');
+	}
+
+	/**
+	* Save main settings
+	*/
+	public function set_version_settings()
+	{
+		$this->config->set('vinabb_web_', 0);
+	}
+
+	/**
+	* Display main settings
+	*/
+	public function display_setup_settings()
+	{
+		// Create a form key for preventing CSRF attacks
+		add_form_key('acp_settings_setup');
+	}
+
+	/**
+	* Save main settings
+	*/
+	public function set_setup_settings()
+	{
+		$this->config->set('vinabb_web_', 0);
+	}
 }
