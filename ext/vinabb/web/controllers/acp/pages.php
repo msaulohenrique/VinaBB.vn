@@ -109,7 +109,6 @@ class pages
 				'NAME'		=> $entity->get_name(),
 				'NAME_VI'	=> $entity->get_name_vi(),
 				'VARNAME'	=> $entity->get_varname(),
-				'ENABLE'	=> $entity->get_enable(),
 
 				'U_EDIT'	=> "{$this->u_action}&action=edit&id=" . $entity->get_id(),
 				'U_DELETE'	=> "{$this->u_action}&action=delete&id=" . $entity->get_id()
@@ -153,20 +152,28 @@ class pages
 
 		// Get form data
 		$data = [
-			'page_name'			=> $this->request->variable('page_name', '', true),
-			'page_name_vi'		=> $this->request->variable('page_name_vi', '', true),
-			'page_varname'		=> $this->request->variable('page_varname', ''),
-			'page_desc'			=> $this->request->variable('page_desc', '', true),
-			'page_desc_vi'		=> $this->request->variable('page_desc_vi', '', true),
-			'page_text'			=> $this->request->variable('page_text', '', true),
-			'text_bbcode'		=> $this->request->variable('text_bbcode', true),
-			'text_urls'			=> $this->request->variable('text_urls', true),
-			'text_smilies'		=> $this->request->variable('text_smilies', true),
-			'page_text_vi'		=> $this->request->variable('page_text_vi', '', true),
-			'text_vi_bbcode'	=> $this->request->variable('text_vi_bbcode', true),
-			'text_vi_urls'		=> $this->request->variable('text_vi_urls', true),
-			'text_vi_smilies'	=> $this->request->variable('text_vi_smilies', true),
-			'page_enable'		=> $this->request->variable('page_enable', true)
+			'page_name'					=> $this->request->variable('page_name', '', true),
+			'page_name_vi'				=> $this->request->variable('page_name_vi', '', true),
+			'page_varname'				=> $this->request->variable('page_varname', ''),
+			'page_desc'					=> $this->request->variable('page_desc', '', true),
+			'page_desc_vi'				=> $this->request->variable('page_desc_vi', '', true),
+			'page_text'					=> $this->request->variable('page_text', '', true),
+			'text_bbcode'				=> $this->request->variable('text_bbcode', true),
+			'text_urls'					=> $this->request->variable('text_urls', true),
+			'text_smilies'				=> $this->request->variable('text_smilies', true),
+			'page_text_vi'				=> $this->request->variable('page_text_vi', '', true),
+			'text_vi_bbcode'			=> $this->request->variable('text_vi_bbcode', true),
+			'text_vi_urls'				=> $this->request->variable('text_vi_urls', true),
+			'text_vi_smilies'			=> $this->request->variable('text_vi_smilies', true),
+			'page_enable'				=> $this->request->variable('page_enable', true),
+			'page_enable_guest'			=> $this->request->variable('page_enable_guest', true),
+			'page_enable_bot'			=> $this->request->variable('page_enable_bot', true),
+			'page_enable_new_user'		=> $this->request->variable('page_enable_new_user', true),
+			'page_enable_user'			=> $this->request->variable('page_enable_user', true),
+			'page_enable_mod'			=> $this->request->variable('page_enable_mod', true),
+			'page_enable_global_mod'	=> $this->request->variable('page_enable_global_mod', true),
+			'page_enable_admin'			=> $this->request->variable('page_enable_admin', true),
+			'page_enable_founder'		=> $this->request->variable('page_enable_founder', true)
 		];
 
 		/**
@@ -214,14 +221,22 @@ class pages
 
 			// Map the form's page data fields to setters
 			$map_fields = [
-				'set_name'		=> $data['page_name'],
-				'set_name_vi'	=> $data['page_name_vi'],
-				'set_varname'	=> $data['page_varname'],
-				'set_desc'		=> $data['page_desc'],
-				'set_desc_vi'	=> $data['page_desc_vi'],
-				'set_text'		=> $data['page_text'],
-				'set_text_vi'	=> $data['page_text_vi'],
-				'set_enable'	=> $data['page_enable']
+				'set_name'				=> $data['page_name'],
+				'set_name_vi'			=> $data['page_name_vi'],
+				'set_varname'			=> $data['page_varname'],
+				'set_desc'				=> $data['page_desc'],
+				'set_desc_vi'			=> $data['page_desc_vi'],
+				'set_text'				=> $data['page_text'],
+				'set_text_vi'			=> $data['page_text_vi'],
+				'set_enable'			=> $data['page_enable'],
+				'set_enable_guest'		=> $data['page_enable_guest'],
+				'set_enable_bot'		=> $data['page_enable_bot'],
+				'set_enable_new_user'	=> $data['page_enable_new_user'],
+				'set_enable_user'		=> $data['page_enable_user'],
+				'set_enable_mod'		=> $data['page_enable_mod'],
+				'set_enable_global_mod'	=> $data['page_enable_global_mod'],
+				'set_enable_admin'		=> $data['page_enable_admin'],
+				'set_enable_founder'	=> $data['page_enable_founder']
 			];
 
 			// Set the mapped page data in the entity
@@ -276,14 +291,22 @@ class pages
 			'S_ERROR'	=> (bool) sizeof($errors),
 			'ERROR_MSG'	=> sizeof($errors) ? implode('<br>', $errors) : '',
 
-			'PAGE_NAME'		=> $page->get_name(),
-			'PAGE_NAME_VI'	=> $page->get_name_vi(),
-			'PAGE_VARNAME'	=> $page->get_varname(),
-			'PAGE_DESC'		=> $page->get_desc(),
-			'PAGE_DESC_VI'	=> $page->get_desc_vi(),
-			'PAGE_TEXT'		=> $page->get_text_for_edit(),
-			'PAGE_TEXT_VI'	=> $page->get_text_vi_for_edit(),
-			'PAGE_ENABLE'	=> $page->get_enable(),
+			'PAGE_NAME'					=> $page->get_name(),
+			'PAGE_NAME_VI'				=> $page->get_name_vi(),
+			'PAGE_VARNAME'				=> $page->get_varname(),
+			'PAGE_DESC'					=> $page->get_desc(),
+			'PAGE_DESC_VI'				=> $page->get_desc_vi(),
+			'PAGE_TEXT'					=> $page->get_text_for_edit(),
+			'PAGE_TEXT_VI'				=> $page->get_text_vi_for_edit(),
+			'PAGE_ENABLE'				=> $page->get_enable(),
+			'PAGE_ENABLE_GUEST'			=> $page->get_enable_guest(),
+			'PAGE_ENABLE_BOT'			=> $page->get_enable_bot(),
+			'PAGE_ENABLE_NEW_USER'		=> $page->get_enable_new_user(),
+			'PAGE_ENABLE_USER'			=> $page->get_enable_user(),
+			'PAGE_ENABLE_MOD'			=> $page->get_enable_mod(),
+			'PAGE_ENABLE_GLOBAL_MOD'	=> $page->get_enable_global_mod(),
+			'PAGE_ENABLE_ADMIN'			=> $page->get_enable_admin(),
+			'PAGE_ENABLE_FOUNDER'		=> $page->get_enable_founder(),
 
 			'U_BACK'	=> $this->u_action
 		]);
