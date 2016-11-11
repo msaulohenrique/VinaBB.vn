@@ -732,7 +732,6 @@ class portal_article implements portal_article_interface
 	*/
 	public function set_time()
 	{
-		// Set the value on our data array
 		$this->data['article_time'] = time();
 
 		return $this;

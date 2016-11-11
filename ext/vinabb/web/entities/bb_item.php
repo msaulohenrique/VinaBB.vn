@@ -1304,8 +1304,7 @@ class bb_item implements bb_item_interface
 	*/
 	public function set_added()
 	{
-		// Set the value on our data array
-		$this->data['item_added'] = time();
+		$this->data['item_added'] = !$this->get_added() ? time() : 0;
 
 		return $this;
 	}
@@ -1327,7 +1326,6 @@ class bb_item implements bb_item_interface
 	*/
 	public function set_updated()
 	{
-		// Set the value on our data array
 		$this->data['item_updated'] = time();
 
 		return $this;
