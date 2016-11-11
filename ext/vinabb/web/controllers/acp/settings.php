@@ -349,7 +349,7 @@ class settings
 	*/
 	protected function output_group_settings($group_name = 'main')
 	{
-		foreach ($this->${'list_' . $group_name . '_settings'}() as $name => $data)
+		foreach ($this->{'list_' . $group_name . '_settings'}() as $name => $data)
 		{
 			if ($data['type'] == 'tpl')
 			{
@@ -369,7 +369,7 @@ class settings
 	*/
 	protected function check_group_settings($group_name = 'main')
 	{
-		foreach ($this->${'list_' . $group_name . '_settings'}() as $name => $data)
+		foreach ($this->{'list_' . $group_name . '_settings'}() as $name => $data)
 		{
 			if ($data['type'] != 'tpl')
 			{
@@ -402,7 +402,7 @@ class settings
 	*/
 	protected function set_group_settings($group_name = 'main')
 	{
-		foreach ($this->${'list_' . $group_name . '_settings'}() as $name => $data)
+		foreach ($this->{'list_' . $group_name . '_settings'}() as $name => $data)
 		{
 			if ($data['type'] != 'tpl')
 			{
