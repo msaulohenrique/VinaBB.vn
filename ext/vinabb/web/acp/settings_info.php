@@ -24,6 +24,16 @@ class settings_info
 					'title'	=> 'ACP_VINABB_SETTINGS',
 					'auth'	=> 'ext_vinabb/web && acl_a_board',
 					'cat'	=> ['ACP_CAT_VINABB_SETTINGS']
+				],
+				'version'	=> [
+					'title'	=> 'ACP_VINABB_SETTINGS_VERSION',
+					'auth'	=> 'ext_vinabb/web && acl_a_board',
+					'cat'	=> ['ACP_CAT_VINABB_SETTINGS']
+				],
+				'setup'	=> [
+					'title'	=> 'ACP_VINABB_SETTINGS_SETUP',
+					'auth'	=> 'ext_vinabb/web && acl_a_board',
+					'cat'	=> ['ACP_CAT_VINABB_SETTINGS']
 				]
 			]
 		];
