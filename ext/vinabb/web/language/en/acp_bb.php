@@ -41,6 +41,7 @@ $lang = array_merge($lang, [
 	'CONFIRM_DELETE_BB_TOOL'		=> 'Are you sure you want to remove this tool?',
 	'CONFIRM_DELETE_CAT'			=> 'Are you sure you want to delete this category?',
 
+	'EDIT_AUTHOR'							=> 'Edit developer',
 	'EDIT_BB_ACP_STYLE'						=> 'Edit style',
 	'EDIT_BB_EXT'							=> 'Edit extension',
 	'EDIT_BB_LANG'							=> 'Edit language package',
@@ -94,6 +95,9 @@ $lang = array_merge($lang, [
 
 	'LANG_VARNAME'	=> 'Varname',
 
+	'MESSAGE_AUTHPR_ADD'			=> 'The developer has been added.',
+	'MESSAGE_AUTHOR_DELETE'			=> 'The developer has been removed.',
+	'MESSAGE_AUTHOR_EDIT'			=> 'The developer information has been edited.',
 	'MESSAGE_BB_ACP_STYLE_ADD'		=> 'The ACP style has been added.',
 	'MESSAGE_BB_ACP_STYLE_DELETE'	=> 'The ACP style has been removed.',
 	'MESSAGE_BB_ACP_STYLE_EDIT'		=> 'The ACP style information has been edited.',

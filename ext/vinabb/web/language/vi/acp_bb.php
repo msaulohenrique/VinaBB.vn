@@ -41,6 +41,7 @@ $lang = array_merge($lang, [
 	'CONFIRM_DELETE_BB_TOOL'		=> 'Bạn chắc chắn muốn gỡ bỏ công cụ này?',
 	'CONFIRM_DELETE_CAT'			=> 'Bạn chắc chắn muốn xóa danh mục này?',
 
+	'EDIT_AUTHOR'							=> 'Sửa người phát triển',
 	'EDIT_BB_ACP_STYLE'						=> 'Sửa giao diện',
 	'EDIT_BB_EXT'							=> 'Sửa gói mở rộng',
 	'EDIT_BB_LANG'							=> 'Sửa gói ngôn ngữ',
@@ -94,6 +95,9 @@ $lang = array_merge($lang, [
 
 	'LANG_VARNAME'	=> 'Tên biến',
 
+	'MESSAGE_AUTHPR_ADD'			=> 'Đã thêm người phát triển.',
+	'MESSAGE_AUTHOR_DELETE'			=> 'Đã gỡ bỏ người phát triển.',
+	'MESSAGE_AUTHOR_EDIT'			=> 'Đã sửa thông tin người phát triển.',
 	'MESSAGE_BB_ACP_STYLE_ADD'		=> 'Đã thêm giao diện quản trị.',
 	'MESSAGE_BB_ACP_STYLE_DELETE'	=> 'Đã gỡ bỏ giao diện quản trị.',
 	'MESSAGE_BB_ACP_STYLE_EDIT'		=> 'Đã sửa thông tin giao diện quản trị.',
