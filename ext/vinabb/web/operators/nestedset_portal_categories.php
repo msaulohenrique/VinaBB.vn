@@ -42,8 +42,8 @@ class nestedset_portal_categories extends \phpbb\tree\nestedset
 	/**
 	* Get the category data from the database
 	*
-	* @param int $parent_id Category to display rules from, 0 for all
-	* @return array Array of rules data from the database
+	* @param int $parent_id Parent to display categories from, 0 for all
+	* @return array
 	*/
 	public function get_cat_data($parent_id)
 	{
@@ -54,8 +54,7 @@ class nestedset_portal_categories extends \phpbb\tree\nestedset
 	* Update the tree for an item inserted in the database
 	*
 	* @param int $item_id The item to be added
-	* @return array Array with updated data, if the item was added successfully
-	*				Empty array otherwise
+	* @return array
 	*/
 	public function add_to_nestedset($item_id)
 	{
