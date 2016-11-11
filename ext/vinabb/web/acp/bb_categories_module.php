@@ -37,8 +37,8 @@ class bb_categories_module
 	/**
 	* Main method of the module
 	*
-	* @param $id
-	* @param $mode
+	* @param string	$id		Module basename
+	* @param string	$mode	Module mode
 	*/
 	public function main($id, $mode)
 	{
