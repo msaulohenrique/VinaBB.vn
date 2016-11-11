@@ -122,9 +122,12 @@ class settings
 				$this->errors[] = $this->language->lang('FORM_INVALID');
 			}
 
+			// Checking setting values
+			$this->check_group_settings('main');
+
 			if (!sizeof($this->errors))
 			{
-				$this->set_main_settings();
+				$this->set_group_settings('main');
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_SETTINGS');
 				$this->cache->clear_config_text();
 
@@ -133,20 +136,12 @@ class settings
 		}
 
 		// Output
-		$this->output_group_settings('list_main_settings');
+		$this->output_group_settings('main');
 
 		$this->template->assign_vars([
 			'ERROR_MSG'	=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
 			'U_ACTION'	=> $this->u_action
 		]);
-	}
-
-	/**
-	* Save main settings
-	*/
-	public function set_main_settings()
-	{
-		$this->set_group_settings('list_main_settings');
 	}
 
 	/**
@@ -202,9 +197,12 @@ class settings
 				$this->errors[] = $this->language->lang('FORM_INVALID');
 			}
 
+			// Checking setting values
+			$this->check_group_settings('version');
+
 			if (!sizeof($this->errors))
 			{
-				$this->set_version_settings();
+				$this->set_group_settings('version');
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_SETTINGS_VERSION');
 				$this->cache->clear_config_text();
 
@@ -213,20 +211,12 @@ class settings
 		}
 
 		// Output
-		$this->output_group_settings('list_version_settings');
+		$this->output_group_settings('version');
 
 		$this->template->assign_vars([
 			'ERROR_MSG'	=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
 			'U_ACTION'	=> $this->u_action
 		]);
-	}
-
-	/**
-	* Save main settings
-	*/
-	public function set_version_settings()
-	{
-		$this->set_group_settings('list_version_settings');
 	}
 
 	/**
@@ -267,9 +257,12 @@ class settings
 				$this->errors[] = $this->language->lang('FORM_INVALID');
 			}
 
+			// Checking setting values
+			$this->check_group_settings('setup');
+
 			if (!sizeof($this->errors))
 			{
-				$this->set_setup_settings();
+				$this->set_group_settings('setup');
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_SETTINGS_SETUP');
 				$this->cache->clear_config_text();
 
@@ -278,20 +271,12 @@ class settings
 		}
 
 		// Output
-		$this->output_group_settings('list_setup_settings');
+		$this->output_group_settings('setup');
 
 		$this->template->assign_vars([
 			'ERROR_MSG'	=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
 			'U_ACTION'	=> $this->u_action
 		]);
-	}
-
-	/**
-	* Save main settings
-	*/
-	public function set_setup_settings()
-	{
-		$this->set_group_settings('list_setup_settings');
 	}
 
 	/**
@@ -351,11 +336,11 @@ class settings
 	/**
 	* Helper to output setting items to template variables
 	*
-	* @param string $list_method_name List method name for each group of settings
+	* @param string $group_name Group name of settings
 	*/
-	protected function output_group_settings($list_method_name = 'list_main_settings')
+	protected function output_group_settings($group_name = 'main')
 	{
-		foreach ($this->$list_method_name() as $name => $data)
+		foreach ($this->${'list_' . $group_name . '_settings'}() as $name => $data)
 		{
 			if ($data['type'] == 'tpl')
 			{
@@ -369,13 +354,29 @@ class settings
 	}
 
 	/**
-	* Helper to list setting items
+	* Helper to get and check setting items
 	*
-	* @param string $list_method_name List method name for each group of settings
+	* @param string $group_name Group name of settings
 	*/
-	protected function set_group_settings($list_method_name = 'list_main_settings')
+	protected function check_group_settings($group_name = 'main')
 	{
-		foreach ($this->$list_method_name() as $name => $data)
+		foreach ($this->${'list_' . $group_name . '_settings'}() as $name => $data)
+		{
+			if ($data['type'] != 'tpl')
+			{
+				${$name} = $this->request->variable($name, $data['default'], (substr($data['type'], -4) == '_uni'));
+			}
+		}
+	}
+
+	/**
+	* Helper to save setting items
+	*
+	* @param string $group_name Group name of settings
+	*/
+	protected function set_group_settings($group_name = 'main')
+	{
+		foreach ($this->${'list_' . $group_name . '_settings'}() as $name => $data)
 		{
 			if ($data['type'] != 'tpl')
 			{
