@@ -470,7 +470,7 @@ class settings
 	{
 		$sql = 'SELECT *
 			FROM ' . LANG_TABLE . "
-			WHERE lang_iso <> '" . $this->db->sql_escape($selected_lang) . "'
+			WHERE lang_iso <> '" . $this->db->sql_escape($this->config['default_lang']) . "'
 			ORDER BY lang_english_name";
 		$result = $this->db->sql_query($sql);
 		$rows = $this->db->sql_fetchrowset($result);
