@@ -20,8 +20,6 @@ if (empty($lang) || !is_array($lang))
 */
 
 $lang = array_merge($lang, [
-	'ACP_VINABB_SETTINGS_EXPLAIN'	=> '',
-
 	'CHECK_PHP_BRANCH'					=> 'Nhánh PHP mới nhất',
 	'CHECK_PHP_LEGACY_BRANCH'			=> 'Nhánh PHP còn hỗ trợ',
 	'CHECK_PHP_URL'						=> 'Liên kết kiểm tra phiên bản PHP',
@@ -62,31 +60,30 @@ $lang = array_merge($lang, [
 	'LANG_SWITCH'			=> 'Ngôn ngữ chuyển',
 	'LANG_SWITCH_EXPLAIN'	=> 'Ngôn ngữ chuyển và mặc định phải khác nhau.',
 
-	'MAINTENANCE_MODE'			=> 'Chế độ bảo trì',
-	'MAINTENANCE_MODE_ADMIN'	=> 'Quản trị viên',
-	'MAINTENANCE_MODE_FOUNDER'	=> 'Sáng lập viên',
-	'MAINTENANCE_MODE_MOD'		=> 'Điều hành viên',
-	'MAINTENANCE_MODE_NONE'		=> 'Không',
-	'MAINTENANCE_MODE_USER'		=> 'Người dùng',
-	'MAINTENANCE_TEXT'			=> 'Thông báo bảo trì',
-	'MAINTENANCE_TEXT_EXPLAIN'	=> 'Để trống để dùng thông báo mặc định từ tập tin ngôn ngữ.',
-	'MAINTENANCE_TIME'			=> 'Thời gian bảo trì',
-	'MAINTENANCE_TIME_EXPLAIN'	=> 'Số phút tính từ thời điểm bạn lưu thiết lập.',
-	'MAINTENANCE_TIME_REMAIN'	=> 'Thời gian còn lại',
-	'MAINTENANCE_TIME_RESET'	=> 'Tạo mới thời gian',
-	'MAINTENANCE_TPL'			=> 'Dùng khuôn mẫu để hiển thị',
-	'MANAGER_NAME'				=> 'Tên công ty',
-	'MANAGER_USER_ID'			=> 'ID tài khoản quản lý',
-	'MANAGER_USERNAME'			=> 'Tên tài khoản quản lý',
-	'MAP_ADDRESS'				=> 'Địa chỉ',
-	'MAP_API'					=> 'Khóa Google Maps JavaScript API',
-	'MAP_PHONE'					=> 'Số điện thoại',
-	'MAP_PHONE_NAME'			=> 'Tên liên hệ',
-
-	'NO_EXTRA_LANG_TO_SELECT'	=> 'Không có thêm ngôn ngữ khác để chọn.',
+	'MAINTENANCE_MODE'					=> 'Chế độ bảo trì',
+	'MAINTENANCE_MODE_ADMIN'			=> 'Quản trị viên',
+	'MAINTENANCE_MODE_FOUNDER'			=> 'Sáng lập viên',
+	'MAINTENANCE_MODE_MOD'				=> 'Điều hành viên',
+	'MAINTENANCE_MODE_NONE'				=> 'Không',
+	'MAINTENANCE_MODE_USER'				=> 'Người dùng',
+	'MAINTENANCE_TEXT'					=> 'Thông báo bảo trì',
+	'MAINTENANCE_TEXT_EXPLAIN'			=> 'Để trống để dùng thông báo mặc định từ tập tin ngôn ngữ.',
+	'MAINTENANCE_TIME'					=> 'Thời gian bảo trì',
+	'MAINTENANCE_TIME_EXPLAIN'			=> 'Số phút tính từ thời điểm bạn lưu thiết lập.',
+	'MAINTENANCE_TIME_REMAIN'			=> 'Thời gian còn lại',
+	'MAINTENANCE_TIME_RESET'			=> 'Tạo mới thời gian',
+	'MAINTENANCE_TPL'					=> 'Dùng khuôn mẫu để hiển thị',
+	'MANAGER_NAME'						=> 'Tên công ty',
+	'MANAGER_USER_ID'					=> 'ID tài khoản quản lý',
+	'MANAGER_USERNAME'					=> 'Tên tài khoản quản lý',
+	'MAP_ADDRESS'						=> 'Địa chỉ',
+	'MAP_API'							=> 'Khóa Google Maps JavaScript API',
+	'MAP_PHONE'							=> 'Số điện thoại',
+	'MAP_PHONE_NAME'					=> 'Tên liên hệ',
+	'MESSAGE_MAIN_SETTINGS_UPDATE'		=> 'Đã cập nhật thiết lập chung.',
+	'MESSAGE_SETUP_SETTINGS_UPDATE'		=> 'Đã cập nhật thiết lập một lần.',
+	'MESSAGE_VERSION_SETTINGS_UPDATE'	=> 'Đã cập nhật thiết lập phiên bản.',
 
 	'SELECT_LANGUAGE'	=> 'Chọn ngôn ngữ',
-	'SOCIAL_LINKS'		=> 'Liên kết mạng xã hội',
-
-	'VINABB_SETTINGS_UPDATED'	=> 'Đã cập nhật thiết lập VinaBB.vn.'
+	'SOCIAL_LINKS'		=> 'Liên kết mạng xã hội'
 ]);
