@@ -121,20 +121,17 @@ class settings
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_SETTINGS');
 				$this->cache->clear_config_text();
 
-				trigger_error($this->language->lang('VINABB_SETTINGS_UPDATED') . adm_back_link($this->u_action));
+				trigger_error($this->language->lang('MESSAGE_VINABB_SETTINGS_UPDATE') . adm_back_link($this->u_action));
 			}
 		}
 
 		// Output
+		$this->output_group_settings('list_main_settings');
+
 		$this->template->assign_vars([
 			'ERROR_MSG'	=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
 			'U_ACTION'	=> $this->u_action
 		]);
-
-		foreach ($this->list_main_settings() as $name => $data)
-		{
-			$this->template->assign_var(strtoupper($name), $this->config['vinabb_web_' . $name]);
-		}
 	}
 
 	/**
@@ -142,17 +139,7 @@ class settings
 	*/
 	public function set_main_settings()
 	{
-		foreach ($this->list_main_settings() as $name => $data)
-		{
-			// Get form input
-			${$name} = $this->request->variable($name, $data['default'], (substr($data['type'], -4) == '_uni'));
-
-			// Save if the data has changed
-			if (${$name} != $this->config['vinabb_web_' . $name])
-			{
-				$this->config->set('vinabb_web_' . $name, ${$name});
-			}
-		}
+		$this->set_group_settings('list_main_settings');
 	}
 
 	/**
@@ -192,6 +179,33 @@ class settings
 	{
 		// Create a form key for preventing CSRF attacks
 		add_form_key('acp_settings_version');
+
+		// Submit
+		if ($this->request->is_set_post('submit'))
+		{
+			// Test if the submitted form is valid
+			if (!check_form_key('preventing'))
+			{
+				$this->errors[] = $this->language->lang('FORM_INVALID');
+			}
+
+			if (!sizeof($this->errors))
+			{
+				$this->set_version_settings();
+				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_SETTINGS_VERSION');
+				$this->cache->clear_config_text();
+
+				trigger_error($this->language->lang('MESSAGE_VINABB_SETTINGS_VERSION_UPDATE') . adm_back_link($this->u_action));
+			}
+		}
+
+		// Output
+		$this->output_group_settings('list_version_settings');
+
+		$this->template->assign_vars([
+			'ERROR_MSG'	=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
+			'U_ACTION'	=> $this->u_action
+		]);
 	}
 
 	/**
@@ -199,7 +213,7 @@ class settings
 	*/
 	public function set_version_settings()
 	{
-		$this->config->set('vinabb_web_', 0);
+		$this->set_group_settings('list_version_settings');
 	}
 
 	/**
@@ -230,6 +244,33 @@ class settings
 	{
 		// Create a form key for preventing CSRF attacks
 		add_form_key('acp_settings_setup');
+
+		// Submit
+		if ($this->request->is_set_post('submit'))
+		{
+			// Test if the submitted form is valid
+			if (!check_form_key('acp_settings_setup'))
+			{
+				$this->errors[] = $this->language->lang('FORM_INVALID');
+			}
+
+			if (!sizeof($this->errors))
+			{
+				$this->set_setup_settings();
+				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_SETTINGS_SETUP');
+				$this->cache->clear_config_text();
+
+				trigger_error($this->language->lang('MESSAGE_VINABB_SETTINGS_SETUP_UPDATE') . adm_back_link($this->u_action));
+			}
+		}
+
+		// Output
+		$this->output_group_settings('list_setup_settings');
+
+		$this->template->assign_vars([
+			'ERROR_MSG'	=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
+			'U_ACTION'	=> $this->u_action
+		]);
 	}
 
 	/**
@@ -237,7 +278,7 @@ class settings
 	*/
 	public function set_setup_settings()
 	{
-		$this->config->set('vinabb_web_', 0);
+		$this->set_group_settings('list_setup_settings');
 	}
 
 	/**
@@ -280,6 +321,39 @@ class settings
 			'google_plus_url'	=> ['type' => 'string', 'default' => '', 'check' => ''],
 			'github_url'		=> ['type' => 'string', 'default' => '', 'check' => '']
 		];
+	}
+
+	/**
+	* Helper to output setting items to template variables
+	*
+	* @param string $list_method_name List method name for each group of settings
+	*/
+	protected function output_group_settings($list_method_name = 'list_main_settings')
+	{
+		foreach ($this->$list_method_name() as $name => $data)
+		{
+			$this->template->assign_var(strtoupper($name), $this->config['vinabb_web_' . $name]);
+		}
+	}
+
+	/**
+	* Helper to list setting items
+	*
+	* @param string $list_method_name List method name for each group of settings
+	*/
+	protected function set_group_settings($list_method_name = 'list_main_settings')
+	{
+		foreach ($this->$list_method_name() as $name => $data)
+		{
+			// Get form input
+			${$name} = $this->request->variable($name, $data['default'], (substr($data['type'], -4) == '_uni'));
+
+			// Save if the data has changed
+			if (${$name} != $this->config['vinabb_web_' . $name])
+			{
+				$this->config->set('vinabb_web_' . $name, ${$name});
+			}
+		}
 	}
 
 	/**
