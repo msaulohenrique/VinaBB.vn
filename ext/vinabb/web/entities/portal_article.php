@@ -697,10 +697,10 @@ class portal_article implements portal_article_interface
 	*/
 	public function set_enable($value)
 	{
-		$value = (bool) $value;
-
-		// Set the value on our data array
-		$this->data['article_enable'] = $value;
+		if (!isset($this->data['article_enable']))
+		{
+			$this->data['article_enable'] = (bool) $value;
+		}
 
 		return $this;
 	}
