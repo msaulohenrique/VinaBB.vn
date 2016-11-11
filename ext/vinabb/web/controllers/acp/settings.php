@@ -8,6 +8,8 @@
 
 namespace vinabb\web\controllers\acp;
 
+use vinabb\web\includes\constants;
+
 /**
 * Controller for the settings_module
 */
@@ -156,6 +158,11 @@ class settings
 			'maintenance_time_reset'	=> ['type' => 'bool', 'default' => false, 'check' => ''],
 			'maintenance_text'			=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
 			'maintenance_text_vi'		=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
+			'maintenance_mode_none'		=> ['type' => 'tpl', 'default' => constants::MAINTENANCE_MODE_NONE, 'check' => ''],
+			'maintenance_mode_founder'	=> ['type' => 'tpl', 'default' => constants::MAINTENANCE_MODE_FOUNDER, 'check' => ''],
+			'maintenance_mode_admin'	=> ['type' => 'tpl', 'default' => constants::MAINTENANCE_MODE_ADMIN, 'check' => ''],
+			'maintenance_mode_mod'		=> ['type' => 'tpl', 'default' => constants::MAINTENANCE_MODE_MOD, 'check' => ''],
+			'maintenance_mode_user'		=> ['type' => 'tpl', 'default' => constants::MAINTENANCE_MODE_USER, 'check' => ''],
 
 			'donate_year'		=> ['type' => 'int', 'default' => 0, 'check' => ''],
 			'donate_year_value'	=> ['type' => 'int', 'default' => 0, 'check' => ''],
@@ -168,7 +175,8 @@ class settings
 			'donate_bank_vi'	=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
 			'donate_bank_acc'	=> ['type' => 'string', 'default' => '', 'check' => ''],
 			'donate_bank_swift'	=> ['type' => 'string', 'default' => '', 'check' => ''],
-			'donate_paypal'		=> ['type' => 'string', 'default' => '', 'check' => '']
+			'donate_paypal'		=> ['type' => 'string', 'default' => '', 'check' => ''],
+			'current_year'		=> ['type' => 'tpl', 'default' => date('Y', time()), 'check' => '']
 		];
 	}
 
@@ -332,7 +340,14 @@ class settings
 	{
 		foreach ($this->$list_method_name() as $name => $data)
 		{
-			$this->template->assign_var(strtoupper($name), $this->config['vinabb_web_' . $name]);
+			if ($data['type'] == 'tpl')
+			{
+				$this->template->assign_var(strtoupper($name), $data['default']);
+			}
+			else
+			{
+				$this->template->assign_var(strtoupper($name), $this->config['vinabb_web_' . $name]);
+			}
 		}
 	}
 
@@ -345,13 +360,16 @@ class settings
 	{
 		foreach ($this->$list_method_name() as $name => $data)
 		{
-			// Get form input
-			${$name} = $this->request->variable($name, $data['default'], (substr($data['type'], -4) == '_uni'));
-
-			// Save if the data has changed
-			if (${$name} != $this->config['vinabb_web_' . $name])
+			if ($data['type'] != 'tpl')
 			{
-				$this->config->set('vinabb_web_' . $name, ${$name});
+				// Get form input
+				${$name} = $this->request->variable($name, $data['default'], (substr($data['type'], -4) == '_uni'));
+
+				// Save if the data has changed
+				if (${$name} != $this->config['vinabb_web_' . $name])
+				{
+					$this->config->set('vinabb_web_' . $name, ${$name});
+				}
 			}
 		}
 	}
