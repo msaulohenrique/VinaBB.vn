@@ -31,8 +31,8 @@ class settings_module
 	/**
 	* Main method of the module
 	*
-	* @param $id
-	* @param $mode
+	* @param string	$id		Module basename
+	* @param string	$mode	Module mode
 	*/
 	public function main($id, $mode)
 	{
@@ -61,7 +61,6 @@ class settings_module
 				$this->controller->display_setup_settings();
 			break;
 
-			default:
 			case 'main':
 				$this->tpl_name = 'acp_settings';
 				$this->page_title = $this->language->lang('ACP_VINABB_SETTINGS');
