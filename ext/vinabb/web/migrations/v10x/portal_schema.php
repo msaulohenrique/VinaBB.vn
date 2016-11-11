@@ -69,7 +69,7 @@ class portal_schema extends migration
 						'comment_text_uid'		=> ['VCHAR:8', ''],
 						'comment_text_bitfield'	=> ['VCHAR:255', ''],
 						'comment_text_options'	=> ['UINT:11', 0],
-						'comment_mode'			=> ['TINT:1', 0],
+						'comment_pending'		=> ['BOOL', 0],
 						'comment_time'			=> ['TIMESTAMP', 0]
 					],
 					'PRIMARY_KEY' => 'comment_id',
