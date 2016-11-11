@@ -141,10 +141,10 @@ interface menu_interface
 	/**
 	* Set menu icon
 	*
-	* @param string				$value	Menu icon
+	* @param string				$text	Menu icon
 	* @return menu_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function set_icon($value);
+	public function set_icon($text);
 
 	/**
 	* Get menu data
@@ -156,10 +156,10 @@ interface menu_interface
 	/**
 	* Set menu data
 	*
-	* @param string				$value	Menu data
+	* @param string				$text	Menu data
 	* @return menu_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function set_data($value);
+	public function set_data($text);
 
 	/**
 	* Get menu open target setting

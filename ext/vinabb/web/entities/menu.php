@@ -383,14 +383,14 @@ class menu implements menu_interface
 	/**
 	* Set menu icon
 	*
-	* @param string				$value	Menu icon
+	* @param string				$text	Menu icon
 	* @return menu_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function set_icon($value)
+	public function set_icon($text)
 	{
 		if (!isset($this->data['menu_icon']))
 		{
-			$this->data['menu_icon'] = (string) $value;
+			$this->data['menu_icon'] = (string) $text;
 		}
 
 		return $this;
@@ -409,14 +409,14 @@ class menu implements menu_interface
 	/**
 	* Set menu data
 	*
-	* @param string				$value	Menu data
+	* @param string				$text	Menu data
 	* @return menu_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function set_data($value)
+	public function set_data($text)
 	{
 		if (!isset($this->data['menu_data']))
 		{
-			$this->data['menu_data'] = (string) $value;
+			$this->data['menu_data'] = (string) $text;
 		}
 
 		return $this;
