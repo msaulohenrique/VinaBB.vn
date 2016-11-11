@@ -33,39 +33,18 @@ class bb_modules extends migration
 	public function update_data()
 	{
 		return [
-			[
-				'module.add',
-				[
-					'acp',
-					'ACP_CAT_BB',
-					[
-						'module_basename'	=> '\vinabb\web\acp\bb_categories_module',
-						'modes' 			=> ['ext', 'style', 'acp_style', 'lang', 'tool']
-					],
-				]
-			],
-			[
-				'module.add',
-				[
-					'acp',
-					'ACP_CAT_BB',
-					[
-						'module_basename'	=> '\vinabb\web\acp\bb_items_module',
-						'modes'				=> ['ext', 'style', 'acp_style', 'lang', 'tool']
-					]
-				]
-			],
-			[
-				'module.add',
-				[
-					'acp',
-					'ACP_CAT_BB',
-					[
-						'module_basename'	=> '\vinabb\web\acp\bb_authors_module',
-						'modes'				=> ['main']
-					]
-				]
-			]
+			['module.add', ['acp', 'ACP_CAT_BB', [
+				'module_basename'	=> '\vinabb\web\acp\bb_categories_module',
+				'modes' 			=> ['ext', 'style', 'acp_style', 'lang', 'tool']
+			]]],
+			['module.add', ['acp', 'ACP_CAT_BB', [
+				'module_basename'	=> '\vinabb\web\acp\bb_items_module',
+				'modes'				=> ['ext', 'style', 'acp_style', 'lang', 'tool']
+			]]],
+			['module.add', ['acp', 'ACP_CAT_BB', [
+				'module_basename'	=> '\vinabb\web\acp\bb_authors_module',
+				'modes'				=> ['main']
+			]]]
 		];
 	}
 }

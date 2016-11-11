@@ -33,39 +33,18 @@ class portal_modules extends migration
 	public function update_data()
 	{
 		return [
-			[
-				'module.add',
-				[
-					'acp',
-					'ACP_CAT_PORTAL',
-					[
-						'module_basename'	=> '\vinabb\web\acp\portal_categories_module',
-						'modes'				=> ['main']
-					]
-				]
-			],
-			[
-				'module.add',
-				[
-					'acp',
-					'ACP_CAT_PORTAL',
-					[
-						'module_basename'	=> '\vinabb\web\acp\portal_articles_module',
-						'modes'				=> ['main']
-					]
-				]
-			],
-			[
-				'module.add',
-				[
-					'acp',
-					'ACP_CAT_PORTAL',
-					[
-						'module_basename'	=> '\vinabb\web\acp\portal_comments_module',
-						'modes'				=> ['main']
-					]
-				]
-			]
+			['module.add', ['acp', 'ACP_CAT_PORTAL', [
+				'module_basename'	=> '\vinabb\web\acp\portal_categories_module',
+				'modes'				=> ['main']
+			]]],
+			['module.add', ['acp', 'ACP_CAT_PORTAL', [
+				'module_basename'	=> '\vinabb\web\acp\portal_articles_module',
+				'modes'				=> ['main']
+			]]],
+			['module.add', ['acp', 'ACP_CAT_PORTAL', [
+				'module_basename'	=> '\vinabb\web\acp\portal_comments_module',
+				'modes'				=> ['main']
+			]]]
 		];
 	}
 }

@@ -43,17 +43,10 @@ class web_settings extends migration
 			['config_text.add', ['vinabb_web_maintenance_text_vi', '']],
 
 			// Main setting module
-			[
-				'module.add',
-				[
-					'acp',
-					'ACP_CAT_VINABB_SETTINGS',
-					[
-						'module_basename'	=> '\vinabb\web\acp\settings_module',
-						'modes'				=> ['main']
-					]
-				]
-			]
+			['module.add', ['acp', 'ACP_CAT_VINABB_SETTINGS', [
+				'module_basename'	=> '\vinabb\web\acp\settings_module',
+				'modes'				=> ['main']
+			]]]
 		];
 	}
 }

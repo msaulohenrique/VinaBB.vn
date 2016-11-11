@@ -33,17 +33,10 @@ class menus_module extends migration
 	public function update_data()
 	{
 		return [
-			[
-				'module.add',
-				[
-					'acp',
-					'ACP_CAT_PORTAL',
-					[
-						'module_basename'	=> '\vinabb\web\acp\menus_module',
-						'modes'				=> ['main']
-					]
-				]
-			]
+			['module.add', ['acp', 'ACP_CAT_PORTAL', [
+				'module_basename'	=> '\vinabb\web\acp\menus_module',
+				'modes'				=> ['main']
+			]]]
 		];
 	}
 }
