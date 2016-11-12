@@ -416,7 +416,7 @@ class settings
 				// Valid data, add to array if has data changed
 				if ($check && ${$name} != $this->$key['vinabb_web_' . $name])
 				{
-					$this->data[$key][$name] = 'vinabb_web_' . $name;
+					$this->data[$key]['vinabb_web_' . $name] = ${$name};
 				}
 			}
 		}
@@ -427,7 +427,7 @@ class settings
 	*/
 	protected function set_group_settings()
 	{
-		if (sizeof($this->data['config']))
+		if (isset($this->data['config']))
 		{
 			foreach ($this->data['config'] as $config_name => $config_value)
 			{
@@ -435,7 +435,7 @@ class settings
 			}
 		}
 
-		if (sizeof($this->data['config_text_data']))
+		if (isset($this->data['config_text_data']))
 		{
 			$this->config_text->set_array($this->data['config_text_data']);
 		}
