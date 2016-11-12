@@ -7,22 +7,13 @@
 	<fieldset>
 		<legend>{{ lang('ACP_LANGUAGE') }}</legend>
 		<dl>
-			<dt><label for="lang_enable">{{ lang('LANG_ENABLE') ~ lang('COLON') }}</label></dt>
-			<dd>
-				<label><input type="radio" class="radio" name="lang_enable" value="1" id="lang_enable"{% if LANG_ENABLE %} checked{% endif %} onclick="phpbb.toggleDisplay('lang_enable_options', 1)"> {{ lang('YES') }}</label>
-				<label><input type="radio" class="radio" name="lang_enable" value="0"{% if not LANG_ENABLE %} checked{% endif %} onclick="phpbb.toggleDisplay('lang_enable_options', -1)"> {{ lang('NO') }}</label>
-			</dd>
+			<dt><label>{{ lang('DEFAULT_LANGUAGE') ~ lang('COLON') }}</label></dt>
+			<dd><strong>{{ DEFAULT_LANG }}</strong></dd>
 		</dl>
-		<div id="lang_enable_options"{% if not LANG_ENABLE %} style="display: none;"{% endif %}>
-			<dl>
-				<dt><label>{{ lang('DEFAULT_LANGUAGE') ~ lang('COLON') }}</label></dt>
-				<dd><strong>{{ DEFAULT_LANG }}</strong></dd>
-			</dl>
-			<dl>
-				<dt><label for="lang_switch">{{ lang('LANG_SWITCH') ~ lang('COLON') }}</label><br /><span>{{ lang('LANG_SWITCH_EXPLAIN') }}</span></dt>
-				<dd><select name="lang_switch" id="lang_switch">{{ LANG_SWITCH_OPTIONS }}</select></dd>
-			</dl>
-		</div>
+		<dl>
+			<dt><label for="lang_switch">{{ lang('LANG_SWITCH') ~ lang('COLON') }}</label><br /><span>{{ lang('LANG_SWITCH_EXPLAIN') }}</span></dt>
+			<dd><select name="lang_switch" id="lang_switch">{{ LANG_SWITCH_OPTIONS }}</select></dd>
+		</dl>
 	</fieldset>
 	<fieldset>
 		<legend>{{ lang('FORUMS') }}</legend>

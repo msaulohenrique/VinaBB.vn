@@ -34,7 +34,6 @@ class web_settings extends migration
 	{
 		return [
 			// Config
-			['config.add', ['vinabb_web_lang_enable', 0]],
 			['config.add', ['vinabb_web_lang_switch', '']],
 			['config.add', ['vinabb_web_maintenance_mode', 0]],
 			['config.add', ['vinabb_web_maintenance_tpl', 1]],
