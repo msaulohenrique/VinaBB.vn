@@ -397,7 +397,7 @@ class settings
 				switch ($data['check'])
 				{
 					case 'empty':
-						if (empty(${$name}))
+						if (${$name} === '')
 						{
 							$this->errors[] = $this->language->lang('ERROR_' . strtoupper($name) . '_EMPTY');
 							$check = false;
@@ -405,7 +405,7 @@ class settings
 					break;
 
 					case 'regex':
-						if (isset($data['check_data']) && !empty($data['check_data']) && !preg_match($data['check_data'], ${$name}))
+						if (isset($data['check_data']) && $data['check_data'] !== '' && !preg_match($data['check_data'], ${$name}))
 						{
 							$this->errors[] = $this->language->lang('ERROR_' . strtoupper($name) . '_INVALID');
 							$check = false;

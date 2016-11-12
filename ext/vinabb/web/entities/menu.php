@@ -294,7 +294,7 @@ class menu implements menu_interface
 		$text = (string) $text;
 
 		// This is a required field
-		if (empty($text))
+		if ($text == '')
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['menu_name', 'FIELD_MISSING']);
 		}

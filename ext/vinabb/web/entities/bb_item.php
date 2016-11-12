@@ -411,7 +411,7 @@ class bb_item implements bb_item_interface
 		$text = (string) $text;
 
 		// This is a required field
-		if (empty($text))
+		if ($text == '')
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['item_name', 'FIELD_MISSING']);
 		}
@@ -450,7 +450,7 @@ class bb_item implements bb_item_interface
 		$text = strtolower($text);
 
 		// This is a required field
-		if (empty($text))
+		if ($text == '')
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['item_varname', 'FIELD_MISSING']);
 		}
@@ -666,7 +666,7 @@ class bb_item implements bb_item_interface
 		}
 
 		// Reparse the content
-		if ($reparse_content && !empty($this->data['item_desc']))
+		if ($reparse_content && $this->data['item_desc'] != '')
 		{
 			$text = $this->data['item_desc'];
 
@@ -869,7 +869,7 @@ class bb_item implements bb_item_interface
 		}
 
 		// Reparse the content
-		if ($reparse_content && !empty($this->data['item_desc_vi']))
+		if ($reparse_content && $this->data['item_desc_vi'] != '')
 		{
 			$text = $this->data['item_desc_vi'];
 

@@ -302,7 +302,7 @@ class portal_article implements portal_article_interface
 		$text = (string) $text;
 
 		// This is a required field
-		if (empty($text))
+		if ($text == '')
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['article_name', 'FIELD_MISSING']);
 		}
@@ -341,7 +341,7 @@ class portal_article implements portal_article_interface
 		$text = strtolower($text);
 
 		// This is a required field
-		if (empty($text))
+		if ($text == '')
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['article_name_seo', 'FIELD_MISSING']);
 		}
@@ -386,7 +386,11 @@ class portal_article implements portal_article_interface
 		$text = (string) $text;
 
 		// This is a required field
-		if (!empty($text))
+		if ($text == '')
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['article_lang', 'FIELD_MISSING']);
+		}
+		else
 		{
 			$sql = 'SELECT 1
 				FROM ' . LANG_TABLE . "
@@ -399,10 +403,6 @@ class portal_article implements portal_article_interface
 			{
 				throw new \vinabb\web\exceptions\unexpected_value(['article_lang', 'NOT_EXISTS']);
 			}
-		}
-		else
-		{
-			throw new \vinabb\web\exceptions\unexpected_value(['article_lang', 'FIELD_MISSING']);
 		}
 
 		// Set the value on our data array
@@ -459,7 +459,7 @@ class portal_article implements portal_article_interface
 		$text = strtolower($text);
 
 		// This is a required field
-		if (empty($text))
+		if ($text == '')
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['article_desc', 'FIELD_MISSING']);
 		}
@@ -669,7 +669,7 @@ class portal_article implements portal_article_interface
 		}
 
 		// Reparse the content
-		if ($reparse_content && !empty($this->data['article_text']))
+		if ($reparse_content && $this->data['article_text'] != '')
 		{
 			$text = $this->data['article_text'];
 

@@ -269,7 +269,7 @@ class portal_category implements portal_category_interface
 		$text = (string) $text;
 
 		// This is a required field
-		if (empty($text))
+		if ($text == '')
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['cat_name', 'FIELD_MISSING']);
 		}
@@ -341,7 +341,7 @@ class portal_category implements portal_category_interface
 		$text = strtolower($text);
 
 		// This is a required field
-		if (empty($text))
+		if ($text == '')
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['cat_varname', 'FIELD_MISSING']);
 		}

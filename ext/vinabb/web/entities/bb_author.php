@@ -301,7 +301,7 @@ class bb_author implements bb_author_interface
 		$text = (string) $text;
 
 		// This is a required field
-		if (empty($text))
+		if ($text == '')
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['author_name', 'FIELD_MISSING']);
 		}
@@ -340,7 +340,7 @@ class bb_author implements bb_author_interface
 		$text = strtolower($text);
 
 		// This is a required field
-		if (empty($text))
+		if ($text == '')
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['author_name_seo', 'FIELD_MISSING']);
 		}

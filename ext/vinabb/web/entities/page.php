@@ -267,7 +267,7 @@ class page implements page_interface
 		$text = (string) $text;
 
 		// This is a required field
-		if (empty($text))
+		if ($text == '')
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['page_name', 'FIELD_MISSING']);
 		}
@@ -339,7 +339,7 @@ class page implements page_interface
 		$text = strtolower($text);
 
 		// This is a required field
-		if (empty($text))
+		if ($text == '')
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['page_varname', 'FIELD_MISSING']);
 		}
@@ -624,7 +624,7 @@ class page implements page_interface
 		}
 
 		// Reparse the content
-		if ($reparse_content && !empty($this->data['page_text']))
+		if ($reparse_content && $this->data['page_text'] != '')
 		{
 			$text = $this->data['page_text'];
 
@@ -827,7 +827,7 @@ class page implements page_interface
 		}
 
 		// Reparse the content
-		if ($reparse_content && !empty($this->data['page_text_vi']))
+		if ($reparse_content && $this->data['page_text_vi'] != '')
 		{
 			$text = $this->data['page_text_vi'];
 
