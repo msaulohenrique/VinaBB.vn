@@ -265,7 +265,7 @@ class pages
 					// Save the edited page entity to the database
 					$page->save();
 
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_EDIT', time(), array($page->get_varname()));
+					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_EDIT', time(), [$page->get_varname()]);
 
 					$message = 'MESSAGE_PAGE_EDIT';
 				}
@@ -274,7 +274,7 @@ class pages
 					// Add the new page entity to the database
 					$page = $this->operator->add_page($page);
 
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_ADD', time(), array($page->get_varname()));
+					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_ADD', time(), [$page->get_varname()]);
 
 					$message = 'MESSAGE_PAGE_ADD';
 				}
