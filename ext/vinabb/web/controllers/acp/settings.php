@@ -49,6 +49,9 @@ class settings
 	protected $u_action;
 
 	/** @var array */
+	protected $data = [];
+
+	/** @var array */
 	protected $errors = [];
 
 	/** @var array */
@@ -387,12 +390,17 @@ class settings
 				// Get form input
 				${$name} = $this->request->variable($name, $data['default'], (substr($data['type'], -4) == '_uni'));
 
+				// config or config_text?
+				$key = (substr($data['type'], 0, 4) == 'text') ? 'config_text_data' : 'config';
+				$check = true;
+
 				switch ($data['check'])
 				{
 					case 'empty':
 						if (empty(${$name}))
 						{
 							$this->errors[] = $this->language->lang('ERROR_' . strtoupper($name) . '_EMPTY');
+							$check = false;
 						}
 					break;
 
@@ -400,8 +408,15 @@ class settings
 						if (isset($data['check_data']) && !empty($data['check_data']) && !preg_match($data['check_data'], ${$name}))
 						{
 							$this->errors[] = $this->language->lang('ERROR_' . strtoupper($name) . '_INVALID');
+							$check = false;
 						}
 					break;
+				}
+
+				// Valid data, add to array if has data changed
+				if ($check && ${$name} != $this->$key['vinabb_web_' . $name])
+				{
+					$this->data[$key][$name] = 'vinabb_web_' . $name;
 				}
 			}
 		}
@@ -409,24 +424,20 @@ class settings
 
 	/**
 	* Helper to save setting items
-	*
-	* @param string $group_name Group name of settings
 	*/
-	protected function set_group_settings($group_name = 'main')
+	protected function set_group_settings()
 	{
-		foreach ($this->{'list_' . $group_name . '_settings'}() as $name => $data)
+		if (sizeof($this->data['config']))
 		{
-			if ($data['type'] != 'tpl')
+			foreach ($this->data['config'] as $config_name => $config_value)
 			{
-				// Get form input
-				${$name} = $this->request->variable($name, $data['default'], (substr($data['type'], -4) == '_uni'));
-
-				// Save if the data has changed
-				if (${$name} != $this->config['vinabb_web_' . $name])
-				{
-					$this->config->set('vinabb_web_' . $name, ${$name});
-				}
+				$this->config->set($config_name, $config_value);
 			}
+		}
+
+		if (sizeof($this->data['config_text_data']))
+		{
+			$this->config_text->set_array($this->data['config_text_data']);
 		}
 	}
 
