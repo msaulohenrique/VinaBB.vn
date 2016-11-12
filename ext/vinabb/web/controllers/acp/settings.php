@@ -52,6 +52,9 @@ class settings
 	protected $errors = [];
 
 	/** @var array */
+	protected $config_text_data = [];
+
+	/** @var array */
 	protected $forum_data = [];
 
 	/**
@@ -92,6 +95,7 @@ class settings
 		$this->template = $template;
 		$this->user = $user;
 
+		$this->config_text_data = $this->cache->get_config_text();
 		$this->forum_data = $this->cache->get_forum_data();
 	}
 
@@ -159,8 +163,8 @@ class settings
 			'maintenance_tpl'			=> ['type' => 'bool', 'default' => true, 'check' => ''],
 			'maintenance_time'			=> ['type' => 'int', 'default' => 0, 'check' => ''],
 			'maintenance_time_reset'	=> ['type' => 'bool', 'default' => false, 'check' => ''],
-			'maintenance_text'			=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
-			'maintenance_text_vi'		=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
+			'maintenance_text'			=> ['type' => 'text_uni', 'default' => '', 'check' => ''],
+			'maintenance_text_vi'		=> ['type' => 'text_uni', 'default' => '', 'check' => ''],
 			'maintenance_mode_none'		=> ['type' => 'tpl', 'default' => constants::MAINTENANCE_MODE_NONE, 'check' => ''],
 			'maintenance_mode_founder'	=> ['type' => 'tpl', 'default' => constants::MAINTENANCE_MODE_FOUNDER, 'check' => ''],
 			'maintenance_mode_admin'	=> ['type' => 'tpl', 'default' => constants::MAINTENANCE_MODE_ADMIN, 'check' => ''],
@@ -351,13 +355,20 @@ class settings
 	{
 		foreach ($this->{'list_' . $group_name . '_settings'}() as $name => $data)
 		{
-			if ($data['type'] == 'tpl')
+			switch ($data['type'])
 			{
-				$this->template->assign_var(strtoupper($name), $data['default']);
-			}
-			else
-			{
-				$this->template->assign_var(strtoupper($name), $this->config['vinabb_web_' . $name]);
+				case 'tpl':
+					$this->template->assign_var(strtoupper($name), $data['default']);
+				break;
+
+				case 'text':
+				case 'text_uni':
+					$this->template->assign_var(strtoupper($name), $this->config_text_data['vinabb_web_' . $name]);
+				break;
+
+				default:
+					$this->template->assign_var(strtoupper($name), $this->config['vinabb_web_' . $name]);
+				break;
 			}
 		}
 	}
@@ -373,6 +384,7 @@ class settings
 		{
 			if ($data['type'] != 'tpl')
 			{
+				// Get form input
 				${$name} = $this->request->variable($name, $data['default'], (substr($data['type'], -4) == '_uni'));
 
 				switch ($data['check'])
