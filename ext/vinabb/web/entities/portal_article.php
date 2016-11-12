@@ -255,7 +255,7 @@ class portal_article implements portal_article_interface
 		$id = (int) $id;
 
 		// This is a required field
-		if ($id > 0)
+		if ($id)
 		{
 			$sql = 'SELECT 1
 				FROM ' . $this->cat_table_name . "

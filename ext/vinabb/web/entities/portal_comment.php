@@ -243,7 +243,7 @@ class portal_comment implements portal_comment_interface
 		$id = (int) $id;
 
 		// This is a required field
-		if ($id > 0)
+		if ($id)
 		{
 			$sql = 'SELECT 1
 				FROM ' . USERS_TABLE . "
@@ -290,7 +290,7 @@ class portal_comment implements portal_comment_interface
 		$id = (int) $id;
 
 		// This is a required field
-		if ($id > 0)
+		if ($id)
 		{
 			$sql = 'SELECT 1
 				FROM ' . $this->article_table_name . "

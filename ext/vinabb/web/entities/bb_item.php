@@ -317,7 +317,7 @@ class bb_item implements bb_item_interface
 		$id = (int) $id;
 
 		// This is a required field
-		if ($id > 0)
+		if ($id)
 		{
 			$sql = 'SELECT 1
 				FROM ' . $this->cat_table_name . "
@@ -364,7 +364,7 @@ class bb_item implements bb_item_interface
 		$id = (int) $id;
 
 		// This is a required field
-		if ($id > 0)
+		if ($id)
 		{
 			$sql = 'SELECT 1
 				FROM ' . $this->author_table_name . "
