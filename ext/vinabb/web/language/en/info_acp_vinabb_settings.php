@@ -27,7 +27,12 @@ $lang = array_merge($lang, [
 	'ACP_VINABB_SETTINGS_VERSION'			=> 'Version settings',
 	'ACP_VINABB_SETTINGS_VERSION_EXPLAIN'	=> '',
 
-	'LOG_VINABB_SETTINGS'			=> '<strong>VinaBB: Altered general settings</strong>',
-	'LOG_VINABB_SETTINGS_SETUP'		=> '<strong>VinaBB: Altered once settings</strong>',
-	'LOG_VINABB_SETTINGS_VERSION'	=> '<strong>VinaBB: Altered version settings</strong>'
+	'LOG_VINABB_CHANGE_CHECK_PHP_BRANCH'			=> '<strong>VinaBB: Changed PHP latest branch in checking</strong><br>» Old branch: %1$s<br>» New branch: %2$s',
+	'LOG_VINABB_CHANGE_CHECK_PHP_LEGACY_BRANCH'		=> '<strong>VinaBB: Changed PHP legacy branch in checking</strong><br>» Old branch: %1$s<br>» New branch: %2$s',
+	'LOG_VINABB_CHANGE_CHECK_PHPBB_BRANCH'			=> '<strong>VinaBB: Changed phpBB latest branch in checking</strong><br>» Old branch: %1$s<br>» New branch: %2$s',
+	'LOG_VINABB_CHANGE_CHECK_PHPBB_DEV_BRANCH'		=> '<strong>VinaBB: Changed phpBB development branch in checking</strong><br>» Old branch: %1$s<br>» New branch: %2$s',
+	'LOG_VINABB_CHANGE_CHECK_PHPBB_LEGACY_BRANCH'	=> '<strong>VinaBB: Changed phpBB legacy branch in checking</strong><br>» Old branch: %1$s<br>» New branch: %2$s',
+	'LOG_VINABB_SETTINGS'							=> '<strong>VinaBB: Altered general settings</strong>',
+	'LOG_VINABB_SETTINGS_SETUP'						=> '<strong>VinaBB: Altered once settings</strong>',
+	'LOG_VINABB_SETTINGS_VERSION'					=> '<strong>VinaBB: Altered version settings</strong>'
 ]);
