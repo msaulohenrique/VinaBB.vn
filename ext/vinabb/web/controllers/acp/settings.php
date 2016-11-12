@@ -528,6 +528,11 @@ class settings
 	*/
 	protected function reset_phpbb_version_task($value)
 	{
+		if ($value != '' && $this->config['vinabb_web_check_phpbb_branch'] != '')
+		{
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_CHANGE_CHECK_PHPBB_BRANCH', time(), [$this->config['vinabb_web_check_phpbb_branch'], $value]);
+		}
+
 		$this->config->set('vinabb_web_check_gc', 0, true);
 		$this->config->set('vinabb_web_check_phpbb_version', '');
 	}
@@ -539,6 +544,11 @@ class settings
 	*/
 	protected function reset_phpbb_legacy_version_task($value)
 	{
+		if ($value != '' && $this->config['vinabb_web_check_phpbb_legacy_branch'] != '')
+		{
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_CHANGE_CHECK_PHPBB_LEGACY_BRANCH', time(), [$this->config['vinabb_web_check_phpbb_legacy_branch'], $value]);
+		}
+
 		$this->config->set('vinabb_web_check_gc', 0, true);
 		$this->config->set('vinabb_web_check_phpbb_legacy_version', '');
 	}
@@ -550,6 +560,11 @@ class settings
 	*/
 	protected function reset_phpbb_dev_version_task($value)
 	{
+		if ($value != '' && $this->config['vinabb_web_check_phpbb_dev_branch'] != '')
+		{
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_CHANGE_CHECK_PHPBB_DEV_BRANCH', time(), [$this->config['vinabb_web_check_phpbb_dev_branch'], $value]);
+		}
+
 		$this->config->set('vinabb_web_check_gc', 0, true);
 		$this->config->set('vinabb_web_check_phpbb_dev_version', '');
 	}
@@ -561,6 +576,11 @@ class settings
 	*/
 	protected function reset_php_version_task($value)
 	{
+		if ($value != '' && $this->config['vinabb_web_check_php_branch'] != '')
+		{
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_CHANGE_CHECK_PHP_BRANCH', time(), [$this->config['vinabb_web_check_php_branch'], $value]);
+		}
+
 		$this->config->set('vinabb_web_check_gc', 0, true);
 		$this->config->set('vinabb_web_check_php_version', '');
 	}
@@ -572,6 +592,11 @@ class settings
 	*/
 	protected function reset_php_legacy_version_task($value)
 	{
+		if ($value != '' && $this->config['vinabb_web_check_php_legacy_branch'] != '')
+		{
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_CHANGE_CHECK_PHP_LEGACY_BRANCH', time(), [$this->config['vinabb_web_check_php_legacy_branch'], $value]);
+		}
+
 		$this->config->set('vinabb_web_check_gc', 0, true);
 		$this->config->set('vinabb_web_check_php_legacy_version', '');
 	}
