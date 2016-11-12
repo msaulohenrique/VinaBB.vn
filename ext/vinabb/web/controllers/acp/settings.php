@@ -137,6 +137,7 @@ class settings
 
 			if (empty($this->errors))
 			{
+				$this->run_tasks();
 				$this->set_group_settings();
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_SETTINGS');
 
@@ -213,6 +214,7 @@ class settings
 
 			if (empty($this->errors))
 			{
+				$this->run_tasks();
 				$this->set_group_settings();
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_SETTINGS_VERSION');
 
@@ -275,6 +277,7 @@ class settings
 
 			if (empty($this->errors))
 			{
+				$this->run_tasks();
 				$this->set_group_settings();
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_SETTINGS_SETUP');
 
