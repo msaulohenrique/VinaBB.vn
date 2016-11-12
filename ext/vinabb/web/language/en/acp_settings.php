@@ -38,12 +38,12 @@ $lang = array_merge($lang, [
 	'DONATE_YEAR'		=> 'Donation year',
 	'DONATE_YEAR_VALUE'	=> 'Donation value',
 
-	'ERROR_MAINTENANCE_MODE_FOUNDER'			=> 'You are not authorized to change the maintenance mode to “Founder”.',
-	'ERROR_CHECK_PHP_BRANCH_INVALID'			=> 'The latest PHP branch version is invalid.',
-	'ERROR_CHECK_PHP_LEGACY_BRANCH_INVALID'		=> 'The legacy PHP branch version is invalid.',
-	'ERROR_CHECK_PHPBB_BRANCH_INVALID'			=> 'The latest phpBB branch version is invalid.',
-	'ERROR_CHECK_PHPBB_DEV_BRANCH_INVALID'		=> 'The development phpBB branch version is invalid.',
-	'ERROR_CHECK_PHPBB_LEGACY_BRANCH_INVALID'	=> 'The legacy phpBB branch version is invalid.',
+	'ERROR_MAINTENANCE_MODE_FOUNDER'		=> 'You are not authorized to change the maintenance mode to “Founder”.',
+	'ERROR_CHECK_PHP_BRANCH_REGEX'			=> 'The latest PHP branch version is invalid.',
+	'ERROR_CHECK_PHP_LEGACY_BRANCH_REGEX'	=> 'The legacy PHP branch version is invalid.',
+	'ERROR_CHECK_PHPBB_BRANCH_REGEX'		=> 'The latest phpBB branch version is invalid.',
+	'ERROR_CHECK_PHPBB_DEV_BRANCH_REGEX'	=> 'The development phpBB branch version is invalid.',
+	'ERROR_CHECK_PHPBB_LEGACY_BRANCH_REGEX'	=> 'The legacy phpBB branch version is invalid.',
 
 	'FORUM_ID_ENGLISH'					=> 'English category',
 	'FORUM_ID_ENGLISH_DISCUSSION'		=> 'Discussions (English)',

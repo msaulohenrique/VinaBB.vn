@@ -161,10 +161,9 @@ class settings
 	public function list_main_settings()
 	{
 		return [
-			'maintenance_mode'			=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'maintenance_mode'			=> ['type' => 'int', 'default' => 0, 'check' => 'value'],
 			'maintenance_tpl'			=> ['type' => 'bool', 'default' => true, 'check' => ''],
 			'maintenance_time'			=> ['type' => 'int', 'default' => 0, 'check' => ''],
-			'maintenance_time_reset'	=> ['type' => 'bool', 'default' => false, 'check' => ''],
 			'maintenance_text'			=> ['type' => 'text_uni', 'default' => '', 'check' => ''],
 			'maintenance_text_vi'		=> ['type' => 'text_uni', 'default' => '', 'check' => ''],
 			'maintenance_mode_none'		=> ['type' => 'tpl', 'default' => constants::MAINTENANCE_MODE_NONE, 'check' => ''],
@@ -404,7 +403,7 @@ class settings
 					case 'regex':
 						if (isset($data['check_data']) && $data['check_data'] !== '' && !preg_match($data['check_data'], ${$name}))
 						{
-							$this->errors[] = $this->language->lang('ERROR_' . strtoupper($name) . '_INVALID');
+							$this->errors[] = $this->language->lang('ERROR_' . strtoupper($name) . '_REGEX');
 							$check = false;
 						}
 					break;
