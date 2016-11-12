@@ -166,29 +166,29 @@ class settings
 	{
 		return [
 			'maintenance_mode'			=> ['type' => 'int', 'default' => 0, 'check' => 'method', 'check_data' => 'maintenance_mode_founder', 'task' => 'maintenance_mode_founder_task'],
-			'maintenance_tpl'			=> ['type' => 'bool', 'default' => true, 'check' => ''],
-			'maintenance_time'			=> ['type' => 'int', 'default' => 0, 'check' => ''],
-			'maintenance_text'			=> ['type' => 'text_uni', 'default' => '', 'check' => ''],
-			'maintenance_text_vi'		=> ['type' => 'text_uni', 'default' => '', 'check' => ''],
-			'maintenance_mode_none'		=> ['type' => 'tpl', 'default' => constants::MAINTENANCE_MODE_NONE, 'check' => ''],
-			'maintenance_mode_founder'	=> ['type' => 'tpl', 'default' => constants::MAINTENANCE_MODE_FOUNDER, 'check' => ''],
-			'maintenance_mode_admin'	=> ['type' => 'tpl', 'default' => constants::MAINTENANCE_MODE_ADMIN, 'check' => ''],
-			'maintenance_mode_mod'		=> ['type' => 'tpl', 'default' => constants::MAINTENANCE_MODE_MOD, 'check' => ''],
-			'maintenance_mode_user'		=> ['type' => 'tpl', 'default' => constants::MAINTENANCE_MODE_USER, 'check' => ''],
+			'maintenance_tpl'			=> ['type' => 'bool', 'default' => true],
+			'maintenance_time'			=> ['type' => 'int', 'default' => 0, 'task' => 'maintenance_time_task', 'unset' => true],
+			'maintenance_text'			=> ['type' => 'text_uni', 'default' => ''],
+			'maintenance_text_vi'		=> ['type' => 'text_uni', 'default' => ''],
+			'maintenance_mode_none'		=> ['type' => 'tpl', 'default' => constants::MAINTENANCE_MODE_NONE],
+			'maintenance_mode_founder'	=> ['type' => 'tpl', 'default' => constants::MAINTENANCE_MODE_FOUNDER],
+			'maintenance_mode_admin'	=> ['type' => 'tpl', 'default' => constants::MAINTENANCE_MODE_ADMIN],
+			'maintenance_mode_mod'		=> ['type' => 'tpl', 'default' => constants::MAINTENANCE_MODE_MOD],
+			'maintenance_mode_user'		=> ['type' => 'tpl', 'default' => constants::MAINTENANCE_MODE_USER],
 
-			'donate_year'		=> ['type' => 'int', 'default' => 0, 'check' => ''],
-			'donate_year_value'	=> ['type' => 'int', 'default' => 0, 'check' => ''],
-			'donate_fund'		=> ['type' => 'int', 'default' => 0, 'check' => ''],
-			'donate_currency'	=> ['type' => 'string', 'default' => '', 'check' => ''],
-			'donate_owner'		=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
-			'donate_owner_vi'	=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
-			'donate_email'		=> ['type' => 'string', 'default' => '', 'check' => ''],
-			'donate_bank'		=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
-			'donate_bank_vi'	=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
-			'donate_bank_acc'	=> ['type' => 'string', 'default' => '', 'check' => ''],
-			'donate_bank_swift'	=> ['type' => 'string', 'default' => '', 'check' => ''],
-			'donate_paypal'		=> ['type' => 'string', 'default' => '', 'check' => ''],
-			'current_year'		=> ['type' => 'tpl', 'default' => date('Y', time()), 'check' => '']
+			'donate_year'		=> ['type' => 'int', 'default' => 0],
+			'donate_year_value'	=> ['type' => 'int', 'default' => 0],
+			'donate_fund'		=> ['type' => 'int', 'default' => 0],
+			'donate_currency'	=> ['type' => 'string', 'default' => ''],
+			'donate_owner'		=> ['type' => 'string_uni', 'default' => ''],
+			'donate_owner_vi'	=> ['type' => 'string_uni', 'default' => ''],
+			'donate_email'		=> ['type' => 'string', 'default' => ''],
+			'donate_bank'		=> ['type' => 'string_uni', 'default' => ''],
+			'donate_bank_vi'	=> ['type' => 'string_uni', 'default' => ''],
+			'donate_bank_acc'	=> ['type' => 'string', 'default' => ''],
+			'donate_bank_swift'	=> ['type' => 'string', 'default' => ''],
+			'donate_paypal'		=> ['type' => 'string', 'default' => ''],
+			'current_year'		=> ['type' => 'tpl', 'default' => date('Y', time())]
 		];
 	}
 
@@ -242,14 +242,14 @@ class settings
 	public function list_version_settings()
 	{
 		return [
-			'check_phpbb_url'				=> ['type' => 'string', 'default' => '', 'check' => ''],
-			'check_phpbb_download_url'		=> ['type' => 'string', 'default' => '', 'check' => ''],
-			'check_phpbb_download_dev_url'	=> ['type' => 'string', 'default' => '', 'check' => ''],
-			'check_phpbb_github_url'		=> ['type' => 'string', 'default' => '', 'check' => ''],
+			'check_phpbb_url'				=> ['type' => 'string', 'default' => ''],
+			'check_phpbb_download_url'		=> ['type' => 'string', 'default' => ''],
+			'check_phpbb_download_dev_url'	=> ['type' => 'string', 'default' => ''],
+			'check_phpbb_github_url'		=> ['type' => 'string', 'default' => ''],
 			'check_phpbb_branch'			=> ['type' => 'string', 'default' => '', 'check' => 'regex', 'check_data' => '#^(\d+\.\d+)?$#', 'task' => 'reset_phpbb_version_task'],
 			'check_phpbb_legacy_branch'		=> ['type' => 'string', 'default' => '', 'check' => 'regex', 'check_data' => '#^(\d+\.\d+)?$#', 'task' => 'reset_phpbb_legacy_version_task'],
 			'check_phpbb_dev_branch'		=> ['type' => 'string', 'default' => '', 'check' => 'regex', 'check_data' => '#^(\d+\.\d+)?$#', 'task' => 'reset_phpbb_dev_version_task'],
-			'check_php_url'					=> ['type' => 'string', 'default' => '', 'check' => ''],
+			'check_php_url'					=> ['type' => 'string', 'default' => ''],
 			'check_php_branch'				=> ['type' => 'string', 'default' => '', 'check' => 'regex', 'check_data' => '#^(\d+\.\d+)?$#', 'task' => 'reset_php_version_task'],
 			'check_php_legacy_branch'		=> ['type' => 'string', 'default' => '', 'check' => 'regex', 'check_data' => '#^(\d+\.\d+)?$#', 'task' => 'reset_php_legacy_version_task']
 		];
@@ -305,49 +305,48 @@ class settings
 	public function list_setup_settings()
 	{
 		return [
-			'lang_enable'			=> ['type' => 'bool', 'default' => false, 'check' => ''],
-			'lang_switch'			=> ['type' => 'string', 'default' => '', 'check' => ''],
-			'default_lang'			=> ['type' => 'tpl', 'default' => $this->get_default_lang_name(), 'check' => ''],
-			'lang_switch_options'	=> ['type' => 'tpl', 'default' => $this->build_lang_list($this->config['vinabb_web_lang_switch']), 'check' => ''],
+			'lang_switch'			=> ['type' => 'string', 'default' => ''],
+			'default_lang'			=> ['type' => 'tpl', 'default' => $this->get_default_lang_name()],
+			'lang_switch_options'	=> ['type' => 'tpl', 'default' => $this->build_lang_list($this->config['vinabb_web_lang_switch'])],
 
-			'forum_id_vietnamese'					=> ['type' => 'int', 'default' => 0, 'check' => ''],
-			'forum_id_vietnamese_support'			=> ['type' => 'int', 'default' => 0, 'check' => ''],
-			'forum_id_vietnamese_ext'				=> ['type' => 'int', 'default' => 0, 'check' => ''],
-			'forum_id_vietnamese_style'				=> ['type' => 'int', 'default' => 0, 'check' => ''],
-			'forum_id_vietnamese_tutorial'			=> ['type' => 'int', 'default' => 0, 'check' => ''],
-			'forum_id_vietnamese_discussion'		=> ['type' => 'int', 'default' => 0, 'check' => ''],
-			'forum_id_english'						=> ['type' => 'int', 'default' => 0, 'check' => ''],
-			'forum_id_english_support'				=> ['type' => 'int', 'default' => 0, 'check' => ''],
-			'forum_id_english_tutorial'				=> ['type' => 'int', 'default' => 0, 'check' => ''],
-			'forum_id_english_discussion'			=> ['type' => 'int', 'default' => 0, 'check' => ''],
-			'forum_vietnamese_options'				=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_vietnamese']), 'check' => ''],
-			'forum_vietnamese_support_options'		=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_vietnamese_support']), 'check' => ''],
-			'forum_vietnamese_ext_options'			=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_vietnamese_ext']), 'check' => ''],
-			'forum_vietnamese_style_options'		=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_vietnamese_style']), 'check' => ''],
-			'forum_vietnamese_tutorial_options'		=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_vietnamese_tutorial']), 'check' => ''],
-			'forum_vietnamese_discussion_options'	=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_vietnamese_discussion']), 'check' => ''],
-			'forum_english_options'					=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_english']), 'check' => ''],
-			'forum_english_support_options'			=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_english_support']), 'check' => ''],
-			'forum_english_tutorial_options'		=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_english_tutorial']), 'check' => ''],
-			'forum_english_discussion_options'		=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_english_discussion']), 'check' => ''],
+			'forum_id_vietnamese'					=> ['type' => 'int', 'default' => 0],
+			'forum_id_vietnamese_support'			=> ['type' => 'int', 'default' => 0],
+			'forum_id_vietnamese_ext'				=> ['type' => 'int', 'default' => 0],
+			'forum_id_vietnamese_style'				=> ['type' => 'int', 'default' => 0],
+			'forum_id_vietnamese_tutorial'			=> ['type' => 'int', 'default' => 0],
+			'forum_id_vietnamese_discussion'		=> ['type' => 'int', 'default' => 0],
+			'forum_id_english'						=> ['type' => 'int', 'default' => 0],
+			'forum_id_english_support'				=> ['type' => 'int', 'default' => 0],
+			'forum_id_english_tutorial'				=> ['type' => 'int', 'default' => 0],
+			'forum_id_english_discussion'			=> ['type' => 'int', 'default' => 0],
+			'forum_vietnamese_options'				=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_vietnamese'])],
+			'forum_vietnamese_support_options'		=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_vietnamese_support'])],
+			'forum_vietnamese_ext_options'			=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_vietnamese_ext'])],
+			'forum_vietnamese_style_options'		=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_vietnamese_style'])],
+			'forum_vietnamese_tutorial_options'		=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_vietnamese_tutorial'])],
+			'forum_vietnamese_discussion_options'	=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_vietnamese_discussion'])],
+			'forum_english_options'					=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_english'])],
+			'forum_english_support_options'			=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_english_support'])],
+			'forum_english_tutorial_options'		=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_english_tutorial'])],
+			'forum_english_discussion_options'		=> ['type' => 'tpl', 'default' => $this->build_forum_list($this->config['vinabb_web_forum_id_english_discussion'])],
 
-			'manager_name'		=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
-			'manager_name_vi'	=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
-			'manager_username'	=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
-			'manager_user_id'	=> ['type' => 'int', 'default' => 0, 'check' => ''],
+			'manager_name'		=> ['type' => 'string_uni', 'default' => ''],
+			'manager_name_vi'	=> ['type' => 'string_uni', 'default' => ''],
+			'manager_username'	=> ['type' => 'string_uni', 'default' => ''],
+			'manager_user_id'	=> ['type' => 'int', 'default' => 0],
 
-			'map_api'			=> ['type' => 'string', 'default' => '', 'check' => ''],
-			'map_lat'			=> ['type' => 'int', 'default' => 0, 'check' => ''],
-			'map_lng'			=> ['type' => 'int', 'default' => 0, 'check' => ''],
-			'map_address'		=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
-			'map_address_vi'	=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
-			'map_phone'			=> ['type' => 'string', 'default' => '', 'check' => ''],
-			'map_phone_name'	=> ['type' => 'string_uni', 'default' => '', 'check' => ''],
+			'map_api'			=> ['type' => 'string', 'default' => ''],
+			'map_lat'			=> ['type' => 'int', 'default' => 0],
+			'map_lng'			=> ['type' => 'int', 'default' => 0],
+			'map_address'		=> ['type' => 'string_uni', 'default' => ''],
+			'map_address_vi'	=> ['type' => 'string_uni', 'default' => ''],
+			'map_phone'			=> ['type' => 'string', 'default' => ''],
+			'map_phone_name'	=> ['type' => 'string_uni', 'default' => ''],
 
-			'facebook_url'		=> ['type' => 'string', 'default' => '', 'check' => ''],
-			'twitter_url'		=> ['type' => 'string', 'default' => '', 'check' => ''],
-			'google_plus_url'	=> ['type' => 'string', 'default' => '', 'check' => ''],
-			'github_url'		=> ['type' => 'string', 'default' => '', 'check' => '']
+			'facebook_url'		=> ['type' => 'string', 'default' => ''],
+			'twitter_url'		=> ['type' => 'string', 'default' => ''],
+			'google_plus_url'	=> ['type' => 'string', 'default' => ''],
+			'github_url'		=> ['type' => 'string', 'default' => '']
 		];
 	}
 
@@ -396,37 +395,44 @@ class settings
 				$key = (substr($data['type'], 0, 4) == 'text') ? 'config_text_data' : 'config';
 				$check = true;
 
-				switch ($data['check'])
+				if (isset($data['check']))
 				{
-					case 'empty':
-						if (${$name} == '')
-						{
-							$this->errors[] = $this->language->lang('ERROR_' . strtoupper($name) . '_EMPTY');
-							$check = false;
-						}
-					break;
+					switch ($data['check'])
+					{
+						case 'empty':
+							if (${$name} == '')
+							{
+								$this->errors[] = $this->language->lang('ERROR_' . strtoupper($name) . '_EMPTY');
+								$check = false;
+							}
+						break;
 
-					case 'regex':
-						if (isset($data['check_data']) && $data['check_data'] != '' && !preg_match($data['check_data'], ${$name}))
-						{
-							$this->errors[] = $this->language->lang('ERROR_' . strtoupper($name) . '_REGEX');
-							$check = false;
-						}
-					break;
+						case 'regex':
+							if (isset($data['check_data']) && $data['check_data'] != '' && !preg_match($data['check_data'], ${$name}))
+							{
+								$this->errors[] = $this->language->lang('ERROR_' . strtoupper($name) . '_REGEX');
+								$check = false;
+							}
+						break;
 
-					case 'method':
-						if (isset($data['check_data']) && $data['check_data'] != '' && method_exists($this, $data['check_data']) && !$this->{$data['check_data']}(${$name}))
-						{
-							$this->errors[] = $this->language->lang('ERROR_' . strtoupper($data['check_data']));
-							$check = false;
-						}
-					break;
+						case 'method':
+							if (isset($data['check_data']) && $data['check_data'] != '' && method_exists($this, $data['check_data']) && !$this->{$data['check_data']}(${$name}))
+							{
+								$this->errors[] = $this->language->lang('ERROR_' . strtoupper($data['check_data']));
+								$check = false;
+							}
+						break;
+					}
 				}
 
 				// Valid data, add to array if has data changed
 				if ($check && ${$name} != $this->$key['vinabb_web_' . $name])
 				{
-					$this->data[$key]['vinabb_web_' . $name] = ${$name};
+					// This is not a real config item?
+					if (!isset($data['unset']) || (isset($data['unset']) && $data['unset'] === false))
+					{
+						$this->data[$key]['vinabb_web_' . $name] = ${$name};
+					}
 
 					// This config item comes with a task?
 					if (isset($data['task']) && $data['task'] != '')
@@ -518,6 +524,23 @@ class settings
 						AND ' . $this->db->sql_in_set('session_user_id', $founder_user_ids, true);
 				$this->db->sql_query($sql);
 			}
+		}
+	}
+
+	/**
+	* Convert the scheduled maintenance time from 'number of minutes' into 'UNIX timestamp'
+	*
+	* @param int $value Input value
+	*/
+	protected function maintenance_time_task($value)
+	{
+		$value = (int) $value;
+		$time = time() + ($value * 60);
+		$maintenance_time_reset = $this->request->variable('maintenance_time_reset', false);
+
+		if ($value || $maintenance_time_reset)
+		{
+			$this->config->set('vinabb_web_maintenance_time', $time);
 		}
 	}
 
