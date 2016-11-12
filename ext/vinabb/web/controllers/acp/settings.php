@@ -161,7 +161,7 @@ class settings
 	public function list_main_settings()
 	{
 		return [
-			'maintenance_mode'			=> ['type' => 'int', 'default' => 0, 'check' => 'value'],
+			'maintenance_mode'			=> ['type' => 'int', 'default' => 0, 'check' => 'value', 'check_data' => 'maintenance_mode_founder'],
 			'maintenance_tpl'			=> ['type' => 'bool', 'default' => true, 'check' => ''],
 			'maintenance_time'			=> ['type' => 'int', 'default' => 0, 'check' => ''],
 			'maintenance_text'			=> ['type' => 'text_uni', 'default' => '', 'check' => ''],
@@ -407,6 +407,14 @@ class settings
 							$check = false;
 						}
 					break;
+
+					case 'value':
+						if (isset($data['check_data']) && $data['check_data'] !== '' && method_exists($this, $data['check_data']) && !$this->{$data['check_data']}(${$name}))
+						{
+							$this->errors[] = $this->language->lang('ERROR_' . strtoupper($data['check_data']));
+							$check = false;
+						}
+					break;
 				}
 
 				// Valid data, add to array if has data changed
@@ -436,6 +444,17 @@ class settings
 			$this->config_text->set_array($this->data['config_text_data']);
 			$this->cache->clear_config_text();
 		}
+	}
+
+	/**
+	* Helper to check only founders can set the founder-level maintenance mode
+	*
+	* @param $value Input value
+	* @return bool
+	*/
+	protected function maintenance_mode_founder($value)
+	{
+		return !($value == constants::MAINTENANCE_MODE_FOUNDER && $this->user->data['user_type'] != USER_FOUNDER);
 	}
 
 	/**
