@@ -136,7 +136,6 @@ class settings
 			{
 				$this->set_group_settings();
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_SETTINGS');
-				$this->cache->clear_config_text();
 
 				trigger_error($this->language->lang('MESSAGE_MAIN_SETTINGS_UPDATE') . adm_back_link($this->u_action));
 			}
@@ -214,7 +213,6 @@ class settings
 			{
 				$this->set_group_settings();
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_SETTINGS_VERSION');
-				$this->cache->clear_config_text();
 
 				trigger_error($this->language->lang('MESSAGE_VERSION_SETTINGS_UPDATE') . adm_back_link($this->u_action));
 			}
@@ -277,7 +275,6 @@ class settings
 			{
 				$this->set_group_settings();
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_SETTINGS_SETUP');
-				$this->cache->clear_config_text();
 
 				trigger_error($this->language->lang('MESSAGE_SETUP_SETTINGS_UPDATE') . adm_back_link($this->u_action));
 			}
@@ -438,6 +435,7 @@ class settings
 		if (isset($this->data['config_text_data']))
 		{
 			$this->config_text->set_array($this->data['config_text_data']);
+			$this->cache->clear_config_text();
 		}
 	}
 
