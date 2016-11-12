@@ -66,7 +66,7 @@
 <div class="row">
 	<div class="col-lg-3 col-md-6 col-sm-6">
 		<div class="widget bg-primary padding-0">
-			<div class="row row-table"{% if LATEST_PHPBB_VERSION or LATEST_PHPBB_LEGACY_VERSION or LATEST_PHPBB_DEV_VERSION %} role="button" data-toggle="modal" data-target="#phpbbModal"{% endif %}>
+			<div class="row row-table"{% if (LATEST_PHPBB_VERSION and (LATEST_PHPBB_DOWNLOAD_URL or LATEST_PHPBB_GITHUB_URL)) or (LATEST_PHPBB_LEGACY_VERSION and (LATEST_PHPBB_LEGACY_DOWNLOAD_URL or LATEST_PHPBB_LEGACY_GITHUB_URL)) or (LATEST_PHPBB_DEV_VERSION and (LATEST_PHPBB_DEV_DOWNLOAD_URL or LATEST_PHPBB_DEV_GITHUB_URL)) %} role="button" data-toggle="modal" data-target="#phpbbModal"{% endif %}>
 				<div class="col-xs-4 text-center pv-15 bg-light-dark">
 					<em class="icon-cloud-download fa-3x"></em>
 				</div>
@@ -458,7 +458,7 @@
 </div>
 
 {# Latest phpBB modal #}
-{% if LATEST_PHPBB_VERSION or LATEST_PHPBB_LEGACY_VERSION %}
+{% if (LATEST_PHPBB_VERSION and (LATEST_PHPBB_DOWNLOAD_URL or LATEST_PHPBB_GITHUB_URL)) or (LATEST_PHPBB_LEGACY_VERSION and (LATEST_PHPBB_LEGACY_DOWNLOAD_URL or LATEST_PHPBB_LEGACY_GITHUB_URL)) or (LATEST_PHPBB_DEV_VERSION and (LATEST_PHPBB_DEV_DOWNLOAD_URL or LATEST_PHPBB_DEV_GITHUB_URL)) %}
 <div class="modal fade" id="phpbbModal" tabindex="-1" role="dialog" aria-labelledby="phpbbModal">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
