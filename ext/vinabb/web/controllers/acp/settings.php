@@ -48,10 +48,13 @@ class settings
 	/** @var string */
 	protected $u_action;
 
-	/** @var array */
+	/** @var array List of config items which has data changed, ready to write */
 	protected $data = [];
 
-	/** @var array */
+	/** @var array List of methods need to be executed before saving config items */
+	protected $tasks = [];
+
+	/** @var array List of errors to be triggered, neither data updated or tasks executed */
 	protected $errors = [];
 
 	/** @var array */
@@ -161,7 +164,7 @@ class settings
 	public function list_main_settings()
 	{
 		return [
-			'maintenance_mode'			=> ['type' => 'int', 'default' => 0, 'check' => 'value', 'check_data' => 'maintenance_mode_founder'],
+			'maintenance_mode'			=> ['type' => 'int', 'default' => 0, 'check' => 'method', 'check_data' => 'maintenance_mode_founder', 'task' => 'maintenance_mode_founder_task'],
 			'maintenance_tpl'			=> ['type' => 'bool', 'default' => true, 'check' => ''],
 			'maintenance_time'			=> ['type' => 'int', 'default' => 0, 'check' => ''],
 			'maintenance_text'			=> ['type' => 'text_uni', 'default' => '', 'check' => ''],
@@ -241,12 +244,12 @@ class settings
 			'check_phpbb_download_url'		=> ['type' => 'string', 'default' => '', 'check' => ''],
 			'check_phpbb_download_dev_url'	=> ['type' => 'string', 'default' => '', 'check' => ''],
 			'check_phpbb_github_url'		=> ['type' => 'string', 'default' => '', 'check' => ''],
-			'check_phpbb_branch'			=> ['type' => 'string', 'default' => '', 'check' => 'regex', 'check_data' => '#^(\d+\.\d+)?$#'],
-			'check_phpbb_legacy_branch'		=> ['type' => 'string', 'default' => '', 'check' => 'regex', 'check_data' => '#^(\d+\.\d+)?$#'],
-			'check_phpbb_dev_branch'		=> ['type' => 'string', 'default' => '', 'check' => 'regex', 'check_data' => '#^(\d+\.\d+)?$#'],
+			'check_phpbb_branch'			=> ['type' => 'string', 'default' => '', 'check' => 'regex', 'check_data' => '#^(\d+\.\d+)?$#', 'task' => 'reset_phpbb_version_task'],
+			'check_phpbb_legacy_branch'		=> ['type' => 'string', 'default' => '', 'check' => 'regex', 'check_data' => '#^(\d+\.\d+)?$#', 'task' => 'reset_phpbb_legacy_version_task'],
+			'check_phpbb_dev_branch'		=> ['type' => 'string', 'default' => '', 'check' => 'regex', 'check_data' => '#^(\d+\.\d+)?$#', 'task' => 'reset_phpbb_dev_version_task'],
 			'check_php_url'					=> ['type' => 'string', 'default' => '', 'check' => ''],
-			'check_php_branch'				=> ['type' => 'string', 'default' => '', 'check' => 'regex', 'check_data' => '#^(\d+\.\d+)?$#'],
-			'check_php_legacy_branch'		=> ['type' => 'string', 'default' => '', 'check' => 'regex', 'check_data' => '#^(\d+\.\d+)?$#']
+			'check_php_branch'				=> ['type' => 'string', 'default' => '', 'check' => 'regex', 'check_data' => '#^(\d+\.\d+)?$#', 'task' => 'reset_php_version_task'],
+			'check_php_legacy_branch'		=> ['type' => 'string', 'default' => '', 'check' => 'regex', 'check_data' => '#^(\d+\.\d+)?$#', 'task' => 'reset_php_legacy_version_task']
 		];
 	}
 
@@ -393,7 +396,7 @@ class settings
 				switch ($data['check'])
 				{
 					case 'empty':
-						if (${$name} === '')
+						if (${$name} == '')
 						{
 							$this->errors[] = $this->language->lang('ERROR_' . strtoupper($name) . '_EMPTY');
 							$check = false;
@@ -401,15 +404,15 @@ class settings
 					break;
 
 					case 'regex':
-						if (isset($data['check_data']) && $data['check_data'] !== '' && !preg_match($data['check_data'], ${$name}))
+						if (isset($data['check_data']) && $data['check_data'] != '' && !preg_match($data['check_data'], ${$name}))
 						{
 							$this->errors[] = $this->language->lang('ERROR_' . strtoupper($name) . '_REGEX');
 							$check = false;
 						}
 					break;
 
-					case 'value':
-						if (isset($data['check_data']) && $data['check_data'] !== '' && method_exists($this, $data['check_data']) && !$this->{$data['check_data']}(${$name}))
+					case 'method':
+						if (isset($data['check_data']) && $data['check_data'] != '' && method_exists($this, $data['check_data']) && !$this->{$data['check_data']}(${$name}))
 						{
 							$this->errors[] = $this->language->lang('ERROR_' . strtoupper($data['check_data']));
 							$check = false;
@@ -421,6 +424,29 @@ class settings
 				if ($check && ${$name} != $this->$key['vinabb_web_' . $name])
 				{
 					$this->data[$key]['vinabb_web_' . $name] = ${$name};
+
+					// This config item comes with a task?
+					if (isset($data['task']) && $data['task'] != '')
+					{
+						$this->tasks[$data['task']] = ${$name};
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	* Helper to run taks before set_group_settings()
+	*/
+	protected function run_tasks()
+	{
+		if (sizeof($this->tasks))
+		{
+			foreach ($this->tasks as $method_name => $value)
+			{
+				if (method_exists($this, $method_name))
+				{
+					$this->$method_name($value);
 				}
 			}
 		}
@@ -449,7 +475,7 @@ class settings
 	/**
 	* Helper to check only founders can set the founder-level maintenance mode
 	*
-	* @param $value Input value
+	* @param int $value Input value
 	* @return bool
 	*/
 	protected function maintenance_mode_founder($value)
@@ -460,31 +486,91 @@ class settings
 	/**
 	* Kill out all normal administrators from the ACP
 	* keep only founder-level sessions
+	*
+	* @param int $value Input value
 	*/
-	protected function kill_admin_sessions()
+	protected function maintenance_mode_founder_task($value)
 	{
-		$founder_user_ids = [];
-
-		$sql = 'SELECT user_id
-			FROM ' . USERS_TABLE . '
-			WHERE user_type = ' . USER_FOUNDER;
-		$result = $this->db->sql_query($sql);
-		$rows = $this->db->sql_fetchrowset($result);
-		$this->db->sql_freeresult($result);
-
-		foreach ($rows as $row)
+		if ($value == constants::MAINTENANCE_MODE_FOUNDER)
 		{
-			$founder_user_ids[] = $row['user_id'];
-		}
+			$founder_user_ids = [];
 
-		if (sizeof($founder_user_ids))
-		{
-			$sql = 'UPDATE ' . SESSIONS_TABLE . '
-				SET session_admin = 0
-				WHERE session_admin = 1
-					AND ' . $this->db->sql_in_set('session_user_id', $founder_user_ids, true);
-			$this->db->sql_query($sql);
+			$sql = 'SELECT user_id
+				FROM ' . USERS_TABLE . '
+				WHERE user_type = ' . USER_FOUNDER;
+			$result = $this->db->sql_query($sql);
+			$rows = $this->db->sql_fetchrowset($result);
+			$this->db->sql_freeresult($result);
+
+			foreach ($rows as $row)
+			{
+				$founder_user_ids[] = $row['user_id'];
+			}
+
+			if (sizeof($founder_user_ids))
+			{
+				$sql = 'UPDATE ' . SESSIONS_TABLE . '
+					SET session_admin = 0
+					WHERE session_admin = 1
+						AND ' . $this->db->sql_in_set('session_user_id', $founder_user_ids, true);
+				$this->db->sql_query($sql);
+			}
 		}
+	}
+
+	/**
+	* Reset the stored newest phpBB version if the branch has changed
+	*
+	* @param string $value Input value
+	*/
+	protected function reset_phpbb_version_task($value)
+	{
+		$this->config->set('vinabb_web_check_gc', 0, true);
+		$this->config->set('vinabb_web_check_phpbb_version', '');
+	}
+
+	/**
+	* Reset the stored newest phpBB legacy version if the branch has changed
+	*
+	* @param string $value Input value
+	*/
+	protected function reset_phpbb_legacy_version_task($value)
+	{
+		$this->config->set('vinabb_web_check_gc', 0, true);
+		$this->config->set('vinabb_web_check_phpbb_legacy_version', '');
+	}
+
+	/**
+	* Reset the stored newest phpBB development version if the branch has changed
+	*
+	* @param string $value Input value
+	*/
+	protected function reset_phpbb_dev_version_task($value)
+	{
+		$this->config->set('vinabb_web_check_gc', 0, true);
+		$this->config->set('vinabb_web_check_phpbb_dev_version', '');
+	}
+
+	/**
+	* Reset the stored newest PHP version if the branch has changed
+	*
+	* @param string $value Input value
+	*/
+	protected function reset_php_version_task($value)
+	{
+		$this->config->set('vinabb_web_check_gc', 0, true);
+		$this->config->set('vinabb_web_check_php_version', '');
+	}
+
+	/**
+	* Reset the stored newest PHP legacy version if the branch has changed
+	*
+	* @param string $value Input value
+	*/
+	protected function reset_php_legacy_version_task($value)
+	{
+		$this->config->set('vinabb_web_check_gc', 0, true);
+		$this->config->set('vinabb_web_check_php_legacy_version', '');
 	}
 
 	/**
