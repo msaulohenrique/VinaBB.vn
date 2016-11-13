@@ -70,6 +70,7 @@ class bb_items_module
 		switch ($action)
 		{
 			case 'add':
+				$this->tpl_name = 'acp_bb_items_edit';
 				$this->page_title = $this->language->lang('ADD_BB_' . $lang_key);
 				$this->controller->add_item($bb_type);
 
@@ -77,6 +78,7 @@ class bb_items_module
 				return;
 
 			case 'edit':
+				$this->tpl_name = 'acp_bb_items_edit';
 				$this->page_title = $this->language->lang('EDIT_BB_' . $lang_key);
 				$this->controller->edit_item($item_id);
 

@@ -1,0 +1,171 @@
+{% include 'overall_header.html' %}
+
+<a href="{{ U_BACK }}" style="float: {{ S_CONTENT_FLOW_END }};">&laquo; {{ lang('BACK') }}</a>
+
+<h1>{{ PAGE_TITLE }}</h1>
+<p>{{ PAGE_TITLE_EXPLAIN }}</p>
+
+<form id="acp_bb_items" method="post" action="{{ U_ACTION }}">
+	<fieldset>
+		<legend>{{ ITEM_DETAILS_LANG }}</legend>
+		<dl>
+			<dt><label for="item_name">{{ ITEM_NAME_LANG ~ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="item_name" id="item_name" value="{{ ITEM_NAME }}" size="40" maxlength="255"></dd>
+		</dl>
+		<dl>
+			<dt><label for="item_varname">{{ ITEM_VARNAME_LANG ~ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="item_varname" id="item_varname" value="{{ ITEM_VARNAME }}" size="40" maxlength="255"></dd>
+		</dl>
+		<dl>
+			<dt><label for="cat_id">{{ lang('CATEGORY') ~ lang('COLON') }}</label></dt>
+			<dd><select name="cat_id" id="cat_id">{{ CAT_OPTIONS }}</select></dd>
+		</dl>
+		<dl>
+			<dt><label for="item_version">{{ lang('VERSION') ~ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="item_version" id="item_version" value="{{ ITEM_VERSION }}" maxlength="255"></dd>
+		</dl>
+		<dl>
+			<dt><label for="item_phpbb_version">{{ lang('PHPBB_VERSION') ~ lang('COLON') }}</label></dt>
+			<dd><select name="item_phpbb_version" id="item_phpbb_version">{{ PHPBB_VERSION_OPTIONS }}</select></dd>
+		</dl>
+		<dl>
+			<dt><label for="item_price">{{ lang('PRICE') ~ lang('COLON') }}</label></dt>
+			<dd><input type="number" name="item_price" id="item_price" min="0" value="{{ ITEM_PRICE }}" maxlength="255"></dd>
+		</dl>
+		<dl>
+			<dt><label for="item_url">{{ lang('ORIGINAL_URL') ~ lang('COLON') }}</label></dt>
+			<dd><input type="url" name="item_url" id="item_url" value="{{ ITEM_URL }}" size="40" maxlength="255"></dd>
+		</dl>
+		<dl>
+			<dt><label for="item_github">{{ lang('GITHUB') ~ lang('COLON') }}</label></dt>
+			<dd><input type="url" name="item_github" id="item_github" value="{{ ITEM_GITHUB }}" size="40" maxlength="255"></dd>
+		</dl>
+	</fieldset>
+	<fieldset>
+		<legend>{{ lang('DESCRIPTION') }}</legend>
+		<dl>
+			<dt><label for="item_desc">{{ lang('ENGLISH') ~ lang('COLON') }}</label></dt>
+			<dd><textarea name="item_desc" id="item_desc" cols="40" rows="10">{{ ITEM_DESC }}</textarea></dd>
+			<dd>
+				<label><input type="checkbox" class="radio" name="disable_bbcode"{% if BBCODE_DISABLED %} checked{% endif %}> {{ lang('DISABLE_BBCODE') }}</label>
+				<label><input type="checkbox" class="radio" name="disable_urls"{% if URLS_DISABLED %} checked{% endif %}> {{ lang('DISABLE_MAGIC_URL') }}</label>
+				<label><input type="checkbox" class="radio" name="disable_smilies"{% if SMILIES_DISABLED %} checked{% endif %}> {{ lang('DISABLE_SMILIES') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="item_desc_vi">{{ lang('VIETNAMESE') ~ lang('COLON') }}</label></dt>
+			<dd><textarea name="item_desc_vi" id="item_desc_vi" cols="40" rows="10">{{ ITEM_DESC_VI }}</textarea></dd>
+			<dd>
+				<label><input type="checkbox" class="radio" name="disable_bbcode_vi"{% if BBCODE_VI_DISABLED %} checked{% endif %}> {{ lang('DISABLE_BBCODE') }}</label>
+				<label><input type="checkbox" class="radio" name="disable_urls_vi"{% if URLS_VI_DISABLED %} checked{% endif %}> {{ lang('DISABLE_MAGIC_URL') }}</label>
+				<label><input type="checkbox" class="radio" name="disable_smilies_vi"{% if SMILIES_VI_DISABLED %} checked{% endif %}> {{ lang('DISABLE_SMILIES') }}</label>
+			</dd>
+		</dl>
+	</fieldset>
+	{% if MODE == 'ext' %}
+	<fieldset>
+		<legend>{{ lang('ITEM_EXT_DETAILS') }}</legend>
+		<dl>
+			<dt><label for="item_ext_style">{{ lang('ITEM_EXT_STYLE') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="item_ext_style" id="item_ext_style" value="1"{% if ITEM_EXT_STYLE %} checked{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="item_ext_style" value="0"{% if not ITEM_EXT_STYLE %} checked{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="item_ext_acp_style">{{ lang('ITEM_EXT_ACP_STYLE') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="item_ext_acp_style" id="item_ext_acp_style" value="1"{% if ITEM_EXT_ACP_STYLE %} checked{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="item_ext_acp_style" value="0"{% if not ITEM_EXT_ACP_STYLE %} checked{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="item_ext_lang">{{ lang('ITEM_EXT_LANG') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="item_ext_lang" id="item_ext_lang" value="1"{% if ITEM_EXT_LANG %} checked{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="item_ext_lang" value="0"{% if not ITEM_EXT_LANG %} checked{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="item_ext_db_schema">{{ lang('ITEM_EXT_DB_SCHEMA') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="item_ext_db_schema" id="item_ext_db_schema" value="1"{% if ITEM_EXT_DB_SCHEMA %} checked{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="item_ext_db_schema" value="0"{% if not ITEM_EXT_DB_SCHEMA %} checked{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="item_ext_db_data">{{ lang('ITEM_EXT_DB_DATA') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="item_ext_db_data" id="item_ext_db_data" value="1"{% if ITEM_EXT_DB_DATA %} checked{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="item_ext_db_data" value="0"{% if not ITEM_EXT_DB_DATA %} checked{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+	</fieldset>
+	{% endif %}
+	{% if MODE == 'style' or MODE == 'acp_style' %}
+	<fieldset>
+		<legend>{{ lang('ITEM_STYLE_DETAILS') }}</legend>
+		<dl>
+			<dt><label for="item_style_presets">{{ lang('ITEM_STYLE_PRESETS') ~ lang('COLON') }}</label></dt>
+			<dd><input type="number" name="item_style_presets" id="item_style_presets" min="0" value="{{ ITEM_STYLE_PRESETS }}" maxlength="255"></dd>
+		</dl>
+		<dl>
+			<dt><label for="item_style_presets_aio">{{ lang('ITEM_STYLE_PRESETS_AIO') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="item_style_presets_aio" id="item_style_presets_aio" value="1"{% if ITEM_STYLE_PRESETS_AIO %} checked{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="item_style_presets_aio" value="0"{% if not ITEM_STYLE_PRESETS_AIO %} checked{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="item_style_source">{{ lang('ITEM_STYLE_SOURCE') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="item_style_source" id="item_style_source" value="1"{% if ITEM_STYLE_SOURCE %} checked{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="item_style_source" value="0"{% if not ITEM_STYLE_SOURCE %} checked{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="item_style_responsive">{{ lang('ITEM_STYLE_RESPONSIVE') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="item_style_responsive" id="item_style_responsive" value="1"{% if ITEM_STYLE_RESPONSIVE %} checked{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="item_style_responsive" value="0"{% if not ITEM_STYLE_RESPONSIVE %} checked{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="item_style_bootstrap">{{ lang('ITEM_STYLE_BOOTSTRAP') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="item_style_bootstrap" id="item_style_bootstrap" value="1"{% if ITEM_STYLE_BOOTSTRAP %} checked{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="item_style_bootstrap" value="0"{% if not ITEM_STYLE_BOOTSTRAP %} checked{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+	</fieldset>
+	{% endif %}
+	{% if MODE == 'lang' %}
+	<fieldset>
+		<legend>{{ lang('ITEM_LANG_DETAILS') }}</legend>
+		<dl>
+			<dt><label for="item_lang_iso">{{ lang('LANGUAGE') ~ lang('COLON') }}</label></dt>
+			<dd><select name="item_lang_iso" id="item_lang_iso">{{ LANG_OPTIONS }}</select></dd>
+		</dl>
+	</fieldset>
+	{% endif %}
+	{% if MODE == 'tool' %}
+	<fieldset>
+		<legend>{{ lang('ITEM_TOOL_DETAILS') }}</legend>
+		<dl>
+			<dt><label for="item_tool_os">{{ lang('OS') ~ lang('COLON') }}</label></dt>
+			<dd><select name="item_tool_os" id="item_tool_os">{{ OS_OPTIONS }}</select></dd>
+		</dl>
+	</fieldset>
+	{% endif %}
+	<fieldset>
+		<legend>{{ lang('ACP_SUBMIT_CHANGES') }}</legend>
+		<p class="submit-buttons">
+			{{ S_HIDDEN_FIELDS }}
+			<input class="button1" type="submit" name="save" value="{{ lang('SUBMIT') }}">
+			<input class="button2" type="reset" name="reset" value="{{ lang('RESET') }}">
+		</p>
+		{{ S_FORM_TOKEN }}
+	</fieldset>
+</form>
+
+{% include 'overall_footer.html' %}

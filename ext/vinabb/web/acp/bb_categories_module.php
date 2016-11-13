@@ -69,6 +69,7 @@ class bb_categories_module
 		switch ($action)
 		{
 			case 'add':
+				$this->tpl_name = 'acp_bb_categories_edit';
 				$this->page_title = $this->language->lang('ADD_CAT');
 				$this->controller->add_cat($bb_type);
 
@@ -76,6 +77,7 @@ class bb_categories_module
 				return;
 
 			case 'edit':
+				$this->tpl_name = 'acp_bb_categories_edit';
 				$this->page_title = $this->language->lang('EDIT_CAT');
 				$this->controller->edit_cat($cat_id);
 
