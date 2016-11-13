@@ -110,6 +110,8 @@ class constants
 	const MAX_PAGE_NAME = 48;
 	const MAX_PAGE_VARNAME = 24;
 	const MAX_MENU_NAME = 24;
+	const MAX_HEADLINE_NAME = 64;
+	const MAX_HEADLINE_DESC = 128;
 
 	// Number of hours to check new versions again
 	const CHECK_VERSION_HOURS = 8;
