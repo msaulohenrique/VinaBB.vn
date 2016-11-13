@@ -1,124 +1,55 @@
 {% include 'overall_header.html' %}
 
-{% if S_ADD or S_EDIT %}
+<h1>{{ PAGE_TITLE }}</h1>
+<p>{{ lang('ACP_PAGES_EXPLAIN') }}</p>
 
-	<script>
-		var form_name = 'add_edit_page';
-		var text_name = 'page_content';
-		var load_draft = false;
-		var upload = false;
-		var imageTag = false;
-	</script>
+<table class="table1 zebra-table fixed-width-table">
+	<thead>
+		<tr>
+			<th style="width: 15%;">{L_ACP_PAGES_TITLE}</th>
+			<th style="width: 15%;">{L_ACP_PAGES_DESCRIPTION}</th>
+			<th style="width: 10%;">{L_ACP_PAGES_ROUTE}</th>
+			<th style="width: 15%;">{L_ACP_PAGES_TEMPLATE}</th>
+			<th style="width: 10%;">{L_ACP_PAGES_ORDER}</th>
+			<th style="width: 15%;">{L_ACP_PAGES_STATUS}</th>
+			<th style="width: 10%;">{L_ACP_PAGES_LINK}</th>
+			<th style="width: 10%;">{L_ACTION}</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for page in pages %}
+		<tr>
+			<td><strong>{pages.PAGES_TITLE}</strong></td>
+			<td>{pages.PAGES_DESCRIPTION}</td>
+			<td>{pages.PAGES_ROUTE}</td>
+			<td>{pages.PAGES_TEMPLATE}</td>
+			<td>{pages.PAGES_ORDER}</td>
+			<td>
+				<!-- IF pages.S_PAGES_DISPLAY and pages.S_PAGES_GUEST_DISPLAY -->
+					{L_ACP_PAGES_PUBLISHED}
+				<!-- ELSEIF pages.S_PAGES_DISPLAY -->
+					{L_ACP_PAGES_PUBLISHED_NO_GUEST}
+				<!-- ELSE -->
+					{L_ACP_PAGES_PRIVATE}
+				<!-- ENDIF -->
+			</td>
+			<td><a href="{pages.U_PAGES_ROUTE}">{L_ACP_PAGES_VIEW}</a></td>
+			<td><a href="{pages.U_EDIT}">{ICON_EDIT}</a> <a href="{pages.U_DELETE}" data-ajax="row_delete">{ICON_DELETE}</a></td>
+		</tr>
+		{% else %}
+		<tr>
+			<td colspan="8" style="text-align: center;">{L_ACP_PAGES_EMPTY}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
 
-	<a href="{{ U_BACK }}" style="float: {{ S_CONTENT_FLOW_END }};">&laquo; {{ lang('BACK') }}</a>
-
-	<h1>{{ PAGE_TITLE }}</h1>
-	<p>{{ lang('ACP_PAGES_EXPLAIN') }}</p>
-
-	{% if S_ERROR %}
-		<div class="errorbox">
-			<h3>{{ lang('WARNING') }}</h3>
-			<p>{{ ERROR_MSG }}</p>
-		</div>
-	{% endif %}
-
-	<form id="add_edit_page" method="post" action="{{ U_ACTION }}">
-		<fieldset>
-			<legend>{L_ACP_PAGES_SETTINGS}</legend>
-			<dl>
-				<dt><label for="page_name">{{ lang('PAGE_NAME') ~ ' (' ~ lang('ENGLISH') ~ ')' ~ lang('COLON') }}</label></dt>
-				<dd><input class="text medium" type="text" name="page_name" id="page_name" value="{{ PAGE_NAME }}" maxlength="255"></dd>
-			</dl>
-			<dl>
-				<dt><label for="page_name_vi">{{ lang('PAGE_NAME') ~ ' (' ~ lang('VIETNAMESE') ~ ')' ~ lang('COLON') }}</label></dt>
-				<dd><input class="text medium" type="text" name="page_name_vi" id="page_name_vi" value="{{ PAGE_NAME_VI }}" maxlength="255"></dd>
-			</dl>
-			<dl>
-				<dt><label for="page_enable">{{ lang('PAGE_ENABLE') ~ lang('COLON') }}</label></dt>
-				<dd>
-					<label><input type="radio" class="radio" name="page_enable" id="page_enable" value="1"{% if PAGE_ENABLE %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
-					<label><input type="radio" class="radio" name="page_enable" value="0"{% if not PAGE_ENABLE %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
-				</dd>
-			</dl>
-		</fieldset>
-		<fieldset>
-			<legend>{L_ACP_PAGES_FORM_CONTENT}</legend>
-
-			{% include 'acp_posting_buttons.html' %}
-
-			<dl class="responsive-columns">
-				<dt style="width: 90px;" id="color_palette_placeholder" data-orientation="v" data-height="12" data-width="15" data-bbcode="true"></dt>
-				<dd style="margin-{S_CONTENT_FLOW_BEGIN}: 90px;">
-					<textarea name="page_text" rows="27" cols="60" style="width: 95%;" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" onfocus="initInsertions();" data-bbcode="true">{{ PAGE_TEXT }}</textarea>
-				</dd>
-				<dd style="margin-{S_CONTENT_FLOW_BEGIN}: 90px; margin-top: 5px;">
-					<label><input type="checkbox" class="radio" name="parse_bbcode"<!-- IF S_PARSE_BBCODE_CHECKED --> checked="checked"<!-- ENDIF --> /> {L_PARSE_BBCODE}</label>
-					<label><input type="checkbox" class="radio" name="parse_smilies"<!-- IF S_PARSE_SMILIES_CHECKED --> checked="checked"<!-- ENDIF --> /> {L_PARSE_SMILIES}</label>
-					<label><input type="checkbox" class="radio" name="parse_magic_url"<!-- IF S_PARSE_MAGIC_URL_CHECKED --> checked="checked"<!-- ENDIF --> /> {L_PARSE_URLS}</label>
-				</dd>
-			</dl>
-		</fieldset>
-		<fieldset class="submit-buttons">
-			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}">
-			<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}">
-			{{ S_FORM_TOKEN }}
-		</fieldset>
-	</form>
-
-{% else %}
-
-	<h1>{{ PAGE_TITLE }}</h1>
-	<p>{{ lang('ACP_PAGES_EXPLAIN') }}</p>
-
-	<table class="table1 zebra-table fixed-width-table">
-		<thead>
-			<tr>
-				<th style="width: 15%;">{L_ACP_PAGES_TITLE}</th>
-				<th style="width: 15%;">{L_ACP_PAGES_DESCRIPTION}</th>
-				<th style="width: 10%;">{L_ACP_PAGES_ROUTE}</th>
-				<th style="width: 15%;">{L_ACP_PAGES_TEMPLATE}</th>
-				<th style="width: 10%;">{L_ACP_PAGES_ORDER}</th>
-				<th style="width: 15%;">{L_ACP_PAGES_STATUS}</th>
-				<th style="width: 10%;">{L_ACP_PAGES_LINK}</th>
-				<th style="width: 10%;">{L_ACTION}</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for page in pages %}
-			<tr>
-				<td><strong>{pages.PAGES_TITLE}</strong></td>
-				<td>{pages.PAGES_DESCRIPTION}</td>
-				<td>{pages.PAGES_ROUTE}</td>
-				<td>{pages.PAGES_TEMPLATE}</td>
-				<td>{pages.PAGES_ORDER}</td>
-				<td>
-					<!-- IF pages.S_PAGES_DISPLAY and pages.S_PAGES_GUEST_DISPLAY -->
-						{L_ACP_PAGES_PUBLISHED}
-					<!-- ELSEIF pages.S_PAGES_DISPLAY -->
-						{L_ACP_PAGES_PUBLISHED_NO_GUEST}
-					<!-- ELSE -->
-						{L_ACP_PAGES_PRIVATE}
-					<!-- ENDIF -->
-				</td>
-				<td><a href="{pages.U_PAGES_ROUTE}">{L_ACP_PAGES_VIEW}</a></td>
-				<td><a href="{pages.U_EDIT}">{ICON_EDIT}</a> <a href="{pages.U_DELETE}" data-ajax="row_delete">{ICON_DELETE}</a></td>
-			</tr>
-			{% else %}
-			<tr>
-				<td colspan="8" style="text-align: center;">{L_ACP_PAGES_EMPTY}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-
-	<form id="pages_add_page" method="post" action="{{ U_ACTION }}">
-		<fieldset class="quick">
-			<input class="button2" type="submit" name="addpage" value="{{ lang('ADD_PAGE') }}">
-			<input type="hidden" name="action" value="add">
-			{{ S_FORM_TOKEN }}
-		</fieldset>
-	</form>
-
-{% endif %}
+<form id="pages_add_page" method="post" action="{{ U_ACTION }}">
+	<fieldset class="quick">
+		<input class="button2" type="submit" name="addpage" value="{{ lang('ADD_PAGE') }}">
+		<input type="hidden" name="action" value="add">
+		{{ S_FORM_TOKEN }}
+	</fieldset>
+</form>
 
 {% include 'overall_footer.html' %}

@@ -63,6 +63,7 @@ class pages_module
 		switch ($action)
 		{
 			case 'add':
+				$this->tpl_name = 'acp_pages_edit';
 				$this->page_title = $this->language->lang('ADD_PAGE');
 				$this->controller->add_page();
 
@@ -70,6 +71,7 @@ class pages_module
 				return;
 
 			case 'edit':
+				$this->tpl_name = 'acp_pages_edit';
 				$this->page_title = $this->language->lang('EDIT_PAGE');
 				$this->controller->edit_page($page_id);
 

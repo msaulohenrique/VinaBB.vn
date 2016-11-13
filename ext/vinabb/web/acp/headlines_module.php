@@ -62,6 +62,7 @@ class headlines_module
 		switch ($action)
 		{
 			case 'add':
+				$this->tpl_name = 'acp_headlines_edit';
 				$this->page_title = $this->language->lang('ADD_HEADLINE');
 				$this->controller->add_headline();
 
@@ -69,6 +70,7 @@ class headlines_module
 				return;
 
 			case 'edit':
+				$this->tpl_name = 'acp_headlines_edit';
 				$this->page_title = $this->language->lang('EDIT_HEADLINE');
 				$this->controller->edit_headline($headline_id);
 

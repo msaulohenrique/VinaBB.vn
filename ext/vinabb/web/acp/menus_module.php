@@ -62,6 +62,7 @@ class menus_module
 		switch ($action)
 		{
 			case 'add':
+				$this->tpl_name = 'acp_menus_edit';
 				$this->page_title = $this->language->lang('ADD_MENU');
 				$this->controller->add_menu();
 
@@ -69,6 +70,7 @@ class menus_module
 				return;
 
 			case 'edit':
+				$this->tpl_name = 'acp_menus_edit';
 				$this->page_title = $this->language->lang('EDIT_MENU');
 				$this->controller->edit_menu($menu_id);
 
