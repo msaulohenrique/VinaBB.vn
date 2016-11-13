@@ -62,6 +62,7 @@ class portal_articles_module
 		switch ($action)
 		{
 			case 'add':
+				$this->tpl_name = 'acp_portal_articles_edit';
 				$this->page_title = $this->language->lang('ADD_ARTICLE');
 				$this->controller->add_article();
 
@@ -69,6 +70,7 @@ class portal_articles_module
 				return;
 
 			case 'edit':
+				$this->tpl_name = 'acp_portal_articles_edit';
 				$this->page_title = $this->language->lang('EDIT_ARTICLE');
 				$this->controller->edit_article($article_id);
 

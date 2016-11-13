@@ -1,135 +1,57 @@
 {% include 'overall_header.html' %}
 
-{% if S_EDIT %}
+<h1>{{ lang('ACP_PORTAL_ARTICLES') }}</h1>
+<p>{{ lang('ACP_PORTAL_ARTICLES_EXPLAIN') }}</p>
 
-	<script>
-		var form_name = 'acp_portal_articles_edit';
-		var text_name = 'article_text';
-		var load_draft = false;
-		var upload = false;
-		var imageTag = false;
-	</script>
+<form id="acp_portal_articles" method="post" action="{{ U_ACTION }}">
+	<p class="quick">
+		{{ S_HIDDEN_FIELDS }}
+		<input class="button2" name="add" type="submit" value="{{ lang('ADD_ARTICLE') }}">
+	</p>
+</form>
 
-	<a href="{{ U_BACK }}" style="float: {{ S_CONTENT_FLOW_END }};">&laquo; {{ lang('BACK') }}</a>
+{% if pagination %}
+<div class="pagination">
+	<span style="float: {{ S_CONTENT_FLOW_BEGIN }};">&raquo; {{ lang('COUNTER_ARTICLE', TOTAL_ARTICLES) }}</span>
+	{% include 'pagination.html' %}
+</div>
+{% endif %}
 
-	<h1>{{ lang('ACP_PORTAL_ARTICLES') }}</h1>
-	<p>{{ lang('ACP_PORTAL_ARTICLES_EXPLAIN') }}</p>
+<table class="table1 zebra-table">
+	<thead>
+	<tr>
+		<th>{{ lang('ARTICLE_NAME') }}</th>
+		<th>{{ lang('CATEGORY') }}</th>
+		<th>{{ lang('VIEWS') }}</th>
+		<th>{{ lang('COMMENTS') }}</th>
+		<th>{{ lang('ACTION') }}</th>
+	</tr>
+	</thead>
+	<tbody>
+	{% for article in articles %}
+	<tr>
+		<td style="text-align: center;">{{ article.NAME }}</td>
+		<td style="text-align: center;">{{ article.CATEGORY }}</td>
+		<td style="text-align: center;">{{ article.VIEWS }}</td>
+		<td style="text-align: center;">{{ article.COMMENTS }}</td>
+		<td class="actions">
+			<a href="{{ article.U_EDIT }}">{{ ICON_EDIT }}</a>
+			<a href="{{ article.U_DELETE }}" data-ajax="row_delete">{{ ICON_DELETE }}</a>
+		</td>
+	</tr>
+	{% else %}
+	<tr class="row3">
+		<td colspan="5">{{ lang('ACP_NO_ITEMS') }}</td>
+	</tr>
+	{% endfor %}
+	</tbody>
+</table>
 
-	<form id="acp_portal_articles_edit" method="post" action="{{ U_ACTION }}">
-		<fieldset>
-			<legend>{{ lang('ARTICLE_DETAILS') }}</legend>
-			<dl>
-				<dt><label for="article_name">{{ lang('ARTICLE_NAME') ~ lang('COLON') }}</label></dt>
-				<dd><input type="text" name="article_name" id="article_name" value="{{ ARTICLE_NAME }}" size="40" maxlength="255"></dd>
-			</dl>
-			<dl>
-				<dt><label for="cat_id">{{ lang('CATEGORY') ~ lang('COLON') }}</label></dt>
-				<dd><select name="cat_id" id="cat_id">{{ CAT_OPTIONS }}</select></dd>
-			</dl>
-			<dl>
-				<dt><label for="article_lang">{{ lang('LANGUAGE') ~ lang('COLON') }}</label></dt>
-				<dd><select name="article_lang" id="article_lang">{{ LANG_OPTIONS }}</select></dd>
-			</dl>
-			<dl>
-				<dt><label for="article_desc">{{ lang('ARTICLE_DESC') ~ lang('COLON') }}</label></dt>
-				<dd><textarea name="article_desc" id="article_desc" cols="40" rows="3">{{ ARTICLE_DESC }}</textarea></dd>
-			</dl>
-			{% if ACTION == 'edit' %}
-			<dl>
-				<dt><label for="revision">{{ lang('ARTICLE_REVISION') ~ lang('COLON') }}</label></dt>
-				<dd><input type="checkbox" name="revision" id="revision" value="1"></dd>
-			</dl>
-			{% endif %}
-		</fieldset>
-		{% if ARTICLE_TEXT_PREVIEW %}
-		<fieldset>
-			<legend>{{ lang('PREVIEW') }}</legend>
-			<p>{{ ARTICLE_TEXT_PREVIEW }}</p>
-		</fieldset>
-		{% endif %}
-		<fieldset>
-			<legend>{{ lang('ARTICLE_TEXT') }}</legend>
-			{% include 'acp_posting_buttons.html' %}
-
-			<dl class="responsive-columns">
-				<dt style="width: 90px;" id="color_palette_placeholder" data-orientation="v" data-height="12" data-width="15" data-bbcode="true"></dt>
-				<dd style="margin-{{ S_CONTENT_FLOW_BEGIN }}: 90px;">
-					<textarea name="article_text" rows="27" cols="60" style="width: 99%;" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" onfocus="initInsertions();" data-bbcode="true">{{ ARTICLE_TEXT }}</textarea>
-				</dd>
-				<dd style="margin-{{ S_CONTENT_FLOW_BEGIN }}: 90px; margin-top: 5px;">
-					<label><input type="checkbox" class="radio" name="disable_bbcode"{% if BBCODE_DISABLED %} checked{% endif %}> {{ lang('DISABLE_BBCODE') }}</label>
-					<label><input type="checkbox" class="radio" name="disable_urls"{% if URLS_DISABLED %} checked{% endif %}> {{ lang('DISABLE_MAGIC_URL') }}</label>
-					<label><input type="checkbox" class="radio" name="disable_smilies"{% if SMILIES_DISABLED %} checked{% endif %}> {{ lang('DISABLE_SMILIES') }}</label>
-				</dd>
-			</dl>
-		</fieldset>
-		<fieldset>
-			<legend>{{ lang('ACP_SUBMIT_CHANGES') }}</legend>
-			<p class="submit-buttons">
-				{{ S_HIDDEN_FIELDS }}
-				<input class="button1" type="submit" name="save" value="{{ lang('SUBMIT') }}">
-				<input class="button2" type="reset" name="reset" value="{{ lang('RESET') }}">
-			</p>
-			{{ S_FORM_TOKEN }}
-		</fieldset>
-	</form>
-
-{% else %}
-
-	<h1>{{ lang('ACP_PORTAL_ARTICLES') }}</h1>
-	<p>{{ lang('ACP_PORTAL_ARTICLES_EXPLAIN') }}</p>
-
-	<form id="acp_portal_articles" method="post" action="{{ U_ACTION }}">
-		<p class="quick">
-			{{ S_HIDDEN_FIELDS }}
-			<input class="button2" name="add" type="submit" value="{{ lang('ADD_ARTICLE') }}">
-		</p>
-	</form>
-
-	{% if pagination %}
-	<div class="pagination">
-		<span style="float: {{ S_CONTENT_FLOW_BEGIN }};">&raquo; {{ lang('COUNTER_ARTICLE', TOTAL_ARTICLES) }}</span>
-		{% include 'pagination.html' %}
-	</div>
-	{% endif %}
-
-	<table class="table1 zebra-table">
-		<thead>
-		<tr>
-			<th>{{ lang('ARTICLE_NAME') }}</th>
-			<th>{{ lang('CATEGORY') }}</th>
-			<th>{{ lang('VIEWS') }}</th>
-			<th>{{ lang('COMMENTS') }}</th>
-			<th>{{ lang('ACTION') }}</th>
-		</tr>
-		</thead>
-		<tbody>
-		{% for article in articles %}
-		<tr>
-			<td style="text-align: center;">{{ article.NAME }}</td>
-			<td style="text-align: center;">{{ article.CATEGORY }}</td>
-			<td style="text-align: center;">{{ article.VIEWS }}</td>
-			<td style="text-align: center;">{{ article.COMMENTS }}</td>
-			<td class="actions">
-				<a href="{{ article.U_EDIT }}">{{ ICON_EDIT }}</a>
-				<a href="{{ article.U_DELETE }}" data-ajax="row_delete">{{ ICON_DELETE }}</a>
-			</td>
-		</tr>
-		{% else %}
-		<tr class="row3">
-			<td colspan="5">{{ lang('ACP_NO_ITEMS') }}</td>
-		</tr>
-		{% endfor %}
-		</tbody>
-	</table>
-
-	{% if pagination %}
-	<div class="pagination">
-		<span style="float: {{ S_CONTENT_FLOW_BEGIN }};">&raquo; {{ lang('COUNTER_ARTICLE', TOTAL_ARTICLES) }}</span>
-		{% include 'pagination.html' %}
-	</div>
-	{% endif %}
-
+{% if pagination %}
+<div class="pagination">
+	<span style="float: {{ S_CONTENT_FLOW_BEGIN }};">&raquo; {{ lang('COUNTER_ARTICLE', TOTAL_ARTICLES) }}</span>
+	{% include 'pagination.html' %}
+</div>
 {% endif %}
 
 {% include 'overall_footer.html' %}
