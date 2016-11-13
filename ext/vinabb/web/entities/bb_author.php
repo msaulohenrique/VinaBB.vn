@@ -505,7 +505,7 @@ class bb_author implements bb_author_interface
 	{
 		$text = strtolower($text);
 
-		// This is a required field
+		// Checking for valid URL
 		if (filter_var($text, FILTER_VALIDATE_URL) === false)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['author_www', 'INVALID_URL']);
@@ -536,7 +536,7 @@ class bb_author implements bb_author_interface
 	{
 		$text = strtolower($text);
 
-		// This is a required field
+		// Checking for valid email address
 		if (filter_var($text, FILTER_VALIDATE_EMAIL) === false)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['author_email', 'INVALID_EMAIL']);
