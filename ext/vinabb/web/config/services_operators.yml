@@ -47,3 +47,9 @@ services:
         arguments:
             - '@vinabb.web.entities.menu'
             - '@vinabb.web.operators.nestedset_menus'
+    vinabb.web.operators.headline:
+        class: vinabb\web\operators\headline
+        arguments:
+            - '@dbal.conn'
+            - '@vinabb.web.entities.headline'
+            - '%vinabb.web.tables.headlines%'
