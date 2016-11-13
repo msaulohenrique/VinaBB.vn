@@ -57,3 +57,10 @@ services:
             - '@dbal.conn'
             - '%vinabb.web.tables.menus%'
             - '%vinabb.web.tables.pages%'
+    vinabb.web.entities.headline:
+        class: vinabb\web\entities\headline
+        shared: false
+        arguments:
+            - '@config'
+            - '@dbal.conn'
+            - '%vinabb.web.tables.headlines%'
