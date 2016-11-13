@@ -39,6 +39,9 @@ class service extends \phpbb\cache\service
 	/** @var string */
 	protected $menus_table;
 
+	/** @var string */
+	protected $headlines_table;
+
 	/**
 	* Constructor
 	*
@@ -55,6 +58,7 @@ class service extends \phpbb\cache\service
 	* @param string $portal_comments_table
 	* @param string $pages_table
 	* @param string $menus_table
+	* @param string $headlines_table
 	*/
 	public function __construct(
 		\phpbb\cache\driver\driver_interface $driver,
@@ -69,7 +73,8 @@ class service extends \phpbb\cache\service
 		$portal_articles_table,
 		$portal_comments_table,
 		$pages_table,
-		$menus_table
+		$menus_table,
+		$headlines_table
 	)
 	{
 		$this->set_driver($driver);
@@ -85,6 +90,7 @@ class service extends \phpbb\cache\service
 		$this->portal_comments_table = $portal_comments_table;
 		$this->pages_table = $pages_table;
 		$this->menus_table = $menus_table;
+		$this->headlines_table = $headlines_table;
 	}
 
 	/**
@@ -252,7 +258,7 @@ class service extends \phpbb\cache\service
 	/**
 	* Get cache from table: _bb_categories
 	*
-	* @param int	$bb_type	phpBB resource type (ext, style, lang...)
+	* @param int $bb_type phpBB resource type (ext, style, lang...)
 	* @return array
 	*/
 	public function get_bb_cats($bb_type)
@@ -288,7 +294,7 @@ class service extends \phpbb\cache\service
 	/**
 	* Clear cache from table: _bb_categories
 	*
-	* @param int	$bb_type	phpBB resource type (ext, style, lang...)
+	* @param int $bb_type phpBB resource type (ext, style, lang...)
 	*/
 	public function clear_bb_cats($bb_type)
 	{
@@ -298,7 +304,7 @@ class service extends \phpbb\cache\service
 	/**
 	* Get cache from table: _bb_items
 	*
-	* @param int	$bb_type	phpBB resource type (ext, style, lang...)
+	* @param int $bb_type phpBB resource type (ext, style, lang...)
 	* @return array
 	*/
 	public function get_new_bb_items($bb_type)
@@ -335,7 +341,7 @@ class service extends \phpbb\cache\service
 	/**
 	* Clear cache from table: _bb_items
 	*
-	* @param int	$bb_type	phpBB resource type (ext, style, lang...)
+	* @param int $bb_type phpBB resource type (ext, style, lang...)
 	*/
 	public function clear_new_bb_items($bb_type)
 	{
@@ -388,7 +394,7 @@ class service extends \phpbb\cache\service
 	/**
 	* Get cache from table: _portal_articles
 	*
-	* @param string	$lang	2-letter language ISO code
+	* @param string $lang 2-letter language ISO code
 	* @return array
 	*/
 	public function get_index_articles($lang)
@@ -429,7 +435,7 @@ class service extends \phpbb\cache\service
 	/**
 	* Clear cache from table: _portal_articles
 	*
-	* @param string	$lang	2-letter language ISO code
+	* @param string $lang 2-letter language ISO code
 	*/
 	public function clear_index_articles($lang)
 	{
@@ -476,7 +482,7 @@ class service extends \phpbb\cache\service
 	/**
 	* Clear comment counter for get_index_articles()
 	*
-	* @param string	$lang	2-letter language ISO code
+	* @param string $lang 2-letter language ISO code
 	*/
 	public function clear_index_comment_counter($lang)
 	{
@@ -583,5 +589,50 @@ class service extends \phpbb\cache\service
 	public function clear_menus()
 	{
 		$this->driver->destroy('_vinabb_web_menus');
+	}
+
+	/**
+	* Get cache from table: _headlines
+	*
+	* @param string $lang 2-letter language ISO code
+	* @return array
+	*/
+	public function get_headlines($lang)
+	{
+		if (($headlines = $this->driver->get('_vinabb_web_headlines_' . $lang)) === false)
+		{
+			$sql = 'SELECT *
+				FROM ' . $this->headlines_table . "
+				WHERE article_lang = '" . $this->db->sql_escape($lang) . "'
+				ORDER BY headline_order";
+			$result = $this->db->sql_query($sql);
+
+			$headlines = [];
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$headlines[] = [
+					'id'	=> $row['headline_id'],
+					'name'	=> $row['headline_name'],
+					'desc'	=> $row['headline_desc'],
+					'img'	=> $row['headline_img'],
+					'url'	=> $row['headline_url']
+				];
+			}
+			$this->db->sql_freeresult($result);
+
+			$this->driver->put('_vinabb_web_headlines_' . $lang, $headlines);
+		}
+
+		return $headlines;
+	}
+
+	/**
+	* Clear cache from table: _headlines
+	*
+	* @param string $lang 2-letter language ISO code
+	*/
+	public function clear_headlines($lang)
+	{
+		$this->driver->destroy('_vinabb_web_headlines_' . $lang);
 	}
 }
