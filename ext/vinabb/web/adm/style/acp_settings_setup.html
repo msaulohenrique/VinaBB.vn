@@ -108,6 +108,13 @@
 		</dl>
 	</fieldset>
 	<fieldset>
+		<legend>{{ lang('ANALYTICS') }}</legend>
+		<dl>
+			<dt><label for="google_analytics_id">{{ lang('GOOGLE_ANALYTICS_ID') ~ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="google_analytics_id" id="google_analytics_id" size="40" maxlength="255" value="{{ GOOGLE_ANALYTICS_ID }}"></dd>
+		</dl>
+	</fieldset>
+	<fieldset>
 		<legend>{{ lang('SOCIAL_LINKS') }}</legend>
 		<dl>
 			<dt><label for="facebook_url">{{ lang('FACEBOOK') ~ lang('COLON') }}</label></dt>

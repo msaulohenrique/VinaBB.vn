@@ -28,6 +28,7 @@ $lang = array_merge($lang, [
 	'ACP_STYLE_NAME'			=> 'Style name',
 	'ACP_STYLE_VERSION'			=> 'Style version',
 	'ALL_TIMES'					=> 'All times are %1$s',
+	'ANALYTICS'					=> 'Analytics',
 
 	'BB'				=> 'Resources',
 	'BB_ACP_STYLES'		=> 'ACP styles',

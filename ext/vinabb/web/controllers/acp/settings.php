@@ -343,6 +343,8 @@ class settings
 			'map_phone'			=> ['type' => 'string', 'default' => ''],
 			'map_phone_name'	=> ['type' => 'string_uni', 'default' => ''],
 
+			'google_analytics_id'	=> ['type' => 'string', 'default' => ''],
+
 			'facebook_url'		=> ['type' => 'string', 'default' => ''],
 			'twitter_url'		=> ['type' => 'string', 'default' => ''],
 			'google_plus_url'	=> ['type' => 'string', 'default' => ''],

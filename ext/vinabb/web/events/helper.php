@@ -198,6 +198,8 @@ class helper implements helper_interface
 			'MAP_PHONE'			=> $this->config['vinabb_web_map_phone'],
 			'MAP_PHONE_NAME'	=> $this->config['vinabb_web_map_phone_name'],
 
+			'GOOGLE_ANALYTICS_ID' => $this->config['vinabb_web_google_analytics_id'],
+
 			'FACEBOOK_URL'		=> htmlspecialchars_decode($this->config['vinabb_web_facebook_url']),
 			'TWITTER_URL'		=> htmlspecialchars_decode($this->config['vinabb_web_twitter_url']),
 			'GOOGLE_PLUS_URL'	=> htmlspecialchars_decode($this->config['vinabb_web_google_plus_url']),

@@ -56,6 +56,8 @@ $lang = array_merge($lang, [
 	'FORUM_ID_VIETNAMESE_SUPPORT'		=> 'Hỗ trợ (Tiếng Việt)',
 	'FORUM_ID_VIETNAMESE_TUTORIAL'		=> 'Hướng dẫn (Tiếng Việt)',
 
+	'GOOGLE_ANALYTICS_ID' => 'Mã định danh Google Analytics',
+
 	'LANG_ENABLE'			=> 'Cho phép chuyển ngôn ngữ',
 	'LANG_SWITCH'			=> 'Ngôn ngữ chuyển',
 	'LANG_SWITCH_EXPLAIN'	=> 'Ngôn ngữ chuyển và mặc định phải khác nhau.',
