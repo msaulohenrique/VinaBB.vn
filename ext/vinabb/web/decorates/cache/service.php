@@ -36,6 +36,9 @@ class service extends \phpbb\cache\service
 	/** @var string */
 	protected $pages_table;
 
+	/** @var string */
+	protected $menus_table;
+
 	/**
 	* Constructor
 	*
@@ -51,6 +54,7 @@ class service extends \phpbb\cache\service
 	* @param string $portal_articles_table
 	* @param string $portal_comments_table
 	* @param string $pages_table
+	* @param string $menus_table
 	*/
 	public function __construct(
 		\phpbb\cache\driver\driver_interface $driver,
@@ -64,7 +68,8 @@ class service extends \phpbb\cache\service
 		$portal_categories_table,
 		$portal_articles_table,
 		$portal_comments_table,
-		$pages_table
+		$pages_table,
+		$menus_table
 	)
 	{
 		$this->set_driver($driver);
@@ -79,6 +84,7 @@ class service extends \phpbb\cache\service
 		$this->portal_articles_table = $portal_articles_table;
 		$this->portal_comments_table = $portal_comments_table;
 		$this->pages_table = $pages_table;
+		$this->menus_table = $menus_table;
 	}
 
 	/**
@@ -524,5 +530,58 @@ class service extends \phpbb\cache\service
 	public function clear_pages()
 	{
 		$this->driver->destroy('_vinabb_web_pages');
+	}
+
+	/**
+	* Get cache from table: _menus
+	*
+	* @return array
+	*/
+	public function get_menus()
+	{
+		if (($menus = $this->driver->get('_vinabb_web_menus')) === false)
+		{
+			$sql = 'SELECT *
+				FROM ' . $this->pages_table;
+			$result = $this->db->sql_query($sql);
+
+			$menus = [];
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$menus[$row['menu_id']] = [
+					'parent_id'			=> $row['parent_id'],
+					'left_id'			=> $row['left_id'],
+					'right_id'			=> $row['right_id'],
+					'menu_parents'		=> $row['menu_parents'],
+					'name'				=> $row['menu_name'],
+					'name_vi'			=> ($row['menu_name_vi'] == '') ? $row['menu_name'] : $row['menu_name_vi'],
+					'type'				=> $row['menu_type'],
+					'icon'				=> $row['menu_icon'],
+					'data'				=> $row['menu_data'],
+					'target'			=> $row['menu_target'],
+					'enable_guest'		=> $row['menu_enable_guest'],
+					'enable_bot'		=> $row['menu_enable_bot'],
+					'enable_new_user'	=> $row['menu_enable_new_user'],
+					'enable_user'		=> $row['menu_enable_user'],
+					'enable_mod'		=> $row['menu_enable_mod'],
+					'enable_global_mod'	=> $row['menu_enable_global_mod'],
+					'enable_admin'		=> $row['menu_enable_admin'],
+					'enable_founder'	=> $row['menu_enable_founder']
+				];
+			}
+			$this->db->sql_freeresult($result);
+
+			$this->driver->put('_vinabb_web_menus', $menus);
+		}
+
+		return $menus;
+	}
+
+	/**
+	* Clear cache from table: _menus
+	*/
+	public function clear_menus()
+	{
+		$this->driver->destroy('_vinabb_web_menus');
 	}
 }
