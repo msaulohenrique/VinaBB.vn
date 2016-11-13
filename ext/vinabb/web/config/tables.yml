@@ -4,6 +4,7 @@ parameters:
     vinabb.web.tables.bb_items: '%core.table_prefix%bb_items'
     vinabb.web.tables.bb_item_versions: '%core.table_prefix%bb_item_versions'
     vinabb.web.tables.bb_rates: '%core.table_prefix%bb_rates'
+    vinabb.web.tables.headlines: '%core.table_prefix%headlines'
     vinabb.web.tables.menus: '%core.table_prefix%menus'
     vinabb.web.tables.pages: '%core.table_prefix%pages'
     vinabb.web.tables.portal_articles: '%core.table_prefix%portal_articles'
