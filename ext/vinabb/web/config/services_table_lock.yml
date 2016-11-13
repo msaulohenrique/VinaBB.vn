@@ -17,3 +17,9 @@ services:
             - 'vinabb.web.table_lock.%vinabb.web.tables.menus%'
             - '@config'
             - '@dbal.conn'
+    vinabb.web.table_lock.headlines:
+        class: phpbb\lock\db
+        arguments:
+            - 'vinabb.web.table_lock.%vinabb.web.tables.headlines%'
+            - '@config'
+            - '@dbal.conn'
