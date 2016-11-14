@@ -19,28 +19,38 @@ services:
     vinabb.web.operators.portal_article:
         class: vinabb\web\operators\portal_article
         arguments:
-            - '@vinabb.web.entities.portal_article'
+            - '@service_container'
+            - '@dbal.conn'
+            - '%vinabb.web.tables.portal_articles%'
     vinabb.web.operators.portal_comment:
         class: vinabb\web\operators\portal_comment
         arguments:
-            - '@vinabb.web.entities.portal_comment'
+            - '@service_container'
+            - '@dbal.conn'
+            - '%vinabb.web.tables.portal_comments%'
     vinabb.web.operators.bb_category:
         class: vinabb\web\operators\bb_category
         arguments:
-            - '@vinabb.web.entities.bb_category'
+            - '@service_container'
+            - '@dbal.conn'
+            - '%vinabb.web.tables.bb_categories%'
     vinabb.web.operators.bb_item:
         class: vinabb\web\operators\bb_item
         arguments:
-            - '@vinabb.web.entities.bb_item'
+            - '@service_container'
+            - '@dbal.conn'
+            - '%vinabb.web.tables.bb_items%'
     vinabb.web.operators.bb_author:
         class: vinabb\web\operators\bb_author
         arguments:
-            - '@vinabb.web.entities.bb_author'
+            - '@service_container'
+            - '@dbal.conn'
+            - '%vinabb.web.tables.bb_authors%'
     vinabb.web.operators.page:
         class: vinabb\web\operators\page
         arguments:
+            - '@service_container'
             - '@dbal.conn'
-            - '@vinabb.web.entities.page'
             - '%vinabb.web.tables.pages%'
     vinabb.web.operators.menu:
         class: vinabb\web\operators\menu
@@ -50,6 +60,6 @@ services:
     vinabb.web.operators.headline:
         class: vinabb\web\operators\headline
         arguments:
+            - '@service_container'
             - '@dbal.conn'
-            - '@vinabb.web.entities.headline'
             - '%vinabb.web.tables.headlines%'
