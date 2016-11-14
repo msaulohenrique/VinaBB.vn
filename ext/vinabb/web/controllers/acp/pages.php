@@ -8,6 +8,8 @@
 
 namespace vinabb\web\controllers\acp;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 /**
 * Controller for the pages_module
 */
@@ -16,8 +18,8 @@ class pages
 	/** @var \phpbb\cache\service */
 	protected $cache;
 
-	/** @var \vinabb\web\entities\page_interface */
-	protected $entity;
+	/** @var ContainerInterface */
+	protected $container;
 
 	/** @var \phpbb\language\language */
 	protected $language;
@@ -50,7 +52,7 @@ class pages
 	* Constructor
 	*
 	* @param \phpbb\cache\service					$cache		Cache service
-	* @param \vinabb\web\entities\page_interface	$entity		Page entity
+	* @param ContainerInterface						$container	Container object
 	* @param \phpbb\language\language				$language	Language object
 	* @param \phpbb\log\log							$log		Log object
 	* @param \vinabb\web\operators\page_interface	$operator	Page operators
@@ -62,7 +64,7 @@ class pages
 	*/
 	public function __construct(
 		\phpbb\cache\service $cache,
-		\vinabb\web\entities\page_interface $entity,
+		ContainerInterface $container,
 		\phpbb\language\language $language,
 		\phpbb\log\log $log,
 		\vinabb\web\operators\page_interface $operator,
@@ -74,7 +76,7 @@ class pages
 	)
 	{
 		$this->cache = $cache;
-		$this->entity = $entity;
+		$this->container = $container;
 		$this->language = $language;
 		$this->log = $log;
 		$this->operator = $operator;
@@ -127,7 +129,12 @@ class pages
 	*/
 	public function add_page()
 	{
-		$this->add_edit_page_data();
+		// Initiate an entity
+		/* @var \vinabb\web\entities\page_interface */
+		$entity = $this->container->get('vinabb.web.entities.page');
+
+		// Process the new entity
+		$this->add_edit_page_data($entity);
 
 		$this->template->assign_vars([
 			'S_ADD'		=> true,
@@ -142,7 +149,12 @@ class pages
 	*/
 	public function edit_page($page_id)
 	{
-		$this->add_edit_page_data($page_id);
+		// Initiate and load the entity
+		/* @var \vinabb\web\entities\page_interface */
+		$entity = $this->container->get('vinabb.web.entities.page')->load($page_id);
+
+		// Process the edited entity
+		$this->add_edit_page_data($entity);
 
 		$this->template->assign_vars([
 			'S_EDIT'	=> true,
@@ -153,13 +165,11 @@ class pages
 	/**
 	* Process page data to be added or edited
 	*
-	* @param int $page_id Page ID
+	* @param \vinabb\web\entities\page_interface $entity Page entity
 	*/
-	public function add_edit_page_data($page_id = 0)
+	public function add_edit_page_data($entity)
 	{
-		/* @var \vinabb\web\entities\page_interface */
-		$page = $page_id ? $this->entity->load($page_id) : $this->entity;
-
+		$page_id = $entity->get_id();
 		$submit = $this->request->is_set_post('submit');
 		$errors = [];
 
@@ -203,26 +213,26 @@ class pages
 		*	In add mode, use default values
 		*/
 		$text_options = [
-			'bbcode'	=> $submit ? $data['text_bbcode'] : ($page_id ? $page->text_bbcode_enabled() : true),
-			'urls'		=> $submit ? $data['text_urls'] : ($page_id ? $page->text_urls_enabled() : true),
-			'smilies'	=> $submit ? $data['text_smilies'] : ($page_id ? $page->text_smilies_enabled() : true)
+			'bbcode'	=> $submit ? $data['text_bbcode'] : ($page_id ? $entity->text_bbcode_enabled() : true),
+			'urls'		=> $submit ? $data['text_urls'] : ($page_id ? $entity->text_urls_enabled() : true),
+			'smilies'	=> $submit ? $data['text_smilies'] : ($page_id ? $entity->text_smilies_enabled() : true)
 		];
 
 		$text_vi_options = [
-			'bbcode'	=> $submit ? $data['text_vi_bbcode'] : ($page_id ? $page->text_vi_bbcode_enabled() : true),
-			'urls'		=> $submit ? $data['text_vi_urls'] : ($page_id ? $page->text_vi_urls_enabled() : true),
-			'smilies'	=> $submit ? $data['text_vi_smilies'] : ($page_id ? $page->text_vi_smilies_enabled() : true)
+			'bbcode'	=> $submit ? $data['text_vi_bbcode'] : ($page_id ? $entity->text_vi_bbcode_enabled() : true),
+			'urls'		=> $submit ? $data['text_vi_urls'] : ($page_id ? $entity->text_vi_urls_enabled() : true),
+			'smilies'	=> $submit ? $data['text_vi_smilies'] : ($page_id ? $entity->text_vi_smilies_enabled() : true)
 		];
 
 		// Set the parse options in the entity
 		foreach ($text_options as $function => $enabled)
 		{
-			$page->{($enabled ? 'text_enable_' : 'text_disable_') . $function}();
+			$entity->{($enabled ? 'text_enable_' : 'text_disable_') . $function}();
 		}
 
 		foreach ($text_vi_options as $function => $enabled)
 		{
-			$page->{($enabled ? 'text_vi_enable_' : 'text_vi_disable_') . $function}();
+			$entity->{($enabled ? 'text_vi_enable_' : 'text_vi_disable_') . $function}();
 		}
 
 		unset($text_options);
@@ -262,7 +272,7 @@ class pages
 				try
 				{
 					// Calling the $entity_function on the entity and passing it $page_data
-					$page->$entity_function($page_data);
+					$entity->$entity_function($page_data);
 				}
 				catch (\vinabb\web\exceptions\base $e)
 				{
@@ -278,18 +288,18 @@ class pages
 				if ($page_id)
 				{
 					// Save the edited page entity to the database
-					$page->save();
+					$entity->save();
 
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_EDIT', time(), [$page->get_varname()]);
+					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_EDIT', time(), [$entity->get_varname()]);
 
 					$message = 'MESSAGE_PAGE_EDIT';
 				}
 				else
 				{
 					// Add the new page entity to the database
-					$page = $this->operator->add_page();
+					$entity = $this->operator->add_page($entity);
 
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_ADD', time(), [$page->get_varname()]);
+					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_ADD', time(), [$entity->get_varname()]);
 
 					$message = 'MESSAGE_PAGE_ADD';
 				}
@@ -303,22 +313,22 @@ class pages
 		$this->template->assign_vars([
 			'ERRORS'	=> sizeof($errors) ? implode('<br>', $errors) : '',
 
-			'PAGE_NAME'					=> $page->get_name(),
-			'PAGE_NAME_VI'				=> $page->get_name_vi(),
-			'PAGE_VARNAME'				=> $page->get_varname(),
-			'PAGE_DESC'					=> $page->get_desc(),
-			'PAGE_DESC_VI'				=> $page->get_desc_vi(),
-			'PAGE_TEXT'					=> $page->get_text_for_edit(),
-			'PAGE_TEXT_VI'				=> $page->get_text_vi_for_edit(),
-			'PAGE_ENABLE'				=> $page->get_enable(),
-			'PAGE_ENABLE_GUEST'			=> $page->get_enable_guest(),
-			'PAGE_ENABLE_BOT'			=> $page->get_enable_bot(),
-			'PAGE_ENABLE_NEW_USER'		=> $page->get_enable_new_user(),
-			'PAGE_ENABLE_USER'			=> $page->get_enable_user(),
-			'PAGE_ENABLE_MOD'			=> $page->get_enable_mod(),
-			'PAGE_ENABLE_GLOBAL_MOD'	=> $page->get_enable_global_mod(),
-			'PAGE_ENABLE_ADMIN'			=> $page->get_enable_admin(),
-			'PAGE_ENABLE_FOUNDER'		=> $page->get_enable_founder(),
+			'PAGE_NAME'					=> $entity->get_name(),
+			'PAGE_NAME_VI'				=> $entity->get_name_vi(),
+			'PAGE_VARNAME'				=> $entity->get_varname(),
+			'PAGE_DESC'					=> $entity->get_desc(),
+			'PAGE_DESC_VI'				=> $entity->get_desc_vi(),
+			'PAGE_TEXT'					=> $entity->get_text_for_edit(),
+			'PAGE_TEXT_VI'				=> $entity->get_text_vi_for_edit(),
+			'PAGE_ENABLE'				=> $entity->get_enable(),
+			'PAGE_ENABLE_GUEST'			=> $entity->get_enable_guest(),
+			'PAGE_ENABLE_BOT'			=> $entity->get_enable_bot(),
+			'PAGE_ENABLE_NEW_USER'		=> $entity->get_enable_new_user(),
+			'PAGE_ENABLE_USER'			=> $entity->get_enable_user(),
+			'PAGE_ENABLE_MOD'			=> $entity->get_enable_mod(),
+			'PAGE_ENABLE_GLOBAL_MOD'	=> $entity->get_enable_global_mod(),
+			'PAGE_ENABLE_ADMIN'			=> $entity->get_enable_admin(),
+			'PAGE_ENABLE_FOUNDER'		=> $entity->get_enable_founder(),
 
 			// These template variables used for the BBCode editor
 			'S_BBCODE_ALLOWED'	=> true,
@@ -331,7 +341,7 @@ class pages
 		]);
 
 		// Custom BBCode
-		include_once $this->root_path . 'includes/functions_display.' . $this->php_ext;
+		include_once "{$this->root_path}includes/functions_display.{$this->php_ext}";
 		display_custom_bbcodes();
 	}
 
@@ -342,6 +352,9 @@ class pages
 	*/
 	public function delete_page($page_id)
 	{
+		/* @var \vinabb\web\entities\page_interface */
+		$entity = $this->container->get('vinabb.web.entities.page')->load($page_id);
+
 		try
 		{
 			$this->operator->delete_page($page_id);
@@ -351,7 +364,7 @@ class pages
 			trigger_error($this->language->lang('ACP_PAGES_DELETE_ERRORED') . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
-		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_DELETE', time(), [$this->entity->load($page_id)->get_varname()]);
+		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_DELETE', time(), [$entity->get_varname()]);
 
 		// If AJAX was used, show user a result message
 		if ($this->request->is_ajax())
