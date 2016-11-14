@@ -23,9 +23,10 @@ interface page_interface
 	/**
 	* Add a page
 	*
+	* @param \vinabb\web\entities\page_interface $entity Page entity
 	* @return \vinabb\web\entities\page_interface
 	*/
-	public function add_page();
+	public function add_page($entity);
 
 	/**
 	* Delete a page
