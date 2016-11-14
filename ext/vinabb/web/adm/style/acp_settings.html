@@ -1,100 +1,21 @@
 {% include 'overall_header.html' %}
 
-<h1>{{ lang('ACP_VINABB_SETTINGS') }}</h1>
-<p>{{ lang('ACP_VINABB_SETTINGS_EXPLAIN') }}</p>
+<h1>{{ PAGE_TITLE }}</h1>
+<p>{{ PAGE_TITLE_EXPLAIN }}</p>
 
-<form id="acp_vinabb_settings" method="post" action="{{ U_ACTION }}">
+<form id="{{ FORM_NAME }}" method="post" action="{{ U_ACTION }}">
+	{% for group in groups %}
 	<fieldset>
-		<legend>{{ lang('ACP_CAT_MAINTENANCE') }}</legend>
+		<legend>{{ group.LEGEND }}</legend>
+		{% for row in group.rows %}
 		<dl>
-			<dt><label for="maintenance_mode">{{ lang('MAINTENANCE_MODE') ~ lang('COLON') }}</label></dt>
-			<dd>
-				<label><input type="radio" class="radio" name="maintenance_mode" value="{{ MAINTENANCE_MODE_NONE }}" id="maintenance_mode"{% if MAINTENANCE_MODE == MAINTENANCE_MODE_NONE %} checked{% endif %} onclick="phpbb.toggleDisplay('maintenance_options', -1)"> {{ lang('MAINTENANCE_MODE_NONE') }}</label>
-				<label><input type="radio" class="radio" name="maintenance_mode" value="{{ MAINTENANCE_MODE_FOUNDER }}"{% if MAINTENANCE_MODE == MAINTENANCE_MODE_FOUNDER %} checked{% endif %}{% if not S_FOUNDER %} disabled{% endif %} onclick="phpbb.toggleDisplay('maintenance_options', 1)"> {{ lang('MAINTENANCE_MODE_FOUNDER') }}</label>
-				<label><input type="radio" class="radio" name="maintenance_mode" value="{{ MAINTENANCE_MODE_ADMIN }}"{% if MAINTENANCE_MODE == MAINTENANCE_MODE_ADMIN %} checked{% endif %} onclick="phpbb.toggleDisplay('maintenance_options', 1)"> {{ lang('MAINTENANCE_MODE_ADMIN') }}</label>
-				<label><input type="radio" class="radio" name="maintenance_mode" value="{{ MAINTENANCE_MODE_MOD }}"{% if MAINTENANCE_MODE == MAINTENANCE_MODE_MOD %} checked{% endif %} onclick="phpbb.toggleDisplay('maintenance_options', 1)"> {{ lang('MAINTENANCE_MODE_MOD') }}</label>
-				<label><input type="radio" class="radio" name="maintenance_mode" value="{{ MAINTENANCE_MODE_USER }}"{% if MAINTENANCE_MODE == MAINTENANCE_MODE_USER %} checked{% endif %} onclick="phpbb.toggleDisplay('maintenance_options', 1)"> {{ lang('MAINTENANCE_MODE_USER') }}</label>
-			</dd>
+			<dt><label for="{{ row.FIELD }}">{{ row.TITLE ~ lang('COLON') }}</label>{% if row.EXPLAIN %}<br><span>{{ row.EXPLAIN }}</span>{% endif %}</dt>
+			<dd>{% if row.PREPEND %}{{ row.PREPEND }} {% endif %}{{ row.HTML }}{% if row.APPEND %} {{ row.APPEND }}{% endif %}</dd>
+			{% if row.EXTRA %}<dd>{{ row.EXTRA }}</dd>{% endif %}
 		</dl>
-		<div id="maintenance_options"{% if MAINTENANCE_MODE == MAINTENANCE_MODE_NONE %} style="display: none;"{% endif %}>
-			<dl>
-				<dt><label for="maintenance_tpl">{{ lang('MAINTENANCE_TPL') ~ lang('COLON') }}</label></dt>
-				<dd>
-					<label><input type="radio" class="radio" name="maintenance_tpl" value="1" id="maintenance_tpl"{% if MAINTENANCE_TPL %} checked{% endif %}> {{ lang('YES') }}</label>
-					<label><input type="radio" class="radio" name="maintenance_tpl" value="0"{% if not MAINTENANCE_TPL %} checked{% endif %}> {{ lang('NO') }}</label>
-				</dd>
-			</dl>
-			{% if MAINTENANCE_TIME_REMAIN %}
-			<dl>
-				<dt><label>{{ lang('MAINTENANCE_TIME_REMAIN') ~ lang('COLON') }}</label></dt>
-				<dd>{{ MAINTENANCE_TIME_REMAIN }} <label><input type="checkbox" class="radio" name="maintenance_time_reset" value="1"> {{ lang('MAINTENANCE_TIME_RESET') }}</label></dd>
-			</dl>
-			{% endif %}
-			<dl>
-				<dt><label for="maintenance_time">{{ lang('MAINTENANCE_TIME') ~ lang('COLON') }}</label><br /><span>{{ lang('MAINTENANCE_TIME_EXPLAIN') }}</span></dt>
-				<dd><input id="maintenance_time" type="number" min="0" name="maintenance_time" value="{{ MAINTENANCE_TIME }}"> {{ lang('MINUTES') }}</dd>
-			</dl>
-			<dl>
-				<dt><label for="maintenance_text">{{ lang('MAINTENANCE_TEXT') ~ ' (' ~ lang('ENGLISH') ~ ')' ~ lang('COLON') }}</label><br /><span>{{ lang('MAINTENANCE_TEXT_EXPLAIN') }}</span></dt>
-				<dd><textarea name="maintenance_text" id="maintenance_text" rows="10" cols="60" style="width: 95%;">{{ MAINTENANCE_TEXT }}</textarea></dd>
-			</dl>
-			<dl>
-				<dt><label for="maintenance_text_vi">{{ lang('MAINTENANCE_TEXT') ~ ' (' ~ lang('VIETNAMESE') ~ ')' ~ lang('COLON') }}</label><br /><span>{{ lang('MAINTENANCE_TEXT_EXPLAIN') }}</span></dt>
-				<dd><textarea name="maintenance_text_vi" id="maintenance_text_vi" rows="10" cols="60" style="width: 95%;">{{ MAINTENANCE_TEXT_VI }}</textarea></dd>
-			</dl>
-		</div>
+		{% endfor %}
 	</fieldset>
-	<fieldset>
-		<legend>{{ lang('DONATE') }}</legend>
-		<dl>
-			<dt><label for="donate_year">{{ lang('DONATE_YEAR') ~ lang('COLON') }}</label></dt>
-			<dd><input type="number" name="donate_year" id="donate_year" min="{{ CURRENT_YEAR }}" value="{{ max(CURRENT_YEAR, DONATE_YEAR) }}"></dd>
-		</dl>
-		<dl>
-			<dt><label for="donate_year_value">{{ lang('DONATE_YEAR_VALUE') ~ lang('COLON') }}</label></dt>
-			<dd><input type="number" name="donate_year_value" id="donate_year_value" min="0" value="{{ DONATE_YEAR_VALUE }}"></dd>
-		</dl>
-		<dl>
-			<dt><label for="donate_fund">{{ lang('DONATE_FUND') ~ lang('COLON') }}</label></dt>
-			<dd><input type="number" name="donate_fund" id="donate_fund" min="0" value="{{ DONATE_FUND }}"></dd>
-		</dl>
-		<dl>
-			<dt><label for="donate_currency">{{ lang('DONATE_CURRENCY') ~ lang('COLON') }}</label></dt>
-			<dd><input type="text" name="donate_currency" id="donate_currency" maxlength="3" value="{{ DONATE_CURRENCY }}"></dd>
-		</dl>
-		<dl>
-			<dt><label for="donate_owner">{{ lang('DONATE_OWNER') ~ ' (' ~ lang('ENGLISH') ~ ')' ~ lang('COLON') }}</label></dt>
-			<dd><input type="text" name="donate_owner" id="donate_owner" size="40" maxlength="255" value="{{ DONATE_OWNER }}"></dd>
-		</dl>
-		<dl>
-			<dt><label for="donate_owner_vi">{{ lang('DONATE_OWNER') ~ ' (' ~ lang('VIETNAMESE') ~ ')' ~ lang('COLON') }}</label></dt>
-			<dd><input type="text" name="donate_owner_vi" id="donate_owner_vi" size="40" maxlength="255" value="{{ DONATE_OWNER_VI }}"></dd>
-		</dl>
-		<dl>
-			<dt><label for="donate_email">{{ lang('DONATE_EMAIL') ~ lang('COLON') }}</label></dt>
-			<dd><input type="text" name="donate_email" id="donate_email" size="40" maxlength="255" value="{{ DONATE_EMAIL }}"></dd>
-		</dl>
-		<dl>
-			<dt><label for="donate_bank">{{ lang('DONATE_BANK') ~ ' (' ~ lang('ENGLISH') ~ ')' ~ lang('COLON') }}</label></dt>
-			<dd><input type="text" name="donate_bank" id="donate_bank" size="40" maxlength="255" value="{{ DONATE_BANK }}"></dd>
-		</dl>
-		<dl>
-			<dt><label for="donate_bank_vi">{{ lang('DONATE_BANK') ~ ' (' ~ lang('VIETNAMESE') ~ ')' ~ lang('COLON') }}</label></dt>
-			<dd><input type="text" name="donate_bank_vi" id="donate_bank_vi" size="40" maxlength="255" value="{{ DONATE_BANK_VI }}"></dd>
-		</dl>
-		<dl>
-			<dt><label for="donate_bank_acc">{{ lang('DONATE_BANK_ACC') ~ lang('COLON') }}</label></dt>
-			<dd><input type="text" name="donate_bank_acc" id="donate_bank_acc" size="40" maxlength="255" value="{{ DONATE_BANK_ACC }}"></dd>
-		</dl>
-		<dl>
-			<dt><label for="donate_bank_swift">{{ lang('DONATE_BANK_SWIFT') ~ lang('COLON') }}</label></dt>
-			<dd><input type="text" name="donate_bank_swift" id="donate_bank_swift" size="40" maxlength="11" value="{{ DONATE_BANK_SWIFT }}"></dd>
-		</dl>
-		<dl>
-			<dt><label for="donate_paypal">{{ lang('DONATE_PAYPAL') ~ lang('COLON') }}</label></dt>
-			<dd><input type="url" name="donate_paypal" id="donate_paypal" size="40" maxlength="255" value="{{ DONATE_PAYPAL }}"></dd>
-		</dl>
-	</fieldset>
+	{% endfor %}
 	<fieldset>
 		<legend>{{ lang('ACP_SUBMIT_CHANGES') }}</legend>
 		<p class="submit-buttons">

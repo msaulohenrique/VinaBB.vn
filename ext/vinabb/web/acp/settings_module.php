@@ -41,6 +41,9 @@ class settings_module
 		$this->controller = $phpbb_container->get('vinabb.web.acp.settings');
 		$this->language = $phpbb_container->get('language');
 
+		// ACP template file
+		$this->tpl_name = 'acp_settings';
+
 		// Language
 		$this->language->add_lang('acp_settings', 'vinabb/web');
 
@@ -50,19 +53,16 @@ class settings_module
 		switch ($mode)
 		{
 			case 'version':
-				$this->tpl_name = 'acp_settings_version';
 				$this->page_title = $this->language->lang('ACP_VINABB_SETTINGS_VERSION');
 				$this->controller->display_version_settings();
 			break;
 
 			case 'setup':
-				$this->tpl_name = 'acp_settings_setup';
 				$this->page_title = $this->language->lang('ACP_VINABB_SETTINGS_SETUP');
 				$this->controller->display_setup_settings();
 			break;
 
 			case 'main':
-				$this->tpl_name = 'acp_settings';
 				$this->page_title = $this->language->lang('ACP_VINABB_SETTINGS');
 				$this->controller->display_main_settings();
 			break;
