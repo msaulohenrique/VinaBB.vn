@@ -50,7 +50,6 @@ class pages_module
 		$this->page_title = $this->language->lang('ACP_PAGES');
 
 		// Language
-		$this->language->add_lang('posting');
 		$this->language->add_lang('acp_pages', 'vinabb/web');
 
 		// Requests

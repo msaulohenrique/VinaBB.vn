@@ -109,6 +109,7 @@ class pages
 				'NAME'		=> $entity->get_name(),
 				'NAME_VI'	=> $entity->get_name_vi(),
 				'VARNAME'	=> $entity->get_varname(),
+				'ENABLE'	=> $entity->get_enable(),
 
 				'U_EDIT'	=> "{$this->u_action}&action=edit&id=" . $entity->get_id(),
 				'U_DELETE'	=> "{$this->u_action}&action=delete&id=" . $entity->get_id()
@@ -121,6 +122,9 @@ class pages
 		}
 	}
 
+	/**
+	* Add a page
+	*/
 	public function add_page()
 	{
 		$this->add_edit_page_data();
@@ -131,6 +135,11 @@ class pages
 		]);
 	}
 
+	/**
+	* Edit a page
+	*
+	* @param int $page_id Page ID
+	*/
 	public function edit_page($page_id)
 	{
 		$this->add_edit_page_data($page_id);
@@ -141,14 +150,24 @@ class pages
 		]);
 	}
 
+	/**
+	* Process page data to be added or edited
+	*
+	* @param int $page_id Page ID
+	*/
 	public function add_edit_page_data($page_id = 0)
 	{
+		/* @var \vinabb\web\entities\page_interface */
 		$page = $page_id ? $this->entity->load($page_id) : $this->entity;
-		$errors = [];
-		$submit = $this->request->is_set_post('submit');
 
-		// Add form key for form validation checks
-		add_form_key('add_edit_page');
+		$submit = $this->request->is_set_post('submit');
+		$errors = [];
+
+		// Load posting language file for the BBCode editor
+		$this->language->add_lang('posting');
+
+		// Create a form key for preventing CSRF attacks
+		add_form_key('acp_pages');
 
 		// Get form data
 		$data = [
@@ -206,15 +225,13 @@ class pages
 			$page->{($enabled ? 'text_vi_enable_' : 'text_vi_disable_') . $function}();
 		}
 
-		// Purge temporary variable
 		unset($text_options);
 		unset($text_vi_options);
 
 		if ($submit)
 		{
-			// Test if the form is valid
-			// Use -1 to allow unlimited time to submit form
-			if (!check_form_key('add_edit_page', -1))
+			// Test if the submitted form is valid
+			if (!check_form_key('acp_pages'))
 			{
 				$errors[] = $this->language->lang('FORM_INVALID');
 			}
@@ -249,12 +266,10 @@ class pages
 				}
 				catch (\vinabb\web\exceptions\base $e)
 				{
-					// Catch exceptions and add them to errors array
 					$errors[] = $e->get_message($this->language);
 				}
 			}
 
-			// Purge temporary variable
 			unset($map_fields);
 
 			// Insert or update page
@@ -272,24 +287,21 @@ class pages
 				else
 				{
 					// Add the new page entity to the database
-					$page = $this->operator->add_page($page);
+					$page = $this->operator->add_page();
 
 					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_ADD', time(), [$page->get_varname()]);
 
 					$message = 'MESSAGE_PAGE_ADD';
 				}
 
-				// Purge the cache
 				$this->cache->clear_pages();
 
-				// Show user confirmation of the page and provide link back to the previous screen
 				trigger_error($this->language->lang($message) . adm_back_link($this->u_action));
 			}
 		}
 
 		$this->template->assign_vars([
-			'S_ERROR'	=> (bool) sizeof($errors),
-			'ERROR_MSG'	=> sizeof($errors) ? implode('<br>', $errors) : '',
+			'ERRORS'	=> sizeof($errors) ? implode('<br>', $errors) : '',
 
 			'PAGE_NAME'					=> $page->get_name(),
 			'PAGE_NAME_VI'				=> $page->get_name_vi(),
@@ -308,28 +320,38 @@ class pages
 			'PAGE_ENABLE_ADMIN'			=> $page->get_enable_admin(),
 			'PAGE_ENABLE_FOUNDER'		=> $page->get_enable_founder(),
 
+			// These template variables used for the BBCode editor
+			'S_BBCODE_ALLOWED'	=> true,
+			'S_SMILIES_ALLOWED'	=> true,
+			'S_BBCODE_IMG'		=> true,
+			'S_BBCODE_FLASH'	=> true,
+			'S_LINKS_ALLOWED'	=> true,
+
 			'U_BACK'	=> $this->u_action
 		]);
 
-		// Build custom BBCode
+		// Custom BBCode
 		include_once $this->root_path . 'includes/functions_display.' . $this->php_ext;
 		display_custom_bbcodes();
 	}
 
+	/**
+	* Deleta a page
+	*
+	* @param int $page_id Page ID
+	*/
 	public function delete_page($page_id)
 	{
 		try
 		{
-			// Delete the page
 			$this->operator->delete_page($page_id);
 		}
 		catch (\vinabb\web\exceptions\base $e)
 		{
-			// Display an error message if delete failed
 			trigger_error($this->language->lang('ACP_PAGES_DELETE_ERRORED') . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
-		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_DELETE', time(), [$this->entity->load($page_id)->get_title()]);
+		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_DELETE', time(), [$this->entity->load($page_id)->get_varname()]);
 
 		// If AJAX was used, show user a result message
 		if ($this->request->is_ajax())
@@ -338,9 +360,7 @@ class pages
 			$json_response->send([
 				'MESSAGE_TITLE'	=> $this->language->lang('INFORMATION'),
 				'MESSAGE_TEXT'	=> $this->language->lang('MESSAGE_PAGE_DELETE'),
-				'REFRESH_DATA'	=> [
-					'time'	=> 3
-				]
+				'REFRESH_DATA'	=> ['time'	=> 3]
 			]);
 		}
 	}
