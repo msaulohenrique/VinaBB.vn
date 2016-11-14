@@ -23,9 +23,10 @@ interface headline_interface
 	/**
 	* Add a headline
 	*
+	* @param \vinabb\web\entities\headline_interface $entity Headline entity
 	* @return \vinabb\web\entities\headline_interface
 	*/
-	public function add_headline();
+	public function add_headline($entity);
 
 	/**
 	* Delete a headline
