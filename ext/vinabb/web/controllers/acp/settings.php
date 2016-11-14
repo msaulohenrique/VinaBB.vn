@@ -173,21 +173,12 @@ class settings
 				'maintenance_tpl'		=> ['type' => 'radio', 'default' => true],
 				'maintenance_time'		=> ['type' => 'int', 'explain' => true, 'append' => $this->language->lang('MINUTES'), 'default' => 0, 'task' => 'maintenance_time_task', 'unset' => true],
 				'maintenance_text'		=> ['type' => 'text_uni', 'explain' => true, 'default' => ''],
-				'maintenance_text_vi'	=> ['type' => 'text_uni', 'explain' => true, 'default' => ''],
+				'maintenance_text_vi'	=> ['type' => 'text_uni', 'explain' => true, 'default' => '']
 			],
 			'DONATE'				=> [
 				'donate_year'		=> ['type' => 'int', 'default' => 0],
 				'donate_year_value'	=> ['type' => 'int', 'default' => 0],
-				'donate_fund'		=> ['type' => 'int', 'default' => 0],
-				'donate_currency'	=> ['type' => 'string', 'default' => ''],
-				'donate_owner'		=> ['type' => 'string_uni', 'default' => ''],
-				'donate_owner_vi'	=> ['type' => 'string_uni', 'default' => ''],
-				'donate_email'		=> ['type' => 'string', 'default' => ''],
-				'donate_bank'		=> ['type' => 'string_uni', 'default' => ''],
-				'donate_bank_vi'	=> ['type' => 'string_uni', 'default' => ''],
-				'donate_bank_acc'	=> ['type' => 'string', 'default' => ''],
-				'donate_bank_swift'	=> ['type' => 'string', 'default' => ''],
-				'donate_paypal'		=> ['type' => 'url', 'default' => ''],
+				'donate_fund'		=> ['type' => 'int', 'default' => 0]
 			]
 		];
 	}
@@ -347,6 +338,17 @@ class settings
 			'ANALYTICS'				=> [
 				'google_analytics_id'	=> ['type' => 'string', 'default' => '']
 			],
+			'DONATE'				=> [
+				'donate_currency'	=> ['type' => 'string', 'default' => ''],
+				'donate_owner'		=> ['type' => 'string_uni', 'default' => ''],
+				'donate_owner_vi'	=> ['type' => 'string_uni', 'default' => ''],
+				'donate_email'		=> ['type' => 'string', 'default' => ''],
+				'donate_bank'		=> ['type' => 'string_uni', 'default' => ''],
+				'donate_bank_vi'	=> ['type' => 'string_uni', 'default' => ''],
+				'donate_bank_acc'	=> ['type' => 'string', 'default' => ''],
+				'donate_bank_swift'	=> ['type' => 'string', 'default' => ''],
+				'donate_paypal'		=> ['type' => 'url', 'default' => '']
+			],
 			'SOCIAL_LINKS'			=> [
 				'facebook_url'		=> ['type' => 'url', 'default' => ''],
 				'twitter_url'		=> ['type' => 'url', 'default' => ''],
@@ -377,7 +379,7 @@ class settings
 					'FIELD'		=> $name,
 					'TITLE'		=> (substr($name, -3) == '_' . constants::LANG_VIETNAMESE) ? $this->language->lang(strtoupper(substr($name, 0, -3))) . ' (' . $this->language->lang('VIETNAMESE') . ')' : $this->language->lang(strtoupper($name)),
 					'EXPLAIN'	=> (isset($data['explain']) && $data['explain'] === true) ? ((substr($name, -3) == '_' . constants::LANG_VIETNAMESE) ? $this->language->lang(strtoupper(substr($name, 0, -3)) . '_EXPLAIN') : $this->language->lang(strtoupper($name) . '_EXPLAIN')) : '',
-					'HTML'		=> $this->return_html($name, $data),
+					'HTML'		=> $this->return_input_html($name, $data),
 					'PREPEND'	=> (isset($data['prepend']) && $data['prepend'] != '') ? $data['prepend'] : '',
 					'APPEND'	=> (isset($data['append']) && $data['append'] != '') ? $data['append'] : '',
 					'EXTRA'		=> (isset($data['extra']) && $data['extra'] != '') ? $data['extra'] : ''
@@ -468,14 +470,14 @@ class settings
 	*	string_uni: Unicode text <input type="text"
 	*	text: Block text <textarea (Stored in the table _config_text)
 	*	text_uni: Unicode block text <textarea (Stored in the table _config_text)
-	*	radio: Radio checkboxs
+	*	radio: Radio button
 	*	select: Dropdown selection
 	*
 	* @param string $name	Config name, used for field name: <input name="..."
 	* @param array $data	Config item data
 	* @return string HTML code
 	*/
-	protected function return_html($name, $data)
+	protected function return_input_html($name, $data)
 	{
 		$html = '';
 
