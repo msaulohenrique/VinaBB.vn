@@ -24,10 +24,11 @@ interface bb_category_interface
 	/**
 	* Add a category
 	*
-	* @param int $bb_type phpBB resource type
+	* @param \vinabb\web\entities\bb_category_interface	$entity		BB category entity
+	* @param int										$bb_type	phpBB resource type
 	* @return \vinabb\web\entities\bb_category_interface
 	*/
-	public function add_cat($bb_type);
+	public function add_cat($entity, $bb_type);
 
 	/**
 	* Delete a category
