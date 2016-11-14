@@ -8,16 +8,18 @@
 
 namespace vinabb\web\operators;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 /**
 * Operator for a set of phpBB resource items
 */
 class bb_item implements bb_item_interface
 {
+	/** @var ContainerInterface */
+	protected $container;
+
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
-
-	/** @var \vinabb\web\entities\bb_item_interface */
-	protected $entity;
 
 	/** @var string */
 	protected $table_name;
@@ -25,14 +27,14 @@ class bb_item implements bb_item_interface
 	/**
 	* Constructor
 	*
-	* @param \phpbb\db\driver\driver_interface			$db			Database object
-	* @param \vinabb\web\entities\bb_item_interface	$entity		BB item entity
-	* @param string										$table_name	Table name
+	* @param ContainerInterface					$container	Container object
+	* @param \phpbb\db\driver\driver_interface	$db			Database object
+	* @param string								$table_name	Table name
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \vinabb\web\entities\bb_item_interface $entity, $table_name)
+	public function __construct(ContainerInterface $container, \phpbb\db\driver\driver_interface $db, $table_name)
 	{
+		$this->container = $container;
 		$this->db = $db;
-		$this->entity = $entity;
 		$this->table_name = $table_name;
 	}
 
@@ -53,7 +55,7 @@ class bb_item implements bb_item_interface
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$entities[] = $this->entity->import($row);
+			$entities[] = $this->container->get('vinabb.web.entities.bb_item')->import($row);
 		}
 		$this->db->sql_freeresult($result);
 
@@ -63,19 +65,20 @@ class bb_item implements bb_item_interface
 	/**
 	* Add a item
 	*
-	* @param int $bb_type phpBB resource type
+	* @param \vinabb\web\entities\bb_item_interface	$entity		BB item entity
+	* @param int									$bb_type	phpBB resource type
 	* @return \vinabb\web\entities\bb_item_interface
 	*/
-	public function add_item($bb_type)
+	public function add_item($entity, $bb_type)
 	{
 		// Insert the entity to the database
-		$this->entity->insert($bb_type);
+		$entity->insert($bb_type);
 
 		// Get the newly inserted entity ID
-		$id = $this->entity->get_id();
+		$id = $entity->get_id();
 
 		// Reload the data to return a fresh entity
-		return $this->entity->load($id);
+		return $entity->load($id);
 	}
 
 	/**

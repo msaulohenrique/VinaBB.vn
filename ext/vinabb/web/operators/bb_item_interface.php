@@ -24,10 +24,11 @@ interface bb_item_interface
 	/**
 	* Add a item
 	*
-	* @param int $bb_type phpBB resource type
+	* @param \vinabb\web\entities\bb_item_interface	$entity		BB item entity
+	* @param int									$bb_type	phpBB resource type
 	* @return \vinabb\web\entities\bb_item_interface
 	*/
-	public function add_item($bb_type);
+	public function add_item($entity, $bb_type);
 
 	/**
 	* Delete a item
