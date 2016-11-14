@@ -20,16 +20,19 @@ if (empty($lang) || !is_array($lang))
 */
 
 $lang = array_merge($lang, [
-	'CHECK_PHP_BRANCH'					=> 'Nhánh PHP mới nhất',
-	'CHECK_PHP_LEGACY_BRANCH'			=> 'Nhánh PHP còn hỗ trợ',
-	'CHECK_PHP_URL'						=> 'Liên kết kiểm tra phiên bản PHP',
-	'CHECK_PHPBB_BRANCH'				=> 'Nhánh phpBB mới nhất',
-	'CHECK_PHPBB_DEV_BRANCH'			=> 'Nhánh phpBB phát triển',
-	'CHECK_PHPBB_DOWNLOAD_DEV_URL'		=> 'Liên kết tải về phpBB thử nghiệm',
-	'CHECK_PHPBB_DOWNLOAD_URL'			=> 'Liên kết tải về phpBB',
-	'CHECK_PHPBB_DOWNLOAD_URL_EXPLAIN'	=> 'Biến có sẵn: <code>{branch}, {version}</code>',
-	'CHECK_PHPBB_LEGACY_BRANCH'			=> 'Nhánh phpBB còn hỗ trợ',
-	'CHECK_PHPBB_URL'					=> 'Liên kết kiểm tra phiên bản phpBB',
+	'CHECK_PHP_BRANCH'						=> 'Nhánh PHP mới nhất',
+	'CHECK_PHP_LEGACY_BRANCH'				=> 'Nhánh PHP còn hỗ trợ',
+	'CHECK_PHP_URL'							=> 'Liên kết kiểm tra phiên bản PHP',
+	'CHECK_PHPBB_BRANCH'					=> 'Nhánh phpBB mới nhất',
+	'CHECK_PHPBB_DEV_BRANCH'				=> 'Nhánh phpBB phát triển',
+	'CHECK_PHPBB_DOWNLOAD_DEV_URL'			=> 'Liên kết tải về phpBB thử nghiệm',
+	'CHECK_PHPBB_DOWNLOAD_DEV_URL_EXPLAIN'	=> 'Biến có sẵn: <code>{branch}, {version}</code>',
+	'CHECK_PHPBB_DOWNLOAD_URL'				=> 'Liên kết tải về phpBB',
+	'CHECK_PHPBB_DOWNLOAD_URL_EXPLAIN'		=> 'Biến có sẵn: <code>{branch}, {version}</code>',
+	'CHECK_PHPBB_GITHUB_URL'				=> 'Liên kết tải về phpBB (GitHub)',
+	'CHECK_PHPBB_GITHUB_URL_EXPLAIN'		=> 'Biến có sẵn: <code>{branch}, {version}</code>',
+	'CHECK_PHPBB_LEGACY_BRANCH'				=> 'Nhánh phpBB còn hỗ trợ',
+	'CHECK_PHPBB_URL'						=> 'Liên kết kiểm tra phiên bản phpBB',
 
 	'DEFAULT_LANGUAGE'	=> 'Ngôn ngữ mặc định',
 	'DONATE_EMAIL'		=> 'Hộp thư',
@@ -45,6 +48,7 @@ $lang = array_merge($lang, [
 	'ERROR_CHECK_PHPBB_DEV_BRANCH_REGEX'	=> 'Số phiên bản nhánh phpBB phát triển không hợp lệ.',
 	'ERROR_CHECK_PHPBB_LEGACY_BRANCH_REGEX'	=> 'Số phiên bản nhánh phpBB còn hỗ trợ không hợp lệ.',
 
+	'FACEBOOK_URL'						=> 'Facebook',
 	'FORUM_ID_ENGLISH'					=> 'Danh mục tiếng Anh',
 	'FORUM_ID_ENGLISH_DISCUSSION'		=> 'Thảo luận (Tiếng Anh)',
 	'FORUM_ID_ENGLISH_SUPPORT'			=> 'Hỗ trợ (Tiếng Anh)',
@@ -56,7 +60,9 @@ $lang = array_merge($lang, [
 	'FORUM_ID_VIETNAMESE_SUPPORT'		=> 'Hỗ trợ (Tiếng Việt)',
 	'FORUM_ID_VIETNAMESE_TUTORIAL'		=> 'Hướng dẫn (Tiếng Việt)',
 
-	'GOOGLE_ANALYTICS_ID' => 'Mã định danh Google Analytics',
+	'GITHUB_URL'			=> 'GitHub',
+	'GOOGLE_ANALYTICS_ID'	=> 'Mã Google Analytics',
+	'GOOGLE_PLUS_URL'		=> 'Google+',
 
 	'LANG_ENABLE'			=> 'Cho phép chuyển ngôn ngữ',
 	'LANG_SWITCH'			=> 'Ngôn ngữ chuyển',
@@ -80,6 +86,8 @@ $lang = array_merge($lang, [
 	'MANAGER_USERNAME'					=> 'Tên tài khoản quản lý',
 	'MAP_ADDRESS'						=> 'Địa chỉ',
 	'MAP_API'							=> 'Khóa Google Maps JavaScript API',
+	'MAP_LAT'							=> 'Vĩ độ',
+	'MAP_LNG'							=> 'Kinh độ',
 	'MAP_PHONE'							=> 'Số điện thoại',
 	'MAP_PHONE_NAME'					=> 'Tên liên hệ',
 	'MESSAGE_MAIN_SETTINGS_UPDATE'		=> 'Đã cập nhật thiết lập chung.',
@@ -87,5 +95,7 @@ $lang = array_merge($lang, [
 	'MESSAGE_VERSION_SETTINGS_UPDATE'	=> 'Đã cập nhật thiết lập phiên bản.',
 
 	'SELECT_LANGUAGE'	=> 'Chọn ngôn ngữ',
-	'SOCIAL_LINKS'		=> 'Liên kết mạng xã hội'
+	'SOCIAL_LINKS'		=> 'Liên kết mạng xã hội',
+
+	'TWITTER_URL'	=> 'Twitter'
 ]);

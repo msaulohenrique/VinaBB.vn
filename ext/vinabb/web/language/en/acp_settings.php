@@ -20,16 +20,19 @@ if (empty($lang) || !is_array($lang))
 */
 
 $lang = array_merge($lang, [
-	'CHECK_PHP_BRANCH'					=> 'Latest PHP branch',
-	'CHECK_PHP_LEGACY_BRANCH'			=> 'Legacy PHP branch',
-	'CHECK_PHP_URL'						=> 'PHP version tracking URL',
-	'CHECK_PHPBB_BRANCH'				=> 'Latest phpBB branch',
-	'CHECK_PHPBB_DEV_BRANCH'			=> 'Development phpBB branch',
-	'CHECK_PHPBB_DOWNLOAD_DEV_URL'		=> 'phpBB unstable download URL',
-	'CHECK_PHPBB_DOWNLOAD_URL'			=> 'phpBB download URL',
-	'CHECK_PHPBB_DOWNLOAD_URL_EXPLAIN'	=> 'Available variables: <code>{branch}, {version}</code>',
-	'CHECK_PHPBB_LEGACY_BRANCH'			=> 'Legacy phpBB branch',
-	'CHECK_PHPBB_URL'					=> 'phpBB version tracking URL',
+	'CHECK_PHP_BRANCH'						=> 'Latest PHP branch',
+	'CHECK_PHP_LEGACY_BRANCH'				=> 'Legacy PHP branch',
+	'CHECK_PHP_URL'							=> 'PHP version tracking URL',
+	'CHECK_PHPBB_BRANCH'					=> 'Latest phpBB branch',
+	'CHECK_PHPBB_DEV_BRANCH'				=> 'Development phpBB branch',
+	'CHECK_PHPBB_DOWNLOAD_DEV_URL'			=> 'phpBB unstable download URL',
+	'CHECK_PHPBB_DOWNLOAD_DEV_URL_EXPLAIN'	=> 'Available variables: <code>{branch}, {version}</code>',
+	'CHECK_PHPBB_DOWNLOAD_URL'				=> 'phpBB download URL',
+	'CHECK_PHPBB_DOWNLOAD_URL_EXPLAIN'		=> 'Available variables: <code>{branch}, {version}</code>',
+	'CHECK_PHPBB_GITHUB_URL'				=> 'phpBB download URL (GitHub)',
+	'CHECK_PHPBB_GITHUB_URL_EXPLAIN'		=> 'Available variables: <code>{branch}, {version}</code>',
+	'CHECK_PHPBB_LEGACY_BRANCH'				=> 'Legacy phpBB branch',
+	'CHECK_PHPBB_URL'						=> 'phpBB version tracking URL',
 
 	'DEFAULT_LANGUAGE'	=> 'Default language',
 	'DONATE_EMAIL'		=> 'Email',
@@ -45,6 +48,7 @@ $lang = array_merge($lang, [
 	'ERROR_CHECK_PHPBB_DEV_BRANCH_REGEX'	=> 'The development phpBB branch version is invalid.',
 	'ERROR_CHECK_PHPBB_LEGACY_BRANCH_REGEX'	=> 'The legacy phpBB branch version is invalid.',
 
+	'FACEBOOK_URL'						=> 'Facebook',
 	'FORUM_ID_ENGLISH'					=> 'English category',
 	'FORUM_ID_ENGLISH_DISCUSSION'		=> 'Discussions (English)',
 	'FORUM_ID_ENGLISH_SUPPORT'			=> 'Support (English)',
@@ -56,7 +60,9 @@ $lang = array_merge($lang, [
 	'FORUM_ID_VIETNAMESE_SUPPORT'		=> 'Support (Vietnamese)',
 	'FORUM_ID_VIETNAMESE_TUTORIAL'		=> 'Tutorial (Vietnamese)',
 
-	'GOOGLE_ANALYTICS_ID' => 'Google Analytics ID',
+	'GITHUB_URL'			=> 'GitHub',
+	'GOOGLE_ANALYTICS_ID'	=> 'Google Analytics ID',
+	'GOOGLE_PLUS_URL'		=> 'Google+',
 
 	'LANG_ENABLE'			=> 'Enable language switcher',
 	'LANG_SWITCH'			=> 'Switch language',
@@ -80,6 +86,8 @@ $lang = array_merge($lang, [
 	'MANAGER_USERNAME'					=> 'Manager username',
 	'MAP_ADDRESS'						=> 'Address',
 	'MAP_API'							=> 'Google Maps JavaScript API key',
+	'MAP_LAT'							=> 'Latitude',
+	'MAP_LNG'							=> 'Longitude',
 	'MAP_PHONE'							=> 'Phone number',
 	'MAP_PHONE_NAME'					=> 'Contact name',
 	'MESSAGE_MAIN_SETTINGS_UPDATE'		=> 'The general settings have been updated.',
@@ -87,5 +95,7 @@ $lang = array_merge($lang, [
 	'MESSAGE_VERSION_SETTINGS_UPDATE'	=> 'The version settings have been updated.',
 
 	'SELECT_LANGUAGE'	=> 'Select a language',
-	'SOCIAL_LINKS'		=> 'Social links'
+	'SOCIAL_LINKS'		=> 'Social links',
+
+	'TWITTER_URL'	=> 'Twitter'
 ]);
