@@ -193,6 +193,7 @@ $lang = array_merge($lang, [
 	'FOOTER_RULE_TITLE'		=> 'Rules',
 
 	'G_DEVELOPMENT_TEAM'	=> 'Developers',
+	'G_FOUNDERS'			=> 'Founders',
 	'G_MANAGEMENT_TEAM'		=> 'Managers',
 	'G_MODERATOR_TEAM'		=> 'Moderators',
 	'G_SUPPORT_TEAM'		=> 'Supporters',

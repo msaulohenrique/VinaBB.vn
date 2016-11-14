@@ -193,6 +193,7 @@ $lang = array_merge($lang, [
 	'FOOTER_RULE_TITLE'		=> 'Quan điểm',
 
 	'G_DEVELOPMENT_TEAM'	=> 'Nhóm phát triển',
+	'G_FOUNDERS'			=> 'Sáng lập viên',
 	'G_MANAGEMENT_TEAM'		=> 'Nhóm quản lý',
 	'G_MODERATOR_TEAM'		=> 'Điều hành viên',
 	'G_SUPPORT_TEAM'		=> 'Nhóm hỗ trợ',

@@ -22,7 +22,7 @@
 
 <form id="acp_pages" method="post" action="{{ U_ACTION }}">
 	<fieldset>
-		<legend>{L_ACP_PAGES_SETTINGS}</legend>
+		<legend>{{ lang('PAGE_DETAILS') }}</legend>
 		<dl>
 			<dt><label for="page_name">{{ lang('PAGE_NAME') ~ ' (' ~ lang('ENGLISH') ~ ')' ~ lang('COLON') }}</label></dt>
 			<dd><input class="text medium" type="text" name="page_name" id="page_name" value="{{ PAGE_NAME }}" maxlength="255"></dd>
@@ -32,7 +32,11 @@
 			<dd><input class="text medium" type="text" name="page_name_vi" id="page_name_vi" value="{{ PAGE_NAME_VI }}" maxlength="255"></dd>
 		</dl>
 		<dl>
-			<dt><label for="page_enable">{{ lang('PAGE_ENABLE') ~ lang('COLON') }}</label></dt>
+			<dt><label for="page_varname">{{ lang('PAGE_VARNAME') ~ lang('COLON') }}</label></dt>
+			<dd><input class="text" type="text" name="page_varname" id="page_varname" value="{{ PAGE_VARNAME }}" maxlength="255"></dd>
+		</dl>
+		<dl>
+			<dt><label for="page_enable">{{ lang('ENABLE') ~ lang('COLON') }}</label></dt>
 			<dd>
 				<label><input type="radio" class="radio" name="page_enable" id="page_enable" value="1"{% if PAGE_ENABLE %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
 				<label><input type="radio" class="radio" name="page_enable" value="0"{% if not PAGE_ENABLE %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
@@ -40,7 +44,7 @@
 		</dl>
 	</fieldset>
 	<fieldset>
-		<legend>{L_ACP_PAGES_FORM_CONTENT}</legend>
+		<legend>{{ lang('PAGE_TEXT') }}</legend>
 
 		{% include 'acp_posting_buttons.html' %}
 
@@ -53,6 +57,65 @@
 				<label><input type="checkbox" class="radio" name="parse_bbcode"<!-- IF S_PARSE_BBCODE_CHECKED --> checked="checked"<!-- ENDIF --> /> {L_PARSE_BBCODE}</label>
 				<label><input type="checkbox" class="radio" name="parse_smilies"<!-- IF S_PARSE_SMILIES_CHECKED --> checked="checked"<!-- ENDIF --> /> {L_PARSE_SMILIES}</label>
 				<label><input type="checkbox" class="radio" name="parse_magic_url"<!-- IF S_PARSE_MAGIC_URL_CHECKED --> checked="checked"<!-- ENDIF --> /> {L_PARSE_URLS}</label>
+			</dd>
+		</dl>
+	</fieldset>
+	<fieldset>
+		<legend>{{ lang('ACP_CAT_PERMISSIONS') }}</legend>
+		<dl>
+			<dt><label for="page_enable_guest">{{ lang('G_GUESTS') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="page_enable_guest" id="page_enable_guest" value="1"{% if PAGE_ENABLE_GUEST %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="page_enable_guest" value="0"{% if not PAGE_ENABLE_GUEST %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="page_enable_bot">{{ lang('G_BOTS') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="page_enable_bot" id="page_enable_bot" value="1"{% if PAGE_ENABLE_BOT %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="page_enable_bot" value="0"{% if not PAGE_ENABLE_BOT %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="page_enable_new_user">{{ lang('G_NEWLY_REGISTERED') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="page_enable_new_user" id="page_enable_new_user" value="1"{% if PAGE_ENABLE_NEW_USER %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="page_enable_new_user" value="0"{% if not PAGE_ENABLE_NEW_USER %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="page_enable_user">{{ lang('G_REGISTERED') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="page_enable_user" id="page_enable_user" value="1"{% if PAGE_ENABLE_USER %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="page_enable_user" value="0"{% if not PAGE_ENABLE_USER %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="page_enable_mod">{{ lang('MODERATORS') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="page_enable_mod" id="page_enable_mod" value="1"{% if PAGE_ENABLE_MOD %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="page_enable_mod" value="0"{% if not PAGE_ENABLE_MOD %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="page_enable_global_mod">{{ lang('G_GLOBAL_MODERATORS') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="page_enable_global_mod" id="page_enable_global_mod" value="1"{% if PAGE_ENABLE_GLOBAL_MOD %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="page_enable_global_mod" value="0"{% if not PAGE_ENABLE_GLOBAL_MOD %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="page_enable_admin">{{ lang('G_ADMINISTRATORS') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="page_enable_admin" id="page_enable_admin" value="1"{% if PAGE_ENABLE_ADMIN %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="page_enable_admin" value="0"{% if not PAGE_ENABLE_ADMIN %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="page_enable_founder">{{ lang('G_FOUNDERS') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="page_enable_founder" id="page_enable_founder" value="1"{% if PAGE_ENABLE_FOUNDER %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="page_enable_founder" value="0"{% if not PAGE_ENABLE_FOUNDER %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
 			</dd>
 		</dl>
 	</fieldset>
