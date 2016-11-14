@@ -121,13 +121,13 @@ class settings
 	public function display_main_settings()
 	{
 		// Create a form key for preventing CSRF attacks
-		add_form_key('acp_settings');
+		add_form_key('acp_vinabb_settings');
 
 		// Submit
 		if ($this->request->is_set_post('submit'))
 		{
 			// Test if the submitted form is valid
-			if (!check_form_key('acp_settings'))
+			if (!check_form_key('acp_vinabb_settings'))
 			{
 				$this->errors[] = $this->language->lang('FORM_INVALID');
 			}
@@ -143,10 +143,6 @@ class settings
 
 				trigger_error($this->language->lang('MESSAGE_MAIN_SETTINGS_UPDATE') . adm_back_link($this->u_action));
 			}
-			else
-			{
-				trigger_error(implode('<br>', $this->errors) . adm_back_link($this->u_action), E_USER_WARNING);
-			}
 		}
 
 		// Output
@@ -155,6 +151,7 @@ class settings
 		$this->template->assign_vars([
 			'PAGE_TITLE_EXPLAIN'	=> $this->language->lang('ACP_VINABB_SETTINGS_EXPLAIN'),
 			'FORM_NAME'				=> 'acp_vinabb_settings',
+			'ERRORS'				=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
 
 			'U_ACTION'	=> $this->u_action
 		]);
@@ -189,13 +186,13 @@ class settings
 	public function display_version_settings()
 	{
 		// Create a form key for preventing CSRF attacks
-		add_form_key('acp_settings_version');
+		add_form_key('acp_vinabb_settings_version');
 
 		// Submit
 		if ($this->request->is_set_post('submit'))
 		{
 			// Test if the submitted form is valid
-			if (!check_form_key('acp_settings_version'))
+			if (!check_form_key('acp_vinabb_settings_version'))
 			{
 				$this->errors[] = $this->language->lang('FORM_INVALID');
 			}
@@ -211,10 +208,6 @@ class settings
 
 				trigger_error($this->language->lang('MESSAGE_VERSION_SETTINGS_UPDATE') . adm_back_link($this->u_action));
 			}
-			else
-			{
-				trigger_error(implode('<br>', $this->errors) . adm_back_link($this->u_action), E_USER_WARNING);
-			}
 		}
 
 		// Output
@@ -223,6 +216,7 @@ class settings
 		$this->template->assign_vars([
 			'PAGE_TITLE_EXPLAIN'	=> $this->language->lang('ACP_VINABB_SETTINGS_VERSION_EXPLAIN'),
 			'FORM_NAME'				=> 'acp_vinabb_settings_version',
+			'ERRORS'				=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
 
 			'U_ACTION'	=> $this->u_action
 		]);
@@ -257,13 +251,13 @@ class settings
 	public function display_setup_settings()
 	{
 		// Create a form key for preventing CSRF attacks
-		add_form_key('acp_settings_setup');
+		add_form_key('acp_vinabb_settings_setup');
 
 		// Submit
 		if ($this->request->is_set_post('submit'))
 		{
 			// Test if the submitted form is valid
-			if (!check_form_key('acp_settings_setup'))
+			if (!check_form_key('acp_vinabb_settings_setup'))
 			{
 				$this->errors[] = $this->language->lang('FORM_INVALID');
 			}
@@ -279,10 +273,6 @@ class settings
 
 				trigger_error($this->language->lang('MESSAGE_SETUP_SETTINGS_UPDATE') . adm_back_link($this->u_action));
 			}
-			else
-			{
-				trigger_error(implode('<br>', $this->errors) . adm_back_link($this->u_action), E_USER_WARNING);
-			}
 		}
 
 		// Output
@@ -291,6 +281,7 @@ class settings
 		$this->template->assign_vars([
 			'PAGE_TITLE_EXPLAIN'	=> $this->language->lang('ACP_VINABB_SETTINGS_SETUP_EXPLAIN'),
 			'FORM_NAME'				=> 'acp_vinabb_settings_setup',
+			'ERRORS'				=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
 
 			'U_ACTION'	=> $this->u_action
 		]);
