@@ -23,9 +23,10 @@ interface portal_article_interface
 	/**
 	* Add an article
 	*
+	* @param \vinabb\web\entities\portal_article_interface $entity Article entity
 	* @return \vinabb\web\entities\portal_article_interface
 	*/
-	public function add_article();
+	public function add_article($entity);
 
 	/**
 	* Delete an article

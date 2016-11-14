@@ -8,16 +8,18 @@
 
 namespace vinabb\web\operators;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 /**
 * Operator for a set of articles
 */
 class portal_article implements portal_article_interface
 {
+	/** @var ContainerInterface */
+	protected $container;
+
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
-
-	/** @var \vinabb\web\entities\portal_article_interface */
-	protected $entity;
 
 	/** @var string */
 	protected $table_name;
@@ -25,14 +27,14 @@ class portal_article implements portal_article_interface
 	/**
 	* Constructor
 	*
-	* @param \phpbb\db\driver\driver_interface				$db			Database object
-	* @param \vinabb\web\entities\portal_article_interface	$entity		Article entity
-	* @param string											$table_name	Table name
+	* @param ContainerInterface					$container	Container object
+	* @param \phpbb\db\driver\driver_interface	$db			Database object
+	* @param string								$table_name	Table name
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \vinabb\web\entities\portal_article_interface $entity, $table_name)
+	public function __construct(ContainerInterface $container, \phpbb\db\driver\driver_interface $db, $table_name)
 	{
+		$this->container = $container;
 		$this->db = $db;
-		$this->entity = $entity;
 		$this->table_name = $table_name;
 	}
 
@@ -51,7 +53,7 @@ class portal_article implements portal_article_interface
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$entities[] = $this->entity->import($row);
+			$entities[] = $this->container->get('vinabb.web.entities.portal_article')->import($row);
 		}
 		$this->db->sql_freeresult($result);
 
@@ -61,18 +63,19 @@ class portal_article implements portal_article_interface
 	/**
 	* Add an article
 	*
+	* @param \vinabb\web\entities\portal_article_interface $entity Article entity
 	* @return \vinabb\web\entities\portal_article_interface
 	*/
-	public function add_article()
+	public function add_article($entity)
 	{
 		// Insert the entity to the database
-		$this->entity->insert();
+		$entity->insert();
 
 		// Get the newly inserted entity ID
-		$id = $this->entity->get_id();
+		$id = $entity->get_id();
 
 		// Reload the data to return a fresh entity
-		return $this->entity->load($id);
+		return $entity->load($id);
 	}
 
 	/**
