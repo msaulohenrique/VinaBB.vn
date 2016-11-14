@@ -1,55 +1,43 @@
 {% include 'overall_header.html' %}
 
-<h1>{{ PAGE_TITLE }}</h1>
+<h1>{{ lang('ACP_PAGES') }}</h1>
 <p>{{ lang('ACP_PAGES_EXPLAIN') }}</p>
 
-<table class="table1 zebra-table fixed-width-table">
+<form id="acp_pages" method="post" action="{{ U_ACTION }}">
+	<fieldset class="quick">
+		<input class="button2" type="submit" value="{{ lang('ADD_PAGE') }}">
+		<input type="hidden" name="action" value="add">
+	</fieldset>
+</form>
+
+<table class="table1 zebra-table">
 	<thead>
 		<tr>
-			<th style="width: 15%;">{L_ACP_PAGES_TITLE}</th>
-			<th style="width: 15%;">{L_ACP_PAGES_DESCRIPTION}</th>
-			<th style="width: 10%;">{L_ACP_PAGES_ROUTE}</th>
-			<th style="width: 15%;">{L_ACP_PAGES_TEMPLATE}</th>
-			<th style="width: 10%;">{L_ACP_PAGES_ORDER}</th>
-			<th style="width: 15%;">{L_ACP_PAGES_STATUS}</th>
-			<th style="width: 10%;">{L_ACP_PAGES_LINK}</th>
-			<th style="width: 10%;">{L_ACTION}</th>
+			<th>{{ lang('PAGE_NAME') }}</th>
+			<th>{{ lang('PAGE_NAME') ~ ' (' ~ lang('VIETNAMESE') ~ ')' }}</th>
+			<th>{{ lang('PAGE_VARNAME') }}</th>
+			<th>{{ lang('PAGE_ENABLE') }}</th>
+			<th>{{ lang('ACTION') }}</th>
 		</tr>
 	</thead>
 	<tbody>
 		{% for page in pages %}
 		<tr>
-			<td><strong>{pages.PAGES_TITLE}</strong></td>
-			<td>{pages.PAGES_DESCRIPTION}</td>
-			<td>{pages.PAGES_ROUTE}</td>
-			<td>{pages.PAGES_TEMPLATE}</td>
-			<td>{pages.PAGES_ORDER}</td>
-			<td>
-				<!-- IF pages.S_PAGES_DISPLAY and pages.S_PAGES_GUEST_DISPLAY -->
-					{L_ACP_PAGES_PUBLISHED}
-				<!-- ELSEIF pages.S_PAGES_DISPLAY -->
-					{L_ACP_PAGES_PUBLISHED_NO_GUEST}
-				<!-- ELSE -->
-					{L_ACP_PAGES_PRIVATE}
-				<!-- ENDIF -->
+			<td>{{ pages.NAME }}</td>
+			<td>{{ pages.NAME_VI }}</td>
+			<td>{{ pages.VARNAME }}</td>
+			<td style="text-align: center;">{{ pages.ENABLE ? lang('YES') : lang('NO') }}</td>
+			<td class="actions">
+				<a href="{{ pages.U_EDIT }}">{{ ICON_EDIT }}</a>
+				<a href="{{ pages.U_DELETE }}" data-ajax="row_delete">{{ ICON_DELETE }}</a>
 			</td>
-			<td><a href="{pages.U_PAGES_ROUTE}">{L_ACP_PAGES_VIEW}</a></td>
-			<td><a href="{pages.U_EDIT}">{ICON_EDIT}</a> <a href="{pages.U_DELETE}" data-ajax="row_delete">{ICON_DELETE}</a></td>
 		</tr>
 		{% else %}
 		<tr>
-			<td colspan="8" style="text-align: center;">{L_ACP_PAGES_EMPTY}</td>
+			<td colspan="5" style="text-align: center;">{{ lang('ACP_NO_ITEMS') }}</td>
 		</tr>
 		{% endfor %}
 	</tbody>
 </table>
-
-<form id="pages_add_page" method="post" action="{{ U_ACTION }}">
-	<fieldset class="quick">
-		<input class="button2" type="submit" name="addpage" value="{{ lang('ADD_PAGE') }}">
-		<input type="hidden" name="action" value="add">
-		{{ S_FORM_TOKEN }}
-	</fieldset>
-</form>
 
 {% include 'overall_footer.html' %}
