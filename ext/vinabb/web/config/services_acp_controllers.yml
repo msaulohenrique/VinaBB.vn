@@ -16,7 +16,7 @@ services:
         class: vinabb\web\controllers\acp\pages
         arguments:
             - '@cache'
-            - '@vinabb.web.entities.page'
+            - '@service_container'
             - '@language'
             - '@log'
             - '@vinabb.web.operators.page'
