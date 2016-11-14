@@ -23,13 +23,13 @@
 	<tbody>
 		{% for page in pages %}
 		<tr>
-			<td>{{ pages.NAME }}</td>
-			<td>{{ pages.NAME_VI }}</td>
-			<td>{{ pages.VARNAME }}</td>
-			<td style="text-align: center;">{{ pages.ENABLE ? lang('YES') : lang('NO') }}</td>
+			<td>{{ page.NAME }}</td>
+			<td>{{ page.NAME_VI }}</td>
+			<td>{{ page.VARNAME }}</td>
+			<td style="text-align: center;">{{ page.ENABLE ? lang('YES') : lang('NO') }}</td>
 			<td class="actions">
-				<a href="{{ pages.U_EDIT }}">{{ ICON_EDIT }}</a>
-				<a href="{{ pages.U_DELETE }}" data-ajax="row_delete">{{ ICON_DELETE }}</a>
+				<a href="{{ page.U_EDIT }}">{{ ICON_EDIT }}</a>
+				<a href="{{ page.U_DELETE }}" data-ajax="row_delete">{{ ICON_DELETE }}</a>
 			</td>
 		</tr>
 		{% else %}
