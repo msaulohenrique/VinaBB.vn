@@ -485,7 +485,7 @@ class settings
 				$max_html = ($max != '') ? ' max=" ' . $max .'"' : '';
 				$step = (isset($data['type_data']['step']) && is_numeric($data['type_data']['step'])) ? $data['type_data']['step'] : '';
 				$step_html = ($step != '') ? ' step="' . $step . '"' : '';
-				$html = '<input type="number" name="' . $name . '" id="' . $name . '"' . $min_html . $max_html . $step_html . ' value="' . $this->config['vinabb_web_' . $name] . '">';
+				$html = '<input class="text" type="number" name="' . $name . '" id="' . $name . '"' . $min_html . $max_html . $step_html . ' value="' . $this->config['vinabb_web_' . $name] . '">';
 			break;
 
 			case 'url':
@@ -495,7 +495,7 @@ class settings
 				$type = str_replace(['string', 'string_uni'], 'text', $data['type']);
 				$maxlength = (isset($data['type_data']['max']) && is_numeric($data['type_data']['max'])) ? $data['type_data']['max'] : constants::MAX_CONFIG_NAME;
 				$maxlength_html = ($maxlength != '') ? ' maxlength=" ' . $maxlength .'"' : '';
-				$html = '<input class="medium" type="' . $type . '" name="' . $name . '" id="' . $name . '"' . $maxlength_html . ' value="' . $this->config['vinabb_web_' . $name] . '">';
+				$html = '<input class="text medium" type="' . $type . '" name="' . $name . '" id="' . $name . '"' . $maxlength_html . ' value="' . $this->config['vinabb_web_' . $name] . '">';
 			break;
 
 			case 'text':
