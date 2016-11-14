@@ -624,7 +624,7 @@ class page implements page_interface
 		}
 
 		// Reparse the content
-		if ($reparse_content && $this->data['page_text'] != '')
+		if ($reparse_content && isset($this->data['page_text']) && $this->data['page_text'] != '')
 		{
 			$text = $this->data['page_text'];
 
@@ -827,7 +827,7 @@ class page implements page_interface
 		}
 
 		// Reparse the content
-		if ($reparse_content && $this->data['page_text_vi'] != '')
+		if ($reparse_content && isset($this->data['page_text_vi']) && $this->data['page_text_vi'] != '')
 		{
 			$text = $this->data['page_text_vi'];
 
