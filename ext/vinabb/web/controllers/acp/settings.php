@@ -536,9 +536,10 @@ class settings
 				// Normal radio with yes/no options
 				else
 				{
-					$checked_html = $value ? ' checked' : '';
-					$html .= '<label><input type="radio" class="radio" name="' . $name . '" id="' . $name . '" value="1"' . $checked_html . '> ' . $this->language->lang('YES') . '</label>';
-					$html .= '<label><input type="radio" class="radio" name="' . $name . '" value="0"' . $checked_html. '> ' . $this->language->lang('NO') . '</label>';
+					$yes_checked_html = ($value) ? ' checked' : '';
+					$no_checked_html = (!$value) ? ' checked' : '';
+					$html .= '<label><input type="radio" class="radio" name="' . $name . '" id="' . $name . '" value="1"' . $yes_checked_html . '> ' . $this->language->lang('YES') . '</label>';
+					$html .= '<label><input type="radio" class="radio" name="' . $name . '" value="0"' . $no_checked_html. '> ' . $this->language->lang('NO') . '</label>';
 				}
 			break;
 
