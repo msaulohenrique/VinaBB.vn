@@ -372,81 +372,12 @@ class settings
 
 			foreach ($group_data as $name => $data)
 			{
-				// Row data
-				$html = '';
-
-				switch ($data['type'])
-				{
-					case 'tpl':
-						$html = $data['default'];
-					break;
-
-					case 'int':
-						$min = (isset($data['type_data']['min']) && is_numeric($data['type_data']['min'])) ? $data['type_data']['min'] : 0;
-						$min_html = ($min != '') ? ' min="' . $min . '"' : '';
-						$max = (isset($data['type_data']['max']) && is_numeric($data['type_data']['max'])) ? $data['type_data']['max'] : '';
-						$max_html = ($max != '') ? ' max=" ' . $max .'"' : '';
-						$step = (isset($data['type_data']['step']) && is_numeric($data['type_data']['step'])) ? $data['type_data']['step'] : '';
-						$step_html = ($step != '') ? ' step="' . $step . '"' : '';
-						$html = '<input type="number" name="' . $name . '" id="' . $name . '"' . $min_html . $max_html . $step_html . ' value="' . $this->config['vinabb_web_' . $name] . '">';
-					break;
-
-					case 'url':
-					case 'email':
-					case 'string':
-					case 'string_uni':
-						$type = str_replace(['string', 'string_uni'], 'text', $data['type']);
-						$maxlength = (isset($data['type_data']['max']) && is_numeric($data['type_data']['max'])) ? $data['type_data']['max'] : constants::MAX_CONFIG_NAME;
-						$maxlength_html = ($maxlength != '') ? ' maxlength=" ' . $maxlength .'"' : '';
-						$html = '<input class="medium" type="' . $type . '" name="' . $name . '" id="' . $name . '"' . $maxlength_html . ' value="' . $this->config['vinabb_web_' . $name] . '">';
-					break;
-
-					case 'text':
-					case 'text_uni':
-						$rows = (isset($data['type_data']['rows']) && is_numeric($data['type_data']['rows'])) ? $data['type_data']['rows'] : 5;
-						$rows_html = ($rows != '') ? ' rows="' . $rows . '"' : '';
-						$maxlength = (isset($data['type_data']['max']) && is_numeric($data['type_data']['max'])) ? $data['type_data']['max'] : '';
-						$maxlength_html = ($maxlength != '') ? ' maxlength=" ' . $maxlength .'"' : '';
-						$html = '<textarea name="' . $name . '" id="' . $name . '"' . $rows_html . $maxlength_html . '>' . $this->config_text_data['vinabb_web_' . $name] . '</textarea>';
-					break;
-
-					case 'radio':
-						$value = $this->config['vinabb_web_' . $name];
-
-						// Radio with multiple options
-						if (isset($data['type_data']) && sizeof($data['type_data']))
-						{
-							$id_html = ' id="' . $name . '"';
-
-							foreach ($data['type_data'] as $radio_value => $label)
-							{
-								$checked_html = ($value == $radio_value) ? ' checked' : '';
-								$html .= '<label><input type="radio" class="radio" name="' . $name . '"' . $id_html . ' value="' . $radio_value . '"' . $checked_html. '> ' . $label . '</label>';
-
-								// Only assign id="" for the first item
-								$id_html = '';
-							}
-						}
-						// Normal radio with yes/no options
-						else
-						{
-							$checked_html = $value ? ' checked' : '';
-							$html .= '<label><input type="radio" class="radio" name="' . $name . '" id="' . $name . '" value="1"' . $checked_html . '> ' . $this->language->lang('YES') . '</label>';
-							$html .= '<label><input type="radio" class="radio" name="' . $name . '" value="0"' . $checked_html. '> ' . $this->language->lang('NO') . '</label>';
-						}
-					break;
-
-					case 'select':
-						$html = '<select name="' . $name . '" id="' . $name . '">' . $data['default'] . '</select>';
-					break;
-				}
-
 				// Row output
 				$this->template->assign_block_vars('groups.rows', [
 					'FIELD'		=> $name,
 					'TITLE'		=> (substr($name, -3) == '_' . constants::LANG_VIETNAMESE) ? $this->language->lang(strtoupper(substr($name, 0, -3))) . ' (' . $this->language->lang('VIETNAMESE') . ')' : $this->language->lang(strtoupper($name)),
 					'EXPLAIN'	=> (isset($data['explain']) && $data['explain'] === true) ? ((substr($name, -3) == '_' . constants::LANG_VIETNAMESE) ? $this->language->lang(strtoupper(substr($name, 0, -3)) . '_EXPLAIN') : $this->language->lang(strtoupper($name) . '_EXPLAIN')) : '',
-					'HTML'		=> $html,
+					'HTML'		=> $this->return_html($name, $data),
 					'PREPEND'	=> (isset($data['prepend']) && $data['prepend'] != '') ? $data['prepend'] : '',
 					'APPEND'	=> (isset($data['append']) && $data['append'] != '') ? $data['append'] : '',
 					'EXTRA'		=> (isset($data['extra']) && $data['extra'] != '') ? $data['extra'] : ''
@@ -526,6 +457,98 @@ class settings
 	}
 
 	/**
+	* Generate HTML from our defined data types for each config row
+	*
+	* Input types:
+	*	tpl: Return a template variable as string {ABC}
+	*	int: Integer number: <input type="number"
+	*	url: URL <input type="url"
+	*	email: email address <input type="email"
+	*	string: Text <input type="text"
+	*	string_uni: Unicode text <input type="text"
+	*	text: Block text <textarea (Stored in the table _config_text)
+	*	text_uni: Unicode block text <textarea (Stored in the table _config_text)
+	*	radio: Radio checkboxs
+	*	select: Dropdown selection
+	*
+	* @param string $name	Config name, used for field name: <input name="..."
+	* @param array $data	Config item data
+	* @return string HTML code
+	*/
+	protected function return_html($name, $data)
+	{
+		$html = '';
+
+		switch ($data['type'])
+		{
+			case 'tpl':
+				$html = $data['default'];
+			break;
+
+			case 'int':
+				$min = (isset($data['type_data']['min']) && is_numeric($data['type_data']['min'])) ? $data['type_data']['min'] : 0;
+				$min_html = ($min != '') ? ' min="' . $min . '"' : '';
+				$max = (isset($data['type_data']['max']) && is_numeric($data['type_data']['max'])) ? $data['type_data']['max'] : '';
+				$max_html = ($max != '') ? ' max=" ' . $max .'"' : '';
+				$step = (isset($data['type_data']['step']) && is_numeric($data['type_data']['step'])) ? $data['type_data']['step'] : '';
+				$step_html = ($step != '') ? ' step="' . $step . '"' : '';
+				$html = '<input type="number" name="' . $name . '" id="' . $name . '"' . $min_html . $max_html . $step_html . ' value="' . $this->config['vinabb_web_' . $name] . '">';
+			break;
+
+			case 'url':
+			case 'email':
+			case 'string':
+			case 'string_uni':
+				$type = str_replace(['string', 'string_uni'], 'text', $data['type']);
+				$maxlength = (isset($data['type_data']['max']) && is_numeric($data['type_data']['max'])) ? $data['type_data']['max'] : constants::MAX_CONFIG_NAME;
+				$maxlength_html = ($maxlength != '') ? ' maxlength=" ' . $maxlength .'"' : '';
+				$html = '<input class="medium" type="' . $type . '" name="' . $name . '" id="' . $name . '"' . $maxlength_html . ' value="' . $this->config['vinabb_web_' . $name] . '">';
+			break;
+
+			case 'text':
+			case 'text_uni':
+				$rows = (isset($data['type_data']['rows']) && is_numeric($data['type_data']['rows'])) ? $data['type_data']['rows'] : 5;
+				$rows_html = ($rows != '') ? ' rows="' . $rows . '"' : '';
+				$maxlength = (isset($data['type_data']['max']) && is_numeric($data['type_data']['max'])) ? $data['type_data']['max'] : '';
+				$maxlength_html = ($maxlength != '') ? ' maxlength=" ' . $maxlength .'"' : '';
+				$html = '<textarea name="' . $name . '" id="' . $name . '"' . $rows_html . $maxlength_html . '>' . $this->config_text_data['vinabb_web_' . $name] . '</textarea>';
+			break;
+
+			case 'radio':
+				$value = $this->config['vinabb_web_' . $name];
+
+				// Radio with multiple options
+				if (isset($data['type_data']) && sizeof($data['type_data']))
+				{
+					$id_html = ' id="' . $name . '"';
+
+					foreach ($data['type_data'] as $radio_value => $label)
+					{
+						$checked_html = ($value == $radio_value) ? ' checked' : '';
+						$html .= '<label><input type="radio" class="radio" name="' . $name . '"' . $id_html . ' value="' . $radio_value . '"' . $checked_html. '> ' . $label . '</label>';
+
+						// Only assign id="" for the first item
+						$id_html = '';
+					}
+				}
+				// Normal radio with yes/no options
+				else
+				{
+					$checked_html = $value ? ' checked' : '';
+					$html .= '<label><input type="radio" class="radio" name="' . $name . '" id="' . $name . '" value="1"' . $checked_html . '> ' . $this->language->lang('YES') . '</label>';
+					$html .= '<label><input type="radio" class="radio" name="' . $name . '" value="0"' . $checked_html. '> ' . $this->language->lang('NO') . '</label>';
+				}
+			break;
+
+			case 'select':
+				$html = '<select name="' . $name . '" id="' . $name . '">' . $data['default'] . '</select>';
+			break;
+		}
+
+		return $html;
+	}
+
+	/**
 	* Helper to run taks before set_group_settings()
 	*/
 	protected function run_tasks()
@@ -579,7 +602,7 @@ class settings
 	}
 
 	/**
-	* Helper to check only founders can set the founder-level maintenance mode
+	* Check only founders can set the founder-level maintenance mode
 	*
 	* @param int $value Input value
 	* @return bool
