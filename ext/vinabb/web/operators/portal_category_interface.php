@@ -24,10 +24,11 @@ interface portal_category_interface
 	/**
 	* Add a category
 	*
+	* @param \vinabb\web\entities\portal_category_interface $entity Portal category entity
 	* @param int $parent_id Parent ID
 	* @return \vinabb\web\entities\portal_category_interface
 	*/
-	public function add_cat($parent_id = 0);
+	public function add_cat($entity, $parent_id = 0);
 
 	/**
 	* Move a category up/down

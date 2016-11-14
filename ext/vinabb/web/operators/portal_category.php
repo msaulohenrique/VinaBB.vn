@@ -8,13 +8,15 @@
 
 namespace vinabb\web\operators;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 /**
 * Operator for a set of news categories
 */
 class portal_category implements portal_category_interface
 {
-	/** @var \vinabb\web\entities\portal_category_interface */
-	protected $entity;
+	/** @var ContainerInterface */
+	protected $container;
 
 	/** @var \vinabb\web\operators\nestedset_portal_categories */
 	protected $nestedset;
@@ -22,12 +24,12 @@ class portal_category implements portal_category_interface
 	/**
 	* Constructor
 	*
-	* @param \vinabb\web\entities\portal_category_interface		$entity		Portal category entity
+	* @param ContainerInterface									$container	Container object
 	* @param \vinabb\web\operators\nestedset_portal_categories	$nestedset	Nestedset object for tree functionality
 	*/
-	public function __construct(\vinabb\web\entities\portal_category_interface $entity, \vinabb\web\operators\nestedset_portal_categories $nestedset)
+	public function __construct(ContainerInterface $container, \vinabb\web\operators\nestedset_portal_categories $nestedset)
 	{
-		$this->entity = $entity;
+		$this->container = $container;
 		$this->nestedset = $nestedset;
 	}
 
@@ -46,7 +48,7 @@ class portal_category implements portal_category_interface
 
 		foreach ($rowset as $row)
 		{
-			$entities[] = $this->entity->import($row);
+			$entities[] = $this->container->get('vinabb.web.entities.portal_category')->import($row);
 		}
 
 		return $entities;
@@ -55,16 +57,17 @@ class portal_category implements portal_category_interface
 	/**
 	* Add a category
 	*
+	* @param \vinabb\web\entities\portal_category_interface $entity Portal category entity
 	* @param int $parent_id Parent ID
 	* @return \vinabb\web\entities\portal_category_interface
 	*/
-	public function add_cat($parent_id = 0)
+	public function add_cat($entity, $parent_id = 0)
 	{
 		// Insert the entity to the database
-		$this->entity->insert();
+		$entity->insert();
 
 		// Get the newly inserted entity ID
-		$id = $this->entity->get_id();
+		$id = $entity->get_id();
 
 		// Update the tree for the entity in the database
 		$this->nestedset->add_to_nestedset($id);
@@ -76,7 +79,7 @@ class portal_category implements portal_category_interface
 		}
 
 		// Reload the data to return a fresh entity
-		return $this->entity->load($id);
+		return $entity->load($id);
 	}
 
 	/**
