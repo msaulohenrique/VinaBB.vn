@@ -95,7 +95,6 @@ class menu implements menu_interface
 		$id = (int) $id;
 		$amount = (int) $amount;
 
-		// Try to move the entity
 		try
 		{
 			$this->nestedset->move($id, (($direction !== 'up') ? -$amount : $amount));
@@ -116,7 +115,6 @@ class menu implements menu_interface
 	{
 		$id = (int) $id;
 
-		// Try to delete the entity from the database
 		try
 		{
 			$this->nestedset->delete($id);
@@ -139,7 +137,6 @@ class menu implements menu_interface
 		$id = (int) $id;
 		$new_parent_id = (int) $new_parent_id;
 
-		// Try to change the parent
 		try
 		{
 			$this->nestedset->change_parent($id, $new_parent_id);
@@ -166,7 +163,7 @@ class menu implements menu_interface
 
 		foreach ($rowset as $row)
 		{
-			$entities[] = $this->entity->import($row);
+			$entities[] = $this->container->get('vinabb.web.entities.menu')->import($row);
 		}
 
 		return $entities;
