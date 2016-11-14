@@ -1227,10 +1227,7 @@ class bb_item implements bb_item_interface
 	*/
 	public function set_price($value)
 	{
-		if (!isset($this->data['item_price']))
-		{
-			$this->data['item_price'] = (int) $value;
-		}
+		$this->data['item_price'] = (int) $value;
 
 		return $this;
 	}
@@ -1253,10 +1250,7 @@ class bb_item implements bb_item_interface
 	*/
 	public function set_url($text)
 	{
-		if (!isset($this->data['item_url']))
-		{
-			$this->data['item_url'] = (string) $text;
-		}
+		$this->data['item_url'] = (string) $text;
 
 		return $this;
 	}
@@ -1279,10 +1273,7 @@ class bb_item implements bb_item_interface
 	*/
 	public function set_github($text)
 	{
-		if (!isset($this->data['item_github']))
-		{
-			$this->data['item_github'] = (string) $text;
-		}
+		$this->data['item_github'] = (string) $text;
 
 		return $this;
 	}
@@ -1304,7 +1295,10 @@ class bb_item implements bb_item_interface
 	*/
 	public function set_added()
 	{
-		$this->data['item_added'] = !$this->get_added() ? time() : 0;
+		if (!isset($this->data['item_added']))
+		{
+			$this->data['item_added'] = time();
+		}
 
 		return $this;
 	}

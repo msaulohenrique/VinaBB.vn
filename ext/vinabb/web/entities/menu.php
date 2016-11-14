@@ -362,10 +362,7 @@ class menu implements menu_interface
 	*/
 	public function set_type($value)
 	{
-		if (!isset($this->data['menu_type']))
-		{
-			$this->data['menu_type'] = (int) $value;
-		}
+		$this->data['menu_type'] = (int) $value;
 
 		return $this;
 	}
@@ -388,10 +385,7 @@ class menu implements menu_interface
 	*/
 	public function set_icon($text)
 	{
-		if (!isset($this->data['menu_icon']))
-		{
-			$this->data['menu_icon'] = (string) $text;
-		}
+		$this->data['menu_icon'] = (string) $text;
 
 		return $this;
 	}
@@ -414,10 +408,7 @@ class menu implements menu_interface
 	*/
 	public function set_data($text)
 	{
-		if (!isset($this->data['menu_data']))
-		{
-			$this->data['menu_data'] = (string) $text;
-		}
+		$this->data['menu_data'] = (string) $text;
 
 		return $this;
 	}
@@ -440,10 +431,7 @@ class menu implements menu_interface
 	*/
 	public function set_target($value)
 	{
-		if (!isset($this->data['menu_target']))
-		{
-			$this->data['menu_target'] = (bool) $value;
-		}
+		$this->data['menu_target'] = (bool) $value;
 
 		return $this;
 	}
@@ -466,10 +454,7 @@ class menu implements menu_interface
 	*/
 	public function set_enable_guest($value)
 	{
-		if (!isset($this->data['menu_enable_guest']))
-		{
-			$this->data['menu_enable_guest'] = (bool) $value;
-		}
+		$this->data['menu_enable_guest'] = (bool) $value;
 
 		return $this;
 	}
@@ -492,10 +477,7 @@ class menu implements menu_interface
 	*/
 	public function set_enable_bot($value)
 	{
-		if (!isset($this->data['menu_enable_bot']))
-		{
-			$this->data['menu_enable_bot'] = (bool) $value;
-		}
+		$this->data['menu_enable_bot'] = (bool) $value;
 
 		return $this;
 	}
@@ -518,10 +500,7 @@ class menu implements menu_interface
 	*/
 	public function set_enable_new_user($value)
 	{
-		if (!isset($this->data['menu_enable_new_user']))
-		{
-			$this->data['menu_enable_new_user'] = (bool) $value;
-		}
+		$this->data['menu_enable_new_user'] = (bool) $value;
 
 		return $this;
 	}
@@ -544,10 +523,7 @@ class menu implements menu_interface
 	*/
 	public function set_enable_user($value)
 	{
-		if (!isset($this->data['menu_enable_user']))
-		{
-			$this->data['menu_enable_user'] = (bool) $value;
-		}
+		$this->data['menu_enable_user'] = (bool) $value;
 
 		return $this;
 	}
@@ -570,10 +546,7 @@ class menu implements menu_interface
 	*/
 	public function set_enable_mod($value)
 	{
-		if (!isset($this->data['menu_enable_mod']))
-		{
-			$this->data['menu_enable_mod'] = (bool) $value;
-		}
+		$this->data['menu_enable_mod'] = (bool) $value;
 
 		return $this;
 	}
@@ -596,10 +569,7 @@ class menu implements menu_interface
 	*/
 	public function set_enable_global_mod($value)
 	{
-		if (!isset($this->data['menu_enable_global_mod']))
-		{
-			$this->data['menu_enable_global_mod'] = (bool) $value;
-		}
+		$this->data['menu_enable_global_mod'] = (bool) $value;
 
 		return $this;
 	}
@@ -622,10 +592,7 @@ class menu implements menu_interface
 	*/
 	public function set_enable_admin($value)
 	{
-		if (!isset($this->data['menu_enable_admin']))
-		{
-			$this->data['menu_enable_admin'] = (bool) $value;
-		}
+		$this->data['menu_enable_admin'] = (bool) $value;
 
 		return $this;
 	}
@@ -648,10 +615,7 @@ class menu implements menu_interface
 	*/
 	public function set_enable_founder($value)
 	{
-		if (!isset($this->data['menu_enable_founder']))
-		{
-			$this->data['menu_enable_founder'] = (bool) $value;
-		}
+		$this->data['menu_enable_founder'] = (bool) $value;
 
 		return $this;
 	}

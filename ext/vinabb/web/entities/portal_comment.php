@@ -536,10 +536,7 @@ class portal_comment implements portal_comment_interface
 	*/
 	public function set_pending($value)
 	{
-		if (!isset($this->data['comment_pending']))
-		{
-			$this->data['comment_pending'] = (bool) $value;
-		}
+		$this->data['comment_pending'] = (bool) $value;
 
 		return $this;
 	}
@@ -561,7 +558,10 @@ class portal_comment implements portal_comment_interface
 	*/
 	public function set_time()
 	{
-		$this->data['comment_time'] = !$this->get_time() ? time() : 0;
+		if (!isset($this->data['comment_time']))
+		{
+			$this->data['comment_time'] = time();
+		}
 
 		return $this;
 	}

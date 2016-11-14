@@ -381,10 +381,7 @@ class bb_author implements bb_author_interface
 	*/
 	public function set_firstname($text)
 	{
-		if (!isset($this->data['author_firstname']))
-		{
-			$this->data['author_firstname'] = (string) $text;
-		}
+		$this->data['author_firstname'] = (string) $text;
 
 		return $this;
 	}
@@ -407,10 +404,7 @@ class bb_author implements bb_author_interface
 	*/
 	public function set_lastname($text)
 	{
-		if (!isset($this->data['author_lastname']))
-		{
-			$this->data['author_lastname'] = (string) $text;
-		}
+		$this->data['author_lastname'] = (string) $text;
 
 		return $this;
 	}
@@ -433,10 +427,7 @@ class bb_author implements bb_author_interface
 	*/
 	public function set_is_group($value)
 	{
-		if (!isset($this->data['author_is_group']))
-		{
-			$this->data['author_is_group'] = (bool) $value;
-		}
+		$this->data['author_is_group'] = (bool) $value;
 
 		return $this;
 	}
@@ -564,10 +555,7 @@ class bb_author implements bb_author_interface
 	*/
 	public function set_phpbb($value)
 	{
-		if (!isset($this->data['author_phpbb']))
-		{
-			$this->data['author_phpbb'] = (int) $value;
-		}
+		$this->data['author_phpbb'] = (int) $value;
 
 		return $this;
 	}
@@ -590,10 +578,7 @@ class bb_author implements bb_author_interface
 	*/
 	public function set_github($text)
 	{
-		if (!isset($this->data['author_github']))
-		{
-			$this->data['author_github'] = (string) $text;
-		}
+		$this->data['author_github'] = (string) $text;
 
 		return $this;
 	}
@@ -616,10 +601,7 @@ class bb_author implements bb_author_interface
 	*/
 	public function set_facebook($text)
 	{
-		if (!isset($this->data['author_facebook']))
-		{
-			$this->data['author_facebook'] = (string) $text;
-		}
+		$this->data['author_facebook'] = (string) $text;
 
 		return $this;
 	}
@@ -642,10 +624,7 @@ class bb_author implements bb_author_interface
 	*/
 	public function set_twitter($text)
 	{
-		if (!isset($this->data['author_twitter']))
-		{
-			$this->data['author_twitter'] = (string) $text;
-		}
+		$this->data['author_twitter'] = (string) $text;
 
 		return $this;
 	}
@@ -668,10 +647,7 @@ class bb_author implements bb_author_interface
 	*/
 	public function set_google($text)
 	{
-		if (!isset($this->data['author_google']))
-		{
-			$this->data['author_google'] = (string) $text;
-		}
+		$this->data['author_google'] = (string) $text;
 
 		return $this;
 	}
@@ -694,10 +670,7 @@ class bb_author implements bb_author_interface
 	*/
 	public function set_google_plus($text)
 	{
-		if (!isset($this->data['author_google_plus']))
-		{
-			$this->data['author_google_plus'] = (string) $text;
-		}
+		$this->data['author_google_plus'] = (string) $text;
 
 		return $this;
 	}
@@ -720,10 +693,7 @@ class bb_author implements bb_author_interface
 	*/
 	public function set_skype($text)
 	{
-		if (!isset($this->data['author_skype']))
-		{
-			$this->data['author_skype'] = (string) $text;
-		}
+		$this->data['author_skype'] = (string) $text;
 
 		return $this;
 	}

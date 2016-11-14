@@ -444,10 +444,7 @@ class bb_category implements bb_category_interface
 	*/
 	public function set_icon($text)
 	{
-		if (!isset($this->data['cat_icon']))
-		{
-			$this->data['cat_icon'] = (string) $text;
-		}
+		$this->data['cat_icon'] = (string) $text;
 
 		return $this;
 	}

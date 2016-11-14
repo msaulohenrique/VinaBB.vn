@@ -429,10 +429,7 @@ class portal_article implements portal_article_interface
 	*/
 	public function set_img($text)
 	{
-		if (!isset($this->data['article_img']))
-		{
-			$this->data['article_img'] = (string) $text;
-		}
+		$this->data['article_img'] = (string) $text;
 
 		return $this;
 	}
@@ -697,10 +694,7 @@ class portal_article implements portal_article_interface
 	*/
 	public function set_enable($value)
 	{
-		if (!isset($this->data['article_enable']))
-		{
-			$this->data['article_enable'] = (bool) $value;
-		}
+		$this->data['article_enable'] = (bool) $value;
 
 		return $this;
 	}
@@ -732,7 +726,10 @@ class portal_article implements portal_article_interface
 	*/
 	public function set_time()
 	{
-		$this->data['article_time'] = time();
+		if (!isset($this->data['article_time']))
+		{
+			$this->data['article_time'] = time();
+		}
 
 		return $this;
 	}
