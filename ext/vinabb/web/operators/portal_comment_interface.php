@@ -23,9 +23,10 @@ interface portal_comment_interface
 	/**
 	* Add a comment
 	*
+	* @param \vinabb\web\entities\portal_comment_interface $entity Comment entity
 	* @return \vinabb\web\entities\portal_comment_interface
 	*/
-	public function add_comment();
+	public function add_comment($entity);
 
 	/**
 	* Delete a comment
