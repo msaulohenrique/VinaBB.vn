@@ -176,7 +176,7 @@ class settings
 				'maintenance_text_vi'	=> ['type' => 'text_uni', 'explain' => true, 'default' => '']
 			],
 			'DONATE'				=> [
-				'donate_year'		=> ['type' => 'int', 'default' => 0],
+				'donate_year'		=> ['type' => 'int', 'type_data' => ['min' => date('Y', time())], 'default' => 0],
 				'donate_year_value'	=> ['type' => 'int', 'default' => 0],
 				'donate_fund'		=> ['type' => 'int', 'default' => 0]
 			]
@@ -323,7 +323,7 @@ class settings
 			'FOOTER_MANAGER_ROLE'	=> [
 				'manager_name'		=> ['type' => 'string_uni', 'default' => ''],
 				'manager_name_vi'	=> ['type' => 'string_uni', 'default' => ''],
-				'manager_username'	=> ['type' => 'string_uni', 'default' => ''],
+				'manager_username'	=> ['type' => 'string_uni', 'type_data' => ['max' => $this->config['max_name_chars']], 'default' => ''],
 				'manager_user_id'	=> ['type' => 'int', 'default' => 0]
 			],
 			'MAP'					=> [
@@ -339,14 +339,14 @@ class settings
 				'google_analytics_id'	=> ['type' => 'string', 'default' => '']
 			],
 			'DONATE'				=> [
-				'donate_currency'	=> ['type' => 'string', 'default' => ''],
+				'donate_currency'	=> ['type' => 'string', 'type_data' => ['max' => 3], 'default' => ''],
 				'donate_owner'		=> ['type' => 'string_uni', 'default' => ''],
 				'donate_owner_vi'	=> ['type' => 'string_uni', 'default' => ''],
 				'donate_email'		=> ['type' => 'string', 'default' => ''],
 				'donate_bank'		=> ['type' => 'string_uni', 'default' => ''],
 				'donate_bank_vi'	=> ['type' => 'string_uni', 'default' => ''],
 				'donate_bank_acc'	=> ['type' => 'string', 'default' => ''],
-				'donate_bank_swift'	=> ['type' => 'string', 'default' => ''],
+				'donate_bank_swift'	=> ['type' => 'string', 'type_data' => ['max' => 11], 'default' => ''],
 				'donate_paypal'		=> ['type' => 'url', 'default' => '']
 			],
 			'SOCIAL_LINKS'			=> [
