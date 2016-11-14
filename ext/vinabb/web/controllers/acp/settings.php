@@ -373,7 +373,7 @@ class settings
 			foreach ($group_data as $name => $data)
 			{
 				// Row data
-				$html = $prepend = $append = $extra = '';
+				$html = '';
 
 				switch ($data['type'])
 				{
