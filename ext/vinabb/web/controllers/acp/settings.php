@@ -328,8 +328,8 @@ class settings
 			],
 			'MAP'					=> [
 				'map_api'			=> ['type' => 'string', 'default' => ''],
-				'map_lat'			=> ['type' => 'int', 'type_data' => ['step' => 0.000001], 'default' => 0],
-				'map_lng'			=> ['type' => 'int', 'type_data' => ['step' => 0.000001], 'default' => 0],
+				'map_lat'			=> ['type' => 'int', 'type_data' => ['step' => 0.000001], 'default' => 0.0],
+				'map_lng'			=> ['type' => 'int', 'type_data' => ['step' => 0.000001], 'default' => 0.0],
 				'map_address'		=> ['type' => 'string_uni', 'default' => ''],
 				'map_address_vi'	=> ['type' => 'string_uni', 'default' => ''],
 				'map_phone'			=> ['type' => 'string', 'default' => ''],
