@@ -78,7 +78,7 @@ class page implements page_interface
 	{
 		$sql = 'SELECT *
 			FROM ' . $this->table_name . '
-			WHERE cat_id = ' . (int) $id;
+			WHERE page_id = ' . (int) $id;
 		$result = $this->db->sql_query($sql);
 		$this->data = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
@@ -116,7 +116,7 @@ class page implements page_interface
 			'page_varname'				=> 'set_varname',
 			'page_desc'					=> 'set_desc',
 			'page_desc_vi'				=> 'set_desc_vi',
-			'page_enable'				=> 'set_enable_',
+			'page_enable'				=> 'set_enable',
 			'page_enable_guest'			=> 'set_enable_guest',
 			'page_enable_bot'			=> 'set_enable_bot',
 			'page_enable_new_user'		=> 'set_enable_new_user',
@@ -291,7 +291,7 @@ class page implements page_interface
 	*/
 	public function get_name_vi()
 	{
-		return isset($this->data['page_name']) ? (string) $this->data['page_name'] : '';
+		return isset($this->data['page_name_vi']) ? (string) $this->data['page_name_vi'] : '';
 	}
 
 	/**
@@ -324,7 +324,7 @@ class page implements page_interface
 	*/
 	public function get_varname()
 	{
-		return isset($this->data['cat_varname']) ? (string) $this->data['cat_varname'] : '';
+		return isset($this->data['page_varname']) ? (string) $this->data['page_varname'] : '';
 	}
 
 	/**
@@ -386,7 +386,7 @@ class page implements page_interface
 	*/
 	public function get_desc()
 	{
-		return isset($this->data['cat_desc']) ? (string) $this->data['cat_desc'] : '';
+		return isset($this->data['page_desc']) ? (string) $this->data['page_desc'] : '';
 	}
 
 	/**
@@ -397,10 +397,7 @@ class page implements page_interface
 	*/
 	public function set_desc($text)
 	{
-		if (!isset($this->data['cat_desc']))
-		{
-			$this->data['cat_desc'] = (string) $text;
-		}
+		$this->data['page_desc'] = (string) $text;
 
 		return $this;
 	}
@@ -412,7 +409,7 @@ class page implements page_interface
 	*/
 	public function get_desc_vi()
 	{
-		return isset($this->data['cat_desc_vi']) ? (string) $this->data['cat_desc_vi'] : '';
+		return isset($this->data['page_desc_vi']) ? (string) $this->data['page_desc_vi'] : '';
 	}
 
 	/**
@@ -423,10 +420,7 @@ class page implements page_interface
 	*/
 	public function set_desc_vi($text)
 	{
-		if (!isset($this->data['cat_desc_vi']))
-		{
-			$this->data['cat_desc_vi'] = (string) $text;
-		}
+		$this->data['page_desc_vi'] = (string) $text;
 
 		return $this;
 	}
@@ -855,10 +849,7 @@ class page implements page_interface
 	*/
 	public function set_enable($value)
 	{
-		if (!isset($this->data['page_enable']))
-		{
-			$this->data['page_enable'] = (bool) $value;
-		}
+		$this->data['page_enable'] = (bool) $value;
 
 		return $this;
 	}
@@ -881,10 +872,7 @@ class page implements page_interface
 	*/
 	public function set_enable_guest($value)
 	{
-		if (!isset($this->data['page_enable_guest']))
-		{
-			$this->data['page_enable_guest'] = (bool) $value;
-		}
+		$this->data['page_enable_guest'] = (bool) $value;
 
 		return $this;
 	}
@@ -907,10 +895,7 @@ class page implements page_interface
 	*/
 	public function set_enable_bot($value)
 	{
-		if (!isset($this->data['page_enable_bot']))
-		{
-			$this->data['page_enable_bot'] = (bool) $value;
-		}
+		$this->data['page_enable_bot'] = (bool) $value;
 
 		return $this;
 	}
@@ -933,10 +918,7 @@ class page implements page_interface
 	*/
 	public function set_enable_new_user($value)
 	{
-		if (!isset($this->data['page_enable_new_user']))
-		{
-			$this->data['page_enable_new_user'] = (bool) $value;
-		}
+		$this->data['page_enable_new_user'] = (bool) $value;
 
 		return $this;
 	}
@@ -959,10 +941,7 @@ class page implements page_interface
 	*/
 	public function set_enable_user($value)
 	{
-		if (!isset($this->data['page_enable_user']))
-		{
-			$this->data['page_enable_user'] = (bool) $value;
-		}
+		$this->data['page_enable_user'] = (bool) $value;
 
 		return $this;
 	}
@@ -985,10 +964,7 @@ class page implements page_interface
 	*/
 	public function set_enable_mod($value)
 	{
-		if (!isset($this->data['page_enable_mod']))
-		{
-			$this->data['page_enable_mod'] = (bool) $value;
-		}
+		$this->data['page_enable_mod'] = (bool) $value;
 
 		return $this;
 	}
@@ -1011,10 +987,7 @@ class page implements page_interface
 	*/
 	public function set_enable_global_mod($value)
 	{
-		if (!isset($this->data['page_enable_global_mod']))
-		{
-			$this->data['page_enable_global_mod'] = (bool) $value;
-		}
+		$this->data['page_enable_global_mod'] = (bool) $value;
 
 		return $this;
 	}
@@ -1037,10 +1010,7 @@ class page implements page_interface
 	*/
 	public function set_enable_admin($value)
 	{
-		if (!isset($this->data['page_enable_admin']))
-		{
-			$this->data['page_enable_admin'] = (bool) $value;
-		}
+		$this->data['page_enable_admin'] = (bool) $value;
 
 		return $this;
 	}
@@ -1063,10 +1033,7 @@ class page implements page_interface
 	*/
 	public function set_enable_founder($value)
 	{
-		if (!isset($this->data['page_enable_founder']))
-		{
-			$this->data['page_enable_founder'] = (bool) $value;
-		}
+		$this->data['page_enable_founder'] = (bool) $value;
 
 		return $this;
 	}
