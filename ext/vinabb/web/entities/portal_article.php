@@ -131,7 +131,7 @@ class portal_article implements portal_article_interface
 			// The data wasn't sent to us
 			if (!isset($data[$field]))
 			{
-				throw new \vinabb\web\exceptions\invalid_argument([$field, 'FIELD_MISSING']);
+				throw new \vinabb\web\exceptions\invalid_argument([$field, 'EMPTY']);
 			}
 
 			// If the type is a method on this class, call it
@@ -271,7 +271,7 @@ class portal_article implements portal_article_interface
 		}
 		else
 		{
-			throw new \vinabb\web\exceptions\unexpected_value(['cat_id', 'FIELD_MISSING']);
+			throw new \vinabb\web\exceptions\unexpected_value(['cat_id', 'EMPTY']);
 		}
 
 		// Set the value on our data array
@@ -304,7 +304,7 @@ class portal_article implements portal_article_interface
 		// This is a required field
 		if ($text == '')
 		{
-			throw new \vinabb\web\exceptions\unexpected_value(['article_name', 'FIELD_MISSING']);
+			throw new \vinabb\web\exceptions\unexpected_value(['article_name', 'EMPTY']);
 		}
 
 		// Check the max length
@@ -340,22 +340,10 @@ class portal_article implements portal_article_interface
 	{
 		$text = strtolower($text);
 
-		// This is a required field
-		if ($text == '')
-		{
-			throw new \vinabb\web\exceptions\unexpected_value(['article_name_seo', 'FIELD_MISSING']);
-		}
-
-		// Check the max length
-		if (truncate_string($text, constants::MAX_PORTAL_ARTICLE_NAME) != $text)
-		{
-			throw new \vinabb\web\exceptions\unexpected_value(['article_name_seo', 'TOO_LONG']);
-		}
-
 		// Check invalid characters
 		if (!preg_match('#^[a-z0-9-]+$#', $text))
 		{
-			throw new \vinabb\web\exceptions\unexpected_value(['article_name_seo', 'ILLEGAL_CHARACTERS']);
+			throw new \vinabb\web\exceptions\unexpected_value(['article_name_seo', 'INVALID']);
 		}
 
 		// Set the value on our data array
@@ -388,7 +376,7 @@ class portal_article implements portal_article_interface
 		// This is a required field
 		if ($text == '')
 		{
-			throw new \vinabb\web\exceptions\unexpected_value(['article_lang', 'FIELD_MISSING']);
+			throw new \vinabb\web\exceptions\unexpected_value(['article_lang', 'EMPTY']);
 		}
 		else
 		{
@@ -458,7 +446,7 @@ class portal_article implements portal_article_interface
 		// This is a required field
 		if ($text == '')
 		{
-			throw new \vinabb\web\exceptions\unexpected_value(['article_desc', 'FIELD_MISSING']);
+			throw new \vinabb\web\exceptions\unexpected_value(['article_desc', 'EMPTY']);
 		}
 
 		// Check the max length
