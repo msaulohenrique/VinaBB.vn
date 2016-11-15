@@ -283,7 +283,7 @@ class pages
 			unset($map_fields);
 
 			// Insert or update page
-			if (empty($errors))
+			if (!sizeof($errors))
 			{
 				if ($page_id)
 				{

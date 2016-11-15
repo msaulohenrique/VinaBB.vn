@@ -135,7 +135,7 @@ class settings
 			// Checking setting values
 			$this->check_group_settings('main');
 
-			if (empty($this->errors))
+			if (!sizeof($this->errors))
 			{
 				$this->run_tasks();
 				$this->set_group_settings();
@@ -200,7 +200,7 @@ class settings
 			// Checking setting values
 			$this->check_group_settings('version');
 
-			if (empty($this->errors))
+			if (!sizeof($this->errors))
 			{
 				$this->run_tasks();
 				$this->set_group_settings();
@@ -265,7 +265,7 @@ class settings
 			// Checking setting values
 			$this->check_group_settings('setup');
 
-			if (empty($this->errors))
+			if (!sizeof($this->errors))
 			{
 				$this->run_tasks();
 				$this->set_group_settings();
