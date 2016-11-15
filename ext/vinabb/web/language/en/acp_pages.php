@@ -25,6 +25,7 @@ $lang = array_merge($lang, [
 	'CONFIRM_DELETE_PAGE'	=> 'Are you sure you want to delete this page?',
 
 	'EDIT_PAGE'						=> 'Edit page',
+	'ERROR_PAGE_DELETE'				=> 'Could not delete this page. Error: %s',
 	'ERROR_PAGE_NAME_EMPTY'			=> 'You must enter a page title.',
 	'ERROR_PAGE_NAME_TOO_LONG'		=> 'The page title is too long.',
 	'ERROR_PAGE_NAME_VI_TOO_LONG'	=> 'The Vietnamese page title is too long.',

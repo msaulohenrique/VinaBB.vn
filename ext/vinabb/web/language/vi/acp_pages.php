@@ -25,6 +25,7 @@ $lang = array_merge($lang, [
 	'CONFIRM_DELETE_PAGE'	=> 'Bạn chắc chắn muốn xóa trang này?',
 
 	'EDIT_PAGE'						=> 'Sửa trang',
+	'ERROR_PAGE_DELETE'				=> 'Không thể xóa trang này. Lỗi: %s',
 	'ERROR_PAGE_NAME_EMPTY'			=> 'Chưa nhập tiêu đề trang.',
 	'ERROR_PAGE_NAME_TOO_LONG'		=> 'Tiêu đề trang quá dài.',
 	'ERROR_PAGE_NAME_VI_TOO_LONG'	=> 'Tiêu đề trang tiếng Việt quá dài.',
