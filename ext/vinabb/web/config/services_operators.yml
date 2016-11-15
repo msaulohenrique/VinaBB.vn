@@ -14,7 +14,7 @@ services:
     vinabb.web.operators.portal_category:
         class: vinabb\web\operators\portal_category
         arguments:
-            - '@vinabb.web.entities.portal_category'
+            - '@service_container'
             - '@vinabb.web.operators.nestedset_portal_categories'
     vinabb.web.operators.portal_article:
         class: vinabb\web\operators\portal_article
@@ -55,7 +55,7 @@ services:
     vinabb.web.operators.menu:
         class: vinabb\web\operators\menu
         arguments:
-            - '@vinabb.web.entities.menu'
+            - '@service_container'
             - '@vinabb.web.operators.nestedset_menus'
     vinabb.web.operators.headline:
         class: vinabb\web\operators\headline
