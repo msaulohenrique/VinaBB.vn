@@ -93,7 +93,7 @@ class portal_category implements portal_category_interface
 		// All of our fields
 		$fields = [
 			'cat_id'		=> 'integer',
-			'parent_id'		=> 'integer',
+			'parent_id'		=> 'set_parent_id',
 			'left_id'		=> 'integer',
 			'right_id'		=> 'integer',
 			'cat_parents'	=> 'string',
@@ -225,6 +225,39 @@ class portal_category implements portal_category_interface
 	public function get_parent_id()
 	{
 		return isset($this->data['parent_id']) ? (int) $this->data['parent_id'] : 0;
+	}
+
+	/**
+	* Set the parent_id
+	*
+	* @param int						$id		Parent ID
+	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_parent_id($id)
+	{
+		$id = (int) $id;
+
+		// Check existing category
+		if ($id)
+		{
+			$sql = 'SELECT 1
+				FROM ' . $this->table_name . "
+				WHERE cat_id = $id";
+			$result = $this->db->sql_query_limit($sql, 1);
+			$row = $this->db->sql_fetchrow($result);
+			$this->db->sql_freeresult($result);
+
+			if ($row === false)
+			{
+				throw new \vinabb\web\exceptions\unexpected_value(['parent_id', 'NOT_EXISTS']);
+			}
+		}
+
+		// Set the value on our data array
+		$this->data['parent_id'] = $id;
+
+		return $this;
 	}
 
 	/**
@@ -371,7 +404,7 @@ class portal_category implements portal_category_interface
 
 			if ($row)
 			{
-				throw new \vinabb\web\exceptions\unexpected_value(['cat_varname', 'DUPLICATE']);
+				throw new \vinabb\web\exceptions\unexpected_value(['cat_varname', 'DUPLICATE', $text]);
 			}
 		}
 

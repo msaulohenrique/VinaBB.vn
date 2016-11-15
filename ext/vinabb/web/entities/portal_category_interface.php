@@ -71,6 +71,15 @@ interface portal_category_interface
 	public function get_parent_id();
 
 	/**
+	* Set the parent_id
+	*
+	* @param int						$id		Parent ID
+	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_parent_id($id);
+
+	/**
 	* Get the left_id for the tree
 	*
 	* @return int
