@@ -54,6 +54,7 @@ class menus_module
 
 		// Requests
 		$action = $this->request->variable('action', '');
+		$parent_id = $this->request->variable('parent_id', 0);
 		$menu_id = $this->request->variable('id', 0);
 
 		$this->controller->set_form_action($this->u_action);
@@ -64,18 +65,14 @@ class menus_module
 			case 'add':
 				$this->tpl_name = 'acp_menus_edit';
 				$this->page_title = $this->language->lang('ADD_MENU');
-				$this->controller->add_menu();
-
-				// Return to stop execution of this script
-				return;
+				$this->controller->add_menu($parent_id);
+			break;
 
 			case 'edit':
 				$this->tpl_name = 'acp_menus_edit';
 				$this->page_title = $this->language->lang('EDIT_MENU');
 				$this->controller->edit_menu($menu_id);
-
-				// Return to stop execution of this script
-				return;
+			break;
 
 			case 'delete':
 				if (confirm_box(true))
@@ -95,6 +92,6 @@ class menus_module
 		}
 
 		// Manage menus
-		$this->controller->display_menus();
+		$this->controller->display_menus($parent_id);
 	}
 }
