@@ -46,7 +46,7 @@ interface portal_category_interface
 	* @param int $id Category ID
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
-	public function delete($id);
+	public function delete_cat($id);
 
 	/**
 	* Change the parent

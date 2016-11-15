@@ -111,7 +111,7 @@ class menu implements menu_interface
 	* @param int $id Menu ID
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
-	public function delete($id)
+	public function delete_menu($id)
 	{
 		$id = (int) $id;
 
