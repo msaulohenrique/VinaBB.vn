@@ -23,6 +23,7 @@ services:
             - '@request'
             - '@template'
             - '@user'
+            - '@vinabb.web.helper'
     vinabb.web.acp.pages:
         class: vinabb\web\controllers\acp\pages
         arguments:

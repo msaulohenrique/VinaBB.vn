@@ -39,6 +39,9 @@ class portal_categories implements portal_categories_interface
 	/** @var \phpbb\user */
 	protected $user;
 
+	/** @var \vinabb\web\controllers\helper_interface */
+	protected $ext_helper;
+
 	/** @var string */
 	protected $u_action;
 
@@ -53,6 +56,7 @@ class portal_categories implements portal_categories_interface
 	* @param \phpbb\request\request								$request	Request object
 	* @param \phpbb\template\template							$template	Template object
 	* @param \phpbb\user										$user		User object
+	* @param \vinabb\web\controllers\helper_interface			$ext_helper	Extension helper
 	*/
 	public function __construct(
 		\phpbb\cache\service $cache,
@@ -62,7 +66,8 @@ class portal_categories implements portal_categories_interface
 		\vinabb\web\operators\portal_category_interface $operator,
 		\phpbb\request\request $request,
 		\phpbb\template\template $template,
-		\phpbb\user $user
+		\phpbb\user $user,
+		\vinabb\web\controllers\helper_interface $ext_helper
 	)
 	{
 		$this->cache = $cache;
@@ -73,6 +78,7 @@ class portal_categories implements portal_categories_interface
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
+		$this->ext_helper = $ext_helper;
 	}
 
 	/**
@@ -107,11 +113,13 @@ class portal_categories implements portal_categories_interface
 			}
 
 			$this->template->assign_block_vars('cats', [
+				'URL'		=> "{$this->u_action}&parent_id=" . $entity->get_id(),
 				'NAME'		=> $entity->get_name(),
 				'NAME_VI'	=> $entity->get_name_vi(),
 				'VARNAME'	=> $entity->get_varname(),
 
-				'U_CAT'			=> "{$this->u_action}&parent_id=" . $entity->get_id(),
+				'S_IS_CAT'	=> $entity->get_right_id() - $entity->get_left_id() > 1,
+
 				'U_EDIT'		=> "{$this->u_action}&action=edit&id=" . $entity->get_id(),
 				'U_MOVE_DOWN'	=> "{$this->u_action}&action=move_down&id=" . $entity->get_id() . '&hash=' . generate_link_hash('down' . $entity->get_id()),
 				'U_MOVE_UP'		=> "{$this->u_action}&action=move_up&id=" . $entity->get_id() . '&hash=' . generate_link_hash('up' . $entity->get_id()),
@@ -195,9 +203,9 @@ class portal_categories implements portal_categories_interface
 	}
 
 	/**
-	* Process page data to be added or edited
+	* Process category data to be added or edited
 	*
-	* @param \vinabb\web\entities\portal_category_interface $entity Page entity
+	* @param \vinabb\web\entities\portal_category_interface $entity Portal category entity
 	*/
 	public function add_edit_cat_data($entity)
 	{
@@ -210,6 +218,7 @@ class portal_categories implements portal_categories_interface
 
 		// Get form data
 		$data = [
+			'parent_id'		=> $this->request->variable('parent_id', 0),
 			'cat_name'		=> $this->request->variable('cat_name', '', true),
 			'cat_name_vi'	=> $this->request->variable('cat_name_vi', '', true),
 			'cat_varname'	=> $this->request->variable('cat_varname', ''),
@@ -226,6 +235,7 @@ class portal_categories implements portal_categories_interface
 
 			// Map the form data fields to setters
 			$map_fields = [
+				'set_parent_id'	=> $data['parent_id'],
 				'set_name'		=> $data['cat_name'],
 				'set_name_vi'	=> $data['cat_name_vi'],
 				'set_varname'	=> $data['cat_varname'],
@@ -295,7 +305,8 @@ class portal_categories implements portal_categories_interface
 			'CAT_NAME'		=> $entity->get_name(),
 			'CAT_NAME_VI'	=> $entity->get_name_vi(),
 			'CAT_VARNAME'	=> $entity->get_varname(),
-			'CAT_ICON'		=> $entity->get_icon()
+
+			'ICON_OPTIONS'	=> $this->ext_helper->build_icon_list($entity->get_icon()),
 		]);
 	}
 

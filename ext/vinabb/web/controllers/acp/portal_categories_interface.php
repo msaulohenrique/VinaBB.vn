@@ -41,9 +41,9 @@ interface portal_categories_interface
 	public function edit_cat($cat_id);
 
 	/**
-	* Process page data to be added or edited
+	* Process category data to be added or edited
 	*
-	* @param \vinabb\web\entities\portal_category_interface $entity Page entity
+	* @param \vinabb\web\entities\portal_category_interface $entity Portal category entity
 	*/
 	public function add_edit_cat_data($entity);
 
