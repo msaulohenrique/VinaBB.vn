@@ -38,7 +38,7 @@ interface portal_category_interface
 	* @param int	$amount		The number of places to move
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
-	public function move($id, $direction = 'up', $amount = 1);
+	public function move_cat($id, $direction = 'up', $amount = 1);
 
 	/**
 	* Delete a category
