@@ -21,4 +21,15 @@ class invalid_argument extends base
 	{
 		return $this->translate_portions($language, $this->message_full, 'EXCEPTION_INVALID_ARGUMENT');
 	}
+
+	/**
+	* Translate this exception into an user language string
+	*
+	* @param \phpbb\language\language $language
+	* @return string
+	*/
+	public function get_friendly_message(\phpbb\language\language $language)
+	{
+		return $language->lang('ERROR_' . strtoupper($this->message_full[0] . '_' . $this->message_full[1]));
+	}
 }

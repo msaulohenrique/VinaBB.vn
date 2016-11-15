@@ -276,7 +276,7 @@ class pages
 				}
 				catch (\vinabb\web\exceptions\base $e)
 				{
-					$errors[] = $e->get_message($this->language);
+					$errors[] = $e->get_friendly_message($this->language);
 				}
 			}
 

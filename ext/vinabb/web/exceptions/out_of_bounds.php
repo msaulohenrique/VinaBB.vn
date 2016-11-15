@@ -21,4 +21,15 @@ class out_of_bounds extends base
 	{
 		return $this->translate_portions($language, $this->message_full, 'EXCEPTION_OUT_OF_BOUNDS');
 	}
+
+	/**
+	* Translate this exception into an user language string
+	*
+	* @param \phpbb\language\language $language
+	* @return string
+	*/
+	public function get_friendly_message(\phpbb\language\language $language)
+	{
+		return $this->translate_portions($language, $this->message_full, 'EXCEPTION_OUT_OF_BOUNDS');
+	}
 }
