@@ -23,7 +23,7 @@ class out_of_bounds extends base
 	}
 
 	/**
-	* Translate this exception into an user language string
+	* We do not translate error messages of this exception
 	*
 	* @param \phpbb\language\language $language
 	* @return string
