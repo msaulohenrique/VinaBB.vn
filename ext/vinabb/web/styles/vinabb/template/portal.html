@@ -532,14 +532,18 @@
 					<a class="github-button" href="{{ LATEST_VINABB_GITHUB_URL }}" data-icon="octicon-star" data-count-href="/{{ LATEST_VINABB_GITHUB_PATH }}/stargazers" data-count-api="/repos/{{ LATEST_VINABB_GITHUB_PATH }}#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star on GitHub">Star</a>
 					<a class="github-button" href="{{ LATEST_VINABB_GITHUB_FORK_URL }}" data-icon="octicon-repo-forked" data-count-href="/{{ LATEST_VINABB_GITHUB_PATH }}/network" data-count-api="/repos/{{ LATEST_VINABB_GITHUB_PATH }}#forks_count" data-count-aria-label="# forks on GitHub" aria-label="Fork on GitHub">Fork</a>
 					{% endif %}
+					<br>
 					{% if LATEST_VINABB_TRAVIS_IMG_URL and LATEST_VINABB_TRAVIS_URL %}
 					<a href="{{ LATEST_VINABB_TRAVIS_URL }}" target="_blank"><img src="{{ LATEST_VINABB_TRAVIS_IMG_URL }}" class="external-img"></a>
 					{% endif %}
-					{% if LATEST_VINABB_INSIGHT_IMG_URL and LATEST_VINABB_INSIGHT_URL %}
-					<a href="{{ LATEST_VINABB_INSIGHT_URL }}" target="_blank"><img src="{{ LATEST_VINABB_INSIGHT_IMG_URL }}" class="external-img"></a>
-					{% endif %}
 					{% if LATEST_VINABB_SCRUTINIZER_IMG_URL and LATEST_VINABB_SCRUTINIZER_URL %}
 					<a href="{{ LATEST_VINABB_SCRUTINIZER_URL }}" target="_blank"><img src="{{ LATEST_VINABB_SCRUTINIZER_IMG_URL }}" class="external-img"></a>
+					{% endif %}
+					{% if LATEST_VINABB_CODECLIMATE_IMG_URL and LATEST_VINABB_CODECLIMATE_URL %}
+					<a href="{{ LATEST_VINABB_CODECLIMATE_URL }}" target="_blank"><img src="{{ LATEST_VINABB_CODECLIMATE_IMG_URL }}" class="external-img"></a>
+					{% endif %}
+					{% if LATEST_VINABB_INSIGHT_IMG_URL and LATEST_VINABB_INSIGHT_URL %}
+					<a href="{{ LATEST_VINABB_INSIGHT_URL }}" target="_blank"><img src="{{ LATEST_VINABB_INSIGHT_IMG_URL }}" class="external-img"></a>
 					{% endif %}
 				</div>
 				{% if LATEST_VINABB_GITHUB_DOWNLOAD_URL %}

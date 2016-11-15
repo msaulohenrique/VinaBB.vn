@@ -21,6 +21,8 @@ class constants
 	const VINABB_INSIGHT_IMG_URL = 'https://insight.sensiolabs.com/projects/791226a3-5228-429d-9f3a-20f9a9404b7b/mini.png';
 	const VINABB_SCRUTINIZER_URL = 'http://sc.vinabb.vn/';
 	const VINABB_SCRUTINIZER_IMG_URL = 'https://scrutinizer-ci.com/g/VinaBB/VinaBB.vn/badges/quality-score.png?b=master';
+	const VINABB_CODECLIMATE_URL = 'http://cc.vinabb.vn/';
+	const VINABB_CODECLIMATE_IMG_URL = 'https://codeclimate.com/github/VinaBB/VinaBB.vn/badges/gpa.svg';
 
 	// Languages
 	const LANG_VIETNAMESE = 'vi';
