@@ -339,18 +339,6 @@ class bb_author implements bb_author_interface
 	{
 		$text = strtolower($text);
 
-		// This is a required field
-		if ($text == '')
-		{
-			throw new \vinabb\web\exceptions\unexpected_value(['author_name_seo', 'EMPTY']);
-		}
-
-		// Check the max length
-		if (truncate_string($text, constants::MAX_BB_AUTHOR_NAME) != $text)
-		{
-			throw new \vinabb\web\exceptions\unexpected_value(['author_name_seo', 'TOO_LONG']);
-		}
-
 		// Check invalid characters
 		if (!preg_match('#^[a-z0-9-]+$#', $text))
 		{
