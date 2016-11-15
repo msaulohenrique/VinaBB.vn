@@ -58,7 +58,7 @@ class base extends \Exception
 
 		if (is_array($this->message_full))
 		{
-			return call_user_func_array(array($language, 'lang'), $this->message_full);
+			return call_user_func_array([$language, 'lang'], $this->message_full);
 		}
 
 		return $language->lang($this->message_full);
@@ -84,7 +84,7 @@ class base extends \Exception
 		// Ensure we have an array
 		if (!is_array($message_portions))
 		{
-			$message_portions = array($message_portions);
+			$message_portions = [$message_portions];
 		}
 
 		// Translate each message portion
@@ -110,7 +110,7 @@ class base extends \Exception
 			array_unshift($message_portions, (string) $parent_message);
 
 			// We return a string
-			return call_user_func_array(array($language, 'lang'), $message_portions);
+			return call_user_func_array([$language, 'lang'], $message_portions);
 		}
 
 		// We return an array
