@@ -123,7 +123,7 @@ class portal_categories implements portal_categories_interface
 		}
 
 		// Prepare rule breadcrumb path navigation
-		$entities = $this->rule_operator->get_rule_parents($parent_id);
+		$entities = $this->operator->get_parents($parent_id);
 
 		// Process each entity for breadcrumb
 		foreach ($entities as $entity)
@@ -316,7 +316,7 @@ class portal_categories implements portal_categories_interface
 
 		try
 		{
-			$this->operator->move($cat_id, $direction, $amount);
+			$this->operator->move_cat($cat_id, $direction, $amount);
 		}
 		catch (\Exception $e)
 		{
@@ -372,7 +372,7 @@ class portal_categories implements portal_categories_interface
 	}
 
 	/**
-	* Build pull down menu options of available rule parents
+	* Generate options of available parents
 	*
 	* @param \vinabb\web\entities\portal_category_interface	$entity		Portal category entity
 	* @param int											$parent_id	Parent ID
