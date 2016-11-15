@@ -5,32 +5,46 @@
 <h1>{{ lang('ACP_PORTAL_CATS') }}</h1>
 <p>{{ lang('ACP_PORTAL_CATS_EXPLAIN') }}</p>
 
+{% if ERRORS %}
+<div class="errorbox">
+	<h3>{{ lang('WARNING') }}</h3>
+	<p>{{ ERRORS }}</p>
+</div>
+{% endif %}
+
 <form id="acp_portal_categories" method="post" action="{{ U_ACTION }}">
 	<fieldset>
-		<legend>{{ lang('EDIT_PORTAL_CAT') }}</legend>
+		<legend>{{ lang('CAT_DETAILS') }}</legend>
 		<dl>
-			<dt><label for="cat_name">{{ lang('PORTAL_CAT_NAME') ~ ' (' ~ lang('ENGLISH') ~ ')' ~ lang('COLON') }}</label></dt>
-			<dd><input type="text" name="cat_name" id="cat_name" value="{{ CAT_NAME }}" maxlength="255"></dd>
+			<dt><label for="parent_id">{{ lang('CAT_PARENT') ~ lang('COLON') }}</label></dt>
+			<dd><select name="parent_id" id="parent_id">
+				<option value="0">{{ lang('NO_PARENT') }}</option>
+				{% for option in parent_options %}
+				<option value="{{ option.ID }}"{% if option.SELECTED %} selected="selected"{% endif %}{% if option.S_DISABLED %} disabled="disabled" class="disabled-option"{% endif %}>{{ option.NAME }}</option>
+				{% endfor %}
+			</select></dd>
 		</dl>
 		<dl>
-			<dt><label for="cat_name_vi">{{ lang('PORTAL_CAT_NAME') ~ ' (' ~ lang('VIETNAMESE') ~ ')' ~ lang('COLON') }}</label></dt>
-			<dd><input type="text" name="cat_name_vi" id="cat_name_vi" value="{{ CAT_NAME_VI }}" maxlength="255"></dd>
+			<dt><label for="cat_name">{{ lang('CAT_NAME') ~ ' (' ~ lang('ENGLISH') ~ ')' ~ lang('COLON') }}</label></dt>
+			<dd><input class="text" type="text" name="cat_name" id="cat_name" value="{{ CAT_NAME }}" maxlength="255"></dd>
 		</dl>
 		<dl>
-			<dt><label for="cat_varname">{{ lang('PORTAL_CAT_VARNAME') ~ lang('COLON') }}</label></dt>
-			<dd><input type="text" name="cat_varname" id="cat_varname" value="{{ CAT_VARNAME }}" maxlength="255"></dd>
+			<dt><label for="cat_name_vi">{{ lang('CAT_NAME') ~ ' (' ~ lang('VIETNAMESE') ~ ')' ~ lang('COLON') }}</label></dt>
+			<dd><input class="text" type="text" name="cat_name_vi" id="cat_name_vi" value="{{ CAT_NAME_VI }}" maxlength="255"></dd>
 		</dl>
 		<dl>
-			<dt><label for="cat_icon">{{ lang('PORTAL_CAT_ICON') ~ lang('COLON') }}</label></dt>
+			<dt><label for="cat_varname">{{ lang('CAT_VARNAME') ~ lang('COLON') }}</label></dt>
+			<dd><input class="text" type="text" name="cat_varname" id="cat_varname" value="{{ CAT_VARNAME }}" maxlength="255"></dd>
+		</dl>
+		<dl>
+			<dt><label for="cat_icon">{{ lang('CAT_ICON') ~ lang('COLON') }}</label></dt>
 			<dd><select name="cat_icon" id="cat_icon">{{ ICON_OPTIONS }}</select></dd>
 		</dl>
-		{{ S_HIDDEN_FIELDS }}
-
-		<p class="submit-buttons">
-			<input class="button1" type="submit" name="save" value="{{ lang('SUBMIT') }}">
-			<input class="button2" type="reset" name="reset" value="{{ lang('RESET') }}">
-			{{ S_FORM_TOKEN }}
-		</p>
+	</fieldset>
+	<fieldset class="submit-buttons">
+		<input class="button1" type="submit" name="submit" value="{{ lang('SUBMIT') }}">
+		<input class="button2" type="reset" name="reset" value="{{ lang('RESET') }}">
+		{{ S_FORM_TOKEN }}
 	</fieldset>
 </form>
 
