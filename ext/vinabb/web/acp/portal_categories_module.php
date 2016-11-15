@@ -54,6 +54,7 @@ class portal_categories_module
 
 		// Requests
 		$action = $this->request->variable('action', '');
+		$parent_id = $this->request->variable('parent_id', 0);
 		$cat_id = $this->request->variable('id', 0);
 
 		$this->controller->set_form_action($this->u_action);
@@ -64,18 +65,14 @@ class portal_categories_module
 			case 'add':
 				$this->tpl_name = 'acp_portal_categories_edit';
 				$this->page_title = $this->language->lang('ADD_CAT');
-				$this->controller->add_cat();
-
-				// Return to stop execution of this script
-				return;
+				$this->controller->add_cat($parent_id);
+			break;
 
 			case 'edit':
 				$this->tpl_name = 'acp_portal_categories_edit';
 				$this->page_title = $this->language->lang('EDIT_CAT');
 				$this->controller->edit_cat($cat_id);
-
-				// Return to stop execution of this script
-				return;
+			break;
 
 			case 'move_down':
 				$this->controller->move_cat($cat_id, 'down');
@@ -103,6 +100,6 @@ class portal_categories_module
 		}
 
 		// Manage categories
-		$this->controller->display_cats();
+		$this->controller->display_cats($parent_id);
 	}
 }
