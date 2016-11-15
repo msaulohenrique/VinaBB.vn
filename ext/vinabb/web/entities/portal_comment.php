@@ -119,7 +119,7 @@ class portal_comment implements portal_comment_interface
 			// The data wasn't sent to us
 			if (!isset($data[$field]))
 			{
-				throw new \vinabb\web\exceptions\invalid_argument([$field, 'FIELD_MISSING']);
+				throw new \vinabb\web\exceptions\invalid_argument([$field, 'EMPTY']);
 			}
 
 			// If the type is a method on this class, call it
@@ -259,7 +259,7 @@ class portal_comment implements portal_comment_interface
 		}
 		else
 		{
-			throw new \vinabb\web\exceptions\unexpected_value(['user_id', 'FIELD_MISSING']);
+			throw new \vinabb\web\exceptions\unexpected_value(['user_id', 'EMPTY']);
 		}
 
 		// Set the value on our data array
@@ -306,7 +306,7 @@ class portal_comment implements portal_comment_interface
 		}
 		else
 		{
-			throw new \vinabb\web\exceptions\unexpected_value(['article_id', 'FIELD_MISSING']);
+			throw new \vinabb\web\exceptions\unexpected_value(['article_id', 'EMPTY']);
 		}
 
 		// Set the value on our data array

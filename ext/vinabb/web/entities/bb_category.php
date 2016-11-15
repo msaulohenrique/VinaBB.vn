@@ -109,7 +109,7 @@ class bb_category implements bb_category_interface
 			// The data wasn't sent to us
 			if (!isset($data[$field]))
 			{
-				throw new \vinabb\web\exceptions\invalid_argument([$field, 'FIELD_MISSING']);
+				throw new \vinabb\web\exceptions\invalid_argument([$field, 'EMPTY']);
 			}
 
 			// If the type is a method on this class, call it
@@ -249,7 +249,7 @@ class bb_category implements bb_category_interface
 		// This is a required field
 		if ($text == '')
 		{
-			throw new \vinabb\web\exceptions\unexpected_value(['cat_name', 'FIELD_MISSING']);
+			throw new \vinabb\web\exceptions\unexpected_value(['cat_name', 'EMPTY']);
 		}
 
 		// Check the max length
@@ -321,7 +321,7 @@ class bb_category implements bb_category_interface
 		// This is a required field
 		if ($text == '')
 		{
-			throw new \vinabb\web\exceptions\unexpected_value(['cat_varname', 'FIELD_MISSING']);
+			throw new \vinabb\web\exceptions\unexpected_value(['cat_varname', 'EMPTY']);
 		}
 
 		// Check the max length
@@ -333,7 +333,7 @@ class bb_category implements bb_category_interface
 		// Check invalid characters
 		if (!preg_match('#^[a-z0-9-]+$#', $text))
 		{
-			throw new \vinabb\web\exceptions\unexpected_value(['cat_varname', 'ILLEGAL_CHARACTERS']);
+			throw new \vinabb\web\exceptions\unexpected_value(['cat_varname', 'INVALID']);
 		}
 
 		// This field value must be unique
@@ -350,7 +350,7 @@ class bb_category implements bb_category_interface
 
 			if ($row)
 			{
-				throw new \vinabb\web\exceptions\unexpected_value(['cat_varname', 'NOT_UNIQUE']);
+				throw new \vinabb\web\exceptions\unexpected_value(['cat_varname', 'DUPLICATE']);
 			}
 		}
 

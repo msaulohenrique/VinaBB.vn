@@ -29,13 +29,13 @@ if (empty($lang) || !is_array($lang))
 * Translators: Do not need to translate these language strings ;)
 */
 $lang = array_merge($lang, [
-	'EXCEPTION_FIELD_MISSING'		=> 'This required field is missing.',
-	'EXCEPTION_ILLEGAL_CHARACTERS'	=> 'This field contains invalid characters.',
+	'EXCEPTION_DUPLICATE'			=> 'This unique field is duplicate.',
+	'EXCEPTION_EMPTY'				=> 'This required field is missing.',
+	'EXCEPTION_INVALID'				=> 'This field contains invalid characters.',
 	'EXCEPTION_INVALID_ARGUMENT'	=> 'Invalid argument specified for “%1$s”. Reason: %2$s',
 	'EXCEPTION_INVALID_EMAIL'		=> 'This field is not a valid email.',
 	'EXCEPTION_INVALID_URL'			=> 'This field is not a valid URL.',
 	'EXCEPTION_NOT_EXISTS'			=> 'This field does not exist.',
-	'EXCEPTION_NOT_UNIQUE'			=> 'This unique field is duplicate.',
 	'EXCEPTION_OUT_OF_BOUNDS'		=> 'The field “%s” received data beyond its bounds.',
 	'EXCEPTION_TOO_LONG'			=> 'This field is longer than the maximum length.',
 	'EXCEPTION_UNEXPECTED_VALUE'	=> 'The field “%1$s” received unexpected data. Reason: %2$s'

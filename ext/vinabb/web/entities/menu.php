@@ -134,7 +134,7 @@ class menu implements menu_interface
 			// The data wasn't sent to us
 			if (!isset($data[$field]))
 			{
-				throw new \vinabb\web\exceptions\invalid_argument([$field, 'FIELD_MISSING']);
+				throw new \vinabb\web\exceptions\invalid_argument([$field, 'EMPTY']);
 			}
 
 			// If the type is a method on this class, call it
@@ -296,7 +296,7 @@ class menu implements menu_interface
 		// This is a required field
 		if ($text == '')
 		{
-			throw new \vinabb\web\exceptions\unexpected_value(['menu_name', 'FIELD_MISSING']);
+			throw new \vinabb\web\exceptions\unexpected_value(['menu_name', 'EMPTY']);
 		}
 
 		// Check the max length

@@ -130,7 +130,7 @@ class bb_author implements bb_author_interface
 			// The data wasn't sent to us
 			if (!isset($data[$field]))
 			{
-				throw new \vinabb\web\exceptions\invalid_argument([$field, 'FIELD_MISSING']);
+				throw new \vinabb\web\exceptions\invalid_argument([$field, 'EMPTY']);
 			}
 
 			// If the type is a method on this class, call it
@@ -270,7 +270,7 @@ class bb_author implements bb_author_interface
 		}
 		else
 		{
-			throw new \vinabb\web\exceptions\unexpected_value(['user_id', 'FIELD_MISSING']);
+			throw new \vinabb\web\exceptions\unexpected_value(['user_id', 'EMPTY']);
 		}
 
 		// Set the value on our data array
@@ -303,7 +303,7 @@ class bb_author implements bb_author_interface
 		// This is a required field
 		if ($text == '')
 		{
-			throw new \vinabb\web\exceptions\unexpected_value(['author_name', 'FIELD_MISSING']);
+			throw new \vinabb\web\exceptions\unexpected_value(['author_name', 'EMPTY']);
 		}
 
 		// Check the max length
@@ -342,7 +342,7 @@ class bb_author implements bb_author_interface
 		// This is a required field
 		if ($text == '')
 		{
-			throw new \vinabb\web\exceptions\unexpected_value(['author_name_seo', 'FIELD_MISSING']);
+			throw new \vinabb\web\exceptions\unexpected_value(['author_name_seo', 'EMPTY']);
 		}
 
 		// Check the max length
@@ -354,7 +354,7 @@ class bb_author implements bb_author_interface
 		// Check invalid characters
 		if (!preg_match('#^[a-z0-9-]+$#', $text))
 		{
-			throw new \vinabb\web\exceptions\unexpected_value(['author_name_seo', 'ILLEGAL_CHARACTERS']);
+			throw new \vinabb\web\exceptions\unexpected_value(['author_name_seo', 'INVALID']);
 		}
 
 		// Set the value on our data array

@@ -179,7 +179,7 @@ class bb_item implements bb_item_interface
 			// The data wasn't sent to us
 			if (!isset($data[$field]))
 			{
-				throw new \vinabb\web\exceptions\invalid_argument([$field, 'FIELD_MISSING']);
+				throw new \vinabb\web\exceptions\invalid_argument([$field, 'EMPTY']);
 			}
 
 			// If the type is a method on this class, call it
@@ -333,7 +333,7 @@ class bb_item implements bb_item_interface
 		}
 		else
 		{
-			throw new \vinabb\web\exceptions\unexpected_value(['cat_id', 'FIELD_MISSING']);
+			throw new \vinabb\web\exceptions\unexpected_value(['cat_id', 'EMPTY']);
 		}
 
 		// Set the value on our data array
@@ -380,7 +380,7 @@ class bb_item implements bb_item_interface
 		}
 		else
 		{
-			throw new \vinabb\web\exceptions\unexpected_value(['author_id', 'FIELD_MISSING']);
+			throw new \vinabb\web\exceptions\unexpected_value(['author_id', 'EMPTY']);
 		}
 
 		// Set the value on our data array
@@ -413,7 +413,7 @@ class bb_item implements bb_item_interface
 		// This is a required field
 		if ($text == '')
 		{
-			throw new \vinabb\web\exceptions\unexpected_value(['item_name', 'FIELD_MISSING']);
+			throw new \vinabb\web\exceptions\unexpected_value(['item_name', 'EMPTY']);
 		}
 
 		// Check the max length
@@ -452,7 +452,7 @@ class bb_item implements bb_item_interface
 		// This is a required field
 		if ($text == '')
 		{
-			throw new \vinabb\web\exceptions\unexpected_value(['item_varname', 'FIELD_MISSING']);
+			throw new \vinabb\web\exceptions\unexpected_value(['item_varname', 'EMPTY']);
 		}
 
 		// Check the max length
@@ -464,7 +464,7 @@ class bb_item implements bb_item_interface
 		// Check invalid characters
 		if (!$this->get_bb_type() || ($this->get_bb_type() === constants::BB_TYPE_EXT && !preg_match('#^([a-z0-9-]+)\.([a-z0-9-]+)$#', $text)) || ($this->get_bb_type() !== constants::BB_TYPE_EXT && !preg_match('#^[a-z0-9-]+$#', $text)))
 		{
-			throw new \vinabb\web\exceptions\unexpected_value(['item_varname', 'ILLEGAL_CHARACTERS']);
+			throw new \vinabb\web\exceptions\unexpected_value(['item_varname', 'INVALID']);
 		}
 
 		// Set the value on our data array
