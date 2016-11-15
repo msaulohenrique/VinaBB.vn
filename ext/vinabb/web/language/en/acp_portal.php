@@ -28,8 +28,10 @@ $lang = array_merge($lang, [
 	'ARTICLE_REVISION'	=> 'Reset article time',
 	'ARTICLE_TEXT'		=> 'Article text',
 
+	'CAT_DETAILS'				=> 'Category details',
 	'CAT_ICON'					=> 'Menu icon',
 	'CAT_NAME'					=> 'Category name',
+	'CAT_PARENT'				=> 'Parent category',
 	'CAT_VARNAME'				=> 'Varname',
 	'CONFIRM_DELETE_ARTICLE'	=> 'Are you sure you want to delete this article?',
 	'CONFIRM_DELETE_CAT'		=> 'Are you sure you want to delete this category?',

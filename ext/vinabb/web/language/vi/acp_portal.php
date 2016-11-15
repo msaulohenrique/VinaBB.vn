@@ -28,8 +28,10 @@ $lang = array_merge($lang, [
 	'ARTICLE_REVISION'	=> 'Tạo mới ngày gửi',
 	'ARTICLE_TEXT'		=> 'Nội dung',
 
+	'CAT_DETAILS'				=> 'Dữ liệu danh mục',
 	'CAT_ICON'					=> 'Biểu tượng trình đơn',
 	'CAT_NAME'					=> 'Tên danh mục',
+	'CAT_PARENT'				=> 'Danh mục cha',
 	'CAT_VARNAME'				=> 'Tên biến',
 	'CONFIRM_DELETE_ARTICLE'	=> 'Bạn chắc chắn muốn xóa bài viết này?',
 	'CONFIRM_DELETE_CAT'		=> 'Bạn chắc chắn muốn xóa danh mục này?',
