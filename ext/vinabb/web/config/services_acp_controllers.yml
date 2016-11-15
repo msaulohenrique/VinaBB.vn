@@ -12,6 +12,17 @@ services:
             - '@request'
             - '@template'
             - '@user'
+    vinabb.web.acp.portal_categories:
+        class: vinabb\web\controllers\acp\portal_categories
+        arguments:
+            - '@cache'
+            - '@service_container'
+            - '@language'
+            - '@log'
+            - '@vinabb.web.operators.portal_category'
+            - '@request'
+            - '@template'
+            - '@user'
     vinabb.web.acp.pages:
         class: vinabb\web\controllers\acp\pages
         arguments:
