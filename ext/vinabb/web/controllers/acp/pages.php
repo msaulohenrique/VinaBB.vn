@@ -116,12 +116,12 @@ class pages implements pages_interface
 				'U_EDIT'	=> "{$this->u_action}&action=edit&id=" . $entity->get_id(),
 				'U_DELETE'	=> "{$this->u_action}&action=delete&id=" . $entity->get_id()
 			]);
-
-			$this->template->assign_vars([
-				'U_ACTION'	=> $this->u_action,
-				'U_ADD'		=> "{$this->u_action}&action=add"
-			]);
 		}
+
+		$this->template->assign_vars([
+			'U_ACTION'	=> $this->u_action,
+			'U_ADD'		=> "{$this->u_action}&action=add"
+		]);
 	}
 
 	/**
@@ -246,7 +246,7 @@ class pages implements pages_interface
 				$errors[] = $this->language->lang('FORM_INVALID');
 			}
 
-			// Map the form's page data fields to setters
+			// Map the form data fields to setters
 			$map_fields = [
 				'set_name'				=> $data['page_name'],
 				'set_name_vi'			=> $data['page_name_vi'],
@@ -266,7 +266,7 @@ class pages implements pages_interface
 				'set_enable_founder'	=> $data['page_enable_founder']
 			];
 
-			// Set the mapped page data in the entity
+			// Set the mapped data in the entity
 			foreach ($map_fields as $entity_function => $page_data)
 			{
 				try
@@ -287,7 +287,7 @@ class pages implements pages_interface
 			{
 				if ($page_id)
 				{
-					// Save the edited page entity to the database
+					// Save the edited entity to the database
 					$entity->save();
 
 					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_EDIT', time(), [$entity->get_varname()]);
@@ -296,7 +296,7 @@ class pages implements pages_interface
 				}
 				else
 				{
-					// Add the new page entity to the database
+					// Add the new entity to the database
 					$entity = $this->operator->add_page($entity);
 
 					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_ADD', time(), [$entity->get_varname()]);
@@ -361,7 +361,7 @@ class pages implements pages_interface
 		}
 		catch (\vinabb\web\exceptions\base $e)
 		{
-			trigger_error($this->language->lang('ACP_PAGES_DELETE_ERRORED') . adm_back_link($this->u_action), E_USER_WARNING);
+			trigger_error($this->language->lang('ERROR_PAGE_DELETE', $e->get_message()) . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
 		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_DELETE', time(), [$entity->get_varname()]);
