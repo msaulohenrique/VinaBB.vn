@@ -98,7 +98,7 @@ $lang = array_merge($lang, [
 	'DONATE_OWNER'		=> 'Tên tài khoản',
 	'DOWNLOADS'			=> 'Lượt tải về',
 
-	'EMOTICON_TEXT'	=> [
+	'EMOTICON_TEXT'				=> [
 		'ALIEN'				=> '!@#$%',
 		'ANGEL'				=> 'Sẽ có thiên thần sửa lỗi cho em',
 		'ANGRY'				=> 'Phẫn nộ cái tốc độ',
@@ -164,10 +164,12 @@ $lang = array_merge($lang, [
 		'WORRIED'			=> 'Hốt hoảng cái tài khoản',
 		'WTF'				=> 'Biến tìm muốn tắt tiếng'
 	],
-	'ENGLISH'		=> 'Tiếng Anh',
-	'EXT_DETAILS'	=> 'Thông tin gói mở rộng',
-	'EXT_NAME'		=> 'Tên gói mở rộng',
-	'EXT_VERSION'	=> 'Phiên bản gói mở rộng',
+	'ENGLISH'					=> 'Tiếng Anh',
+	'ERROR_USER_ID_EMPTY'		=> 'Người dùng không xác định.',
+	'ERROR_USER_ID_NOT_EXISTS'	=> 'Người dùng không tồn tại.',
+	'EXT_DETAILS'				=> 'Thông tin gói mở rộng',
+	'EXT_NAME'					=> 'Tên gói mở rộng',
+	'EXT_VERSION'				=> 'Phiên bản gói mở rộng',
 
 	'FOOTER_FLAG_TEXT'		=> 'Cống hiến hết mình vì Tổ Quốc Việt Nam Xã Hội Chủ Nghĩa',
 	'FOOTER_FLAG_TITLE'		=> 'Code in Viet Nam',

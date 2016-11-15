@@ -56,8 +56,6 @@ $lang = array_merge($lang, [
 	'ERROR_CAT_VARNAME_EMPTY'			=> 'Chưa nhập tên biến danh mục.',
 	'ERROR_CAT_VARNAME_INVALID'			=> 'Tên biến danh mục không hợp lệ.',
 	'ERROR_CAT_VARNAME_TOO_LONG'		=> 'Tên biến danh mục quá dài.',
-	'ERROR_USER_ID_EMPTY'				=> 'Người dùng không xác định.',
-	'ERROR_USER_ID_NOT_EXISTS'			=> 'Người dùng không tồn tại.',
 
 	'MESSAGE_ARTICLE_ADD'		=> 'Đã tạo bài viết.',
 	'MESSAGE_ARTICLE_DELETE'	=> 'Đã xóa bài viết.',

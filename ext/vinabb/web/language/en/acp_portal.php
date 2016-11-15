@@ -56,8 +56,6 @@ $lang = array_merge($lang, [
 	'ERROR_CAT_VARNAME_EMPTY'			=> 'You must enter a category varname.',
 	'ERROR_CAT_VARNAME_INVALID'			=> 'The category varname is invalid.',
 	'ERROR_CAT_VARNAME_TOO_LONG'		=> 'The category varname is too long.',
-	'ERROR_USER_ID_EMPTY'				=> 'No users specified.',
-	'ERROR_USER_ID_NOT_EXISTS'			=> 'The user does not exist.',
 
 	'MESSAGE_ARTICLE_ADD'		=> 'The article has been created.',
 	'MESSAGE_ARTICLE_DELETE'	=> 'The article has been deleted.',

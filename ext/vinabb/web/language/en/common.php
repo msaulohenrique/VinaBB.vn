@@ -98,7 +98,7 @@ $lang = array_merge($lang, [
 	'DONATE_OWNER'		=> 'Account owner',
 	'DOWNLOADS'			=> 'Downloads',
 
-	'EMOTICON_TEXT'	=> [
+	'EMOTICON_TEXT'				=> [
 		'ALIEN'				=> 'Alien',
 		'ANGEL'				=> 'Angel',
 		'ANGRY'				=> 'Angry',
@@ -164,10 +164,12 @@ $lang = array_merge($lang, [
 		'WORRIED'			=> 'Worried',
 		'WTF'				=> 'WTF'
 	],
-	'ENGLISH'		=> 'English',
-	'EXT_DETAILS'	=> 'Extension information',
-	'EXT_NAME'		=> 'Extension name',
-	'EXT_VERSION'	=> 'Extension version',
+	'ENGLISH'					=> 'English',
+	'ERROR_USER_ID_EMPTY'		=> 'No users specified.',
+	'ERROR_USER_ID_NOT_EXISTS'	=> 'The user does not exist.',
+	'EXT_DETAILS'				=> 'Extension information',
+	'EXT_NAME'					=> 'Extension name',
+	'EXT_VERSION'				=> 'Extension version',
 
 	'FOOTER_FLAG_TEXT'		=> 'VinaBB - The Vietnamese phpBB Community since 2006',
 	'FOOTER_FLAG_TITLE'		=> 'Code in Viet Nam',
