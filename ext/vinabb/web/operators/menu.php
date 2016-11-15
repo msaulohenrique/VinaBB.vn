@@ -87,7 +87,7 @@ class menu implements menu_interface
 	*
 	* @param int	$id			Menu ID
 	* @param string	$direction	The direction: up|down
-	* @param int	$amount		The number of places to move the entity
+	* @param int	$amount		The number of places to move
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function move($id, $direction = 'up', $amount = 1)
