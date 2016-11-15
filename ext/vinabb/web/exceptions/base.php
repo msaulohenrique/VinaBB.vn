@@ -72,7 +72,14 @@ class base extends \Exception
 	*/
 	public function get_friendly_message(\phpbb\language\language $language)
 	{
-		return $language->lang('ERROR_' . strtoupper($this->message_full[0] . '_' . $this->message_full[1]));
+		if (isset($this->message_full[2]))
+		{
+			return $language->lang('ERROR_' . strtoupper($this->message_full[0] . '_' . $this->message_full[1]), $this->message_full[2]);
+		}
+		else
+		{
+			return $language->lang('ERROR_' . strtoupper($this->message_full[0] . '_' . $this->message_full[1]));
+		}
 	}
 
 	/**
