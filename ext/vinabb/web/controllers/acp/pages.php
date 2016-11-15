@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
 * Controller for the pages_module
 */
-class pages
+class pages implements pages_interface
 {
 	/** @var \phpbb\cache\service */
 	protected $cache;
