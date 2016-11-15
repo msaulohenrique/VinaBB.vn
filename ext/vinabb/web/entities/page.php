@@ -369,7 +369,7 @@ class page implements page_interface
 
 			if ($row)
 			{
-				throw new \vinabb\web\exceptions\unexpected_value(['page_varname', 'DUPLICATE']);
+				throw new \vinabb\web\exceptions\unexpected_value(['page_varname', 'DUPLICATE', $text]);
 			}
 		}
 

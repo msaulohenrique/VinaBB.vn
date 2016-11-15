@@ -350,7 +350,7 @@ class bb_category implements bb_category_interface
 
 			if ($row)
 			{
-				throw new \vinabb\web\exceptions\unexpected_value(['cat_varname', 'DUPLICATE']);
+				throw new \vinabb\web\exceptions\unexpected_value(['cat_varname', 'DUPLICATE', $text]);
 			}
 		}
 
