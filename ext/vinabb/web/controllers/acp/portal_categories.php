@@ -265,7 +265,7 @@ class portal_categories implements portal_categories_interface
 						}
 						catch (\vinabb\web\exceptions\base $e)
 						{
-							trigger_error($this->language->lang('ERROR_CAT_CHANGE_PARENT', $e->get_message()) . adm_back_link($this->u_action), E_USER_WARNING);
+							trigger_error($this->language->lang('ERROR_CAT_CHANGE_PARENT', $e->get_message($this->language)) . adm_back_link($this->u_action), E_USER_WARNING);
 						}
 					}
 
@@ -354,7 +354,7 @@ class portal_categories implements portal_categories_interface
 		}
 		catch (\vinabb\web\exceptions\base $e)
 		{
-			trigger_error($this->language->lang('ERROR_CAT_DELETE', $e->get_message()) . adm_back_link($this->u_action), E_USER_WARNING);
+			trigger_error($this->language->lang('ERROR_CAT_DELETE', $e->get_message($this->language)) . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
 		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_CAT_DELETE', time(), [$entity->get_varname()]);
