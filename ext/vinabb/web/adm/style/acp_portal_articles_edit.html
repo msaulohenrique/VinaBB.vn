@@ -13,6 +13,13 @@
 <h1>{{ lang('ACP_PORTAL_ARTICLES') }}</h1>
 <p>{{ lang('ACP_PORTAL_ARTICLES_EXPLAIN') }}</p>
 
+{% if ERRORS %}
+<div class="errorbox">
+	<h3>{{ lang('WARNING') }}</h3>
+	<p>{{ ERRORS }}</p>
+</div>
+{% endif %}
+
 <form id="acp_portal_articles" method="post" action="{{ U_ACTION }}">
 	<fieldset>
 		<legend>{{ lang('ARTICLE_DETAILS') }}</legend>
@@ -61,13 +68,9 @@
 			</dd>
 		</dl>
 	</fieldset>
-	<fieldset>
-		<legend>{{ lang('ACP_SUBMIT_CHANGES') }}</legend>
-		<p class="submit-buttons">
-			{{ S_HIDDEN_FIELDS }}
-			<input class="button1" type="submit" name="save" value="{{ lang('SUBMIT') }}">
-			<input class="button2" type="reset" name="reset" value="{{ lang('RESET') }}">
-		</p>
+	<fieldset class="submit-buttons">
+		<input class="button1" type="submit" name="submit" value="{{ lang('SUBMIT') }}">
+		<input class="button2" type="reset" name="reset" value="{{ lang('RESET') }}">
 		{{ S_FORM_TOKEN }}
 	</fieldset>
 </form>
