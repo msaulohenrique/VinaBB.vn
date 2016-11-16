@@ -120,7 +120,7 @@ class pages implements pages_interface
 		}
 
 		$this->template->assign_vars([
-			'U_ACTION'		=> "{$this->u_action}&action=add"
+			'U_ACTION'	=> "{$this->u_action}&action=add"
 		]);
 	}
 
@@ -290,7 +290,7 @@ class pages implements pages_interface
 					// Save the edited entity to the database
 					$entity->save();
 
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_EDIT', time(), [$entity->get_varname()]);
+					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_EDIT', time(), [$entity->get_name()]);
 
 					$message = 'MESSAGE_PAGE_EDIT';
 				}
@@ -299,7 +299,7 @@ class pages implements pages_interface
 					// Add the new entity to the database
 					$entity = $this->operator->add_page($entity);
 
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_ADD', time(), [$entity->get_varname()]);
+					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_ADD', time(), [$entity->get_name()]);
 
 					$message = 'MESSAGE_PAGE_ADD';
 				}
@@ -346,7 +346,7 @@ class pages implements pages_interface
 	}
 
 	/**
-	* Deleta a page
+	* Delete a page
 	*
 	* @param int $page_id Page ID
 	*/
@@ -364,7 +364,7 @@ class pages implements pages_interface
 			trigger_error($this->language->lang('ERROR_PAGE_DELETE', $e->get_message($this->language)) . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
-		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_DELETE', time(), [$entity->get_varname()]);
+		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_DELETE', time(), [$entity->get_name()]);
 
 		// If AJAX was used, show user a result message
 		if ($this->request->is_ajax())
