@@ -272,7 +272,7 @@ class portal_categories implements portal_categories_interface
 					{
 						try
 						{
-							$this->operator->change_parent($entity->get_id(), $data['parent_id']);
+							$this->operator->change_parent($cat_id, $data['parent_id']);
 						}
 						catch (\vinabb\web\exceptions\base $e)
 						{
@@ -280,7 +280,7 @@ class portal_categories implements portal_categories_interface
 						}
 					}
 
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_CAT_EDIT', time(), [$entity->get_varname()]);
+					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_CAT_EDIT', time(), [$entity->get_name()]);
 
 					$message = 'MESSAGE_CAT_EDIT';
 				}
@@ -289,7 +289,7 @@ class portal_categories implements portal_categories_interface
 					// Add the new entity to the database
 					$entity = $this->operator->add_cat($entity, $data['parent_id']);
 
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_CAT_ADD', time(), [$entity->get_varname()]);
+					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_CAT_ADD', time(), [$entity->get_name()]);
 
 					$message = 'MESSAGE_CAT_ADD';
 				}
@@ -351,7 +351,7 @@ class portal_categories implements portal_categories_interface
 	}
 
 	/**
-	* Deleta a category
+	* Delete a category
 	*
 	* @param int $cat_id Category ID
 	*/
@@ -369,7 +369,7 @@ class portal_categories implements portal_categories_interface
 			trigger_error($this->language->lang('ERROR_CAT_DELETE', $e->get_message($this->language)) . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
-		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_CAT_DELETE', time(), [$entity->get_varname()]);
+		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_CAT_DELETE', time(), [$entity->get_name()]);
 
 		// If AJAX was used, show user a result message
 		if ($this->request->is_ajax())
@@ -392,35 +392,35 @@ class portal_categories implements portal_categories_interface
 	*/
 	protected function build_parent_options($entity, $parent_id = 0, $mode = 'edit')
 	{
-		$menu_items = $this->operator->get_cats();
+		$options = $this->operator->get_cats();
 		$parent_id = ($mode == 'edit') ? $entity->get_parent_id() : $parent_id;
 
 		$padding = '';
 		$padding_store = [];
 		$right = 0;
 
-		/* @var \vinabb\web\entities\portal_category_interface $menu_item */
-		foreach ($menu_items as $menu_item)
+		/* @var \vinabb\web\entities\portal_category_interface $option */
+		foreach ($options as $option)
 		{
-			if ($menu_item->get_left_id() < $right)
+			if ($option->get_left_id() < $right)
 			{
 				$padding .= '&nbsp;&nbsp;';
-				$padding_store[$menu_item->get_parent_id()] = $padding;
+				$padding_store[$option->get_parent_id()] = $padding;
 			}
-			else if ($menu_item->get_left_id() > $right + 1)
+			else if ($option->get_left_id() > $right + 1)
 			{
-				$padding = isset($padding_store[$menu_item->get_parent_id()]) ? $padding_store[$menu_item->get_parent_id()] : '';
+				$padding = isset($padding_store[$option->get_parent_id()]) ? $padding_store[$option->get_parent_id()] : '';
 			}
 
-			$right = $menu_item->get_right_id();
+			$right = $option->get_right_id();
 
 			$this->template->assign_block_vars('parent_options', [
-				'ID'		=> $menu_item->get_id(),
-				'NAME'		=> $padding . $menu_item->get_name(),
-				'NAME_VI'	=> $padding . $menu_item->get_name_vi(),
+				'ID'		=> $option->get_id(),
+				'NAME'		=> $padding . $option->get_name(),
+				'NAME_VI'	=> $padding . $option->get_name_vi(),
 
-				'S_DISABLED'	=> $mode == 'edit' && (($menu_item->get_left_id() > $entity->get_left_id()) && ($menu_item->get_right_id() < $entity->get_right_id()) || ($menu_item->get_id() == $entity->get_id())),
-				'S_SELECTED'	=> $menu_item->get_id() == $parent_id
+				'S_DISABLED'	=> $mode == 'edit' && (($option->get_left_id() > $entity->get_left_id()) && ($option->get_right_id() < $entity->get_right_id()) || ($option->get_id() == $entity->get_id())),
+				'S_SELECTED'	=> $option->get_id() == $parent_id
 			]);
 		}
 	}
