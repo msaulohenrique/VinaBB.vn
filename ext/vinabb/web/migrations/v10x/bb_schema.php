@@ -72,6 +72,7 @@ class bb_schema extends migration
 						'item_price'				=> ['BINT', 0],
 						'item_url'					=> ['VCHAR', ''],
 						'item_github'				=> ['VCHAR', ''],
+						'item_enable'				=> ['BOOL', 1],
 						'item_added'				=> ['TIMESTAMP', 0],
 						'item_updated'				=> ['TIMESTAMP', 0]
 					],
