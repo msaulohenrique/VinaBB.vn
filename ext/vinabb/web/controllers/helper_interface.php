@@ -33,6 +33,14 @@ interface helper_interface
 	public function build_icon_list($selected_icon);
 
 	/**
+	* Generate the language selection drop-down
+	*
+	* @param string $selected_lang 2-letter language ISO code
+	* @return string HTML code
+	*/
+	public function build_lang_list($selected_lang);
+
+	/**
 	* Create clean URLs from titles. It works with many languages
 	*
 	* @author hello@weblap.ro

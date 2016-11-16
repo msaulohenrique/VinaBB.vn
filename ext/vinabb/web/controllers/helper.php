@@ -168,6 +168,24 @@ class helper implements helper_interface
 	}
 
 	/**
+	* Generate the language selection drop-down
+	*
+	* @param string $selected_lang 2-letter language ISO code
+	* @return string HTML code
+	*/
+	public function build_lang_list($selected_lang)
+	{
+		$lang_switch_options = '<option value=""' . (($selected_lang == '') ? ' selected' : '') . '>' . $this->language->lang('SELECT_LANGUAGE') . '</option>';
+
+		foreach ($this->lang_data as $lang_iso => $data)
+		{
+			$lang_switch_options .= '<option value="' . $lang_iso . '"' . (($selected_lang == $lang_iso) ? ' selected' : '') . '>' . $data['english_name'] . ' (' . $data['local_name'] . ')</option>';
+		}
+
+		return $lang_switch_options;
+	}
+
+	/**
 	* Create clean URLs from titles. It works with many languages
 	*
 	* @author hello@weblap.ro
