@@ -104,6 +104,7 @@ class portal_categories implements portal_categories_interface
 		// Initialize a variable to hold the right_id value
 		$last_right_id = 0;
 
+		/* @var \vinabb\web\entities\portal_category_interface $entity */
 		foreach ($entities as $entity)
 		{
 			// The current entity is a child of a previous entity, do not display it
@@ -134,6 +135,7 @@ class portal_categories implements portal_categories_interface
 		$entities = $this->operator->get_parents($parent_id);
 
 		// Process each entity for breadcrumb
+		/* @var \vinabb\web\entities\portal_category_interface $entity */
 		foreach ($entities as $entity)
 		{
 			$this->template->assign_block_vars('breadcrumb', [
@@ -397,6 +399,7 @@ class portal_categories implements portal_categories_interface
 		$padding_store = [];
 		$right = 0;
 
+		/* @var \vinabb\web\entities\portal_category_interface $menu_item */
 		foreach ($menu_items as $menu_item)
 		{
 			if ($menu_item->get_left_id() < $right)

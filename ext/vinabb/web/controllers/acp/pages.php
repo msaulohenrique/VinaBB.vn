@@ -105,6 +105,7 @@ class pages implements pages_interface
 		// Grab all from database
 		$entities = $this->operator->get_pages();
 
+		/* @var \vinabb\web\entities\page_interface $entity */
 		foreach ($entities as $entity)
 		{
 			$this->template->assign_block_vars('pages', [
