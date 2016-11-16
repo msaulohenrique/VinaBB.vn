@@ -34,15 +34,13 @@ if ($phpbb_extension_manager->is_enabled('vinabb/web'))
 	* @var	string	page_title		Title of the index page
 	* @since 3.1.0-a1
 	*/
-	$vars = array('page_title');
+	$vars = ['page_title'];
 	extract($phpbb_dispatcher->trigger_event('core.index_modify_page_title', compact($vars)));
 
 	// Output the page
 	page_header($page_title, true);
 
-	$template->set_filenames(array(
-		'body' => '@vinabb_web/portal.html'
-	));
+	$template->set_filenames(['body' => '@vinabb_web/portal.html']);
 
 	page_footer();
 }
