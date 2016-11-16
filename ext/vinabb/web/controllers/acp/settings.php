@@ -63,9 +63,6 @@ class settings
 	/** @var array */
 	protected $lang_data = [];
 
-	/** @var array */
-	protected $forum_data = [];
-
 	/**
 	* Constructor
 	*
@@ -106,7 +103,6 @@ class settings
 
 		$this->config_text_data = $this->cache->get_config_text();
 		$this->lang_data = $this->cache->get_lang_data();
-		$this->forum_data = $this->cache->get_forum_data();
 	}
 
 	/**
@@ -749,9 +745,7 @@ class settings
 	*/
 	protected function get_default_lang_name()
 	{
-		$data = $this->cache->get_lang_data();
-
-		return $data[$this->config['default_lang']]['english_name'] . ' (' . $data[$this->config['default_lang']]['local_name'] . ')';
+		return $this->lang_data[$this->config['default_lang']]['english_name'] . ' (' . $this->lang_data[$this->config['default_lang']]['local_name'] . ')';
 	}
 
 	/**
@@ -785,7 +779,7 @@ class settings
 	{
 		$forum_options = '<option value=""' . (($selected_forum == 0) ? ' selected' : '') . '>' . $this->language->lang('SELECT_FORUM') . '</option>';
 
-		foreach ($this->forum_data as $forum_id => $data)
+		foreach ($this->cache->get_forum_data() as $forum_id => $data)
 		{
 			if ($data['type'] == FORUM_CAT)
 			{
