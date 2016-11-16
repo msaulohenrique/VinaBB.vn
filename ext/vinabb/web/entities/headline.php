@@ -377,7 +377,7 @@ class headline implements headline_interface
 	*/
 	public function get_url()
 	{
-		return isset($this->data['headline_url']) ? (string) $this->data['headline_url'] : '';
+		return isset($this->data['headline_url']) ? (string) htmlspecialchars_decode($this->data['headline_url']) : '';
 	}
 
 	/**
