@@ -66,13 +66,15 @@ class menus_module
 				$this->tpl_name = 'acp_menus_edit';
 				$this->page_title = $this->language->lang('ADD_MENU');
 				$this->controller->add_menu($parent_id);
-			break;
+			// Return to stop execution of this script
+			return;
 
 			case 'edit':
 				$this->tpl_name = 'acp_menus_edit';
 				$this->page_title = $this->language->lang('EDIT_MENU');
 				$this->controller->edit_menu($menu_id);
-			break;
+			// Return to stop execution of this script
+			return;
 
 			case 'delete':
 				if (confirm_box(true))

@@ -65,17 +65,15 @@ class portal_articles_module
 				$this->tpl_name = 'acp_portal_articles_edit';
 				$this->page_title = $this->language->lang('ADD_ARTICLE');
 				$this->controller->add_article();
-
-				// Return to stop execution of this script
-				return;
+			// Return to stop execution of this script
+			return;
 
 			case 'edit':
 				$this->tpl_name = 'acp_portal_articles_edit';
 				$this->page_title = $this->language->lang('EDIT_ARTICLE');
 				$this->controller->edit_article($article_id);
-
-				// Return to stop execution of this script
-				return;
+			// Return to stop execution of this script
+			return;
 
 			case 'delete':
 				if (confirm_box(true))

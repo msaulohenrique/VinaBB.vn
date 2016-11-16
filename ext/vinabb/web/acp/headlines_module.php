@@ -65,17 +65,15 @@ class headlines_module
 				$this->tpl_name = 'acp_headlines_edit';
 				$this->page_title = $this->language->lang('ADD_HEADLINE');
 				$this->controller->add_headline();
-
-				// Return to stop execution of this script
-				return;
+			// Return to stop execution of this script
+			return;
 
 			case 'edit':
 				$this->tpl_name = 'acp_headlines_edit';
 				$this->page_title = $this->language->lang('EDIT_HEADLINE');
 				$this->controller->edit_headline($headline_id);
-
-				// Return to stop execution of this script
-				return;
+			// Return to stop execution of this script
+			return;
 
 			case 'move_down':
 				$this->controller->move_headline($headline_id, 'down');

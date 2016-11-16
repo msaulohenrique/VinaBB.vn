@@ -65,9 +65,8 @@ class portal_comments_module
 				$this->tpl_name = 'acp_portal_comments_edit';
 				$this->page_title = $this->language->lang('EDIT_COMMENT');
 				$this->controller->edit_comment($comment_id);
-
-				// Return to stop execution of this script
-				return;
+			// Return to stop execution of this script
+			return;
 
 			case 'delete':
 				if (confirm_box(true))

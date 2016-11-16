@@ -69,17 +69,15 @@ class bb_authors_module
 				$this->tpl_name = 'acp_bb_authors_edit';
 				$this->page_title = $this->language->lang('ADD_AUTHOR');
 				$this->controller->add_author();
-
-				// Return to stop execution of this script
-				return;
+			// Return to stop execution of this script
+			return;
 
 			case 'edit':
 				$this->tpl_name = 'acp_bb_authors_edit';
 				$this->page_title = $this->language->lang('EDIT_AUTHOR');
 				$this->controller->edit_author($author_id);
-
-				// Return to stop execution of this script
-				return;
+			// Return to stop execution of this script
+			return;
 
 			case 'delete':
 				if (confirm_box(true))

@@ -65,17 +65,15 @@ class pages_module
 				$this->tpl_name = 'acp_pages_edit';
 				$this->page_title = $this->language->lang('ADD_PAGE');
 				$this->controller->add_page();
-
-				// Return to stop execution of this script
-				return;
+			// Return to stop execution of this script
+			return;
 
 			case 'edit':
 				$this->tpl_name = 'acp_pages_edit';
 				$this->page_title = $this->language->lang('EDIT_PAGE');
 				$this->controller->edit_page($page_id);
-
-				// Return to stop execution of this script
-				return;
+			// Return to stop execution of this script
+			return;
 
 			case 'delete':
 				if (confirm_box(true))

@@ -66,13 +66,15 @@ class portal_categories_module
 				$this->tpl_name = 'acp_portal_categories_edit';
 				$this->page_title = $this->language->lang('ADD_CAT');
 				$this->controller->add_cat($parent_id);
-			break;
+			// Return to stop execution of this script
+			return;
 
 			case 'edit':
 				$this->tpl_name = 'acp_portal_categories_edit';
 				$this->page_title = $this->language->lang('EDIT_CAT');
 				$this->controller->edit_cat($cat_id);
-			break;
+			// Return to stop execution of this script
+			return;
 
 			case 'move_down':
 				$this->controller->move_cat($cat_id, 'down');
