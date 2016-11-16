@@ -61,6 +61,9 @@ class settings
 	protected $config_text_data = [];
 
 	/** @var array */
+	protected $lang_data = [];
+
+	/** @var array */
 	protected $forum_data = [];
 
 	/**
@@ -102,6 +105,7 @@ class settings
 		$this->user = $user;
 
 		$this->config_text_data = $this->cache->get_config_text();
+		$this->lang_data = $this->cache->get_lang_data();
 		$this->forum_data = $this->cache->get_forum_data();
 	}
 
@@ -758,19 +762,14 @@ class settings
 	*/
 	protected function build_lang_list($selected_lang)
 	{
-		$sql = 'SELECT *
-			FROM ' . LANG_TABLE . "
-			WHERE lang_iso <> '" . $this->db->sql_escape($this->config['default_lang']) . "'
-			ORDER BY lang_english_name";
-		$result = $this->db->sql_query($sql);
-		$rows = $this->db->sql_fetchrowset($result);
-		$this->db->sql_freeresult($result);
-
 		$lang_switch_options = '<option value=""' . (($selected_lang == '') ? ' selected' : '') . '>' . $this->language->lang('SELECT_LANGUAGE') . '</option>';
 
-		foreach ($rows as $row)
+		foreach ($this->lang_data as $lang_iso => $data)
 		{
-			$lang_switch_options .= '<option value="' . $row['lang_iso'] . '"' . (($selected_lang == $row['lang_iso']) ? ' selected' : '') . '>' . $row['lang_english_name'] . ' (' . $row['lang_local_name'] . ')</option>';
+			if ($lang_iso != $this->config['default_lang'])
+			{
+				$lang_switch_options .= '<option value="' . $lang_iso . '"' . (($selected_lang == $lang_iso) ? ' selected' : '') . '>' . $data['english_name'] . ' (' . $data['local_name'] . ')</option>';
+			}
 		}
 
 		return $lang_switch_options;
