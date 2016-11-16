@@ -54,7 +54,7 @@ class bb_categories_module
 
 		// ACP template file
 		$this->tpl_name = 'acp_bb_categories';
-		$this->page_title = $this->language->lang('ACP_BB_CATEGORIES');
+		$this->page_title = $this->language->lang('ACP_BB_CATS');
 
 		// Language
 		$this->language->add_lang('acp_bb', 'vinabb/web');
@@ -64,6 +64,7 @@ class bb_categories_module
 		$cat_id = $this->request->variable('id', 0);
 
 		$this->controller->set_form_action($this->u_action);
+		$this->controller->set_bb_type($bb_type);
 
 		// Do actions via the controller
 		switch ($action)
@@ -71,25 +72,23 @@ class bb_categories_module
 			case 'add':
 				$this->tpl_name = 'acp_bb_categories_edit';
 				$this->page_title = $this->language->lang('ADD_CAT');
-				$this->controller->add_cat($bb_type);
-
-				// Return to stop execution of this script
-				return;
+				$this->controller->add_cat();
+			// Return to stop execution of this script
+			return;
 
 			case 'edit':
 				$this->tpl_name = 'acp_bb_categories_edit';
 				$this->page_title = $this->language->lang('EDIT_CAT');
 				$this->controller->edit_cat($cat_id);
-
-				// Return to stop execution of this script
-				return;
+			// Return to stop execution of this script
+			return;
 
 			case 'move_down':
-				$this->controller->move_cat($bb_type, $cat_id, 'down');
+				$this->controller->move_cat($cat_id, 'down');
 			break;
 
 			case 'move_up':
-				$this->controller->move_cat($bb_type, $cat_id, 'up');
+				$this->controller->move_cat($cat_id, 'up');
 			break;
 
 			case 'delete':
@@ -110,6 +109,6 @@ class bb_categories_module
 		}
 
 		// Manage categories
-		$this->controller->display_cats($bb_type);
+		$this->controller->display_cats();
 	}
 }

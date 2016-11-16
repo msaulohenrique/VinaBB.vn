@@ -65,6 +65,7 @@ class bb_items_module
 		$item_id = $this->request->variable('id', 0);
 
 		$this->controller->set_form_action($this->u_action);
+		$this->controller->set_bb_type($bb_type, $mode);
 
 		// Do actions via the controller
 		switch ($action)
@@ -72,18 +73,16 @@ class bb_items_module
 			case 'add':
 				$this->tpl_name = 'acp_bb_items_edit';
 				$this->page_title = $this->language->lang('ADD_BB_' . $lang_key);
-				$this->controller->add_item($bb_type);
-
-				// Return to stop execution of this script
-				return;
+				$this->controller->add_item();
+			// Return to stop execution of this script
+			return;
 
 			case 'edit':
 				$this->tpl_name = 'acp_bb_items_edit';
 				$this->page_title = $this->language->lang('EDIT_BB_' . $lang_key);
 				$this->controller->edit_item($item_id);
-
-				// Return to stop execution of this script
-				return;
+			// Return to stop execution of this script
+			return;
 
 			case 'delete':
 				if (confirm_box(true))
@@ -103,6 +102,6 @@ class bb_items_module
 		}
 
 		// Manage items
-		$this->controller->display_items($bb_type);
+		$this->controller->display_items();
 	}
 }
