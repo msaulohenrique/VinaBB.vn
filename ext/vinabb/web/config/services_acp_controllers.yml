@@ -24,6 +24,56 @@ services:
             - '@template'
             - '@user'
             - '@vinabb.web.helper'
+    vinabb.web.acp.portal_articles:
+        class: vinabb\web\controllers\acp\portal_articles
+        arguments:
+            - '@cache'
+            - '@service_container'
+            - '@language'
+            - '@log'
+            - '@vinabb.web.operators.portal_article'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@vinabb.web.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+    vinabb.web.acp.bb_categories:
+        class: vinabb\web\controllers\acp\bb_categories
+        arguments:
+            - '@cache'
+            - '@service_container'
+            - '@language'
+            - '@log'
+            - '@vinabb.web.operators.bb_category'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@vinabb.web.helper'
+    vinabb.web.acp.bb_items:
+        class: vinabb\web\controllers\acp\bb_items
+        arguments:
+            - '@cache'
+            - '@service_container'
+            - '@language'
+            - '@log'
+            - '@vinabb.web.operators.bb_item'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+    vinabb.web.acp.bb_authors:
+        class: vinabb\web\controllers\acp\bb_authors
+        arguments:
+            - '@cache'
+            - '@service_container'
+            - '@language'
+            - '@log'
+            - '@vinabb.web.operators.bb_author'
+            - '@request'
+            - '@template'
+            - '@user'
     vinabb.web.acp.pages:
         class: vinabb\web\controllers\acp\pages
         arguments:
