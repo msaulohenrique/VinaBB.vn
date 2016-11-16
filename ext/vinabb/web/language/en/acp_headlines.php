@@ -25,6 +25,7 @@ $lang = array_merge($lang, [
 	'CONFIRM_DELETE_HEADLINE'	=> 'Are you sure you want to delete this headline?',
 
 	'EDIT_HEADLINE'						=> 'Edit headline',
+	'ERROR_HEADLINE_DELETE'				=> 'Could not delete this headline. Error: %s',
 	'ERROR_HEADLINE_DESC_EMPTY'			=> 'You must enter a description.',
 	'ERROR_HEADLINE_DESC_TOO_LONG'		=> 'The description is too long.',
 	'ERROR_HEADLINE_IMG_EMPTY'			=> 'You must select a headline image.',

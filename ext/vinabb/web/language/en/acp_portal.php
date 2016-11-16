@@ -38,6 +38,7 @@ $lang = array_merge($lang, [
 
 	'EDIT_ARTICLE'						=> 'Edit article',
 	'EDIT_CAT'							=> 'Edit category',
+	'ERROR_ARTICLE_DELETE'				=> 'Could not delete this article. Error: %s',
 	'ERROR_ARTICLE_DESC_EMPTY'			=> 'You must enter a description.',
 	'ERROR_ARTICLE_DESC_TOO_LONG'		=> 'The description is too long.',
 	'ERROR_ARTICLE_ID_EMPTY'			=> 'No articles specified.',

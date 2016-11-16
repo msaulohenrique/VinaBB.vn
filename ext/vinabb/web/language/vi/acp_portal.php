@@ -38,6 +38,7 @@ $lang = array_merge($lang, [
 
 	'EDIT_ARTICLE'						=> 'Sửa bài viết',
 	'EDIT_CAT'							=> 'Sửa danh mục',
+	'ERROR_ARTICLE_DELETE'				=> 'Không thể xóa bài viết này. Lỗi: %s',
 	'ERROR_ARTICLE_DESC_EMPTY'			=> 'Chưa nhập giới thiệu.',
 	'ERROR_ARTICLE_DESC_TOO_LONG'		=> 'Giới thiệu quá dài.',
 	'ERROR_ARTICLE_ID_EMPTY'			=> 'Bài viết không xác định.',

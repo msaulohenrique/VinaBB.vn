@@ -22,9 +22,10 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, [
 	'ADD_HEADLINE'	=> 'Tạo quảng cáo mới',
 
-	'CONFIRM_DELETE_HEADLINE'	=> 'Are you sure you want to delete this headline?',
+	'CONFIRM_DELETE_HEADLINE'	=> 'Bạn chắc chắn muốn xóa quảng cáo này?',
 
 	'EDIT_HEADLINE'						=> 'Sửa quảng cáo',
+	'ERROR_HEADLINE_DELETE'				=> 'Không thể xóa quảng cáo này. Lỗi: %s',
 	'ERROR_HEADLINE_DESC_EMPTY'			=> 'Chưa nhập giới thiệu.',
 	'ERROR_HEADLINE_DESC_TOO_LONG'		=> 'Giới thiệu quá dài.',
 	'ERROR_HEADLINE_IMG_EMPTY'			=> 'Chưa chọn hình quảng cáo.',
