@@ -51,10 +51,11 @@ class bb_categories_module
 
 		// phpBB resource types
 		$bb_type = $this->ext_helper->get_bb_type_constants($mode);
+		$lang_key = strtoupper($mode);
 
 		// ACP template file
 		$this->tpl_name = 'acp_bb_categories';
-		$this->page_title = $this->language->lang('ACP_BB_CATS');
+		$this->page_title = $this->language->lang('ACP_BB_' . $lang_key . '_CATS');
 
 		// Language
 		$this->language->add_lang('acp_bb', 'vinabb/web');
