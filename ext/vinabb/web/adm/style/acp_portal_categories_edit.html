@@ -18,9 +18,9 @@
 		<dl>
 			<dt><label for="parent_id">{{ lang('CAT_PARENT') ~ lang('COLON') }}</label></dt>
 			<dd><select name="parent_id" id="parent_id">
-				<option value="0">{{ lang('NO_PARENT') }}</option>
+				<option value="0">{{ lang('NONE') }}</option>
 				{% for option in parent_options %}
-				<option value="{{ option.ID }}"{% if option.SELECTED %} selected="selected"{% endif %}{% if option.S_DISABLED %} disabled="disabled" class="disabled-option"{% endif %}>{{ option.NAME }}</option>
+				<option value="{{ option.ID }}"{% if option.SELECTED %} selected{% endif %}{% if option.S_DISABLED %} disabled class="disabled-option"{% endif %}>{{ option.NAME }}</option>
 				{% endfor %}
 			</select></dd>
 		</dl>

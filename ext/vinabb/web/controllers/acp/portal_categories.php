@@ -52,7 +52,7 @@ class portal_categories implements portal_categories_interface
 	* @param ContainerInterface									$container	Container object
 	* @param \phpbb\language\language							$language	Language object
 	* @param \phpbb\log\log										$log		Log object
-	* @param \vinabb\web\operators\portal_category_interface	$operator	Page operators
+	* @param \vinabb\web\operators\portal_category_interface	$operator	Portal category operators
 	* @param \phpbb\request\request								$request	Request object
 	* @param \phpbb\template\template							$template	Template object
 	* @param \phpbb\user										$user		User object
@@ -113,17 +113,17 @@ class portal_categories implements portal_categories_interface
 			}
 
 			$this->template->assign_block_vars('cats', [
-				'URL'		=> "{$this->u_action}&parent_id=" . $entity->get_id(),
+				'URL'		=> "{$this->u_action}&parent_id={$entity->get_id()}",
 				'NAME'		=> $entity->get_name(),
 				'NAME_VI'	=> $entity->get_name_vi(),
 				'VARNAME'	=> $entity->get_varname(),
 
 				'S_IS_CAT'	=> $entity->get_right_id() - $entity->get_left_id() > 1,
 
-				'U_EDIT'		=> "{$this->u_action}&action=edit&id=" . $entity->get_id(),
-				'U_MOVE_DOWN'	=> "{$this->u_action}&action=move_down&id=" . $entity->get_id() . '&hash=' . generate_link_hash('down' . $entity->get_id()),
-				'U_MOVE_UP'		=> "{$this->u_action}&action=move_up&id=" . $entity->get_id() . '&hash=' . generate_link_hash('up' . $entity->get_id()),
-				'U_DELETE'		=> "{$this->u_action}&action=delete&id=" . $entity->get_id()
+				'U_EDIT'		=> "{$this->u_action}&action=edit&id={$entity->get_id()}",
+				'U_MOVE_DOWN'	=> "{$this->u_action}&action=move_down&id={$entity->get_id()}&hash=" . generate_link_hash('down' . $entity->get_id()),
+				'U_MOVE_UP'		=> "{$this->u_action}&action=move_up&id={$entity->get_id()}&hash=" . generate_link_hash('up' . $entity->get_id()),
+				'U_DELETE'		=> "{$this->u_action}&action=delete&id={$entity->get_id()}"
 			]);
 
 			// Store the current right_id value
@@ -138,16 +138,15 @@ class portal_categories implements portal_categories_interface
 		{
 			$this->template->assign_block_vars('breadcrumb', [
 				'NAME'	=> $entity->get_name(),
-				'URL'	=> "{$this->u_action}&parent_id=" . $entity->get_id(),
+				'URL'	=> "{$this->u_action}&parent_id={$entity->get_id()}",
 
 				'S_CURRENT'	=> $entity->get_id() == $parent_id
 			]);
 		}
 
 		$this->template->assign_vars([
-			'U_ACTION'	=> $this->u_action,
-			'U_ROOT'	=> "{$this->u_action}&parent_id=0",
-			'U_ADD'		=> "{$this->u_action}&action=add"
+			'U_ACTION'	=> "{$this->u_action}&action=add&parent_id={$parent_id}",
+			'U_ROOT'	=> "{$this->u_action}&parent_id=0"
 		]);
 	}
 
