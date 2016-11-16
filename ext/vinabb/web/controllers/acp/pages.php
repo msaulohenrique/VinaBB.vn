@@ -113,14 +113,13 @@ class pages implements pages_interface
 				'VARNAME'	=> $entity->get_varname(),
 				'ENABLE'	=> $entity->get_enable(),
 
-				'U_EDIT'	=> "{$this->u_action}&action=edit&id=" . $entity->get_id(),
-				'U_DELETE'	=> "{$this->u_action}&action=delete&id=" . $entity->get_id()
+				'U_EDIT'	=> "{$this->u_action}&action=edit&id={$entity->get_id()}",
+				'U_DELETE'	=> "{$this->u_action}&action=delete&id={$entity->get_id()}"
 			]);
 		}
 
 		$this->template->assign_vars([
-			'U_ACTION'	=> $this->u_action,
-			'U_ADD'		=> "{$this->u_action}&action=add"
+			'U_ACTION'		=> "{$this->u_action}&action=add"
 		]);
 	}
 
