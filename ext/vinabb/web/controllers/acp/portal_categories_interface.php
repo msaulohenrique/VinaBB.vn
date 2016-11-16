@@ -41,11 +41,11 @@ interface portal_categories_interface
 	public function edit_cat($cat_id);
 
 	/**
-	* Process category data to be added or edited
+	* Process data to be added or edited
 	*
 	* @param \vinabb\web\entities\portal_category_interface $entity Portal category entity
 	*/
-	public function add_edit_cat_data($entity);
+	public function add_edit_data($entity);
 
 	/**
 	* Move a rule up/down

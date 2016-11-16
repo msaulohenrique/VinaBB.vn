@@ -167,7 +167,7 @@ class portal_categories implements portal_categories_interface
 		$this->build_parent_options($entity, $parent_id, 'add');
 
 		// Process the new entity
-		$this->add_edit_cat_data($entity);
+		$this->add_edit_data($entity);
 
 		$this->template->assign_vars([
 			'S_ADD'	=> true,
@@ -192,7 +192,7 @@ class portal_categories implements portal_categories_interface
 		$this->build_parent_options($entity);
 
 		// Process the edited entity
-		$this->add_edit_cat_data($entity);
+		$this->add_edit_data($entity);
 
 		$this->template->assign_vars([
 			'S_EDIT'	=> true,
@@ -204,11 +204,11 @@ class portal_categories implements portal_categories_interface
 	}
 
 	/**
-	* Process category data to be added or edited
+	* Process data to be added or edited
 	*
 	* @param \vinabb\web\entities\portal_category_interface $entity Portal category entity
 	*/
-	public function add_edit_cat_data($entity)
+	public function add_edit_data($entity)
 	{
 		$cat_id = $entity->get_id();
 		$submit = $this->request->is_set_post('submit');
@@ -259,7 +259,7 @@ class portal_categories implements portal_categories_interface
 
 			unset($map_fields);
 
-			// Insert or update category
+			// Insert or update
 			if (!sizeof($errors))
 			{
 				if ($cat_id)
