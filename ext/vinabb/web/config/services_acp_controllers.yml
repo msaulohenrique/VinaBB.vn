@@ -37,3 +37,26 @@ services:
             - '@user'
             - '%core.root_path%'
             - '%core.php_ext%'
+    vinabb.web.acp.menus:
+        class: vinabb\web\controllers\acp\menus
+        arguments:
+            - '@cache'
+            - '@service_container'
+            - '@language'
+            - '@log'
+            - '@vinabb.web.operators.menu'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@vinabb.web.helper'
+    vinabb.web.acp.headlines:
+        class: vinabb\web\controllers\acp\headlines
+        arguments:
+            - '@cache'
+            - '@service_container'
+            - '@language'
+            - '@log'
+            - '@vinabb.web.operators.headline'
+            - '@request'
+            - '@template'
+            - '@user'
