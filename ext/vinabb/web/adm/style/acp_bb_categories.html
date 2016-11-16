@@ -4,18 +4,18 @@
 <p>{{ PAGE_TITLE_EXPLAIN }}</p>
 
 <form id="acp_bb_categories" method="post" action="{{ U_ACTION }}">
-	<p class="quick">
-		{{ S_HIDDEN_FIELDS }}
-		<input class="button2" name="add" type="submit" value="{{ lang('ADD_BB_CAT') }}">
-	</p>
+	<fieldset class="quick">
+		<input class="button2" type="submit" value="{{ lang('ADD_CAT') }}">
+		<input type="hidden" name="action" value="add">
+	</fieldset>
 </form>
 
 <table class="table1 zebra-table">
 	<thead>
 	<tr>
-		<th>{{ lang('BB_CAT_NAME') }}</th>
-		<th>{{ lang('BB_CAT_NAME') ~ ' (' ~ lang('VIETNAMESE') ~ ')' }}</th>
-		<th>{{ lang('BB_CAT_VARNAME') }}</th>
+		<th>{{ lang('CAT_NAME') }}</th>
+		<th>{{ lang('CAT_NAME') ~ ' (' ~ lang('VIETNAMESE') ~ ')' }}</th>
+		<th>{{ lang('CAT_VARNAME') }}</th>
 		<th>{{ TOTAL_ITEMS_LANG }}</th>
 		<th>{{ lang('ACTION') }}</th>
 	</tr>
