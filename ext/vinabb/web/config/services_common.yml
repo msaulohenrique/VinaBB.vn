@@ -9,6 +9,7 @@ services:
     vinabb.web.helper:
         class: vinabb\web\controllers\helper
         arguments:
+            - '@cache'
             - '@dbal.conn'
             - '@file_downloader'
             - '@language'

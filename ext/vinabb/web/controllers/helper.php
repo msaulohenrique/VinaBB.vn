@@ -12,6 +12,9 @@ use vinabb\web\includes\constants;
 
 class helper implements helper_interface
 {
+	/** @var \phpbb\cache\service */
+	protected $cache;
+
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
@@ -33,6 +36,7 @@ class helper implements helper_interface
 	/**
 	* Constructor
 	*
+	* @param \phpbb\cache\service $cache
 	* @param \phpbb\db\driver\driver_interface $db
 	* @param \phpbb\file_downloader $file_downloader
 	* @param \phpbb\language\language $language
@@ -41,6 +45,7 @@ class helper implements helper_interface
 	* @param string $portal_articles_table
 	*/
 	public function __construct(
+		\phpbb\cache\service $cache,
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\file_downloader $file_downloader,
 		\phpbb\language\language $language,
@@ -49,6 +54,7 @@ class helper implements helper_interface
 		$portal_articles_table
 	)
 	{
+		$this->cache = $cache;
 		$this->db = $db;
 		$this->file_downloader = $file_downloader;
 		$this->language = $language;
@@ -177,7 +183,7 @@ class helper implements helper_interface
 	{
 		$lang_switch_options = '<option value=""' . (($selected_lang == '') ? ' selected' : '') . '>' . $this->language->lang('SELECT_LANGUAGE') . '</option>';
 
-		foreach ($this->lang_data as $lang_iso => $data)
+		foreach ($this->cache->get_lang_data() as $lang_iso => $data)
 		{
 			$lang_switch_options .= '<option value="' . $lang_iso . '"' . (($selected_lang == $lang_iso) ? ' selected' : '') . '>' . $data['english_name'] . ' (' . $data['local_name'] . ')</option>';
 		}
