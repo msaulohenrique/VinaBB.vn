@@ -45,9 +45,17 @@ interface helper_interface
 	*
 	* @author hello@weblap.ro
 	* @param string $text Input text
-	* @return mixed
+	* @return string
 	*/
 	public function clean_url($text);
+
+	/**
+	* Remove all accents
+	*
+	* @param string $text Input text
+	* @return string Result text
+	*/
+	public function remove_accents($text = '');
 
 	/**
 	* Convert BB type from string to constant value
