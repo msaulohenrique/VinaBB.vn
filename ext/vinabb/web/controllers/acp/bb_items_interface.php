@@ -43,20 +43,7 @@ interface bb_items_interface
 	*
 	* @param int $item_id Item ID
 	*/
-	public function edit_item($item_id)
-	{
-		// Initiate and load the entity
-		/* @var \vinabb\web\entities\bb_item_interface */
-		$entity = $this->container->get('vinabb.web.entities.bb_item')->load($item_id);
-
-		// Process the edited entity
-		$this->add_edit_data($entity);
-
-		$this->template->assign_vars([
-			'S_EDIT'	=> true,
-			'U_ACTION'	=> "{$this->u_action}&action=edit&id={$item_id}"
-		]);
-	}
+	public function edit_item($item_id);
 
 	/**
 	* Process data to be added or edited
