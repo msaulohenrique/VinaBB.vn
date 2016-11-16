@@ -38,11 +38,11 @@ interface pages_interface
 	public function edit_page($page_id);
 
 	/**
-	* Process page data to be added or edited
+	* Process data to be added or edited
 	*
 	* @param \vinabb\web\entities\page_interface $entity Page entity
 	*/
-	public function add_edit_page_data($entity);
+	public function add_edit_data($entity);
 
 	/**
 	* Deleta a page

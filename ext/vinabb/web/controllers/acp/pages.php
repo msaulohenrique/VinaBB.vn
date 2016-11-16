@@ -134,7 +134,7 @@ class pages implements pages_interface
 		$entity = $this->container->get('vinabb.web.entities.page');
 
 		// Process the new entity
-		$this->add_edit_page_data($entity);
+		$this->add_edit_data($entity);
 
 		$this->template->assign_vars([
 			'S_ADD'		=> true,
@@ -154,7 +154,7 @@ class pages implements pages_interface
 		$entity = $this->container->get('vinabb.web.entities.page')->load($page_id);
 
 		// Process the edited entity
-		$this->add_edit_page_data($entity);
+		$this->add_edit_data($entity);
 
 		$this->template->assign_vars([
 			'S_EDIT'	=> true,
@@ -163,11 +163,11 @@ class pages implements pages_interface
 	}
 
 	/**
-	* Process page data to be added or edited
+	* Process data to be added or edited
 	*
 	* @param \vinabb\web\entities\page_interface $entity Page entity
 	*/
-	public function add_edit_page_data($entity)
+	public function add_edit_data($entity)
 	{
 		$page_id = $entity->get_id();
 		$submit = $this->request->is_set_post('submit');
@@ -282,7 +282,7 @@ class pages implements pages_interface
 
 			unset($map_fields);
 
-			// Insert or update page
+			// Insert or update
 			if (!sizeof($errors))
 			{
 				if ($page_id)

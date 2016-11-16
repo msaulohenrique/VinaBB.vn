@@ -38,11 +38,11 @@ interface headlines_interface
 	public function edit_headline($headline_id);
 
 	/**
-	* Process headline data to be added or edited
+	* Process data to be added or edited
 	*
 	* @param \vinabb\web\entities\headline_interface $entity Headline entity
 	*/
-	public function add_edit_headline_data($entity);
+	public function add_edit_data($entity);
 
 	/**
 	* Delete a headline

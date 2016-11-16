@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
 * Controller for the headlines_module
 */
-class headlines
+class headlines implements headlines_interface
 {
 	/** @var \phpbb\cache\service */
 	protected $cache;
@@ -128,7 +128,7 @@ class headlines
 		$entity = $this->container->get('vinabb.web.entities.headline');
 
 		// Process the new entity
-		$this->add_edit_headline_data($entity);
+		$this->add_edit_data($entity);
 
 		$this->template->assign_vars([
 			'S_ADD'		=> true,
@@ -148,7 +148,7 @@ class headlines
 		$entity = $this->container->get('vinabb.web.entities.headline')->load($headline_id);
 
 		// Process the edited entity
-		$this->add_edit_headline_data($entity);
+		$this->add_edit_data($entity);
 
 		$this->template->assign_vars([
 			'S_EDIT'	=> true,
@@ -157,11 +157,11 @@ class headlines
 	}
 
 	/**
-	* Process headline data to be added or edited
+	* Process data to be added or edited
 	*
 	* @param \vinabb\web\entities\headline_interface $entity Headline entity
 	*/
-	public function add_edit_headline_data($entity)
+	public function add_edit_data($entity)
 	{
 		$headline_id = $entity->get_id();
 		$submit = $this->request->is_set_post('submit');
@@ -212,7 +212,7 @@ class headlines
 
 			unset($map_fields);
 
-			// Insert or update headline
+			// Insert or update
 			if (!sizeof($errors))
 			{
 				if ($headline_id)

@@ -42,11 +42,11 @@ interface menus_interface
 	public function edit_menu($menu_id);
 
 	/**
-	* Process menu data to be added or edited
+	* Process data to be added or edited
 	*
 	* @param \vinabb\web\entities\menu_interface $entity Menu entity
 	*/
-	public function add_edit_menu_data($entity);
+	public function add_edit_data($entity);
 
 	/**
 	* Move a menu up/down

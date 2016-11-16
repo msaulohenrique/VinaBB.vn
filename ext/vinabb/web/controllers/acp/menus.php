@@ -170,7 +170,7 @@ class menus implements menus_interface
 		$this->build_parent_options($entity, $parent_id, 'add');
 
 		// Process the new entity
-		$this->add_edit_menu_data($entity);
+		$this->add_edit_data($entity);
 
 		$this->template->assign_vars([
 			'S_ADD'	=> true,
@@ -195,7 +195,7 @@ class menus implements menus_interface
 		$this->build_parent_options($entity);
 
 		// Process the edited entity
-		$this->add_edit_menu_data($entity);
+		$this->add_edit_data($entity);
 
 		$this->template->assign_vars([
 			'S_EDIT'	=> true,
@@ -207,11 +207,11 @@ class menus implements menus_interface
 	}
 
 	/**
-	* Process menu data to be added or edited
+	* Process data to be added or edited
 	*
 	* @param \vinabb\web\entities\menu_interface $entity Menu entity
 	*/
-	public function add_edit_menu_data($entity)
+	public function add_edit_data($entity)
 	{
 		$menu_id = $entity->get_id();
 		$submit = $this->request->is_set_post('submit');
@@ -282,7 +282,7 @@ class menus implements menus_interface
 
 			unset($map_fields);
 
-			// Insert or update menu
+			// Insert or update
 			if (!sizeof($errors))
 			{
 				if ($menu_id)
