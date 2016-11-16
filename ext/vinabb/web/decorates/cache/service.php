@@ -15,9 +15,6 @@ use vinabb\web\includes\constants;
 */
 class service extends \phpbb\cache\service
 {
-	/** @var \vinabb\web\controllers\helper_interface */
-	protected $ext_helper;
-
 	/** @var string */
 	protected $bb_categories_table;
 
@@ -48,7 +45,6 @@ class service extends \phpbb\cache\service
 	* @param \phpbb\cache\driver\driver_interface $driver
 	* @param \phpbb\config\config $config
 	* @param \phpbb\db\driver\driver_interface $db
-	* @param \vinabb\web\controllers\helper_interface $ext_helper
 	* @param string $root_path
 	* @param string $php_ext
 	* @param string $bb_categories_table
@@ -64,7 +60,6 @@ class service extends \phpbb\cache\service
 		\phpbb\cache\driver\driver_interface $driver,
 		\phpbb\config\config $config,
 		\phpbb\db\driver\driver_interface $db,
-		\vinabb\web\controllers\helper_interface $ext_helper,
 		$root_path,
 		$php_ext,
 		$bb_categories_table,
@@ -80,7 +75,6 @@ class service extends \phpbb\cache\service
 		$this->set_driver($driver);
 		$this->config = $config;
 		$this->db = $db;
-		$this->ext_helper = $ext_helper;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 		$this->bb_categories_table = $bb_categories_table;
@@ -258,16 +252,16 @@ class service extends \phpbb\cache\service
 	/**
 	* Get cache from table: _bb_categories
 	*
-	* @param int $bb_type phpBB resource type (ext, style, lang...)
+	* @param int $bb_type phpBB resource type
 	* @return array
 	*/
 	public function get_bb_cats($bb_type)
 	{
-		if (($bb_cats = $this->driver->get('_vinabb_web_bb_' . strtolower($bb_type) . '_categories')) === false)
+		if (($bb_cats = $this->driver->get('_vinabb_web_bb_categories_' . $bb_type)) === false)
 		{
 			$sql = 'SELECT *
 				FROM ' . $this->bb_categories_table . '
-				WHERE bb_type = ' . (int) $this->ext_helper->get_bb_type_constants($bb_type) . '
+				WHERE bb_type = ' . (int) $bb_type . '
 				ORDER BY cat_order';
 			$result = $this->db->sql_query($sql);
 
@@ -285,7 +279,7 @@ class service extends \phpbb\cache\service
 			}
 			$this->db->sql_freeresult($result);
 
-			$this->driver->put('_vinabb_web_bb_' . strtolower($bb_type) . '_categories', $bb_cats);
+			$this->driver->put('_vinabb_web_bb_categories_' . $bb_type, $bb_cats);
 		}
 
 		return $bb_cats;
@@ -294,26 +288,26 @@ class service extends \phpbb\cache\service
 	/**
 	* Clear cache from table: _bb_categories
 	*
-	* @param int $bb_type phpBB resource type (ext, style, lang...)
+	* @param int $bb_type phpBB resource type
 	*/
 	public function clear_bb_cats($bb_type)
 	{
-		$this->driver->destroy('_vinabb_web_bb_' . strtolower($bb_type) . '_categories');
+		$this->driver->destroy('_vinabb_web_bb_categories_' . $bb_type);
 	}
 
 	/**
 	* Get cache from table: _bb_items
 	*
-	* @param int $bb_type phpBB resource type (ext, style, lang...)
+	* @param int $bb_type phpBB resource type
 	* @return array
 	*/
 	public function get_new_bb_items($bb_type)
 	{
-		if (($new_items = $this->driver->get('_vinabb_web_bb_new_' . strtolower($bb_type) . 's')) === false)
+		if (($new_items = $this->driver->get('_vinabb_web_new_bb_items_' . $bb_type)) === false)
 		{
 			$sql = 'SELECT *
 				FROM ' . $this->bb_items_table . '
-				WHERE bb_type = ' . (int) $this->ext_helper->get_bb_type_constants($bb_type) . '
+				WHERE bb_type = ' . (int) $bb_type . '
 				ORDER BY item_updated DESC';
 			$result = $this->db->sql_query_limit($sql, constants::NUM_NEW_ITEMS_ON_INDEX);
 
@@ -332,7 +326,7 @@ class service extends \phpbb\cache\service
 			}
 			$this->db->sql_freeresult($result);
 
-			$this->driver->put('_vinabb_web_bb_new_' . strtolower($bb_type) . 's', $new_items);
+			$this->driver->put('_vinabb_web_new_bb_items_' . $bb_type, $new_items);
 		}
 
 		return $new_items;
@@ -341,11 +335,11 @@ class service extends \phpbb\cache\service
 	/**
 	* Clear cache from table: _bb_items
 	*
-	* @param int $bb_type phpBB resource type (ext, style, lang...)
+	* @param int $bb_type phpBB resource type
 	*/
 	public function clear_new_bb_items($bb_type)
 	{
-		$this->driver->destroy('_vinabb_web_bb_new_' . strtolower($bb_type) . 's');
+		$this->driver->destroy('_vinabb_web_new_bb_items_' . $bb_type);
 	}
 
 	/**

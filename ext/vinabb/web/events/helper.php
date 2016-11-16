@@ -80,8 +80,6 @@ class helper implements helper_interface
 	*/
 	public function list_forums()
 	{
-		$iteration = 0;
-
 		foreach ($this->cache->get_forum_data() as $forum_id => $forum_data)
 		{
 			// Non-postable forum with no subforums, don't display
@@ -101,18 +99,13 @@ class helper implements helper_interface
 				'FORUM_ID'	=> $forum_id,
 				'NAME'		=> $forum_data['name'],
 				'URL'		=> $this->helper->route('vinabb_web_board_forum_route', ['forum_id' => $forum_id, 'seo' => $forum_data['name_seo'] . constants::REWRITE_URL_SEO]),
-				'COUNT'		=> $iteration,
 
 				'S_HAS_SUBFORUMS'	=> $forum_data['left_id'] + 1 != $forum_data['right_id'],
 				'S_IS_CAT'			=> $forum_data['type'] == FORUM_CAT,
 				'S_IS_LINK'			=> $forum_data['type'] == FORUM_LINK,
 				'S_IS_POST'			=> $forum_data['type'] == FORUM_POST
 			]);
-
-			$iteration++;
 		}
-
-		return;
 	}
 
 	/**
@@ -124,7 +117,7 @@ class helper implements helper_interface
 
 		foreach ($bb_types as $bb_type)
 		{
-			foreach ($this->cache->get_bb_cats($bb_type) as $cat_id => $cat_data)
+			foreach ($this->cache->get_bb_cats($this->ext_helper->get_bb_type_constants($bb_type)) as $cat_id => $cat_data)
 			{
 				$this->template->assign_block_vars($bb_type . '_cats', [
 					'ID'		=> $cat_id,
@@ -136,8 +129,6 @@ class helper implements helper_interface
 				]);
 			}
 		}
-
-		return;
 	}
 
 	/**
@@ -155,8 +146,6 @@ class helper implements helper_interface
 			'S_ADMIN'		=> $this->auth->acl_get('a_'),
 			'S_FOUNDER'		=> $this->user->data['user_type'] == USER_FOUNDER
 		]);
-
-		return;
 	}
 
 	/**
@@ -205,8 +194,6 @@ class helper implements helper_interface
 			'GOOGLE_PLUS_URL'	=> htmlspecialchars_decode($this->config['vinabb_web_google_plus_url']),
 			'GITHUB_URL'		=> htmlspecialchars_decode($this->config['vinabb_web_github_url'])
 		]);
-
-		return;
 	}
 
 	/**
@@ -225,8 +212,6 @@ class helper implements helper_interface
 			'U_BB_TOOLS'		=> $this->helper->route('vinabb_web_bb_type_route', ['type' => constants::BB_TYPE_VARNAME_TOOL]),
 			'U_FAQ_BBCODE'		=> $this->helper->route('phpbb_help_bbcode_controller'),
 		]);
-
-		return;
 	}
 
 	/**

@@ -6,7 +6,6 @@ services:
             - '@cache.driver'
             - '@config'
             - '@dbal.conn'
-            - '@vinabb.web.helper'
             - '%core.root_path%'
             - '%core.php_ext%'
             - '%vinabb.web.tables.bb_categories%'
