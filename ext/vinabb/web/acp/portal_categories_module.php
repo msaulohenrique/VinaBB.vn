@@ -47,7 +47,7 @@ class portal_categories_module
 
 		// ACP template file
 		$this->tpl_name = 'acp_portal_categories';
-		$this->page_title = $this->language->lang('ACP_PORTAL_CATEGORIES');
+		$this->page_title = $this->language->lang('ACP_PORTAL_CATS');
 
 		// Language
 		$this->language->add_lang('acp_portal', 'vinabb/web');
