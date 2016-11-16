@@ -516,6 +516,21 @@ interface bb_item_interface
 	public function set_github($text);
 
 	/**
+	* Get item display setting in template
+	*
+	* @return bool
+	*/
+	public function get_enable();
+
+	/**
+	* Set item display setting in template
+	*
+	* @param bool				$value	Config value
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable($value);
+
+	/**
 	* Get the time of adding item
 	*
 	* @return int

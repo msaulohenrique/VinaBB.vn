@@ -470,7 +470,7 @@ class bb_author implements bb_author_interface
 	*/
 	public function get_www()
 	{
-		return isset($this->data['author_www']) ? (string) $this->data['author_www'] : '';
+		return isset($this->data['author_www']) ? (string) htmlspecialchars_decode($this->data['author_www']) : '';
 	}
 
 	/**
@@ -501,7 +501,7 @@ class bb_author implements bb_author_interface
 	*/
 	public function get_email()
 	{
-		return isset($this->data['author_email']) ? (string) $this->data['author_email'] : '';
+		return isset($this->data['author_email']) ? (string) htmlspecialchars_decode($this->data['author_email']) : '';
 	}
 
 	/**

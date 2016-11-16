@@ -57,6 +57,7 @@ class bb_item implements bb_item_interface
 	*	item_price
 	*	item_url
 	*	item_github
+	*	item_enable
 	*	item_added
 	*	item_updated
 	*/
@@ -1239,7 +1240,7 @@ class bb_item implements bb_item_interface
 	*/
 	public function get_url()
 	{
-		return isset($this->data['item_url']) ? (string) $this->data['item_url'] : '';
+		return isset($this->data['item_url']) ? (string) htmlspecialchars_decode($this->data['item_url']) : '';
 	}
 
 	/**
@@ -1262,7 +1263,7 @@ class bb_item implements bb_item_interface
 	*/
 	public function get_github()
 	{
-		return isset($this->data['item_github']) ? (string) $this->data['item_github'] : '';
+		return isset($this->data['item_github']) ? (string) htmlspecialchars_decode($this->data['item_github']) : '';
 	}
 
 	/**
@@ -1274,6 +1275,29 @@ class bb_item implements bb_item_interface
 	public function set_github($text)
 	{
 		$this->data['item_github'] = (string) $text;
+
+		return $this;
+	}
+
+	/**
+	* Get item display setting in template
+	*
+	* @return bool
+	*/
+	public function get_enable()
+	{
+		return isset($this->data['item_enable']) ? (bool) $this->data['item_enable'] : true;
+	}
+
+	/**
+	* Set item display setting in template
+	*
+	* @param bool				$value	Config value
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable($value)
+	{
+		$this->data['item_enable'] = (bool) $value;
 
 		return $this;
 	}
