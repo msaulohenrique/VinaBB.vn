@@ -179,6 +179,12 @@ class portal implements portal_interface
 		// Latest users
 		$this->output_latest_users();
 
+		// Latest versions
+		$this->output_version_tpl();
+
+		// Donate
+		$this->output_donate_tpl();
+
 		// Birthday list
 		$birthdays = $this->get_birthdays();
 		$this->template->assign_block_vars_array('birthdays', $birthdays);
@@ -188,52 +194,8 @@ class portal implements portal_interface
 			'LEGEND'				=> $this->get_group_legend(),
 			'TOTAL_BIRTHDAY_USERS'	=> sizeof($birthdays),
 
-			'LATEST_PHPBB_VERSION'				=> $this->config['vinabb_web_check_phpbb_version'],
-			'LATEST_PHPBB_DOWNLOAD_URL'			=> str_replace(['{branch}', '{version}'], [$this->config['vinabb_web_check_phpbb_branch'], $this->config['vinabb_web_check_phpbb_version']], htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_download_url'])),
-			'LATEST_PHPBB_GITHUB_URL'			=> str_replace(['{branch}', '{version}'], [$this->config['vinabb_web_check_phpbb_branch'], $this->config['vinabb_web_check_phpbb_version']], htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_github_url'])),
-			'LATEST_PHPBB_LEGACY_VERSION'		=> $this->config['vinabb_web_check_phpbb_legacy_version'],
-			'LATEST_PHPBB_LEGACY_DOWNLOAD_URL'	=> str_replace(['{branch}', '{version}'], [$this->config['vinabb_web_check_phpbb_legacy_branch'], $this->config['vinabb_web_check_phpbb_legacy_version']], htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_download_url'])),
-			'LATEST_PHPBB_LEGACY_GITHUB_URL'	=> str_replace(['{branch}', '{version}'], [$this->config['vinabb_web_check_phpbb_legacy_branch'], $this->config['vinabb_web_check_phpbb_legacy_version']], htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_github_url'])),
-			'LATEST_PHPBB_DEV_VERSION'			=> $this->config['vinabb_web_check_phpbb_dev_version'],
-			'LATEST_PHPBB_DEV_DOWNLOAD_URL'		=> str_replace(['{branch}', '{version}'], [$this->config['vinabb_web_check_phpbb_dev_branch'], $this->config['vinabb_web_check_phpbb_dev_version']], htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_download_dev_url'])),
-			'LATEST_PHPBB_DEV_GITHUB_URL'		=> str_replace(['{branch}', '{version}'], [$this->config['vinabb_web_check_phpbb_dev_branch'], $this->config['vinabb_web_check_phpbb_dev_version']], htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_github_url'])),
-			'LATEST_IVN_VERSION'				=> $this->config['vinabb_web_check_ivn_version'],
-			'LATEST_IVN_LEGACY_VERSION'			=> $this->config['vinabb_web_check_ivn_legacy_version'],
-			'LATEST_IVN_DEV_VERSION'			=> $this->config['vinabb_web_check_ivn_dev_version'],
-			'LATEST_IVNPLUS_VERSION'			=> $this->config['vinabb_web_check_ivnplus_version'],
-			'LATEST_PHP_VERSION'				=> $this->config['vinabb_web_check_php_version'],
-			'LATEST_PHP_VERSION_URL'			=> htmlspecialchars_decode($this->config['vinabb_web_check_php_version_url']),
-			'LATEST_PHP_LEGACY_VERSION'			=> $this->config['vinabb_web_check_php_legacy_version'],
-			'LATEST_PHP_LEGACY_VERSION_URL'		=> htmlspecialchars_decode($this->config['vinabb_web_check_php_legacy_version_url']),
-			'LATEST_VINABB_VERSION'				=> $this->config['vinabb_web_check_vinabb_version'],
-			'LATEST_VINABB_GITHUB_PATH'			=> constants::VINABB_GITHUB_PATH,
-			'LATEST_VINABB_GITHUB_URL'			=> constants::VINABB_GITHUB_URL,
-			'LATEST_VINABB_GITHUB_DOWNLOAD_URL'	=> constants::VINABB_GITHUB_DOWNLOAD_URL,
-			'LATEST_VINABB_GITHUB_FORK_URL'		=> constants::VINABB_GITHUB_FORK_URL,
-			'LATEST_VINABB_TRAVIS_URL'			=> constants::VINABB_TRAVIS_URL,
-			'LATEST_VINABB_TRAVIS_IMG_URL'		=> constants::VINABB_TRAVIS_IMG_URL,
-			'LATEST_VINABB_INSIGHT_URL'			=> constants::VINABB_INSIGHT_URL,
-			'LATEST_VINABB_INSIGHT_IMG_URL'		=> constants::VINABB_INSIGHT_IMG_URL,
-			'LATEST_VINABB_SCRUTINIZER_URL'		=> constants::VINABB_SCRUTINIZER_URL,
-			'LATEST_VINABB_SCRUTINIZER_IMG_URL'	=> constants::VINABB_SCRUTINIZER_IMG_URL,
-			'LATEST_VINABB_CODECLIMATE_URL'		=> constants::VINABB_CODECLIMATE_URL,
-			'LATEST_VINABB_CODECLIMATE_IMG_URL'	=> constants::VINABB_CODECLIMATE_IMG_URL,
-
 			'FORUM_VIETNAMESE'	=> ($this->config['vinabb_web_forum_id_vietnamese']) ? $this->forum_data[$this->config['vinabb_web_forum_id_vietnamese']]['name'] : '',
 			'FORUM_ENGLISH'		=> ($this->config['vinabb_web_forum_id_english']) ? $this->forum_data[$this->config['vinabb_web_forum_id_english']]['name'] : '',
-
-			'DONATE_LAST_YEAR'	=> max(0, $this->config['vinabb_web_donate_year'] - 1),
-			'DONATE_PERCENT'	=> round($this->config['vinabb_web_donate_fund'] / max(1, $this->config['vinabb_web_donate_year_value']) * 100, 0),
-			'DONATE_YEAR'		=> $this->config['vinabb_web_donate_year'],
-			'DONATE_YEAR_VALUE'	=> $this->config['vinabb_web_donate_year_value'],
-			'DONATE_FUND'		=> $this->config['vinabb_web_donate_fund'],
-			'DONATE_CURRENCY'	=> $this->config['vinabb_web_donate_currency'],
-			'DONATE_OWNER'		=> ($this->user->lang_name == constants::LANG_VIETNAMESE && !empty($this->config['vinabb_web_donate_owner_vi'])) ? $this->config['vinabb_web_donate_owner_vi'] : $this->config['vinabb_web_donate_owner'],
-			'DONATE_EMAIL'		=> $this->config['vinabb_web_donate_email'],
-			'DONATE_BANK'		=> ($this->user->lang_name == constants::LANG_VIETNAMESE && !empty($this->config['vinabb_web_donate_bank_vi'])) ? $this->config['vinabb_web_donate_bank_vi'] : $this->config['vinabb_web_donate_bank'],
-			'DONATE_BANK_ACC'	=> $this->config['vinabb_web_donate_bank_acc'],
-			'DONATE_BANK_SWIFT'	=> $this->config['vinabb_web_donate_bank_swift'],
-			'DONATE_PAYPAL'		=> htmlspecialchars_decode($this->config['vinabb_web_donate_paypal']),
 
 			'U_FORUM_VIETNAMESE'	=> $this->helper->route('vinabb_web_board_forum_route', ['forum_id' => $this->config['vinabb_web_forum_id_vietnamese'], 'seo' => ($this->config['vinabb_web_forum_id_vietnamese'] ? $this->forum_data[$this->config['vinabb_web_forum_id_vietnamese']]['name_seo'] : constants::LANG_VIETNAMESE) . constants::REWRITE_URL_SEO]),
 			'U_FORUM_ENGLISH'		=> $this->helper->route('vinabb_web_board_forum_route', ['forum_id' => $this->config['vinabb_web_forum_id_english'], 'seo' => ($this->config['vinabb_web_forum_id_english'] ? $this->forum_data[$this->config['vinabb_web_forum_id_english']]['name_seo'] : constants::LANG_ENGLISH) . constants::REWRITE_URL_SEO]),
@@ -728,6 +690,69 @@ class portal implements portal_interface
 				'NAME'	=> get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'])
 			]);
 		}
+	}
+
+	/**
+	* Generate template variables for latest version blocks
+	*/
+	protected function output_version_tpl()
+	{
+		$this->template->assign_vars([
+			'LATEST_PHPBB_VERSION'				=> $this->config['vinabb_web_check_phpbb_version'],
+			'LATEST_PHPBB_DOWNLOAD_URL'			=> str_replace(['{branch}', '{version}'], [$this->config['vinabb_web_check_phpbb_branch'], $this->config['vinabb_web_check_phpbb_version']], htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_download_url'])),
+			'LATEST_PHPBB_GITHUB_URL'			=> str_replace(['{branch}', '{version}'], [$this->config['vinabb_web_check_phpbb_branch'], $this->config['vinabb_web_check_phpbb_version']], htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_github_url'])),
+			'LATEST_PHPBB_LEGACY_VERSION'		=> $this->config['vinabb_web_check_phpbb_legacy_version'],
+			'LATEST_PHPBB_LEGACY_DOWNLOAD_URL'	=> str_replace(['{branch}', '{version}'], [$this->config['vinabb_web_check_phpbb_legacy_branch'], $this->config['vinabb_web_check_phpbb_legacy_version']], htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_download_url'])),
+			'LATEST_PHPBB_LEGACY_GITHUB_URL'	=> str_replace(['{branch}', '{version}'], [$this->config['vinabb_web_check_phpbb_legacy_branch'], $this->config['vinabb_web_check_phpbb_legacy_version']], htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_github_url'])),
+			'LATEST_PHPBB_DEV_VERSION'			=> $this->config['vinabb_web_check_phpbb_dev_version'],
+			'LATEST_PHPBB_DEV_DOWNLOAD_URL'		=> str_replace(['{branch}', '{version}'], [$this->config['vinabb_web_check_phpbb_dev_branch'], $this->config['vinabb_web_check_phpbb_dev_version']], htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_download_dev_url'])),
+			'LATEST_PHPBB_DEV_GITHUB_URL'		=> str_replace(['{branch}', '{version}'], [$this->config['vinabb_web_check_phpbb_dev_branch'], $this->config['vinabb_web_check_phpbb_dev_version']], htmlspecialchars_decode($this->config['vinabb_web_check_phpbb_github_url'])),
+
+			'LATEST_IVN_VERSION'		=> $this->config['vinabb_web_check_ivn_version'],
+			'LATEST_IVN_LEGACY_VERSION'	=> $this->config['vinabb_web_check_ivn_legacy_version'],
+			'LATEST_IVN_DEV_VERSION'	=> $this->config['vinabb_web_check_ivn_dev_version'],
+			'LATEST_IVNPLUS_VERSION'	=> $this->config['vinabb_web_check_ivnplus_version'],
+
+			'LATEST_PHP_VERSION'			=> $this->config['vinabb_web_check_php_version'],
+			'LATEST_PHP_VERSION_URL'		=> htmlspecialchars_decode($this->config['vinabb_web_check_php_version_url']),
+			'LATEST_PHP_LEGACY_VERSION'		=> $this->config['vinabb_web_check_php_legacy_version'],
+			'LATEST_PHP_LEGACY_VERSION_URL'	=> htmlspecialchars_decode($this->config['vinabb_web_check_php_legacy_version_url']),
+			'LATEST_VINABB_VERSION'			=> $this->config['vinabb_web_check_vinabb_version'],
+
+			'LATEST_VINABB_GITHUB_PATH'			=> constants::VINABB_GITHUB_PATH,
+			'LATEST_VINABB_GITHUB_URL'			=> constants::VINABB_GITHUB_URL,
+			'LATEST_VINABB_GITHUB_DOWNLOAD_URL'	=> constants::VINABB_GITHUB_DOWNLOAD_URL,
+			'LATEST_VINABB_GITHUB_FORK_URL'		=> constants::VINABB_GITHUB_FORK_URL,
+			'LATEST_VINABB_TRAVIS_URL'			=> constants::VINABB_TRAVIS_URL,
+			'LATEST_VINABB_TRAVIS_IMG_URL'		=> constants::VINABB_TRAVIS_IMG_URL,
+			'LATEST_VINABB_INSIGHT_URL'			=> constants::VINABB_INSIGHT_URL,
+			'LATEST_VINABB_INSIGHT_IMG_URL'		=> constants::VINABB_INSIGHT_IMG_URL,
+			'LATEST_VINABB_SCRUTINIZER_URL'		=> constants::VINABB_SCRUTINIZER_URL,
+			'LATEST_VINABB_SCRUTINIZER_IMG_URL'	=> constants::VINABB_SCRUTINIZER_IMG_URL,
+			'LATEST_VINABB_CODECLIMATE_URL'		=> constants::VINABB_CODECLIMATE_URL,
+			'LATEST_VINABB_CODECLIMATE_IMG_URL'	=> constants::VINABB_CODECLIMATE_IMG_URL
+		]);
+	}
+
+	/**
+	* Generate template variables for the donation block
+	*/
+	protected function output_donate_tpl()
+	{
+		$this->template->assign_vars([
+			'DONATE_LAST_YEAR'	=> max(0, $this->config['vinabb_web_donate_year'] - 1),
+			'DONATE_PERCENT'	=> round($this->config['vinabb_web_donate_fund'] / max(1, $this->config['vinabb_web_donate_year_value']) * 100, 0),
+			'DONATE_YEAR'		=> $this->config['vinabb_web_donate_year'],
+			'DONATE_YEAR_VALUE'	=> $this->config['vinabb_web_donate_year_value'],
+			'DONATE_FUND'		=> $this->config['vinabb_web_donate_fund'],
+			'DONATE_CURRENCY'	=> $this->config['vinabb_web_donate_currency'],
+			'DONATE_OWNER'		=> ($this->user->lang_name == constants::LANG_VIETNAMESE && !empty($this->config['vinabb_web_donate_owner_vi'])) ? $this->config['vinabb_web_donate_owner_vi'] : $this->config['vinabb_web_donate_owner'],
+			'DONATE_EMAIL'		=> $this->config['vinabb_web_donate_email'],
+			'DONATE_BANK'		=> ($this->user->lang_name == constants::LANG_VIETNAMESE && !empty($this->config['vinabb_web_donate_bank_vi'])) ? $this->config['vinabb_web_donate_bank_vi'] : $this->config['vinabb_web_donate_bank'],
+			'DONATE_BANK_ACC'	=> $this->config['vinabb_web_donate_bank_acc'],
+			'DONATE_BANK_SWIFT'	=> $this->config['vinabb_web_donate_bank_swift'],
+			'DONATE_PAYPAL'		=> htmlspecialchars_decode($this->config['vinabb_web_donate_paypal'])
+		]);
 	}
 
 	/**
