@@ -274,7 +274,7 @@ class portal implements portal_interface
 			$this->ext_helper->set_breadcrumb($current_category_name);
 		}
 
-		return $this->helper->render('portal.html', !empty($current_category_name) ? $current_category_name : $this->language->lang('NEWS'), 200, true);
+		return $this->helper->render('portal.html', ($current_category_name != '') ? $current_category_name : $this->language->lang('NEWS'), 200, true);
 	}
 
 	/**
@@ -287,7 +287,7 @@ class portal implements portal_interface
 			$raw = $this->ext_helper->fetch_url($this->config['vinabb_web_check_phpbb_url']);
 
 			// Parse JSON
-			if (!empty($raw))
+			if ($raw != '')
 			{
 				$phpbb_data = json_decode($raw, true);
 
@@ -296,7 +296,7 @@ class portal implements portal_interface
 				{
 					$latest_phpbb_version = isset($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_branch']]['current']) ? strtoupper($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_branch']]['current']) : '';
 
-					if (!empty($latest_phpbb_version) && version_compare($latest_phpbb_version, $this->config['vinabb_web_check_phpbb_version'], '>'))
+					if ($latest_phpbb_version != '' && version_compare($latest_phpbb_version, $this->config['vinabb_web_check_phpbb_version'], '>'))
 					{
 						$this->config->set('vinabb_web_check_phpbb_version', $latest_phpbb_version);
 					}
@@ -307,7 +307,7 @@ class portal implements portal_interface
 				{
 					$latest_phpbb_legacy_version = isset($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_legacy_branch']]['current']) ? strtoupper($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_legacy_branch']]['current']) : '';
 
-					if (!empty($latest_phpbb_legacy_version) && version_compare($latest_phpbb_legacy_version, $this->config['vinabb_web_check_phpbb_legacy_version'], '>'))
+					if ($latest_phpbb_legacy_version != '' && version_compare($latest_phpbb_legacy_version, $this->config['vinabb_web_check_phpbb_legacy_version'], '>'))
 					{
 						$this->config->set('vinabb_web_check_phpbb_legacy_version', $latest_phpbb_legacy_version);
 					}
@@ -318,7 +318,7 @@ class portal implements portal_interface
 				{
 					$latest_phpbb_dev_version = isset($phpbb_data['unstable'][$this->config['vinabb_web_check_phpbb_dev_branch']]['current']) ? strtoupper($phpbb_data['unstable'][$this->config['vinabb_web_check_phpbb_dev_branch']]['current']) : '';
 
-					if (!empty($latest_phpbb_dev_version) && version_compare($latest_phpbb_dev_version, $this->config['vinabb_web_check_phpbb_dev_version'], '>'))
+					if ($latest_phpbb_dev_version != '' && version_compare($latest_phpbb_dev_version, $this->config['vinabb_web_check_phpbb_dev_version'], '>'))
 					{
 						$this->config->set('vinabb_web_check_phpbb_dev_version', $latest_phpbb_dev_version);
 					}
@@ -338,7 +338,7 @@ class portal implements portal_interface
 			$raw = str_replace('php:version', 'php-version', $raw);
 
 			// Parse XML
-			if (!empty($raw))
+			if ($raw != '')
 			{
 				$php_data = simplexml_load_string($raw);
 				$latest_php_version = $latest_php_version_url = $latest_php_legacy_version = $latest_php_legacy_version_url = '';
@@ -349,25 +349,25 @@ class portal implements portal_interface
 					$php_version = isset($entry->{'php-version'}) ? $entry->{'php-version'} : '';
 					$php_version_url = isset($entry->id) ? $entry->id : '';
 
-					if (!empty($this->config['vinabb_web_check_php_branch']) && substr($php_version, 0, strlen($this->config['vinabb_web_check_php_branch'])) == $this->config['vinabb_web_check_php_branch'] && version_compare($php_version, $latest_php_version, '>'))
+					if ($this->config['vinabb_web_check_php_branch'] != '' && substr($php_version, 0, strlen($this->config['vinabb_web_check_php_branch'])) == $this->config['vinabb_web_check_php_branch'] && version_compare($php_version, $latest_php_version, '>'))
 					{
 						$latest_php_version = $php_version;
 						$latest_php_version_url = $php_version_url;
 					}
-					else if (!empty($this->config['vinabb_web_check_php_legacy_branch']) && substr($php_version, 0, strlen($this->config['vinabb_web_check_php_legacy_branch'])) == $this->config['vinabb_web_check_php_legacy_branch'] && version_compare($php_version, $latest_php_legacy_version, '>'))
+					else if ($this->config['vinabb_web_check_php_legacy_branch'] != '' && substr($php_version, 0, strlen($this->config['vinabb_web_check_php_legacy_branch'])) == $this->config['vinabb_web_check_php_legacy_branch'] && version_compare($php_version, $latest_php_legacy_version, '>'))
 					{
 						$latest_php_legacy_version = $php_version;
 						$latest_php_legacy_version_url = $php_version_url;
 					}
 				}
 
-				if (!empty($latest_php_version) && version_compare($latest_php_version, $this->config['vinabb_web_check_php_version'], '>'))
+				if ($latest_php_version != '' && version_compare($latest_php_version, $this->config['vinabb_web_check_php_version'], '>'))
 				{
 					$this->config->set('vinabb_web_check_php_version', $latest_php_version);
 					$this->config->set('vinabb_web_check_php_version_url', $latest_php_version_url);
 				}
 
-				if (!empty($latest_php_legacy_version) && version_compare($latest_php_legacy_version, $this->config['vinabb_web_check_php_legacy_version'], '>'))
+				if ($latest_php_legacy_version != '' && version_compare($latest_php_legacy_version, $this->config['vinabb_web_check_php_legacy_version'], '>'))
 				{
 					$this->config->set('vinabb_web_check_php_legacy_version', $latest_php_legacy_version);
 					$this->config->set('vinabb_web_check_php_legacy_version_url', $latest_php_legacy_version_url);
@@ -384,12 +384,12 @@ class portal implements portal_interface
 		$raw = file_get_contents("{$this->ext_root_path}composer.json");
 
 		// Parse JSON
-		if (!empty($raw))
+		if ($raw != '')
 		{
 			$vinabb_data = json_decode($raw, true);
 			$vinabb_version = isset($vinabb_data['version']) ? $vinabb_data['version'] : '';
 
-			if (!empty($vinabb_version) && version_compare($vinabb_version, $this->config['vinabb_web_check_vinabb_version'], '>'))
+			if ($vinabb_version != '' && version_compare($vinabb_version, $this->config['vinabb_web_check_vinabb_version'], '>'))
 			{
 				$this->config->set('vinabb_web_check_vinabb_version', $vinabb_version);
 			}
@@ -508,7 +508,7 @@ class portal implements portal_interface
 		// Determine forum IDs
 		$forum_ids = array_diff($this->get_readable_forums(), $this->user->get_passworded_forums());
 
-		if (empty($forum_ids))
+		if (!sizeof($forum_ids))
 		{
 			return false;
 		}
@@ -528,7 +528,7 @@ class portal implements portal_interface
 		}
 		$this->db->sql_freeresult($result);
 
-		if (empty($post_ids))
+		if (!sizeof($post_ids))
 		{
 			return false;
 		}
@@ -590,7 +590,7 @@ class portal implements portal_interface
 		// Determine forum IDs
 		$forum_ids = array_diff($this->get_readable_forums(), $this->user->get_passworded_forums());
 
-		if (empty($forum_ids))
+		if (!sizeof($forum_ids))
 		{
 			return false;
 		}
@@ -614,7 +614,7 @@ class portal implements portal_interface
 		}
 		$this->db->sql_freeresult($result);
 
-		if (empty($topic_ids))
+		if (!sizeof($topic_ids))
 		{
 			return false;
 		}
@@ -746,9 +746,9 @@ class portal implements portal_interface
 			'DONATE_YEAR_VALUE'	=> $this->config['vinabb_web_donate_year_value'],
 			'DONATE_FUND'		=> $this->config['vinabb_web_donate_fund'],
 			'DONATE_CURRENCY'	=> $this->config['vinabb_web_donate_currency'],
-			'DONATE_OWNER'		=> ($this->user->lang_name == constants::LANG_VIETNAMESE && !empty($this->config['vinabb_web_donate_owner_vi'])) ? $this->config['vinabb_web_donate_owner_vi'] : $this->config['vinabb_web_donate_owner'],
+			'DONATE_OWNER'		=> ($this->user->lang_name == constants::LANG_VIETNAMESE && $this->config['vinabb_web_donate_owner_vi'] != '') ? $this->config['vinabb_web_donate_owner_vi'] : $this->config['vinabb_web_donate_owner'],
 			'DONATE_EMAIL'		=> $this->config['vinabb_web_donate_email'],
-			'DONATE_BANK'		=> ($this->user->lang_name == constants::LANG_VIETNAMESE && !empty($this->config['vinabb_web_donate_bank_vi'])) ? $this->config['vinabb_web_donate_bank_vi'] : $this->config['vinabb_web_donate_bank'],
+			'DONATE_BANK'		=> ($this->user->lang_name == constants::LANG_VIETNAMESE && $this->config['vinabb_web_donate_bank_vi'] != '') ? $this->config['vinabb_web_donate_bank_vi'] : $this->config['vinabb_web_donate_bank'],
 			'DONATE_BANK_ACC'	=> $this->config['vinabb_web_donate_bank_acc'],
 			'DONATE_BANK_SWIFT'	=> $this->config['vinabb_web_donate_bank_swift'],
 			'DONATE_PAYPAL'		=> htmlspecialchars_decode($this->config['vinabb_web_donate_paypal'])
