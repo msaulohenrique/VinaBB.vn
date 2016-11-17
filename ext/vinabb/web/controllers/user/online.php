@@ -182,17 +182,17 @@ class online implements online_interface
 		}
 
 		// Get user list
-		$sql_ary = array(
+		$sql_ary = [
 			'SELECT'	=> 'u.user_id, u.username, u.username_clean, u.user_type, u.user_colour, s.session_id, s.session_time, s.session_page, s.session_ip, s.session_browser, s.session_viewonline, s.session_forum_id',
-			'FROM'		=> array(
+			'FROM'		=> [
 				USERS_TABLE		=> 'u',
-				SESSIONS_TABLE	=> 's',
-			),
+				SESSIONS_TABLE	=> 's'
+			],
 			'WHERE'		=> 'u.user_id = s.session_user_id
 				AND s.session_time >= ' . (time() - ($this->config['load_online_time'] * 60)) .
 				((!$show_guests) ? ' AND s.session_user_id <> ' . ANONYMOUS : ''),
-			'ORDER_BY'	=> $order_by,
-		);
+			'ORDER_BY'	=> $order_by
+		];
 
 		/**
 		* Modify the SQL query for getting the user data to display viewonline list
@@ -205,12 +205,12 @@ class online implements online_interface
 		* @since 3.1.0-a1
 		* @change 3.1.0-a2 Added vars guest_counter and forum_data
 		*/
-		$vars = array('sql_ary', 'show_guests', 'guest_counter', 'forum_data');
+		$vars = ['sql_ary', 'show_guests', 'guest_counter', 'forum_data'];
 		extract($this->dispatcher->trigger_event('core.viewonline_modify_sql', compact($vars)));
 
 		$result = $this->db->sql_query($this->db->sql_build_query('SELECT', $sql_ary));
 
-		$prev_id = $prev_ip = array();
+		$prev_id = $prev_ip = [];
 		$logged_visible_online = $logged_hidden_online = $counter = 0;
 
 		while ($row = $this->db->sql_fetchrow($result))
@@ -267,76 +267,76 @@ class online implements online_interface
 				continue;
 			}
 
-			$on_page_data = array(
-				"index.{$this->php_ext}"	=> array(
+			$on_page_data = [
+				"index.{$this->php_ext}"	=> [
 					'lang'	=> $this->language->lang('INDEX'),
-					'url'	=> append_sid("{$this->root_path}index.{$this->php_ext}"),
-				),
-				"{$this->admin_path}index.{$this->php_ext}"	=> array(
+					'url'	=> append_sid("{$this->root_path}index.{$this->php_ext}")
+				],
+				"{$this->admin_path}index.{$this->php_ext}"	=> [
 					'lang'	=> $this->language->lang('ACP'),
-					'url'	=> '',
-				),
-				"app.{$this->php_ext}/search"	=> array(
+					'url'	=> ''
+				],
+				"app.{$this->php_ext}/search"	=> [
 					'lang'	=> $this->language->lang('SEARCHING_FORUMS'),
-					'url'	=> $this->helper->route('vinabb_web_board_search_route'),
-				),
-				"app.{$this->php_ext}/online"	=> array(
+					'url'	=> $this->helper->route('vinabb_web_board_search_route')
+				],
+				"app.{$this->php_ext}/online"	=> [
 					'lang'	=> $this->language->lang('VIEWING_ONLINE'),
-					'url'	=> $this->helper->route('vinabb_web_user_online_route'),
-				),
-				"app.{$this->php_ext}/user/list"	=> array(
+					'url'	=> $this->helper->route('vinabb_web_user_online_route')
+				],
+				"app.{$this->php_ext}/user/list"	=> [
 					'lang'	=> $this->language->lang('VIEWING_MEMBERS'),
-					'url'	=> $this->helper->route('vinabb_web_user_list_route'),
-				),
-				"app.{$this->php_ext}/user/profile"	=> array(
+					'url'	=> $this->helper->route('vinabb_web_user_list_route')
+				],
+				"app.{$this->php_ext}/user/profile"	=> [
 					'lang'	=> $this->language->lang('VIEWING_MEMBER_PROFILE'),
-					'url'	=> $this->helper->route('vinabb_web_user_list_route'),
-				),
-				"app.{$this->php_ext}/user/contact/admin"	=> array(
+					'url'	=> $this->helper->route('vinabb_web_user_list_route')
+				],
+				"app.{$this->php_ext}/user/contact/admin"	=> [
 					'lang'	=> $this->language->lang('VIEWING_CONTACT_ADMIN'),
-					'url'	=> $this->helper->route('vinabb_web_user_contact_admin_route'),
-				),
-				"app.{$this->php_ext}/mcp"	=> array(
+					'url'	=> $this->helper->route('vinabb_web_user_contact_admin_route')
+				],
+				"app.{$this->php_ext}/mcp"	=> [
 					'lang'	=> $this->language->lang('VIEWING_MCP'),
-					'url'	=> '',
-				),
-				"app.{$this->php_ext}/ucp/front/register"	=> array(
+					'url'	=> ''
+				],
+				"app.{$this->php_ext}/ucp/front/register"	=> [
 					'lang'	=> $this->language->lang('VIEWING_REGISTER'),
-					'url'	=> '',
-				),
-				"app.{$this->php_ext}/ucp/pm/compose"	=> array(
+					'url'	=> ''
+				],
+				"app.{$this->php_ext}/ucp/pm/compose"	=> [
 					'lang'	=> $this->language->lang('POSTING_PRIVATE_MESSAGE'),
-					'url'	=> '',
-				),
-				"app.{$this->php_ext}/ucp/pm"	=> array(
+					'url'	=> ''
+				],
+				"app.{$this->php_ext}/ucp/pm"	=> [
 					'lang'	=> $this->language->lang('VIEWING_PRIVATE_MESSAGES'),
-					'url'	=> '',
-				),
-				"app.{$this->php_ext}/ucp/profile"	=> array(
+					'url'	=> ''
+				],
+				"app.{$this->php_ext}/ucp/profile"	=> [
 					'lang'	=> $this->language->lang('CHANGING_PROFILE'),
-					'url'	=> '',
-				),
-				"app.{$this->php_ext}/ucp/prefs"	=> array(
+					'url'	=> ''
+				],
+				"app.{$this->php_ext}/ucp/prefs"	=> [
 					'lang'	=> $this->language->lang('CHANGING_PREFERENCES'),
-					'url'	=> '',
-				),
-				"app.{$this->php_ext}/ucp"	=> array(
+					'url'	=> ''
+				],
+				"app.{$this->php_ext}/ucp"	=> [
 					'lang'	=> $this->language->lang('VIEWING_UCP'),
-					'url'	=> '',
-				),
-				"app.{$this->php_ext}/attachment"		=> array(
+					'url'	=> ''
+				],
+				"app.{$this->php_ext}/attachment"		=> [
 					'lang'	=> $this->language->lang('DOWNLOADING_FILE'),
-					'url'	=> '',
-				),
-				"app.{$this->php_ext}/post/"		=> array(
+					'url'	=> ''
+				],
+				"app.{$this->php_ext}/post/"		=> [
 					'lang'	=> $this->language->lang('REPORTING_POST'),
-					'url'	=> '',
-				),
-				"app.{$this->php_ext}/help/"		=> array(
+					'url'	=> ''
+				],
+				"app.{$this->php_ext}/help/"		=> [
 					'lang'	=> $this->language->lang('VIEWING_FAQ'),
-					'url'	=> $this->helper->route('phpbb_help_faq_controller'),
-				),
-			);
+					'url'	=> $this->helper->route('phpbb_help_faq_controller')
+				]
+			];
 
 			// What are they viewing?
 			$location = $location_url = '';
@@ -360,7 +360,7 @@ class online implements online_interface
 
 					if ($forum_id && $this->auth->acl_get('f_list', $forum_id))
 					{
-						$location_url = $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $forum_id, 'seo' => $forum_data[$forum_id]['forum_name_seo'] . constants::REWRITE_URL_SEO));
+						$location_url = $this->helper->route('vinabb_web_board_forum_route', ['forum_id' => $forum_id, 'seo' => $forum_data[$forum_id]['forum_name_seo'] . constants::REWRITE_URL_SEO]);
 
 						if ($forum_data[$forum_id]['forum_type'] == FORUM_LINK)
 						{
@@ -457,27 +457,27 @@ class online implements online_interface
 		unset($prev_id, $prev_ip);
 
 		// Refreshing the page every 60 seconds...
-		meta_refresh(60, $this->helper->route('vinabb_web_user_online_route', array('sg' => $show_guests, 'sk' => $sort_key, 'sd' => $sort_dir, 'start' => $start)));
+		meta_refresh(60, $this->helper->route('vinabb_web_user_online_route', ['sg' => $show_guests, 'sk' => $sort_key, 'sd' => $sort_dir, 'start' => $start]));
 
 		$start = $this->pagination->validate_start($start, $this->config['topics_per_page'], $counter);
-		$base_url = $this->helper->route('vinabb_web_user_online_route', array('sg' => $show_guests, 'sk' => $sort_key, 'sd' => $sort_dir));
+		$base_url = $this->helper->route('vinabb_web_user_online_route', ['sg' => $show_guests, 'sk' => $sort_key, 'sd' => $sort_dir]);
 		$this->pagination->generate_template_pagination($base_url, 'pagination', 'start', $counter, $this->config['topics_per_page'], $start);
 
 		// Send data to template
-		$this->template->assign_vars(array(
+		$this->template->assign_vars([
 			'TOTAL_REGISTERED_USERS_ONLINE'	=> $this->language->lang('REG_USERS_ONLINE', (int) $logged_visible_online, $this->language->lang('HIDDEN_USERS_ONLINE', (int) $logged_hidden_online)),
 			'TOTAL_GUEST_USERS_ONLINE'		=> $this->language->lang('GUEST_USERS_ONLINE', (int) $guest_counter),
 			'LEGEND'						=> $this->ext_helper->get_group_legend(),
 
-			'U_SORT_USERNAME'	=> $this->helper->route('vinabb_web_user_online_route', array('sk' => 'a', 'sd' => (($sort_key == 'a' && $sort_dir == 'a') ? 'd' : 'a'), 'sg' => ((int) $show_guests))),
-			'U_SORT_UPDATED'	=> $this->helper->route('vinabb_web_user_online_route', array('sk' => 'b', 'sd' => (($sort_key == 'b' && $sort_dir == 'a') ? 'd' : 'a'), 'sg' => ((int) $show_guests))),
-			'U_SORT_LOCATION'	=> $this->helper->route('vinabb_web_user_online_route', array('sk' => 'c', 'sd' => (($sort_key == 'c' && $sort_dir == 'a') ? 'd' : 'a'), 'sg' => ((int) $show_guests))),
+			'U_SORT_USERNAME'	=> $this->helper->route('vinabb_web_user_online_route', ['sk' => 'a', 'sd' => (($sort_key == 'a' && $sort_dir == 'a') ? 'd' : 'a'), 'sg' => ((int) $show_guests)]),
+			'U_SORT_UPDATED'	=> $this->helper->route('vinabb_web_user_online_route', ['sk' => 'b', 'sd' => (($sort_key == 'b' && $sort_dir == 'a') ? 'd' : 'a'), 'sg' => ((int) $show_guests)]),
+			'U_SORT_LOCATION'	=> $this->helper->route('vinabb_web_user_online_route', ['sk' => 'c', 'sd' => (($sort_key == 'c' && $sort_dir == 'a') ? 'd' : 'a'), 'sg' => ((int) $show_guests)]),
 
-			'U_SWITCH_GUEST_DISPLAY'	=> $this->helper->route('vinabb_web_user_online_route', array('sg' => ((int) !$show_guests))),
-			'L_SWITCH_GUEST_DISPLAY'	=> ($show_guests) ? $this->language->lang('HIDE_GUESTS') : $this->language->lang('DISPLAY_GUESTS'),
-			'S_SWITCH_GUEST_DISPLAY'	=> ($this->config['load_online_guests']) ? true : false,
-			'S_VIEWONLINE'				=> true,
-		));
+			'U_SWITCH_GUEST_DISPLAY'	=> $this->helper->route('vinabb_web_user_online_route', ['sg' => ((int) !$show_guests)]),
+			'L_SWITCH_GUEST_DISPLAY'	=> $this->language->lang(($show_guests) ? 'HIDE_GUESTS' : 'DISPLAY_GUESTS'),
+			'S_SWITCH_GUEST_DISPLAY'	=> $this->config['load_online_guests'],
+			'S_VIEWONLINE'				=> true
+		]);
 
 		// We do not need to load the who is online box here. ;)
 		$this->config['load_online'] = false;
