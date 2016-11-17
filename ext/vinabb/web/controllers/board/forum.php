@@ -904,7 +904,7 @@ class forum implements forum_interface
 
 		// Remove start=...
 		unset($forum_url_sort_params['page']);
-		$this->pagination->generate_template_pagination('vinabb_web_board_forum_route', $forum_url_sort_params, 'pagination', 'start', $total_topic_count, $this->config['topics_per_page'], $start);
+		$this->pagination->generate_template_pagination('vinabb_web_board_forum_route', $forum_url_sort_params, 'pagination', $total_topic_count, $this->config['topics_per_page'], $start);
 
 		$this->template->assign_vars(array(
 			'TOTAL_TOPICS'	=> ($s_display_active) ? false : $this->language->lang('VIEW_FORUM_TOPICS', (int) $total_topic_count),
@@ -1086,7 +1086,7 @@ class forum implements forum_interface
 
 				$this->template->assign_block_vars('topicrow', $topic_row);
 
-				$this->pagination->generate_template_pagination('vinabb_web_board_topic_route', array('topic_id' => $topic_id), 'topicrow.pagination', 'start', $replies + 1, $this->config['posts_per_page'], 1, true, true);
+				$this->pagination->generate_template_pagination('vinabb_web_board_topic_route', array('topic_id' => $topic_id), 'topicrow.pagination', $replies + 1, $this->config['posts_per_page'], 1, true, true);
 
 				$s_type_switch = ($row['topic_type'] == POST_ANNOUNCE || $row['topic_type'] == POST_GLOBAL) ? 1 : 0;
 

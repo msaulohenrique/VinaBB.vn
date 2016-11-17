@@ -33,7 +33,7 @@ class topic
 	/** @var \phpbb\language\language */
 	protected $language;
 
-	/** @var \vinabb\web\controller\pagination */
+	/** @var \vinabb\web\controllers\pagination */
 	protected $pagination;
 
 	/** @var \phpbb\request\request */
@@ -64,7 +64,7 @@ class topic
 	* @param \phpbb\db\driver\driver_interface $db
 	* @param \phpbb\event\dispatcher_interface $dispatcher
 	* @param \phpbb\language\language $language
-	* @param \vinabb\web\controller\pagination $pagination
+	* @param \vinabb\web\controllers\pagination $pagination
 	* @param \phpbb\request\request $request
 	* @param \phpbb\template\template $template
 	* @param \phpbb\user $user
@@ -80,7 +80,7 @@ class topic
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\event\dispatcher_interface $dispatcher,
 		\phpbb\language\language $language,
-		\vinabb\web\controller\pagination $pagination,
+		\vinabb\web\controllers\pagination $pagination,
 		\phpbb\request\request $request,
 		\phpbb\template\template $template,
 		\phpbb\user $user,
@@ -174,7 +174,7 @@ class topic
 						AND " . $this->content_visibility->get_visibility_sql('post', $forum_id) . "
 						AND post_time > $topic_last_read
 						AND forum_id = $forum_id
-					ORDER BY post_time ASC, post_id ASC";
+					ORDER BY post_time, post_id";
 				$result = $this->db->sql_query_limit($sql, 1);
 				$row = $this->db->sql_fetchrow($result);
 				$this->db->sql_freeresult($result);

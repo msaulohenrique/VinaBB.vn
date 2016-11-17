@@ -259,7 +259,7 @@ class portal implements portal_interface
 		}
 
 		// Generate pagination
-		$this->pagination->generate_template_pagination('vinabb_web_portal_cat_route', ['varname' => $current_cat_id ? $varname : 'all'], 'pagination', 'start', $article_count, constants::NUM_ARTICLES_ON_INDEX, $start);
+		$this->pagination->generate_template_pagination('vinabb_web_portal_cat_route', ['varname' => $current_cat_id ? $varname : 'all'], 'pagination', $article_count, constants::NUM_ARTICLES_ON_INDEX, $start);
 
 		// Breadcrumb
 		if ($current_cat_id)

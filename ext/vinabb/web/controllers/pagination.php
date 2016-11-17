@@ -54,7 +54,7 @@ class pagination
 	*
 	* @return string
 	*/
-	protected function generate_page_link($route_name, array $route_params = array(), $on_page)
+	protected function generate_page_link($route_name, $route_params = [], $on_page)
 	{
 		if ($on_page > 1)
 		{
@@ -71,9 +71,6 @@ class pagination
 	* @param		$route_name
 	* @param array	$route_params
 	* @param string $block_var_name is the name assigned to the pagination data block within the template (example: <!-- BEGIN pagination -->)
-	* @param string $start_name is the name of the parameter containing the first item of the given page (example: start=20)
-	*							If you use page numbers inside your controller route, start name should be the string
-	*							that should be removed for the first page (example: /page/%d)
 	* @param int $num_items the total number of items, posts, etc., used to determine the number of pages to produce
 	* @param int $per_page the number of items, posts, etc. to display per page, used to determine the number of pages to produce
 	* @param int $start the item which should be considered currently active, used to determine the page we're on
@@ -81,7 +78,7 @@ class pagination
 	* @param bool $ignore_on_page decides whether we enable an active (unlinked) item, used primarily for embedded lists
 	* @return null
 	*/
-	public function generate_template_pagination($route_name, array $route_params = array(), $block_var_name, $start_name, $num_items, $per_page, $start = 1, $reverse_count = false, $ignore_on_page = false)
+	public function generate_template_pagination($route_name, $route_params = [], $block_var_name, $num_items, $per_page, $start = 1, $reverse_count = false, $ignore_on_page = false)
 	{
 		$total_pages = ceil($num_items / $per_page);
 		$on_page = $this->get_on_page($per_page, $start);
@@ -206,7 +203,6 @@ class pagination
 
 		$template_array = array(
 			$tpl_prefix . 'BASE_URL'				=> (empty($route_name)) ? '' : $this->helper->route($route_name, $route_params),
-			$tpl_prefix . 'START_NAME'				=> $start_name,
 			$tpl_prefix . 'PER_PAGE'				=> $per_page,
 			'U_' . $tpl_prefix . 'PREVIOUS_PAGE'	=> ($on_page != 1) ? $u_previous_page : '',
 			'U_' . $tpl_prefix . 'NEXT_PAGE'		=> ($on_page != $total_pages) ? $u_next_page : '',
