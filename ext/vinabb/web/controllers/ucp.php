@@ -117,7 +117,7 @@ class ucp implements ucp_interface
 		require "{$this->root_path}includes/functions_user.{$this->php_ext}";
 		require "{$this->ext_root_path}includes/functions_module.{$this->php_ext}";
 
-		if (in_array($mode, array('login', 'login_link', 'logout', 'confirm', 'sendpassword', 'activate')))
+		if (in_array($mode, ['login', 'login_link', 'logout', 'confirm', 'sendpassword', 'activate']))
 		{
 			define('IN_LOGIN', true);
 		}
@@ -225,7 +225,7 @@ class ucp implements ucp_interface
 
 			if ($id == 'pm' && $mode == 'view' && $this->request->is_set('p', \phpbb\request\request_interface::GET))
 			{
-				$redirect_url = $this->helper->route('vinabb_web_ucp_route', array('id' => 'pm', 'p' => $this->request->variable('p', 0)));
+				$redirect_url = $this->helper->route('vinabb_web_ucp_route', ['id' => 'pm', 'p' => $this->request->variable('p', 0)]);
 				login_box($redirect_url, $this->language->lang('LOGIN_EXPLAIN_UCP'));
 			}
 
@@ -256,7 +256,7 @@ class ucp implements ucp_interface
 		* @var	string		mode	Active module
 		* @since 3.1.0-a1
 		*/
-		$vars = array('module', 'id', 'mode');
+		$vars = ['module', 'id', 'mode'];
 		extract($this->dispatcher->trigger_event('core.ucp_display_module_before', compact($vars)));
 
 		// Select the active module
@@ -325,7 +325,7 @@ class ucp implements ucp_interface
 			'S_AGREEMENT'		=> true,
 			'AGREEMENT_TITLE'	=> $this->language->lang($title),
 			'AGREEMENT_TEXT'	=> $this->language->lang($message, $this->config['sitename'], generate_board_url()),
-			'U_BACK'			=> $this->helper->route('vinabb_web_ucp_route', array('mode' => 'login')),
+			'U_BACK'			=> $this->helper->route('vinabb_web_ucp_route', ['mode' => 'login']),
 			'L_BACK'			=> $this->language->lang('BACK_TO_LOGIN')
 		]);
 
@@ -360,7 +360,7 @@ class ucp implements ucp_interface
 				* @since 3.1.3-RC1
 				*/
 				$retain_cookie = false;
-				$vars = array('cookie_name', 'retain_cookie');
+				$vars = ['cookie_name', 'retain_cookie'];
 				extract($this->dispatcher->trigger_event('core.ucp_delete_cookies', compact($vars)));
 
 				if ($retain_cookie)
@@ -450,7 +450,7 @@ class ucp implements ucp_interface
 		$username = $this->db->sql_fetchfield('username');
 		$this->db->sql_freeresult($result);
 
-		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_ACL_RESTORE_PERMISSIONS', false, array($username));
+		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_ACL_RESTORE_PERMISSIONS', false, [$username]);
 
 		$message = $this->language->lang('PERMISSIONS_RESTORED') . '<br><br>' . $this->language->lang('RETURN_INDEX', '<a href="' . append_sid("{$this->root_path}index.{$this->php_ext}") . '">', '</a>');
 		trigger_error($message);
