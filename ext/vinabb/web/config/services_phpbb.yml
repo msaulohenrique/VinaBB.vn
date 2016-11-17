@@ -17,6 +17,29 @@ services:
             - '@group_helper'
             - '%core.root_path%'
             - '%core.php_ext%'
+    vinabb.web.user.contact:
+        class: vinabb\web\controllers\user\contact
+        arguments:
+            - '@language'
+            - '@message.form.admin'
+            - '@request'
+            - '@template'
+            - '@controller.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+    vinabb.web.user.messenger:
+        class: vinabb\web\controllers\user\messenger
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@dbal.conn'
+            - '@language'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
     vinabb.web.user.online:
         class: vinabb\web\controllers\user\online
         arguments:
