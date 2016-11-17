@@ -119,6 +119,7 @@ class online implements online_interface
 	*/
 	public function main($mode)
 	{
+		// Language
 		$this->language->add_lang('memberlist');
 
 		// Get and set some variables
