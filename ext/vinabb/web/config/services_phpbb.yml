@@ -21,6 +21,7 @@ services:
         class: vinabb\web\controllers\user\online
         arguments:
             - '@auth'
+            - '@cache'
             - '@config'
             - '@dbal.conn'
             - '@dispatcher'
@@ -30,7 +31,7 @@ services:
             - '@template'
             - '@user'
             - '@controller.helper'
-            - '@group_helper'
+            - '@vinabb.web.helper'
             - '%core.root_path%'
             - '%core.adm_relative_path%'
             - '%core.php_ext%'

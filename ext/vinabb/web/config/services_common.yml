@@ -9,10 +9,15 @@ services:
     vinabb.web.helper:
         class: vinabb\web\controllers\helper
         arguments:
+            - '@auth'
             - '@cache'
+            - '@config'
             - '@dbal.conn'
             - '@file_downloader'
             - '@language'
             - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '@group_helper'
             - '%vinabb.web.tables.bb_items%'
             - '%vinabb.web.tables.portal_articles%'
