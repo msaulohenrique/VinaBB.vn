@@ -99,6 +99,13 @@ interface helper_interface
 	public function fetch_url($url);
 
 	/**
+	* Group legend for online users
+	*
+	* @return string
+	*/
+	public function get_group_legend();
+
+	/**
 	* List phpBB resource items with pagination
 	*
 	* @param int	$bb_type	phpBB resource type in constant value

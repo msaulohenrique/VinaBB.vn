@@ -12,8 +12,14 @@ use vinabb\web\includes\constants;
 
 class helper implements helper_interface
 {
+	/** @var \phpbb\auth\auth */
+	protected $auth;
+
 	/** @var \phpbb\cache\service */
 	protected $cache;
+
+	/** @var \phpbb\config\config */
+	protected $config;
 
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
@@ -27,6 +33,15 @@ class helper implements helper_interface
 	/** @var \phpbb\template\template */
 	protected $template;
 
+	/** @var \phpbb\user */
+	protected $user;
+
+	/** @var \phpbb\controller\helper */
+	protected $helper;
+
+	/** @var \phpbb\group\helper */
+	protected $group_helper;
+
 	/** @var string */
 	protected $bb_items_table;
 
@@ -36,29 +51,44 @@ class helper implements helper_interface
 	/**
 	* Constructor
 	*
+	* @param \phpbb\auth\auth $auth
 	* @param \phpbb\cache\service $cache
+	* @param \phpbb\config\config $config
 	* @param \phpbb\db\driver\driver_interface $db
 	* @param \phpbb\file_downloader $file_downloader
 	* @param \phpbb\language\language $language
 	* @param \phpbb\template\template $template
+	* @param \phpbb\user $user
+	* @param \phpbb\controller\helper $helper
+	* @param \phpbb\group\helper $group_helper
 	* @param string $bb_items_table
 	* @param string $portal_articles_table
 	*/
 	public function __construct(
+		\phpbb\auth\auth $auth,
 		\phpbb\cache\service $cache,
+		\phpbb\config\config $config,
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\file_downloader $file_downloader,
 		\phpbb\language\language $language,
 		\phpbb\template\template $template,
+		\phpbb\user $user,
+		\phpbb\controller\helper $helper,
+		\phpbb\group\helper $group_helper,
 		$bb_items_table,
 		$portal_articles_table
 	)
 	{
+		$this->auth = $auth;
 		$this->cache = $cache;
+		$this->config = $config;
 		$this->db = $db;
 		$this->file_downloader = $file_downloader;
 		$this->language = $language;
 		$this->template = $template;
+		$this->user = $user;
+		$this->helper = $helper;
+		$this->group_helper = $group_helper;
 		$this->bb_items_table = $bb_items_table;
 		$this->portal_articles_table = $portal_articles_table;
 	}
@@ -373,6 +403,58 @@ class helper implements helper_interface
 		}
 
 		return $raw;
+	}
+
+	/**
+	* Group legend for online users
+	*
+	* @return string
+	*/
+	public function get_group_legend()
+	{
+		$order_legend = ($this->config['legend_sort_groupname']) ? 'group_name' : 'group_legend';
+
+		if ($this->auth->acl_gets('a_group', 'a_groupadd', 'a_groupdel'))
+		{
+			$sql = 'SELECT group_id, group_name, group_colour, group_type, group_legend
+				FROM ' . GROUPS_TABLE . '
+				WHERE group_legend > 0
+				ORDER BY ' . $order_legend;
+		}
+		else
+		{
+			$sql = 'SELECT g.group_id, g.group_name, g.group_colour, g.group_type, g.group_legend
+				FROM ' . GROUPS_TABLE . ' g
+				LEFT JOIN ' . USER_GROUP_TABLE . ' ug
+					ON (
+						g.group_id = ug.group_id
+						AND ug.user_id = ' . $this->user->data['user_id'] . '
+						AND ug.user_pending = 0
+					)
+				WHERE g.group_legend > 0
+					AND (g.group_type <> ' . GROUP_HIDDEN . ' OR ug.user_id = ' . $this->user->data['user_id'] . ')
+				ORDER BY g.' . $order_legend;
+		}
+		$result = $this->db->sql_query($sql);
+
+		$legend = [];
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$colour_text = ($row['group_colour']) ? ' style="color: #' . $row['group_colour'] . '"' : '';
+			$group_name = $this->group_helper->get_name($row['group_name']);
+
+			if ($row['group_name'] == 'BOTS' || ($this->user->data['user_id'] != ANONYMOUS && !$this->auth->acl_get('u_viewprofile')))
+			{
+				$legend[] = '<span' . $colour_text . '>' . $group_name . '</span>';
+			}
+			else
+			{
+				$legend[] = '<a' . $colour_text . ' href="' . $this->helper->route('vinabb_web_user_group_route', ['group_id' => $row['group_id']]) . '">' . $group_name . '</a>';
+			}
+		}
+		$this->db->sql_freeresult($result);
+
+		return implode($this->language->lang('COMMA_SEPARATOR'), $legend);
 	}
 
 	/**

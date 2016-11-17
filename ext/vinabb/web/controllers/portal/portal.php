@@ -54,9 +54,6 @@ class portal implements portal_interface
 	/** @var \vinabb\web\controllers\helper_interface */
 	protected $ext_helper;
 
-	/** @var \phpbb\group\helper */
-	protected $group_helper;
-
 	/** @var \phpbb\path_helper */
 	protected $path_helper;
 
@@ -95,7 +92,6 @@ class portal implements portal_interface
 	* @param \phpbb\user $user
 	* @param \phpbb\controller\helper $helper
 	* @param \vinabb\web\controllers\helper_interface $ext_helper
-	* @param \phpbb\group\helper $group_helper
 	* @param \phpbb\path_helper $path_helper
 	* @param string $root_path
 	* @param string $php_ext
@@ -115,7 +111,6 @@ class portal implements portal_interface
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
 		\vinabb\web\controllers\helper_interface $ext_helper,
-		\phpbb\group\helper $group_helper,
 		\phpbb\path_helper $path_helper,
 		$root_path,
 		$php_ext
@@ -135,7 +130,6 @@ class portal implements portal_interface
 		$this->user = $user;
 		$this->helper = $helper;
 		$this->ext_helper = $ext_helper;
-		$this->group_helper = $group_helper;
 		$this->path_helper = $path_helper;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
@@ -191,7 +185,7 @@ class portal implements portal_interface
 
 		// Output
 		$this->template->assign_vars([
-			'LEGEND'				=> $this->get_group_legend(),
+			'LEGEND'				=> $this->ext_helper->get_group_legend(),
 			'TOTAL_BIRTHDAY_USERS'	=> sizeof($birthdays),
 
 			'FORUM_VIETNAMESE'	=> ($this->config['vinabb_web_forum_id_vietnamese']) ? $this->forum_data[$this->config['vinabb_web_forum_id_vietnamese']]['name'] : '',
@@ -753,58 +747,6 @@ class portal implements portal_interface
 			'DONATE_BANK_SWIFT'	=> $this->config['vinabb_web_donate_bank_swift'],
 			'DONATE_PAYPAL'		=> htmlspecialchars_decode($this->config['vinabb_web_donate_paypal'])
 		]);
-	}
-
-	/**
-	* Group legend for online users
-	*
-	* @return mixed
-	*/
-	protected function get_group_legend()
-	{
-		$order_legend = ($this->config['legend_sort_groupname']) ? 'group_name' : 'group_legend';
-
-		if ($this->auth->acl_gets('a_group', 'a_groupadd', 'a_groupdel'))
-		{
-			$sql = 'SELECT group_id, group_name, group_colour, group_type, group_legend
-				FROM ' . GROUPS_TABLE . '
-				WHERE group_legend > 0
-				ORDER BY ' . $order_legend;
-		}
-		else
-		{
-			$sql = 'SELECT g.group_id, g.group_name, g.group_colour, g.group_type, g.group_legend
-				FROM ' . GROUPS_TABLE . ' g
-				LEFT JOIN ' . USER_GROUP_TABLE . ' ug
-					ON (
-						g.group_id = ug.group_id
-						AND ug.user_id = ' . $this->user->data['user_id'] . '
-						AND ug.user_pending = 0
-					)
-				WHERE g.group_legend > 0
-					AND (g.group_type <> ' . GROUP_HIDDEN . ' OR ug.user_id = ' . $this->user->data['user_id'] . ')
-				ORDER BY g.' . $order_legend;
-		}
-		$result = $this->db->sql_query($sql);
-
-		$legend = [];
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$colour_text = ($row['group_colour']) ? ' style="color: #' . $row['group_colour'] . '"' : '';
-			$group_name = $this->group_helper->get_name($row['group_name']);
-
-			if ($row['group_name'] == 'BOTS' || ($this->user->data['user_id'] != ANONYMOUS && !$this->auth->acl_get('u_viewprofile')))
-			{
-				$legend[] = '<span' . $colour_text . '>' . $group_name . '</span>';
-			}
-			else
-			{
-				$legend[] = '<a' . $colour_text . ' href="' . $this->helper->route('vinabb_web_user_group_route', ['group_id' => $row['group_id']]) . '">' . $group_name . '</a>';
-			}
-		}
-		$this->db->sql_freeresult($result);
-
-		return implode($this->language->lang('COMMA_SEPARATOR'), $legend);
 	}
 
 	/**
