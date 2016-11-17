@@ -7,9 +7,6 @@ services:
             - '@dbal.conn'
             - '@dispatcher'
             - '@language'
-            - '@message.form.admin'
-            - '@message.form.topic'
-            - '@message.form.user'
             - '@request'
             - '@template'
             - '@user'
@@ -51,6 +48,26 @@ services:
             - '@controller.helper'
             - '%core.root_path%'
             - '%core.php_ext%'
+    vinabb.web.user.team:
+        class: vinabb\web\controllers\user\team
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@dbal.conn'
+            - '@dispatcher'
+            - '@language'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '@group_helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+    vinabb.web.user.livesearch:
+        class: vinabb\web\controllers\user\livesearch
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@dbal.conn'
     vinabb.web.user.online:
         class: vinabb\web\controllers\user\online
         arguments:
