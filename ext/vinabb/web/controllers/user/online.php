@@ -15,6 +15,9 @@ class online implements online_interface
 	/** @var \phpbb\auth\auth */
 	protected $auth;
 
+	/** @var \phpbb\cache\service */
+	protected $cache;
+
 	/** @var \phpbb\config\config */
 	protected $config;
 
@@ -42,8 +45,8 @@ class online implements online_interface
 	/** @var \phpbb\controller\helper */
 	protected $helper;
 
-	/** @var \phpbb\group\helper */
-	protected $group_helper;
+	/** @var \vinabb\web\controllers\helper_interface */
+	protected $ext_helper;
 
 	/** @var string */
 	protected $root_path;
@@ -58,6 +61,7 @@ class online implements online_interface
 	* Constructor
 	*
 	* @param \phpbb\auth\auth $auth
+	* @param \phpbb\cache\service $cache
 	* @param \phpbb\config\config $config
 	* @param \phpbb\db\driver\driver_interface $db
 	* @param \phpbb\event\dispatcher_interface $dispatcher
@@ -67,13 +71,14 @@ class online implements online_interface
 	* @param \phpbb\template\template $template
 	* @param \phpbb\user $user
 	* @param \phpbb\controller\helper $helper
-	* @param \phpbb\group\helper $group_helper
+	* @param \vinabb\web\controllers\helper_interface $ext_helper
 	* @param string $root_path
 	* @param string $admin_path
 	* @param string $php_ext
 	*/
 	public function __construct(
 		\phpbb\auth\auth $auth,
+		\phpbb\cache\service $cache,
 		\phpbb\config\config $config,
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\event\dispatcher_interface $dispatcher,
@@ -83,13 +88,14 @@ class online implements online_interface
 		\phpbb\template\template $template,
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
-		\phpbb\group\helper $group_helper,
+		\vinabb\web\controllers\helper_interface $ext_helper,
 		$root_path,
 		$admin_path,
 		$php_ext
 	)
 	{
 		$this->auth = $auth;
+		$this->cache = $cache;
 		$this->config = $config;
 		$this->db = $db;
 		$this->dispatcher = $dispatcher;
@@ -99,7 +105,7 @@ class online implements online_interface
 		$this->template = $template;
 		$this->user = $user;
 		$this->helper = $helper;
-		$this->group_helper = $group_helper;
+		$this->ext_helper = $ext_helper;
 		$this->root_path = $root_path;
 		$this->admin_path = $admin_path;
 		$this->php_ext = $php_ext;
@@ -133,8 +139,17 @@ class online implements online_interface
 			login_box('', $this->language->lang('LOGIN_EXPLAIN_VIEWONLINE'));
 		}
 
-		$sort_key_text = array('a' => $this->language->lang('SORT_USERNAME'), 'b' => $this->language->lang('SORT_JOINED'), 'c' => $this->language->lang('SORT_LOCATION'));
-		$sort_key_sql = array('a' => 'u.username_clean', 'b' => 's.session_time', 'c' => 's.session_page');
+		$sort_key_text = [
+			'a' => $this->language->lang('SORT_USERNAME'),
+			'b' => $this->language->lang('SORT_JOINED'),
+			'c' => $this->language->lang('SORT_LOCATION')
+		];
+
+		$sort_key_sql = [
+			'a' => 'u.username_clean',
+			'b' => 's.session_time',
+			'c' => 's.session_page'
+		];
 
 		// Sorting and order
 		if (!isset($sort_key_text[$sort_key]))
@@ -144,85 +159,26 @@ class online implements online_interface
 
 		$order_by = $sort_key_sql[$sort_key] . ' ' . (($sort_dir == 'a') ? 'ASC' : 'DESC');
 
-		// Whois requested
-		if ($mode == 'whois' && $this->auth->acl_get('a_') && $session_id)
-		{
-			include "{$this->root_path}includes/functions_user.{$this->php_ext}";
-
-			$sql = 'SELECT u.user_id, u.username, u.user_type, s.session_ip
-				FROM ' . USERS_TABLE . ' u, ' . SESSIONS_TABLE . " s
-				WHERE s.session_id = '" . $this->db->sql_escape($session_id) . "'
-			AND	u.user_id = s.session_user_id";
-			$result = $this->db->sql_query($sql);
-
-			if ($row = $this->db->sql_fetchrow($result))
-			{
-				$this->template->assign_var('WHOIS', user_ipwhois($row['session_ip']));
-			}
-			$this->db->sql_freeresult($result);
-
-			return $this->helper->render('viewonline_whois.html', $this->language->lang('WHO_IS_ONLINE'));
-		}
-
 		$this->user->update_session_infos();
 
 		// Forum info
-		$sql_ary = array(
-			'SELECT'	=> 'f.forum_id, f.forum_name, f.parent_id, f.forum_type, f.left_id, f.right_id, f.forum_name_seo',
-			'FROM'		=> array(
-				FORUMS_TABLE	=> 'f',
-			),
-			'ORDER_BY'	=> 'f.left_id ASC',
-		);
+		$forum_data = $this->cache->get_forum_data();
 
 		/**
+		* [REMOVED]
 		* Modify the forum data SQL query for getting additional fields if needed
 		*
 		* @event core.viewonline_modify_forum_data_sql
 		* @var	array	sql_ary			The SQL array
 		* @since 3.1.5-RC1
 		*/
-		$vars = array('sql_ary');
-		extract($this->dispatcher->trigger_event('core.viewonline_modify_forum_data_sql', compact($vars)));
-
-		$result = $this->db->sql_query($this->db->sql_build_query('SELECT', $sql_ary), 600);
-		unset($sql_ary);
-
-		$forum_data = array();
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$forum_data[$row['forum_id']] = $row;
-		}
-		$this->db->sql_freeresult($result);
-
-		$guest_counter = 0;
 
 		// Get number of online guests (if we do not display them)
+		$guest_counter = 0;
+
 		if (!$show_guests)
 		{
-			switch ($this->db->get_sql_layer())
-			{
-				case 'sqlite':
-				case 'sqlite3':
-					$sql = 'SELECT COUNT(session_ip) as num_guests
-						FROM (
-							SELECT DISTINCT session_ip
-								FROM ' . SESSIONS_TABLE . '
-								WHERE session_user_id = ' . ANONYMOUS . '
-									AND session_time >= ' . (time() - ($this->config['load_online_time'] * 60)) .
-						')';
-				break;
-
-				default:
-					$sql = 'SELECT COUNT(DISTINCT session_ip) as num_guests
-						FROM ' . SESSIONS_TABLE . '
-						WHERE session_user_id = ' . ANONYMOUS . '
-							AND session_time >= ' . (time() - ($this->config['load_online_time'] * 60));
-				break;
-			}
-			$result = $this->db->sql_query($sql);
-			$guest_counter = (int) $this->db->sql_fetchfield('num_guests');
-			$this->db->sql_freeresult($result);
+			$guest_counter = $this->get_guest_counter();
 		}
 
 		// Get user list
@@ -460,10 +416,10 @@ class online implements online_interface
 			* @since 3.1.0-a1
 			* @change 3.1.0-a2 Added var forum_data
 			*/
-			$vars = array('on_page', 'row', 'location', 'location_url', 'forum_data');
+			$vars = ['on_page', 'row', 'location', 'location_url', 'forum_data'];
 			extract($this->dispatcher->trigger_event('core.viewonline_overwrite_location', compact($vars)));
 
-			$template_row = array(
+			$template_row = [
 				'USERNAME' 			=> $row['username'],
 				'USERNAME_COLOUR'	=> $row['user_colour'],
 				'USERNAME_FULL'		=> $username_full,
@@ -473,14 +429,14 @@ class online implements online_interface
 				'USER_BROWSER'		=> ($this->auth->acl_get('a_user')) ? $row['session_browser'] : '',
 
 				'U_USER_PROFILE'	=> ($row['user_type'] != USER_IGNORE) ? get_username_string('profile', $row['user_id'], '') : '',
-				'U_USER_IP'			=> ($mode != 'lookup' || $row['session_id'] != $session_id) ? $this->helper->route('vinabb_web_user_online_route', array('mode' => 'lookup', 's' => $row['session_id'], 'sg' => $show_guests, 'start' => $start, 'sk' => $sort_key, 'sd' => $sort_dir)) : $this->helper->route('vinabb_web_user_online_route', array('mode' => 'lookup', 'sg' => $show_guests, 'start' => $start, 'sk' => $sort_key, 'sd' => $sort_dir)),
-				'U_WHOIS'			=> $this->helper->route('vinabb_web_user_online_route', array('mode' => 'whois', 's' => $row['session_id'])),
+				'U_USER_IP'			=> ($mode != 'lookup' || $row['session_id'] != $session_id) ? $this->helper->route('vinabb_web_user_online_route', ['mode' => 'lookup', 's' => $row['session_id'], 'sg' => $show_guests, 'start' => $start, 'sk' => $sort_key, 'sd' => $sort_dir]) : $this->helper->route('vinabb_web_user_online_route', ['mode' => 'lookup', 'sg' => $show_guests, 'start' => $start, 'sk' => $sort_key, 'sd' => $sort_dir]),
+				'U_WHOIS'			=> $this->helper->route('vinabb_web_user_online_whois_route', ['session_id' => $row['session_id']]),
 				'U_FORUM_LOCATION'	=> $location_url,
 
 				'S_USER_HIDDEN'		=> $s_user_hidden,
-				'S_GUEST'			=> ($row['user_id'] == ANONYMOUS) ? true : false,
-				'S_USER_TYPE'		=> $row['user_type'],
-			);
+				'S_GUEST'			=> ($row['user_id'] == ANONYMOUS),
+				'S_USER_TYPE'		=> $row['user_type']
+			];
 
 			/**
 			* Modify viewonline template data before it is displayed in the list
@@ -492,53 +448,13 @@ class online implements online_interface
 			* @var	array	template_row	Array with template variables for the user row
 			* @since 3.1.0-RC4
 			*/
-			$vars = array('on_page', 'row', 'forum_data', 'template_row');
+			$vars = ['on_page', 'row', 'forum_data', 'template_row'];
 			extract($this->dispatcher->trigger_event('core.viewonline_modify_user_row', compact($vars)));
 
 			$this->template->assign_block_vars('user_row', $template_row);
 		}
 		$this->db->sql_freeresult($result);
 		unset($prev_id, $prev_ip);
-
-		$order_legend = ($this->config['legend_sort_groupname']) ? 'group_name' : 'group_legend';
-
-		// Grab group details for legend display
-		if ($this->auth->acl_gets('a_group', 'a_groupadd', 'a_groupdel'))
-		{
-			$sql = 'SELECT group_id, group_name, group_colour, group_type, group_legend
-				FROM ' . GROUPS_TABLE . '
-				WHERE group_legend > 0
-				ORDER BY ' . $order_legend;
-		}
-		else
-		{
-			$sql = 'SELECT g.group_id, g.group_name, g.group_colour, g.group_type, g.group_legend
-				FROM ' . GROUPS_TABLE . ' g
-				LEFT JOIN ' . USER_GROUP_TABLE . ' ug
-					ON (
-						g.group_id = ug.group_id
-						AND ug.user_id = ' . $this->user->data['user_id'] . '
-						AND ug.user_pending = 0
-					)
-				WHERE g.group_legend > 0
-					AND (g.group_type <> ' . GROUP_HIDDEN . ' OR ug.user_id = ' . $this->user->data['user_id'] . ')
-				ORDER BY g.' . $order_legend;
-		}
-		$result = $this->db->sql_query($sql);
-
-		$legend = '';
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			if ($row['group_name'] == 'BOTS')
-			{
-				$legend .= (($legend != '') ? ', ' : '') . '<span style="color: #' . $row['group_colour'] . '">' . $this->language->lang('G_BOTS') . '</span>';
-			}
-			else
-			{
-				$legend .= (($legend != '') ? ', ' : '') . '<a style="color: #' . $row['group_colour'] . '" href="' . $this->helper->route('vinabb_web_user_group_route', array('group_id' => $row['group_id'])) . '">' . $this->group_helper->get_name($row['group_name']) . '</a>';
-			}
-		}
-		$this->db->sql_freeresult($result);
 
 		// Refreshing the page every 60 seconds...
 		meta_refresh(60, $this->helper->route('vinabb_web_user_online_route', array('sg' => $show_guests, 'sk' => $sort_key, 'sd' => $sort_dir, 'start' => $start)));
@@ -551,7 +467,7 @@ class online implements online_interface
 		$this->template->assign_vars(array(
 			'TOTAL_REGISTERED_USERS_ONLINE'	=> $this->language->lang('REG_USERS_ONLINE', (int) $logged_visible_online, $this->language->lang('HIDDEN_USERS_ONLINE', (int) $logged_hidden_online)),
 			'TOTAL_GUEST_USERS_ONLINE'		=> $this->language->lang('GUEST_USERS_ONLINE', (int) $guest_counter),
-			'LEGEND'						=> $legend,
+			'LEGEND'						=> $this->ext_helper->get_group_legend(),
 
 			'U_SORT_USERNAME'	=> $this->helper->route('vinabb_web_user_online_route', array('sk' => 'a', 'sd' => (($sort_key == 'a' && $sort_dir == 'a') ? 'd' : 'a'), 'sg' => ((int) $show_guests))),
 			'U_SORT_UPDATED'	=> $this->helper->route('vinabb_web_user_online_route', array('sk' => 'b', 'sd' => (($sort_key == 'b' && $sort_dir == 'a') ? 'd' : 'a'), 'sg' => ((int) $show_guests))),
@@ -567,5 +483,73 @@ class online implements online_interface
 		$this->config['load_online'] = false;
 
 		return $this->helper->render('viewonline_body.html', $this->language->lang('WHO_IS_ONLINE'));
+	}
+
+	/**
+	* Get number of online guests
+	*
+	* @return int
+	*/
+	protected function get_guest_counter()
+	{
+		switch ($this->db->get_sql_layer())
+		{
+			case 'sqlite':
+			case 'sqlite3':
+				$sql = 'SELECT COUNT(session_ip) as num_guests
+					FROM (
+						SELECT DISTINCT session_ip
+							FROM ' . SESSIONS_TABLE . '
+							WHERE session_user_id = ' . ANONYMOUS . '
+								AND session_time >= ' . (time() - ($this->config['load_online_time'] * 60)) .
+					')';
+			break;
+
+			default:
+				$sql = 'SELECT COUNT(DISTINCT session_ip) as num_guests
+					FROM ' . SESSIONS_TABLE . '
+					WHERE session_user_id = ' . ANONYMOUS . '
+						AND session_time >= ' . (time() - ($this->config['load_online_time'] * 60));
+			break;
+		}
+
+		$result = $this->db->sql_query($sql);
+		$guest_counter = (int) $this->db->sql_fetchfield('num_guests');
+		$this->db->sql_freeresult($result);
+
+		return $guest_counter;
+	}
+
+	/**
+	* Whois requested
+	*
+	* @param string $session_id Session ID
+	* @return \Symfony\Component\HttpFoundation\Response
+	*/
+	public function whois($session_id)
+	{
+		if ($this->auth->acl_get('a_'))
+		{
+			include "{$this->root_path}includes/functions_user.{$this->php_ext}";
+
+			$sql = 'SELECT u.user_id, u.username, u.user_type, s.session_ip
+				FROM ' . USERS_TABLE . ' u, ' . SESSIONS_TABLE . " s
+				WHERE s.session_id = '" . $this->db->sql_escape($session_id) . "'
+			AND	u.user_id = s.session_user_id";
+			$result = $this->db->sql_query($sql);
+
+			if ($row = $this->db->sql_fetchrow($result))
+			{
+				$this->template->assign_var('WHOIS', user_ipwhois($row['session_ip']));
+			}
+			$this->db->sql_freeresult($result);
+
+			return $this->helper->render('viewonline_whois.html', $this->language->lang('WHO_IS_ONLINE'));
+		}
+		else
+		{
+			send_status_line(401, 'Unauthorized');
+			trigger_error('NOT_AUTHORISED');
+		}
 	}
 }

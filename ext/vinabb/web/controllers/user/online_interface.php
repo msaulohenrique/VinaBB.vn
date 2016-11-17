@@ -17,4 +17,12 @@ interface online_interface
 	* @return \Symfony\Component\HttpFoundation\Response
 	*/
 	public function main($mode);
+
+	/**
+	* Whois requested
+	*
+	* @param string $session_id Session ID
+	* @return \Symfony\Component\HttpFoundation\Response
+	*/
+	public function whois($session_id);
 }
