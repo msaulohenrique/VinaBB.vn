@@ -21,6 +21,11 @@ interface helper_interface
 	public function list_bb_cats();
 
 	/**
+	* Language switcher for guests
+	*/
+	public function add_lang_switcher();
+
+	/**
 	* Add checking permissions to template variables
 	*/
 	public function auth_to_template();

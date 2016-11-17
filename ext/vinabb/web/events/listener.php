@@ -201,17 +201,7 @@ class listener implements EventSubscriberInterface
 		// Language switcher for guests
 		if ($this->user->data['user_id'] == ANONYMOUS && $this->config['vinabb_web_lang_switch'] != '')
 		{
-			// Get language data from cache
-			$lang_data = $this->cache->get_lang_data();
-
-			// Language titles
-			$lang_switch = ($this->user->lang_name == $this->config['default_lang']) ? $this->config['vinabb_web_lang_switch'] : $this->config['default_lang'];
-			$lang_switch_new = $lang_data[$lang_switch]['local_name'];
-			$lang_switch_title = ($this->user->lang_name == $this->config['default_lang']) ? $this->language->lang('LANG_SWITCH', $lang_data[$this->config['default_lang']]['local_name'], $lang_data[$this->config['vinabb_web_lang_switch']]['local_name']) : $this->language->lang('LANG_SWITCH', $lang_data[$this->config['vinabb_web_lang_switch']]['local_name'], $lang_data[$this->config['default_lang']]['local_name']);
-		}
-		else
-		{
-			$lang_switch = $lang_switch_new = $lang_switch_title = '';
+			$this->event_helper->add_lang_switcher();
 		}
 
 		// Add template variables
@@ -220,17 +210,11 @@ class listener implements EventSubscriberInterface
 		$this->event_helper->add_new_routes();
 
 		$this->template->assign_vars([
-			'LANG_SWITCH_CURRENT'	=> $this->user->lang_name,
-			'LANG_SWITCH_DEFAULT'	=> $this->config['default_lang'],
-			'LANG_SWITCH_NEW'		=> $lang_switch_new,
-			'LANG_SWITCH_TITLE'		=> $lang_switch_title,
-
 			'S_VIETNAMESE'	=> $this->user->lang_name == constants::LANG_VIETNAMESE,
 
 			'T_JS_LANG_PATH'	=> "{$this->ext_web_path}language/{$this->user->lang_name}/js",
 
 			'U_MCP'				=> ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? $this->helper->route('vinabb_web_mcp_route', [], true, $this->user->session_id) : '',
-			'U_LANG'			=> ($this->user->data['user_id'] == ANONYMOUS && $this->config['vinabb_web_lang_switch'] != '') ? append_sid("{$this->root_path}index.{$this->php_ext}", "language=$lang_switch") : '',
 			'U_CONTACT_PM'		=> ($this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm') && $this->config['vinabb_web_manager_user_id']) ? $this->helper->route('vinabb_web_ucp_route', ['id' => 'pm', 'mode' => 'compose', 'u' => $this->config['vinabb_web_manager_user_id']]) : '',
 			'U_LOGIN_ACTION'	=> $this->helper->route('vinabb_web_ucp_route', ['id' => 'front', 'mode' => 'login']),
 			'U_SEND_PASSWORD'	=> ($this->config['email_enable']) ? $this->helper->route('vinabb_web_ucp_route', ['id' => 'front', 'mode' => 'sendpassword']) : ''

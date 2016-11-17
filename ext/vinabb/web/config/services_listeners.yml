@@ -10,6 +10,8 @@ services:
             - '@user'
             - '@controller.helper'
             - '@vinabb.web.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
     vinabb.web.listener:
         class: vinabb\web\events\listener
         arguments:

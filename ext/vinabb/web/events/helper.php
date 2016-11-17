@@ -37,6 +37,12 @@ class helper implements helper_interface
 	/** @var \vinabb\web\controllers\helper_interface */
 	protected $ext_helper;
 
+	/** @var string */
+	protected $root_path;
+
+	/** @var string */
+	protected $php_ext;
+
 	/** @var array */
 	protected $config_text = [];
 
@@ -51,6 +57,8 @@ class helper implements helper_interface
 	* @param \phpbb\user $user
 	* @param \phpbb\controller\helper $helper
 	* @param \vinabb\web\controllers\helper_interface $ext_helper
+	* @param string $root_path
+	* @param string $php_ext
 	*/
 	public function __construct(
 		\phpbb\auth\auth $auth,
@@ -60,7 +68,9 @@ class helper implements helper_interface
 		\phpbb\template\template $template,
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
-		\vinabb\web\controllers\helper_interface $ext_helper
+		\vinabb\web\controllers\helper_interface $ext_helper,
+		$root_path,
+		$php_ext
 	)
 	{
 		$this->auth = $auth;
@@ -71,6 +81,8 @@ class helper implements helper_interface
 		$this->user = $user;
 		$this->helper = $helper;
 		$this->ext_helper = $ext_helper;
+		$this->root_path = $root_path;
+		$this->php_ext = $php_ext;
 
 		$this->config_text = $this->cache->get_config_text();
 	}
@@ -129,6 +141,35 @@ class helper implements helper_interface
 				]);
 			}
 		}
+	}
+
+	/**
+	* Language switcher for guests
+	*/
+	public function add_lang_switcher()
+	{
+		// Get language data from cache
+		$lang_data = $this->cache->get_lang_data();
+
+		// Language titles
+		if ($this->user->lang_name == $this->config['default_lang'])
+		{
+			$lang_current = $this->config['default_lang'];
+			$lang_switch = $this->config['vinabb_web_lang_switch'];
+		}
+		else
+		{
+			$lang_current = $this->config['vinabb_web_lang_switch'];
+			$lang_switch = $this->config['default_lang'];
+		}
+
+		$this->template->assign_vars([
+			'LANG_SWITCH_CURRENT'	=> $this->user->lang_name,
+			'LANG_SWITCH_DEFAULT'	=> $this->config['default_lang'],
+			'LANG_SWITCH_TITLE'		=> $this->language->lang('LANG_SWITCH', $lang_data[$lang_current]['local_name'], $lang_data[$lang_switch]['local_name']),
+
+			'U_LANG'	=> append_sid("{$this->root_path}index.{$this->php_ext}", "language={$lang_switch}")
+		]);
 	}
 
 	/**
@@ -256,7 +297,7 @@ class helper implements helper_interface
 			}
 			else
 			{
-				$message = ($this->user->lang_name == 'vi') ? $this->config_text['vinabb_web_maintenance_text_vi'] : $this->config_text['vinabb_web_maintenance_text'];
+				$message = ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->config_text['vinabb_web_maintenance_text_vi'] : $this->config_text['vinabb_web_maintenance_text'];
 				$message = str_replace("\n", '<br>', $message);
 
 				if ($in_maintenance_time)
