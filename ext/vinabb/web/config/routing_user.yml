@@ -51,3 +51,12 @@ vinabb_web_user_livesearch_route:
     path: /search/live
     defaults:
         _controller: vinabb.web.user:livesearch
+vinabb_web_user_online_route:
+    path: /online/{mode}{slash}
+    defaults:
+        _controller: vinabb.web.user.online:main
+        mode: ''
+        slash: ''
+    requirements:
+        mode: '(|whois|lookup)'
+        slash: '(|\/)'

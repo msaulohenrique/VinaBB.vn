@@ -6,7 +6,7 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\controllers;
+namespace vinabb\web\controllers\user;
 
 class user
 {

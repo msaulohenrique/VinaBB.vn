@@ -1,6 +1,6 @@
 services:
     vinabb.web.user:
-        class: vinabb\web\controllers\user
+        class: vinabb\web\controllers\user\user
         arguments:
             - '@auth'
             - '@config'
@@ -16,6 +16,23 @@ services:
             - '@controller.helper'
             - '@group_helper'
             - '%core.root_path%'
+            - '%core.php_ext%'
+    vinabb.web.user.online:
+        class: vinabb\web\controllers\user\online
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@dbal.conn'
+            - '@dispatcher'
+            - '@language'
+            - '@pagination'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '@group_helper'
+            - '%core.root_path%'
+            - '%core.adm_relative_path%'
             - '%core.php_ext%'
     vinabb.web.ucp:
         class: vinabb\web\controllers\ucp
@@ -138,21 +155,4 @@ services:
         class: vinabb\web\controllers\board\search
         arguments:
             - '%core.root_path%'
-            - '%core.php_ext%'
-    vinabb.web.online:
-        class: vinabb\web\controllers\online
-        arguments:
-            - '@auth'
-            - '@config'
-            - '@dbal.conn'
-            - '@dispatcher'
-            - '@language'
-            - '@pagination'
-            - '@request'
-            - '@template'
-            - '@user'
-            - '@controller.helper'
-            - '@group_helper'
-            - '%core.root_path%'
-            - '%core.adm_relative_path%'
             - '%core.php_ext%'

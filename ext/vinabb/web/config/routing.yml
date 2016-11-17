@@ -33,15 +33,6 @@ vinabb_web_board_route:
 vinabb_web_board_routing:
     resource: routing_board.yml
     prefix: /board
-vinabb_web_online_route:
-    path: /online/{mode}{slash}
-    defaults:
-        _controller: vinabb.web.online:main
-        mode: ''
-        slash: ''
-    requirements:
-        mode: '(|whois|lookup)'
-        slash: '(|\/)'
 vinabb_web_board_embed_routing:
     resource: routing_embed.yml
     prefix: /embed

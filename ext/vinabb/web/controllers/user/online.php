@@ -6,7 +6,7 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\controllers;
+namespace vinabb\web\controllers\user;
 
 use vinabb\web\includes\constants;
 
@@ -326,7 +326,7 @@ class online implements online_interface
 				),
 				"app.{$this->php_ext}/online"	=> array(
 					'lang'	=> $this->language->lang('VIEWING_ONLINE'),
-					'url'	=> $this->helper->route('vinabb_web_online_route'),
+					'url'	=> $this->helper->route('vinabb_web_user_online_route'),
 				),
 				"app.{$this->php_ext}/user/list"	=> array(
 					'lang'	=> $this->language->lang('VIEWING_MEMBERS'),
@@ -473,8 +473,8 @@ class online implements online_interface
 				'USER_BROWSER'		=> ($this->auth->acl_get('a_user')) ? $row['session_browser'] : '',
 
 				'U_USER_PROFILE'	=> ($row['user_type'] != USER_IGNORE) ? get_username_string('profile', $row['user_id'], '') : '',
-				'U_USER_IP'			=> ($mode != 'lookup' || $row['session_id'] != $session_id) ? $this->helper->route('vinabb_web_online_route', array('mode' => 'lookup', 's' => $row['session_id'], 'sg' => $show_guests, 'start' => $start, 'sk' => $sort_key, 'sd' => $sort_dir)) : $this->helper->route('vinabb_web_online_route', array('mode' => 'lookup', 'sg' => $show_guests, 'start' => $start, 'sk' => $sort_key, 'sd' => $sort_dir)),
-				'U_WHOIS'			=> $this->helper->route('vinabb_web_online_route', array('mode' => 'whois', 's' => $row['session_id'])),
+				'U_USER_IP'			=> ($mode != 'lookup' || $row['session_id'] != $session_id) ? $this->helper->route('vinabb_web_user_online_route', array('mode' => 'lookup', 's' => $row['session_id'], 'sg' => $show_guests, 'start' => $start, 'sk' => $sort_key, 'sd' => $sort_dir)) : $this->helper->route('vinabb_web_user_online_route', array('mode' => 'lookup', 'sg' => $show_guests, 'start' => $start, 'sk' => $sort_key, 'sd' => $sort_dir)),
+				'U_WHOIS'			=> $this->helper->route('vinabb_web_user_online_route', array('mode' => 'whois', 's' => $row['session_id'])),
 				'U_FORUM_LOCATION'	=> $location_url,
 
 				'S_USER_HIDDEN'		=> $s_user_hidden,
@@ -541,10 +541,10 @@ class online implements online_interface
 		$this->db->sql_freeresult($result);
 
 		// Refreshing the page every 60 seconds...
-		meta_refresh(60, $this->helper->route('vinabb_web_online_route', array('sg' => $show_guests, 'sk' => $sort_key, 'sd' => $sort_dir, 'start' => $start)));
+		meta_refresh(60, $this->helper->route('vinabb_web_user_online_route', array('sg' => $show_guests, 'sk' => $sort_key, 'sd' => $sort_dir, 'start' => $start)));
 
 		$start = $this->pagination->validate_start($start, $this->config['topics_per_page'], $counter);
-		$base_url = $this->helper->route('vinabb_web_online_route', array('sg' => $show_guests, 'sk' => $sort_key, 'sd' => $sort_dir));
+		$base_url = $this->helper->route('vinabb_web_user_online_route', array('sg' => $show_guests, 'sk' => $sort_key, 'sd' => $sort_dir));
 		$this->pagination->generate_template_pagination($base_url, 'pagination', 'start', $counter, $this->config['topics_per_page'], $start);
 
 		// Send data to template
@@ -553,11 +553,11 @@ class online implements online_interface
 			'TOTAL_GUEST_USERS_ONLINE'		=> $this->language->lang('GUEST_USERS_ONLINE', (int) $guest_counter),
 			'LEGEND'						=> $legend,
 
-			'U_SORT_USERNAME'	=> $this->helper->route('vinabb_web_online_route', array('sk' => 'a', 'sd' => (($sort_key == 'a' && $sort_dir == 'a') ? 'd' : 'a'), 'sg' => ((int) $show_guests))),
-			'U_SORT_UPDATED'	=> $this->helper->route('vinabb_web_online_route', array('sk' => 'b', 'sd' => (($sort_key == 'b' && $sort_dir == 'a') ? 'd' : 'a'), 'sg' => ((int) $show_guests))),
-			'U_SORT_LOCATION'	=> $this->helper->route('vinabb_web_online_route', array('sk' => 'c', 'sd' => (($sort_key == 'c' && $sort_dir == 'a') ? 'd' : 'a'), 'sg' => ((int) $show_guests))),
+			'U_SORT_USERNAME'	=> $this->helper->route('vinabb_web_user_online_route', array('sk' => 'a', 'sd' => (($sort_key == 'a' && $sort_dir == 'a') ? 'd' : 'a'), 'sg' => ((int) $show_guests))),
+			'U_SORT_UPDATED'	=> $this->helper->route('vinabb_web_user_online_route', array('sk' => 'b', 'sd' => (($sort_key == 'b' && $sort_dir == 'a') ? 'd' : 'a'), 'sg' => ((int) $show_guests))),
+			'U_SORT_LOCATION'	=> $this->helper->route('vinabb_web_user_online_route', array('sk' => 'c', 'sd' => (($sort_key == 'c' && $sort_dir == 'a') ? 'd' : 'a'), 'sg' => ((int) $show_guests))),
 
-			'U_SWITCH_GUEST_DISPLAY'	=> $this->helper->route('vinabb_web_online_route', array('sg' => ((int) !$show_guests))),
+			'U_SWITCH_GUEST_DISPLAY'	=> $this->helper->route('vinabb_web_user_online_route', array('sg' => ((int) !$show_guests))),
 			'L_SWITCH_GUEST_DISPLAY'	=> ($show_guests) ? $this->language->lang('HIDE_GUESTS') : $this->language->lang('DISPLAY_GUESTS'),
 			'S_SWITCH_GUEST_DISPLAY'	=> ($this->config['load_online_guests']) ? true : false,
 			'S_VIEWONLINE'				=> true,

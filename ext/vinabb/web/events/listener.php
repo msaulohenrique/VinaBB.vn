@@ -294,7 +294,7 @@ class listener implements EventSubscriberInterface
 			}
 			else if (strpos($event['url'], "viewonline.{$this->php_ext}") !== false)
 			{
-				$route_name = 'vinabb_web_online_route';
+				$route_name = 'vinabb_web_user_online_route';
 			}
 			else if (strpos($event['url'], "mcp.{$this->php_ext}") !== false)
 			{
