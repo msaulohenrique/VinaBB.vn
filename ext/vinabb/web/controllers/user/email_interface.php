@@ -20,5 +20,5 @@ interface email_interface
 	* @param int	$id		User or topic ID
 	* @return \Symfony\Component\HttpFoundation\Response
 	*/
-	public function email($type, $id);
+	public function main($type, $id);
 }

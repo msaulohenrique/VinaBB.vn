@@ -11,7 +11,7 @@ namespace vinabb\web\controllers\user;
 /**
 * Sending an email with/without topic link to an user
 */
-class email
+class email implements email_interface
 {
 	/** @var \phpbb\language\language */
 	protected $language;
