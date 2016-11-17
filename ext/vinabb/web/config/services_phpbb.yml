@@ -40,6 +40,17 @@ services:
             - '@controller.helper'
             - '%core.root_path%'
             - '%core.php_ext%'
+    vinabb.web.user.email:
+        class: vinabb\web\controllers\user\email
+        arguments:
+            - '@language'
+            - '@message.form.topic'
+            - '@message.form.user'
+            - '@request'
+            - '@template'
+            - '@controller.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
     vinabb.web.user.online:
         class: vinabb\web\controllers\user\online
         arguments:
