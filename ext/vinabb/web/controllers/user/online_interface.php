@@ -8,6 +8,9 @@
 
 namespace vinabb\web\controllers\user;
 
+/**
+* Interface for the online controller
+*/
 interface online_interface
 {
 	/**
