@@ -14,10 +14,17 @@ vinabb_web_user_profile_route:
         _controller: vinabb.web.user:profile
     requirements:
         username: '.+'
-vinabb_web_user_contact_admin_route:
-    path: /contact/admin
+vinabb_web_user_contact_route:
+    path: /contact
     defaults:
-        _controller: vinabb.web.user:contact_admin
+        _controller: vinabb.web.user.contact:main
+vinabb_web_user_messenger_route:
+    path: /contact/{action}/{user_id}
+    defaults:
+        _controller: vinabb.web.user.messenger:main
+        action: 'jabber'
+    requirements:
+        user_id: '\d+'
 vinabb_web_user_email_route:
     path: /email/{type}/{id}
     defaults:
@@ -26,13 +33,6 @@ vinabb_web_user_email_route:
     requirements:
         type: '(user|topic)'
         id: '\d+'
-vinabb_web_user_contact_route:
-    path: /contact/{action}/{user_id}
-    defaults:
-        _controller: vinabb.web.user:contact
-        action: 'jabber'
-    requirements:
-        user_id: '\d+'
 vinabb_web_user_team_route:
     path: /team
     defaults:
