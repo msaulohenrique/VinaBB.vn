@@ -8,7 +8,10 @@
 
 namespace vinabb\web\controllers;
 
-class ucp
+/**
+* Controller for the User Control Panel
+*/
+class ucp implements ucp_interface
 {
 	/** @var \phpbb\auth\auth */
 	protected $auth;
@@ -102,6 +105,12 @@ class ucp
 		$this->ext_root_path = $this->ext_manager->get_extension_path('vinabb/web', true);
 	}
 
+	/**
+	* UCP module
+	*
+	* @param string	$id		Module basename
+	* @param string	$mode	Module mode
+	*/
 	public function main($id, $mode)
 	{
 		// Common functions
@@ -175,157 +184,24 @@ class ucp
 			break;
 
 			case 'logout':
-				if ($this->user->data['user_id'] != ANONYMOUS && $this->request->is_set('sid') && $this->request->variable('sid', '') === $this->user->session_id)
-				{
-					$this->user->session_kill();
-				}
-				else if ($this->user->data['user_id'] != ANONYMOUS)
-				{
-					meta_refresh(3, append_sid("{$this->root_path}index.{$this->php_ext}"));
-
-					$message = $this->language->lang('LOGOUT_FAILED') . '<br><br>' . $this->language->lang('RETURN_INDEX', '<a href="' . append_sid("{$this->root_path}index.{$this->php_ext}") . '">', '</a>');
-					trigger_error($message);
-				}
-
-				redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
+				$this->logout();
 			break;
 
 			case 'terms':
 			case 'privacy':
-				$message = ($mode == 'terms') ? 'TERMS_OF_USE_CONTENT' : 'PRIVACY_POLICY';
-				$title = ($mode == 'terms') ? 'TERMS_USE' : 'PRIVACY';
-
-				if (!$this->language->is_set($message))
-				{
-					if ($this->user->data['is_registered'])
-					{
-						redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
-					}
-
-					login_box();
-				}
-
-				$this->template->assign_vars(array(
-					'S_AGREEMENT'		=> true,
-					'AGREEMENT_TITLE'	=> $this->language->lang($title),
-					'AGREEMENT_TEXT'	=> $this->language->lang($message, $this->config['sitename'], generate_board_url()),
-					'U_BACK'			=> $this->helper->route('vinabb_web_ucp_route', array('mode' => 'login')),
-					'L_BACK'			=> $this->language->lang('BACK_TO_LOGIN'),
-				));
-			return $this->helper->render('ucp_agreement.html', $this->language->lang($title));
+				$this->display_agreement($mode);
+			break;
 
 			case 'delete_cookies':
-				// Delete Cookies with dynamic names (do NOT delete poll cookies)
-				if (confirm_box(true))
-				{
-					$set_time = time() - 31536000;
-
-					foreach ($this->request->variable_names(\phpbb\request\request_interface::COOKIE) as $cookie_name)
-					{
-						$cookie_data = $this->request->variable($cookie_name, '', true, \phpbb\request\request_interface::COOKIE);
-
-						// Only delete board cookies, no other ones...
-						if (strpos($cookie_name, $this->config['cookie_name'] . '_') !== 0)
-						{
-							continue;
-						}
-
-						$cookie_name = str_replace($this->config['cookie_name'] . '_', '', $cookie_name);
-
-						/**
-						* Event to save custom cookies from deletion
-						*
-						* @event core.ucp_delete_cookies
-						* @var	string	cookie_name		Cookie name to checking
-						* @var	bool	retain_cookie	Do we retain our cookie or not, true if retain
-						* @since 3.1.3-RC1
-						*/
-						$retain_cookie = false;
-						$vars = array('cookie_name', 'retain_cookie');
-						extract($this->dispatcher->trigger_event('core.ucp_delete_cookies', compact($vars)));
-
-						if ($retain_cookie)
-						{
-							continue;
-						}
-
-						// Polls are stored as {cookie_name}_poll_{topic_id}, cookie_name_ got removed, therefore checking for poll_
-						if (strpos($cookie_name, 'poll_') !== 0)
-						{
-							$this->user->set_cookie($cookie_name, '', $set_time);
-						}
-					}
-
-					$this->user->set_cookie('track', '', $set_time);
-					$this->user->set_cookie('u', '', $set_time);
-					$this->user->set_cookie('k', '', $set_time);
-					$this->user->set_cookie('sid', '', $set_time);
-
-					// We destroy the session here, the user will be logged out nevertheless
-					$this->user->session_kill();
-					$this->user->session_begin();
-
-					meta_refresh(3, append_sid("{$this->root_path}index.{$this->php_ext}"));
-
-					$message = $this->language->lang('COOKIES_DELETED') . '<br><br>' . $this->language->lang('RETURN_INDEX', '<a href="' . append_sid("{$this->root_path}index.{$this->php_ext}") . '">', '</a>');
-					trigger_error($message);
-				}
-				else
-				{
-					confirm_box(false, 'DELETE_COOKIES', '');
-				}
-
-				redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
+				$this->delete_cookies();
 			break;
 
 			case 'switch_perm':
-				$user_id = $this->request->variable('u', 0);
-
-				$sql = 'SELECT *
-					FROM ' . USERS_TABLE . '
-					WHERE user_id = ' . (int) $user_id;
-				$result = $this->db->sql_query($sql);
-				$user_row = $this->db->sql_fetchrow($result);
-				$this->db->sql_freeresult($result);
-
-				if (!$this->auth->acl_get('a_switchperm') || !$user_row || $user_id == $this->user->data['user_id'] || !check_link_hash($this->request->variable('hash', ''), 'switchperm'))
-				{
-					redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
-				}
-
-				include "{$this->root_path}includes/acp/auth.{$this->php_ext}";
-
-				$auth_admin = new auth_admin();
-				if (!$auth_admin->ghost_permissions($user_id, $this->user->data['user_id']))
-				{
-					redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
-				}
-
-				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_ACL_TRANSFER_PERMISSIONS', false, array($user_row['username']));
-
-				$message = sprintf($this->language->lang('PERMISSIONS_TRANSFERRED'), $user_row['username']) . '<br><br>' . $this->language->lang('RETURN_INDEX', '<a href="' . append_sid("{$this->root_path}index.{$this->php_ext}") . '">', '</a>');
-				trigger_error($message);
+				$this->switch_perm();
 			break;
 
 			case 'restore_perm':
-				if (!$this->user->data['user_perm_from'] || !$this->auth->acl_get('a_switchperm'))
-				{
-					redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
-				}
-
-				$this->auth->acl_cache($this->user->data);
-
-				$sql = 'SELECT username
-					FROM ' . USERS_TABLE . '
-					WHERE user_id = ' . $this->user->data['user_perm_from'];
-				$result = $this->db->sql_query($sql);
-				$username = $this->db->sql_fetchfield('username');
-				$this->db->sql_freeresult($result);
-
-				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_ACL_RESTORE_PERMISSIONS', false, array($username));
-
-				$message = $this->language->lang('PERMISSIONS_RESTORED') . '<br><br>' . $this->language->lang('RETURN_INDEX', '<a href="' . append_sid("{$this->root_path}index.{$this->php_ext}") . '">', '</a>');
-				trigger_error($message);
+				$this->restore_perm();
 			break;
 
 			default:
@@ -362,45 +238,7 @@ class ucp
 		// Check if the zebra module is set
 		if ($module->is_active('zebra', 'friends'))
 		{
-			// Output listing of friends online
-			$update_time = $this->config['load_online_time'] * 60;
-
-			$sql_ary = array(
-				'SELECT'	=> 'u.user_id, u.username, u.username_clean, u.user_colour, MAX(s.session_time) AS online_time, MIN(s.session_viewonline) AS viewonline',
-				'FROM'		=> array(
-					USERS_TABLE		=> 'u',
-					ZEBRA_TABLE		=> 'z',
-				),
-				'LEFT_JOIN'	=> array(
-					array(
-						'FROM'	=> array(SESSIONS_TABLE => 's'),
-						'ON'	=> 's.session_user_id = z.zebra_id',
-					),
-				),
-				'WHERE'		=> 'z.user_id = ' . $this->user->data['user_id'] . '
-					AND z.friend = 1
-					AND u.user_id = z.zebra_id',
-				'GROUP_BY'	=> 'z.zebra_id, u.user_id, u.username_clean, u.user_colour, u.username',
-				'ORDER_BY'	=> 'u.username_clean',
-			);
-
-			$sql = $this->db->sql_build_query('SELECT_DISTINCT', $sql_ary);
-			$result = $this->db->sql_query($sql);
-
-			while ($row = $this->db->sql_fetchrow($result))
-			{
-				$which = (time() - $update_time < $row['online_time'] && ($row['viewonline'] || $this->auth->acl_get('u_viewonline'))) ? 'online' : 'offline';
-
-				$this->template->assign_block_vars("friends_{$which}", array(
-						'USER_ID'	=> $row['user_id'],
-
-						'U_PROFILE'		=> get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']),
-						'USER_COLOUR'	=> get_username_string('colour', $row['user_id'], $row['username'], $row['user_colour']),
-						'USERNAME'		=> get_username_string('username', $row['user_id'], $row['username'], $row['user_colour']),
-						'USERNAME_FULL'	=> get_username_string('full', $row['user_id'], $row['username'], $row['user_colour']))
-				);
-			}
-			$this->db->sql_freeresult($result);
+			$this->display_online_friends();
 		}
 
 		// Do not display subscribed topics/forums if not allowed
@@ -432,5 +270,235 @@ class ucp
 
 		// Generate the page, do not display/query online list
 		$module->display($module->get_page_title());
+	}
+
+	/**
+	* Logout the session
+	*/
+	public function logout()
+	{
+		if ($this->user->data['user_id'] != ANONYMOUS && $this->request->is_set('sid') && $this->request->variable('sid', '') === $this->user->session_id)
+		{
+			$this->user->session_kill();
+		}
+		else if ($this->user->data['user_id'] != ANONYMOUS)
+		{
+			meta_refresh(3, append_sid("{$this->root_path}index.{$this->php_ext}"));
+
+			$message = $this->language->lang('LOGOUT_FAILED') . '<br><br>' . $this->language->lang('RETURN_INDEX', '<a href="' . append_sid("{$this->root_path}index.{$this->php_ext}") . '">', '</a>');
+			trigger_error($message);
+		}
+
+		redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
+	}
+
+	/**
+	* Display agreement page
+	*
+	* @param string $mode Front mode (terms|privacy)
+	* @return \Symfony\Component\HttpFoundation\Response
+	*/
+	public function display_agreement($mode = 'terms')
+	{
+		if ($mode == 'terms')
+		{
+			$message = 'TERMS_OF_USE_CONTENT';
+			$title = 'TERMS_USE';
+		}
+		else
+		{
+			$message = 'PRIVACY_POLICY';
+			$title = 'PRIVACY';
+		}
+
+		if (!$this->language->is_set($message))
+		{
+			if ($this->user->data['is_registered'])
+			{
+				redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
+			}
+
+			login_box();
+		}
+
+		$this->template->assign_vars([
+			'S_AGREEMENT'		=> true,
+			'AGREEMENT_TITLE'	=> $this->language->lang($title),
+			'AGREEMENT_TEXT'	=> $this->language->lang($message, $this->config['sitename'], generate_board_url()),
+			'U_BACK'			=> $this->helper->route('vinabb_web_ucp_route', array('mode' => 'login')),
+			'L_BACK'			=> $this->language->lang('BACK_TO_LOGIN')
+		]);
+
+		return $this->helper->render('ucp_agreement.html', $this->language->lang($title));
+	}
+
+	/**
+	* Delete Cookies with dynamic names (do NOT delete poll cookies)
+	*/
+	public function delete_cookies()
+	{
+		if (confirm_box(true))
+		{
+			$set_time = time() - 31536000;
+
+			foreach ($this->request->variable_names(\phpbb\request\request_interface::COOKIE) as $cookie_name)
+			{
+				// Only delete board cookies, no other ones...
+				if (strpos($cookie_name, $this->config['cookie_name'] . '_') !== false)
+				{
+					continue;
+				}
+
+				$cookie_name = str_replace($this->config['cookie_name'] . '_', '', $cookie_name);
+
+				/**
+				* Event to save custom cookies from deletion
+				*
+				* @event core.ucp_delete_cookies
+				* @var	string	cookie_name		Cookie name to checking
+				* @var	bool	retain_cookie	Do we retain our cookie or not, true if retain
+				* @since 3.1.3-RC1
+				*/
+				$retain_cookie = false;
+				$vars = array('cookie_name', 'retain_cookie');
+				extract($this->dispatcher->trigger_event('core.ucp_delete_cookies', compact($vars)));
+
+				if ($retain_cookie)
+				{
+					continue;
+				}
+
+				// Polls are stored as {cookie_name}_poll_{topic_id}, cookie_name_ got removed, therefore checking for poll_
+				if (strpos($cookie_name, 'poll_') !== false)
+				{
+					$this->user->set_cookie($cookie_name, '', $set_time);
+				}
+			}
+
+			$this->user->set_cookie('track', '', $set_time);
+			$this->user->set_cookie('u', '', $set_time);
+			$this->user->set_cookie('k', '', $set_time);
+			$this->user->set_cookie('sid', '', $set_time);
+
+			// We destroy the session here, the user will be logged out nevertheless
+			$this->user->session_kill();
+			$this->user->session_begin();
+
+			meta_refresh(3, append_sid("{$this->root_path}index.{$this->php_ext}"));
+
+			$message = $this->language->lang('COOKIES_DELETED') . '<br><br>' . $this->language->lang('RETURN_INDEX', '<a href="' . append_sid("{$this->root_path}index.{$this->php_ext}") . '">', '</a>');
+			trigger_error($message);
+		}
+		else
+		{
+			confirm_box(false, 'DELETE_COOKIES', '');
+		}
+
+		redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
+	}
+
+	/**
+	* Switch permissions to another user
+	*/
+	public function switch_perm()
+	{
+		$user_id = $this->request->variable('u', 0);
+
+		$sql = 'SELECT *
+			FROM ' . USERS_TABLE . '
+			WHERE user_id = ' . (int) $user_id;
+		$result = $this->db->sql_query($sql);
+		$user_row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+
+		if (!$this->auth->acl_get('a_switchperm') || !$user_row || $user_id == $this->user->data['user_id'] || !check_link_hash($this->request->variable('hash', ''), 'switchperm'))
+		{
+			redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
+		}
+
+		include "{$this->root_path}includes/acp/auth.{$this->php_ext}";
+
+		$auth_admin = new auth_admin();
+
+		if (!$auth_admin->ghost_permissions($user_id, $this->user->data['user_id']))
+		{
+			redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
+		}
+
+		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_ACL_TRANSFER_PERMISSIONS', false, [$user_row['username']]);
+
+		$message = sprintf($this->language->lang('PERMISSIONS_TRANSFERRED'), $user_row['username']) . '<br><br>' . $this->language->lang('RETURN_INDEX', '<a href="' . append_sid("{$this->root_path}index.{$this->php_ext}") . '">', '</a>');
+		trigger_error($message);
+	}
+
+	/**
+	* Restore original user permissions
+	*/
+	public function restore_perm()
+	{
+		if (!$this->user->data['user_perm_from'] || !$this->auth->acl_get('a_switchperm'))
+		{
+			redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
+		}
+
+		$this->auth->acl_cache($this->user->data);
+
+		$sql = 'SELECT username
+			FROM ' . USERS_TABLE . '
+			WHERE user_id = ' . $this->user->data['user_perm_from'];
+		$result = $this->db->sql_query($sql);
+		$username = $this->db->sql_fetchfield('username');
+		$this->db->sql_freeresult($result);
+
+		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_ACL_RESTORE_PERMISSIONS', false, array($username));
+
+		$message = $this->language->lang('PERMISSIONS_RESTORED') . '<br><br>' . $this->language->lang('RETURN_INDEX', '<a href="' . append_sid("{$this->root_path}index.{$this->php_ext}") . '">', '</a>');
+		trigger_error($message);
+	}
+
+	/**
+	* Get the list of online friends
+	*/
+	public function display_online_friends()
+	{
+		// Output listing of friends online
+		$update_time = $this->config['load_online_time'] * 60;
+
+		$sql_ary = [
+			'SELECT'	=> 'u.user_id, u.username, u.username_clean, u.user_colour, MAX(s.session_time) AS online_time, MIN(s.session_viewonline) AS viewonline',
+			'FROM'		=> [
+				USERS_TABLE	=> 'u',
+				ZEBRA_TABLE	=> 'z'
+			],
+			'LEFT_JOIN'	=> [
+				[
+					'FROM'	=> [SESSIONS_TABLE => 's'],
+					'ON'	=> 's.session_user_id = z.zebra_id'
+				]
+			],
+			'WHERE'		=> 'z.user_id = ' . $this->user->data['user_id'] . '
+				AND z.friend = 1
+				AND u.user_id = z.zebra_id',
+			'GROUP_BY'	=> 'z.zebra_id, u.user_id, u.username_clean, u.user_colour, u.username',
+			'ORDER_BY'	=> 'u.username_clean'
+		];
+
+		$sql = $this->db->sql_build_query('SELECT_DISTINCT', $sql_ary);
+		$result = $this->db->sql_query($sql);
+
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$which = (time() - $update_time < $row['online_time'] && ($row['viewonline'] || $this->auth->acl_get('u_viewonline'))) ? 'online' : 'offline';
+
+			$this->template->assign_block_vars("friends_{$which}", [
+				'USER_ID'	=> $row['user_id'],
+
+				'U_PROFILE'		=> get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']),
+				'USER_COLOUR'	=> get_username_string('colour', $row['user_id'], $row['username'], $row['user_colour']),
+				'USERNAME'		=> get_username_string('username', $row['user_id'], $row['username'], $row['user_colour']),
+				'USERNAME_FULL'	=> get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'])
+			]);
+		}
+		$this->db->sql_freeresult($result);
 	}
 }
