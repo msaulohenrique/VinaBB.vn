@@ -327,7 +327,7 @@ class listener implements EventSubscriberInterface
 					switch ($params_ary['mode'])
 					{
 						case 'contactadmin':
-							$route_name = 'vinabb_web_user_contact_admin_route';
+							$route_name = 'vinabb_web_user_contact_route';
 						break;
 
 						case 'email':
@@ -354,7 +354,7 @@ class listener implements EventSubscriberInterface
 								unset($params_ary['u']);
 							}
 
-							$route_name = 'vinabb_web_user_contact_route';
+							$route_name = 'vinabb_web_user_messenger_route';
 						break;
 
 						case 'team':
