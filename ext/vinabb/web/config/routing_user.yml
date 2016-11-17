@@ -58,5 +58,13 @@ vinabb_web_user_online_route:
         mode: ''
         slash: ''
     requirements:
-        mode: '(|whois|lookup)'
+        mode: '(|lookup)'
+        slash: '(|\/)'
+vinabb_web_user_online_whois_route:
+    path: /online/whois/{session_id}{slash}
+    defaults:
+        _controller: vinabb.web.user.online:whois
+        slash: ''
+    requirements:
+        session_id: '[a-z0-9]+'
         slash: '(|\/)'
