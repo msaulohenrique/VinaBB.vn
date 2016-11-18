@@ -43,6 +43,9 @@ class headlines implements headlines_interface
 	protected $u_action;
 
 	/** @var array */
+	protected $errors = [];
+
+	/** @var array */
 	protected $lang_data = [];
 
 	/**
@@ -164,90 +167,132 @@ class headlines implements headlines_interface
 	public function add_edit_data($entity)
 	{
 		$submit = $this->request->is_set_post('submit');
-		$errors = [];
 
 		// Create a form key for preventing CSRF attacks
 		add_form_key('acp_headlines');
 
 		// Get form data
-		$data = [
-			'headline_lang'	=> $this->request->variable('headline_lang', ''),
-			'headline_name'	=> $this->request->variable('headline_name', '', true),
-			'headline_desc'	=> $this->request->variable('headline_desc', '', true),
-			'headline_img'	=> $this->request->variable('headline_img', ''),
-			'headline_url'	=> $this->request->variable('headline_url', '')
-		];
+		$data = $this->request_data();
 
 		if ($submit)
 		{
 			// Test if the submitted form is valid
 			if (!check_form_key('acp_headlines'))
 			{
-				$errors[] = $this->language->lang('FORM_INVALID');
+				$this->errors[] = $this->language->lang('FORM_INVALID');
 			}
 
-			// Map the form data fields to setters
-			$map_fields = [
-				'set_lang'	=> $data['headline_lang'],
-				'set_name'	=> $data['headline_name'],
-				'set_desc'	=> $data['headline_desc'],
-				'set_img'	=> $data['headline_img'],
-				'set_url'	=> $data['headline_url']
-			];
-
-			// Set the mapped data in the entity
-			foreach ($map_fields as $entity_function => $headline_data)
-			{
-				try
-				{
-					// Calling the $entity_function on the entity and passing it $headline_data
-					$entity->$entity_function($headline_data);
-				}
-				catch (\vinabb\web\exceptions\base $e)
-				{
-					$errors[] = $e->get_friendly_message($this->language);
-				}
-			}
-
-			unset($map_fields);
+			// Map and set data to the entity
+			$this->map_set_data($entity, $data);
 
 			// Insert or update
-			if (!sizeof($errors))
+			if (!sizeof($this->errors))
 			{
-				if ($entity->get_id())
-				{
-					// Save the edited entity to the database
-					$entity->save();
-
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_HEADLINE_EDIT', time(), [$entity->get_name()]);
-
-					$message = 'MESSAGE_HEADLINE_EDIT';
-				}
-				else
-				{
-					// Add the new entity to the database
-					$entity = $this->operator->add_headline($entity);
-
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_HEADLINE_ADD', time(), [$entity->get_name()]);
-
-					$message = 'MESSAGE_HEADLINE_ADD';
-				}
-
-				$this->cache->clear_headlines();
-
-				trigger_error($this->language->lang($message) . adm_back_link($this->u_action));
+				$this->save_data($entity);
 			}
 		}
 
-		$this->template->assign_vars([
-			'ERRORS'	=> sizeof($errors) ? implode('<br>', $errors) : '',
+		// Output
+		$this->data_to_tpl($entity);
 
+		$this->template->assign_vars([
+			'ERRORS'	=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
+			'U_BACK'	=> $this->u_action
+		]);
+	}
+
+	/**
+	* Request data from the form
+	*
+	* @return array
+	*/
+	protected function request_data()
+	{
+		return [
+			'headline_lang'	=> $this->request->variable('headline_lang', ''),
+			'headline_name'	=> $this->request->variable('headline_name', '', true),
+			'headline_desc'	=> $this->request->variable('headline_desc', '', true),
+			'headline_img'	=> $this->request->variable('headline_img', ''),
+			'headline_url'	=> $this->request->variable('headline_url', '')
+		];
+	}
+
+	/**
+	* Map the form data fields to setters and set them to the entity
+	*
+	* @param \vinabb\web\entities\headline_interface	$entity	Headline entity
+	* @param array										$data	Form data
+	*/
+	protected function map_set_data($entity, $data)
+	{
+		$map_fields = [
+			'set_lang'	=> $data['headline_lang'],
+			'set_name'	=> $data['headline_name'],
+			'set_desc'	=> $data['headline_desc'],
+			'set_img'	=> $data['headline_img'],
+			'set_url'	=> $data['headline_url']
+		];
+
+		// Set the mapped data in the entity
+		foreach ($map_fields as $entity_function => $headline_data)
+		{
+			try
+			{
+				// Calling the $entity_function on the entity and passing it $headline_data
+				$entity->$entity_function($headline_data);
+			}
+			catch (\vinabb\web\exceptions\base $e)
+			{
+				$this->errors[] = $e->get_friendly_message($this->language);
+			}
+		}
+
+		unset($map_fields);
+	}
+
+	/**
+	* Insert or update data, then log actions and clear cache if needed
+	*
+	* @param \vinabb\web\entities\headline_interface $entity Headline entity
+	*/
+	protected function save_data($entity)
+	{
+		if ($entity->get_id())
+		{
+			// Save the edited entity to the database
+			$entity->save();
+
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_HEADLINE_EDIT', time(), [$entity->get_name()]);
+
+			$message = 'MESSAGE_HEADLINE_EDIT';
+		}
+		else
+		{
+			// Add the new entity to the database
+			$entity = $this->operator->add_headline($entity);
+
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_HEADLINE_ADD', time(), [$entity->get_name()]);
+
+			$message = 'MESSAGE_HEADLINE_ADD';
+		}
+
+		$this->cache->clear_headlines();
+
+		trigger_error($this->language->lang($message) . adm_back_link($this->u_action));
+	}
+
+	/**
+	* Output entity data to template variables
+	*
+	* @param \vinabb\web\entities\headline_interface $entity Headline entity
+	*/
+	protected function data_to_tpl($entity)
+	{
+		$this->template->assign_vars([
 			'HEADLINE_NAME'	=> $entity->get_name(),
 			'HEADLINE_DESC'	=> $entity->get_desc(),
 			'HEADLINE_IMG'	=> $entity->get_img(),
-			'HEADLINE_URL'	=> $entity->get_url(),
-
-			'U_BACK'	=> $this->u_action
+			'HEADLINE_URL'	=> $entity->get_url()
 		]);
 	}
 
