@@ -247,10 +247,9 @@ class pages implements pages_interface
 	/**
 	* Grab the form data's parsing options
 	*
-	* @param \vinabb\web\entities\page_interface	$entity	Page entity
-	* @param bool									$submit	Is the submit button pressed?
+	* @param \vinabb\web\entities\page_interface $entity Page entity
 	*/
-	protected function parse_bbcode_options($entity, $submit)
+	protected function parse_bbcode_options($entity)
 	{
 		/**
 		* If submit, use data from the form
