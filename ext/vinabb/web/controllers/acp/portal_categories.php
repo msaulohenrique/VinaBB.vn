@@ -45,6 +45,9 @@ class portal_categories implements portal_categories_interface
 	/** @var string */
 	protected $u_action;
 
+	/** @var array */
+	protected $errors = [];
+
 	/**
 	* Constructor
 	*
@@ -211,102 +214,146 @@ class portal_categories implements portal_categories_interface
 	public function add_edit_data($entity)
 	{
 		$submit = $this->request->is_set_post('submit');
-		$errors = [];
 
 		// Create a form key for preventing CSRF attacks
 		add_form_key('acp_portal_categories');
 
 		// Get form data
-		$data = [
-			'parent_id'		=> $this->request->variable('parent_id', 0),
-			'cat_name'		=> $this->request->variable('cat_name', '', true),
-			'cat_name_vi'	=> $this->request->variable('cat_name_vi', '', true),
-			'cat_varname'	=> $this->request->variable('cat_varname', ''),
-			'cat_icon'		=> $this->request->variable('cat_icon', '')
-		];
+		$data = $this->request_data();
 
 		if ($submit)
 		{
 			// Test if the submitted form is valid
 			if (!check_form_key('acp_portal_categories'))
 			{
-				$errors[] = $this->language->lang('FORM_INVALID');
+				$this->errors[] = $this->language->lang('FORM_INVALID');
 			}
 
-			// Map the form data fields to setters
-			$map_fields = [
-				'set_parent_id'	=> $data['parent_id'],
-				'set_name'		=> $data['cat_name'],
-				'set_name_vi'	=> $data['cat_name_vi'],
-				'set_varname'	=> $data['cat_varname'],
-				'set_icon'		=> $data['cat_icon']
-			];
-
-			// Set the mapped data in the entity
-			foreach ($map_fields as $entity_function => $cat_data)
-			{
-				try
-				{
-					// Calling the $entity_function on the entity and passing it $cat_data
-					$entity->$entity_function($cat_data);
-				}
-				catch (\vinabb\web\exceptions\base $e)
-				{
-					$errors[] = $e->get_friendly_message($this->language);
-				}
-			}
-
-			unset($map_fields);
+			// Map and set data to the entity
+			$this->map_set_data($entity, $data);
 
 			// Insert or update
-			if (!sizeof($errors))
+			if (!sizeof($this->errors))
 			{
-				if ($entity->get_id())
-				{
-					// Save the edited entity to the database
-					$entity->save();
-
-					// Change the parent
-					if (isset($data['parent_id']) && ($data['parent_id'] != $entity->get_parent_id()))
-					{
-						try
-						{
-							$this->operator->change_parent($entity->get_id(), $data['parent_id']);
-						}
-						catch (\vinabb\web\exceptions\base $e)
-						{
-							trigger_error($this->language->lang('ERROR_CAT_CHANGE_PARENT', $e->get_message($this->language)) . adm_back_link($this->u_action), E_USER_WARNING);
-						}
-					}
-
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_CAT_EDIT', time(), [$entity->get_name()]);
-
-					$message = 'MESSAGE_CAT_EDIT';
-				}
-				else
-				{
-					// Add the new entity to the database
-					$entity = $this->operator->add_cat($entity, $data['parent_id']);
-
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_CAT_ADD', time(), [$entity->get_name()]);
-
-					$message = 'MESSAGE_CAT_ADD';
-				}
-
-				$this->cache->clear_portal_cats();
-
-				trigger_error($this->language->lang($message) . adm_back_link("{$this->u_action}&parent_id={$data['parent_id']}"));
+				$this->save_data($entity, $data['parent_id']);
 			}
 		}
 
-		$this->template->assign_vars([
-			'ERRORS'	=> sizeof($errors) ? implode('<br>', $errors) : '',
+		// Output
+		$this->data_to_tpl($entity);
 
+		$this->template->assign_vars([
+			'ERRORS'	=> sizeof($this->errors) ? implode('<br>', $this->errors) : ''
+		]);
+	}
+
+	/**
+	* Request data from the form
+	*
+	* @return array
+	*/
+	protected function request_data()
+	{
+		return [
+			'parent_id'		=> $this->request->variable('parent_id', 0),
+			'cat_name'		=> $this->request->variable('cat_name', '', true),
+			'cat_name_vi'	=> $this->request->variable('cat_name_vi', '', true),
+			'cat_varname'	=> $this->request->variable('cat_varname', ''),
+			'cat_icon'		=> $this->request->variable('cat_icon', '')
+		];
+	}
+
+	/**
+	* Map the form data fields to setters and set them to the entity
+	*
+	* @param \vinabb\web\entities\portal_category_interface	$entity	Portal category entity
+	* @param array											$data	Form data
+	*/
+	protected function map_set_data($entity, $data)
+	{
+		$map_fields = [
+			'set_parent_id'	=> $data['parent_id'],
+			'set_name'		=> $data['cat_name'],
+			'set_name_vi'	=> $data['cat_name_vi'],
+			'set_varname'	=> $data['cat_varname'],
+			'set_icon'		=> $data['cat_icon']
+		];
+
+		// Set the mapped data in the entity
+		foreach ($map_fields as $entity_function => $cat_data)
+		{
+			try
+			{
+				// Calling the $entity_function on the entity and passing it $cat_data
+				$entity->$entity_function($cat_data);
+			}
+			catch (\vinabb\web\exceptions\base $e)
+			{
+				$this->errors[] = $e->get_friendly_message($this->language);
+			}
+		}
+
+		unset($map_fields);
+	}
+
+	/**
+	* Insert or update data, then log actions and clear cache if needed
+	*
+	* @param int											$parent_id	Parent ID
+	* @param \vinabb\web\entities\portal_category_interface $entity 	Portal category entity
+	*/
+	protected function save_data($entity, $parent_id)
+	{
+		if ($entity->get_id())
+		{
+			// Save the edited entity to the database
+			$entity->save();
+
+			// Change the parent
+			if ($parent_id != $entity->get_parent_id())
+			{
+				try
+				{
+					$this->operator->change_parent($entity->get_id(), $parent_id);
+				}
+				catch (\vinabb\web\exceptions\base $e)
+				{
+					trigger_error($this->language->lang('ERROR_CAT_CHANGE_PARENT', $e->get_message($this->language)) . adm_back_link($this->u_action), E_USER_WARNING);
+				}
+			}
+
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_CAT_EDIT', time(), [$entity->get_name()]);
+
+			$message = 'MESSAGE_CAT_EDIT';
+		}
+		else
+		{
+			// Add the new entity to the database
+			$entity = $this->operator->add_cat($entity, $parent_id);
+
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_CAT_ADD', time(), [$entity->get_name()]);
+
+			$message = 'MESSAGE_CAT_ADD';
+		}
+
+		$this->cache->clear_portal_cats();
+
+		trigger_error($this->language->lang($message) . adm_back_link("{$this->u_action}&parent_id={$parent_id}"));
+	}
+
+	/**
+	* Output entity data to template variables
+	*
+	* @param \vinabb\web\entities\portal_category_interface $entity Portal category entity
+	*/
+	protected function data_to_tpl($entity)
+	{
+		$this->template->assign_vars([
 			'CAT_NAME'		=> $entity->get_name(),
 			'CAT_NAME_VI'	=> $entity->get_name_vi(),
 			'CAT_VARNAME'	=> $entity->get_varname(),
 
-			'ICON_OPTIONS'	=> $this->ext_helper->build_icon_list($entity->get_icon()),
+			'ICON_OPTIONS'	=> $this->ext_helper->build_icon_list($entity->get_icon())
 		]);
 	}
 
