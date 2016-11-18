@@ -45,6 +45,9 @@ class menus implements menus_interface
 	/** @var string */
 	protected $u_action;
 
+	/** @var array */
+	protected $errors = [];
+
 	/**
 	* Constructor
 	*
@@ -214,13 +217,47 @@ class menus implements menus_interface
 	public function add_edit_data($entity)
 	{
 		$submit = $this->request->is_set_post('submit');
-		$errors = [];
 
 		// Create a form key for preventing CSRF attacks
 		add_form_key('acp_menus');
 
 		// Get form data
-		$data = [
+		$data = $this->request_data();
+
+		if ($submit)
+		{
+			// Test if the submitted form is valid
+			if (!check_form_key('acp_menus'))
+			{
+				$this->errors[] = $this->language->lang('FORM_INVALID');
+			}
+
+			// Map and set data to the entity
+			$this->map_set_data($entity, $data);
+
+			// Insert or update
+			if (!sizeof($this->errors))
+			{
+				$this->save_data($entity, $data['parent_id']);
+			}
+		}
+
+		// Output
+		$this->data_to_tpl($entity);
+
+		$this->template->assign_vars([
+			'ERRORS'	=> sizeof($this->errors) ? implode('<br>', $this->errors) : ''
+		]);
+	}
+
+	/**
+	* Request data from the form
+	*
+	* @return array
+	*/
+	protected function request_data()
+	{
+		return [
 			'parent_id'					=> $this->request->variable('parent_id', 0),
 			'menu_name'					=> $this->request->variable('menu_name', '', true),
 			'menu_name_vi'				=> $this->request->variable('menu_name_vi', '', true),
@@ -237,94 +274,104 @@ class menus implements menus_interface
 			'menu_enable_admin'			=> $this->request->variable('menu_enable_admin', true),
 			'menu_enable_founder'		=> $this->request->variable('menu_enable_founder', true)
 		];
+	}
 
-		if ($submit)
+	/**
+	* Map the form data fields to setters and set them to the entity
+	*
+	* @param \vinabb\web\entities\menu_interface	$entity	Menu entity
+	* @param array									$data	Form data
+	*/
+	protected function map_set_data($entity, $data)
+	{
+		$map_fields = [
+			'set_parent_id'			=> $data['parent_id'],
+			'set_name'				=> $data['menu_name'],
+			'set_name_vi'			=> $data['menu_name_vi'],
+			'set_type'				=> $data['menu_type'],
+			'set_icon'				=> $data['menu_icon'],
+			'set_data'				=> $data['menu_data'],
+			'set_target'			=> $data['menu_target'],
+			'set_enable_guest'		=> $data['menu_enable_guest'],
+			'set_enable_bot'		=> $data['menu_enable_bot'],
+			'set_enable_new_user'	=> $data['menu_enable_new_user'],
+			'set_enable_user'		=> $data['menu_enable_user'],
+			'set_enable_mod'		=> $data['menu_enable_mod'],
+			'set_enable_global_mod'	=> $data['menu_enable_global_mod'],
+			'set_enable_admin'		=> $data['menu_enable_admin'],
+			'set_enable_founder'	=> $data['menu_enable_founder']
+		];
+
+		// Set the mapped data in the entity
+		foreach ($map_fields as $entity_function => $menu_data)
 		{
-			// Test if the submitted form is valid
-			if (!check_form_key('acp_menus'))
+			try
 			{
-				$errors[] = $this->language->lang('FORM_INVALID');
+				// Calling the $entity_function on the entity and passing it $menu_data
+				$entity->$entity_function($menu_data);
 			}
-
-			// Map the form data fields to setters
-			$map_fields = [
-				'set_parent_id'			=> $data['parent_id'],
-				'set_name'				=> $data['menu_name'],
-				'set_name_vi'			=> $data['menu_name_vi'],
-				'set_type'				=> $data['menu_type'],
-				'set_icon'				=> $data['menu_icon'],
-				'set_data'				=> $data['menu_data'],
-				'set_target'			=> $data['menu_target'],
-				'set_enable_guest'		=> $data['menu_enable_guest'],
-				'set_enable_bot'		=> $data['menu_enable_bot'],
-				'set_enable_new_user'	=> $data['menu_enable_new_user'],
-				'set_enable_user'		=> $data['menu_enable_user'],
-				'set_enable_mod'		=> $data['menu_enable_mod'],
-				'set_enable_global_mod'	=> $data['menu_enable_global_mod'],
-				'set_enable_admin'		=> $data['menu_enable_admin'],
-				'set_enable_founder'	=> $data['menu_enable_founder']
-			];
-
-			// Set the mapped data in the entity
-			foreach ($map_fields as $entity_function => $menu_data)
+			catch (\vinabb\web\exceptions\base $e)
 			{
-				try
-				{
-					// Calling the $entity_function on the entity and passing it $menu_data
-					$entity->$entity_function($menu_data);
-				}
-				catch (\vinabb\web\exceptions\base $e)
-				{
-					$errors[] = $e->get_friendly_message($this->language);
-				}
-			}
-
-			unset($map_fields);
-
-			// Insert or update
-			if (!sizeof($errors))
-			{
-				if ($entity->get_id())
-				{
-					// Save the edited entity to the database
-					$entity->save();
-
-					// Change the parent
-					if (isset($data['parent_id']) && ($data['parent_id'] != $entity->get_parent_id()))
-					{
-						try
-						{
-							$this->operator->change_parent($entity->get_id(), $data['parent_id']);
-						}
-						catch (\vinabb\web\exceptions\base $e)
-						{
-							trigger_error($this->language->lang('ERROR_MENU_CHANGE_PARENT', $e->get_message($this->language)) . adm_back_link($this->u_action), E_USER_WARNING);
-						}
-					}
-
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_MENU_EDIT', time(), [$entity->get_name()]);
-
-					$message = 'MESSAGE_MENU_EDIT';
-				}
-				else
-				{
-					// Add the new entity to the database
-					$entity = $this->operator->add_menu($entity, $data['parent_id']);
-
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_MENU_ADD', time(), [$entity->get_name()]);
-
-					$message = 'MESSAGE_MENU_ADD';
-				}
-
-				$this->cache->clear_menus();
-
-				trigger_error($this->language->lang($message) . adm_back_link("{$this->u_action}&parent_id={$data['parent_id']}"));
+				$this->errors[] = $e->get_friendly_message($this->language);
 			}
 		}
 
-		$this->template->assign_vars([
-			'ERRORS'	=> sizeof($errors) ? implode('<br>', $errors) : '',
+		unset($map_fields);
+	}
 
+	/**
+	* Insert or update data, then log actions and clear cache if needed
+	*
+	* @param int									$parent_id	Parent ID
+	* @param \vinabb\web\entities\menu_interface	$entity		Menu entity
+	*/
+	protected function save_data($entity, $parent_id)
+	{
+		if ($entity->get_id())
+		{
+			// Save the edited entity to the database
+			$entity->save();
+
+			// Change the parent
+			if ($parent_id != $entity->get_parent_id())
+			{
+				try
+				{
+					$this->operator->change_parent($entity->get_id(), $parent_id);
+				}
+				catch (\vinabb\web\exceptions\base $e)
+				{
+					trigger_error($this->language->lang('ERROR_MENU_CHANGE_PARENT', $e->get_message($this->language)) . adm_back_link($this->u_action), E_USER_WARNING);
+				}
+			}
+
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_MENU_EDIT', time(), [$entity->get_name()]);
+
+			$message = 'MESSAGE_MENU_EDIT';
+		}
+		else
+		{
+			// Add the new entity to the database
+			$entity = $this->operator->add_menu($entity, $parent_id);
+
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_MENU_ADD', time(), [$entity->get_name()]);
+
+			$message = 'MESSAGE_MENU_ADD';
+		}
+
+		$this->cache->clear_menus();
+
+		trigger_error($this->language->lang($message) . adm_back_link("{$this->u_action}&parent_id={$parent_id}"));
+	}
+
+	/**
+	* Output entity data to template variables
+	*
+	* @param \vinabb\web\entities\menu_interface $entity Menu entity
+	*/
+	protected function data_to_tpl($entity)
+	{
+		$this->template->assign_vars([
 			'MENU_NAME'					=> $entity->get_name(),
 			'MENU_NAME_VI'				=> $entity->get_name_vi(),
 			'MENU_TYPE'					=> $entity->get_type(),
@@ -339,7 +386,7 @@ class menus implements menus_interface
 			'MENU_ENABLE_ADMIN'			=> $entity->get_enable_admin(),
 			'MENU_ENABLE_FOUNDER'		=> $entity->get_enable_founder(),
 
-			'ICON_OPTIONS'	=> $this->ext_helper->build_icon_list($entity->get_icon()),
+			'ICON_OPTIONS'	=> $this->ext_helper->build_icon_list($entity->get_icon())
 		]);
 	}
 
