@@ -189,20 +189,13 @@ interface portal_article_interface
 	public function text_bbcode_enabled();
 
 	/**
-	* Enable BBCode on the article content
+	* Enable/Disable BBCode on the article content
 	* This should be called before set_text(); text_enable_bbcode()->set_text()
 	*
-	* @return portal_article_interface $this Object for chaining calls: load()->set()->save()
+	* @param bool						$enable	true: enable; false: disable
+	* @return portal_article_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function text_enable_bbcode();
-
-	/**
-	* Disable BBCode on the article content
-	* This should be called before set_text(); text_disable_bbcode()->set_text()
-	*
-	* @return portal_article_interface $this Object for chaining calls: load()->set()->save()
-	*/
-	public function text_disable_bbcode();
+	public function text_enable_bbcode($enable);
 
 	/**
 	* Check if URLs is enabled on the article content
@@ -212,20 +205,13 @@ interface portal_article_interface
 	public function text_urls_enabled();
 
 	/**
-	* Enable URLs on the article content
+	* Enable/Disable URLs on the article content
 	* This should be called before set_text(); text_enable_urls()->set_text()
 	*
-	* @return portal_article_interface $this Object for chaining calls: load()->set()->save()
+	* @param bool						$enable	true: enable; false: disable
+	* @return portal_article_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function text_enable_urls();
-
-	/**
-	* Disable URLs on the article content
-	* This should be called before set_text(); text_disable_urls()->set_text()
-	*
-	* @return portal_article_interface $this Object for chaining calls: load()->set()->save()
-	*/
-	public function text_disable_urls();
+	public function text_enable_urls($enable);
 
 	/**
 	* Check if smilies are enabled on the article content
@@ -235,20 +221,13 @@ interface portal_article_interface
 	public function text_smilies_enabled();
 
 	/**
-	* Enable smilies on the article content
+	* Enable/Disable smilies on the article content
 	* This should be called before set_text(); text_enable_smilies()->set_text()
 	*
-	* @return portal_article_interface $this Object for chaining calls: load()->set()->save()
+	* @param bool						$enable	true: enable; false: disable
+	* @return portal_article_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function text_enable_smilies();
-
-	/**
-	* Disable smilies on the article content
-	* This should be called before set_text(); text_disable_smilies()->set_text()
-	*
-	* @return portal_article_interface $this Object for chaining calls: load()->set()->save()
-	*/
-	public function text_disable_smilies();
+	public function text_enable_smilies($enable);
 
 	/**
 	* Get article display setting

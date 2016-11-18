@@ -158,20 +158,13 @@ interface bb_item_interface
 	public function desc_bbcode_enabled();
 
 	/**
-	* Enable BBCode on the item description
+	* Enable/Disable BBCode on the item description
 	* This should be called before set_desc(); desc_enable_bbcode()->set_desc()
 	*
-	* @return bb_item_interface $this Object for chaining calls: load()->set()->save()
+	* @param bool				$enable	true: enable; false: disable
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function desc_enable_bbcode();
-
-	/**
-	* Disable BBCode on the item description
-	* This should be called before set_desc(); desc_disable_bbcode()->set_desc()
-	*
-	* @return bb_item_interface $this Object for chaining calls: load()->set()->save()
-	*/
-	public function desc_disable_bbcode();
+	public function desc_enable_bbcode($enable);
 
 	/**
 	* Check if URLs is enabled on the item description
@@ -181,20 +174,13 @@ interface bb_item_interface
 	public function desc_urls_enabled();
 
 	/**
-	* Enable URLs on the item description
+	* Enable/Disable URLs on the item description
 	* This should be called before set_desc(); desc_enable_urls()->set_desc()
 	*
-	* @return bb_item_interface $this Object for chaining calls: load()->set()->save()
+	* @param bool				$enable	true: enable; false: disable
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function desc_enable_urls();
-
-	/**
-	* Disable URLs on the item description
-	* This should be called before set_desc(); desc_disable_urls()->set_desc()
-	*
-	* @return bb_item_interface $this Object for chaining calls: load()->set()->save()
-	*/
-	public function desc_disable_urls();
+	public function desc_enable_urls($enable);
 
 	/**
 	* Check if smilies are enabled on the item description
@@ -204,20 +190,13 @@ interface bb_item_interface
 	public function desc_smilies_enabled();
 
 	/**
-	* Enable smilies on the item description
+	* Enable/Disable smilies on the item description
 	* This should be called before set_desc(); desc_enable_smilies()->set_desc()
 	*
-	* @return bb_item_interface $this Object for chaining calls: load()->set()->save()
+	* @param bool				$enable	true: enable; false: disable
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function desc_enable_smilies();
-
-	/**
-	* Disable smilies on the item description
-	* This should be called before set_desc(); desc_disable_smilies()->set_desc()
-	*
-	* @return bb_item_interface $this Object for chaining calls: load()->set()->save()
-	*/
-	public function desc_disable_smilies();
+	public function desc_enable_smilies($enable);
 
 	/**
 	* Get Vietnamese item description for edit
@@ -250,20 +229,13 @@ interface bb_item_interface
 	public function desc_vi_bbcode_enabled();
 
 	/**
-	* Enable BBCode on the Vietnamese item description
+	* Enable/Disable BBCode on the Vietnamese item description
 	* This should be called before set_desc_vi(); desc_vi_enable_bbcode()->set_desc_vi()
 	*
-	* @return bb_item_interface $this Object for chaining calls: load()->set()->save()
+	* @param bool				$enable	true: enable; false: disable
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function desc_vi_enable_bbcode();
-
-	/**
-	* Disable BBCode on the Vietnamese item description
-	* This should be called before set_desc_vi(); desc_vi_disable_bbcode()->set_desc_vi()
-	*
-	* @return bb_item_interface $this Object for chaining calls: load()->set()->save()
-	*/
-	public function desc_vi_disable_bbcode();
+	public function desc_vi_enable_bbcode($enable);
 
 	/**
 	* Check if URLs is enabled on the Vietnamese item description
@@ -273,20 +245,13 @@ interface bb_item_interface
 	public function desc_vi_urls_enabled();
 
 	/**
-	* Enable URLs on the Vietnamese item description
+	* Enable/Disable URLs on the Vietnamese item description
 	* This should be called before set_desc_vi(); desc_vi_enable_urls()->set_desc_vi()
 	*
-	* @return bb_item_interface $this Object for chaining calls: load()->set()->save()
+	* @param bool				$enable	true: enable; false: disable
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function desc_vi_enable_urls();
-
-	/**
-	* Disable URLs on the Vietnamese item description
-	* This should be called before set_desc_vi(); desc_vi_disable_urls()->set_desc_vi()
-	*
-	* @return bb_item_interface $this Object for chaining calls: load()->set()->save()
-	*/
-	public function desc_vi_disable_urls();
+	public function desc_vi_enable_urls($enable);
 
 	/**
 	* Check if smilies are enabled on the Vietnamese item description
@@ -296,19 +261,13 @@ interface bb_item_interface
 	public function desc_vi_smilies_enabled();
 
 	/**
-	* Enable smilies on the Vietnamese item description
+	* Enable/Disable smilies on the Vietnamese item description
 	* This should be called before set_desc_vi(); desc_vi_enable_smilies()->set_desc_vi()
 	*
-	* @return bb_item_interface $this Object for chaining calls: load()->set()->save()
+	* @param bool				$enable	true: enable; false: disable
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function desc_vi_enable_smilies();
-	/**
-	* Disable smilies on the Vietnamese item description
-	* This should be called before set_desc_vi(); desc_vi_disable_smilies()->set_desc_vi()
-	*
-	* @return bb_item_interface $this Object for chaining calls: load()->set()->save()
-	*/
-	public function desc_vi_disable_smilies();
+	public function desc_vi_enable_smilies($enable);
 
 	/**
 	* Get the extension property: Style Changes
