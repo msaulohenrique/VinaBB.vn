@@ -494,27 +494,15 @@ class page implements page_interface
 	}
 
 	/**
-	* Enable BBCode on the page content
+	* Enable/Disable BBCode on the page content
 	* This should be called before set_text(); text_enable_bbcode()->set_text()
 	*
-	* @return page_interface $this Object for chaining calls: load()->set()->save()
+	* @param bool				$enable	true: enable; false: disable
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function text_enable_bbcode()
+	public function text_enable_bbcode($enable)
 	{
-		$this->set_text_options(OPTION_FLAG_BBCODE);
-
-		return $this;
-	}
-
-	/**
-	* Disable BBCode on the page content
-	* This should be called before set_text(); text_disable_bbcode()->set_text()
-	*
-	* @return page_interface $this Object for chaining calls: load()->set()->save()
-	*/
-	public function text_disable_bbcode()
-	{
-		$this->set_text_options(OPTION_FLAG_BBCODE, true);
+		$this->set_text_options(OPTION_FLAG_BBCODE, !$enable);
 
 		return $this;
 	}
@@ -530,27 +518,15 @@ class page implements page_interface
 	}
 
 	/**
-	* Enable URLs on the page content
+	* Enable/Disable URLs on the page content
 	* This should be called before set_text(); text_enable_urls()->set_text()
 	*
-	* @return page_interface $this Object for chaining calls: load()->set()->save()
+	* @param bool				$enable	true: enable; false: disable
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function text_enable_urls()
+	public function text_enable_urls($enable)
 	{
-		$this->set_text_options(OPTION_FLAG_LINKS);
-
-		return $this;
-	}
-
-	/**
-	* Disable URLs on the page content
-	* This should be called before set_text(); text_disable_urls()->set_text()
-	*
-	* @return page_interface $this Object for chaining calls: load()->set()->save()
-	*/
-	public function text_disable_urls()
-	{
-		$this->set_text_options(OPTION_FLAG_LINKS, true);
+		$this->set_text_options(OPTION_FLAG_LINKS, !$enable);
 
 		return $this;
 	}
@@ -566,27 +542,15 @@ class page implements page_interface
 	}
 
 	/**
-	* Enable smilies on the page content
+	* Enable/Disable smilies on the page content
 	* This should be called before set_text(); text_enable_smilies()->set_text()
 	*
-	* @return page_interface $this Object for chaining calls: load()->set()->save()
+	* @param bool				$enable	true: enable; false: disable
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function text_enable_smilies()
+	public function text_enable_smilies($enable)
 	{
-		$this->set_text_options(OPTION_FLAG_SMILIES);
-
-		return $this;
-	}
-
-	/**
-	* Disable smilies on the page content
-	* This should be called before set_text(); text_disable_smilies()->set_text()
-	*
-	* @return page_interface $this Object for chaining calls: load()->set()->save()
-	*/
-	public function text_disable_smilies()
-	{
-		$this->set_text_options(OPTION_FLAG_SMILIES, true);
+		$this->set_text_options(OPTION_FLAG_SMILIES, !$enable);
 
 		return $this;
 	}
@@ -697,27 +661,15 @@ class page implements page_interface
 	}
 
 	/**
-	* Enable BBCode on the Vietnamese page content
+	* Enable/Disable BBCode on the Vietnamese page content
 	* This should be called before set_text_vi(); text_vi_enable_bbcode()->set_text_vi()
 	*
-	* @return page_interface $this Object for chaining calls: load()->set()->save()
+	* @param bool				$enable	true: enable; false: disable
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function text_vi_enable_bbcode()
+	public function text_vi_enable_bbcode($enable)
 	{
-		$this->set_text_vi_options(OPTION_FLAG_BBCODE);
-
-		return $this;
-	}
-
-	/**
-	* Disable BBCode on the Vietnamese page content
-	* This should be called before set_text_vi(); text_vi_disable_bbcode()->set_text_vi()
-	*
-	* @return page_interface $this Object for chaining calls: load()->set()->save()
-	*/
-	public function text_vi_disable_bbcode()
-	{
-		$this->set_text_vi_options(OPTION_FLAG_BBCODE, true);
+		$this->set_text_vi_options(OPTION_FLAG_BBCODE, !$enable);
 
 		return $this;
 	}
@@ -733,27 +685,15 @@ class page implements page_interface
 	}
 
 	/**
-	* Enable URLs on the Vietnamese page content
+	* Enable/Disable URLs on the Vietnamese page content
 	* This should be called before set_text_vi(); text_vi_enable_urls()->set_text_vi()
 	*
-	* @return page_interface $this Object for chaining calls: load()->set()->save()
+	* @param bool				$enable	true: enable; false: disable
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function text_vi_enable_urls()
+	public function text_vi_enable_urls($enable)
 	{
-		$this->set_text_vi_options(OPTION_FLAG_LINKS);
-
-		return $this;
-	}
-
-	/**
-	* Disable URLs on the Vietnamese page content
-	* This should be called before set_text_vi(); text_vi_disable_urls()->set_text_vi()
-	*
-	* @return page_interface $this Object for chaining calls: load()->set()->save()
-	*/
-	public function text_vi_disable_urls()
-	{
-		$this->set_text_vi_options(OPTION_FLAG_LINKS, true);
+		$this->set_text_vi_options(OPTION_FLAG_LINKS, !$enable);
 
 		return $this;
 	}
@@ -769,27 +709,15 @@ class page implements page_interface
 	}
 
 	/**
-	* Enable smilies on the Vietnamese page content
+	* Enable/Disable smilies on the Vietnamese page content
 	* This should be called before set_text_vi(); text_vi_enable_smilies()->set_text_vi()
 	*
-	* @return page_interface $this Object for chaining calls: load()->set()->save()
+	* @param bool				$enable	true: enable; false: disable
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function text_vi_enable_smilies()
+	public function text_vi_enable_smilies($enable)
 	{
-		$this->set_text_vi_options(OPTION_FLAG_SMILIES);
-
-		return $this;
-	}
-
-	/**
-	* Disable smilies on the Vietnamese page content
-	* This should be called before set_text_vi(); text_vi_disable_smilies()->set_text_vi()
-	*
-	* @return page_interface $this Object for chaining calls: load()->set()->save()
-	*/
-	public function text_vi_disable_smilies()
-	{
-		$this->set_text_vi_options(OPTION_FLAG_SMILIES, true);
+		$this->set_text_vi_options(OPTION_FLAG_SMILIES, !$enable);
 
 		return $this;
 	}
