@@ -48,6 +48,9 @@ class bb_items implements bb_items_interface
 	/** @var string */
 	protected $u_action;
 
+	/** @var array */
+	protected $errors = [];
+
 	/** @var int */
 	protected $bb_type;
 
@@ -197,7 +200,6 @@ class bb_items implements bb_items_interface
 	public function add_edit_data($entity)
 	{
 		$submit = $this->request->is_set_post('submit');
-		$errors = [];
 
 		// Load posting language file for the BBCode editor
 		$this->language->add_lang('posting');
@@ -206,7 +208,50 @@ class bb_items implements bb_items_interface
 		add_form_key('acp_bb_items');
 
 		// Get form data
-		$data = [
+		$data = $this->request_data();
+
+		// Set the parse options to the entity
+		$this->set_bbcode_options($entity, $submit);
+
+		if ($submit)
+		{
+			// Test if the submitted form is valid
+			if (!check_form_key('acp_bb_items'))
+			{
+				$this->errors[] = $this->language->lang('FORM_INVALID');
+			}
+
+			// Map and set data to the entity
+			$this->map_set_data($entity, $data);
+
+			// Insert or update
+			if (!sizeof($this->errors))
+			{
+				$this->save_data($entity);
+			}
+		}
+
+		// Output
+		$this->data_to_tpl($entity);
+
+		$this->template->assign_vars([
+			'ERRORS'	=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
+			'U_BACK'	=> $this->u_action
+		]);
+
+		// Custom BBCode
+		include_once "{$this->root_path}includes/functions_display.{$this->php_ext}";
+		display_custom_bbcodes();
+	}
+
+	/**
+	* Request data from the form
+	*
+	* @return array
+	*/
+	protected function request_data()
+	{
+		return [
 			'cat_id'			=> $this->request->variable('cat_id', 0),
 			'author_id'			=> $this->request->variable('author_id', 0),
 			'item_name'			=> $this->request->variable('item_name', '', true),
@@ -224,111 +269,106 @@ class bb_items implements bb_items_interface
 			'item_github'		=> $this->request->variable('item_github', ''),
 			'item_enable'		=> $this->request->variable('item_enable', true)
 		];
+	}
 
-		/**
-		* Grab the form data's parsing options
-		*
-		*	If submit, use data from the form
-		*	In edit mode, use data stored in the entity
-		*	In add mode, use default values
-		*/
-		$desc_options = [
-			'bbcode'	=> $submit ? $data['desc_bbcode'] : ($entity->get_id() ? $entity->desc_bbcode_enabled() : true),
-			'urls'		=> $submit ? $data['desc_urls'] : ($entity->get_id() ? $entity->desc_urls_enabled() : true),
-			'smilies'	=> $submit ? $data['desc_smilies'] : ($entity->get_id() ? $entity->desc_smilies_enabled() : true)
+	/**
+	* Grab the form data's parsing options and set them to the entity
+	*
+	* If submit, use data from the form
+	* In edit mode, use data stored in the entity
+	* In add mode, use default values
+	*
+	* @param \vinabb\web\entities\bb_item_interface $entity BB item entity
+	*/
+	protected function set_bbcode_options($entity, $submit)
+	{
+		$entity->desc_enable_bbcode($submit ? $this->request->is_set_post('desc_bbcode') : ($entity->get_id() ? $entity->desc_bbcode_enabled() : true));
+		$entity->desc_enable_urls($submit ? $this->request->is_set_post('desc_urls') : ($entity->get_id() ? $entity->desc_urls_enabled() : true));
+		$entity->desc_enable_smilies($submit ? $this->request->is_set_post('desc_smilies') : ($entity->get_id() ? $entity->desc_smilies_enabled() : true));
+		$entity->desc_vi_enable_bbcode($submit ? $this->request->is_set_post('desc_vi_bbcode') : ($entity->get_id() ? $entity->desc_vi_bbcode_enabled() : true));
+		$entity->desc_vi_enable_urls($submit ? $this->request->is_set_post('desc_vi_urls') : ($entity->get_id() ? $entity->desc_vi_urls_enabled() : true));
+		$entity->desc_vi_enable_smilies($submit ? $this->request->is_set_post('desc_vi_smilies') : ($entity->get_id() ? $entity->desc_vi_smilies_enabled() : true));
+	}
+
+	/**
+	* Map the form data fields to setters and set them to the entity
+	*
+	* @param \vinabb\web\entities\bb_item_interface	$entity	BB item entity
+	* @param array										$data	Form data
+	*/
+	protected function map_set_data($entity, $data)
+	{
+		$map_fields = [
+			'set_cat_id'	=> $data['cat_id'],
+			'set_author_id'	=> $data['page_name_vi'],
+			'set_name'		=> $data['item_name'],
+			'set_varname'	=> $data['item_varname'],
+			'set_desc'		=> $data['item_desc'],
+			'set_desc_vi'	=> $data['item_desc_vi'],
+			'set_price'		=> $data['item_price'],
+			'set_url'		=> $data['item_url'],
+			'set_github'	=> $data['item_github'],
+			'set_enable'	=> $data['item_enable'],
+			'set_added'		=> null,
+			'set_updated'	=> null
 		];
 
-		$desc_vi_options = [
-			'bbcode'	=> $submit ? $data['desc_vi_bbcode'] : ($entity->get_id() ? $entity->desc_vi_bbcode_enabled() : true),
-			'urls'		=> $submit ? $data['desc_vi_urls'] : ($entity->get_id() ? $entity->desc_vi_urls_enabled() : true),
-			'smilies'	=> $submit ? $data['desc_vi_smilies'] : ($entity->get_id() ? $entity->desc_vi_smilies_enabled() : true)
-		];
-
-		// Set the parse options in the entity
-		foreach ($desc_options as $function => $enabled)
+		// Set the mapped data in the entity
+		foreach ($map_fields as $entity_function => $item_data)
 		{
-			$entity->{($enabled ? 'desc_enable_' : 'desc_disable_') . $function}();
-		}
-
-		foreach ($desc_vi_options as $function => $enabled)
-		{
-			$entity->{($enabled ? 'desc_vi_enable_' : 'desc_vi_disable_') . $function}();
-		}
-
-		unset($desc_options);
-		unset($desc_vi_options);
-
-		if ($submit)
-		{
-			// Test if the submitted form is valid
-			if (!check_form_key('acp_bb_items'))
+			try
 			{
-				$errors[] = $this->language->lang('FORM_INVALID');
+				// Calling the $entity_function on the entity and passing it $item_data
+				$entity->$entity_function($item_data);
 			}
-
-			// Map the form data fields to setters
-			$map_fields = [
-				'set_cat_id'	=> $data['cat_id'],
-				'set_author_id'	=> $data['page_name_vi'],
-				'set_name'		=> $data['item_name'],
-				'set_varname'	=> $data['item_varname'],
-				'set_desc'		=> $data['item_desc'],
-				'set_desc_vi'	=> $data['item_desc_vi'],
-				'set_price'		=> $data['item_price'],
-				'set_url'		=> $data['item_url'],
-				'set_github'	=> $data['item_github'],
-				'set_enable'	=> $data['item_enable'],
-				'set_added'		=> null,
-				'set_updated'	=> null
-			];
-
-			// Set the mapped data in the entity
-			foreach ($map_fields as $entity_function => $item_data)
+			catch (\vinabb\web\exceptions\base $e)
 			{
-				try
-				{
-					// Calling the $entity_function on the entity and passing it $item_data
-					$entity->$entity_function($item_data);
-				}
-				catch (\vinabb\web\exceptions\base $e)
-				{
-					$errors[] = $e->get_friendly_message($this->language);
-				}
-			}
-
-			unset($map_fields);
-
-			// Insert or update
-			if (!sizeof($errors))
-			{
-				if ($entity->get_id())
-				{
-					// Save the edited entity to the database
-					$entity->save();
-
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_{$this->lang_key}_EDIT", time(), [$entity->get_name()]);
-
-					$message = "MESSAGE_{$this->lang_key}_EDIT";
-				}
-				else
-				{
-					// Add the new entity to the database
-					$entity = $this->operator->add_item($entity, $this->bb_type);
-
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_{$this->lang_key}_ADD", time(), [$entity->get_name()]);
-
-					$message = "MESSAGE_{$this->lang_key}_ADD";
-				}
-
-				$this->cache->clear_new_bb_items($this->bb_type);
-
-				trigger_error($this->language->lang($message) . adm_back_link($this->u_action));
+				$this->errors[] = $e->get_friendly_message($this->language);
 			}
 		}
 
+		unset($map_fields);
+	}
+
+	/**
+	* Insert or update data, then log actions and clear cache if needed
+	*
+	* @param \vinabb\web\entities\bb_item_interface $entity BB item entity
+	*/
+	protected function save_data($entity)
+	{
+		if ($entity->get_id())
+		{
+			// Save the edited entity to the database
+			$entity->save();
+
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_{$this->lang_key}_EDIT", time(), [$entity->get_name()]);
+
+			$message = "MESSAGE_{$this->lang_key}_EDIT";
+		}
+		else
+		{
+			// Add the new entity to the database
+			$entity = $this->operator->add_item($entity, $this->bb_type);
+
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_{$this->lang_key}_ADD", time(), [$entity->get_name()]);
+
+			$message = "MESSAGE_{$this->lang_key}_ADD";
+		}
+
+		$this->cache->clear_new_bb_items($this->bb_type);
+
+		trigger_error($this->language->lang($message) . adm_back_link($this->u_action));
+	}
+
+	/**
+	* Output entity data to template variables
+	*
+	* @param \vinabb\web\entities\bb_item_interface $entity BB item entity
+	*/
+	protected function data_to_tpl($entity)
+	{
 		$this->template->assign_vars([
-			'ERRORS'	=> sizeof($errors) ? implode('<br>', $errors) : '',
-
 			'ITEM_NAME'		=> $entity->get_name(),
 			'ITEM_VARNAME'	=> $entity->get_varname(),
 			'ITEM_DESC'		=> $entity->get_desc_for_edit(),
@@ -343,14 +383,8 @@ class bb_items implements bb_items_interface
 			'S_SMILIES_ALLOWED'	=> true,
 			'S_BBCODE_IMG'		=> true,
 			'S_BBCODE_FLASH'	=> true,
-			'S_LINKS_ALLOWED'	=> true,
-
-			'U_BACK'	=> $this->u_action
+			'S_LINKS_ALLOWED'	=> true
 		]);
-
-		// Custom BBCode
-		include_once "{$this->root_path}includes/functions_display.{$this->php_ext}";
-		display_custom_bbcodes();
 	}
 
 	/**
