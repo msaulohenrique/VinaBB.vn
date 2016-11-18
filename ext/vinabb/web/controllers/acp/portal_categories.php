@@ -210,7 +210,6 @@ class portal_categories implements portal_categories_interface
 	*/
 	public function add_edit_data($entity)
 	{
-		$cat_id = $entity->get_id();
 		$submit = $this->request->is_set_post('submit');
 		$errors = [];
 
@@ -262,7 +261,7 @@ class portal_categories implements portal_categories_interface
 			// Insert or update
 			if (!sizeof($errors))
 			{
-				if ($cat_id)
+				if ($entity->get_id())
 				{
 					// Save the edited entity to the database
 					$entity->save();
@@ -272,7 +271,7 @@ class portal_categories implements portal_categories_interface
 					{
 						try
 						{
-							$this->operator->change_parent($cat_id, $data['parent_id']);
+							$this->operator->change_parent($entity->get_id(), $data['parent_id']);
 						}
 						catch (\vinabb\web\exceptions\base $e)
 						{

@@ -163,7 +163,6 @@ class headlines implements headlines_interface
 	*/
 	public function add_edit_data($entity)
 	{
-		$headline_id = $entity->get_id();
 		$submit = $this->request->is_set_post('submit');
 		$errors = [];
 
@@ -215,7 +214,7 @@ class headlines implements headlines_interface
 			// Insert or update
 			if (!sizeof($errors))
 			{
-				if ($headline_id)
+				if ($entity->get_id())
 				{
 					// Save the edited entity to the database
 					$entity->save();

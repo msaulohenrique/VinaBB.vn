@@ -196,7 +196,6 @@ class bb_items implements bb_items_interface
 	*/
 	public function add_edit_data($entity)
 	{
-		$item_id = $entity->get_id();
 		$submit = $this->request->is_set_post('submit');
 		$errors = [];
 
@@ -234,15 +233,15 @@ class bb_items implements bb_items_interface
 		*	In add mode, use default values
 		*/
 		$desc_options = [
-			'bbcode'	=> $submit ? $data['desc_bbcode'] : ($item_id ? $entity->desc_bbcode_enabled() : true),
-			'urls'		=> $submit ? $data['desc_urls'] : ($item_id ? $entity->desc_urls_enabled() : true),
-			'smilies'	=> $submit ? $data['desc_smilies'] : ($item_id ? $entity->desc_smilies_enabled() : true)
+			'bbcode'	=> $submit ? $data['desc_bbcode'] : ($entity->get_id() ? $entity->desc_bbcode_enabled() : true),
+			'urls'		=> $submit ? $data['desc_urls'] : ($entity->get_id() ? $entity->desc_urls_enabled() : true),
+			'smilies'	=> $submit ? $data['desc_smilies'] : ($entity->get_id() ? $entity->desc_smilies_enabled() : true)
 		];
 
 		$desc_vi_options = [
-			'bbcode'	=> $submit ? $data['desc_vi_bbcode'] : ($item_id ? $entity->desc_vi_bbcode_enabled() : true),
-			'urls'		=> $submit ? $data['desc_vi_urls'] : ($item_id ? $entity->desc_vi_urls_enabled() : true),
-			'smilies'	=> $submit ? $data['desc_vi_smilies'] : ($item_id ? $entity->desc_vi_smilies_enabled() : true)
+			'bbcode'	=> $submit ? $data['desc_vi_bbcode'] : ($entity->get_id() ? $entity->desc_vi_bbcode_enabled() : true),
+			'urls'		=> $submit ? $data['desc_vi_urls'] : ($entity->get_id() ? $entity->desc_vi_urls_enabled() : true),
+			'smilies'	=> $submit ? $data['desc_vi_smilies'] : ($entity->get_id() ? $entity->desc_vi_smilies_enabled() : true)
 		];
 
 		// Set the parse options in the entity
@@ -302,7 +301,7 @@ class bb_items implements bb_items_interface
 			// Insert or update
 			if (!sizeof($errors))
 			{
-				if ($item_id)
+				if ($entity->get_id())
 				{
 					// Save the edited entity to the database
 					$entity->save();

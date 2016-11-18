@@ -156,7 +156,6 @@ class bb_authors implements bb_authors_interface
 	*/
 	public function add_edit_data($entity)
 	{
-		$author_id = $entity->get_id();
 		$submit = $this->request->is_set_post('submit');
 		$errors = [];
 
@@ -224,7 +223,7 @@ class bb_authors implements bb_authors_interface
 			// Insert or update
 			if (!sizeof($errors))
 			{
-				if ($author_id)
+				if ($entity->get_id())
 				{
 					// Save the edited entity to the database
 					$entity->save();

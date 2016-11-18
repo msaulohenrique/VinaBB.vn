@@ -178,7 +178,6 @@ class bb_categories
 	*/
 	public function add_edit_data($entity)
 	{
-		$cat_id = $entity->get_id();
 		$submit = $this->request->is_set_post('submit');
 		$errors = [];
 
@@ -232,7 +231,7 @@ class bb_categories
 			// Insert or update
 			if (!sizeof($errors))
 			{
-				if ($cat_id)
+				if ($entity->get_id())
 				{
 					// Save the edited entity to the database
 					$entity->save();

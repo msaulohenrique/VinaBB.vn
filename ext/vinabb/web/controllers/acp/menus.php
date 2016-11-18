@@ -213,7 +213,6 @@ class menus implements menus_interface
 	*/
 	public function add_edit_data($entity)
 	{
-		$menu_id = $entity->get_id();
 		$submit = $this->request->is_set_post('submit');
 		$errors = [];
 
@@ -285,7 +284,7 @@ class menus implements menus_interface
 			// Insert or update
 			if (!sizeof($errors))
 			{
-				if ($menu_id)
+				if ($entity->get_id())
 				{
 					// Save the edited entity to the database
 					$entity->save();
@@ -295,7 +294,7 @@ class menus implements menus_interface
 					{
 						try
 						{
-							$this->operator->change_parent($menu_id, $data['parent_id']);
+							$this->operator->change_parent($entity->get_id(), $data['parent_id']);
 						}
 						catch (\vinabb\web\exceptions\base $e)
 						{

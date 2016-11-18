@@ -169,7 +169,6 @@ class pages implements pages_interface
 	*/
 	public function add_edit_data($entity)
 	{
-		$page_id = $entity->get_id();
 		$submit = $this->request->is_set_post('submit');
 		$errors = [];
 
@@ -213,15 +212,15 @@ class pages implements pages_interface
 		*	In add mode, use default values
 		*/
 		$text_options = [
-			'bbcode'	=> $submit ? $data['text_bbcode'] : ($page_id ? $entity->text_bbcode_enabled() : true),
-			'urls'		=> $submit ? $data['text_urls'] : ($page_id ? $entity->text_urls_enabled() : true),
-			'smilies'	=> $submit ? $data['text_smilies'] : ($page_id ? $entity->text_smilies_enabled() : true)
+			'bbcode'	=> $submit ? $data['text_bbcode'] : ($entity->get_id() ? $entity->text_bbcode_enabled() : true),
+			'urls'		=> $submit ? $data['text_urls'] : ($entity->get_id() ? $entity->text_urls_enabled() : true),
+			'smilies'	=> $submit ? $data['text_smilies'] : ($entity->get_id() ? $entity->text_smilies_enabled() : true)
 		];
 
 		$text_vi_options = [
-			'bbcode'	=> $submit ? $data['text_vi_bbcode'] : ($page_id ? $entity->text_vi_bbcode_enabled() : true),
-			'urls'		=> $submit ? $data['text_vi_urls'] : ($page_id ? $entity->text_vi_urls_enabled() : true),
-			'smilies'	=> $submit ? $data['text_vi_smilies'] : ($page_id ? $entity->text_vi_smilies_enabled() : true)
+			'bbcode'	=> $submit ? $data['text_vi_bbcode'] : ($entity->get_id() ? $entity->text_vi_bbcode_enabled() : true),
+			'urls'		=> $submit ? $data['text_vi_urls'] : ($entity->get_id() ? $entity->text_vi_urls_enabled() : true),
+			'smilies'	=> $submit ? $data['text_vi_smilies'] : ($entity->get_id() ? $entity->text_vi_smilies_enabled() : true)
 		];
 
 		// Set the parse options in the entity
@@ -285,7 +284,7 @@ class pages implements pages_interface
 			// Insert or update
 			if (!sizeof($errors))
 			{
-				if ($page_id)
+				if ($entity->get_id())
 				{
 					// Save the edited entity to the database
 					$entity->save();
