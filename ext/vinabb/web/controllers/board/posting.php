@@ -93,7 +93,7 @@ class posting
 		\phpbb\template\template $template,
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
-		$phpbb_root_path,
+		$root_path,
 		$php_ext
 	)
 	{
@@ -111,7 +111,7 @@ class posting
 		$this->template = $template;
 		$this->user = $user;
 		$this->helper = $helper;
-		$this->phpbb_root_path = $phpbb_root_path;
+		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 	}
 
@@ -200,7 +200,7 @@ class posting
 		if ($cancel)
 		{
 			$f = ($forum_id) ? 'f=' . $forum_id . '&amp;' : '';
-			$redirect = ($post_id) ? append_sid("{$phpbb_root_path}viewtopic.$phpEx", $f . 'p=' . $post_id) . '#p' . $post_id : (($topic_id) ? append_sid("{$phpbb_root_path}viewtopic.$phpEx", $f . 't=' . $topic_id) : (($forum_id) ? append_sid("{$phpbb_root_path}viewforum.$phpEx", 'f=' . $forum_id) : append_sid("{$phpbb_root_path}index.$phpEx")));
+			$redirect = ($post_id) ? append_sid("{$this->root_path}viewtopic.{$this->php_ext}", $f . 'p=' . $post_id) . '#p' . $post_id : (($topic_id) ? append_sid("{$this->root_path}viewtopic.{$this->php_ext}", $f . 't=' . $topic_id) : (($forum_id) ? append_sid("{$this->root_path}viewforum.{$this->php_ext}", 'f=' . $forum_id) : append_sid("{$this->root_path}index.{$this->php_ext}")));
 			redirect($redirect);
 		}
 
@@ -314,7 +314,7 @@ class posting
 			trigger_error(($mode == 'post' || $mode == 'bump' || $mode == 'reply') ? 'NO_TOPIC' : 'NO_POST');
 		}
 
-// Not able to reply to unapproved posts/topics
+		// Not able to reply to unapproved posts/topics
 		if ($this->auth->acl_get('m_approve', $forum_id) && ((($mode == 'reply' || $mode == 'bump') && $post_data['topic_visibility'] != ITEM_APPROVED) || ($mode == 'quote' && $post_data['post_visibility'] != ITEM_APPROVED)))
 		{
 			trigger_error(($mode == 'reply' || $mode == 'bump') ? 'TOPIC_UNAPPROVED' : 'POST_UNAPPROVED');
@@ -334,12 +334,12 @@ class posting
 			$captcha->init(CONFIRM_POST);
 		}
 
-// Use post_row values in favor of submitted ones...
+		// Use post_row values in favor of submitted ones...
 		$forum_id	= (!empty($post_data['forum_id'])) ? (int) $post_data['forum_id'] : (int) $forum_id;
 		$topic_id	= (!empty($post_data['topic_id'])) ? (int) $post_data['topic_id'] : (int) $topic_id;
 		$post_id	= (!empty($post_data['post_id'])) ? (int) $post_data['post_id'] : (int) $post_id;
 
-// Need to login to passworded forum first?
+		// Need to login to passworded forum first?
 		if ($post_data['forum_password'])
 		{
 			login_forum_box(array(
@@ -349,13 +349,13 @@ class posting
 			);
 		}
 
-// Check permissions
+		// Check permissions
 		if ($this->user->data['is_bot'])
 		{
-			redirect(append_sid("{$phpbb_root_path}index.$phpEx"));
+			redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
 		}
 
-// Is the user able to read within this forum?
+		// Is the user able to read within this forum?
 		if (!$this->auth->acl_get('f_read', $forum_id))
 		{
 			if ($this->user->data['user_id'] != ANONYMOUS)
@@ -376,7 +376,7 @@ class posting
 			login_box('', $message);
 		}
 
-// Permission to do the action asked?
+		// Permission to do the action asked?
 		$is_authed = false;
 
 		switch ($mode)
@@ -502,20 +502,20 @@ class posting
 			login_box('', $message);
 		}
 
-// Is the user able to post within this forum?
+		// Is the user able to post within this forum?
 		if ($post_data['forum_type'] != FORUM_POST && in_array($mode, array('post', 'bump', 'quote', 'reply')))
 		{
 			trigger_error('USER_CANNOT_FORUM_POST');
 		}
 
-// Forum/Topic locked?
+		// Forum/Topic locked?
 		if (($post_data['forum_status'] == ITEM_LOCKED || (isset($post_data['topic_status']) && $post_data['topic_status'] == ITEM_LOCKED)) && !$this->auth->acl_get('m_edit', $forum_id))
 		{
 			trigger_error(($post_data['forum_status'] == ITEM_LOCKED) ? 'FORUM_LOCKED' : 'TOPIC_LOCKED');
 		}
 
-// Can we edit this post ... if we're a moderator with rights then always yes
-// else it depends on editing times, lock status and if we're the correct user
+		// Can we edit this post ... if we're a moderator with rights then always yes
+		// else it depends on editing times, lock status and if we're the correct user
 		if ($mode == 'edit' && !$this->auth->acl_get('m_edit', $forum_id))
 		{
 			$force_edit_allowed = false;
@@ -561,7 +561,7 @@ class posting
 			}
 		}
 
-// Handle delete mode...
+		// Handle delete mode...
 		if ($mode == 'delete' || $mode == 'soft_delete')
 		{
 			if ($mode == 'soft_delete' && $post_data['post_visibility'] == ITEM_DELETED)
@@ -575,7 +575,7 @@ class posting
 			return;
 		}
 
-// Handle bump mode...
+		// Handle bump mode...
 		if ($mode == 'bump')
 		{
 			if ($bump_time = bump_topic_allowed($forum_id, $post_data['topic_bumped'], $post_data['topic_last_post_time'], $post_data['topic_poster'], $post_data['topic_last_poster_id'])
@@ -588,7 +588,7 @@ class posting
 				if (!$this->request->is_ajax())
 				{
 					$message .= '<br><br>' . $this->language->lang('VIEW_MESSAGE', '<a href="' . $meta_url . '">', '</a>');
-					$message .= '<br><br>' . $this->language->lang('RETURN_FORUM', '<a href="' . append_sid("{$phpbb_root_path}viewforum.$phpEx", 'f=' . $forum_id) . '">', '</a>');
+					$message .= '<br><br>' . $this->language->lang('RETURN_FORUM', '<a href="' . append_sid("{$this->root_path}viewforum.{$this->php_ext}", 'f=' . $forum_id) . '">', '</a>');
 				}
 
 				trigger_error($message);
@@ -597,13 +597,13 @@ class posting
 			trigger_error('BUMP_ERROR');
 		}
 
-// Subject length limiting to 60 characters if first post...
+		// Subject length limiting to 60 characters if first post...
 		if ($mode == 'post' || ($mode == 'edit' && $post_data['topic_first_post_id'] == $post_data['post_id']))
 		{
 			$this->template->assign_var('S_NEW_MESSAGE', true);
 		}
 
-// Determine some vars
+		// Determine some vars
 		if (isset($post_data['poster_id']) && $post_data['poster_id'] == ANONYMOUS)
 		{
 			$post_data['quote_username'] = (!empty($post_data['post_username'])) ? $post_data['post_username'] : $this->user->lang['GUEST'];
@@ -622,13 +622,13 @@ class posting
 		$post_data['icon_id']			= (!isset($post_data['icon_id']) || in_array($mode, array('quote', 'reply'))) ? 0 : (int) $post_data['icon_id'];
 		$post_data['poll_options']		= array();
 
-// Get Poll Data
+		// Get Poll Data
 		if ($post_data['poll_start'])
 		{
 			$sql = 'SELECT poll_option_text
-		FROM ' . POLL_OPTIONS_TABLE . "
-		WHERE topic_id = $topic_id
-		ORDER BY poll_option_id";
+				FROM ' . POLL_OPTIONS_TABLE . "
+				WHERE topic_id = $topic_id
+				ORDER BY poll_option_id";
 			$result = $this->db->sql_query($sql);
 
 			while ($row = $this->db->sql_fetchrow($result))
@@ -662,7 +662,7 @@ class posting
 			unset($post_data['post_text']);
 		}
 
-// Set some default variables
+		// Set some default variables
 		$uninit = array('post_attachment' => 0, 'poster_id' => $this->user->data['user_id'], 'enable_magic_url' => 0, 'topic_status' => 0, 'topic_type' => POST_NORMAL, 'post_subject' => '', 'topic_title' => '', 'post_time' => 0, 'post_edit_reason' => '', 'notify_set' => 0);
 
 		foreach ($uninit as $var_name => $default_value)
@@ -785,13 +785,13 @@ class posting
 						);
 					$this->db->sql_query($sql);
 
-					$meta_info = ($mode == 'post') ? append_sid("{$phpbb_root_path}viewforum.$phpEx", 'f=' . $forum_id) : append_sid("{$phpbb_root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id");
+					$meta_info = ($mode == 'post') ? append_sid("{$this->root_path}viewforum.{$this->php_ext}", 'f=' . $forum_id) : append_sid("{$this->root_path}viewtopic.{$this->php_ext}", "f=$forum_id&amp;t=$topic_id");
 
 					meta_refresh(3, $meta_info);
 
 					$message = $this->user->lang['DRAFT_SAVED'] . '<br><br>';
 					$message .= ($mode != 'post') ? sprintf($this->user->lang['RETURN_TOPIC'], '<a href="' . $meta_info . '">', '</a>') . '<br><br>' : '';
-					$message .= sprintf($this->user->lang['RETURN_FORUM'], '<a href="' . append_sid("{$phpbb_root_path}viewforum.$phpEx", 'f=' . $forum_id) . '">', '</a>');
+					$message .= sprintf($this->user->lang['RETURN_FORUM'], '<a href="' . append_sid("{$this->root_path}viewforum.{$this->php_ext}", 'f=' . $forum_id) . '">', '</a>');
 
 					trigger_error($message);
 				}
@@ -867,7 +867,7 @@ class posting
 			unset($subject, $message);
 		}
 
-// Load requested Draft
+		// Load requested Draft
 		if ($draft_id && ($mode == 'reply' || $mode == 'quote' || $mode == 'post') && $this->user->data['is_registered'] && $this->auth->acl_get('u_savedrafts'))
 		{
 			$sql = 'SELECT draft_subject, draft_message
@@ -1146,7 +1146,7 @@ class posting
 			// Validate username
 			if (($post_data['username'] && !$this->user->data['is_registered']) || ($mode == 'edit' && $post_data['poster_id'] == ANONYMOUS && $post_data['username'] && $post_data['post_username'] && $post_data['post_username'] != $post_data['username']))
 			{
-				include($phpbb_root_path . 'includes/functions_user.' . $phpEx);
+				include "{$this->root_path}includes/functions_user.{$this->php_ext}";
 
 				$this->language->add_lang('ucp');
 
@@ -1763,12 +1763,12 @@ class posting
 		$lock_topic_checked	= (isset($topic_lock) && $topic_lock) ? $topic_lock : (($post_data['topic_status'] == ITEM_LOCKED) ? 1 : 0);
 		$lock_post_checked	= (isset($post_lock)) ? $post_lock : $post_data['post_edit_locked'];
 
-// If the user is replying or posting and not already watching this topic but set to always being notified we need to overwrite this setting
+		// If the user is replying or posting and not already watching this topic but set to always being notified we need to overwrite this setting
 		$notify_set			= ($mode != 'edit' && $this->config['allow_topic_notify'] && $this->user->data['is_registered'] && !$post_data['notify_set']) ? $this->user->data['user_notify'] : $post_data['notify_set'];
 		$notify_checked		= (isset($notify)) ? $notify : (($mode == 'post') ? $this->user->data['user_notify'] : $notify_set);
 
-// Page title & action URL
-		$s_action = append_sid("{$phpbb_root_path}posting.$phpEx", "mode=$mode&amp;f=$forum_id");
+		// Page title & action URL
+		$s_action = append_sid("{$this->root_path}posting.{$this->php_ext}", "mode=$mode&amp;f=$forum_id");
 		$s_action .= ($topic_id) ? "&amp;t=$topic_id" : '';
 		$s_action .= ($post_id) ? "&amp;p=$post_id" : '';
 
@@ -1789,16 +1789,15 @@ class posting
 				break;
 		}
 
-// Build Navigation Links
+		// Build Navigation Links
 		generate_forum_nav($post_data);
 
-// Build Forum Rules
+		// Build Forum Rules
 		generate_forum_rules($post_data);
 
-// Posting uses is_solved for legacy reasons. Plugins have to use is_solved to force themselves to be displayed.
+		// Posting uses is_solved for legacy reasons. Plugins have to use is_solved to force themselves to be displayed.
 		if ($this->config['enable_post_confirm'] && !$this->user->data['is_registered'] && (isset($captcha) && $captcha->is_solved() === false) && ($mode == 'post' || $mode == 'reply' || $mode == 'quote'))
 		{
-
 			$this->template->assign_vars(array(
 				'S_CONFIRM_CODE'			=> true,
 				'CAPTCHA_TEMPLATE'			=> $captcha->get_template(),
@@ -1817,7 +1816,7 @@ class posting
 			));
 		}
 
-// Add the confirm id/code pair to the hidden fields, else an error is displayed on next submit/preview
+		// Add the confirm id/code pair to the hidden fields, else an error is displayed on next submit/preview
 		if (isset($captcha) && $captcha->is_solved() !== false)
 		{
 			$s_hidden_fields .= build_hidden_fields($captcha->get_hidden_fields());
@@ -1829,7 +1828,7 @@ class posting
 		/** @var \phpbb\controller\helper $controller_helper */
 		$controller_helper = $phpbb_container->get('controller.helper');
 
-// Build array of variables for main posting page
+		// Build array of variables for main posting page
 		$page_data = array(
 			'L_POST_A'					=> $page_title,
 			'L_ICON'					=> ($mode == 'reply' || $mode == 'quote' || ($mode == 'edit' && $post_id != $post_data['topic_first_post_id'])) ? $this->user->lang['POST_ICON'] : $this->user->lang['TOPIC_ICON'],
@@ -1854,10 +1853,10 @@ class posting
 			'TOPIC_TIME_LIMIT'		=> (int) $post_data['topic_time_limit'],
 			'EDIT_REASON'			=> $this->request->variable('edit_reason', '', true),
 			'SHOW_PANEL'			=> $this->request->variable('show_panel', ''),
-			'U_VIEW_FORUM'			=> append_sid("{$phpbb_root_path}viewforum.$phpEx", "f=$forum_id"),
-			'U_VIEW_TOPIC'			=> ($mode != 'post') ? append_sid("{$phpbb_root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id") : '',
-			'U_PROGRESS_BAR'		=> append_sid("{$phpbb_root_path}posting.$phpEx", "f=$forum_id&amp;mode=popup"),
-			'UA_PROGRESS_BAR'		=> addslashes(append_sid("{$phpbb_root_path}posting.$phpEx", "f=$forum_id&amp;mode=popup")),
+			'U_VIEW_FORUM'			=> append_sid("{$this->root_path}viewforum.{$this->php_ext}", "f=$forum_id"),
+			'U_VIEW_TOPIC'			=> ($mode != 'post') ? append_sid("{$this->root_path}viewtopic.{$this->php_ext}", "f=$forum_id&amp;t=$topic_id") : '',
+			'U_PROGRESS_BAR'		=> append_sid("{$this->root_path}posting.{$this->php_ext}", "f=$forum_id&amp;mode=popup"),
+			'UA_PROGRESS_BAR'		=> addslashes(append_sid("{$this->root_path}posting.{$this->php_ext}", "f=$forum_id&amp;mode=popup")),
 
 			'S_PRIVMSGS'				=> false,
 			'S_CLOSE_PROGRESS_WINDOW'	=> (isset($_POST['add_file'])) ? true : false,
@@ -1900,10 +1899,10 @@ class posting
 			'S_IN_POSTING'			=> true,
 		);
 
-// Build custom bbcodes array
+		// Build custom bbcodes array
 		display_custom_bbcodes();
 
-// Poll entry
+		// Poll entry
 		if (($mode == 'post' || ($mode == 'edit' && $post_id == $post_data['topic_first_post_id']))
 			&& $this->auth->acl_get('f_poll', $forum_id))
 		{
