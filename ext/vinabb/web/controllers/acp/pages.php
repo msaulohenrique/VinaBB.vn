@@ -257,12 +257,12 @@ class pages implements pages_interface
 		* In edit mode, use data stored in the entity
 		* In add mode, use default values
 		*/
-		$text_bbcode = $submit ? $this->request->variable('text_bbcode', true) : ($entity->get_id() ? $entity->text_vi_bbcode_enabled() : true);
-		$text_urls = $submit ? $this->request->variable('text_urls', true) : ($entity->get_id() ? $entity->text_vi_urls_enabled() : true);
-		$text_smilies = $submit ? $this->request->variable('text_smilies', true) : ($entity->get_id() ? $entity->text_vi_smilies_enabled() : true);
-		$text_vi_bbcode = $submit ? $this->request->variable('text_vi_bbcode', true) : ($entity->get_id() ? $entity->text_vi_bbcode_enabled() : true);
-		$text_vi_urls = $submit ? $this->request->variable('text_vi_urls', true) : ($entity->get_id() ? $entity->text_vi_urls_enabled() : true);
-		$text_vi_smilies = $submit ? $this->request->variable('text_vi_smilies', true) : ($entity->get_id() ? $entity->text_vi_smilies_enabled() : true);
+		$text_bbcode = $entity->get_id() ? $entity->text_bbcode_enabled() : $this->request->variable('text_bbcode', true);
+		$text_urls = $entity->get_id() ? $entity->text_urls_enabled() : $this->request->variable('text_urls', true);
+		$text_smilies = $entity->get_id() ? $entity->text_smilies_enabled() : $this->request->variable('text_smilies', true);
+		$text_vi_bbcode = $entity->get_id() ? $entity->text_vi_bbcode_enabled() : $this->request->variable('text_vi_bbcode', true);
+		$text_vi_urls = $entity->get_id() ? $entity->text_vi_urls_enabled() : $this->request->variable('text_vi_urls', true);
+		$text_vi_smilies = $entity->get_id() ? $entity->text_vi_smilies_enabled() : $this->request->variable('text_vi_smilies', true);
 
 		// Set the parse options in the entity
 		$entity->text_enable_bbcode($text_bbcode);
