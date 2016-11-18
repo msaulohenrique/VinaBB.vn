@@ -301,7 +301,7 @@ class portal_articles implements portal_articles_interface
 			}
 			catch (\vinabb\web\exceptions\base $e)
 			{
-				$errors[] = $e->get_friendly_message($this->language);
+				$this->errors[] = $e->get_friendly_message($this->language);
 			}
 		}
 
