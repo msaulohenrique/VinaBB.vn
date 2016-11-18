@@ -183,8 +183,8 @@ class pages implements pages_interface
 		// Get form data
 		$data = $this->request_data();
 
-		// Set the parse options in the entity
-		$this->parse_bbcode_options($entity, $submit);
+		// Set the parse options to the entity
+		$this->set_bbcode_options($entity);
 
 		if ($submit)
 		{
@@ -245,31 +245,22 @@ class pages implements pages_interface
 	}
 
 	/**
-	* Grab the form data's parsing options
+	* Grab the form data's parsing options and set them to the entity
+	*
+	* If submit, use data from the form
+	* In edit mode, use data stored in the entity
+	* In add mode, use default values
 	*
 	* @param \vinabb\web\entities\page_interface $entity Page entity
 	*/
-	protected function parse_bbcode_options($entity)
+	protected function set_bbcode_options($entity)
 	{
-		/**
-		* If submit, use data from the form
-		* In edit mode, use data stored in the entity
-		* In add mode, use default values
-		*/
-		$text_bbcode = $entity->get_id() ? $entity->text_bbcode_enabled() : $this->request->variable('text_bbcode', true);
-		$text_urls = $entity->get_id() ? $entity->text_urls_enabled() : $this->request->variable('text_urls', true);
-		$text_smilies = $entity->get_id() ? $entity->text_smilies_enabled() : $this->request->variable('text_smilies', true);
-		$text_vi_bbcode = $entity->get_id() ? $entity->text_vi_bbcode_enabled() : $this->request->variable('text_vi_bbcode', true);
-		$text_vi_urls = $entity->get_id() ? $entity->text_vi_urls_enabled() : $this->request->variable('text_vi_urls', true);
-		$text_vi_smilies = $entity->get_id() ? $entity->text_vi_smilies_enabled() : $this->request->variable('text_vi_smilies', true);
-
-		// Set the parse options in the entity
-		$entity->text_enable_bbcode($text_bbcode);
-		$entity->text_enable_urls($text_urls);
-		$entity->text_enable_smilies($text_smilies);
-		$entity->text_vi_enable_bbcode($text_vi_bbcode);
-		$entity->text_vi_enable_urls($text_vi_urls);
-		$entity->text_vi_enable_smilies($text_vi_smilies);
+		$entity->text_enable_bbcode($entity->get_id() ? $entity->text_bbcode_enabled() : $this->request->variable('text_bbcode', true));
+		$entity->text_enable_urls($entity->get_id() ? $entity->text_urls_enabled() : $this->request->variable('text_urls', true));
+		$entity->text_enable_smilies($entity->get_id() ? $entity->text_smilies_enabled() : $this->request->variable('text_smilies', true));
+		$entity->text_vi_enable_bbcode($entity->get_id() ? $entity->text_vi_bbcode_enabled() : $this->request->variable('text_vi_bbcode', true));
+		$entity->text_vi_enable_urls($entity->get_id() ? $entity->text_vi_urls_enabled() : $this->request->variable('text_vi_urls', true));
+		$entity->text_vi_enable_smilies($entity->get_id() ? $entity->text_vi_smilies_enabled() : $this->request->variable('text_vi_smilies', true));
 	}
 
 	/**
@@ -361,7 +352,13 @@ class pages implements pages_interface
 			'PAGE_DESC'					=> $entity->get_desc(),
 			'PAGE_DESC_VI'				=> $entity->get_desc_vi(),
 			'PAGE_TEXT'					=> $entity->get_text_for_edit(),
+			'PAGE_TEXT_BBCODE'			=> $entity->text_bbcode_enabled(),
+			'PAGE_TEXT_URLS'			=> $entity->text_urls_enabled(),
+			'PAGE_TEXT_SMILIES'			=> $entity->text_smilies_enabled(),
 			'PAGE_TEXT_VI'				=> $entity->get_text_vi_for_edit(),
+			'PAGE_TEXT_VI_BBCODE'		=> $entity->text_vi_bbcode_enabled(),
+			'PAGE_TEXT_VI_URLS'			=> $entity->text_vi_urls_enabled(),
+			'PAGE_TEXT_VI_SMILIES'		=> $entity->text_vi_smilies_enabled(),
 			'PAGE_ENABLE'				=> $entity->get_enable(),
 			'PAGE_ENABLE_GUEST'			=> $entity->get_enable_guest(),
 			'PAGE_ENABLE_BOT'			=> $entity->get_enable_bot(),
