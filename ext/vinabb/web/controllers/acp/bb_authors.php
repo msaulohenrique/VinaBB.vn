@@ -42,6 +42,9 @@ class bb_authors implements bb_authors_interface
 	/** @var string */
 	protected $u_action;
 
+	/** @var array */
+	protected $errors = [];
+
 	/**
 	* Constructor
 	*
@@ -157,13 +160,48 @@ class bb_authors implements bb_authors_interface
 	public function add_edit_data($entity)
 	{
 		$submit = $this->request->is_set_post('submit');
-		$errors = [];
 
 		// Create a form key for preventing CSRF attacks
 		add_form_key('acp_bb_authors');
 
 		// Get form data
-		$data = [
+		$data = $this->request_data();
+
+		if ($submit)
+		{
+			// Test if the submitted form is valid
+			if (!check_form_key('acp_bb_authors'))
+			{
+				$this->errors[] = $this->language->lang('FORM_INVALID');
+			}
+
+			// Map and set data to the entity
+			$this->map_set_data($entity, $data);
+
+			// Insert or update
+			if (!sizeof($this->errors))
+			{
+				$this->save_data($entity);
+			}
+		}
+
+		// Output
+		$this->data_to_tpl($entity);
+
+		$this->template->assign_vars([
+			'ERRORS'	=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
+			'U_BACK'	=> $this->u_action
+		]);
+	}
+
+	/**
+	* Request data from the form
+	*
+	* @return array
+	*/
+	protected function request_data()
+	{
+		return [
 			'user_id'				=> $this->request->variable('user_id', 0),
 			'author_name'			=> $this->request->variable('author_name', '', true),
 			'author_firstname'		=> $this->request->variable('author_firstname', '', true),
@@ -178,77 +216,86 @@ class bb_authors implements bb_authors_interface
 			'author_google_plus'	=> $this->request->variable('author_google_plus', ''),
 			'author_skype'			=> $this->request->variable('author_skype', '')
 		];
+	}
 
-		if ($submit)
+	/**
+	* Map the form data fields to setters and set them to the entity
+	*
+	* @param \vinabb\web\entities\bb_author_interface	$entity	BB author entity
+	* @param array										$data	Form data
+	*/
+	protected function map_set_data($entity, $data)
+	{
+		$map_fields = [
+			'set_user_id'		=> $data['user_id'],
+			'set_name'			=> $data['author_name'],
+			'set_name_seo'		=> $data['author_name'],
+			'set_firstname'		=> $data['author_firstname'],
+			'set_lastname'		=> $data['author_lastname'],
+			'set_www'			=> $data['author_www'],
+			'set_email'			=> $data['author_email'],
+			'set_github'		=> $data['author_github'],
+			'set_facebook'		=> $data['author_facebook'],
+			'set_twitter'		=> $data['author_twitter'],
+			'set_google'		=> $data['author_google'],
+			'set_google_plus'	=> $data['author_google_plus'],
+			'set_skype'			=> $data['author_skype']
+		];
+
+		// Set the mapped data in the entity
+		foreach ($map_fields as $entity_function => $author_data)
 		{
-			// Test if the submitted form is valid
-			if (!check_form_key('acp_bb_authors'))
+			try
 			{
-				$errors[] = $this->language->lang('FORM_INVALID');
+				// Calling the $entity_function on the entity and passing it $author_data
+				$entity->$entity_function($author_data);
 			}
-
-			// Map the form data fields to setters
-			$map_fields = [
-				'set_user_id'		=> $data['user_id'],
-				'set_name'			=> $data['author_name'],
-				'set_name_seo'		=> $data['author_name'],
-				'set_firstname'		=> $data['author_firstname'],
-				'set_lastname'		=> $data['author_lastname'],
-				'set_www'			=> $data['author_www'],
-				'set_email'			=> $data['author_email'],
-				'set_github'		=> $data['author_github'],
-				'set_facebook'		=> $data['author_facebook'],
-				'set_twitter'		=> $data['author_twitter'],
-				'set_google'		=> $data['author_google'],
-				'set_google_plus'	=> $data['author_google_plus'],
-				'set_skype'			=> $data['author_skype']
-			];
-
-			// Set the mapped data in the entity
-			foreach ($map_fields as $entity_function => $author_data)
+			catch (\vinabb\web\exceptions\base $e)
 			{
-				try
-				{
-					// Calling the $entity_function on the entity and passing it $author_data
-					$entity->$entity_function($author_data);
-				}
-				catch (\vinabb\web\exceptions\base $e)
-				{
-					$errors[] = $e->get_friendly_message($this->language);
-				}
-			}
-
-			unset($map_fields);
-
-			// Insert or update
-			if (!sizeof($errors))
-			{
-				if ($entity->get_id())
-				{
-					// Save the edited entity to the database
-					$entity->save();
-
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_BB_AUTHOR_EDIT', time(), [$entity->get_name()]);
-
-					$message = 'MESSAGE_AUTHOR_EDIT';
-				}
-				else
-				{
-					// Add the new entity to the database
-					$entity = $this->operator->add_author($entity);
-
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_BB_AUTHOR_ADD', time(), [$entity->get_name()]);
-
-					$message = 'MESSAGE_AUTHOR_ADD';
-				}
-
-				trigger_error($this->language->lang($message) . adm_back_link($this->u_action));
+				$this->errors[] = $e->get_friendly_message($this->language);
 			}
 		}
 
-		$this->template->assign_vars([
-			'ERRORS'	=> sizeof($errors) ? implode('<br>', $errors) : '',
+		unset($map_fields);
+	}
 
+	/**
+	* Insert or update data, then log actions and clear cache if needed
+	*
+	* @param \vinabb\web\entities\bb_author_interface $entity BB author entity
+	*/
+	protected function save_data($entity)
+	{
+		if ($entity->get_id())
+		{
+			// Save the edited entity to the database
+			$entity->save();
+
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_BB_AUTHOR_EDIT', time(), [$entity->get_name()]);
+
+			$message = 'MESSAGE_AUTHOR_EDIT';
+		}
+		else
+		{
+			// Add the new entity to the database
+			$entity = $this->operator->add_author($entity);
+
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_BB_AUTHOR_ADD', time(), [$entity->get_name()]);
+
+			$message = 'MESSAGE_AUTHOR_ADD';
+		}
+
+		trigger_error($this->language->lang($message) . adm_back_link($this->u_action));
+	}
+
+	/**
+	* Output entity data to template variables
+	*
+	* @param \vinabb\web\entities\bb_author_interface $entity BB author entity
+	*/
+	protected function data_to_tpl($entity)
+	{
+		$this->template->assign_vars([
 			'AUTHOR_NAME'			=> $entity->get_name(),
 			'AUTHOR_FIRSTNAME'		=> $entity->get_firstname(),
 			'AUTHOR_LASTNAME'		=> $entity->get_lastname(),
@@ -260,9 +307,7 @@ class bb_authors implements bb_authors_interface
 			'AUTHOR_TWITTER'		=> $entity->get_twitter(),
 			'AUTHOR_GOOGLE'			=> $entity->get_google(),
 			'AUTHOR_GOOGLE_PLUS'	=> $entity->get_google_plus(),
-			'AUTHOR_SKYPE'			=> $entity->get_skype(),
-
-			'U_BACK'	=> $this->u_action
+			'AUTHOR_SKYPE'			=> $entity->get_skype()
 		]);
 	}
 
