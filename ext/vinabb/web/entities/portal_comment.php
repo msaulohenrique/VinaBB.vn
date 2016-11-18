@@ -380,7 +380,7 @@ class portal_comment implements portal_comment_interface
 	*/
 	public function text_bbcode_enabled()
 	{
-		return ($this->data['comment_text_options'] & OPTION_FLAG_BBCODE);
+		return (bool) ($this->data['comment_text_options'] & OPTION_FLAG_BBCODE);
 	}
 
 	/**
@@ -416,7 +416,7 @@ class portal_comment implements portal_comment_interface
 	*/
 	public function text_urls_enabled()
 	{
-		return ($this->data['comment_text_options'] & OPTION_FLAG_LINKS);
+		return (bool) ($this->data['comment_text_options'] & OPTION_FLAG_LINKS);
 	}
 
 	/**
@@ -452,7 +452,7 @@ class portal_comment implements portal_comment_interface
 	*/
 	public function text_smilies_enabled()
 	{
-		return ($this->data['comment_text_options'] & OPTION_FLAG_SMILIES);
+		return (bool) ($this->data['comment_text_options'] & OPTION_FLAG_SMILIES);
 	}
 
 	/**

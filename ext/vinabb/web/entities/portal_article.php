@@ -526,7 +526,7 @@ class portal_article implements portal_article_interface
 	*/
 	public function text_bbcode_enabled()
 	{
-		return ($this->data['article_text_options'] & OPTION_FLAG_BBCODE);
+		return (bool) ($this->data['article_text_options'] & OPTION_FLAG_BBCODE);
 	}
 
 	/**
@@ -562,7 +562,7 @@ class portal_article implements portal_article_interface
 	*/
 	public function text_urls_enabled()
 	{
-		return ($this->data['article_text_options'] & OPTION_FLAG_LINKS);
+		return (bool) ($this->data['article_text_options'] & OPTION_FLAG_LINKS);
 	}
 
 	/**
@@ -598,7 +598,7 @@ class portal_article implements portal_article_interface
 	*/
 	public function text_smilies_enabled()
 	{
-		return ($this->data['article_text_options'] & OPTION_FLAG_SMILIES);
+		return (bool) ($this->data['article_text_options'] & OPTION_FLAG_SMILIES);
 	}
 
 	/**

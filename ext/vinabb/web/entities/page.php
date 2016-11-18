@@ -490,7 +490,7 @@ class page implements page_interface
 	*/
 	public function text_bbcode_enabled()
 	{
-		return ($this->data['page_text_options'] & OPTION_FLAG_BBCODE);
+		return (bool) ($this->data['page_text_options'] & OPTION_FLAG_BBCODE);
 	}
 
 	/**
@@ -514,7 +514,7 @@ class page implements page_interface
 	*/
 	public function text_urls_enabled()
 	{
-		return ($this->data['page_text_options'] & OPTION_FLAG_LINKS);
+		return (bool) ($this->data['page_text_options'] & OPTION_FLAG_LINKS);
 	}
 
 	/**
@@ -538,7 +538,7 @@ class page implements page_interface
 	*/
 	public function text_smilies_enabled()
 	{
-		return ($this->data['page_text_options'] & OPTION_FLAG_SMILIES);
+		return (bool) ($this->data['page_text_options'] & OPTION_FLAG_SMILIES);
 	}
 
 	/**
@@ -657,7 +657,7 @@ class page implements page_interface
 	*/
 	public function text_vi_bbcode_enabled()
 	{
-		return ($this->data['page_text_vi_options'] & OPTION_FLAG_BBCODE);
+		return (bool) ($this->data['page_text_vi_options'] & OPTION_FLAG_BBCODE);
 	}
 
 	/**
@@ -681,7 +681,7 @@ class page implements page_interface
 	*/
 	public function text_vi_urls_enabled()
 	{
-		return ($this->data['page_text_vi_options'] & OPTION_FLAG_LINKS);
+		return (bool) ($this->data['page_text_vi_options'] & OPTION_FLAG_LINKS);
 	}
 
 	/**
@@ -705,7 +705,7 @@ class page implements page_interface
 	*/
 	public function text_vi_smilies_enabled()
 	{
-		return ($this->data['page_text_vi_options'] & OPTION_FLAG_SMILIES);
+		return (bool) ($this->data['page_text_vi_options'] & OPTION_FLAG_SMILIES);
 	}
 
 	/**

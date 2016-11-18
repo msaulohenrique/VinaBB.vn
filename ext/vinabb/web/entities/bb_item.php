@@ -539,7 +539,7 @@ class bb_item implements bb_item_interface
 	*/
 	public function desc_bbcode_enabled()
 	{
-		return ($this->data['item_desc_options'] & OPTION_FLAG_BBCODE);
+		return (bool) ($this->data['item_desc_options'] & OPTION_FLAG_BBCODE);
 	}
 
 	/**
@@ -575,7 +575,7 @@ class bb_item implements bb_item_interface
 	*/
 	public function desc_urls_enabled()
 	{
-		return ($this->data['item_desc_options'] & OPTION_FLAG_LINKS);
+		return (bool) ($this->data['item_desc_options'] & OPTION_FLAG_LINKS);
 	}
 
 	/**
@@ -611,7 +611,7 @@ class bb_item implements bb_item_interface
 	*/
 	public function desc_smilies_enabled()
 	{
-		return ($this->data['item_desc_options'] & OPTION_FLAG_SMILIES);
+		return (bool) ($this->data['item_desc_options'] & OPTION_FLAG_SMILIES);
 	}
 
 	/**
@@ -742,7 +742,7 @@ class bb_item implements bb_item_interface
 	*/
 	public function desc_vi_bbcode_enabled()
 	{
-		return ($this->data['item_desc_vi_options'] & OPTION_FLAG_BBCODE);
+		return (bool) ($this->data['item_desc_vi_options'] & OPTION_FLAG_BBCODE);
 	}
 
 	/**
@@ -778,7 +778,7 @@ class bb_item implements bb_item_interface
 	*/
 	public function desc_vi_urls_enabled()
 	{
-		return ($this->data['item_desc_vi_options'] & OPTION_FLAG_LINKS);
+		return (bool) ($this->data['item_desc_vi_options'] & OPTION_FLAG_LINKS);
 	}
 
 	/**
@@ -814,7 +814,7 @@ class bb_item implements bb_item_interface
 	*/
 	public function desc_vi_smilies_enabled()
 	{
-		return ($this->data['item_desc_vi_options'] & OPTION_FLAG_SMILIES);
+		return (bool) ($this->data['item_desc_vi_options'] & OPTION_FLAG_SMILIES);
 	}
 
 	/**
