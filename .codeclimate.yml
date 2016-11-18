@@ -6,9 +6,7 @@ engines:
     enabled: false
     config:
       languages:
-      - ruby
       - javascript
-      - python
       - php
   eslint:
     enabled: true
@@ -33,16 +31,17 @@ engines:
         enabled: false
       Naming/BooleanGetMethodName:
         enabled: false
+  phpcodesniffer:
+    enabled: true
+    config:
+      file_extensions: "php"
+      standard: "PSR1,PSR2"
 ratings:
   paths:
   - "**.css"
-  - "**.inc"
   - "**.js"
   - "**.jsx"
-  - "**.module"
   - "**.php"
-  - "**.py"
-  - "**.rb"
 exclude_paths:
 - config/
 - tests/
