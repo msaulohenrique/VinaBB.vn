@@ -117,7 +117,7 @@ interface helper_interface
 	*
 	* @return int Position of the start
 	*/
-	public function list_bb_items($bb_type, $cat_id = 0, &$items, &$item_count, $limit = 0, $offset = 0);
+	public function list_bb_items($bb_type, $cat_id, &$items, &$item_count, $limit = 0, $offset = 0);
 
 	/**
 	* List news articles with pagination
@@ -130,5 +130,5 @@ interface helper_interface
 	*
 	* @return int Position of the start
 	*/
-	public function list_articles($cat_id = 0, &$articles, &$article_count, $limit = 0, $offset = 0);
+	public function list_articles($cat_id, &$articles, &$article_count, $limit = 0, $offset = 0);
 }

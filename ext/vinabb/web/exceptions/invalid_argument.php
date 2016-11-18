@@ -8,7 +8,6 @@
 
 namespace vinabb\web\exceptions;
 
-
 class invalid_argument extends base
 {
 	/**

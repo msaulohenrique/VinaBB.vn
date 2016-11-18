@@ -90,7 +90,7 @@ class email implements email_interface
 		$form = ($type == 'topic') ? $this->message_form_topic : $this->message_form_user;
 		$form->bind_with_id($this->request, $id);
 		$error = $form->check_allow();
-		
+
 		if ($error)
 		{
 			trigger_error($error);
@@ -101,7 +101,7 @@ class email implements email_interface
 			$messenger = new \messenger(false);
 			$form->submit($messenger);
 		}
-		
+
 		$form->render($this->template);
 
 		return $this->helper->render($form->get_template_file(), $form->get_page_title());

@@ -54,7 +54,7 @@ class pagination
 	*
 	* @return string
 	*/
-	protected function generate_page_link($route_name, $route_params = [], $on_page)
+	protected function generate_page_link($route_name, $route_params, $on_page)
 	{
 		if ($on_page > 1)
 		{
@@ -78,7 +78,7 @@ class pagination
 	* @param bool $ignore_on_page decides whether we enable an active (unlinked) item, used primarily for embedded lists
 	* @return null
 	*/
-	public function generate_template_pagination($route_name, $route_params = [], $block_var_name, $num_items, $per_page, $start = 1, $reverse_count = false, $ignore_on_page = false)
+	public function generate_template_pagination($route_name, $route_params, $block_var_name, $num_items, $per_page, $start = 1, $reverse_count = false, $ignore_on_page = false)
 	{
 		$total_pages = ceil($num_items / $per_page);
 		$on_page = $this->get_on_page($per_page, $start);
@@ -130,7 +130,7 @@ class pagination
 			// to display the first and last page in the list plus any ellipsis. We use this loop to jump
 			// around a little within the list depending on where we're starting (and ending).
 			$at_page = 1;
-			
+
 			do
 			{
 				// We decide whether to display the ellipsis during the loop. The ellipsis is always

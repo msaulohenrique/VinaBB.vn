@@ -8,7 +8,6 @@
 
 namespace vinabb\web\exceptions;
 
-
 class out_of_bounds extends base
 {
 	/**

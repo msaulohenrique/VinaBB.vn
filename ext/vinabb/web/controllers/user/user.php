@@ -162,7 +162,6 @@ class user
 		// then only admins can make use of this (for ACP functionality)
 		$sql_select = $sql_where_data = $sql_from = $sql_where = $order_by = '';
 
-
 		$form			= $this->request->variable('form', '');
 		$field			= $this->request->variable('field', '');
 		$select_single 	= $this->request->variable('select_single', false);
@@ -975,7 +974,6 @@ class user
 		$memberdays = max(1, round((time() - $member['user_regdate']) / 86400));
 		$posts_per_day = $member['user_posts'] / $memberdays;
 		$percentage = ($this->config['num_posts']) ? min(100, ($member['user_posts'] / $this->config['num_posts']) * 100) : 0;
-
 
 		if ($member['user_sig'])
 		{
