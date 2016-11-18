@@ -48,6 +48,9 @@ class pages implements pages_interface
 	/** @var string */
 	protected $u_action;
 
+	/** @var array */
+	protected $errors = [];
+
 	/**
 	* Constructor
 	*
@@ -170,7 +173,6 @@ class pages implements pages_interface
 	public function add_edit_data($entity)
 	{
 		$submit = $this->request->is_set_post('submit');
-		$errors = [];
 
 		// Load posting language file for the BBCode editor
 		$this->language->add_lang('posting');
@@ -179,20 +181,57 @@ class pages implements pages_interface
 		add_form_key('acp_pages');
 
 		// Get form data
-		$data = [
+		$data = $this->request_data();
+
+		// Set the parse options in the entity
+		$this->parse_bbcode_options($entity, $submit);
+
+		if ($submit)
+		{
+			// Test if the submitted form is valid
+			if (!check_form_key('acp_pages'))
+			{
+				$this->errors[] = $this->language->lang('FORM_INVALID');
+			}
+
+			// Map and set data to the entity
+			$this->map_set_data($entity, $data);
+
+			// Insert or update
+			if (!sizeof($this->errors))
+			{
+				$this->save_data($entity);
+			}
+		}
+
+		// Output
+		$this->data_to_tpl($entity);
+
+		$this->template->assign_vars([
+			'ERRORS'	=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
+			'U_BACK'	=> $this->u_action
+		]);
+
+		// Custom BBCode
+		include_once "{$this->root_path}includes/functions_display.{$this->php_ext}";
+		display_custom_bbcodes();
+	}
+
+	/**
+	* Request data from the form
+	*
+	* @return array
+	*/
+	protected function request_data()
+	{
+		return [
 			'page_name'					=> $this->request->variable('page_name', '', true),
 			'page_name_vi'				=> $this->request->variable('page_name_vi', '', true),
 			'page_varname'				=> $this->request->variable('page_varname', ''),
 			'page_desc'					=> $this->request->variable('page_desc', '', true),
 			'page_desc_vi'				=> $this->request->variable('page_desc_vi', '', true),
 			'page_text'					=> $this->request->variable('page_text', '', true),
-			'text_bbcode'				=> $this->request->variable('text_bbcode', true),
-			'text_urls'					=> $this->request->variable('text_urls', true),
-			'text_smilies'				=> $this->request->variable('text_smilies', true),
 			'page_text_vi'				=> $this->request->variable('page_text_vi', '', true),
-			'text_vi_bbcode'			=> $this->request->variable('text_vi_bbcode', true),
-			'text_vi_urls'				=> $this->request->variable('text_vi_urls', true),
-			'text_vi_smilies'			=> $this->request->variable('text_vi_smilies', true),
 			'page_enable'				=> $this->request->variable('page_enable', true),
 			'page_enable_guest'			=> $this->request->variable('page_enable_guest', true),
 			'page_enable_bot'			=> $this->request->variable('page_enable_bot', true),
@@ -203,115 +242,120 @@ class pages implements pages_interface
 			'page_enable_admin'			=> $this->request->variable('page_enable_admin', true),
 			'page_enable_founder'		=> $this->request->variable('page_enable_founder', true)
 		];
+	}
 
+	/**
+	* Grab the form data's parsing options
+	*
+	* @param \vinabb\web\entities\page_interface	$entity	Page entity
+	* @param bool									$submit	Is the submit button pressed?
+	*/
+	protected function parse_bbcode_options($entity, $submit)
+	{
 		/**
-		* Grab the form data's parsing options
-		*
-		*	If submit, use data from the form
-		*	In edit mode, use data stored in the entity
-		*	In add mode, use default values
+		* If submit, use data from the form
+		* In edit mode, use data stored in the entity
+		* In add mode, use default values
 		*/
-		$text_options = [
-			'bbcode'	=> $submit ? $data['text_bbcode'] : ($entity->get_id() ? $entity->text_bbcode_enabled() : true),
-			'urls'		=> $submit ? $data['text_urls'] : ($entity->get_id() ? $entity->text_urls_enabled() : true),
-			'smilies'	=> $submit ? $data['text_smilies'] : ($entity->get_id() ? $entity->text_smilies_enabled() : true)
-		];
-
-		$text_vi_options = [
-			'bbcode'	=> $submit ? $data['text_vi_bbcode'] : ($entity->get_id() ? $entity->text_vi_bbcode_enabled() : true),
-			'urls'		=> $submit ? $data['text_vi_urls'] : ($entity->get_id() ? $entity->text_vi_urls_enabled() : true),
-			'smilies'	=> $submit ? $data['text_vi_smilies'] : ($entity->get_id() ? $entity->text_vi_smilies_enabled() : true)
-		];
+		$text_bbcode = $submit ? $this->request->variable('text_bbcode', true) : ($entity->get_id() ? $entity->text_vi_bbcode_enabled() : true);
+		$text_urls = $submit ? $this->request->variable('text_urls', true) : ($entity->get_id() ? $entity->text_vi_urls_enabled() : true);
+		$text_smilies = $submit ? $this->request->variable('text_smilies', true) : ($entity->get_id() ? $entity->text_vi_smilies_enabled() : true);
+		$text_vi_bbcode = $submit ? $this->request->variable('text_vi_bbcode', true) : ($entity->get_id() ? $entity->text_vi_bbcode_enabled() : true);
+		$text_vi_urls = $submit ? $this->request->variable('text_vi_urls', true) : ($entity->get_id() ? $entity->text_vi_urls_enabled() : true);
+		$text_vi_smilies = $submit ? $this->request->variable('text_vi_smilies', true) : ($entity->get_id() ? $entity->text_vi_smilies_enabled() : true);
 
 		// Set the parse options in the entity
-		foreach ($text_options as $function => $enabled)
-		{
-			$entity->{($enabled ? 'text_enable_' : 'text_disable_') . $function}();
-		}
+		$entity->text_enable_bbcode($text_bbcode);
+		$entity->text_enable_urls($text_urls);
+		$entity->text_enable_smilies($text_smilies);
+		$entity->text_vi_enable_bbcode($text_vi_bbcode);
+		$entity->text_vi_enable_urls($text_vi_urls);
+		$entity->text_vi_enable_smilies($text_vi_smilies);
+	}
 
-		foreach ($text_vi_options as $function => $enabled)
-		{
-			$entity->{($enabled ? 'text_vi_enable_' : 'text_vi_disable_') . $function}();
-		}
+	/**
+	* Map the form data fields to setters and set them to the entity
+	*
+	* @param \vinabb\web\entities\page_interface	$entity	Page entity
+	* @param array									$data	Form data
+	*/
+	protected function map_set_data($entity, $data)
+	{
+		$map_fields = [
+			'set_name'				=> $data['page_name'],
+			'set_name_vi'			=> $data['page_name_vi'],
+			'set_varname'			=> $data['page_varname'],
+			'set_desc'				=> $data['page_desc'],
+			'set_desc_vi'			=> $data['page_desc_vi'],
+			'set_text'				=> $data['page_text'],
+			'set_text_vi'			=> $data['page_text_vi'],
+			'set_enable'			=> $data['page_enable'],
+			'set_enable_guest'		=> $data['page_enable_guest'],
+			'set_enable_bot'		=> $data['page_enable_bot'],
+			'set_enable_new_user'	=> $data['page_enable_new_user'],
+			'set_enable_user'		=> $data['page_enable_user'],
+			'set_enable_mod'		=> $data['page_enable_mod'],
+			'set_enable_global_mod'	=> $data['page_enable_global_mod'],
+			'set_enable_admin'		=> $data['page_enable_admin'],
+			'set_enable_founder'	=> $data['page_enable_founder']
+		];
 
-		unset($text_options);
-		unset($text_vi_options);
-
-		if ($submit)
+		// Set the mapped data in the entity
+		foreach ($map_fields as $entity_function => $page_data)
 		{
-			// Test if the submitted form is valid
-			if (!check_form_key('acp_pages'))
+			try
 			{
-				$errors[] = $this->language->lang('FORM_INVALID');
+				// Calling the $entity_function on the entity and passing it $page_data
+				$entity->$entity_function($page_data);
 			}
-
-			// Map the form data fields to setters
-			$map_fields = [
-				'set_name'				=> $data['page_name'],
-				'set_name_vi'			=> $data['page_name_vi'],
-				'set_varname'			=> $data['page_varname'],
-				'set_desc'				=> $data['page_desc'],
-				'set_desc_vi'			=> $data['page_desc_vi'],
-				'set_text'				=> $data['page_text'],
-				'set_text_vi'			=> $data['page_text_vi'],
-				'set_enable'			=> $data['page_enable'],
-				'set_enable_guest'		=> $data['page_enable_guest'],
-				'set_enable_bot'		=> $data['page_enable_bot'],
-				'set_enable_new_user'	=> $data['page_enable_new_user'],
-				'set_enable_user'		=> $data['page_enable_user'],
-				'set_enable_mod'		=> $data['page_enable_mod'],
-				'set_enable_global_mod'	=> $data['page_enable_global_mod'],
-				'set_enable_admin'		=> $data['page_enable_admin'],
-				'set_enable_founder'	=> $data['page_enable_founder']
-			];
-
-			// Set the mapped data in the entity
-			foreach ($map_fields as $entity_function => $page_data)
+			catch (\vinabb\web\exceptions\base $e)
 			{
-				try
-				{
-					// Calling the $entity_function on the entity and passing it $page_data
-					$entity->$entity_function($page_data);
-				}
-				catch (\vinabb\web\exceptions\base $e)
-				{
-					$errors[] = $e->get_friendly_message($this->language);
-				}
-			}
-
-			unset($map_fields);
-
-			// Insert or update
-			if (!sizeof($errors))
-			{
-				if ($entity->get_id())
-				{
-					// Save the edited entity to the database
-					$entity->save();
-
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_EDIT', time(), [$entity->get_name()]);
-
-					$message = 'MESSAGE_PAGE_EDIT';
-				}
-				else
-				{
-					// Add the new entity to the database
-					$entity = $this->operator->add_page($entity);
-
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_ADD', time(), [$entity->get_name()]);
-
-					$message = 'MESSAGE_PAGE_ADD';
-				}
-
-				$this->cache->clear_pages();
-
-				trigger_error($this->language->lang($message) . adm_back_link($this->u_action));
+				$this->errors[] = $e->get_friendly_message($this->language);
 			}
 		}
 
+		unset($map_fields);
+	}
+
+	/**
+	* Insert or update data, then log actions and clear cache if needed
+	*
+	* @param \vinabb\web\entities\page_interface $entity Page entity
+	*/
+	protected function save_data($entity)
+	{
+		if ($entity->get_id())
+		{
+			// Save the edited entity to the database
+			$entity->save();
+
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_EDIT', time(), [$entity->get_name()]);
+
+			$message = 'MESSAGE_PAGE_EDIT';
+		}
+		else
+		{
+			// Add the new entity to the database
+			$entity = $this->operator->add_page($entity);
+
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_ADD', time(), [$entity->get_name()]);
+
+			$message = 'MESSAGE_PAGE_ADD';
+		}
+
+		$this->cache->clear_pages();
+
+		trigger_error($this->language->lang($message) . adm_back_link($this->u_action));
+	}
+
+	/**
+	* Output entity data to template variables
+	*
+	* @param \vinabb\web\entities\page_interface $entity Page entity
+	*/
+	protected function data_to_tpl($entity)
+	{
 		$this->template->assign_vars([
-			'ERRORS'	=> sizeof($errors) ? implode('<br>', $errors) : '',
-
 			'PAGE_NAME'					=> $entity->get_name(),
 			'PAGE_NAME_VI'				=> $entity->get_name_vi(),
 			'PAGE_VARNAME'				=> $entity->get_varname(),
@@ -334,14 +378,8 @@ class pages implements pages_interface
 			'S_SMILIES_ALLOWED'	=> true,
 			'S_BBCODE_IMG'		=> true,
 			'S_BBCODE_FLASH'	=> true,
-			'S_LINKS_ALLOWED'	=> true,
-
-			'U_BACK'	=> $this->u_action
+			'S_LINKS_ALLOWED'	=> true
 		]);
-
-		// Custom BBCode
-		include_once "{$this->root_path}includes/functions_display.{$this->php_ext}";
-		display_custom_bbcodes();
 	}
 
 	/**
