@@ -53,7 +53,7 @@ class posting
 	protected $helper;
 
 	/** @var string */
-	protected $phpbb_root_path;
+	protected $root_path;
 
 	/** @var string */
 	protected $php_ext;
@@ -75,7 +75,7 @@ class posting
 	* @param \phpbb\template\template $template
 	* @param \phpbb\user $user
 	* @param \phpbb\controller\helper $helper
-	* @param string $phpbb_root_path
+	* @param string $root_path
 	* @param string $php_ext
 	*/
 	public function __construct(
@@ -1543,7 +1543,7 @@ class posting
 						meta_refresh(10, $redirect_url);
 						$message = ($mode == 'edit') ? $this->user->lang['POST_EDITED_MOD'] : $this->user->lang['POST_STORED_MOD'];
 						$message .= (($this->user->data['user_id'] == ANONYMOUS) ? '' : ' '. $this->user->lang['POST_APPROVAL_NOTIFY']);
-						$message .= '<br><br>' . sprintf($this->user->lang['RETURN_FORUM'], '<a href="' . append_sid("{$phpbb_root_path}viewforum.$phpEx", 'f=' . $data['forum_id']) . '">', '</a>');
+						$message .= '<br><br>' . sprintf($this->user->lang['RETURN_FORUM'], '<a href="' . append_sid("{$this->root_path}viewforum.{$this->php_ext}", 'f=' . $data['forum_id']) . '">', '</a>');
 						trigger_error($message);
 					}
 
