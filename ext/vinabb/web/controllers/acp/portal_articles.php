@@ -53,6 +53,9 @@ class portal_articles implements portal_articles_interface
 	protected $u_action;
 
 	/** @var array */
+	protected $errors = [];
+
+	/** @var array */
 	protected $lang_data = [];
 
 	/** @var array */
@@ -182,12 +185,11 @@ class portal_articles implements portal_articles_interface
 	/**
 	* Process data to be added or edited
 	*
-	* @param \vinabb\web\entities\portal_article_interface $entity Page entity
+	* @param \vinabb\web\entities\portal_article_interface $entity Article entity
 	*/
 	public function add_edit_data($entity)
 	{
 		$submit = $this->request->is_set_post('submit');
-		$errors = [];
 
 		// Load posting language file for the BBCode editor
 		$this->language->add_lang('posting');
@@ -196,7 +198,50 @@ class portal_articles implements portal_articles_interface
 		add_form_key('acp_portal_articles');
 
 		// Get form data
-		$data = [
+		$data = $this->request_data();
+
+		// Set the parse options to the entity
+		$this->set_bbcode_options($entity, $submit);
+
+		if ($submit)
+		{
+			// Test if the submitted form is valid
+			if (!check_form_key('acp_portal_articles'))
+			{
+				$this->errors[] = $this->language->lang('FORM_INVALID');
+			}
+
+			// Map and set data to the entity
+			$this->map_set_data($entity, $data);
+
+			// Insert or update
+			if (!sizeof($this->errors))
+			{
+				$this->save_data($entity);
+			}
+		}
+
+		// Output
+		$this->data_to_tpl($entity);
+
+		$this->template->assign_vars([
+			'ERRORS'	=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
+			'U_BACK'	=> $this->u_action
+		]);
+
+		// Custom BBCode
+		include_once "{$this->root_path}includes/functions_display.{$this->php_ext}";
+		display_custom_bbcodes();
+	}
+
+	/**
+	* Request data from the form
+	*
+	* @return array
+	*/
+	protected function request_data()
+	{
+		return [
 			'cat_id'			=> $this->request->variable('cat_id', 0),
 			'article_name'		=> $this->request->variable('article_name', '', true),
 			'article_lang'		=> $this->request->variable('article_lang', ''),
@@ -209,95 +254,99 @@ class portal_articles implements portal_articles_interface
 			'article_enable'	=> $this->request->variable('article_enable', true),
 			'article_time'		=> null
 		];
+	}
 
-		/**
-		* Grab the form data's parsing options
-		*
-		*	If submit, use data from the form
-		*	In edit mode, use data stored in the entity
-		*	In add mode, use default values
-		*/
-		$text_options = [
-			'bbcode'	=> $submit ? $data['text_bbcode'] : ($entity->get_id() ? $entity->text_bbcode_enabled() : true),
-			'urls'		=> $submit ? $data['text_urls'] : ($entity->get_id() ? $entity->text_urls_enabled() : true),
-			'smilies'	=> $submit ? $data['text_smilies'] : ($entity->get_id() ? $entity->text_smilies_enabled() : true)
+	/**
+	* Grab the form data's parsing options and set them to the entity
+	*
+	* If submit, use data from the form
+	* In edit mode, use data stored in the entity
+	* In add mode, use default values
+	*
+	* @param \vinabb\web\entities\portal_article_interface $entity Article entity
+	*/
+	protected function set_bbcode_options($entity, $submit)
+	{
+		$entity->text_enable_bbcode($submit ? $this->request->is_set_post('text_bbcode') : ($entity->get_id() ? $entity->text_bbcode_enabled() : true));
+		$entity->text_enable_urls($submit ? $this->request->is_set_post('text_urls') : ($entity->get_id() ? $entity->text_urls_enabled() : true));
+		$entity->text_enable_smilies($submit ? $this->request->is_set_post('text_smilies') : ($entity->get_id() ? $entity->text_smilies_enabled() : true));
+	}
+
+	/**
+	* Map the form data fields to setters and set them to the entity
+	*
+	* @param \vinabb\web\entities\portal_article_interface	$entity	Article entity
+	* @param array											$data	Form data
+	*/
+	protected function map_set_data($entity, $data)
+	{
+		$map_fields = [
+			'set_cat_id'	=> $data['cat_id'],
+			'set_name'		=> $data['article_name'],
+			'set_lang'		=> $data['article_lang'],
+			'set_img'		=> $data['article_img'],
+			'set_desc'		=> $data['article_desc'],
+			'set_text'		=> $data['article_text'],
+			'set_enable'	=> $data['article_enable'],
+			'set_time'		=> $data['article_time']
 		];
 
-		// Set the parse options in the entity
-		foreach ($text_options as $function => $enabled)
+		// Set the mapped data in the entity
+		foreach ($map_fields as $entity_function => $article_data)
 		{
-			$entity->{($enabled ? 'text_enable_' : 'text_disable_') . $function}();
-		}
-
-		unset($text_options);
-
-		if ($submit)
-		{
-			// Test if the submitted form is valid
-			if (!check_form_key('acp_portal_articles'))
+			try
 			{
-				$errors[] = $this->language->lang('FORM_INVALID');
+				// Calling the $entity_function on the entity and passing it $article_data
+				$entity->$entity_function($article_data);
 			}
-
-			// Map the form data fields to setters
-			$map_fields = [
-				'set_cat_id'	=> $data['cat_id'],
-				'set_name'		=> $data['article_name'],
-				'set_lang'		=> $data['article_lang'],
-				'set_img'		=> $data['article_img'],
-				'set_desc'		=> $data['article_desc'],
-				'set_text'		=> $data['article_text'],
-				'set_enable'	=> $data['article_enable'],
-				'set_time'		=> $data['article_time']
-			];
-
-			// Set the mapped data in the entity
-			foreach ($map_fields as $entity_function => $article_data)
+			catch (\vinabb\web\exceptions\base $e)
 			{
-				try
-				{
-					// Calling the $entity_function on the entity and passing it $article_data
-					$entity->$entity_function($article_data);
-				}
-				catch (\vinabb\web\exceptions\base $e)
-				{
-					$errors[] = $e->get_friendly_message($this->language);
-				}
-			}
-
-			unset($map_fields);
-
-			// Insert or update
-			if (!sizeof($errors))
-			{
-				if ($entity->get_id())
-				{
-					// Save the edited entity to the database
-					$entity->save();
-
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_ARTICLE_EDIT', time(), [$entity->get_name()]);
-
-					$message = 'MESSAGE_ARTICLE_EDIT';
-				}
-				else
-				{
-					// Add the new entity to the database
-					$entity = $this->operator->add_article($entity);
-
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_ARTICLE_ADD', time(), [$entity->get_name()]);
-
-					$message = 'MESSAGE_ARTICLE_ADD';
-				}
-
-				$this->cache->clear_index_articles();
-
-				trigger_error($this->language->lang($message) . adm_back_link($this->u_action));
+				$errors[] = $e->get_friendly_message($this->language);
 			}
 		}
 
+		unset($map_fields);
+	}
+
+	/**
+	* Insert or update data, then log actions and clear cache if needed
+	*
+	* @param \vinabb\web\entities\portal_article_interface $entity Article entity
+	*/
+	protected function save_data($entity)
+	{
+		if ($entity->get_id())
+		{
+			// Save the edited entity to the database
+			$entity->save();
+
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_ARTICLE_EDIT', time(), [$entity->get_name()]);
+
+			$message = 'MESSAGE_ARTICLE_EDIT';
+		}
+		else
+		{
+			// Add the new entity to the database
+			$entity = $this->operator->add_article($entity);
+
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_ARTICLE_ADD', time(), [$entity->get_name()]);
+
+			$message = 'MESSAGE_ARTICLE_ADD';
+		}
+
+		$this->cache->clear_index_articles();
+
+		trigger_error($this->language->lang($message) . adm_back_link($this->u_action));
+	}
+
+	/**
+	* Output entity data to template variables
+	*
+	* @param \vinabb\web\entities\portal_article_interface $entity Article entity
+	*/
+	protected function data_to_tpl($entity)
+	{
 		$this->template->assign_vars([
-			'ERRORS'	=> sizeof($errors) ? implode('<br>', $errors) : '',
-
 			'ARTICLE_NAME'		=> $entity->get_name(),
 			'ARTICLE_DESC'		=> $entity->get_desc(),
 			'ARTICLE_TEXT'		=> $entity->get_text_for_edit(),
@@ -310,14 +359,8 @@ class portal_articles implements portal_articles_interface
 			'S_SMILIES_ALLOWED'	=> true,
 			'S_BBCODE_IMG'		=> true,
 			'S_BBCODE_FLASH'	=> true,
-			'S_LINKS_ALLOWED'	=> true,
-
-			'U_BACK'	=> $this->u_action
+			'S_LINKS_ALLOWED'	=> true
 		]);
-
-		// Custom BBCode
-		include_once "{$this->root_path}includes/functions_display.{$this->php_ext}";
-		display_custom_bbcodes();
 	}
 
 	/**
