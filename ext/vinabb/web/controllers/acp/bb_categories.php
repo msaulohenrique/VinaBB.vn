@@ -45,6 +45,9 @@ class bb_categories
 	/** @var string */
 	protected $u_action;
 
+	/** @var array */
+	protected $errors = [];
+
 	/** @var int */
 	protected $bb_type;
 
@@ -179,13 +182,48 @@ class bb_categories
 	public function add_edit_data($entity)
 	{
 		$submit = $this->request->is_set_post('submit');
-		$errors = [];
 
 		// Create a form key for preventing CSRF attacks
 		add_form_key('acp_bb_categories');
 
 		// Get form data
-		$data = [
+		$data = $this->request_data();
+
+		if ($submit)
+		{
+			// Test if the submitted form is valid
+			if (!check_form_key('acp_bb_categories'))
+			{
+				$this->errors[] = $this->language->lang('FORM_INVALID');
+			}
+
+			// Map and set data to the entity
+			$this->map_set_data($entity, $data);
+
+			// Insert or update
+			if (!sizeof($this->errors))
+			{
+				$this->save_data($entity);
+			}
+		}
+
+		// Output
+		$this->data_to_tpl($entity);
+
+		$this->template->assign_vars([
+			'ERRORS'	=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
+			'U_BACK'	=> $this->u_action
+		]);
+	}
+
+	/**
+	* Request data from the form
+	*
+	* @return array
+	*/
+	protected function request_data()
+	{
+		return [
 			'cat_name'		=> $this->request->variable('cat_name', '', true),
 			'cat_name_vi'	=> $this->request->variable('cat_name_vi', '', true),
 			'cat_varname'	=> $this->request->variable('cat_varname', ''),
@@ -193,81 +231,89 @@ class bb_categories
 			'cat_desc_vi'	=> $this->request->variable('cat_desc_vi', '', true),
 			'cat_icon'		=> $this->request->variable('cat_icon', '')
 		];
+	}
 
-		if ($submit)
+	/**
+	* Map the form data fields to setters and set them to the entity
+	*
+	* @param \vinabb\web\entities\bb_category_interface	$entity	BB category entity
+	* @param array										$data	Form data
+	*/
+	protected function map_set_data($entity, $data)
+	{
+		// Map the form data fields to setters
+		$map_fields = [
+			'set_name'		=> $data['cat_name'],
+			'set_name_vi'	=> $data['cat_name_vi'],
+			'set_varname'	=> $data['cat_varname'],
+			'set_desc'		=> $data['cat_desc'],
+			'set_desc_vi'	=> $data['cat_desc_vi'],
+			'set_icon'		=> $data['cat_icon']
+		];
+
+		// Set the mapped data in the entity
+		foreach ($map_fields as $entity_function => $cat_data)
 		{
-			// Test if the submitted form is valid
-			if (!check_form_key('acp_bb_categories'))
+			try
 			{
-				$errors[] = $this->language->lang('FORM_INVALID');
+				// Calling the $entity_function on the entity and passing it $cat_data
+				$entity->$entity_function($cat_data);
 			}
-
-			// Map the form data fields to setters
-			$map_fields = [
-				'set_name'		=> $data['cat_name'],
-				'set_name_vi'	=> $data['cat_name_vi'],
-				'set_varname'	=> $data['cat_varname'],
-				'set_desc'		=> $data['cat_desc'],
-				'set_desc_vi'	=> $data['cat_desc_vi'],
-				'set_icon'		=> $data['cat_icon']
-			];
-
-			// Set the mapped data in the entity
-			foreach ($map_fields as $entity_function => $cat_data)
+			catch (\vinabb\web\exceptions\base $e)
 			{
-				try
-				{
-					// Calling the $entity_function on the entity and passing it $cat_data
-					$entity->$entity_function($cat_data);
-				}
-				catch (\vinabb\web\exceptions\base $e)
-				{
-					$errors[] = $e->get_friendly_message($this->language);
-				}
-			}
-
-			unset($map_fields);
-
-			// Insert or update
-			if (!sizeof($errors))
-			{
-				if ($entity->get_id())
-				{
-					// Save the edited entity to the database
-					$entity->save();
-
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_BB_CAT_EDIT', time(), [$entity->get_name()]);
-
-					$message = 'MESSAGE_CAT_EDIT';
-				}
-				else
-				{
-					// Add the new entity to the database
-					$entity = $this->operator->add_cat($entity, $this->bb_type);
-
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_BB_CAT_ADD', time(), [$entity->get_name()]);
-
-					$message = 'MESSAGE_CAT_ADD';
-				}
-
-				$this->cache->clear_bb_cats($this->bb_type);
-
-				trigger_error($this->language->lang($message) . adm_back_link($this->u_action));
+				$this->errors[] = $e->get_friendly_message($this->language);
 			}
 		}
 
-		$this->template->assign_vars([
-			'ERRORS'	=> sizeof($errors) ? implode('<br>', $errors) : '',
+		unset($map_fields);
+	}
 
+	/**
+	* Insert or update data, then log actions and clear cache if needed
+	*
+	* @param \vinabb\web\entities\bb_category_interface $entity BB category entity
+	*/
+	protected function save_data($entity)
+	{
+		if ($entity->get_id())
+		{
+			// Save the edited entity to the database
+			$entity->save();
+
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_BB_CAT_EDIT', time(), [$entity->get_name()]);
+
+			$message = 'MESSAGE_CAT_EDIT';
+		}
+		else
+		{
+			// Add the new entity to the database
+			$entity = $this->operator->add_cat($entity, $this->bb_type);
+
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_BB_CAT_ADD', time(), [$entity->get_name()]);
+
+			$message = 'MESSAGE_CAT_ADD';
+		}
+
+		$this->cache->clear_bb_cats($this->bb_type);
+
+		trigger_error($this->language->lang($message) . adm_back_link($this->u_action));
+	}
+
+	/**
+	* Output entity data to template variables
+	*
+	* @param \vinabb\web\entities\bb_category_interface $entity BB category entity
+	*/
+	protected function data_to_tpl($entity)
+	{
+		$this->template->assign_vars([
 			'CAT_NAME'		=> $entity->get_name(),
 			'CAT_NAME_VI'	=> $entity->get_name_vi(),
 			'CAT_VARNAME'	=> $entity->get_varname(),
 			'CAT_DESC'		=> $entity->get_desc(),
 			'CAT_DESC_VI'	=> $entity->get_desc_vi(),
 
-			'ICON_OPTIONS'	=> $this->ext_helper->build_icon_list($entity->get_icon()),
-
-			'U_BACK'	=> $this->u_action
+			'ICON_OPTIONS'	=> $this->ext_helper->build_icon_list($entity->get_icon())
 		]);
 	}
 
