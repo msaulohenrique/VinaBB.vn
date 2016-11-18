@@ -30,6 +30,8 @@ matrix:
     - php: hhvm
       env: DB=mysqli
   allow_failures:
+    - php: 7.0
+      env: DB=none;NOTESTS=1
     - php: nightly
     - php: hhvm
   fast_finish: true
