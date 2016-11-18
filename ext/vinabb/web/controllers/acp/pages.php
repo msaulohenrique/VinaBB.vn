@@ -184,7 +184,7 @@ class pages implements pages_interface
 		$data = $this->request_data();
 
 		// Set the parse options to the entity
-		$this->set_bbcode_options($entity);
+		$this->set_bbcode_options($entity, $submit);
 
 		if ($submit)
 		{
@@ -253,14 +253,14 @@ class pages implements pages_interface
 	*
 	* @param \vinabb\web\entities\page_interface $entity Page entity
 	*/
-	protected function set_bbcode_options($entity)
+	protected function set_bbcode_options($entity, $submit)
 	{
-		$entity->text_enable_bbcode($entity->get_id() ? $entity->text_bbcode_enabled() : $this->request->variable('text_bbcode', true));
-		$entity->text_enable_urls($entity->get_id() ? $entity->text_urls_enabled() : $this->request->variable('text_urls', true));
-		$entity->text_enable_smilies($entity->get_id() ? $entity->text_smilies_enabled() : $this->request->variable('text_smilies', true));
-		$entity->text_vi_enable_bbcode($entity->get_id() ? $entity->text_vi_bbcode_enabled() : $this->request->variable('text_vi_bbcode', true));
-		$entity->text_vi_enable_urls($entity->get_id() ? $entity->text_vi_urls_enabled() : $this->request->variable('text_vi_urls', true));
-		$entity->text_vi_enable_smilies($entity->get_id() ? $entity->text_vi_smilies_enabled() : $this->request->variable('text_vi_smilies', true));
+		$entity->text_enable_bbcode($submit ? $this->request->is_set_post('text_bbcode') : ($entity->get_id() ? $entity->text_bbcode_enabled() : true));
+		$entity->text_enable_urls($submit ? $this->request->is_set_post('text_urls') : ($entity->get_id() ? $entity->text_urls_enabled() : true));
+		$entity->text_enable_smilies($submit ? $this->request->is_set_post('text_smilies') : ($entity->get_id() ? $entity->text_smilies_enabled() : true));
+		$entity->text_vi_enable_bbcode($submit ? $this->request->is_set_post('text_vi_bbcode') : ($entity->get_id() ? $entity->text_vi_bbcode_enabled() : true));
+		$entity->text_vi_enable_urls($submit ? $this->request->is_set_post('text_vi_urls') : ($entity->get_id() ? $entity->text_vi_urls_enabled() : true));
+		$entity->text_vi_enable_smilies($submit ? $this->request->is_set_post('text_vi_smilies') : ($entity->get_id() ? $entity->text_vi_smilies_enabled() : true));
 	}
 
 	/**
