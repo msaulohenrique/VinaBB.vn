@@ -11,7 +11,7 @@ namespace vinabb\web\entities;
 /**
 * Interface for a single forum rules
 */
-interface forum_rules_interface
+interface forum_rules_interface extends forum_interface
 {
 	/**
 	* Get forum rules for edit

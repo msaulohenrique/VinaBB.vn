@@ -11,7 +11,7 @@ namespace vinabb\web\entities;
 /**
 * Interface for a single forum description
 */
-interface forum_desc_interface
+interface forum_desc_interface extends forum_interface
 {
 	/**
 	* Get forum description for edit
