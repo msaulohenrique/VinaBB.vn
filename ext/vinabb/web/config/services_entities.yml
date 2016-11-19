@@ -1,4 +1,10 @@
 services:
+    vinabb.web.entities.forum:
+        class: vinabb\web\entities\forum
+        shared: false
+        arguments:
+            - '@config'
+            - '@dbal.conn'
     vinabb.web.entities.portal_category:
         class: vinabb\web\entities\portal_category
         shared: false
@@ -53,14 +59,11 @@ services:
         class: vinabb\web\entities\menu
         shared: false
         arguments:
-            - '@config'
             - '@dbal.conn'
             - '%vinabb.web.tables.menus%'
-            - '%vinabb.web.tables.pages%'
     vinabb.web.entities.headline:
         class: vinabb\web\entities\headline
         shared: false
         arguments:
-            - '@config'
             - '@dbal.conn'
             - '%vinabb.web.tables.headlines%'
