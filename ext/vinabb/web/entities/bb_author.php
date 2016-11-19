@@ -39,9 +39,6 @@ class bb_author implements bb_author_interface
 	*/
 	protected $data;
 
-	/** @var \phpbb\config\config */
-	protected $config;
-
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
@@ -51,13 +48,11 @@ class bb_author implements bb_author_interface
 	/**
 	* Constructor
 	*
-	* @param \phpbb\config\config				$config			Config object
 	* @param \phpbb\db\driver\driver_interface	$db				Database object
 	* @param string								$table_name		Table name
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, $table_name)
+	public function __construct(\phpbb\db\driver\driver_interface $db, $table_name)
 	{
-		$this->config = $config;
 		$this->db = $db;
 		$this->table_name = $table_name;
 	}
