@@ -72,7 +72,7 @@ class forum_rules extends forum implements forum_rules_interface
 
 		// Prepare the text for storage
 		$uid = $bitfield = $flags = '';
-		generate_text_for_storage($text, $uid, $bitfield, $flags, $this->desc_bbcode_enabled(), $this->desc_urls_enabled(), $this->desc_smilies_enabled());
+		generate_text_for_storage($text, $uid, $bitfield, $flags, $this->rules_bbcode_enabled(), $this->rules_urls_enabled(), $this->rules_smilies_enabled());
 
 		// Set the value on our data array
 		$this->data['forum_rules'] = $text;
@@ -95,7 +95,7 @@ class forum_rules extends forum implements forum_rules_interface
 
 	/**
 	* Enable/Disable BBCode on the forum rules
-	* This should be called before set_desc(); desc_enable_bbcode()->set_desc()
+	* This should be called before set_rules(); rules_enable_bbcode()->set_rules()
 	*
 	* @param bool				$enable	true: enable; false: disable
 	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
@@ -119,7 +119,7 @@ class forum_rules extends forum implements forum_rules_interface
 
 	/**
 	* Enable/Disable URLs on the forum rules
-	* This should be called before set_desc(); desc_enable_urls()->set_desc()
+	* This should be called before set_rules(); rules_enable_urls()->set_rules()
 	*
 	* @param bool				$enable	true: enable; false: disable
 	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
@@ -143,7 +143,7 @@ class forum_rules extends forum implements forum_rules_interface
 
 	/**
 	* Enable/Disable smilies on the forum rules
-	* This should be called before set_desc(); desc_enable_smilies()->set_desc()
+	* This should be called before set_rules(); rules_enable_smilies()->set_rules()
 	*
 	* @param bool				$enable	true: enable; false: disable
 	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()

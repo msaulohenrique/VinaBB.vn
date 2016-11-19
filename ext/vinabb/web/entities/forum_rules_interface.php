@@ -45,7 +45,7 @@ interface forum_rules_interface
 
 	/**
 	* Enable/Disable BBCode on the forum rules
-	* This should be called before set_desc(); desc_enable_bbcode()->set_desc()
+	* This should be called before set_rules(); rules_enable_bbcode()->set_rules()
 	*
 	* @param bool				$enable	true: enable; false: disable
 	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
@@ -61,7 +61,7 @@ interface forum_rules_interface
 
 	/**
 	* Enable/Disable URLs on the forum rules
-	* This should be called before set_desc(); desc_enable_urls()->set_desc()
+	* This should be called before set_rules(); rules_enable_urls()->set_rules()
 	*
 	* @param bool				$enable	true: enable; false: disable
 	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
@@ -77,7 +77,7 @@ interface forum_rules_interface
 
 	/**
 	* Enable/Disable smilies on the forum rules
-	* This should be called before set_desc(); desc_enable_smilies()->set_desc()
+	* This should be called before set_rules(); rules_enable_smilies()->set_rules()
 	*
 	* @param bool				$enable	true: enable; false: disable
 	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
