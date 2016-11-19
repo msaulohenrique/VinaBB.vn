@@ -1,4 +1,9 @@
 services:
+    vinabb.web.operators.forum:
+        class: vinabb\web\operators\forum
+        arguments:
+            - '@service_container'
+            - '@dbal.conn'
     vinabb.web.operators.nestedset_portal_categories:
         class: vinabb\web\operators\nestedset_portal_categories
         arguments:
