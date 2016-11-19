@@ -618,7 +618,7 @@ class portal_article implements portal_article_interface
 		}
 
 		// Reparse the content
-		if ($reparse_content && $this->data['article_text'] != '')
+		if ($reparse_content && !empty($this->data['article_text']))
 		{
 			$text = $this->data['article_text'];
 

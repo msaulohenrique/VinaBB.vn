@@ -182,7 +182,7 @@ class forum_desc extends forum implements forum_desc_interface
 		}
 
 		// Reparse the content
-		if ($reparse_content && $this->data['forum_desc'] != '')
+		if ($reparse_content && !empty($this->data['forum_desc']))
 		{
 			$text = $this->data['forum_desc'];
 

@@ -472,7 +472,7 @@ class portal_comment implements portal_comment_interface
 		}
 
 		// Reparse the content
-		if ($reparse_content && $this->data['comment_text'] != '')
+		if ($reparse_content && !empty($this->data['comment_text']))
 		{
 			$text = $this->data['comment_text'];
 

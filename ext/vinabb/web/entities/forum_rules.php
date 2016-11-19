@@ -182,7 +182,7 @@ class forum_rules extends forum implements forum_rules_interface
 		}
 
 		// Reparse the content
-		if ($reparse_content && $this->data['forum_rules'] != '')
+		if ($reparse_content && !empty($this->data['forum_rules']))
 		{
 			$text = $this->data['forum_rules'];
 
