@@ -244,7 +244,7 @@ class portal implements portal_interface
 		// Display articles
 		$articles = [];
 		$article_count = 0;
-		$start = $this->ext_helper->list_articles($current_cat_id, $articles, $article_count, constants::NUM_ARTICLES_ON_INDEX, $start);
+		$start = $this->ext_helper->list_articles($this->user->lang_name, $current_cat_id, $articles, $article_count, constants::NUM_ARTICLES_ON_INDEX, $start);
 
 		foreach ($articles as $row)
 		{
