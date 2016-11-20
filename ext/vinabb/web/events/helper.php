@@ -110,6 +110,7 @@ class helper implements helper_interface
 				'PARENT_ID'	=> $forum_data['parent_id'],
 				'FORUM_ID'	=> $forum_id,
 				'NAME'		=> $forum_data['name'],
+				'DESC'		=> $forum_data['desc'],
 				'URL'		=> $this->helper->route('vinabb_web_board_forum_route', ['forum_id' => $forum_id, 'seo' => $forum_data['name_seo'] . constants::REWRITE_URL_SEO]),
 
 				'S_HAS_SUBFORUMS'	=> $forum_data['left_id'] + 1 != $forum_data['right_id'],
