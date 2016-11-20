@@ -8,6 +8,7 @@
 
 namespace vinabb\web\decorates\cache;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use vinabb\web\includes\constants;
 
 /**
@@ -15,32 +16,8 @@ use vinabb\web\includes\constants;
 */
 class service extends \phpbb\cache\service
 {
-	/** @var \vinabb\web\operators\forum_interface */
-	protected $forum_operators;
-
-	/** @var \vinabb\web\operators\bb_category_interface */
-	protected $bb_cat_operators;
-
-	/** @var string */
-	protected $bb_items_table;
-
-	/** @var \vinabb\web\operators\portal_category_interface */
-	protected $portal_cat_operators;
-
-	/** @var string */
-	protected $portal_articles_table;
-
-	/** @var string */
-	protected $portal_comments_table;
-
-	/** @var \vinabb\web\operators\page_interface */
-	protected $page_operators;
-
-	/** @var \vinabb\web\operators\menu_interface */
-	protected $menu_operators;
-
-	/** @var \vinabb\web\operators\headline_interface */
-	protected $headline_operators;
+	/** @var ContainerInterface */
+	protected $container;
 
 	/**
 	* Constructor
@@ -50,15 +27,7 @@ class service extends \phpbb\cache\service
 	* @param \phpbb\db\driver\driver_interface $db
 	* @param string $root_path
 	* @param string $php_ext
-	* @param \vinabb\web\operators\forum_interface $forum_operators
-	* @param \vinabb\web\operators\bb_category_interface $bb_cat_operators
-	* @param string $bb_items_table
-	* @param \vinabb\web\operators\portal_category_interface $portal_cat_operators
-	* @param string $portal_articles_table
-	* @param string $portal_comments_table
-	* @param \vinabb\web\operators\page_interface $page_operators
-	* @param \vinabb\web\operators\menu_interface $menu_operators
-	* @param \vinabb\web\operators\headline_interface $headline_operators
+	* @param ContainerInterface $container
 	*/
 	public function __construct(
 		\phpbb\cache\driver\driver_interface $driver,
@@ -66,31 +35,11 @@ class service extends \phpbb\cache\service
 		\phpbb\db\driver\driver_interface $db,
 		$root_path,
 		$php_ext,
-		\vinabb\web\operators\forum_interface $forum_operators,
-		\vinabb\web\operators\bb_category_interface $bb_cat_operators,
-		$bb_items_table,
-		\vinabb\web\operators\portal_category_interface $portal_cat_operators,
-		$portal_articles_table,
-		$portal_comments_table,
-		\vinabb\web\operators\page_interface $page_operators,
-		\vinabb\web\operators\menu_interface $menu_operators,
-		\vinabb\web\operators\headline_interface $headline_operators
+		ContainerInterface $container
 	)
 	{
-		$this->set_driver($driver);
-		$this->config = $config;
-		$this->db = $db;
-		$this->root_path = $root_path;
-		$this->php_ext = $php_ext;
-		$this->forum_operators = $forum_operators;
-		$this->bb_cat_operators = $bb_cat_operators;
-		$this->bb_items_table = $bb_items_table;
-		$this->portal_cat_operators = $portal_cat_operators;
-		$this->portal_articles_table = $portal_articles_table;
-		$this->portal_comments_table = $portal_comments_table;
-		$this->page_operators = $page_operators;
-		$this->menu_operators = $menu_operators;
-		$this->headline_operators = $headline_operators;
+		parent::__construct($driver, $config, $db, $root_path, $php_ext);
+		$this->container = $container;
 	}
 
 	/**
@@ -175,7 +124,7 @@ class service extends \phpbb\cache\service
 	{
 		if (($forum_data = $this->driver->get('_vinabb_web_forums')) === false)
 		{
-			$entities = $this->forum_operators->get_forums();
+			$entities = $this->container->get('vinabb.web.operators.forum')->get_forums();
 			$forum_data = [];
 
 			/** @var \vinabb\web\entities\forum_interface $entity */
@@ -261,7 +210,7 @@ class service extends \phpbb\cache\service
 	{
 		if (($bb_cats = $this->driver->get('_vinabb_web_bb_categories_' . $bb_type)) === false)
 		{
-			$entities = $this->bb_cat_operators->get_cats($bb_type);
+			$entities = $this->container->get('vinabb.web.operators.bb_category')->get_cats($bb_type);
 			$bb_cats = [];
 
 			/** @var \vinabb\web\entities\bb_category_interface $entity */
@@ -304,7 +253,7 @@ class service extends \phpbb\cache\service
 		if (($new_items = $this->driver->get('_vinabb_web_new_bb_items_' . $bb_type)) === false)
 		{
 			$sql = 'SELECT *
-				FROM ' . $this->bb_items_table . '
+				FROM ' . $this->container->getParameter('vinabb.web.tables.bb_items') . '
 				WHERE bb_type = ' . (int) $bb_type . '
 				ORDER BY item_updated DESC';
 			$result = $this->db->sql_query_limit($sql, constants::NUM_NEW_ITEMS_ON_INDEX);
@@ -349,7 +298,7 @@ class service extends \phpbb\cache\service
 	{
 		if (($portal_cats = $this->driver->get('_vinabb_web_portal_categories')) === false)
 		{
-			$entities = $this->portal_cat_operators->get_cats();
+			$entities = $this->container->get('vinabb.web.operators.portal_category')->get_cats();
 			$portal_cats = [];
 
 			/** @var \vinabb\web\entities\portal_category_interface $entity */
@@ -391,7 +340,7 @@ class service extends \phpbb\cache\service
 		if (($index_articles = $this->driver->get('_vinabb_web_index_articles_' . $lang)) === false)
 		{
 			$sql = 'SELECT *
-				FROM ' . $this->portal_articles_table . "
+				FROM ' . $this->container->getParameter('vinabb.web.tables.portal_articles') . "
 				WHERE article_lang = '" . $this->db->sql_escape($lang) . "'
 				ORDER BY article_time DESC";
 			$result = $this->db->sql_query_limit($sql, constants::NUM_ARTICLES_ON_INDEX);
@@ -450,7 +399,7 @@ class service extends \phpbb\cache\service
 			}
 
 			$sql = 'SELECT COUNT(comment_id) AS total_comments
-				FROM ' . $this->portal_comments_table . '
+				FROM ' . $this->container->getParameter('vinabb.web.tables.portal_comments') . '
 				WHERE ' . $this->db->sql_in_set('article_id', $article_ids) . '
 				GROUP BY article_id';
 			$result = $this->db->sql_query($sql);
@@ -487,7 +436,7 @@ class service extends \phpbb\cache\service
 	{
 		if (($pages = $this->driver->get('_vinabb_web_pages')) === false)
 		{
-			$entities = $this->page_operators->get_pages();
+			$entities = $this->container->get('vinabb.web.operators.page')->get_pages();
 			$pages = [];
 
 			/** @var \vinabb\web\entities\page_interface $entity */
@@ -535,7 +484,7 @@ class service extends \phpbb\cache\service
 	{
 		if (($menus = $this->driver->get('_vinabb_web_menus')) === false)
 		{
-			$entities = $this->menu_operators->get_menus();
+			$entities = $this->container->get('vinabb.web.operators.menu')->get_menus();
 			$menus = [];
 
 			/** @var \vinabb\web\entities\menu_interface $entity */
@@ -586,7 +535,7 @@ class service extends \phpbb\cache\service
 	{
 		if (($headlines = $this->driver->get('_vinabb_web_headlines_' . $lang)) === false)
 		{
-			$entities = $this->headline_operators->get_headlines($lang);
+			$entities = $this->container->get('vinabb.web.operators.headline')->get_headlines($lang);
 			$headlines = [];
 
 			/** @var \vinabb\web\entities\headline_interface $entity */

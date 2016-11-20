@@ -8,15 +8,7 @@ services:
             - '@dbal.conn'
             - '%core.root_path%'
             - '%core.php_ext%'
-            - '@vinabb.web.operators.forum'
-            - '@vinabb.web.operators.bb_category'
-            - '%vinabb.web.tables.bb_items%'
-            - '@vinabb.web.operators.portal_category'
-            - '%vinabb.web.tables.portal_articles%'
-            - '%vinabb.web.tables.portal_comments%'
-            - '@vinabb.web.operators.page'
-            - '@vinabb.web.operators.menu'
-            - '@vinabb.web.operators.headline'
+            - '@service_container'
     vinabb.web.decorates.help.controller.faq:
         class: vinabb\web\decorates\help\controllers\faq
         decorates: phpbb.help.controller.faq
