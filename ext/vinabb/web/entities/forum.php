@@ -52,10 +52,7 @@ class forum extends \vinabb\web\entities\abs\forum_desc_rules implements forum_i
 	* @param \phpbb\config\config				$config		Config object
 	* @param \phpbb\db\driver\driver_interface	$db			Database object
 	*/
-	public function __construct(
-		\phpbb\config\config $config,
-		\phpbb\db\driver\driver_interface $db
-	)
+	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db)
 	{
 		$this->config = $config;
 		$this->db = $db;
