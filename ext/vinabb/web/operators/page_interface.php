@@ -14,6 +14,13 @@ namespace vinabb\web\operators;
 interface page_interface
 {
 	/**
+	* Get number of pages
+	*
+	* @return int
+	*/
+	public function count_pages();
+
+	/**
 	* Get all pages
 	*
 	* @return array

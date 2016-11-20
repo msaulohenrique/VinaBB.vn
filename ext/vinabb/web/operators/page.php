@@ -39,6 +39,22 @@ class page implements page_interface
 	}
 
 	/**
+	* Get number of pages
+	*
+	* @return int
+	*/
+	public function count_pages()
+	{
+		$sql = 'SELECT COUNT(page_id) AS counter
+			FROM ' . $this->table_name;
+		$result = $this->db->sql_query($sql);
+		$counter = (int) $this->db->sql_fetchfield('counter');
+		$this->db->sql_freeresult($result);
+
+		return $counter;
+	}
+
+	/**
 	* Get all pages
 	*
 	* @return array
