@@ -39,6 +39,28 @@ class portal_article implements portal_article_interface
 	}
 
 	/**
+	* Get number of articles
+	*
+	* @param string	$lang	2-letter language ISO code
+	* @param int	$cat_id	Category ID
+	* @return int
+	*/
+	public function count_articles($lang, $cat_id = 0)
+	{
+		$sql_where = ($lang != '') ? "WHERE article_lang = '" . $this->db->sql_escape($lang) . "'" : "WHERE article_lang <> ''";
+		$sql_where .= $cat_id ? ' AND cat_id = ' . (int) $cat_id : '';
+
+		$sql = 'SELECT COUNT(article_id) AS counter
+			FROM ' . $this->table_name . "
+			$sql_where";
+		$result = $this->db->sql_query($sql);
+		$counter = (int) $this->db->sql_fetchfield('counter');
+		$this->db->sql_freeresult($result);
+
+		return $counter;
+	}
+
+	/**
 	* Get all articles
 	*
 	* @return array
@@ -58,6 +80,49 @@ class portal_article implements portal_article_interface
 		$this->db->sql_freeresult($result);
 
 		return $entities;
+	}
+
+	/**
+	* Get articles in range for pagination
+	*
+	* @param string	$lang			2-letter language ISO code
+	* @param int	$cat_id			Category ID
+	* @param string	$order_field	Sort by this field
+	* @param int	$limit			Number of items
+	* @param int	$offset			Position of the start
+	* @return array
+	*/
+	public function list_articles($lang, $cat_id = 0, $order_field = 'article_time DESC', $limit = 0, $offset = 0)
+	{
+		$entities = [];
+		$sql_where = ($lang != '') ? "WHERE article_lang = '" . $this->db->sql_escape($lang) . "'" : "WHERE article_lang <> ''";
+		$sql_where .= $cat_id ? ' AND cat_id = ' . (int) $cat_id : '';
+
+		$sql = 'SELECT *
+			FROM ' . $this->table_name . "
+			$sql_where
+			ORDER BY $order_field";
+		$result = $this->db->sql_query_limit($sql, $limit, $offset);
+
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$entities[] = $this->container->get('vinabb.web.entities.portal_article')->import($row);
+		}
+		$this->db->sql_freeresult($result);
+
+		return $entities;
+	}
+
+	/**
+	* Get latest items
+	*
+	* @param string	$lang	2-letter language ISO code
+	* @param int	$limit	Number of items
+	* @return array
+	*/
+	public function get_latest_items($lang, $limit = 10)
+	{
+		return $this->list_articles($lang, 0, 'article_time DESC', $limit);
 	}
 
 	/**
