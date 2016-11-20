@@ -14,6 +14,23 @@ services:
             - '@group_helper'
             - '%core.root_path%'
             - '%core.php_ext%'
+    vinabb.web.user.profile:
+        class: vinabb\web\controllers\user\profile
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@dbal.conn'
+            - '@dispatcher'
+            - '@language'
+            - '@profilefields.manager'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '@group_helper'
+            - '%core.root_path%'
+            - '%core.adm_relative_path%'
+            - '%core.php_ext%'
     vinabb.web.user.contact:
         class: vinabb\web\controllers\user\contact
         arguments:

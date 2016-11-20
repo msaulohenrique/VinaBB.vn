@@ -2,18 +2,22 @@ vinabb_web_user_list_route:
     path: /list
     defaults:
         _controller: vinabb.web.user:memberlist
-vinabb_web_user_profile_id_route:
-    path: /profile/id/{user_id}
-    defaults:
-        _controller: vinabb.web.user:profile
-    requirements:
-        user_id: '\d+'
 vinabb_web_user_profile_route:
-    path: /profile/{username}
+    path: /profile/{username}{slash}
     defaults:
-        _controller: vinabb.web.user:profile
+        _controller: vinabb.web.user.profile:main
+        slash: ''
     requirements:
         username: '.+'
+        slash: '(|\/)'
+vinabb_web_user_profile_id_route:
+    path: /profile/id/{user_id}{slash}
+    defaults:
+        _controller: vinabb.web.user.profile:main
+        slash: ''
+    requirements:
+        user_id: '\d+'
+        slash: '(|\/)'
 vinabb_web_user_contact_route:
     path: /contact
     defaults:
