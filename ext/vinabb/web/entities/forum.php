@@ -13,7 +13,7 @@ use vinabb\web\includes\constants;
 /**
 * Entity for a single forum
 */
-class forum implements forum_interface
+class forum
 {
 	/**
 	* Data for this entity
