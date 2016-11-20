@@ -290,7 +290,7 @@ class portal implements portal_interface
 				{
 					$latest_phpbb_version = isset($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_branch']]['current']) ? strtoupper($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_branch']]['current']) : '';
 
-					if ($latest_phpbb_version != '' && version_compare($latest_phpbb_version, $this->config['vinabb_web_check_phpbb_version'], '>'))
+					if (version_compare($latest_phpbb_version, $this->config['vinabb_web_check_phpbb_version'], '>'))
 					{
 						$this->config->set('vinabb_web_check_phpbb_version', $latest_phpbb_version);
 					}
@@ -301,7 +301,7 @@ class portal implements portal_interface
 				{
 					$latest_phpbb_legacy_version = isset($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_legacy_branch']]['current']) ? strtoupper($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_legacy_branch']]['current']) : '';
 
-					if ($latest_phpbb_legacy_version != '' && version_compare($latest_phpbb_legacy_version, $this->config['vinabb_web_check_phpbb_legacy_version'], '>'))
+					if (version_compare($latest_phpbb_legacy_version, $this->config['vinabb_web_check_phpbb_legacy_version'], '>'))
 					{
 						$this->config->set('vinabb_web_check_phpbb_legacy_version', $latest_phpbb_legacy_version);
 					}
@@ -312,7 +312,7 @@ class portal implements portal_interface
 				{
 					$latest_phpbb_dev_version = isset($phpbb_data['unstable'][$this->config['vinabb_web_check_phpbb_dev_branch']]['current']) ? strtoupper($phpbb_data['unstable'][$this->config['vinabb_web_check_phpbb_dev_branch']]['current']) : '';
 
-					if ($latest_phpbb_dev_version != '' && version_compare($latest_phpbb_dev_version, $this->config['vinabb_web_check_phpbb_dev_version'], '>'))
+					if (version_compare($latest_phpbb_dev_version, $this->config['vinabb_web_check_phpbb_dev_version'], '>'))
 					{
 						$this->config->set('vinabb_web_check_phpbb_dev_version', $latest_phpbb_dev_version);
 					}
@@ -355,13 +355,13 @@ class portal implements portal_interface
 					}
 				}
 
-				if ($latest_php_version != '' && version_compare($latest_php_version, $this->config['vinabb_web_check_php_version'], '>'))
+				if (version_compare($latest_php_version, $this->config['vinabb_web_check_php_version'], '>'))
 				{
 					$this->config->set('vinabb_web_check_php_version', $latest_php_version);
 					$this->config->set('vinabb_web_check_php_version_url', $latest_php_version_url);
 				}
 
-				if ($latest_php_legacy_version != '' && version_compare($latest_php_legacy_version, $this->config['vinabb_web_check_php_legacy_version'], '>'))
+				if (version_compare($latest_php_legacy_version, $this->config['vinabb_web_check_php_legacy_version'], '>'))
 				{
 					$this->config->set('vinabb_web_check_php_legacy_version', $latest_php_legacy_version);
 					$this->config->set('vinabb_web_check_php_legacy_version_url', $latest_php_legacy_version_url);
@@ -381,9 +381,9 @@ class portal implements portal_interface
 		if ($raw != '')
 		{
 			$vinabb_data = json_decode($raw, true);
-			$vinabb_version = isset($vinabb_data['version']) ? $vinabb_data['version'] : '';
+			$vinabb_version = isset($vinabb_data['version']) ? strtoupper($vinabb_data['version']) : '';
 
-			if ($vinabb_version != '' && version_compare($vinabb_version, $this->config['vinabb_web_check_vinabb_version'], '>'))
+			if (version_compare($vinabb_version, $this->config['vinabb_web_check_vinabb_version'], '>'))
 			{
 				$this->config->set('vinabb_web_check_vinabb_version', $vinabb_version);
 			}
