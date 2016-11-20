@@ -1,10 +1,17 @@
 services:
+    # phpBB
+    vinabb.web.entities.language:
+        class: vinabb\web\entities\language
+        shared: false
+        arguments:
+            - '@dbal.conn'
     vinabb.web.entities.forum:
         class: vinabb\web\entities\forum
         shared: false
         arguments:
             - '@config'
             - '@dbal.conn'
+    # VinaBB
     vinabb.web.entities.portal_category:
         class: vinabb\web\entities\portal_category
         shared: false
