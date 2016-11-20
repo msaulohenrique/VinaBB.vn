@@ -34,6 +34,22 @@ class language implements language_interface
 	}
 
 	/**
+	* Get number of languages
+	*
+	* @return int
+	*/
+	public function count_langs()
+	{
+		$sql = 'SELECT COUNT(lang_id) AS counter
+			FROM ' . LANG_TABLE;
+		$result = $this->db->sql_query($sql);
+		$counter = (int) $this->db->sql_fetchfield('counter');
+		$this->db->sql_freeresult($result);
+
+		return $counter;
+	}
+
+	/**
 	* Get all languages
 	*
 	* @return array

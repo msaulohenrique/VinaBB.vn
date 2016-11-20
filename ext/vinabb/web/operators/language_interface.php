@@ -14,6 +14,13 @@ namespace vinabb\web\operators;
 interface language_interface
 {
 	/**
+	* Get number of languages
+	*
+	* @return int
+	*/
+	public function count_langs();
+
+	/**
 	* Get all languages
 	*
 	* @return array
