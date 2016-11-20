@@ -14,11 +14,20 @@ namespace vinabb\web\operators;
 interface headline_interface
 {
 	/**
+	* Get number of headlines
+	*
+	* @param string $lang 2-letter language ISO code
+	* @return int
+	*/
+	public function count_headlines($lang);
+
+	/**
 	* Get all headlines
 	*
+	* @param string $lang 2-letter language ISO code
 	* @return array
 	*/
-	public function get_headlines();
+	public function get_headlines($lang);
 
 	/**
 	* Add a headline

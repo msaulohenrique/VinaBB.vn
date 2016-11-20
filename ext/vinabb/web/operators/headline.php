@@ -39,12 +39,32 @@ class headline implements headline_interface
 	}
 
 	/**
+	* Get number of headlines
+	*
+	* @param string $lang 2-letter language ISO code
+	* @return int
+	*/
+	public function count_headlines($lang)
+	{
+		$sql_where = ($lang != '') ? "WHERE headline_lang = '" . $this->db->sql_escape($lang) . "'" : '';
+
+		$sql = 'SELECT COUNT(headline_id) AS counter
+			FROM ' . $this->table_name . "
+			$sql_where";
+		$result = $this->db->sql_query($sql);
+		$counter = (int) $this->db->sql_fetchfield('counter');
+		$this->db->sql_freeresult($result);
+
+		return $counter;
+	}
+
+	/**
 	* Get all headlines
 	*
 	* @param string $lang 2-letter language ISO code
 	* @return array
 	*/
-	public function get_headlines($lang = '')
+	public function get_headlines($lang)
 	{
 		$entities = [];
 		$sql_where = ($lang != '') ? " WHERE headline_lang = '" . $this->db->sql_escape($lang) . "'" : '';
