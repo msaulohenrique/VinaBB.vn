@@ -198,7 +198,7 @@ abstract class bbcode_content
 	* @param bool	$negate		Negate (Unset) option
 	* @param bool	$reparse	Reparse the content after setting option
 	*/
-	public function set_text_options($prefix, $value, $negate = false, $reparse = true)
+	protected function set_text_options($prefix, $value, $negate = false, $reparse = true)
 	{
 		// Set {$prefix}_options to 0 if it does not yet exist
 		$this->data[$prefix . '_options'] = isset($this->data[$prefix . '_options']) ? $this->data[$prefix . '_options'] : 0;
