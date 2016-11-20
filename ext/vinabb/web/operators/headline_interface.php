@@ -19,7 +19,7 @@ interface headline_interface
 	* @param string $lang 2-letter language ISO code
 	* @return int
 	*/
-	public function count_headlines($lang);
+	public function count_headlines($lang = '');
 
 	/**
 	* Get all headlines
@@ -27,7 +27,7 @@ interface headline_interface
 	* @param string $lang 2-letter language ISO code
 	* @return array
 	*/
-	public function get_headlines($lang);
+	public function get_headlines($lang = '');
 
 	/**
 	* Add a headline

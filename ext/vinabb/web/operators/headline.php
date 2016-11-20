@@ -44,7 +44,7 @@ class headline implements headline_interface
 	* @param string $lang 2-letter language ISO code
 	* @return int
 	*/
-	public function count_headlines($lang)
+	public function count_headlines($lang = '')
 	{
 		$sql_where = ($lang != '') ? "WHERE headline_lang = '" . $this->db->sql_escape($lang) . "'" : '';
 
@@ -64,7 +64,7 @@ class headline implements headline_interface
 	* @param string $lang 2-letter language ISO code
 	* @return array
 	*/
-	public function get_headlines($lang)
+	public function get_headlines($lang = '')
 	{
 		$entities = [];
 		$sql_where = ($lang != '') ? " WHERE headline_lang = '" . $this->db->sql_escape($lang) . "'" : '';
