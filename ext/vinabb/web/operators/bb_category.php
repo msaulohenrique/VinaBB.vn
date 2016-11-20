@@ -50,7 +50,8 @@ class bb_category implements bb_category_interface
 
 		$sql = 'SELECT *
 			FROM ' . $this->table_name . '
-			WHERE bb_type = ' . (int) $bb_type;
+			WHERE bb_type = ' . (int) $bb_type . '
+			ORDER BY cat_order';
 		$result = $this->db->sql_query($sql);
 
 		while ($row = $this->db->sql_fetchrow($result))
