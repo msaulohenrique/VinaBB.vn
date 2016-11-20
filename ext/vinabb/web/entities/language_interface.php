@@ -16,7 +16,7 @@ interface language_interface
 	/**
 	* Load the data from the database for an entity
 	*
-	* @param int					$iso	2-letter language ISO code
+	* @param string					$iso	2-letter language ISO code
 	* @return language_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/

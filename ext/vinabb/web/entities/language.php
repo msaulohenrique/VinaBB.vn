@@ -34,7 +34,7 @@ class language implements language_interface
 	/**
 	* Constructor
 	*
-	* @param \phpbb\db\driver\driver_interface	$db			Database object
+	* @param \phpbb\db\driver\driver_interface $db Database object
 	*/
 	public function __construct(\phpbb\db\driver\driver_interface $db)
 	{
@@ -44,7 +44,7 @@ class language implements language_interface
 	/**
 	* Load the data from the database for an entity
 	*
-	* @param int					$iso	2-letter language ISO code
+	* @param string					$iso	2-letter language ISO code
 	* @return language_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
@@ -152,7 +152,7 @@ class language implements language_interface
 		// Make extra sure there is no ID set
 		unset($this->data['lang_id']);
 
-		$sql = 'INSERT INTO ' . FORUMS_TABLE . ' ' . $this->db->sql_build_array('INSERT', $this->data);
+		$sql = 'INSERT INTO ' . LANG_TABLE . ' ' . $this->db->sql_build_array('INSERT', $this->data);
 		$this->db->sql_query($sql);
 
 		// Set the ID using the ID created by the SQL INSERT
@@ -182,7 +182,7 @@ class language implements language_interface
 		// so we do not attempt to update the row's identity column.
 		$sql_array = array_diff_key($this->data, ['lang_id' => null]);
 
-		$sql = 'UPDATE ' . FORUMS_TABLE . '
+		$sql = 'UPDATE ' . LANG_TABLE . '
 			SET ' . $this->db->sql_build_array('UPDATE', $sql_array) . '
 			WHERE lang_id = ' . $this->get_id();
 		$this->db->sql_query($sql);
