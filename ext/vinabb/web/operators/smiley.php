@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
 * Operator for a set of smilies
 */
-class smiley
+class smiley implements smiley_interface
 {
 	/** @var ContainerInterface */
 	protected $container;
