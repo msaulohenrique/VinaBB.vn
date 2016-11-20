@@ -101,7 +101,7 @@ abstract class bbcode_content
 
 		// Prepare the text for storage
 		$uid = $bitfield = $flags = '';
-		generate_text_for_storage($text, $uid, $bitfield, $flags, $this->bbcode_enabled(), $this->urls_enabled(), $this->smilies_enabled());
+		generate_text_for_storage($text, $uid, $bitfield, $flags, $this->bbcode_enabled($prefix), $this->urls_enabled($prefix), $this->smilies_enabled($prefix));
 
 		// Set the value on our data array
 		$this->data[$prefix] = $text;
