@@ -14,6 +14,15 @@ namespace vinabb\web\operators;
 interface portal_comment_interface
 {
 	/**
+	* Get number of comments
+	*
+	* @param int	$article_id	Article ID
+	* @param int	$user_id	User ID
+	* @return int
+	*/
+	public function count_comments($article_id = 0, $user_id = 0);
+
+	/**
 	* Get all comments
 	*
 	* @return array

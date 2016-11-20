@@ -39,6 +39,28 @@ class portal_comment implements portal_comment_interface
 	}
 
 	/**
+	* Get number of comments
+	*
+	* @param int	$article_id	Article ID
+	* @param int	$user_id	User ID
+	* @return int
+	*/
+	public function count_comments($article_id = 0, $user_id = 0)
+	{
+		$sql_where = $article_id ? 'WHERE article_id = ' . (int) $article_id : 'WHERE article_id > 0';
+		$sql_where .= $user_id ? ' AND user_id = ' . (int) $user_id : ' AND user_id > 0';
+
+		$sql = 'SELECT COUNT(comment_id) AS counter
+			FROM ' . $this->table_name . "
+			$sql_where";
+		$result = $this->db->sql_query($sql);
+		$counter = (int) $this->db->sql_fetchfield('counter');
+		$this->db->sql_freeresult($result);
+
+		return $counter;
+	}
+
+	/**
 	* Get all comments
 	*
 	* @return array
