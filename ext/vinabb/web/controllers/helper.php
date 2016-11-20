@@ -8,6 +8,7 @@
 
 namespace vinabb\web\controllers;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use vinabb\web\includes\constants;
 
 class helper implements helper_interface
@@ -20,6 +21,9 @@ class helper implements helper_interface
 
 	/** @var \phpbb\config\config */
 	protected $config;
+
+	/** @var ContainerInterface */
+	protected $container;
 
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
@@ -42,18 +46,13 @@ class helper implements helper_interface
 	/** @var \phpbb\group\helper */
 	protected $group_helper;
 
-	/** @var string */
-	protected $bb_items_table;
-
-	/** @var string */
-	protected $portal_articles_table;
-
 	/**
 	* Constructor
 	*
 	* @param \phpbb\auth\auth $auth
 	* @param \phpbb\cache\service $cache
 	* @param \phpbb\config\config $config
+	* @param ContainerInterface $container
 	* @param \phpbb\db\driver\driver_interface $db
 	* @param \phpbb\file_downloader $file_downloader
 	* @param \phpbb\language\language $language
@@ -61,27 +60,25 @@ class helper implements helper_interface
 	* @param \phpbb\user $user
 	* @param \phpbb\controller\helper $helper
 	* @param \phpbb\group\helper $group_helper
-	* @param string $bb_items_table
-	* @param string $portal_articles_table
 	*/
 	public function __construct(
 		\phpbb\auth\auth $auth,
 		\phpbb\cache\service $cache,
 		\phpbb\config\config $config,
+		ContainerInterface $container,
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\file_downloader $file_downloader,
 		\phpbb\language\language $language,
 		\phpbb\template\template $template,
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
-		\phpbb\group\helper $group_helper,
-		$bb_items_table,
-		$portal_articles_table
+		\phpbb\group\helper $group_helper
 	)
 	{
 		$this->auth = $auth;
 		$this->cache = $cache;
 		$this->config = $config;
+		$this->container = $container;
 		$this->db = $db;
 		$this->file_downloader = $file_downloader;
 		$this->language = $language;
@@ -89,8 +86,6 @@ class helper implements helper_interface
 		$this->user = $user;
 		$this->helper = $helper;
 		$this->group_helper = $group_helper;
-		$this->bb_items_table = $bb_items_table;
-		$this->portal_articles_table = $portal_articles_table;
 	}
 
 	/**
@@ -471,15 +466,8 @@ class helper implements helper_interface
 	*/
 	public function list_bb_items($bb_type, $cat_id, &$items, &$item_count, $limit = 0, $offset = 0)
 	{
-		$sql_and = $cat_id ? "AND cat_id = $cat_id" : '';
-
-		$sql = 'SELECT COUNT(item_id) AS item_count
-			FROM ' . $this->bb_items_table . "
-			WHERE bb_type = $bb_type
-				$sql_and";
-		$result = $this->db->sql_query($sql);
-		$item_count = (int) $this->db->sql_fetchfield('item_count');
-		$this->db->sql_freeresult($result);
+		$operators = $this->container->get('vinabb.web.operators.bb_item');
+		$item_count = $operators->count_items($bb_type, $cat_id);
 
 		if ($item_count == 0)
 		{
@@ -491,18 +479,10 @@ class helper implements helper_interface
 			$offset = ($offset - $limit < 0) ? 0 : $offset - $limit;
 		}
 
-		$sql = 'SELECT *
-			FROM ' . $this->bb_items_table . "
-			WHERE bb_type = $bb_type
-				$sql_and
-			ORDER BY item_name";
-		$result = $this->db->sql_query_limit($sql, $limit, $offset);
-
-		while ($row = $this->db->sql_fetchrow($result))
+		foreach ($operators->list_items($bb_type, $cat_id, 'item_updated DESC', $limit, $offset) as $row)
 		{
 			$items[] = $row;
 		}
-		$this->db->sql_freeresult($result);
 
 		return $offset;
 	}
@@ -510,6 +490,7 @@ class helper implements helper_interface
 	/**
 	* List news articles with pagination
 	*
+	* @param string	$lang			2-letter language ISO code
 	* @param int	$cat_id			Category ID
 	* @param array	$articles		Array of articles
 	* @param int	$article_count	Number of articles
@@ -518,16 +499,10 @@ class helper implements helper_interface
 	*
 	* @return int Position of the start
 	*/
-	public function list_articles($cat_id, &$articles, &$article_count, $limit = 0, $offset = 0)
+	public function list_articles($lang, $cat_id, &$articles, &$article_count, $limit = 0, $offset = 0)
 	{
-		$sql_where = $cat_id ? "WHERE cat_id = $cat_id" : '';
-
-		$sql = 'SELECT COUNT(article_id) AS article_count
-			FROM ' . $this->portal_articles_table . "
-			$sql_where";
-		$result = $this->db->sql_query($sql);
-		$article_count = (int) $this->db->sql_fetchfield('article_count');
-		$this->db->sql_freeresult($result);
+		$operators = $this->container->get('vinabb.web.operators.portal_article');
+		$article_count = $operators->count_articles($lang, $cat_id);
 
 		if ($article_count == 0)
 		{
@@ -539,17 +514,10 @@ class helper implements helper_interface
 			$offset = ($offset - $limit < 0) ? 0 : $offset - $limit;
 		}
 
-		$sql = 'SELECT *
-			FROM ' . $this->portal_articles_table . "
-			$sql_where
-			ORDER BY article_time DESC";
-		$result = $this->db->sql_query_limit($sql, $limit, $offset);
-
-		while ($row = $this->db->sql_fetchrow($result))
+		foreach ($operators->list_articles($lang, $cat_id, 'article_time DESC', $limit, $offset) as $row)
 		{
 			$articles[] = $row;
 		}
-		$this->db->sql_freeresult($result);
 
 		return $offset;
 	}

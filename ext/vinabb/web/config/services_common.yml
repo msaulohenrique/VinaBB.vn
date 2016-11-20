@@ -12,6 +12,7 @@ services:
             - '@auth'
             - '@cache'
             - '@config'
+            - '@service_container'
             - '@dbal.conn'
             - '@file_downloader'
             - '@language'
@@ -19,5 +20,3 @@ services:
             - '@user'
             - '@controller.helper'
             - '@group_helper'
-            - '%vinabb.web.tables.bb_items%'
-            - '%vinabb.web.tables.portal_articles%'
