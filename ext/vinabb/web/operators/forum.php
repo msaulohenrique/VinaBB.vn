@@ -40,8 +40,8 @@ class forum implements forum_interface
 	*/
 	public function count_forums()
 	{
-		$sql = 'SELECT COUNT(cat_id) AS counter
-			FROM ' . $this->table_name;
+		$sql = 'SELECT COUNT(forum_id) AS counter
+			FROM ' . FORUMS_TABLE;
 		$result = $this->db->sql_query($sql);
 		$counter = (int) $this->db->sql_fetchfield('counter');
 		$this->db->sql_freeresult($result);
