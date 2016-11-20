@@ -11,6 +11,11 @@ services:
         arguments:
             - '@config'
             - '@dbal.conn'
+    vinabb.web.entities.smiley:
+        class: vinabb\web\entities\smiley
+        shared: false
+        arguments:
+            - '@dbal.conn'
     # VinaBB
     vinabb.web.entities.portal_category:
         class: vinabb\web\entities\portal_category
