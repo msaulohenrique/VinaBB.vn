@@ -39,6 +39,28 @@ class bb_item implements bb_item_interface
 	}
 
 	/**
+	* Get number of items
+	*
+	* @param int	$bb_type	phpBB resource type
+	* @param int	$cat_id		Category ID
+	* @return array
+	*/
+	public function count_items($bb_type, $cat_id = 0)
+	{
+		$sql_and = $cat_id ? "AND cat_id = $cat_id" : '';
+
+		$sql = 'SELECT COUNT(item_id) AS counter
+			FROM ' . $this->table_name . '
+			WHERE bb_type = ' . (int) $bb_type . "
+				$sql_and";
+		$result = $this->db->sql_query($sql);
+		$counter = (int) $this->db->sql_fetchfield('counter');
+		$this->db->sql_freeresult($result);
+
+		return $counter;
+	}
+
+	/**
 	* Get all items
 	*
 	* @param int $bb_type phpBB resource type
@@ -60,6 +82,46 @@ class bb_item implements bb_item_interface
 		$this->db->sql_freeresult($result);
 
 		return $entities;
+	}
+
+	/**
+	* Get items in range for pagination
+	*
+	* @param int	$bb_type		phpBB resource type
+	* @param string	$order_field	Sort by this field
+	* @param int	$limit			Number of items
+	* @param int	$offset			Position of the start
+	* @return array
+	*/
+	public function list_items($bb_type, $order_field = 'item_name', $limit = 0, $offset = 0)
+	{
+		$entities = [];
+
+		$sql = 'SELECT *
+			FROM ' . $this->table_name . '
+			WHERE bb_type = ' . (int) $bb_type . "
+			ORDER BY $order_field";
+		$result = $this->db->sql_query_limit($sql, $limit, $offset);
+
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$entities[] = $this->container->get('vinabb.web.entities.bb_item')->import($row);
+		}
+		$this->db->sql_freeresult($result);
+
+		return $entities;
+	}
+
+	/**
+	* Get latest items
+	*
+	* @param int	$bb_type	phpBB resource type
+	* @param int	$limit		Number of items
+	* @return array
+	*/
+	public function get_latest_items($bb_type, $limit = 10)
+	{
+		return $this->list_items($bb_type, 'item_updated DESC', $limit);
 	}
 
 	/**
