@@ -34,12 +34,13 @@ interface bb_item_interface
 	* Get items in range for pagination
 	*
 	* @param int	$bb_type		phpBB resource type
+	* @param int	$cat_id			Category ID
 	* @param string	$order_field	Sort by this field
 	* @param int	$limit			Number of items
 	* @param int	$offset			Position of the start
 	* @return array
 	*/
-	public function list_items($bb_type, $order_field = 'item_name', $limit = 0, $offset = 0);
+	public function list_items($bb_type, $cat_id, $order_field = 'item_updated DESC', $limit = 0, $offset = 0);
 
 	/**
 	* Get latest items

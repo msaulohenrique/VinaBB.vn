@@ -88,18 +88,21 @@ class bb_item implements bb_item_interface
 	* Get items in range for pagination
 	*
 	* @param int	$bb_type		phpBB resource type
+	* @param int	$cat_id			Category ID
 	* @param string	$order_field	Sort by this field
 	* @param int	$limit			Number of items
 	* @param int	$offset			Position of the start
 	* @return array
 	*/
-	public function list_items($bb_type, $order_field = 'item_name', $limit = 0, $offset = 0)
+	public function list_items($bb_type, $cat_id = 0, $order_field = 'item_updated DESC', $limit = 0, $offset = 0)
 	{
 		$entities = [];
+		$sql_and = $cat_id ? 'AND cat_id = ' . (int) $cat_id : '';
 
 		$sql = 'SELECT *
 			FROM ' . $this->table_name . '
 			WHERE bb_type = ' . (int) $bb_type . "
+				$sql_and
 			ORDER BY $order_field";
 		$result = $this->db->sql_query_limit($sql, $limit, $offset);
 
@@ -121,7 +124,7 @@ class bb_item implements bb_item_interface
 	*/
 	public function get_latest_items($bb_type, $limit = 10)
 	{
-		return $this->list_items($bb_type, 'item_updated DESC', $limit);
+		return $this->list_items($bb_type, 0, 'item_updated DESC', $limit);
 	}
 
 	/**
