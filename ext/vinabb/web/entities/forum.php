@@ -13,7 +13,7 @@ use vinabb\web\includes\constants;
 /**
 * Entity for a single forum
 */
-class forum
+class forum extends \vinabb\web\entities\abs\forum_desc_rules
 {
 	/**
 	* Data for this entity
@@ -26,7 +26,6 @@ class forum
 	*	forum_parents
 	*	forum_name
 	*	forum_name_seo
-	*	forum_lang
 	*		forum_desc
 	*		forum_desc_uid
 	*		forum_desc_bitfield
@@ -50,10 +49,13 @@ class forum
 	/**
 	* Constructor
 	*
-	* @param \phpbb\config\config				$config	Config object
-	* @param \phpbb\db\driver\driver_interface	$db		Database object
+	* @param \phpbb\config\config				$config		Config object
+	* @param \phpbb\db\driver\driver_interface	$db			Database object
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db)
+	public function __construct(
+		\phpbb\config\config $config,
+		\phpbb\db\driver\driver_interface $db
+	)
 	{
 		$this->config = $config;
 		$this->db = $db;
@@ -109,7 +111,6 @@ class forum
 			'forum_parents'			=> 'string',
 			'forum_name'			=> 'set_name',
 			'forum_name_seo'		=> 'set_name_seo',
-			'forum_lang'			=> 'set_lang',
 			'forum_topics_per_page'	=> 'set_topics_per_page',
 			'forum_type'			=> 'set_type',
 			'forum_status'			=> 'set_status',
@@ -370,53 +371,6 @@ class forum
 
 		// Set the value on our data array
 		$this->data['forum_name_seo'] = $text;
-
-		return $this;
-	}
-
-	/**
-	* Get the forum language
-	*
-	* @return string
-	*/
-	public function get_lang()
-	{
-		return isset($this->data['forum_lang']) ? (string) $this->data['forum_lang'] : '';
-	}
-
-	/**
-	* Set the forum language
-	*
-	* @param string				$text	2-letter language ISO code
-	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\unexpected_value
-	*/
-	public function set_lang($text)
-	{
-		$text = (string) $text;
-
-		// This is a required field
-		if ($text == '')
-		{
-			throw new \vinabb\web\exceptions\unexpected_value(['forum_lang', 'EMPTY']);
-		}
-		else
-		{
-			$sql = 'SELECT 1
-				FROM ' . LANG_TABLE . "
-				WHERE lang_iso = '" . $this->db->sql_escape($text) . "'";
-			$result = $this->db->sql_query_limit($sql, 1);
-			$row = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
-
-			if ($row === false)
-			{
-				throw new \vinabb\web\exceptions\unexpected_value(['forum_lang', 'NOT_EXISTS']);
-			}
-		}
-
-		// Set the value on our data array
-		$this->data['forum_lang'] = $text;
 
 		return $this;
 	}
