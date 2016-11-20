@@ -9,7 +9,7 @@
 namespace vinabb\web\entities\abs;
 
 /**
-* Entity for a pair of forum description and rules
+* Abstract entity for forum/forum_desc and forum/forum_rules
 */
 abstract class forum_desc_rules extends bbcode_content
 {
@@ -64,7 +64,7 @@ abstract class forum_desc_rules extends bbcode_content
 	* Set forum description
 	*
 	* @param string				$text	Forum description
-	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	* @return forum_desc_rules	$this	Object for chaining calls: load()->set()->save()
 	*/
 	public function set_desc($text)
 	{
@@ -86,7 +86,7 @@ abstract class forum_desc_rules extends bbcode_content
 	* This should be called before set_desc(); desc_enable_bbcode()->set_desc()
 	*
 	* @param bool				$enable	true: enable; false: disable
-	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	* @return forum_desc_rules	$this	Object for chaining calls: load()->set()->save()
 	*/
 	public function desc_enable_bbcode($enable)
 	{
@@ -108,7 +108,7 @@ abstract class forum_desc_rules extends bbcode_content
 	* This should be called before set_desc(); desc_enable_urls()->set_desc()
 	*
 	* @param bool				$enable	true: enable; false: disable
-	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	* @return forum_desc_rules	$this	Object for chaining calls: load()->set()->save()
 	*/
 	public function desc_enable_urls($enable)
 	{
@@ -130,7 +130,7 @@ abstract class forum_desc_rules extends bbcode_content
 	* This should be called before set_desc(); desc_enable_smilies()->set_desc()
 	*
 	* @param bool				$enable	true: enable; false: disable
-	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	* @return forum_desc_rules	$this	Object for chaining calls: load()->set()->save()
 	*/
 	public function desc_enable_smilies($enable)
 	{
@@ -174,7 +174,7 @@ abstract class forum_desc_rules extends bbcode_content
 	* Set forum rules
 	*
 	* @param string				$text	Forum rules
-	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	* @return forum_desc_rules	$this	Object for chaining calls: load()->set()->save()
 	*/
 	public function set_rules($text)
 	{
@@ -196,7 +196,7 @@ abstract class forum_desc_rules extends bbcode_content
 	* This should be called before set_rules(); rules_enable_bbcode()->set_rules()
 	*
 	* @param bool				$enable	true: enable; false: disable
-	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	* @return forum_desc_rules	$this	Object for chaining calls: load()->set()->save()
 	*/
 	public function rules_enable_bbcode($enable)
 	{
@@ -218,7 +218,7 @@ abstract class forum_desc_rules extends bbcode_content
 	* This should be called before set_rules(); rules_enable_urls()->set_rules()
 	*
 	* @param bool				$enable	true: enable; false: disable
-	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	* @return forum_desc_rules	$this	Object for chaining calls: load()->set()->save()
 	*/
 	public function rules_enable_urls($enable)
 	{
@@ -240,7 +240,7 @@ abstract class forum_desc_rules extends bbcode_content
 	* This should be called before set_rules(); rules_enable_smilies()->set_rules()
 	*
 	* @param bool				$enable	true: enable; false: disable
-	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	* @return forum_desc_rules	$this	Object for chaining calls: load()->set()->save()
 	*/
 	public function rules_enable_smilies($enable)
 	{
