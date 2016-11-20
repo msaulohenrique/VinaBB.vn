@@ -163,24 +163,20 @@ class service extends \phpbb\cache\service
 	{
 		if (($smilies = $this->driver->get('_vinabb_web_smilies')) === false)
 		{
-			$sql = 'SELECT *
-				FROM ' . SMILIES_TABLE . '
-				ORDER BY smiley_order';
-			$result = $this->db->sql_query($sql);
-
 			$smilies = [];
-			while ($row = $this->db->sql_fetchrow($result))
+
+			/** @var \vinabb\web\entities\smiley_interface $entity */
+			foreach ($this->container->get('vinabb.web.operators.smiley')->get_smilies() as $entity)
 			{
-				$smilies[$row['code']] = [
-					'id'		=> $row['smiley_id'],
-					'emotion'	=> $row['emotion'],
-					'url'		=> $row['smiley_url'],
-					'width'		=> $row['smiley_width'],
-					'height'	=> $row['smiley_height'],
-					'display'	=> $row['display_on_posting']
+				$smilies[$entity->get_code()] = [
+					'id'		=> $entity->get_id(),
+					'emotion'	=> $entity->get_emotion(),
+					'url'		=> $entity->get_url(),
+					'width'		=> $entity->get_width(),
+					'height'	=> $entity->get_height(),
+					'display'	=> $entity->get_display_on_posting()
 				];
 			}
-			$this->db->sql_freeresult($result);
 
 			$this->driver->put('_vinabb_web_smilies', $smilies);
 		}
