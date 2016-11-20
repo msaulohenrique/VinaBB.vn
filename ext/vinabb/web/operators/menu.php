@@ -159,9 +159,9 @@ class menu implements menu_interface
 		$entities = [];
 
 		// Load all parent data from the database into an array
-		$rowset = $this->nestedset->get_path_data($parent_id);
+		$rows = $this->nestedset->get_path_data($parent_id);
 
-		foreach ($rowset as $row)
+		foreach ($rows as $row)
 		{
 			$entities[] = $this->container->get('vinabb.web.entities.menu')->import($row);
 		}
