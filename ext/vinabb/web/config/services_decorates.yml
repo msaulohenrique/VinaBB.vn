@@ -8,6 +8,7 @@ services:
             - '@dbal.conn'
             - '%core.root_path%'
             - '%core.php_ext%'
+            - '@vinabb.web.operators.forum'
             - '%vinabb.web.tables.bb_categories%'
             - '%vinabb.web.tables.bb_items%'
             - '%vinabb.web.tables.portal_categories%'

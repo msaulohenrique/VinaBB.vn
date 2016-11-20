@@ -15,6 +15,9 @@ use vinabb\web\includes\constants;
 */
 class service extends \phpbb\cache\service
 {
+	/** @var \vinabb\web\operators\forum_interface */
+	protected $forum_operators;
+
 	/** @var string */
 	protected $bb_categories_table;
 
@@ -47,6 +50,7 @@ class service extends \phpbb\cache\service
 	* @param \phpbb\db\driver\driver_interface $db
 	* @param string $root_path
 	* @param string $php_ext
+	* @param \vinabb\web\operators\forum_interface $forum_operators
 	* @param string $bb_categories_table
 	* @param string $bb_items_table
 	* @param string $portal_categories_table
@@ -62,6 +66,7 @@ class service extends \phpbb\cache\service
 		\phpbb\db\driver\driver_interface $db,
 		$root_path,
 		$php_ext,
+		\vinabb\web\operators\forum_interface $forum_operators,
 		$bb_categories_table,
 		$bb_items_table,
 		$portal_categories_table,
@@ -77,6 +82,7 @@ class service extends \phpbb\cache\service
 		$this->db = $db;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
+		$this->forum_operators = $forum_operators;
 		$this->bb_categories_table = $bb_categories_table;
 		$this->bb_items_table = $bb_items_table;
 		$this->portal_categories_table = $portal_categories_table;
@@ -169,29 +175,25 @@ class service extends \phpbb\cache\service
 	{
 		if (($forum_data = $this->driver->get('_vinabb_web_forums')) === false)
 		{
-			$sql = 'SELECT *
-				FROM ' . FORUMS_TABLE . '
-				ORDER BY left_id';
-			$result = $this->db->sql_query($sql);
-
+			$entities = $this->forum_operators->get_forums();
 			$forum_data = [];
-			while ($row = $this->db->sql_fetchrow($result))
+
+			/** @var \vinabb\web\entities\forum_interface $entity */
+			foreach ($entities as $entity)
 			{
-				$forum_data[$row['forum_id']] = [
-					'parent_id'		=> $row['parent_id'],
-					'left_id'		=> $row['left_id'],
-					'right_id'		=> $row['right_id'],
-					'name'			=> $row['forum_name'],
-					'desc'			=> $row['forum_desc'],
-					'desc_bitfield'	=> $row['forum_desc_bitfield'],
-					'desc_options'	=> $row['forum_desc_options'],
-					'desc_uid'		=> $row['forum_desc_uid'],
-					'type'			=> $row['forum_type'],
-					'status'		=> $row['forum_status'],
-					'name_seo'		=> $row['forum_name_seo']
+				$forum_data[$entity->get_id()] = [
+					'parent_id'			=> $entity->get_parent_id(),
+					'left_id'			=> $entity->get_left_id(),
+					'right_id'			=> $entity->get_right_id(),
+					'name'				=> $entity->get_name(),
+					'name_seo'			=> $entity->get_name_seo(),
+					'desc'				=> $entity->get_desc_for_display(),
+					'rules'				=> $entity->get_rules_for_display(),
+					'topics_per_page'	=> $entity->get_topics_per_page(),
+					'type'				=> $entity->get_type(),
+					'status'			=> $entity->get_status()
 				];
 			}
-			$this->db->sql_freeresult($result);
 
 			$this->driver->put('_vinabb_web_forums', $forum_data);
 		}
