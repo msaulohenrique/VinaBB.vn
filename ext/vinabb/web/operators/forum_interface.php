@@ -14,6 +14,13 @@ namespace vinabb\web\operators;
 interface forum_interface
 {
 	/**
+	* Get number of forums
+	*
+	* @return int
+	*/
+	public function count_forums();
+
+	/**
 	* Get all forums
 	*
 	* @return array

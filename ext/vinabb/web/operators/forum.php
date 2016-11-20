@@ -34,6 +34,22 @@ class forum implements forum_interface
 	}
 
 	/**
+	* Get number of forums
+	*
+	* @return int
+	*/
+	public function count_forums()
+	{
+		$sql = 'SELECT COUNT(cat_id) AS counter
+			FROM ' . $this->table_name;
+		$result = $this->db->sql_query($sql);
+		$counter = (int) $this->db->sql_fetchfield('counter');
+		$this->db->sql_freeresult($result);
+
+		return $counter;
+	}
+
+	/**
 	* Get all forums
 	*
 	* @return array
