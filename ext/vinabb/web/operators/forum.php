@@ -43,7 +43,8 @@ class forum implements forum_interface
 		$entities = [];
 
 		$sql = 'SELECT *
-			FROM ' . FORUMS_TABLE;
+			FROM ' . FORUMS_TABLE . '
+			ORDER BY left_id';
 		$result = $this->db->sql_query($sql);
 
 		while ($row = $this->db->sql_fetchrow($result))
