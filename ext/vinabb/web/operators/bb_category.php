@@ -39,6 +39,24 @@ class bb_category implements bb_category_interface
 	}
 
 	/**
+	* Get number of categories
+	*
+	* @param int $bb_type phpBB resource type
+	* @return int
+	*/
+	public function count_cats($bb_type)
+	{
+		$sql = 'SELECT COUNT(cat_id) AS counter
+			FROM ' . $this->table_name . '
+			WHERE bb_type = ' . (int) $bb_type;
+		$result = $this->db->sql_query($sql);
+		$counter = (int) $this->db->sql_fetchfield('counter');
+		$this->db->sql_freeresult($result);
+
+		return $counter;
+	}
+
+	/**
 	* Get all categories
 	*
 	* @param int $bb_type phpBB resource type

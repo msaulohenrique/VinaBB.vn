@@ -14,6 +14,14 @@ namespace vinabb\web\operators;
 interface bb_category_interface
 {
 	/**
+	* Get number of categories
+	*
+	* @param int $bb_type phpBB resource type
+	* @return int
+	*/
+	public function count_cats($bb_type);
+
+	/**
 	* Get all categories
 	*
 	* @param int $bb_type phpBB resource type
