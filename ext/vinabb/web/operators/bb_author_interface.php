@@ -14,11 +14,28 @@ namespace vinabb\web\operators;
 interface bb_author_interface
 {
 	/**
+	* Get number of authors
+	*
+	* @return int
+	*/
+	public function count_authors();
+
+	/**
 	* Get all authors
 	*
 	* @return array
 	*/
 	public function get_authors();
+
+	/**
+	* Get authors in range for pagination
+	*
+	* @param string	$order_field	Sort by this field
+	* @param int	$limit			Number of items
+	* @param int	$offset			Position of the start
+	* @return array
+	*/
+	public function list_authors($order_field = 'author_name', $limit = 0, $offset = 0);
 
 	/**
 	* Add an author

@@ -39,6 +39,22 @@ class bb_author implements bb_author_interface
 	}
 
 	/**
+	* Get number of authors
+	*
+	* @return int
+	*/
+	public function count_authors()
+	{
+		$sql = 'SELECT COUNT(author_id) AS counter
+			FROM ' . $this->table_name;
+		$result = $this->db->sql_query($sql);
+		$counter = (int) $this->db->sql_fetchfield('counter');
+		$this->db->sql_freeresult($result);
+
+		return $counter;
+	}
+
+	/**
 	* Get all authors
 	*
 	* @return array
@@ -50,6 +66,32 @@ class bb_author implements bb_author_interface
 		$sql = 'SELECT *
 			FROM ' . $this->table_name;
 		$result = $this->db->sql_query($sql);
+
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$entities[] = $this->container->get('vinabb.web.entities.bb_author')->import($row);
+		}
+		$this->db->sql_freeresult($result);
+
+		return $entities;
+	}
+
+	/**
+	* Get authors in range for pagination
+	*
+	* @param string	$order_field	Sort by this field
+	* @param int	$limit			Number of items
+	* @param int	$offset			Position of the start
+	* @return array
+	*/
+	public function list_authors($order_field = 'author_name', $limit = 0, $offset = 0)
+	{
+		$entities = [];
+
+		$sql = 'SELECT *
+			FROM ' . $this->table_name . "
+			ORDER BY $order_field";
+		$result = $this->db->sql_query_limit($sql, $limit, $offset);
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
