@@ -85,21 +85,18 @@ class service extends \phpbb\cache\service
 	{
 		if (($lang_data = $this->driver->get('_vinabb_web_languages')) === false)
 		{
-			$sql = 'SELECT *
-				FROM ' . LANG_TABLE;
-			$result = $this->db->sql_query($sql);
-
 			$lang_data = [];
-			while ($row = $this->db->sql_fetchrow($result))
+
+			/** @var \vinabb\web\entities\language_interface $entity */
+			foreach ($this->container->get('vinabb.web.operators.language')->get_langs() as $entity)
 			{
-				$lang_data[$row['lang_iso']] = [
-					'dir'			=> $row['lang_dir'],
-					'english_name'	=> $row['lang_english_name'],
-					'local_name'	=> $row['lang_local_name'],
-					'author'		=> $row['lang_author']
+				$lang_data[$entity->get_iso()] = [
+					'dir'			=> $entity->get_dir(),
+					'english_name'	=> $entity->get_english_name(),
+					'local_name'	=> $entity->get_local_name(),
+					'author'		=> $entity->get_author()
 				];
 			}
-			$this->db->sql_freeresult($result);
 
 			$this->driver->put('_vinabb_web_languages', $lang_data);
 		}
@@ -124,11 +121,10 @@ class service extends \phpbb\cache\service
 	{
 		if (($forum_data = $this->driver->get('_vinabb_web_forums')) === false)
 		{
-			$entities = $this->container->get('vinabb.web.operators.forum')->get_forums();
 			$forum_data = [];
 
 			/** @var \vinabb\web\entities\forum_interface $entity */
-			foreach ($entities as $entity)
+			foreach ($this->container->get('vinabb.web.operators.forum')->get_forums() as $entity)
 			{
 				$forum_data[$entity->get_id()] = [
 					'parent_id'			=> $entity->get_parent_id(),
@@ -210,11 +206,10 @@ class service extends \phpbb\cache\service
 	{
 		if (($bb_cats = $this->driver->get('_vinabb_web_bb_categories_' . $bb_type)) === false)
 		{
-			$entities = $this->container->get('vinabb.web.operators.bb_category')->get_cats($bb_type);
 			$bb_cats = [];
 
 			/** @var \vinabb\web\entities\bb_category_interface $entity */
-			foreach ($entities as $entity)
+			foreach ($this->container->get('vinabb.web.operators.bb_category')->get_cats($bb_type) as $entity)
 			{
 				$bb_cats[$entity->get_id()] = [
 					'name'		=> $entity->get_name(),
@@ -298,11 +293,10 @@ class service extends \phpbb\cache\service
 	{
 		if (($portal_cats = $this->driver->get('_vinabb_web_portal_categories')) === false)
 		{
-			$entities = $this->container->get('vinabb.web.operators.portal_category')->get_cats();
 			$portal_cats = [];
 
 			/** @var \vinabb\web\entities\portal_category_interface $entity */
-			foreach ($entities as $entity)
+			foreach ($this->container->get('vinabb.web.operators.portal_category')->get_cats() as $entity)
 			{
 				$portal_cats[$entity->get_id()] = [
 					'parent_id'	=> $entity->get_parent_id(),
@@ -436,11 +430,10 @@ class service extends \phpbb\cache\service
 	{
 		if (($pages = $this->driver->get('_vinabb_web_pages')) === false)
 		{
-			$entities = $this->container->get('vinabb.web.operators.page')->get_pages();
 			$pages = [];
 
 			/** @var \vinabb\web\entities\page_interface $entity */
-			foreach ($entities as $entity)
+			foreach ($this->container->get('vinabb.web.operators.page')->get_pages() as $entity)
 			{
 				$pages[$entity->get_id()] = [
 					'name'				=> $entity->get_name(),
@@ -484,11 +477,10 @@ class service extends \phpbb\cache\service
 	{
 		if (($menus = $this->driver->get('_vinabb_web_menus')) === false)
 		{
-			$entities = $this->container->get('vinabb.web.operators.menu')->get_menus();
 			$menus = [];
 
 			/** @var \vinabb\web\entities\menu_interface $entity */
-			foreach ($entities as $entity)
+			foreach ($this->container->get('vinabb.web.operators.menu')->get_menus() as $entity)
 			{
 				$menus[$entity->get_id()] = [
 					'parent_id'			=> $entity->get_parent_id(),
@@ -535,11 +527,10 @@ class service extends \phpbb\cache\service
 	{
 		if (($headlines = $this->driver->get('_vinabb_web_headlines_' . $lang)) === false)
 		{
-			$entities = $this->container->get('vinabb.web.operators.headline')->get_headlines($lang);
 			$headlines = [];
 
 			/** @var \vinabb\web\entities\headline_interface $entity */
-			foreach ($entities as $entity)
+			foreach ($this->container->get('vinabb.web.operators.headline')->get_headlines($lang) as $entity)
 			{
 				$headlines[] = [
 					'id'	=> $entity->get_id(),
