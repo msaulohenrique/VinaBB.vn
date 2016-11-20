@@ -54,7 +54,7 @@ abstract class bbcode_content
 	* @param string $prefix Column prefix
 	* @return string
 	*/
-	public function get_text_for_edit($prefix)
+	public function get_for_edit($prefix)
 	{
 		// Use defaults if these haven't been set yet
 		$text = isset($this->data[$prefix]) ? $this->data[$prefix] : '';
@@ -73,7 +73,7 @@ abstract class bbcode_content
 	* @param bool	$censor	True to censor the content
 	* @return string
 	*/
-	public function get_text_for_display($prefix, $censor = true)
+	public function get_for_display($prefix, $censor = true)
 	{
 		// If these haven't been set yet; use defaults
 		$text = isset($this->data[$prefix]) ? $this->data[$prefix] : '';
@@ -91,7 +91,7 @@ abstract class bbcode_content
 	* @param string				$text	Content
 	* @return bbcode_content	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function set_text($prefix, $text)
+	public function set($prefix, $text)
 	{
 		// Override maximum post characters limit
 		if ($this->ignore_max_post_chars)
@@ -125,7 +125,7 @@ abstract class bbcode_content
 
 	/**
 	* Enable/Disable BBCode on the content
-	* This should be called before set_text(); enable_bbcode()->set_text()
+	* This should be called before set(); enable_bbcode()->set()
 	*
 	* @param string				$prefix	Column prefix
 	* @param bool				$enable	true: enable; false: disable
@@ -133,7 +133,7 @@ abstract class bbcode_content
 	*/
 	public function enable_bbcode($prefix, $enable = true)
 	{
-		$this->set_text_options($prefix, OPTION_FLAG_BBCODE, !$enable);
+		$this->set_options($prefix, OPTION_FLAG_BBCODE, !$enable);
 
 		return $this;
 	}
@@ -151,7 +151,7 @@ abstract class bbcode_content
 
 	/**
 	* Enable/Disable URLs on the content
-	* This should be called before set_text(); enable_urls()->set_text()
+	* This should be called before set(); enable_urls()->set()
 	*
 	* @param string				$prefix	Column prefix
 	* @param bool				$enable	true: enable; false: disable
@@ -159,7 +159,7 @@ abstract class bbcode_content
 	*/
 	public function enable_urls($prefix, $enable = true)
 	{
-		$this->set_text_options($prefix, OPTION_FLAG_LINKS, !$enable);
+		$this->set_options($prefix, OPTION_FLAG_LINKS, !$enable);
 
 		return $this;
 	}
@@ -177,7 +177,7 @@ abstract class bbcode_content
 
 	/**
 	* Enable/Disable smilies on the content
-	* This should be called before set_text(); enable_smilies()->set_text()
+	* This should be called before set(); enable_smilies()->set()
 	*
 	* @param string				$prefix	Column prefix
 	* @param bool				$enable	true: enable; false: disable
@@ -185,7 +185,7 @@ abstract class bbcode_content
 	*/
 	public function enable_smilies($prefix, $enable = true)
 	{
-		$this->set_text_options($prefix, OPTION_FLAG_SMILIES, !$enable);
+		$this->set_options($prefix, OPTION_FLAG_SMILIES, !$enable);
 
 		return $this;
 	}
@@ -198,7 +198,7 @@ abstract class bbcode_content
 	* @param bool	$negate		Negate (Unset) option
 	* @param bool	$reparse	Reparse the content after setting option
 	*/
-	protected function set_text_options($prefix, $value, $negate = false, $reparse = true)
+	protected function set_options($prefix, $value, $negate = false, $reparse = true)
 	{
 		// Set {$prefix}_options to 0 if it does not yet exist
 		$this->data[$prefix . '_options'] = isset($this->data[$prefix . '_options']) ? $this->data[$prefix . '_options'] : 0;
@@ -224,7 +224,7 @@ abstract class bbcode_content
 
 			decode_message($text, $this->data[$prefix . '_uid']);
 
-			$this->set_text($prefix, $text);
+			$this->set($prefix, $text);
 		}
 	}
 }

@@ -46,7 +46,7 @@ abstract class forum_desc_rules extends bbcode_content
 	*/
 	public function get_desc_for_edit()
 	{
-		return $this->get_text_for_edit($this->desc_prefix);
+		return $this->get_for_edit($this->desc_prefix);
 	}
 
 	/**
@@ -57,7 +57,7 @@ abstract class forum_desc_rules extends bbcode_content
 	*/
 	public function get_desc_for_display($censor = true)
 	{
-		return $this->get_text_for_display($this->desc_prefix, $censor);
+		return $this->get_for_display($this->desc_prefix, $censor);
 	}
 
 	/**
@@ -68,7 +68,7 @@ abstract class forum_desc_rules extends bbcode_content
 	*/
 	public function set_desc($text)
 	{
-		return $this->set_text($this->desc_prefix, $text);
+		return $this->set($this->desc_prefix, $text);
 	}
 
 	/**
@@ -138,25 +138,13 @@ abstract class forum_desc_rules extends bbcode_content
 	}
 
 	/**
-	* Set BBCode options for the forum description
-	*
-	* @param int	$value		Value of the option
-	* @param bool	$negate		Negate (Unset) option
-	* @param bool	$reparse	Reparse the content after setting option
-	*/
-	protected function set_desc_options($value, $negate = false, $reparse = true)
-	{
-		$this->set_text_options($this->desc_prefix, $value, $negate, $reparse);
-	}
-
-	/**
 	* Get forum rules for edit
 	*
 	* @return string
 	*/
 	public function get_rules_for_edit()
 	{
-		return $this->get_text_for_edit($this->rules_prefix);
+		return $this->get_for_edit($this->rules_prefix);
 	}
 
 	/**
@@ -167,7 +155,7 @@ abstract class forum_desc_rules extends bbcode_content
 	*/
 	public function get_rules_for_display($censor = true)
 	{
-		return $this->get_text_for_display($this->rules_prefix, $censor);
+		return $this->get_for_display($this->rules_prefix, $censor);
 	}
 
 	/**
@@ -178,7 +166,7 @@ abstract class forum_desc_rules extends bbcode_content
 	*/
 	public function set_rules($text)
 	{
-		return $this->set_text($this->rules_prefix, $text);
+		return $this->set($this->rules_prefix, $text);
 	}
 
 	/**
@@ -245,17 +233,5 @@ abstract class forum_desc_rules extends bbcode_content
 	public function rules_enable_smilies($enable)
 	{
 		return $this->enable_smilies($this->rules_prefix, $enable);
-	}
-
-	/**
-	* Set BBCode options for the forum rules
-	*
-	* @param int	$value		Value of the option
-	* @param bool	$negate		Negate (Unset) option
-	* @param bool	$reparse	Reparse the content after setting option
-	*/
-	protected function set_rules_options($value, $negate = false, $reparse = true)
-	{
-		$this->set_text_options($this->rules_prefix, $value, $negate, $reparse);
 	}
 }

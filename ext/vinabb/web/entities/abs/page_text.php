@@ -46,7 +46,7 @@ abstract class page_text extends bbcode_content
 	*/
 	public function get_text_for_edit()
 	{
-		return parent::get_text_for_edit($this->text_prefix);
+		return $this->get_for_edit($this->text_prefix);
 	}
 
 	/**
@@ -57,7 +57,7 @@ abstract class page_text extends bbcode_content
 	*/
 	public function get_text_for_display($censor = true)
 	{
-		return parent::get_text_for_display($this->text_prefix, $censor);
+		return $this->get_for_display($this->text_prefix, $censor);
 	}
 
 	/**
@@ -68,7 +68,7 @@ abstract class page_text extends bbcode_content
 	*/
 	public function set_text($text)
 	{
-		return parent::set_text($this->text_prefix, $text);
+		return $this->set($this->text_prefix, $text);
 	}
 
 	/**
@@ -138,25 +138,13 @@ abstract class page_text extends bbcode_content
 	}
 
 	/**
-	* Set BBCode options for the page content
-	*
-	* @param int	$value		Value of the option
-	* @param bool	$negate		Negate (Unset) option
-	* @param bool	$reparse	Reparse the content after setting option
-	*/
-	protected function set_text_options($value, $negate = false, $reparse = true)
-	{
-		parent::set_text_options($this->text_prefix, $value, $negate, $reparse);
-	}
-
-	/**
 	* Get Vietnamese page content for edit
 	*
 	* @return string
 	*/
 	public function get_text_vi_for_edit()
 	{
-		return parent::get_text_for_edit($this->text_vi_prefix);
+		return $this->get_for_edit($this->text_vi_prefix);
 	}
 
 	/**
@@ -167,7 +155,7 @@ abstract class page_text extends bbcode_content
 	*/
 	public function get_text_vi_for_display($censor = true)
 	{
-		return parent::get_text_for_display($this->text_vi_prefix, $censor);
+		return $this->get_for_display($this->text_vi_prefix, $censor);
 	}
 
 	/**
@@ -178,7 +166,7 @@ abstract class page_text extends bbcode_content
 	*/
 	public function set_text_vi($text)
 	{
-		return parent::set_text($this->text_vi_prefix, $text);
+		return $this->set($this->text_vi_prefix, $text);
 	}
 
 	/**
@@ -245,17 +233,5 @@ abstract class page_text extends bbcode_content
 	public function text_vi_enable_smilies($enable)
 	{
 		return $this->enable_smilies($this->text_vi_prefix, $enable);
-	}
-
-	/**
-	* Set BBCode options for the Vietnamese page content
-	*
-	* @param int	$value		Value of the option
-	* @param bool	$negate		Negate (Unset) option
-	* @param bool	$reparse	Reparse the content after setting option
-	*/
-	protected function set_text_vi_options($value, $negate = false, $reparse = true)
-	{
-		parent::set_text_options($this->text_vi_prefix, $value, $negate, $reparse);
 	}
 }
