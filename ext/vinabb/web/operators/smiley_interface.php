@@ -14,6 +14,13 @@ namespace vinabb\web\operators;
 interface smiley_interface
 {
 	/**
+	* Get number of smilies
+	*
+	* @return int
+	*/
+	public function count_smilies();
+
+	/**
 	* Get all smilies
 	*
 	* @return array

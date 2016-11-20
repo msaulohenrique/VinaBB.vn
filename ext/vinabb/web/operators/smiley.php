@@ -34,6 +34,22 @@ class smiley implements smiley_interface
 	}
 
 	/**
+	* Get number of smilies
+	*
+	* @return int
+	*/
+	public function count_smilies()
+	{
+		$sql = 'SELECT COUNT(smiley_id) AS counter
+			FROM ' . SMILIES_TABLE;
+		$result = $this->db->sql_query($sql);
+		$counter = (int) $this->db->sql_fetchfield('counter');
+		$this->db->sql_freeresult($result);
+
+		return $counter;
+	}
+
+	/**
 	* Get all smilies
 	*
 	* @return array
