@@ -18,14 +18,14 @@ class service extends \phpbb\cache\service
 	/** @var \vinabb\web\operators\forum_interface */
 	protected $forum_operators;
 
-	/** @var string */
-	protected $bb_categories_table;
+	/** @var \vinabb\web\operators\bb_category_interface */
+	protected $bb_cat_operators;
 
 	/** @var string */
 	protected $bb_items_table;
 
-	/** @var string */
-	protected $portal_categories_table;
+	/** @var \vinabb\web\operators\portal_category_interface */
+	protected $portal_cat_operators;
 
 	/** @var string */
 	protected $portal_articles_table;
@@ -33,14 +33,14 @@ class service extends \phpbb\cache\service
 	/** @var string */
 	protected $portal_comments_table;
 
-	/** @var string */
-	protected $pages_table;
+	/** @var \vinabb\web\operators\page_interface */
+	protected $page_operators;
 
-	/** @var string */
-	protected $menus_table;
+	/** @var \vinabb\web\operators\menu_interface */
+	protected $menu_operators;
 
-	/** @var string */
-	protected $headlines_table;
+	/** @var \vinabb\web\operators\headline_interface */
+	protected $headline_operators;
 
 	/**
 	* Constructor
@@ -51,14 +51,14 @@ class service extends \phpbb\cache\service
 	* @param string $root_path
 	* @param string $php_ext
 	* @param \vinabb\web\operators\forum_interface $forum_operators
-	* @param string $bb_categories_table
+	* @param \vinabb\web\operators\bb_category_interface $bb_cat_operators
 	* @param string $bb_items_table
-	* @param string $portal_categories_table
+	* @param \vinabb\web\operators\portal_category_interface $portal_cat_operators
 	* @param string $portal_articles_table
 	* @param string $portal_comments_table
-	* @param string $pages_table
-	* @param string $menus_table
-	* @param string $headlines_table
+	* @param \vinabb\web\operators\page_interface $page_operators
+	* @param \vinabb\web\operators\menu_interface $menu_operators
+	* @param \vinabb\web\operators\headline_interface $headline_operators
 	*/
 	public function __construct(
 		\phpbb\cache\driver\driver_interface $driver,
@@ -67,14 +67,14 @@ class service extends \phpbb\cache\service
 		$root_path,
 		$php_ext,
 		\vinabb\web\operators\forum_interface $forum_operators,
-		$bb_categories_table,
+		\vinabb\web\operators\bb_category_interface $bb_cat_operators,
 		$bb_items_table,
-		$portal_categories_table,
+		\vinabb\web\operators\portal_category_interface $portal_cat_operators,
 		$portal_articles_table,
 		$portal_comments_table,
-		$pages_table,
-		$menus_table,
-		$headlines_table
+		\vinabb\web\operators\page_interface $page_operators,
+		\vinabb\web\operators\menu_interface $menu_operators,
+		\vinabb\web\operators\headline_interface $headline_operators
 	)
 	{
 		$this->set_driver($driver);
@@ -83,14 +83,14 @@ class service extends \phpbb\cache\service
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 		$this->forum_operators = $forum_operators;
-		$this->bb_categories_table = $bb_categories_table;
+		$this->bb_cat_operators = $bb_cat_operators;
 		$this->bb_items_table = $bb_items_table;
-		$this->portal_categories_table = $portal_categories_table;
+		$this->portal_cat_operators = $portal_cat_operators;
 		$this->portal_articles_table = $portal_articles_table;
 		$this->portal_comments_table = $portal_comments_table;
-		$this->pages_table = $pages_table;
-		$this->menus_table = $menus_table;
-		$this->headlines_table = $headlines_table;
+		$this->page_operators = $page_operators;
+		$this->menu_operators = $menu_operators;
+		$this->headline_operators = $headline_operators;
 	}
 
 	/**
@@ -261,25 +261,21 @@ class service extends \phpbb\cache\service
 	{
 		if (($bb_cats = $this->driver->get('_vinabb_web_bb_categories_' . $bb_type)) === false)
 		{
-			$sql = 'SELECT *
-				FROM ' . $this->bb_categories_table . '
-				WHERE bb_type = ' . (int) $bb_type . '
-				ORDER BY cat_order';
-			$result = $this->db->sql_query($sql);
-
+			$entities = $this->bb_cat_operators->get_cats($bb_type);
 			$bb_cats = [];
-			while ($row = $this->db->sql_fetchrow($result))
+
+			/** @var \vinabb\web\entities\bb_category_interface $entity */
+			foreach ($entities as $entity)
 			{
-				$bb_cats[$row['cat_id']] = [
-					'name'		=> $row['cat_name'],
-					'name_vi'	=> ($row['cat_name_vi'] == '') ? $row['cat_name'] : $row['cat_name_vi'],
-					'varname'	=> $row['cat_varname'],
-					'desc'		=> $row['cat_desc'],
-					'desc_vi'	=> $row['cat_desc_vi'],
-					'icon'		=> $row['cat_icon']
+				$bb_cats[$entity->get_id()] = [
+					'name'		=> $entity->get_name(),
+					'name_vi'	=> ($entity->get_name_vi() == '') ? $entity->get_name() : $entity->get_name_vi(),
+					'varname'	=> $entity->get_varname(),
+					'desc'		=> $entity->get_desc(),
+					'desc_vi'	=> $entity->get_desc_vi(),
+					'icon'		=> $entity->get_icon()
 				];
 			}
-			$this->db->sql_freeresult($result);
 
 			$this->driver->put('_vinabb_web_bb_categories_' . $bb_type, $bb_cats);
 		}
@@ -353,25 +349,22 @@ class service extends \phpbb\cache\service
 	{
 		if (($portal_cats = $this->driver->get('_vinabb_web_portal_categories')) === false)
 		{
-			$sql = 'SELECT *
-				FROM ' . $this->portal_categories_table . '
-				ORDER BY left_id';
-			$result = $this->db->sql_query($sql);
-
+			$entities = $this->portal_cat_operators->get_cats();
 			$portal_cats = [];
-			while ($row = $this->db->sql_fetchrow($result))
+
+			/** @var \vinabb\web\entities\portal_category_interface $entity */
+			foreach ($entities as $entity)
 			{
-				$portal_cats[$row['cat_id']] = [
-					'parent_id'	=> $row['parent_id'],
-					'left_id'	=> $row['left_id'],
-					'right_id'	=> $row['right_id'],
-					'name'		=> $row['cat_name'],
-					'name_vi'	=> ($row['cat_name_vi'] == '') ? $row['cat_name'] : $row['cat_name_vi'],
-					'varname'	=> $row['cat_varname'],
-					'icon'		=> $row['cat_icon']
+				$portal_cats[$entity->get_id()] = [
+					'parent_id'	=> $entity->get_parent_id(),
+					'left_id'	=> $entity->get_left_id(),
+					'right_id'	=> $entity->get_right_id(),
+					'name'		=> $entity->get_name(),
+					'name_vi'	=> ($entity->get_name_vi() == '') ? $entity->get_name() : $entity->get_name_vi(),
+					'varname'	=> $entity->get_varname(),
+					'icon'		=> $entity->get_icon()
 				];
 			}
-			$this->db->sql_freeresult($result);
 
 			$this->driver->put('_vinabb_web_portal_categories', $portal_cats);
 		}
@@ -494,31 +487,30 @@ class service extends \phpbb\cache\service
 	{
 		if (($pages = $this->driver->get('_vinabb_web_pages')) === false)
 		{
-			$sql = 'SELECT *
-				FROM ' . $this->pages_table . '
-				WHERE page_enable = 1';
-			$result = $this->db->sql_query($sql);
-
+			$entities = $this->page_operators->get_pages();
 			$pages = [];
-			while ($row = $this->db->sql_fetchrow($result))
+
+			/** @var \vinabb\web\entities\page_interface $entity */
+			foreach ($entities as $entity)
 			{
-				$pages[$row['page_id']] = [
-					'name'				=> $row['page_name'],
-					'name_vi'			=> ($row['page_name_vi'] == '') ? $row['page_name'] : $row['page_name_vi'],
-					'varname'			=> $row['page_varname'],
-					'desc'				=> $row['page_desc'],
-					'desc_vi'			=> $row['page_desc_vi'],
-					'text'				=> $row['page_text'],
-					'text_uid'			=> $row['page_text_uid'],
-					'text_bitfield'		=> $row['page_text_bitfield'],
-					'text_options'		=> $row['page_text_options'],
-					'text_vi'			=> $row['page_text_vi'],
-					'text_vi_uid'		=> $row['page_text_vi_uid'],
-					'text_vi_bitfield'	=> $row['page_text_vi_bitfield'],
-					'text_vi_options'	=> $row['page_text_vi_options']
+				$pages[$entity->get_id()] = [
+					'name'				=> $entity->get_name(),
+					'name_vi'			=> ($entity->get_name_vi() == '') ? $entity->get_name() : $entity->get_name_vi(),
+					'varname'			=> $entity->get_varname(),
+					'desc'				=> $entity->get_desc(),
+					'desc_vi'			=> $entity->get_desc_vi(),
+					'text'				=> $entity->get_text_for_display(),
+					'text_vi'			=> $entity->get_text_vi_for_display(),
+					'enable_guest'		=> $entity->get_enable_guest(),
+					'enable_bot'		=> $entity->get_enable_bot(),
+					'enable_new_user'	=> $entity->get_enable_new_user(),
+					'enable_user'		=> $entity->get_enable_user(),
+					'enable_mod'		=> $entity->get_enable_mod(),
+					'enable_global_mod'	=> $entity->get_enable_global_mod(),
+					'enable_admin'		=> $entity->get_enable_admin(),
+					'enable_founder'	=> $entity->get_enable_founder()
 				];
 			}
-			$this->db->sql_freeresult($result);
 
 			$this->driver->put('_vinabb_web_pages', $pages);
 		}
@@ -543,35 +535,32 @@ class service extends \phpbb\cache\service
 	{
 		if (($menus = $this->driver->get('_vinabb_web_menus')) === false)
 		{
-			$sql = 'SELECT *
-				FROM ' . $this->pages_table;
-			$result = $this->db->sql_query($sql);
-
+			$entities = $this->menu_operators->get_menus();
 			$menus = [];
-			while ($row = $this->db->sql_fetchrow($result))
+
+			/** @var \vinabb\web\entities\menu_interface $entity */
+			foreach ($entities as $entity)
 			{
-				$menus[$row['menu_id']] = [
-					'parent_id'			=> $row['parent_id'],
-					'left_id'			=> $row['left_id'],
-					'right_id'			=> $row['right_id'],
-					'menu_parents'		=> $row['menu_parents'],
-					'name'				=> $row['menu_name'],
-					'name_vi'			=> ($row['menu_name_vi'] == '') ? $row['menu_name'] : $row['menu_name_vi'],
-					'type'				=> $row['menu_type'],
-					'icon'				=> $row['menu_icon'],
-					'data'				=> $row['menu_data'],
-					'target'			=> $row['menu_target'],
-					'enable_guest'		=> $row['menu_enable_guest'],
-					'enable_bot'		=> $row['menu_enable_bot'],
-					'enable_new_user'	=> $row['menu_enable_new_user'],
-					'enable_user'		=> $row['menu_enable_user'],
-					'enable_mod'		=> $row['menu_enable_mod'],
-					'enable_global_mod'	=> $row['menu_enable_global_mod'],
-					'enable_admin'		=> $row['menu_enable_admin'],
-					'enable_founder'	=> $row['menu_enable_founder']
+				$menus[$entity->get_id()] = [
+					'parent_id'			=> $entity->get_parent_id(),
+					'left_id'			=> $entity->get_left_id(),
+					'right_id'			=> $entity->get_right_id(),
+					'name'				=> $entity->get_name(),
+					'name_vi'			=> ($entity->get_name_vi() == '') ? $entity->get_name() : $entity->get_name_vi(),
+					'type'				=> $entity->get_type(),
+					'icon'				=> $entity->get_icon(),
+					'data'				=> $entity->get_data(),
+					'target'			=> $entity->get_target(),
+					'enable_guest'		=> $entity->get_enable_guest(),
+					'enable_bot'		=> $entity->get_enable_bot(),
+					'enable_new_user'	=> $entity->get_enable_new_user(),
+					'enable_user'		=> $entity->get_enable_user(),
+					'enable_mod'		=> $entity->get_enable_mod(),
+					'enable_global_mod'	=> $entity->get_enable_global_mod(),
+					'enable_admin'		=> $entity->get_enable_admin(),
+					'enable_founder'	=> $entity->get_enable_founder()
 				];
 			}
-			$this->db->sql_freeresult($result);
 
 			$this->driver->put('_vinabb_web_menus', $menus);
 		}
@@ -597,24 +586,20 @@ class service extends \phpbb\cache\service
 	{
 		if (($headlines = $this->driver->get('_vinabb_web_headlines_' . $lang)) === false)
 		{
-			$sql = 'SELECT *
-				FROM ' . $this->headlines_table . "
-				WHERE article_lang = '" . $this->db->sql_escape($lang) . "'
-				ORDER BY headline_order";
-			$result = $this->db->sql_query($sql);
-
+			$entities = $this->headline_operators->get_headlines($lang);
 			$headlines = [];
-			while ($row = $this->db->sql_fetchrow($result))
+
+			/** @var \vinabb\web\entities\headline_interface $entity */
+			foreach ($entities as $entity)
 			{
 				$headlines[] = [
-					'id'	=> $row['headline_id'],
-					'name'	=> $row['headline_name'],
-					'desc'	=> $row['headline_desc'],
-					'img'	=> $row['headline_img'],
-					'url'	=> $row['headline_url']
+					'id'	=> $entity->get_id(),
+					'name'	=> $entity->get_name(),
+					'desc'	=> $entity->get_desc(),
+					'img'	=> $entity->get_img(),
+					'url'	=> $entity->get_url()
 				];
 			}
-			$this->db->sql_freeresult($result);
 
 			$this->driver->put('_vinabb_web_headlines_' . $lang, $headlines);
 		}
