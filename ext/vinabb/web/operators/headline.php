@@ -41,14 +41,18 @@ class headline implements headline_interface
 	/**
 	* Get all headlines
 	*
+	* @param string $lang 2-letter language ISO code
 	* @return array
 	*/
-	public function get_headlines()
+	public function get_headlines($lang = '')
 	{
 		$entities = [];
+		$sql_where = ($lang != '') ? " WHERE headline_lang = '" . $this->db->sql_escape($lang) . "'" : '';
 
 		$sql = 'SELECT *
-			FROM ' . $this->table_name;
+			FROM ' . $this->table_name . "
+			$sql_where
+			ORDER BY headline_order";
 		$result = $this->db->sql_query($sql);
 
 		while ($row = $this->db->sql_fetchrow($result))
