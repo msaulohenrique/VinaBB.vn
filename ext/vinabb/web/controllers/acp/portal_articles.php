@@ -16,7 +16,7 @@ use vinabb\web\includes\constants;
 */
 class portal_articles implements portal_articles_interface
 {
-	/** @var \phpbb\cache\service */
+	/** @var \vinabb\web\controllers\cache\service_interface */
 	protected $cache;
 
 	/** @var ContainerInterface */
@@ -64,7 +64,7 @@ class portal_articles implements portal_articles_interface
 	/**
 	* Constructor
 	*
-	* @param \phpbb\cache\service								$cache		Cache service
+	* @param \vinabb\web\controllers\cache\service_interface	$cache		Cache service
 	* @param ContainerInterface									$container	Container object
 	* @param \phpbb\language\language							$language	Language object
 	* @param \phpbb\log\log										$log		Log object
@@ -77,7 +77,7 @@ class portal_articles implements portal_articles_interface
 	* @param string												$php_ext	PHP file extension
 	*/
 	public function __construct(
-		\phpbb\cache\service $cache,
+		\vinabb\web\controllers\cache\service_interface $cache,
 		ContainerInterface $container,
 		\phpbb\language\language $language,
 		\phpbb\log\log $log,

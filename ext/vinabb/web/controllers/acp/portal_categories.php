@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 */
 class portal_categories implements portal_categories_interface
 {
-	/** @var \phpbb\cache\service */
+	/** @var \vinabb\web\controllers\cache\service_interface */
 	protected $cache;
 
 	/** @var ContainerInterface */
@@ -51,7 +51,7 @@ class portal_categories implements portal_categories_interface
 	/**
 	* Constructor
 	*
-	* @param \phpbb\cache\service								$cache		Cache service
+	* @param \vinabb\web\controllers\cache\service_interface	$cache		Cache service
 	* @param ContainerInterface									$container	Container object
 	* @param \phpbb\language\language							$language	Language object
 	* @param \phpbb\log\log										$log		Log object
@@ -62,7 +62,7 @@ class portal_categories implements portal_categories_interface
 	* @param \vinabb\web\controllers\helper_interface			$ext_helper	Extension helper
 	*/
 	public function __construct(
-		\phpbb\cache\service $cache,
+		\vinabb\web\controllers\cache\service_interface $cache,
 		ContainerInterface $container,
 		\phpbb\language\language $language,
 		\phpbb\log\log $log,

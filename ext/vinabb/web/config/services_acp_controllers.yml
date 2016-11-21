@@ -3,7 +3,7 @@ services:
         class: vinabb\web\controllers\acp\settings
         arguments:
             - '@auth'
-            - '@cache'
+            - '@vinabb.web.cache'
             - '@config'
             - '@config_text'
             - '@dbal.conn'
@@ -15,7 +15,7 @@ services:
     vinabb.web.acp.portal_categories:
         class: vinabb\web\controllers\acp\portal_categories
         arguments:
-            - '@cache'
+            - '@vinabb.web.cache'
             - '@service_container'
             - '@language'
             - '@log'
@@ -27,7 +27,7 @@ services:
     vinabb.web.acp.portal_articles:
         class: vinabb\web\controllers\acp\portal_articles
         arguments:
-            - '@cache'
+            - '@vinabb.web.cache'
             - '@service_container'
             - '@language'
             - '@log'
@@ -41,7 +41,7 @@ services:
     vinabb.web.acp.bb_categories:
         class: vinabb\web\controllers\acp\bb_categories
         arguments:
-            - '@cache'
+            - '@vinabb.web.cache'
             - '@service_container'
             - '@language'
             - '@log'
@@ -53,7 +53,7 @@ services:
     vinabb.web.acp.bb_items:
         class: vinabb\web\controllers\acp\bb_items
         arguments:
-            - '@cache'
+            - '@vinabb.web.cache'
             - '@service_container'
             - '@language'
             - '@log'
@@ -66,7 +66,7 @@ services:
     vinabb.web.acp.bb_authors:
         class: vinabb\web\controllers\acp\bb_authors
         arguments:
-            - '@cache'
+            - '@vinabb.web.cache'
             - '@service_container'
             - '@language'
             - '@log'
@@ -77,7 +77,7 @@ services:
     vinabb.web.acp.pages:
         class: vinabb\web\controllers\acp\pages
         arguments:
-            - '@cache'
+            - '@vinabb.web.cache'
             - '@service_container'
             - '@language'
             - '@log'
@@ -90,7 +90,7 @@ services:
     vinabb.web.acp.menus:
         class: vinabb\web\controllers\acp\menus
         arguments:
-            - '@cache'
+            - '@vinabb.web.cache'
             - '@service_container'
             - '@language'
             - '@log'
@@ -102,7 +102,7 @@ services:
     vinabb.web.acp.headlines:
         class: vinabb\web\controllers\acp\headlines
         arguments:
-            - '@cache'
+            - '@vinabb.web.cache'
             - '@service_container'
             - '@language'
             - '@log'

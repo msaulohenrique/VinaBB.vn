@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 */
 class bb_authors implements bb_authors_interface
 {
-	/** @var \phpbb\cache\service */
+	/** @var \vinabb\web\controllers\cache\service_interface */
 	protected $cache;
 
 	/** @var ContainerInterface */
@@ -48,17 +48,17 @@ class bb_authors implements bb_authors_interface
 	/**
 	* Constructor
 	*
-	* @param \phpbb\cache\service						$cache		Cache service
-	* @param ContainerInterface							$container	Container object
-	* @param \phpbb\language\language					$language	Language object
-	* @param \phpbb\log\log								$log		Log object
-	* @param \vinabb\web\operators\bb_author_interface	$operator	BB author operators
-	* @param \phpbb\request\request						$request	Request object
-	* @param \phpbb\template\template					$template	Template object
-	* @param \phpbb\user								$user		User object
+	* @param \vinabb\web\controllers\cache\service_interface	$cache		Cache service
+	* @param ContainerInterface									$container	Container object
+	* @param \phpbb\language\language							$language	Language object
+	* @param \phpbb\log\log										$log		Log object
+	* @param \vinabb\web\operators\bb_author_interface			$operator	BB author operators
+	* @param \phpbb\request\request								$request	Request object
+	* @param \phpbb\template\template							$template	Template object
+	* @param \phpbb\user										$user		User object
 	*/
 	public function __construct(
-		\phpbb\cache\service $cache,
+		\vinabb\web\controllers\cache\service_interface $cache,
 		ContainerInterface $container,
 		\phpbb\language\language $language,
 		\phpbb\log\log $log,

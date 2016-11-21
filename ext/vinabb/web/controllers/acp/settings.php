@@ -18,7 +18,7 @@ class settings
 	/** @var \phpbb\auth\auth */
 	protected $auth;
 
-	/** @var \phpbb\cache\service */
+	/** @var \vinabb\web\controllers\cache\service_interface */
 	protected $cache;
 
 	/** @var \phpbb\config\config */
@@ -66,20 +66,20 @@ class settings
 	/**
 	* Constructor
 	*
-	* @param \phpbb\auth\auth $auth
-	* @param \phpbb\cache\service				$cache			Cache service
-	* @param \phpbb\config\config				$config			Config object
-	* @param \phpbb\config\db_text				$config_text	Config text object
-	* @param \phpbb\db\driver\driver_interface	$db				Database object
-	* @param \phpbb\language\language			$language		Language object
-	* @param \phpbb\log\log						$log			Log object
-	* @param \phpbb\request\request				$request		Request object
-	* @param \phpbb\template\template			$template		Template object
-	* @param \phpbb\user						$user			User object
+	* @param \phpbb\auth\auth									$auth			Authentication object
+	* @param \vinabb\web\controllers\cache\service_interface	$cache			Cache service
+	* @param \phpbb\config\config								$config			Config object
+	* @param \phpbb\config\db_text								$config_text	Config text object
+	* @param \phpbb\db\driver\driver_interface					$db				Database object
+	* @param \phpbb\language\language							$language		Language object
+	* @param \phpbb\log\log										$log			Log object
+	* @param \phpbb\request\request								$request		Request object
+	* @param \phpbb\template\template							$template		Template object
+	* @param \phpbb\user										$user			User object
 	*/
 	public function __construct(
 		\phpbb\auth\auth $auth,
-		\phpbb\cache\service $cache,
+		\vinabb\web\controllers\cache\service_interface $cache,
 		\phpbb\config\config $config,
 		\phpbb\config\db_text $config_text,
 		\phpbb\db\driver\driver_interface $db,

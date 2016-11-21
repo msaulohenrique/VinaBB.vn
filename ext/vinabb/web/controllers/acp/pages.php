@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 */
 class pages implements pages_interface
 {
-	/** @var \phpbb\cache\service */
+	/** @var \vinabb\web\controllers\cache\service_interface */
 	protected $cache;
 
 	/** @var ContainerInterface */
@@ -54,19 +54,19 @@ class pages implements pages_interface
 	/**
 	* Constructor
 	*
-	* @param \phpbb\cache\service					$cache		Cache service
-	* @param ContainerInterface						$container	Container object
-	* @param \phpbb\language\language				$language	Language object
-	* @param \phpbb\log\log							$log		Log object
-	* @param \vinabb\web\operators\page_interface	$operator	Page operators
-	* @param \phpbb\request\request					$request	Request object
-	* @param \phpbb\template\template				$template	Template object
-	* @param \phpbb\user							$user		User object
-	* @param string									$root_path	phpBB root path
-	* @param string									$php_ext	PHP file extension
+	* @param \vinabb\web\controllers\cache\service_interface	$cache		Cache service
+	* @param ContainerInterface									$container	Container object
+	* @param \phpbb\language\language							$language	Language object
+	* @param \phpbb\log\log										$log		Log object
+	* @param \vinabb\web\operators\page_interface				$operator	Page operators
+	* @param \phpbb\request\request								$request	Request object
+	* @param \phpbb\template\template							$template	Template object
+	* @param \phpbb\user										$user		User object
+	* @param string												$root_path	phpBB root path
+	* @param string												$php_ext	PHP file extension
 	*/
 	public function __construct(
-		\phpbb\cache\service $cache,
+		\vinabb\web\controllers\cache\service_interface $cache,
 		ContainerInterface $container,
 		\phpbb\language\language $language,
 		\phpbb\log\log $log,
