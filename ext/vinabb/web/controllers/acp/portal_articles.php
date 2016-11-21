@@ -187,7 +187,7 @@ class portal_articles implements portal_articles_interface
 	*
 	* @param \vinabb\web\entities\portal_article_interface $entity Article entity
 	*/
-	public function add_edit_data($entity)
+	public function add_edit_data(\vinabb\web\entities\portal_article_interface $entity)
 	{
 		$submit = $this->request->is_set_post('submit');
 
@@ -265,7 +265,7 @@ class portal_articles implements portal_articles_interface
 	*
 	* @param \vinabb\web\entities\portal_article_interface $entity Article entity
 	*/
-	protected function set_bbcode_options($entity, $submit)
+	protected function set_bbcode_options(\vinabb\web\entities\portal_article_interface $entity, $submit)
 	{
 		$entity->text_enable_bbcode($submit ? $this->request->is_set_post('text_bbcode') : ($entity->get_id() ? $entity->text_bbcode_enabled() : true));
 		$entity->text_enable_urls($submit ? $this->request->is_set_post('text_urls') : ($entity->get_id() ? $entity->text_urls_enabled() : true));
@@ -278,7 +278,7 @@ class portal_articles implements portal_articles_interface
 	* @param \vinabb\web\entities\portal_article_interface	$entity	Article entity
 	* @param array											$data	Form data
 	*/
-	protected function map_set_data($entity, $data)
+	protected function map_set_data(\vinabb\web\entities\portal_article_interface $entity, $data)
 	{
 		$map_fields = [
 			'set_cat_id'	=> $data['cat_id'],
@@ -313,7 +313,7 @@ class portal_articles implements portal_articles_interface
 	*
 	* @param \vinabb\web\entities\portal_article_interface $entity Article entity
 	*/
-	protected function save_data($entity)
+	protected function save_data(\vinabb\web\entities\portal_article_interface $entity)
 	{
 		if ($entity->get_id())
 		{
@@ -344,7 +344,7 @@ class portal_articles implements portal_articles_interface
 	*
 	* @param \vinabb\web\entities\portal_article_interface $entity Article entity
 	*/
-	protected function data_to_tpl($entity)
+	protected function data_to_tpl(\vinabb\web\entities\portal_article_interface $entity)
 	{
 		$this->template->assign_vars([
 			'ARTICLE_NAME'		=> $entity->get_name(),

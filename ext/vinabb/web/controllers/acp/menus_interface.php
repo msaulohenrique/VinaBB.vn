@@ -46,7 +46,7 @@ interface menus_interface
 	*
 	* @param \vinabb\web\entities\menu_interface $entity Menu entity
 	*/
-	public function add_edit_data($entity);
+	public function add_edit_data(\vinabb\web\entities\menu_interface $entity);
 
 	/**
 	* Move a menu up/down

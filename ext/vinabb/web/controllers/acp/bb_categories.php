@@ -179,7 +179,7 @@ class bb_categories
 	*
 	* @param \vinabb\web\entities\bb_category_interface $entity BB category entity
 	*/
-	public function add_edit_data($entity)
+	public function add_edit_data(\vinabb\web\entities\bb_category_interface $entity)
 	{
 		$submit = $this->request->is_set_post('submit');
 
@@ -239,7 +239,7 @@ class bb_categories
 	* @param \vinabb\web\entities\bb_category_interface	$entity	BB category entity
 	* @param array										$data	Form data
 	*/
-	protected function map_set_data($entity, $data)
+	protected function map_set_data(\vinabb\web\entities\bb_category_interface $entity, $data)
 	{
 		// Map the form data fields to setters
 		$map_fields = [
@@ -273,7 +273,7 @@ class bb_categories
 	*
 	* @param \vinabb\web\entities\bb_category_interface $entity BB category entity
 	*/
-	protected function save_data($entity)
+	protected function save_data(\vinabb\web\entities\bb_category_interface $entity)
 	{
 		if ($entity->get_id())
 		{
@@ -304,7 +304,7 @@ class bb_categories
 	*
 	* @param \vinabb\web\entities\bb_category_interface $entity BB category entity
 	*/
-	protected function data_to_tpl($entity)
+	protected function data_to_tpl(\vinabb\web\entities\bb_category_interface $entity)
 	{
 		$this->template->assign_vars([
 			'CAT_NAME'		=> $entity->get_name(),

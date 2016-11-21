@@ -42,7 +42,7 @@ interface portal_articles_interface
 	*
 	* @param \vinabb\web\entities\portal_article_interface $entity Page entity
 	*/
-	public function add_edit_data($entity);
+	public function add_edit_data(\vinabb\web\entities\portal_article_interface $entity);
 
 	/**
 	* Delete an article

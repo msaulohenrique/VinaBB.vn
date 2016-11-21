@@ -164,7 +164,7 @@ class headlines implements headlines_interface
 	*
 	* @param \vinabb\web\entities\headline_interface $entity Headline entity
 	*/
-	public function add_edit_data($entity)
+	public function add_edit_data(\vinabb\web\entities\headline_interface $entity)
 	{
 		$submit = $this->request->is_set_post('submit');
 
@@ -223,7 +223,7 @@ class headlines implements headlines_interface
 	* @param \vinabb\web\entities\headline_interface	$entity	Headline entity
 	* @param array										$data	Form data
 	*/
-	protected function map_set_data($entity, $data)
+	protected function map_set_data(\vinabb\web\entities\headline_interface $entity, $data)
 	{
 		$map_fields = [
 			'set_lang'	=> $data['headline_lang'],
@@ -255,7 +255,7 @@ class headlines implements headlines_interface
 	*
 	* @param \vinabb\web\entities\headline_interface $entity Headline entity
 	*/
-	protected function save_data($entity)
+	protected function save_data(\vinabb\web\entities\headline_interface $entity)
 	{
 		if ($entity->get_id())
 		{
@@ -286,7 +286,7 @@ class headlines implements headlines_interface
 	*
 	* @param \vinabb\web\entities\headline_interface $entity Headline entity
 	*/
-	protected function data_to_tpl($entity)
+	protected function data_to_tpl(\vinabb\web\entities\headline_interface $entity)
 	{
 		$this->template->assign_vars([
 			'HEADLINE_NAME'	=> $entity->get_name(),

@@ -42,7 +42,7 @@ interface pages_interface
 	*
 	* @param \vinabb\web\entities\page_interface $entity Page entity
 	*/
-	public function add_edit_data($entity);
+	public function add_edit_data(\vinabb\web\entities\page_interface $entity);
 
 	/**
 	* Deleta a page

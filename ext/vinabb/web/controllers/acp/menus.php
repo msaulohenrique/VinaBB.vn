@@ -214,7 +214,7 @@ class menus implements menus_interface
 	*
 	* @param \vinabb\web\entities\menu_interface $entity Menu entity
 	*/
-	public function add_edit_data($entity)
+	public function add_edit_data(\vinabb\web\entities\menu_interface $entity)
 	{
 		$submit = $this->request->is_set_post('submit');
 
@@ -282,7 +282,7 @@ class menus implements menus_interface
 	* @param \vinabb\web\entities\menu_interface	$entity	Menu entity
 	* @param array									$data	Form data
 	*/
-	protected function map_set_data($entity, $data)
+	protected function map_set_data(\vinabb\web\entities\menu_interface $entity, $data)
 	{
 		$map_fields = [
 			'set_parent_id'			=> $data['parent_id'],
@@ -325,7 +325,7 @@ class menus implements menus_interface
 	* @param int									$parent_id	Parent ID
 	* @param \vinabb\web\entities\menu_interface	$entity		Menu entity
 	*/
-	protected function save_data($entity, $parent_id)
+	protected function save_data(\vinabb\web\entities\menu_interface $entity, $parent_id)
 	{
 		if ($entity->get_id())
 		{
@@ -369,7 +369,7 @@ class menus implements menus_interface
 	*
 	* @param \vinabb\web\entities\menu_interface $entity Menu entity
 	*/
-	protected function data_to_tpl($entity)
+	protected function data_to_tpl(\vinabb\web\entities\menu_interface $entity)
 	{
 		$this->template->assign_vars([
 			'MENU_NAME'					=> $entity->get_name(),

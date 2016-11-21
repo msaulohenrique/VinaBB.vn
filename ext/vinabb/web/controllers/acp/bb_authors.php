@@ -157,7 +157,7 @@ class bb_authors implements bb_authors_interface
 	*
 	* @param \vinabb\web\entities\bb_author_interface $entity BB author entity
 	*/
-	public function add_edit_data($entity)
+	public function add_edit_data(\vinabb\web\entities\bb_author_interface $entity)
 	{
 		$submit = $this->request->is_set_post('submit');
 
@@ -224,7 +224,7 @@ class bb_authors implements bb_authors_interface
 	* @param \vinabb\web\entities\bb_author_interface	$entity	BB author entity
 	* @param array										$data	Form data
 	*/
-	protected function map_set_data($entity, $data)
+	protected function map_set_data(\vinabb\web\entities\bb_author_interface $entity, $data)
 	{
 		$map_fields = [
 			'set_user_id'		=> $data['user_id'],
@@ -264,7 +264,7 @@ class bb_authors implements bb_authors_interface
 	*
 	* @param \vinabb\web\entities\bb_author_interface $entity BB author entity
 	*/
-	protected function save_data($entity)
+	protected function save_data(\vinabb\web\entities\bb_author_interface $entity)
 	{
 		if ($entity->get_id())
 		{
@@ -293,7 +293,7 @@ class bb_authors implements bb_authors_interface
 	*
 	* @param \vinabb\web\entities\bb_author_interface $entity BB author entity
 	*/
-	protected function data_to_tpl($entity)
+	protected function data_to_tpl(\vinabb\web\entities\bb_author_interface $entity)
 	{
 		$this->template->assign_vars([
 			'AUTHOR_NAME'			=> $entity->get_name(),

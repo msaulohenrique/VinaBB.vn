@@ -197,7 +197,7 @@ class bb_items implements bb_items_interface
 	*
 	* @param \vinabb\web\entities\bb_item_interface $entity BB item entity
 	*/
-	public function add_edit_data($entity)
+	public function add_edit_data(\vinabb\web\entities\bb_item_interface $entity)
 	{
 		$submit = $this->request->is_set_post('submit');
 
@@ -280,7 +280,7 @@ class bb_items implements bb_items_interface
 	*
 	* @param \vinabb\web\entities\bb_item_interface $entity BB item entity
 	*/
-	protected function set_bbcode_options($entity, $submit)
+	protected function set_bbcode_options(\vinabb\web\entities\bb_item_interface $entity, $submit)
 	{
 		$entity->desc_enable_bbcode($submit ? $this->request->is_set_post('desc_bbcode') : ($entity->get_id() ? $entity->desc_bbcode_enabled() : true));
 		$entity->desc_enable_urls($submit ? $this->request->is_set_post('desc_urls') : ($entity->get_id() ? $entity->desc_urls_enabled() : true));
@@ -294,9 +294,9 @@ class bb_items implements bb_items_interface
 	* Map the form data fields to setters and set them to the entity
 	*
 	* @param \vinabb\web\entities\bb_item_interface	$entity	BB item entity
-	* @param array										$data	Form data
+	* @param array									$data	Form data
 	*/
-	protected function map_set_data($entity, $data)
+	protected function map_set_data(\vinabb\web\entities\bb_item_interface $entity, $data)
 	{
 		$map_fields = [
 			'set_cat_id'	=> $data['cat_id'],
@@ -335,7 +335,7 @@ class bb_items implements bb_items_interface
 	*
 	* @param \vinabb\web\entities\bb_item_interface $entity BB item entity
 	*/
-	protected function save_data($entity)
+	protected function save_data(\vinabb\web\entities\bb_item_interface $entity)
 	{
 		if ($entity->get_id())
 		{
@@ -366,7 +366,7 @@ class bb_items implements bb_items_interface
 	*
 	* @param \vinabb\web\entities\bb_item_interface $entity BB item entity
 	*/
-	protected function data_to_tpl($entity)
+	protected function data_to_tpl(\vinabb\web\entities\bb_item_interface $entity)
 	{
 		$this->template->assign_vars([
 			'ITEM_NAME'		=> $entity->get_name(),

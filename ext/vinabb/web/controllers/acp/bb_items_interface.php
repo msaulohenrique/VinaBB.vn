@@ -50,7 +50,7 @@ interface bb_items_interface
 	*
 	* @param \vinabb\web\entities\bb_item_interface $entity BB item entity
 	*/
-	public function add_edit_data($entity);
+	public function add_edit_data(\vinabb\web\entities\bb_item_interface $entity);
 
 	/**
 	* Delete an item

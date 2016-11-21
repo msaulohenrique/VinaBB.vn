@@ -49,7 +49,7 @@ interface bb_categories_interface
 	*
 	* @param \vinabb\web\entities\bb_category_interface $entity BB category entity
 	*/
-	public function add_edit_data($entity);
+	public function add_edit_data(\vinabb\web\entities\bb_category_interface $entity);
 
 	/**
 	* Delete a category

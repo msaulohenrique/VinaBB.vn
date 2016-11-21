@@ -45,7 +45,7 @@ interface portal_categories_interface
 	*
 	* @param \vinabb\web\entities\portal_category_interface $entity Portal category entity
 	*/
-	public function add_edit_data($entity);
+	public function add_edit_data(\vinabb\web\entities\portal_category_interface $entity);
 
 	/**
 	* Move a rule up/down
