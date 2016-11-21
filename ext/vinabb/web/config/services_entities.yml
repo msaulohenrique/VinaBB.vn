@@ -11,6 +11,7 @@ services:
         arguments:
             - '@config'
             - '@dbal.conn'
+            - '@vinabb.web.helper.entity'
     vinabb.web.entities.post_icon:
         class: vinabb\web\entities\post_icon
         shared: false
@@ -21,12 +22,14 @@ services:
         shared: false
         arguments:
             - '@dbal.conn'
+            - '@vinabb.web.helper.entity'
     # VinaBB
     vinabb.web.entities.portal_category:
         class: vinabb\web\entities\portal_category
         shared: false
         arguments:
             - '@dbal.conn'
+            - '@vinabb.web.helper.entity'
             - '%vinabb.web.tables.portal_categories%'
     vinabb.web.entities.portal_article:
         class: vinabb\web\entities\portal_article
@@ -34,6 +37,7 @@ services:
         arguments:
             - '@config'
             - '@dbal.conn'
+            - '@vinabb.web.helper.entity'
             - '%vinabb.web.tables.portal_articles%'
             - '%vinabb.web.tables.portal_categories%'
     vinabb.web.entities.portal_comment:
@@ -42,6 +46,7 @@ services:
         arguments:
             - '@config'
             - '@dbal.conn'
+            - '@vinabb.web.helper.entity'
             - '%vinabb.web.tables.portal_comments%'
             - '%vinabb.web.tables.portal_articles%'
     vinabb.web.entities.bb_category:
@@ -49,6 +54,7 @@ services:
         shared: false
         arguments:
             - '@dbal.conn'
+            - '@vinabb.web.helper.entity'
             - '%vinabb.web.tables.bb_categories%'
     vinabb.web.entities.bb_item:
         class: vinabb\web\entities\bb_item
@@ -56,6 +62,7 @@ services:
         arguments:
             - '@config'
             - '@dbal.conn'
+            - '@vinabb.web.helper.entity'
             - '%vinabb.web.tables.bb_items%'
             - '%vinabb.web.tables.bb_categories%'
             - '%vinabb.web.tables.bb_authors%'
@@ -64,6 +71,7 @@ services:
         shared: false
         arguments:
             - '@dbal.conn'
+            - '@vinabb.web.helper.entity'
             - '%vinabb.web.tables.bb_authors%'
     vinabb.web.entities.page:
         class: vinabb\web\entities\page
@@ -71,6 +79,7 @@ services:
         arguments:
             - '@config'
             - '@dbal.conn'
+            - '@vinabb.web.helper.entity'
             - '%vinabb.web.tables.pages%'
     vinabb.web.entities.menu:
         class: vinabb\web\entities\menu
@@ -83,4 +92,5 @@ services:
         shared: false
         arguments:
             - '@dbal.conn'
+            - '@vinabb.web.helper.entity'
             - '%vinabb.web.tables.headlines%'
