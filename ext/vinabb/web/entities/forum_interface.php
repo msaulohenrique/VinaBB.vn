@@ -275,14 +275,6 @@ interface forum_interface
 	public function get_topics_per_page();
 
 	/**
-	* Set the number of topics per page in this forum
-	*
-	* @param int				$value	Number of topics
-	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_topics_per_page($value);
-
-	/**
 	* Get the forum type
 	*
 	* @return int

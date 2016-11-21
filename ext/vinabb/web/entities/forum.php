@@ -108,7 +108,7 @@ class forum extends \vinabb\web\entities\abs\forum_desc_rules implements forum_i
 			'forum_parents'			=> 'string',
 			'forum_name'			=> 'set_name',
 			'forum_name_seo'		=> 'set_name_seo',
-			'forum_topics_per_page'	=> 'set_topics_per_page',
+			'forum_topics_per_page'	=> 'integer',
 			'forum_type'			=> 'set_type',
 			'forum_status'			=> 'set_status',
 
@@ -380,19 +380,6 @@ class forum extends \vinabb\web\entities\abs\forum_desc_rules implements forum_i
 	public function get_topics_per_page()
 	{
 		return isset($this->data['forum_topics_per_page']) ? (int) $this->data['forum_topics_per_page'] : 0;
-	}
-
-	/**
-	* Set the number of topics per page in this forum
-	*
-	* @param int				$value	Number of topics
-	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_topics_per_page($value)
-	{
-		$this->data['forum_topics_per_page'] = (int) $value;
-
-		return $this;
 	}
 
 	/**
