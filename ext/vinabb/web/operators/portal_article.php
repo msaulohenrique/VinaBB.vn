@@ -114,13 +114,13 @@ class portal_article implements portal_article_interface
 	}
 
 	/**
-	* Get latest items
+	* Get latest articles
 	*
 	* @param string	$lang	2-letter language ISO code
 	* @param int	$limit	Number of items
 	* @return array
 	*/
-	public function get_latest_items($lang, $limit = 10)
+	public function get_latest_articles($lang, $limit = 10)
 	{
 		return $this->list_articles($lang, 0, 'article_time DESC', $limit);
 	}

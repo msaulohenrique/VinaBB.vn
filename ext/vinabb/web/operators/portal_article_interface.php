@@ -42,13 +42,13 @@ interface portal_article_interface
 	public function list_articles($lang, $cat_id = 0, $order_field = 'item_updated DESC', $limit = 0, $offset = 0);
 
 	/**
-	* Get latest items
+	* Get latest articles
 	*
-	* @param int	$bb_type	phpBB resource type
-	* @param int	$limit		Number of items
+	* @param string	$lang	2-letter language ISO code
+	* @param int	$limit	Number of items
 	* @return array
 	*/
-	public function get_latest_items($bb_type, $limit = 10);
+	public function get_latest_articles($lang, $limit = 10);
 
 	/**
 	* Add an article
