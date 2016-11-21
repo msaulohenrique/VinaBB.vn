@@ -3,7 +3,7 @@ services:
         class: vinabb\web\events\helper
         arguments:
             - '@auth'
-            - '@cache'
+            - '@vinabb.web.cache'
             - '@config'
             - '@language'
             - '@template'
@@ -17,7 +17,7 @@ services:
         arguments:
             - '@auth'
             - '@dbal.conn'
-            - '@cache'
+            - '@vinabb.web.cache'
             - '@config'
             - '@ext.manager'
             - '@language'

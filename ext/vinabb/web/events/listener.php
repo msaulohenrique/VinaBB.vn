@@ -22,7 +22,7 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var \phpbb\cache\service */
+	/** @var \vinabb\web\controllers\cache\service_interface */
 	protected $cache;
 
 	/** @var \phpbb\config\config */
@@ -75,7 +75,7 @@ class listener implements EventSubscriberInterface
 	*
 	* @param \phpbb\auth\auth $auth
 	* @param \phpbb\db\driver\driver_interface $db
-	* @param \phpbb\cache\service $cache
+	* @param \vinabb\web\controllers\cache\service_interface $cache
 	* @param \phpbb\config\config $config
 	* @param \phpbb\extension\manager $ext_manager
 	* @param \phpbb\language\language $language
@@ -93,7 +93,7 @@ class listener implements EventSubscriberInterface
 	public function __construct(
 		\phpbb\auth\auth $auth,
 		\phpbb\db\driver\driver_interface $db,
-		\phpbb\cache\service $cache,
+		\vinabb\web\controllers\cache\service_interface $cache,
 		\phpbb\config\config $config,
 		\phpbb\extension\manager $ext_manager,
 		\phpbb\language\language $language,

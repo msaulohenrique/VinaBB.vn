@@ -6,7 +6,7 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\decorates\cache;
+namespace vinabb\web\controllers\cache;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use vinabb\web\includes\constants;
@@ -14,32 +14,76 @@ use vinabb\web\includes\constants;
 /**
 * Extend the base cache service
 */
-class service extends \phpbb\cache\service
+class service implements service_interface
 {
+	/** @var \phpbb\cache\driver\driver_interface */
+	protected $driver;
+
+	/** @var \phpbb\config\config */
+	protected $config;
+
 	/** @var ContainerInterface */
 	protected $container;
+
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
+
+	/** @var string */
+	protected $phpbb_root_path;
+
+	/** @var string */
+	protected $php_ext;
 
 	/**
 	* Constructor
 	*
 	* @param \phpbb\cache\driver\driver_interface $driver
 	* @param \phpbb\config\config $config
+	* @param ContainerInterface $container
 	* @param \phpbb\db\driver\driver_interface $db
 	* @param string $root_path
 	* @param string $php_ext
-	* @param ContainerInterface $container
 	*/
 	public function __construct(
 		\phpbb\cache\driver\driver_interface $driver,
 		\phpbb\config\config $config,
+		ContainerInterface $container,
 		\phpbb\db\driver\driver_interface $db,
 		$root_path,
-		$php_ext,
-		ContainerInterface $container
+		$php_ext
 	)
 	{
-		parent::__construct($driver, $config, $db, $root_path, $php_ext);
+		$this->set_driver($driver);
+		$this->config = $config;
 		$this->container = $container;
+		$this->db = $db;
+		$this->phpbb_root_path = $root_path;
+		$this->php_ext = $php_ext;
+	}
+
+	/**
+	* Returns the cache driver used by this cache service.
+	*
+	* @return \phpbb\cache\driver\driver_interface The cache driver
+	*/
+	public function get_driver()
+	{
+		return $this->driver;
+	}
+
+	/**
+	* Replaces the cache driver used by this cache service.
+	*
+	* @param \phpbb\cache\driver\driver_interface $driver The cache driver
+	*/
+	public function set_driver(\phpbb\cache\driver\driver_interface $driver)
+	{
+		$this->driver = $driver;
+	}
+
+	public function __call($method, $arguments)
+	{
+		return call_user_func_array([$this->driver, $method], $arguments);
 	}
 
 	/**

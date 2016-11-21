@@ -15,7 +15,7 @@ class portal implements portal_interface
 	/** @var \phpbb\auth\auth */
 	protected $auth;
 
-	/** @var \phpbb\cache\service */
+	/** @var \vinabb\web\controllers\cache\service_interface */
 	protected $cache;
 
 	/** @var \phpbb\config\config */
@@ -79,7 +79,7 @@ class portal implements portal_interface
 	* Constructor
 	*
 	* @param \phpbb\auth\auth $auth
-	* @param \phpbb\cache\service $cache
+	* @param \vinabb\web\controllers\cache\service_interface $cache
 	* @param \phpbb\config\config $config
 	* @param \phpbb\content_visibility $content_visibility
 	* @param \phpbb\db\driver\driver_interface $db
@@ -98,7 +98,7 @@ class portal implements portal_interface
 	*/
 	public function __construct(
 		\phpbb\auth\auth $auth,
-		\phpbb\cache\service $cache,
+		\vinabb\web\controllers\cache\service_interface $cache,
 		\phpbb\config\config $config,
 		\phpbb\content_visibility $content_visibility,
 		\phpbb\db\driver\driver_interface $db,

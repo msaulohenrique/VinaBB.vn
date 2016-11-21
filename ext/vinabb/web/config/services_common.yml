@@ -1,4 +1,15 @@
 services:
+    vinabb.web.cache:
+        class: vinabb\web\controllers\cache\service
+        arguments:
+            - '@cache.driver'
+            - '@config'
+            - '@service_container'
+            - '@dbal.conn'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+        calls:
+            - [set_driver, ['@cache.driver']]
     vinabb.web.pagination:
         class: vinabb\web\controllers\pagination
         arguments:
@@ -10,7 +21,7 @@ services:
         class: vinabb\web\controllers\helper
         arguments:
             - '@auth'
-            - '@cache'
+            - '@vinabb.web.cache'
             - '@config'
             - '@service_container'
             - '@dbal.conn'

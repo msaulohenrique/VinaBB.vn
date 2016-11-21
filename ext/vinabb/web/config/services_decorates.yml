@@ -1,14 +1,4 @@
 services:
-    vinabb.web.decorates.cache:
-        class: vinabb\web\decorates\cache\service
-        decorates: cache
-        arguments:
-            - '@cache.driver'
-            - '@config'
-            - '@dbal.conn'
-            - '%core.root_path%'
-            - '%core.php_ext%'
-            - '@service_container'
     vinabb.web.decorates.help.controller.faq:
         class: vinabb\web\decorates\help\controllers\faq
         decorates: phpbb.help.controller.faq

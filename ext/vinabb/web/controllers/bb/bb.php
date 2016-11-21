@@ -12,7 +12,7 @@ use vinabb\web\includes\constants;
 
 class bb implements bb_interface
 {
-	/** @var \phpbb\cache\service */
+	/** @var \vinabb\web\controllers\cache\service_interface */
 	protected $cache;
 
 	/** @var \phpbb\config\config */
@@ -42,7 +42,7 @@ class bb implements bb_interface
 	/**
 	* Constructor
 	*
-	* @param \phpbb\cache\service $cache
+	* @param \vinabb\web\controllers\cache\service_interface $cache
 	* @param \phpbb\config\config $config
 	* @param \phpbb\db\driver\driver_interface $db
 	* @param \phpbb\language\language $language
@@ -53,7 +53,7 @@ class bb implements bb_interface
 	* @param \vinabb\web\controllers\helper_interface $ext_helper
 	*/
 	public function __construct(
-		\phpbb\cache\service $cache,
+		\vinabb\web\controllers\cache\service_interface $cache,
 		\phpbb\config\config $config,
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\language\language $language,

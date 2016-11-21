@@ -16,7 +16,7 @@ class helper implements helper_interface
 	/** @var \phpbb\auth\auth */
 	protected $auth;
 
-	/** @var \phpbb\cache\service */
+	/** @var \vinabb\web\controllers\cache\service_interface */
 	protected $cache;
 
 	/** @var \phpbb\config\config */
@@ -50,7 +50,7 @@ class helper implements helper_interface
 	* Constructor
 	*
 	* @param \phpbb\auth\auth $auth
-	* @param \phpbb\cache\service $cache
+	* @param \vinabb\web\controllers\cache\service_interface $cache
 	* @param \phpbb\config\config $config
 	* @param \phpbb\language\language $language
 	* @param \phpbb\template\template $template
@@ -62,7 +62,7 @@ class helper implements helper_interface
 	*/
 	public function __construct(
 		\phpbb\auth\auth $auth,
-		\phpbb\cache\service $cache,
+		\vinabb\web\controllers\cache\service_interface $cache,
 		\phpbb\config\config $config,
 		\phpbb\language\language $language,
 		\phpbb\template\template $template,

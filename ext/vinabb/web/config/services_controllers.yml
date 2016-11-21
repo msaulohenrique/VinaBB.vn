@@ -3,7 +3,7 @@ services:
         class: vinabb\web\controllers\portal\portal
         arguments:
             - '@auth'
-            - '@cache'
+            - '@vinabb.web.cache'
             - '@config'
             - '@content.visibility'
             - '@dbal.conn'
@@ -22,7 +22,7 @@ services:
     vinabb.web.portal.article:
         class: vinabb\web\controllers\portal\article
         arguments:
-            - '@cache'
+            - '@vinabb.web.cache'
             - '@config'
             - '@dbal.conn'
             - '@language'
@@ -39,7 +39,7 @@ services:
     vinabb.web.bb:
         class: vinabb\web\controllers\bb\bb
         arguments:
-            - '@cache'
+            - '@vinabb.web.cache'
             - '@config'
             - '@dbal.conn'
             - '@language'
