@@ -276,7 +276,7 @@ class headlines implements headlines_interface
 			$message = 'MESSAGE_HEADLINE_ADD';
 		}
 
-		$this->cache->clear_headlines();
+		$this->cache->clear_headlines($entity->get_lang());
 
 		trigger_error($this->language->lang($message) . adm_back_link($this->u_action));
 	}
