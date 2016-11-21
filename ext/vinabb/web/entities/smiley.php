@@ -193,7 +193,7 @@ class smiley implements smiley_interface
 	}
 
 	/**
-	* Get the lang_id
+	* Get the smiley_id
 	*
 	* @return int
 	*/
@@ -233,6 +233,23 @@ class smiley implements smiley_interface
 		if (truncate_string($text, 50) != $text)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['code', 'TOO_LONG']);
+		}
+
+		// This field value must be unique
+		if ($this->get_code() !== '' && $this->get_code() != $text)
+		{
+			$sql = 'SELECT 1
+				FROM ' . SMILIES_TABLE . "
+				WHERE code = '" . $this->db->sql_escape($text) . "'
+					AND smiley_id <> " . $this->get_id();
+			$result = $this->db->sql_query_limit($sql, 1);
+			$row = $this->db->sql_fetchrow($result);
+			$this->db->sql_freeresult($result);
+
+			if ($row)
+			{
+				throw new \vinabb\web\exceptions\unexpected_value(['code', 'DUPLICATE', $text]);
+			}
 		}
 
 		// Set the value on our data array
