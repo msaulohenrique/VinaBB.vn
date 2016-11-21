@@ -1,17 +1,4 @@
 services:
-    vinabb.web.listener.helper:
-        class: vinabb\web\events\helper
-        arguments:
-            - '@auth'
-            - '@vinabb.web.cache'
-            - '@config'
-            - '@language'
-            - '@template'
-            - '@user'
-            - '@controller.helper'
-            - '@vinabb.web.helper'
-            - '%core.root_path%'
-            - '%core.php_ext%'
     vinabb.web.listener:
         class: vinabb\web\events\listener
         arguments:
@@ -25,7 +12,7 @@ services:
             - '@template'
             - '@user'
             - '@controller.helper'
-            - '@vinabb.web.listener.helper'
+            - '@vinabb.web.helper.event'
             - '@vinabb.web.helper'
             - '@path_helper'
             - '%core.root_path%'

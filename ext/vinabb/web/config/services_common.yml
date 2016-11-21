@@ -31,3 +31,20 @@ services:
             - '@user'
             - '@controller.helper'
             - '@group_helper'
+    vinabb.web.helper.event:
+        class: vinabb\web\events\helper
+        arguments:
+            - '@auth'
+            - '@vinabb.web.cache'
+            - '@config'
+            - '@language'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '@vinabb.web.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+    vinabb.web.helper.entity:
+        class: vinabb\web\entities\helper\helper
+        arguments:
+            - '@dbal.conn'
