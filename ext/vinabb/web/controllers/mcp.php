@@ -118,7 +118,7 @@ class mcp
 			login_box('', $this->language->lang('LOGIN_EXPLAIN_MCP'));
 		}
 
-		$quickmod = (isset($_REQUEST['quickmod'])) ? true : false;
+		$quickmod = ($mode == 'quickmod');
 		$action = $this->request->variable('action', '');
 		$action_ary = $this->request->variable('action', array('' => 0));
 		$forum_action = $this->request->variable('forum_action', '');
