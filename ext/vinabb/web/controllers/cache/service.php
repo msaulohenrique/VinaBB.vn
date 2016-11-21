@@ -205,7 +205,7 @@ class service implements service_interface
 	*/
 	public function get_post_icons()
 	{
-		if (($smilies = $this->driver->get('_vinabb_web_post_icons')) === false)
+		if (($icons = $this->driver->get('_vinabb_web_post_icons')) === false)
 		{
 			$icons = [];
 
