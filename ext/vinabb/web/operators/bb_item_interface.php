@@ -18,7 +18,7 @@ interface bb_item_interface
 	*
 	* @param int	$bb_type	phpBB resource type
 	* @param int	$cat_id		Category ID
-	* @return array
+	* @return int
 	*/
 	public function count_items($bb_type, $cat_id = 0);
 
