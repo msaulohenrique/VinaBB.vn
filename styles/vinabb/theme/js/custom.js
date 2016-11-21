@@ -241,7 +241,7 @@ $(document).ready(function()
 
 	// Close tooltip when clicking into the notification box
 	$('#iconNotification').on('click',
-		function(event)
+		function()
 		{
 			$('#iconNotification').tooltip('hide');
 		}
