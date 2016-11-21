@@ -37,6 +37,9 @@ class portal_comment extends \vinabb\web\entities\abs\comment_text implements po
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \vinabb\web\entities\helper\helper_interface */
+	protected $entity_helper;
+
 	/** @var string */
 	protected $table_name;
 
@@ -46,15 +49,17 @@ class portal_comment extends \vinabb\web\entities\abs\comment_text implements po
 	/**
 	* Constructor
 	*
-	* @param \phpbb\config\config				$config				Config object
-	* @param \phpbb\db\driver\driver_interface	$db					Database object
-	* @param string								$table_name			Table name
-	* @param string								$article_table_name	Table name of articles
+	* @param \phpbb\config\config							$config				Config object
+	* @param \phpbb\db\driver\driver_interface				$db					Database object
+	* @param \vinabb\web\entities\helper\helper_interface	$entity_helper		Entity helper
+	* @param string											$table_name			Table name
+	* @param string											$article_table_name	Table name of articles
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, $table_name, $article_table_name)
+	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \vinabb\web\entities\helper\helper_interface $entity_helper, $table_name, $article_table_name)
 	{
 		$this->config = $config;
 		$this->db = $db;
+		$this->entity_helper = $entity_helper;
 		$this->table_name = $table_name;
 		$this->article_table_name = $article_table_name;
 	}
@@ -245,19 +250,9 @@ class portal_comment extends \vinabb\web\entities\abs\comment_text implements po
 		$id = (int) $id;
 
 		// This is a required field
-		if ($id)
+		if ($id && !$this->entity_helper->check_portal_cat_id($id))
 		{
-			$sql = 'SELECT 1
-				FROM ' . USERS_TABLE . "
-				WHERE user_id = $id";
-			$result = $this->db->sql_query_limit($sql, 1);
-			$row = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
-
-			if ($row === false)
-			{
-				throw new \vinabb\web\exceptions\unexpected_value(['user_id', 'NOT_EXISTS']);
-			}
+			throw new \vinabb\web\exceptions\unexpected_value(['user_id', 'NOT_EXISTS']);
 		}
 		else
 		{
@@ -292,19 +287,9 @@ class portal_comment extends \vinabb\web\entities\abs\comment_text implements po
 		$id = (int) $id;
 
 		// This is a required field
-		if ($id)
+		if ($id && !$this->entity_helper->check_portal_article_id($id))
 		{
-			$sql = 'SELECT 1
-				FROM ' . $this->article_table_name . "
-				WHERE article_id = $id";
-			$result = $this->db->sql_query_limit($sql, 1);
-			$row = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
-
-			if ($row === false)
-			{
-				throw new \vinabb\web\exceptions\unexpected_value(['article_id', 'NOT_EXISTS']);
-			}
+			throw new \vinabb\web\exceptions\unexpected_value(['article_id', 'NOT_EXISTS']);
 		}
 		else
 		{
