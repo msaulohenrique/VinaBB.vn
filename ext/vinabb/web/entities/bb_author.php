@@ -146,7 +146,7 @@ class bb_author implements bb_author_interface
 		}
 
 		// Some fields must be >= 0
-		$validate_unsigned = ['author_id', 'user_id', 'author_group'];
+		$validate_unsigned = ['author_id', 'user_id', 'author_is_group', 'author_group', 'author_phpbb'];
 
 		foreach ($validate_unsigned as $field)
 		{
