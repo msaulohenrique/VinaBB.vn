@@ -307,6 +307,23 @@ class bb_author implements bb_author_interface
 			throw new \vinabb\web\exceptions\unexpected_value(['author_name', 'TOO_LONG']);
 		}
 
+		// This field value must be unique
+		if ($this->get_name() !== '' && $this->get_name() != $text)
+		{
+			$sql = 'SELECT 1
+				FROM ' . $this->table_name . "
+				WHERE author_name = '" . $this->db->sql_escape($text) . "'
+					AND author_id <> " . $this->get_id();
+			$result = $this->db->sql_query_limit($sql, 1);
+			$row = $this->db->sql_fetchrow($result);
+			$this->db->sql_freeresult($result);
+
+			if ($row)
+			{
+				throw new \vinabb\web\exceptions\unexpected_value(['author_name', 'DUPLICATE', $text]);
+			}
+		}
+
 		// Set the value on our data array
 		$this->data['author_name'] = $text;
 
