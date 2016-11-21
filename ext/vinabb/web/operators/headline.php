@@ -90,7 +90,7 @@ class headline implements headline_interface
 	* @param \vinabb\web\entities\headline_interface $entity Headline entity
 	* @return \vinabb\web\entities\headline_interface
 	*/
-	public function add_headline($entity)
+	public function add_headline(\vinabb\web\entities\headline_interface $entity)
 	{
 		// Insert the entity to the database
 		$entity->insert();

@@ -36,7 +36,7 @@ interface bb_category_interface
 	* @param int										$bb_type	phpBB resource type
 	* @return \vinabb\web\entities\bb_category_interface
 	*/
-	public function add_cat($entity, $bb_type);
+	public function add_cat(\vinabb\web\entities\bb_category_interface $entity, $bb_type);
 
 	/**
 	* Delete a category

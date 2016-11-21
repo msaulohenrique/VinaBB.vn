@@ -108,7 +108,7 @@ class bb_author implements bb_author_interface
 	* @param \vinabb\web\entities\bb_author_interface $entity BB Author entity
 	* @return \vinabb\web\entities\bb_author_interface
 	*/
-	public function add_author($entity)
+	public function add_author(\vinabb\web\entities\bb_author_interface $entity)
 	{
 		// Insert the entity to the database
 		$entity->insert();

@@ -131,7 +131,7 @@ class portal_article implements portal_article_interface
 	* @param \vinabb\web\entities\portal_article_interface $entity Article entity
 	* @return \vinabb\web\entities\portal_article_interface
 	*/
-	public function add_article($entity)
+	public function add_article(\vinabb\web\entities\portal_article_interface $entity)
 	{
 		// Insert the entity to the database
 		$entity->insert();

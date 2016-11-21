@@ -33,7 +33,7 @@ interface language_interface
 	* @param \vinabb\web\entities\language_interface $entity Language entity
 	* @return \vinabb\web\entities\language_interface
 	*/
-	public function add_lang($entity);
+	public function add_lang(\vinabb\web\entities\language_interface $entity);
 
 	/**
 	* Delete a language

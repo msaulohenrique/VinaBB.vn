@@ -78,7 +78,7 @@ class forum implements forum_interface
 	* @param \vinabb\web\entities\forum_interface $entity Forum entity
 	* @return \vinabb\web\entities\forum_interface
 	*/
-	public function add_forum($entity)
+	public function add_forum(\vinabb\web\entities\forum_interface $entity)
 	{
 		// Insert the entity to the database
 		$entity->insert();

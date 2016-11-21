@@ -78,7 +78,7 @@ class smiley implements smiley_interface
 	* @param \vinabb\web\entities\smiley_interface $entity Smiley entity
 	* @return \vinabb\web\entities\smiley_interface
 	*/
-	public function add_smiley($entity)
+	public function add_smiley(\vinabb\web\entities\smiley_interface $entity)
 	{
 		// Insert the entity to the database
 		$entity->insert();

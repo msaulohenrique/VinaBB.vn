@@ -33,7 +33,7 @@ interface forum_interface
 	* @param \vinabb\web\entities\forum_interface $entity Forum entity
 	* @return \vinabb\web\entities\forum_interface
 	*/
-	public function add_forum($entity);
+	public function add_forum(\vinabb\web\entities\forum_interface $entity);
 
 	/**
 	* Delete a forum

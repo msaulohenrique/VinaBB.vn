@@ -43,7 +43,7 @@ interface bb_author_interface
 	* @param \vinabb\web\entities\bb_author_interface $entity BB Author entity
 	* @return \vinabb\web\entities\bb_author_interface
 	*/
-	public function add_author($entity);
+	public function add_author(\vinabb\web\entities\bb_author_interface $entity);
 
 	/**
 	* Delete an author

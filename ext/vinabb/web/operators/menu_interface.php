@@ -28,7 +28,7 @@ interface menu_interface
 	* @param int $parent_id Parent ID
 	* @return \vinabb\web\entities\menu_interface
 	*/
-	public function add_menu($entity, $parent_id = 0);
+	public function add_menu(\vinabb\web\entities\menu_interface $entity, $parent_id = 0);
 
 	/**
 	* Move a menu up/down

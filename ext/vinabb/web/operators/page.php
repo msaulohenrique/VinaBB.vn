@@ -82,7 +82,7 @@ class page implements page_interface
 	* @param \vinabb\web\entities\page_interface $entity Page entity
 	* @return \vinabb\web\entities\page_interface
 	*/
-	public function add_page($entity)
+	public function add_page(\vinabb\web\entities\page_interface $entity)
 	{
 		// Insert the entity to the database
 		$entity->insert();

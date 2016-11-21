@@ -58,7 +58,7 @@ interface bb_item_interface
 	* @param int									$bb_type	phpBB resource type
 	* @return \vinabb\web\entities\bb_item_interface
 	*/
-	public function add_item($entity, $bb_type);
+	public function add_item(\vinabb\web\entities\bb_item_interface $entity, $bb_type);
 
 	/**
 	* Delete a item

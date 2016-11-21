@@ -61,7 +61,7 @@ class portal_category implements portal_category_interface
 	* @param int $parent_id Parent ID
 	* @return \vinabb\web\entities\portal_category_interface
 	*/
-	public function add_cat($entity, $parent_id = 0)
+	public function add_cat(\vinabb\web\entities\portal_category_interface $entity, $parent_id = 0)
 	{
 		// Insert the entity to the database
 		$entity->insert();
