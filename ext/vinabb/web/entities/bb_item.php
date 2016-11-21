@@ -456,7 +456,9 @@ class bb_item extends \vinabb\web\entities\abs\item_desc implements bb_item_inte
 		}
 
 		// Check invalid characters
-		if (!$this->get_bb_type() || ($this->get_bb_type() === constants::BB_TYPE_EXT && !preg_match('#^([a-z0-9-]+)\.([a-z0-9-]+)$#', $text)) || ($this->get_bb_type() !== constants::BB_TYPE_EXT && !preg_match('#^[a-z0-9-]+$#', $text)))
+		$match = ($this->get_bb_type() === constants::BB_TYPE_EXT) ? '#^([a-z0-9-]+)\.([a-z0-9-]+)$#' : '#^[a-z0-9-]+$#';
+
+		if (!preg_match($match, $text))
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['item_varname', 'INVALID']);
 		}
