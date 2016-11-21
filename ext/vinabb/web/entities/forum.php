@@ -46,16 +46,21 @@ class forum extends \vinabb\web\entities\abs\forum_desc_rules implements forum_i
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \vinabb\web\entities\helper\helper_interface */
+	protected $entity_helper;
+
 	/**
 	* Constructor
 	*
-	* @param \phpbb\config\config				$config		Config object
-	* @param \phpbb\db\driver\driver_interface	$db			Database object
+	* @param \phpbb\config\config							$config			Config object
+	* @param \phpbb\db\driver\driver_interface				$db				Database object
+	* @param \vinabb\web\entities\helper\helper_interface	$entity_helper	Entity helper
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db)
+	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \vinabb\web\entities\helper\helper_interface $entity_helper)
 	{
 		$this->config = $config;
 		$this->db = $db;
+		$this->entity_helper = $entity_helper;
 	}
 
 	/**
@@ -259,19 +264,9 @@ class forum extends \vinabb\web\entities\abs\forum_desc_rules implements forum_i
 		$id = (int) $id;
 
 		// Check existing forum
-		if ($id)
+		if ($id && !$this->entity_helper->check_forum_id($id))
 		{
-			$sql = 'SELECT 1
-				FROM ' . FORUMS_TABLE . "
-				WHERE forum_id = $id";
-			$result = $this->db->sql_query_limit($sql, 1);
-			$row = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
-
-			if ($row === false)
-			{
-				throw new \vinabb\web\exceptions\unexpected_value(['parent_id', 'NOT_EXISTS']);
-			}
+			throw new \vinabb\web\exceptions\unexpected_value(['parent_id', 'NOT_EXISTS']);
 		}
 
 		// Set the value on our data array
