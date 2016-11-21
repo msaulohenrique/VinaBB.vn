@@ -468,6 +468,24 @@ class bb_item extends \vinabb\web\entities\abs\item_desc implements bb_item_inte
 			throw new \vinabb\web\exceptions\unexpected_value(['item_varname', 'INVALID']);
 		}
 
+		// This field value must be unique
+		if (!$this->get_bb_type() || ($this->get_bb_type() && $this->get_varname() !== '' && $this->get_varname() != $text))
+		{
+			$sql = 'SELECT 1
+				FROM ' . $this->table_name . '
+				WHERE bb_type = ' . $this->get_bb_type() . "
+					AND item_varname = '" . $this->db->sql_escape($text) . "'
+					AND item_id <> " . $this->get_id();
+			$result = $this->db->sql_query_limit($sql, 1);
+			$row = $this->db->sql_fetchrow($result);
+			$this->db->sql_freeresult($result);
+
+			if ($row)
+			{
+				throw new \vinabb\web\exceptions\unexpected_value(['item_varname', 'DUPLICATE', $text]);
+			}
+		}
+
 		// Set the value on our data array
 		$this->data['item_varname'] = $text;
 
