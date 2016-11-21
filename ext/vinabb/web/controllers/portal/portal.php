@@ -286,36 +286,27 @@ class portal implements portal_interface
 				$phpbb_data = json_decode($raw, true);
 
 				// Latest version
-				if ($this->config['vinabb_web_check_phpbb_branch'])
-				{
-					$latest_phpbb_version = isset($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_branch']]['current']) ? strtoupper($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_branch']]['current']) : '';
+				$latest_phpbb_version = isset($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_branch']]['current']) ? strtoupper($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_branch']]['current']) : '';
 
-					if (version_compare($latest_phpbb_version, $this->config['vinabb_web_check_phpbb_version'], '>'))
-					{
-						$this->config->set('vinabb_web_check_phpbb_version', $latest_phpbb_version);
-					}
+				if (version_compare($latest_phpbb_version, $this->config['vinabb_web_check_phpbb_version'], '>'))
+				{
+					$this->config->set('vinabb_web_check_phpbb_version', $latest_phpbb_version);
 				}
 
 				// Legacy version
-				if ($this->config['vinabb_web_check_phpbb_legacy_branch'])
-				{
-					$latest_phpbb_legacy_version = isset($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_legacy_branch']]['current']) ? strtoupper($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_legacy_branch']]['current']) : '';
+				$latest_phpbb_legacy_version = isset($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_legacy_branch']]['current']) ? strtoupper($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_legacy_branch']]['current']) : '';
 
-					if (version_compare($latest_phpbb_legacy_version, $this->config['vinabb_web_check_phpbb_legacy_version'], '>'))
-					{
-						$this->config->set('vinabb_web_check_phpbb_legacy_version', $latest_phpbb_legacy_version);
-					}
+				if (version_compare($latest_phpbb_legacy_version, $this->config['vinabb_web_check_phpbb_legacy_version'], '>'))
+				{
+					$this->config->set('vinabb_web_check_phpbb_legacy_version', $latest_phpbb_legacy_version);
 				}
 
 				// Development version
-				if ($this->config['vinabb_web_check_phpbb_dev_branch'])
-				{
-					$latest_phpbb_dev_version = isset($phpbb_data['unstable'][$this->config['vinabb_web_check_phpbb_dev_branch']]['current']) ? strtoupper($phpbb_data['unstable'][$this->config['vinabb_web_check_phpbb_dev_branch']]['current']) : '';
+				$latest_phpbb_dev_version = isset($phpbb_data['unstable'][$this->config['vinabb_web_check_phpbb_dev_branch']]['current']) ? strtoupper($phpbb_data['unstable'][$this->config['vinabb_web_check_phpbb_dev_branch']]['current']) : '';
 
-					if (version_compare($latest_phpbb_dev_version, $this->config['vinabb_web_check_phpbb_dev_version'], '>'))
-					{
-						$this->config->set('vinabb_web_check_phpbb_dev_version', $latest_phpbb_dev_version);
-					}
+				if (version_compare($latest_phpbb_dev_version, $this->config['vinabb_web_check_phpbb_dev_version'], '>'))
+				{
+					$this->config->set('vinabb_web_check_phpbb_dev_version', $latest_phpbb_dev_version);
 				}
 			}
 		}
