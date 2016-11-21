@@ -113,14 +113,14 @@ class menu implements menu_interface
 			'menu_icon'					=> 'set_icon',
 			'menu_data'					=> 'set_data',
 			'menu_target'				=> 'bool',
-			'menu_enable_guest'			=> 'set_enable_guest',
-			'menu_enable_bot'			=> 'set_enable_bot',
-			'menu_enable_new_user'		=> 'set_enable_new_user',
-			'menu_enable_user'			=> 'set_enable_user',
-			'menu_enable_mod'			=> 'set_enable_mod',
-			'menu_enable_global_mod'	=> 'set_enable_global_mod',
-			'menu_enable_admin'			=> 'set_enable_admin',
-			'menu_enable_founder'		=> 'set_enable_founder'
+			'menu_enable_guest'			=> 'bool',
+			'menu_enable_bot'			=> 'bool',
+			'menu_enable_new_user'		=> 'bool',
+			'menu_enable_user'			=> 'bool',
+			'menu_enable_mod'			=> 'bool',
+			'menu_enable_global_mod'	=> 'bool',
+			'menu_enable_admin'			=> 'bool',
+			'menu_enable_founder'		=> 'bool'
 		];
 
 		// Go through the basic fields and set them to our data array
@@ -150,7 +150,7 @@ class menu implements menu_interface
 		}
 
 		// Some fields must be >= 0
-		$validate_unsigned = ['menu_id', 'parent_id', 'left_id', 'right_id', 'menu_type'];
+		$validate_unsigned = ['menu_id', 'parent_id', 'left_id', 'right_id', 'menu_type', 'menu_target', 'menu_enable_guest', 'menu_enable_bot', 'menu_enable_new_user', 'menu_enable_user', 'menu_enable_mod', 'menu_enable_global_mod', 'menu_enable_admin', 'menu_enable_founder'];
 
 		foreach ($validate_unsigned as $field)
 		{
@@ -354,10 +354,19 @@ class menu implements menu_interface
 	*
 	* @param int				$value	Menu type
 	* @return menu_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function set_type($value)
 	{
-		$this->data['menu_type'] = (int) $value;
+		$value = (int) $value;
+
+		if (!in_array($value, [constants::MENU_TYPE_URL, constants::MENU_TYPE_ROUTE, constants::MENU_TYPE_PAGE, constants::MENU_TYPE_FORUM, constants::MENU_TYPE_USER, constants::MENU_TYPE_GROUP, constants::MENU_TYPE_BOARD, constants::MENU_TYPE_PORTAL, constants::MENU_TYPE_BB]))
+		{
+			throw new \vinabb\web\exceptions\out_of_bounds('menu_type');
+		}
+
+		// Set the value on our data array
+		$this->data['menu_type'] = $value;
 
 		return $this;
 	}
@@ -419,19 +428,6 @@ class menu implements menu_interface
 	}
 
 	/**
-	* Set menu open target setting
-	*
-	* @param bool				$value	Config value
-	* @return menu_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_target($value)
-	{
-		$this->data['menu_target'] = (bool) $value;
-
-		return $this;
-	}
-
-	/**
 	* Get menu display setting for guests
 	*
 	* @return bool
@@ -439,19 +435,6 @@ class menu implements menu_interface
 	public function get_enable_guest()
 	{
 		return isset($this->data['menu_enable_guest']) ? (bool) $this->data['menu_enable_guest'] : true;
-	}
-
-	/**
-	* Set menu display setting for guests
-	*
-	* @param bool				$value	Config value
-	* @return menu_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_enable_guest($value)
-	{
-		$this->data['menu_enable_guest'] = (bool) $value;
-
-		return $this;
 	}
 
 	/**
@@ -465,19 +448,6 @@ class menu implements menu_interface
 	}
 
 	/**
-	* Set menu display setting for bots
-	*
-	* @param bool				$value	Config value
-	* @return menu_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_enable_bot($value)
-	{
-		$this->data['menu_enable_bot'] = (bool) $value;
-
-		return $this;
-	}
-
-	/**
 	* Get menu display setting for newly registered users
 	*
 	* @return bool
@@ -485,19 +455,6 @@ class menu implements menu_interface
 	public function get_enable_new_user()
 	{
 		return isset($this->data['menu_enable_new_user']) ? (bool) $this->data['menu_enable_new_user'] : true;
-	}
-
-	/**
-	* Set menu display setting for newly registered users
-	*
-	* @param bool				$value	Config value
-	* @return menu_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_enable_new_user($value)
-	{
-		$this->data['menu_enable_new_user'] = (bool) $value;
-
-		return $this;
 	}
 
 	/**
@@ -511,19 +468,6 @@ class menu implements menu_interface
 	}
 
 	/**
-	* Set menu display setting for registered users
-	*
-	* @param bool				$value	Config value
-	* @return menu_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_enable_user($value)
-	{
-		$this->data['menu_enable_user'] = (bool) $value;
-
-		return $this;
-	}
-
-	/**
 	* Get menu display setting for moderators
 	*
 	* @return bool
@@ -531,19 +475,6 @@ class menu implements menu_interface
 	public function get_enable_mod()
 	{
 		return isset($this->data['menu_enable_mod']) ? (bool) $this->data['menu_enable_mod'] : true;
-	}
-
-	/**
-	* Set menu display setting for moderators
-	*
-	* @param bool				$value	Config value
-	* @return menu_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_enable_mod($value)
-	{
-		$this->data['menu_enable_mod'] = (bool) $value;
-
-		return $this;
 	}
 
 	/**
@@ -557,19 +488,6 @@ class menu implements menu_interface
 	}
 
 	/**
-	* Set menu display setting for global moderators
-	*
-	* @param bool				$value	Config value
-	* @return menu_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_enable_global_mod($value)
-	{
-		$this->data['menu_enable_global_mod'] = (bool) $value;
-
-		return $this;
-	}
-
-	/**
 	* Get menu display setting for administrators
 	*
 	* @return bool
@@ -580,19 +498,6 @@ class menu implements menu_interface
 	}
 
 	/**
-	* Set menu display setting for administrators
-	*
-	* @param bool				$value	Config value
-	* @return menu_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_enable_admin($value)
-	{
-		$this->data['menu_enable_admin'] = (bool) $value;
-
-		return $this;
-	}
-
-	/**
 	* Get menu display setting for founders
 	*
 	* @return bool
@@ -600,18 +505,5 @@ class menu implements menu_interface
 	public function get_enable_founder()
 	{
 		return isset($this->data['menu_enable_founder']) ? (bool) $this->data['menu_enable_founder'] : true;
-	}
-
-	/**
-	* Set menu display setting for founders
-	*
-	* @param bool				$value	Config value
-	* @return menu_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_enable_founder($value)
-	{
-		$this->data['menu_enable_founder'] = (bool) $value;
-
-		return $this;
 	}
 }
