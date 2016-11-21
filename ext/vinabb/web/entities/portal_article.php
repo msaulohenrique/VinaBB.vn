@@ -42,6 +42,9 @@ class portal_article extends \vinabb\web\entities\abs\article_text implements po
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \vinabb\web\entities\helper\helper_interface */
+	protected $entity_helper;
+
 	/** @var string */
 	protected $table_name;
 
@@ -51,15 +54,17 @@ class portal_article extends \vinabb\web\entities\abs\article_text implements po
 	/**
 	* Constructor
 	*
-	* @param \phpbb\config\config				$config			Config object
-	* @param \phpbb\db\driver\driver_interface	$db				Database object
-	* @param string								$table_name		Table name
-	* @param string								$cat_table_name	Table name of categories
+	* @param \phpbb\config\config							$config			Config object
+	* @param \phpbb\db\driver\driver_interface				$db				Database object
+	* @param \vinabb\web\entities\helper\helper_interface	$entity_helper	Entity helper
+	* @param string											$table_name		Table name
+	* @param string											$cat_table_name	Table name of categories
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, $table_name, $cat_table_name)
+	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \vinabb\web\entities\helper\helper_interface $entity_helper, $table_name, $cat_table_name)
 	{
 		$this->config = $config;
 		$this->db = $db;
+		$this->entity_helper = $entity_helper;
 		$this->table_name = $table_name;
 		$this->cat_table_name = $cat_table_name;
 	}
@@ -255,19 +260,9 @@ class portal_article extends \vinabb\web\entities\abs\article_text implements po
 		$id = (int) $id;
 
 		// This is a required field
-		if ($id)
+		if ($id && !$this->entity_helper->check_portal_cat_id($id))
 		{
-			$sql = 'SELECT 1
-				FROM ' . $this->cat_table_name . "
-				WHERE cat_id = $id";
-			$result = $this->db->sql_query_limit($sql, 1);
-			$row = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
-
-			if ($row === false)
-			{
-				throw new \vinabb\web\exceptions\unexpected_value(['cat_id', 'NOT_EXISTS']);
-			}
+			throw new \vinabb\web\exceptions\unexpected_value(['cat_id', 'NOT_EXISTS']);
 		}
 		else
 		{
@@ -378,19 +373,9 @@ class portal_article extends \vinabb\web\entities\abs\article_text implements po
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['article_lang', 'EMPTY']);
 		}
-		else
+		else if (!$this->entity_helper->check_lang_iso($text))
 		{
-			$sql = 'SELECT 1
-				FROM ' . LANG_TABLE . "
-				WHERE lang_iso = '" . $this->db->sql_escape($text) . "'";
-			$result = $this->db->sql_query_limit($sql, 1);
-			$row = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
-
-			if ($row === false)
-			{
-				throw new \vinabb\web\exceptions\unexpected_value(['article_lang', 'NOT_EXISTS']);
-			}
+			throw new \vinabb\web\exceptions\unexpected_value(['article_lang', 'NOT_EXISTS']);
 		}
 
 		// Set the value on our data array
