@@ -118,13 +118,13 @@ class profile
 
 		// Get user...
 		$sql = 'SELECT *
-			FROM ' . USERS_TABLE . '
-			WHERE ' . (($username) ? "username_clean = '" . $this->db->sql_escape(utf8_clean_string($username)) . "'" : "user_id = $user_id");
+			FROM ' . USERS_TABLE . "
+			WHERE username_clean = '" . $this->db->sql_escape(utf8_clean_string($username)) . "'";
 		$result = $this->db->sql_query($sql);
 		$member = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 
-		if (!$member)
+		if ($member === false)
 		{
 			trigger_error('NO_USER');
 		}
