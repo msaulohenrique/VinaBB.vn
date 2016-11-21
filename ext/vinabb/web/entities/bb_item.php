@@ -69,6 +69,9 @@ class bb_item extends \vinabb\web\entities\abs\item_desc implements bb_item_inte
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \vinabb\web\entities\helper\helper_interface */
+	protected $entity_helper;
+
 	/** @var string */
 	protected $table_name;
 
@@ -81,16 +84,25 @@ class bb_item extends \vinabb\web\entities\abs\item_desc implements bb_item_inte
 	/**
 	* Constructor
 	*
-	* @param \phpbb\config\config				$config				Config object
-	* @param \phpbb\db\driver\driver_interface	$db					Database object
-	* @param string								$table_name			Table name
-	* @param string								$cat_table_name		Table name of categories
-	* @param string								$author_table_name	Table name of authors
+	* @param \phpbb\config\config							$config				Config object
+	* @param \phpbb\db\driver\driver_interface				$db					Database object
+	* @param \vinabb\web\entities\helper\helper_interface	$entity_helper		Entity helper
+	* @param string											$table_name			Table name
+	* @param string											$cat_table_name		Table name of categories
+	* @param string											$author_table_name	Table name of authors
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, $table_name, $cat_table_name, $author_table_name)
+	public function __construct(
+		\phpbb\config\config $config,
+		\phpbb\db\driver\driver_interface $db,
+		\vinabb\web\entities\helper\helper_interface $entity_helper,
+		$table_name,
+		$cat_table_name,
+		$author_table_name
+	)
 	{
 		$this->config = $config;
 		$this->db = $db;
+		$this->entity_helper = $entity_helper;
 		$this->table_name = $table_name;
 		$this->cat_table_name = $cat_table_name;
 		$this->author_table_name = $author_table_name;
@@ -319,19 +331,9 @@ class bb_item extends \vinabb\web\entities\abs\item_desc implements bb_item_inte
 		$id = (int) $id;
 
 		// This is a required field
-		if ($id)
+		if ($id && !$this->entity_helper->check_bb_cat_id($this->get_bb_type(), $id))
 		{
-			$sql = 'SELECT 1
-				FROM ' . $this->cat_table_name . "
-				WHERE cat_id = $id";
-			$result = $this->db->sql_query_limit($sql, 1);
-			$row = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
-
-			if ($row === false)
-			{
-				throw new \vinabb\web\exceptions\unexpected_value(['cat_id', 'NOT_EXISTS']);
-			}
+			throw new \vinabb\web\exceptions\unexpected_value(['cat_id', 'NOT_EXISTS']);
 		}
 		else
 		{
@@ -366,19 +368,9 @@ class bb_item extends \vinabb\web\entities\abs\item_desc implements bb_item_inte
 		$id = (int) $id;
 
 		// This is a required field
-		if ($id)
+		if ($id && !$this->entity_helper->check_bb_author_id($id))
 		{
-			$sql = 'SELECT 1
-				FROM ' . $this->author_table_name . "
-				WHERE author_id = $id";
-			$result = $this->db->sql_query_limit($sql, 1);
-			$row = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
-
-			if ($row === false)
-			{
-				throw new \vinabb\web\exceptions\unexpected_value(['author_id', 'NOT_EXISTS']);
-			}
+			throw new \vinabb\web\exceptions\unexpected_value(['author_id', 'NOT_EXISTS']);
 		}
 		else
 		{
@@ -470,21 +462,9 @@ class bb_item extends \vinabb\web\entities\abs\item_desc implements bb_item_inte
 		}
 
 		// This field value must be unique
-		if (!$this->get_bb_type() || ($this->get_bb_type() && $this->get_varname() !== '' && $this->get_varname() != $text))
+		if ($this->get_varname() != $text && $this->entity_helper->check_bb_item_varname($this->get_bb_type(), $text, $this->get_id()))
 		{
-			$sql = 'SELECT 1
-				FROM ' . $this->table_name . '
-				WHERE bb_type = ' . $this->get_bb_type() . "
-					AND item_varname = '" . $this->db->sql_escape($text) . "'
-					AND item_id <> " . $this->get_id();
-			$result = $this->db->sql_query_limit($sql, 1);
-			$row = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
-
-			if ($row)
-			{
-				throw new \vinabb\web\exceptions\unexpected_value(['item_varname', 'DUPLICATE', $text]);
-			}
+			throw new \vinabb\web\exceptions\unexpected_value(['item_varname', 'DUPLICATE', $text]);
 		}
 
 		// Set the value on our data array
