@@ -8,6 +8,8 @@
 
 namespace vinabb\web\controllers\user;
 
+use vinabb\web\includes\constants;
+
 class user
 {
 	/** @var \phpbb\auth\auth */
@@ -24,6 +26,12 @@ class user
 
 	/** @var \phpbb\language\language */
 	protected $language;
+
+	/** @var \vinabb\web\controllers\pagination */
+	protected $pagination;
+
+	/** @var \phpbb\profilefields\manager */
+	protected $profile_fields;
 
 	/** @var \phpbb\request\request */
 	protected $request;
@@ -54,6 +62,8 @@ class user
 	* @param \phpbb\db\driver\driver_interface $db
 	* @param \phpbb\event\dispatcher_interface $dispatcher
 	* @param \phpbb\language\language $language
+	* @param \vinabb\web\controllers\pagination $pagination
+	* @param \phpbb\profilefields\manager $profile_fields
 	* @param \phpbb\request\request $request
 	* @param \phpbb\template\template $template
 	* @param \phpbb\user $user
@@ -68,6 +78,8 @@ class user
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\event\dispatcher_interface $dispatcher,
 		\phpbb\language\language $language,
+		\vinabb\web\controllers\pagination $pagination,
+		\phpbb\profilefields\manager $profile_fields,
 		\phpbb\request\request $request,
 		\phpbb\template\template $template,
 		\phpbb\user $user,
@@ -82,6 +94,8 @@ class user
 		$this->db = $db;
 		$this->dispatcher = $dispatcher;
 		$this->language = $language;
+		$this->pagination = $pagination;
+		$this->profile_fields = $profile_fields;
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
@@ -89,33 +103,35 @@ class user
 		$this->group_helper = $group_helper;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
+	}
 
-		// Common functions
+	public function main($mode, $page)
+	{
 		include "{$this->root_path}includes/functions_display.{$this->php_ext}";
 
-		// Common language files
+		// Language
 		$this->language->add_lang(array('memberlist', 'groups'));
 
 		// Setting a variable to let the style designer know where he is...
 		$this->template->assign_var('S_IN_MEMBERLIST', true);
 
+		$page = max(1, floor(str_replace(constants::REWRITE_URL_PAGE, '', $page)));
+
 		// User types
-		$this->user_types = array(USER_NORMAL, USER_FOUNDER);
+		$user_types = [USER_NORMAL, USER_FOUNDER];
 
 		if ($this->auth->acl_get('a_user'))
 		{
-			$this->user_types[] = USER_INACTIVE;
+			$user_types[] = USER_INACTIVE;
 		}
-	}
 
-	public function memberlist()
-	{
-		// The basic memberlist
-		$page_title = $this->user->lang['MEMBERLIST'];
-		$template_html = 'memberlist_body.html';
+		$start = floor(($page - 1) * $this->config['topics_per_page']);
+		$submit = $this->request->is_set_post('submit');
+		$group_id = $this->request->variable('g', 0);
 
-		/* @var $pagination \phpbb\pagination */
-		$pagination = $phpbb_container->get('pagination');
+		$default_key = 'c';
+		$sort_key = $this->request->variable('sk', $default_key);
+		$sort_dir = $this->request->variable('sd', 'a');
 
 		// Sorting
 		$sort_key_text = array('a' => $this->user->lang['SORT_USERNAME'], 'c' => $this->user->lang['SORT_JOINED'], 'd' => $this->user->lang['SORT_POST_COUNT']);
@@ -172,7 +188,7 @@ class user
 		// We validate form and field here, only id/class allowed
 		$form = (!preg_match('/^[a-z0-9_-]+$/i', $form)) ? '' : $form;
 		$field = (!preg_match('/^[a-z0-9_-]+$/i', $field)) ? '' : $field;
-		if ((($mode == '' || $mode == 'searchuser') || sizeof(array_intersect($this->request->variable_names(\phpbb\request\request_interface::GET), $search_params)) > 0) && ($this->config['load_search'] || $this->auth->acl_get('a_')))
+		if ((($mode == '' || $mode == 'search') || sizeof(array_intersect($this->request->variable_names(\phpbb\request\request_interface::GET), $search_params)) > 0) && ($this->config['load_search'] || $this->auth->acl_get('a_')))
 		{
 			$username	= $this->request->variable('username', '', true);
 			$email		= strtolower($this->request->variable('email', ''));
@@ -254,7 +270,7 @@ class user
 
 					if ($hostnames !== false)
 					{
-						$ips = "'" . implode('\', \'', array_map(array($db, 'sql_escape'), preg_replace('#([0-9]{1,3}\.[0-9]{1,3}[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})#', "\\1", gethostbynamel($ipdomain)))) . "'";
+						$ips = "'" . implode('\', \'', array_map(array($this->db, 'sql_escape'), preg_replace('#([0-9]{1,3}\.[0-9]{1,3}[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})#', "\\1", gethostbynamel($ipdomain)))) . "'";
 					}
 					else
 					{
@@ -432,7 +448,7 @@ class user
 					'RANK_IMG_SRC'	=> $user_rank_data['img_src'],
 
 					'U_PM'			=> ($this->auth->acl_get('u_sendpm') && $this->auth->acl_get('u_masspm_group') && $group_row['group_receive_pm'] && $this->config['allow_privmsg'] && $this->config['allow_mass_pm']) ? append_sid("{$this->root_path}ucp.{$this->php_ext}", 'i=pm&amp;mode=compose&amp;g=' . $group_id) : '',
-					'U_MANAGE'		=> ($can_manage_group) ? append_sid("{$this->root_path}ucp.$phpEx", 'i=ucp_groups&amp;mode=manage') : false,)
+					'U_MANAGE'		=> ($can_manage_group) ? append_sid("{$this->root_path}ucp.{$this->php_ext}", 'i=ucp_groups&amp;mode=manage') : false,)
 			);
 
 			$sql_select = ', ug.group_leader';
@@ -540,7 +556,7 @@ class user
 			}
 		}
 
-		$u_hide_find_member = append_sid("{$this->root_path}memberlist.$phpEx", "start=$start" . (!empty($params) ? '&amp;' . implode('&amp;', $params) : ''));
+		$u_hide_find_member = append_sid("{$this->root_path}memberlist.{$this->php_ext}", "start=$start" . (!empty($params) ? '&amp;' . implode('&amp;', $params) : ''));
 
 		if ($mode)
 		{
@@ -549,8 +565,7 @@ class user
 		}
 		$sort_params[] = "mode=$mode";
 
-		$pagination_url = append_sid("{$this->root_path}memberlist.$phpEx", implode('&amp;', $params));
-		$sort_url = append_sid("{$this->root_path}memberlist.$phpEx", implode('&amp;', $sort_params));
+		$sort_url = append_sid("{$this->root_path}memberlist.{$this->php_ext}", implode('&amp;', $sort_params));
 
 		unset($search_params, $sort_params);
 
@@ -576,7 +591,7 @@ class user
 		}
 
 		// Some search user specific data
-		if (($mode == '' || $mode == 'searchuser') && ($this->config['load_search'] || $this->auth->acl_get('a_')))
+		if (($mode == '' || $mode == 'search') && ($this->config['load_search'] || $this->auth->acl_get('a_')))
 		{
 			$group_selected = $this->request->variable('search_group_id', 0);
 			$s_group_select = '<option value="0"' . ((!$group_selected) ? ' selected="selected"' : '') . '>&nbsp;</option>';
@@ -640,7 +655,7 @@ class user
 					'S_EMAIL_SEARCH_ALLOWED'=> ($this->auth->acl_get('a_user')) ? true : false,
 					'S_JABBER_ENABLED'		=> $this->config['jab_enable'],
 					'S_IN_SEARCH_POPUP'		=> ($form && $field) ? true : false,
-					'S_SEARCH_USER'			=> ($mode == 'searchuser' || ($mode == '' && $submit)),
+					'S_SEARCH_USER'			=> ($mode == 'search' || ($mode == '' && $submit)),
 					'S_FORM_NAME'			=> $form,
 					'S_FIELD_NAME'			=> $field,
 					'S_SELECT_SINGLE'		=> $select_single,
@@ -649,11 +664,11 @@ class user
 					'S_JOINED_TIME_OPTIONS'	=> $s_find_join_time,
 					'S_ACTIVE_TIME_OPTIONS'	=> $s_find_active_time,
 					'S_GROUP_SELECT'		=> $s_group_select,
-					'S_USER_SEARCH_ACTION'	=> append_sid("{$this->root_path}memberlist.$phpEx", "mode=searchuser&amp;form=$form&amp;field=$field"))
+					'S_USER_SEARCH_ACTION'	=> append_sid("{$this->root_path}memberlist.{$this->php_ext}", "mode=search&amp;form=$form&amp;field=$field"))
 			);
 		}
 
-		$start = $pagination->validate_start($start, $this->config['topics_per_page'], $total_users);
+		$start = $this->pagination->validate_start($start, $this->config['topics_per_page'], $total_users);
 
 		// Get us some users :D
 		$sql = "SELECT u.user_id
@@ -674,10 +689,7 @@ class user
 		// Load custom profile fields
 		if ($this->config['load_cpf_memberlist'])
 		{
-			/* @var $cp \phpbb\profilefields\manager */
-			$cp = $phpbb_container->get('profilefields.manager');
-
-			$cp_row = $cp->generate_profile_fields_template_headlines('field_show_on_ml');
+			$cp_row = $this->profile_fields->generate_profile_fields_template_headlines('field_show_on_ml');
 			foreach ($cp_row as $profile_field)
 			{
 				$this->template->assign_block_vars('custom_fields', $profile_field);
@@ -735,7 +747,7 @@ class user
 			if ($this->config['load_cpf_memberlist'])
 			{
 				// Grab all profile fields from users in id cache for later use - similar to the poster cache
-				$profile_fields_cache = $cp->grab_profile_fields_data($user_list);
+				$profile_fields_cache = $this->profile_fields->grab_profile_fields_data($user_list);
 
 				// Filter the fields we don't want to show
 				foreach ($profile_fields_cache as $user_id => $user_profile_fields)
@@ -780,7 +792,7 @@ class user
 				$cp_row = array();
 				if ($this->config['load_cpf_memberlist'])
 				{
-					$cp_row = (isset($profile_fields_cache[$user_id])) ? $cp->generate_profile_fields_template_data($profile_fields_cache[$user_id], $use_contact_fields) : array();
+					$cp_row = (isset($profile_fields_cache[$user_id])) ? $this->profile_fields->generate_profile_fields_template_data($profile_fields_cache[$user_id], $use_contact_fields) : array();
 				}
 
 				$memberrow = array_merge(phpbb_show_profile($row, false, false, false), array(
@@ -812,45 +824,37 @@ class user
 			}
 		}
 
-		$pagination->generate_template_pagination($pagination_url, 'pagination', 'start', $total_users, $this->config['topics_per_page'], $start);
+		$this->pagination->generate_template_pagination('vinabb_web_user_list_route', $params, 'pagination', $total_users, $this->config['topics_per_page'], $start);
 
 		// Generate page
-		$this->template->assign_vars(array(
-				'TOTAL_USERS'	=> $this->user->lang('LIST_USERS', (int) $total_users),
+		$this->template->assign_vars([
+			'TOTAL_USERS'	=> $this->language->lang('LIST_USERS', (int) $total_users),
 
-				'PROFILE_IMG'	=> $this->user->img('icon_user_profile', $this->user->lang['PROFILE']),
-				'PM_IMG'		=> $this->user->img('icon_contact_pm', $this->user->lang['SEND_PRIVATE_MESSAGE']),
-				'EMAIL_IMG'		=> $this->user->img('icon_contact_email', $this->user->lang['EMAIL']),
-				'JABBER_IMG'	=> $this->user->img('icon_contact_jabber', $this->user->lang['JABBER']),
-				'SEARCH_IMG'	=> $this->user->img('icon_user_search', $this->user->lang['SEARCH']),
+			'PROFILE_IMG'	=> $this->user->img('icon_user_profile', $this->user->lang['PROFILE']),
+			'PM_IMG'		=> $this->user->img('icon_contact_pm', $this->user->lang['SEND_PRIVATE_MESSAGE']),
+			'EMAIL_IMG'		=> $this->user->img('icon_contact_email', $this->user->lang['EMAIL']),
+			'JABBER_IMG'	=> $this->user->img('icon_contact_jabber', $this->user->lang['JABBER']),
+			'SEARCH_IMG'	=> $this->user->img('icon_user_search', $this->user->lang['SEARCH']),
 
-				'U_FIND_MEMBER'			=> ($this->config['load_search'] || $this->auth->acl_get('a_')) ? append_sid("{$this->root_path}memberlist.$phpEx", 'mode=searchuser' . (($start) ? "&amp;start=$start" : '') . (!empty($params) ? '&amp;' . implode('&amp;', $params) : '')) : '',
-				'U_HIDE_FIND_MEMBER'	=> ($mode == 'searchuser' || ($mode == '' && $submit)) ? $u_hide_find_member : '',
-				'U_LIVE_SEARCH'			=> ($this->config['allow_live_searches']) ? append_sid("{$this->root_path}memberlist.$phpEx", 'mode=livesearch') : false,
-				'U_SORT_USERNAME'		=> $sort_url . '&amp;sk=a&amp;sd=' . (($sort_key == 'a' && $sort_dir == 'a') ? 'd' : 'a'),
-				'U_SORT_JOINED'			=> $sort_url . '&amp;sk=c&amp;sd=' . (($sort_key == 'c' && $sort_dir == 'd') ? 'a' : 'd'),
-				'U_SORT_POSTS'			=> $sort_url . '&amp;sk=d&amp;sd=' . (($sort_key == 'd' && $sort_dir == 'd') ? 'a' : 'd'),
-				'U_SORT_EMAIL'			=> $sort_url . '&amp;sk=e&amp;sd=' . (($sort_key == 'e' && $sort_dir == 'd') ? 'a' : 'd'),
-				'U_SORT_ACTIVE'			=> ($this->auth->acl_get('u_viewonline')) ? $sort_url . '&amp;sk=l&amp;sd=' . (($sort_key == 'l' && $sort_dir == 'd') ? 'a' : 'd') : '',
-				'U_SORT_RANK'			=> $sort_url . '&amp;sk=m&amp;sd=' . (($sort_key == 'm' && $sort_dir == 'd') ? 'a' : 'd'),
-				'U_LIST_CHAR'			=> $sort_url . '&amp;sk=a&amp;sd=' . (($sort_key == 'l' && $sort_dir == 'd') ? 'a' : 'd'),
+			'U_FIND_MEMBER'			=> ($this->config['load_search'] || $this->auth->acl_get('a_')) ? append_sid("{$this->root_path}memberlist.{$this->php_ext}", 'mode=search' . (($start) ? "&amp;start=$start" : '') . (!empty($params) ? '&amp;' . implode('&amp;', $params) : '')) : '',
+			'U_HIDE_FIND_MEMBER'	=> ($mode == 'search' || ($mode == '' && $submit)) ? $u_hide_find_member : '',
+			'U_LIVE_SEARCH'			=> ($this->config['allow_live_searches']) ? $this->helper->route('vinabb_web_user_livesearch_route') : '',
+			'U_SORT_USERNAME'		=> $sort_url . '&amp;sk=a&amp;sd=' . (($sort_key == 'a' && $sort_dir == 'a') ? 'd' : 'a'),
+			'U_SORT_JOINED'			=> $sort_url . '&amp;sk=c&amp;sd=' . (($sort_key == 'c' && $sort_dir == 'd') ? 'a' : 'd'),
+			'U_SORT_POSTS'			=> $sort_url . '&amp;sk=d&amp;sd=' . (($sort_key == 'd' && $sort_dir == 'd') ? 'a' : 'd'),
+			'U_SORT_EMAIL'			=> $sort_url . '&amp;sk=e&amp;sd=' . (($sort_key == 'e' && $sort_dir == 'd') ? 'a' : 'd'),
+			'U_SORT_ACTIVE'			=> ($this->auth->acl_get('u_viewonline')) ? $sort_url . '&amp;sk=l&amp;sd=' . (($sort_key == 'l' && $sort_dir == 'd') ? 'a' : 'd') : '',
+			'U_SORT_RANK'			=> $sort_url . '&amp;sk=m&amp;sd=' . (($sort_key == 'm' && $sort_dir == 'd') ? 'a' : 'd'),
+			'U_LIST_CHAR'			=> $sort_url . '&amp;sk=a&amp;sd=' . (($sort_key == 'l' && $sort_dir == 'd') ? 'a' : 'd'),
 
-				'S_SHOW_GROUP'		=> ($mode == 'group') ? true : false,
-				'S_VIEWONLINE'		=> $this->auth->acl_get('u_viewonline'),
-				'S_LEADERS_SET'		=> $leaders_set,
-				'S_MODE_SELECT'		=> $s_sort_key,
-				'S_ORDER_SELECT'	=> $s_sort_dir,
-				'S_MODE_ACTION'		=> $pagination_url)
-		);
-	}
+			'S_SHOW_GROUP'		=> ($mode == 'group') ? true : false,
+			'S_VIEWONLINE'		=> $this->auth->acl_get('u_viewonline'),
+			'S_LEADERS_SET'		=> $leaders_set,
+			'S_MODE_SELECT'		=> $s_sort_key,
+			'S_ORDER_SELECT'	=> $s_sort_dir,
+			'S_MODE_ACTION'		=> $this->helper->route('vinabb_web_user_list_route', $params)
+		]);
 
-	public function group()
-	{
-
-	}
-
-	public function search()
-	{
-
+		return $this->helper->render('memberlist_body.html', $this->language->lang('MEMBERLIST'));
 	}
 }

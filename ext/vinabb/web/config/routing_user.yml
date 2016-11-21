@@ -1,7 +1,12 @@
 vinabb_web_user_list_route:
-    path: /list
+    path: /list/{mode}/{page}
     defaults:
-        _controller: vinabb.web.user:memberlist
+        _controller: vinabb.web.user:main
+        mode: ''
+        page: ''
+    requirements:
+        mode: '(|search|group)'
+        page: '(|((page-)(\d+)))'
 vinabb_web_user_profile_id_route:
     path: /profile/id/{user_id}{slash}
     defaults:
