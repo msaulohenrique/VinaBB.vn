@@ -88,10 +88,10 @@ class smiley implements smiley_interface
 			'code'					=> 'set_code',
 			'emotion'				=> 'set_emotion',
 			'smiley_url'			=> 'set_url',
-			'smiley_width'			=> 'set_width',
-			'smiley_height'			=> 'set_height',
+			'smiley_width'			=> 'integer',
+			'smiley_height'			=> 'integer',
 			'smiley_order'			=> 'integer',
-			'display_on_posting'	=> 'set_display_on_posting'
+			'display_on_posting'	=> 'bool'
 		];
 
 		// Go through the basic fields and set them to our data array
@@ -121,7 +121,7 @@ class smiley implements smiley_interface
 		}
 
 		// Some fields must be >= 0
-		$validate_unsigned = ['smiley_id', 'smiley_width', 'smiley_height', 'smiley_order'];
+		$validate_unsigned = ['smiley_id', 'smiley_width', 'smiley_height', 'smiley_order', 'display_on_posting'];
 
 		foreach ($validate_unsigned as $field)
 		{
@@ -347,19 +347,6 @@ class smiley implements smiley_interface
 	}
 
 	/**
-	* Set the smiley width
-	*
-	* @param int				$value	Smiley width
-	* @return smiley_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_width($value)
-	{
-		$this->data['smiley_width'] = (int) $value;
-
-		return $this;
-	}
-
-	/**
 	* Get the smiley height
 	*
 	* @return int
@@ -370,19 +357,6 @@ class smiley implements smiley_interface
 	}
 
 	/**
-	* Set the smiley height
-	*
-	* @param int				$value	Smiley height
-	* @return smiley_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_height($value)
-	{
-		$this->data['smiley_height'] = (int) $value;
-
-		return $this;
-	}
-
-	/**
 	* Get display setting on posting page
 	*
 	* @return bool
@@ -390,18 +364,5 @@ class smiley implements smiley_interface
 	public function get_display_on_posting()
 	{
 		return isset($this->data['display_on_posting']) ? (bool) $this->data['display_on_posting'] : true;
-	}
-
-	/**
-	* Set display setting on posting page
-	*
-	* @param bool				$value	Config value
-	* @return smiley_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_display_on_posting($value)
-	{
-		$this->data['display_on_posting'] = (bool) $value;
-
-		return $this;
 	}
 }
