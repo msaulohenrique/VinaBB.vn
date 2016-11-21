@@ -464,7 +464,7 @@ class bb_item extends \vinabb\web\entities\abs\item_desc implements bb_item_inte
 		}
 
 		// This field value must be unique
-		if ($this->get_varname() != $text && $this->entity_helper->check_bb_item_varname($this->get_bb_type(), $text, $this->get_id()))
+		if ($this->get_varname() != '' && $this->get_varname() != $text && $this->entity_helper->check_bb_item_varname($this->get_bb_type(), $text, $this->get_id()))
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['item_varname', 'DUPLICATE', $text]);
 		}
