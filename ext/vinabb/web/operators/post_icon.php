@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
 * Operator for a set of post icons
 */
-class icon
+class post_icon implements post_icon_interface
 {
 	/** @var ContainerInterface */
 	protected $container;
@@ -75,10 +75,10 @@ class icon
 	/**
 	* Add an icon
 	*
-	* @param \vinabb\web\entities\icon_interface $entity Icon entity
-	* @return \vinabb\web\entities\icon_interface
+	* @param \vinabb\web\entities\post_icon_interface $entity Icon entity
+	* @return \vinabb\web\entities\post_icon_interface
 	*/
-	public function add_icon($entity)
+	public function add_icon(\vinabb\web\entities\post_icon_interface $entity)
 	{
 		// Insert the entity to the database
 		$entity->insert();

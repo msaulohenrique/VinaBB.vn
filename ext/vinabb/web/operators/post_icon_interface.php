@@ -11,7 +11,7 @@ namespace vinabb\web\operators;
 /**
 * Interface for a set of post icons
 */
-interface icon_interface
+interface post_icon_interface
 {
 	/**
 	* Get number of icons
@@ -30,10 +30,10 @@ interface icon_interface
 	/**
 	* Add an icon
 	*
-	* @param \vinabb\web\entities\icon_interface $entity Icon entity
-	* @return \vinabb\web\entities\icon_interface
+	* @param \vinabb\web\entities\post_icon_interface $entity Icon entity
+	* @return \vinabb\web\entities\post_icon_interface
 	*/
-	public function add_icon($entity);
+	public function add_icon(\vinabb\web\entities\post_icon_interface $entity);
 
 	/**
 	* Delete an icon
