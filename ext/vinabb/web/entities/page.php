@@ -50,20 +50,25 @@ class page extends \vinabb\web\entities\abs\page_text implements page_interface
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \vinabb\web\entities\helper\helper_interface */
+	protected $entity_helper;
+
 	/** @var string */
 	protected $table_name;
 
 	/**
 	* Constructor
 	*
-	* @param \phpbb\config\config				$config			Config object
-	* @param \phpbb\db\driver\driver_interface	$db				Database object
-	* @param string								$table_name		Table name
+	* @param \phpbb\config\config							$config			Config object
+	* @param \phpbb\db\driver\driver_interface				$db				Database object
+	* @param \vinabb\web\entities\helper\helper_interface	$entity_helper	Entity helper
+	* @param string											$table_name		Table name
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, $table_name)
+	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \vinabb\web\entities\helper\helper_interface $entity_helper, $table_name)
 	{
 		$this->config = $config;
 		$this->db = $db;
+		$this->entity_helper = $entity_helper;
 		$this->table_name = $table_name;
 	}
 
@@ -357,20 +362,9 @@ class page extends \vinabb\web\entities\abs\page_text implements page_interface
 		}
 
 		// This field value must be unique
-		if (!$this->get_id() || ($this->get_id() && $this->get_varname() !== '' && $this->get_varname() != $text))
+		if ($this->get_varname() != $text && $this->entity_helper->check_page_varname($text, $this->get_id()))
 		{
-			$sql = 'SELECT 1
-				FROM ' . $this->table_name . "
-				WHERE page_varname = '" . $this->db->sql_escape($text) . "'
-					AND page_id <> " . $this->get_id();
-			$result = $this->db->sql_query_limit($sql, 1);
-			$row = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
-
-			if ($row)
-			{
-				throw new \vinabb\web\exceptions\unexpected_value(['page_varname', 'DUPLICATE', $text]);
-			}
+			throw new \vinabb\web\exceptions\unexpected_value(['page_varname', 'DUPLICATE', $text]);
 		}
 
 		// Set the value on our data array
