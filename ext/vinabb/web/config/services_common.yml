@@ -47,4 +47,5 @@ services:
     vinabb.web.helper.entity:
         class: vinabb\web\entities\helper\helper
         arguments:
+            - '@service_container'
             - '@dbal.conn'
