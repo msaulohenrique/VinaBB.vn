@@ -322,33 +322,27 @@ class service implements service_interface
 	*/
 	public function get_new_bb_items($bb_type)
 	{
-		if (($new_items = $this->driver->get('_vinabb_web_new_bb_items_' . $bb_type)) === false)
+		if (($items = $this->driver->get('_vinabb_web_new_bb_items_' . $bb_type)) === false)
 		{
-			$sql = 'SELECT *
-				FROM ' . $this->container->getParameter('vinabb.web.tables.bb_items') . '
-				WHERE bb_type = ' . (int) $bb_type . '
-				ORDER BY item_updated DESC';
-			$result = $this->db->sql_query_limit($sql, constants::NUM_NEW_ITEMS_ON_INDEX);
+			$items = [];
 
-			$new_items = [];
-			while ($row = $this->db->sql_fetchrow($result))
+			/** @var \vinabb\web\entities\bb_item_interface $entity */
+			foreach ($this->container->get('vinabb.web.operators.bb_item')->get_latest_items($bb_type, constants::NUM_NEW_ITEMS_ON_INDEX) as $entity)
 			{
-				$new_items[] = [
-					'id'		=> $row['item_id'],
-					'name'		=> $row['item_name'],
-					'varname'	=> $row['item_varname'],
-					'version'	=> $row['item_version'],
-					'price'		=> $row['item_price'],
-					'added'		=> $row['item_added'],
-					'updated'	=> $row['item_updated']
+				$items[] = [
+					'id'		=> $entity->get_id(),
+					'name'		=> $entity->get_name(),
+					'varname'	=> $entity->get_varname(),
+					'price'		=> $entity->get_price(),
+					'added'		=> $entity->get_added(),
+					'updated'	=> $entity->get_updated()
 				];
 			}
-			$this->db->sql_freeresult($result);
 
-			$this->driver->put('_vinabb_web_new_bb_items_' . $bb_type, $new_items);
+			$this->driver->put('_vinabb_web_new_bb_items_' . $bb_type, $items);
 		}
 
-		return $new_items;
+		return $items;
 	}
 
 	/**
@@ -408,37 +402,29 @@ class service implements service_interface
 	*/
 	public function get_index_articles($lang)
 	{
-		if (($index_articles = $this->driver->get('_vinabb_web_index_articles_' . $lang)) === false)
+		if (($articles = $this->driver->get('_vinabb_web_index_articles_' . $lang)) === false)
 		{
-			$sql = 'SELECT *
-				FROM ' . $this->container->getParameter('vinabb.web.tables.portal_articles') . "
-				WHERE article_lang = '" . $this->db->sql_escape($lang) . "'
-				ORDER BY article_time DESC";
-			$result = $this->db->sql_query_limit($sql, constants::NUM_ARTICLES_ON_INDEX);
+			$articles = [];
 
-			$index_articles = [];
-			while ($row = $this->db->sql_fetchrow($result))
+			/** @var \vinabb\web\entities\portal_article_interface $entity */
+			foreach ($this->container->get('vinabb.web.operators.portal_article')->get_latest_articles($lang, constants::NUM_ARTICLES_ON_INDEX) as $entity)
 			{
-				$index_articles[] = [
-					'cat_id'		=> $row['cat_id'],
-					'id'			=> $row['article_id'],
-					'name'			=> $row['article_name'],
-					'name_seo'		=> $row['article_name_seo'],
-					'desc'			=> $row['article_desc'],
-					'text'			=> $row['article_text'],
-					'text_uid'		=> $row['article_text_uid'],
-					'text_bitfield'	=> $row['article_text_bitfield'],
-					'text_options'	=> $row['article_text_options'],
-					'views'			=> $row['article_views'],
-					'time'			=> $row['article_time']
+				$articles[] = [
+					'cat_id'		=> $entity->get_cat_id(),
+					'id'			=> $entity->get_id(),
+					'name'			=> $entity->get_name(),
+					'name_seo'		=> $entity->get_name_seo(),
+					'desc'			=> $entity->get_desc(),
+					'text'			=> $entity->get_text_for_display(),
+					'views'			=> $entity->get_views(),
+					'time'			=> $entity->get_time()
 				];
 			}
-			$this->db->sql_freeresult($result);
 
-			$this->driver->put('_vinabb_web_index_articles_' . $lang, $index_articles);
+			$this->driver->put('_vinabb_web_index_articles_' . $lang, $articles);
 		}
 
-		return $index_articles;
+		return $articles;
 	}
 
 	/**
