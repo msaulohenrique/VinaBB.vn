@@ -31,14 +31,19 @@ class smiley implements smiley_interface
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \vinabb\web\entities\helper\helper_interface */
+	protected $entity_helper;
+
 	/**
 	* Constructor
 	*
-	* @param \phpbb\db\driver\driver_interface $db Database object
+	* @param \phpbb\db\driver\driver_interface				$db				Database object
+	* @param \vinabb\web\entities\helper\helper_interface	$entity_helper	Entity helper
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \vinabb\web\entities\helper\helper_interface $entity_helper)
 	{
 		$this->db = $db;
+		$this->entity_helper = $entity_helper;
 	}
 
 	/**
@@ -236,20 +241,9 @@ class smiley implements smiley_interface
 		}
 
 		// This field value must be unique
-		if ($this->get_code() !== '' && $this->get_code() != $text)
+		if ($this->get_code() != $text && $this->entity_helper->check_smiley_code($text, $this->get_id()))
 		{
-			$sql = 'SELECT 1
-				FROM ' . SMILIES_TABLE . "
-				WHERE code = '" . $this->db->sql_escape($text) . "'
-					AND smiley_id <> " . $this->get_id();
-			$result = $this->db->sql_query_limit($sql, 1);
-			$row = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
-
-			if ($row)
-			{
-				throw new \vinabb\web\exceptions\unexpected_value(['code', 'DUPLICATE', $text]);
-			}
+			throw new \vinabb\web\exceptions\unexpected_value(['code', 'DUPLICATE', $text]);
 		}
 
 		// Set the value on our data array
