@@ -116,15 +116,15 @@ class page extends \vinabb\web\entities\abs\page_text implements page_interface
 			'page_varname'				=> 'set_varname',
 			'page_desc'					=> 'set_desc',
 			'page_desc_vi'				=> 'set_desc_vi',
-			'page_enable'				=> 'set_enable',
-			'page_enable_guest'			=> 'set_enable_guest',
-			'page_enable_bot'			=> 'set_enable_bot',
-			'page_enable_new_user'		=> 'set_enable_new_user',
-			'page_enable_user'			=> 'set_enable_user',
-			'page_enable_mod'			=> 'set_enable_mod',
-			'page_enable_global_mod'	=> 'set_enable_global_mod',
-			'page_enable_admin'			=> 'set_enable_admin',
-			'page_enable_founder'		=> 'set_enable_founder',
+			'page_enable'				=> 'bool',
+			'page_enable_guest'			=> 'bool',
+			'page_enable_bot'			=> 'bool',
+			'page_enable_new_user'		=> 'bool',
+			'page_enable_user'			=> 'bool',
+			'page_enable_mod'			=> 'bool',
+			'page_enable_global_mod'	=> 'bool',
+			'page_enable_admin'			=> 'bool',
+			'page_enable_founder'		=> 'bool',
 
 			// We do not pass to set_text() or set_text_vi() as generate_text_for_storage() would run twice
 			'page_text'				=> 'string',
@@ -164,7 +164,7 @@ class page extends \vinabb\web\entities\abs\page_text implements page_interface
 		}
 
 		// Some fields must be >= 0
-		$validate_unsigned = ['page_id', 'page_text_options', 'page_text_vi_options'];
+		$validate_unsigned = ['page_id', 'page_enable', 'page_enable_guest', 'page_enable_bot', 'page_enable_new_user', 'page_enable_user', 'page_enable_mod', 'page_enable_global_mod', 'page_enable_admin', 'page_enable_founder', 'page_text_options', 'page_text_vi_options'];
 
 		foreach ($validate_unsigned as $field)
 		{
@@ -436,19 +436,6 @@ class page extends \vinabb\web\entities\abs\page_text implements page_interface
 	}
 
 	/**
-	* Set page display setting in template
-	*
-	* @param bool				$value	Config value
-	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_enable($value)
-	{
-		$this->data['page_enable'] = (bool) $value;
-
-		return $this;
-	}
-
-	/**
 	* Get page display setting for guests
 	*
 	* @return bool
@@ -456,19 +443,6 @@ class page extends \vinabb\web\entities\abs\page_text implements page_interface
 	public function get_enable_guest()
 	{
 		return isset($this->data['page_enable_guest']) ? (bool) $this->data['page_enable_guest'] : true;
-	}
-
-	/**
-	* Set page display setting for guests
-	*
-	* @param bool				$value	Config value
-	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_enable_guest($value)
-	{
-		$this->data['page_enable_guest'] = (bool) $value;
-
-		return $this;
 	}
 
 	/**
@@ -482,19 +456,6 @@ class page extends \vinabb\web\entities\abs\page_text implements page_interface
 	}
 
 	/**
-	* Set page display setting for bots
-	*
-	* @param bool				$value	Config value
-	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_enable_bot($value)
-	{
-		$this->data['page_enable_bot'] = (bool) $value;
-
-		return $this;
-	}
-
-	/**
 	* Get page display setting for newly registered users
 	*
 	* @return bool
@@ -502,19 +463,6 @@ class page extends \vinabb\web\entities\abs\page_text implements page_interface
 	public function get_enable_new_user()
 	{
 		return isset($this->data['page_enable_new_user']) ? (bool) $this->data['page_enable_new_user'] : true;
-	}
-
-	/**
-	* Set page display setting for newly registered users
-	*
-	* @param bool				$value	Config value
-	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_enable_new_user($value)
-	{
-		$this->data['page_enable_new_user'] = (bool) $value;
-
-		return $this;
 	}
 
 	/**
@@ -528,19 +476,6 @@ class page extends \vinabb\web\entities\abs\page_text implements page_interface
 	}
 
 	/**
-	* Set page display setting for registered users
-	*
-	* @param bool				$value	Config value
-	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_enable_user($value)
-	{
-		$this->data['page_enable_user'] = (bool) $value;
-
-		return $this;
-	}
-
-	/**
 	* Get page display setting for moderators
 	*
 	* @return bool
@@ -548,19 +483,6 @@ class page extends \vinabb\web\entities\abs\page_text implements page_interface
 	public function get_enable_mod()
 	{
 		return isset($this->data['page_enable_mod']) ? (bool) $this->data['page_enable_mod'] : true;
-	}
-
-	/**
-	* Set page display setting for moderators
-	*
-	* @param bool				$value	Config value
-	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_enable_mod($value)
-	{
-		$this->data['page_enable_mod'] = (bool) $value;
-
-		return $this;
 	}
 
 	/**
@@ -574,19 +496,6 @@ class page extends \vinabb\web\entities\abs\page_text implements page_interface
 	}
 
 	/**
-	* Set page display setting for global moderators
-	*
-	* @param bool				$value	Config value
-	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_enable_global_mod($value)
-	{
-		$this->data['page_enable_global_mod'] = (bool) $value;
-
-		return $this;
-	}
-
-	/**
 	* Get page display setting for administrators
 	*
 	* @return bool
@@ -597,19 +506,6 @@ class page extends \vinabb\web\entities\abs\page_text implements page_interface
 	}
 
 	/**
-	* Set page display setting for administrators
-	*
-	* @param bool				$value	Config value
-	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_enable_admin($value)
-	{
-		$this->data['page_enable_admin'] = (bool) $value;
-
-		return $this;
-	}
-
-	/**
 	* Get page display setting for founders
 	*
 	* @return bool
@@ -617,18 +513,5 @@ class page extends \vinabb\web\entities\abs\page_text implements page_interface
 	public function get_enable_founder()
 	{
 		return isset($this->data['page_enable_founder']) ? (bool) $this->data['page_enable_founder'] : true;
-	}
-
-	/**
-	* Set page display setting for founders
-	*
-	* @param bool				$value	Config value
-	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_enable_founder($value)
-	{
-		$this->data['page_enable_founder'] = (bool) $value;
-
-		return $this;
 	}
 }
