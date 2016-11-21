@@ -110,6 +110,9 @@ class profile
 		// Language
 		$this->language->add_lang('memberlist');
 
+		// Setting a variable to let the style designer know where he is...
+		$this->template->assign_var('S_IN_MEMBERLIST', true);
+
 		// Display a profile
 		if ($username == '')
 		{
