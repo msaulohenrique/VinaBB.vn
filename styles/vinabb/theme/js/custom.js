@@ -167,8 +167,7 @@ $(document).ready(function()
 						callback($(this).data('size'));
 						editor.closeDropDown(true);
 						e.preventDefault();
-					},
-					size;
+					};
 
 				for (var i = 1; i < 7; i++) {
 					// Only consider maxsize when set greater 0
