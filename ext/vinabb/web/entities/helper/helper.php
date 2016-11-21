@@ -75,7 +75,7 @@ class helper implements helper_interface
 	*/
 	public function check_username($text, $id = 0)
 	{
-		$extra = ['user_id'	=> ['type' => 'int', 'value' => $id]];
+		$extra = ['user_id'	=> ['type' => 'int', 'equal' => false, 'value' => $id]];
 
 		return $this->check_column_for_name(USERS_TABLE, 'username_clean', $text, $extra);
 	}
@@ -144,7 +144,7 @@ class helper implements helper_interface
 	*/
 	public function check_smiley_code($text, $id = 0)
 	{
-		$extra = ['smiley_id'	=> ['type' => 'int', 'value' => $id]];
+		$extra = ['smiley_id'	=> ['type' => 'int', 'equal' => false, 'value' => $id]];
 
 		return $this->check_column_for_name(SMILIES_TABLE, 'code', $text, $extra);
 	}
@@ -169,7 +169,7 @@ class helper implements helper_interface
 	*/
 	public function check_portal_cat_name($text, $id = 0)
 	{
-		$extra = ['cat_id'	=> ['type' => 'int', 'value' => $id]];
+		$extra = ['cat_id'	=> ['type' => 'int', 'equal' => false, 'value' => $id]];
 
 		return $this->check_column_for_name($this->container->getParameter('vinabb.web.tables.portal_categories'), 'cat_name', $text, $extra);
 	}
@@ -183,7 +183,7 @@ class helper implements helper_interface
 	*/
 	public function check_portal_cat_name_vi($text, $id = 0)
 	{
-		$extra = ['cat_id'	=> ['type' => 'int', 'value' => $id]];
+		$extra = ['cat_id'	=> ['type' => 'int', 'equal' => false, 'value' => $id]];
 
 		return $this->check_column_for_name($this->container->getParameter('vinabb.web.tables.portal_categories'), 'cat_name_vi', $text, $extra);
 	}
@@ -197,7 +197,7 @@ class helper implements helper_interface
 	*/
 	public function check_portal_cat_varname($text, $id = 0)
 	{
-		$extra = ['cat_id'	=> ['type' => 'int', 'value' => $id]];
+		$extra = ['cat_id'	=> ['type' => 'int', 'equal' => false, 'value' => $id]];
 
 		return $this->check_column_for_name($this->container->getParameter('vinabb.web.tables.portal_categories'), 'cat_varname', $text, $extra);
 	}
@@ -222,7 +222,7 @@ class helper implements helper_interface
 	*/
 	public function check_bb_cat_id($bb_type, $id)
 	{
-		$extra = ['bb_type'	=> ['type' => 'int', 'value' => $bb_type]];
+		$extra = ['bb_type'	=> ['type' => 'int', 'equal' => true, 'value' => $bb_type]];
 
 		return $this->check_column_for_id($this->container->getParameter('vinabb.web.tables.bb_categories'), 'cat_id', $id, $extra);
 	}
@@ -238,8 +238,8 @@ class helper implements helper_interface
 	public function check_bb_cat_name($bb_type, $text, $id = 0)
 	{
 		$extra = [
-			'bb_type'	=> ['type' => 'int', 'value' => $bb_type],
-			'cat_id'	=> ['type' => 'int', 'value' => $id]
+			'bb_type'	=> ['type' => 'int', 'equal' => true, 'value' => $bb_type],
+			'cat_id'	=> ['type' => 'int', 'equal' => false, 'value' => $id]
 		];
 
 		return $this->check_column_for_name($this->container->getParameter('vinabb.web.tables.bb_categories'), 'cat_name', $text, $extra);
@@ -256,8 +256,8 @@ class helper implements helper_interface
 	public function check_bb_cat_name_vi($bb_type, $text, $id = 0)
 	{
 		$extra = [
-			'bb_type'	=> ['type' => 'int', 'value' => $bb_type],
-			'cat_id'	=> ['type' => 'int', 'value' => $id]
+			'bb_type'	=> ['type' => 'int', 'equal' => true, 'value' => $bb_type],
+			'cat_id'	=> ['type' => 'int', 'equal' => false, 'value' => $id]
 		];
 
 		return $this->check_column_for_name($this->container->getParameter('vinabb.web.tables.bb_categories'), 'cat_name_vi', $text, $extra);
@@ -274,8 +274,8 @@ class helper implements helper_interface
 	public function check_bb_cat_varname($bb_type, $text, $id = 0)
 	{
 		$extra = [
-			'bb_type'	=> ['type' => 'int', 'value' => $bb_type],
-			'cat_id'	=> ['type' => 'int', 'value' => $id]
+			'bb_type'	=> ['type' => 'int', 'equal' => true, 'value' => $bb_type],
+			'cat_id'	=> ['type' => 'int', 'equal' => false, 'value' => $id]
 		];
 
 		return $this->check_column_for_name($this->container->getParameter('vinabb.web.tables.bb_categories'), 'cat_varname', $text, $extra);
@@ -292,8 +292,8 @@ class helper implements helper_interface
 	public function check_bb_item_varname($bb_type, $text, $id = 0)
 	{
 		$extra = [
-			'bb_type'	=> ['type' => 'int', 'value' => $bb_type],
-			'item_id'	=> ['type' => 'int', 'value' => $id]
+			'bb_type'	=> ['type' => 'int', 'equal' => true, 'value' => $bb_type],
+			'item_id'	=> ['type' => 'int', 'equal' => false, 'value' => $id]
 		];
 
 		return $this->check_column_for_name($this->container->getParameter('vinabb.web.tables.bb_items'), 'item_varname', $text, $extra);
@@ -319,7 +319,7 @@ class helper implements helper_interface
 	*/
 	public function check_bb_author_name($text, $id = 0)
 	{
-		$extra = ['author_id'	=> ['type' => 'int', 'value' => $id]];
+		$extra = ['author_id'	=> ['type' => 'int', 'equal' => false, 'value' => $id]];
 
 		return $this->check_column_for_name($this->container->getParameter('vinabb.web.tables.bb_authors'), 'author_name', $text, $extra);
 	}
@@ -333,7 +333,7 @@ class helper implements helper_interface
 	*/
 	public function check_page_varname($text, $id = 0)
 	{
-		$extra = ['page_id'	=> ['type' => 'int', 'value' => $id]];
+		$extra = ['page_id'	=> ['type' => 'int', 'equal' => false, 'value' => $id]];
 
 		return $this->check_column_for_name($this->container->getParameter('vinabb.web.tables.pages'), 'page_varname', $text, $extra);
 	}
@@ -398,13 +398,15 @@ class helper implements helper_interface
 
 		foreach ($data as $field_name => $field_data)
 		{
+			$operator = ($field_data['equal']) ? '=' : '<>';
+
 			if ($field_data['type'] == 'int')
 			{
-				$sql_and .= " AND $field_name = " . (int) $field_data['value'];
+				$sql_and .= " AND $field_name $operator " . (int) $field_data['value'];
 			}
 			else
 			{
-				$sql_and .= " AND $field_name = '" . $this->db->sql_escape($field_data['value']) . "'";
+				$sql_and .= " AND $field_name $operator '" . $this->db->sql_escape($field_data['value']) . "'";
 			}
 		}
 
