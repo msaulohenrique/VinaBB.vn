@@ -152,7 +152,7 @@ class portal_article extends \vinabb\web\entities\abs\article_text implements po
 		}
 
 		// Some fields must be >= 0
-		$validate_unsigned = ['article_id', 'cat_id', 'article_views', 'article_time', 'article_text_options'];
+		$validate_unsigned = ['article_id', 'cat_id', 'article_enable', 'article_views', 'article_time', 'article_text_options'];
 
 		foreach ($validate_unsigned as $field)
 		{
@@ -469,19 +469,6 @@ class portal_article extends \vinabb\web\entities\abs\article_text implements po
 	public function get_enable()
 	{
 		return isset($this->data['article_enable']) ? (bool) $this->data['article_enable'] : true;
-	}
-
-	/**
-	* Set article display setting
-	*
-	* @param bool						$value	Article display setting
-	* @return portal_article_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_enable($value)
-	{
-		$this->data['article_enable'] = (bool) $value;
-
-		return $this;
 	}
 
 	/**
