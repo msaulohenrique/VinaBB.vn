@@ -145,22 +145,23 @@ class bb_item extends \vinabb\web\entities\abs\item_desc implements bb_item_inte
 			'author_id'					=> 'set_author_id',
 			'item_name'					=> 'set_name',
 			'item_varname'				=> 'set_varname',
-			'item_ext_style'			=> 'bool',
-			'item_ext_acp_style'		=> 'bool',
-			'item_ext_lang'				=> 'bool',
-			'item_ext_db_schema'		=> 'bool',
-			'item_ext_db_data'			=> 'bool',
+			'item_ext_style'			=> 'set_ext_style',
+			'item_ext_acp_style'		=> 'set_ext_acp_style',
+			'item_ext_lang'				=> 'set_ext_lang',
+			'item_ext_db_schema'		=> 'set_ext_db_schema',
+			'item_ext_db_data'			=> 'set_ext_db_data',
 			'item_style_presets'		=> 'set_style_presets',
-			'item_style_presets_aio'	=> 'bool',
-			'item_style_source'			=> 'bool',
-			'item_style_responsive'		=> 'bool',
-			'item_style_bootstrap'		=> 'bool',
+			'item_style_presets_aio'	=> 'set_style_presets_aio',
+			'item_style_source'			=> 'set_style_source',
+			'item_style_responsive'		=> 'set_style_responsive',
+			'item_style_bootstrap'		=> 'set_style_bootstrap',
 			'item_lang_iso'				=> 'set_lang_iso',
 			'item_tool_os'				=> 'set_tool_os',
 			'item_price'				=> 'set_price',
 			'item_url'					=> 'set_url',
 			'item_github'				=> 'set_github',
-			'item_added'				=> 'integer',
+			'item_enable'				=> 'bool',
+			'item_added'				=> 'set_added',
 			'item_updated'				=> 'integer',
 
 			// We do not pass to set_desc() or set_desc_vi() as generate_text_for_storage() would run twice
@@ -201,7 +202,7 @@ class bb_item extends \vinabb\web\entities\abs\item_desc implements bb_item_inte
 		}
 
 		// Some fields must be >= 0
-		$validate_unsigned = ['item_id', 'bb_type', 'cat_id', 'author_id', 'item_desc_options', 'item_desc_vi_options', 'item_style_presets', 'item_price'];
+		$validate_unsigned = ['item_id', 'bb_type', 'cat_id', 'author_id', 'item_desc_options', 'item_desc_vi_options', 'item_ext_style', 'item_ext_acp_style', 'item_ext_lang', 'item_ext_db_schema', 'item_ext_db_data', 'item_style_presets', 'item_style_presets_aio', 'item_style_source', 'item_style_responsive', 'item_style_bootstrap', 'item_tool_os', 'item_price', 'item_enable', 'item_added', 'item_updated'];
 
 		foreach ($validate_unsigned as $field)
 		{
@@ -860,10 +861,20 @@ class bb_item extends \vinabb\web\entities\abs\item_desc implements bb_item_inte
 	*
 	* @param string				$text	Item URL
 	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_url($text)
 	{
-		$this->data['item_url'] = (string) $text;
+		$text = (string) $text;
+
+		// Checking for valid URL
+		if (filter_var($text, FILTER_VALIDATE_URL) === false)
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['item_url', 'INVALID_URL']);
+		}
+
+		// Set the value on our data array
+		$this->data['item_url'] = $text;
 
 		return $this;
 	}
@@ -883,10 +894,20 @@ class bb_item extends \vinabb\web\entities\abs\item_desc implements bb_item_inte
 	*
 	* @param string				$text	Item GitHub URL
 	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_github($text)
 	{
-		$this->data['item_github'] = (string) $text;
+		$text = (string) $text;
+
+		// Checking for valid URL
+		if (filter_var($text, FILTER_VALIDATE_URL) === false)
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['item_github', 'INVALID_URL']);
+		}
+
+		// Set the value on our data array
+		$this->data['item_github'] = $text;
 
 		return $this;
 	}
@@ -899,19 +920,6 @@ class bb_item extends \vinabb\web\entities\abs\item_desc implements bb_item_inte
 	public function get_enable()
 	{
 		return isset($this->data['item_enable']) ? (bool) $this->data['item_enable'] : true;
-	}
-
-	/**
-	* Set item display setting in template
-	*
-	* @param bool				$value	Config value
-	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_enable($value)
-	{
-		$this->data['item_enable'] = (bool) $value;
-
-		return $this;
 	}
 
 	/**
@@ -947,17 +955,5 @@ class bb_item extends \vinabb\web\entities\abs\item_desc implements bb_item_inte
 	public function get_updated()
 	{
 		return isset($this->data['item_updated']) ? (int) $this->data['item_updated'] : 0;
-	}
-
-	/**
-	* Set the last updated time of item
-	*
-	* @return bb_item_interface $this Object for chaining calls: load()->set()->save()
-	*/
-	public function set_updated()
-	{
-		$this->data['item_updated'] = time();
-
-		return $this;
 	}
 }
