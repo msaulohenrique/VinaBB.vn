@@ -11,9 +11,9 @@ use vinabb\web\includes\constants;
 /**
 * @ignore
 */
-define('IN_PHPBB', true);
 $phpbb_root_path = (defined('PHPBB_ROOT_PATH')) ? PHPBB_ROOT_PATH : './';
 $phpEx = substr(strrchr(__FILE__, '.'), 1);
+require "{$phpbb_root_path}phpbb.{$phpEx}";
 require "{$phpbb_root_path}common.{$phpEx}";
 
 $forum_id = $request->variable('f', 0);
