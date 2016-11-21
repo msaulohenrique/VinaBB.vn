@@ -10,6 +10,11 @@ services:
         arguments:
             - '@service_container'
             - '@dbal.conn'
+    vinabb.web.operators.icon:
+        class: vinabb\web\operators\icon
+        arguments:
+            - '@service_container'
+            - '@dbal.conn'
     vinabb.web.operators.smiley:
         class: vinabb\web\operators\smiley
         arguments:
