@@ -267,7 +267,8 @@ class bb_items implements bb_items_interface
 			'item_price'		=> $this->request->variable('item_price', 0),
 			'item_url'			=> $this->request->variable('item_url', ''),
 			'item_github'		=> $this->request->variable('item_github', ''),
-			'item_enable'		=> $this->request->variable('item_enable', true)
+			'item_enable'		=> $this->request->variable('item_enable', true),
+			'item_updated'		=> time()
 		];
 	}
 
@@ -308,9 +309,7 @@ class bb_items implements bb_items_interface
 			'set_price'		=> $data['item_price'],
 			'set_url'		=> $data['item_url'],
 			'set_github'	=> $data['item_github'],
-			'set_enable'	=> $data['item_enable'],
-			'set_added'		=> null,
-			'set_updated'	=> null
+			'set_added'		=> null
 		];
 
 		// Set the mapped data in the entity
