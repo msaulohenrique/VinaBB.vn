@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
 * Controller for the entity helper
 */
-class helper
+class helper implements helper_interface
 {
 	/** @var ContainerInterface */
 	protected $container;
