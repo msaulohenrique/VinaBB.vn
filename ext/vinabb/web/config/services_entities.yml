@@ -11,6 +11,11 @@ services:
         arguments:
             - '@config'
             - '@dbal.conn'
+    vinabb.web.entities.icon:
+        class: vinabb\web\entities\icon
+        shared: false
+        arguments:
+            - '@dbal.conn'
     vinabb.web.entities.smiley:
         class: vinabb\web\entities\smiley
         shared: false
