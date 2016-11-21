@@ -31,7 +31,7 @@ vinabb_web_board_posting_route:
     defaults:
         _controller: vinabb.web.board.posting:main
     requirements:
-        mode: '([a-z0-9-_]*)(\/{0,1})'
+        mode: '(post|reply|quote|edit|delete|bump|smilies|popup)'
 vinabb_web_board_search_route:
     path: /search/{mode}
     defaults:
