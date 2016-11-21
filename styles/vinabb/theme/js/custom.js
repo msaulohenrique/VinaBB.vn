@@ -231,7 +231,7 @@ $(document).ready(function()
 
 				return '<blockquote' + addition + '>' + content + '</blockquote>';
 			},
-			quoteType: function (val, name) {
+			quoteType: function (val) {
 				return '"' + val.replace('"', '\\"') + '"';
 			},
 			breakStart: false,
