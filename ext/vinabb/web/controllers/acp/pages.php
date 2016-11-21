@@ -272,22 +272,13 @@ class pages implements pages_interface
 	protected function map_set_data(\vinabb\web\entities\page_interface $entity, $data)
 	{
 		$map_fields = [
-			'set_name'				=> $data['page_name'],
-			'set_name_vi'			=> $data['page_name_vi'],
-			'set_varname'			=> $data['page_varname'],
-			'set_desc'				=> $data['page_desc'],
-			'set_desc_vi'			=> $data['page_desc_vi'],
-			'set_text'				=> $data['page_text'],
-			'set_text_vi'			=> $data['page_text_vi'],
-			'set_enable'			=> $data['page_enable'],
-			'set_enable_guest'		=> $data['page_enable_guest'],
-			'set_enable_bot'		=> $data['page_enable_bot'],
-			'set_enable_new_user'	=> $data['page_enable_new_user'],
-			'set_enable_user'		=> $data['page_enable_user'],
-			'set_enable_mod'		=> $data['page_enable_mod'],
-			'set_enable_global_mod'	=> $data['page_enable_global_mod'],
-			'set_enable_admin'		=> $data['page_enable_admin'],
-			'set_enable_founder'	=> $data['page_enable_founder']
+			'set_name'		=> $data['page_name'],
+			'set_name_vi'	=> $data['page_name_vi'],
+			'set_varname'	=> $data['page_varname'],
+			'set_desc'		=> $data['page_desc'],
+			'set_desc_vi'	=> $data['page_desc_vi'],
+			'set_text'		=> $data['page_text'],
+			'set_text_vi'	=> $data['page_text_vi']
 		];
 
 		// Set the mapped data in the entity
