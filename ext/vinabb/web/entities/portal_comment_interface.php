@@ -178,6 +178,7 @@ interface portal_comment_interface
 	*
 	* @param bool						$value	Pending status
 	* @return portal_comment_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function set_pending($value);
 

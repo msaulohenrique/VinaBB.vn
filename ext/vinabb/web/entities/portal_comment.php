@@ -8,6 +8,8 @@
 
 namespace vinabb\web\entities;
 
+use vinabb\web\includes\constants;
+
 /**
 * Entity for a single comment
 */
@@ -140,7 +142,7 @@ class portal_comment extends \vinabb\web\entities\abs\comment_text implements po
 		}
 
 		// Some fields must be >= 0
-		$validate_unsigned = ['comment_id', 'user_id', 'article_id', 'comment_time', 'comment_text_options'];
+		$validate_unsigned = ['comment_id', 'user_id', 'article_id', 'comment_pending', 'comment_time', 'comment_text_options'];
 
 		foreach ($validate_unsigned as $field)
 		{
@@ -330,10 +332,19 @@ class portal_comment extends \vinabb\web\entities\abs\comment_text implements po
 	*
 	* @param bool						$value	Pending status
 	* @return portal_comment_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function set_pending($value)
 	{
-		$this->data['comment_pending'] = (bool) $value;
+		$value = (int) $value;
+
+		if (!in_array($value, [constants::ARTICLE_COMMENT_MODE_HIDE, constants::ARTICLE_COMMENT_MODE_SHOW, constants::ARTICLE_COMMENT_MODE_PENDING]))
+		{
+			throw new \vinabb\web\exceptions\out_of_bounds('comment_pending');
+		}
+
+		// Set the value on our data array
+		$this->data['comment_pending'] = $value;
 
 		return $this;
 	}
