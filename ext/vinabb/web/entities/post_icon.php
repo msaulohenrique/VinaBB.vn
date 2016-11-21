@@ -13,7 +13,7 @@ use vinabb\web\includes\constants;
 /**
 * Entity for a single post icon
 */
-class icon implements icon_interface
+class post_icon implements post_icon_interface
 {
 	/**
 	* Data for this entity
@@ -45,8 +45,8 @@ class icon implements icon_interface
 	/**
 	* Load the data from the database for an entity
 	*
-	* @param int				$id		Icon ID
-	* @return icon_interface	$this	Object for chaining calls: load()->set()->save()
+	* @param int					$id		Icon ID
+	* @return post_icon_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function load($id)
@@ -74,8 +74,8 @@ class icon implements icon_interface
 	* Any existing data on this entity is over-written.
 	* All data is validated and an exception is thrown if any data is invalid.
 	*
-	* @param array				$data	Data array from the database
-	* @return icon_interface	$this	Object for chaining calls: load()->set()->save()
+	* @param array					$data	Data array from the database
+	* @return post_icon_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\base
 	*/
 	public function import($data)
@@ -140,7 +140,7 @@ class icon implements icon_interface
 	*
 	* Will throw an exception if the entity was already inserted (call save() instead)
 	*
-	* @return icon_interface $this Object for chaining calls: load()->set()->save()
+	* @return post_icon_interface $this Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function insert()
@@ -169,7 +169,7 @@ class icon implements icon_interface
 	* This must be called before closing or any changes will not be saved!
 	* If adding an entity (saving for the first time), you must call insert() or an exception will be thrown
 	*
-	* @return icon_interface $this Object for chaining calls: load()->set()->save()
+	* @return post_icon_interface $this Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function save()
@@ -215,8 +215,8 @@ class icon implements icon_interface
 	/**
 	* Set the icon image file
 	*
-	* @param string				$text	Icon image file
-	* @return icon_interface	$this	Object for chaining calls: load()->set()->save()
+	* @param string					$text	Icon image file
+	* @return post_icon_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_url($text)
@@ -254,8 +254,8 @@ class icon implements icon_interface
 	/**
 	* Set the icon width
 	*
-	* @param int				$value	Icon width
-	* @return icon_interface	$this	Object for chaining calls: load()->set()->save()
+	* @param int					$value	Icon width
+	* @return post_icon_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
 	public function set_width($value)
 	{
@@ -277,8 +277,8 @@ class icon implements icon_interface
 	/**
 	* Set the icon height
 	*
-	* @param int				$value	Icon height
-	* @return icon_interface	$this	Object for chaining calls: load()->set()->save()
+	* @param int					$value	Icon height
+	* @return post_icon_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
 	public function set_height($value)
 	{
@@ -300,8 +300,8 @@ class icon implements icon_interface
 	/**
 	* Set the icon hover text
 	*
-	* @param string				$text	Icon hover text
-	* @return icon_interface	$this	Object for chaining calls: load()->set()->save()
+	* @param string					$text	Icon hover text
+	* @return post_icon_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_alt($text)
@@ -339,8 +339,8 @@ class icon implements icon_interface
 	/**
 	* Set display setting on posting page
 	*
-	* @param bool				$value	Config value
-	* @return icon_interface	$this	Object for chaining calls: load()->set()->save()
+	* @param bool					$value	Config value
+	* @return post_icon_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
 	public function set_display_on_posting($value)
 	{
