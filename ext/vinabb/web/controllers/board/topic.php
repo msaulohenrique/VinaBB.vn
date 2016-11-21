@@ -8,6 +8,7 @@
 
 namespace vinabb\web\controllers\board;
 
+use phpbb\groupposition\exception;
 use vinabb\web\includes\constants;
 
 class topic
@@ -35,6 +36,9 @@ class topic
 
 	/** @var \vinabb\web\controllers\pagination */
 	protected $pagination;
+
+	/** @var \phpbb\profilefields\manager */
+	protected $profile_fields;
 
 	/** @var \phpbb\request\request */
 	protected $request;
@@ -65,6 +69,7 @@ class topic
 	* @param \phpbb\event\dispatcher_interface $dispatcher
 	* @param \phpbb\language\language $language
 	* @param \vinabb\web\controllers\pagination $pagination
+	* @param \phpbb\profilefields\manager $profile_fields
 	* @param \phpbb\request\request $request
 	* @param \phpbb\template\template $template
 	* @param \phpbb\user $user
@@ -81,6 +86,7 @@ class topic
 		\phpbb\event\dispatcher_interface $dispatcher,
 		\phpbb\language\language $language,
 		\vinabb\web\controllers\pagination $pagination,
+		\phpbb\profilefields\manager $profile_fields,
 		\phpbb\request\request $request,
 		\phpbb\template\template $template,
 		\phpbb\user $user,
@@ -97,6 +103,7 @@ class topic
 		$this->dispatcher = $dispatcher;
 		$this->language = $language;
 		$this->pagination = $pagination;
+		$this->profile_fields = $profile_fields;
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
@@ -499,7 +506,7 @@ class topic
 		}
 
 		// Post ordering options
-		$limit_days = array(
+		$limit_days = [
 			0	=> $this->language->lang('ALL_POSTS'),
 			1	=> $this->language->lang('1_DAY'),
 			7	=> $this->language->lang('7_DAYS'),
@@ -508,22 +515,39 @@ class topic
 			90	=> $this->language->lang('3_MONTHS'),
 			180	=> $this->language->lang('6_MONTHS'),
 			365	=> $this->language->lang('1_YEAR')
-		);
-		$sort_by_text = array(
+		];
+
+		$sort_by_text = [
 			'a'	=> $this->language->lang('AUTHOR'),
 			't'	=> $this->language->lang('POST_TIME'),
 			's'	=> $this->language->lang('SUBJECT')
-		);
-		$sort_by_sql = array(
-			'a'	=> array('u.username_clean', 'p.post_id'),
-			't'	=> array('p.post_time', 'p.post_id'),
-			's'	=> array('p.post_subject', 'p.post_id')
-		);
-		$join_user_sql = array('a' => true, 't' => false, 's' => false);
+		];
 
+		$sort_by_sql = [
+			'a'	=> ['u.username_clean', 'p.post_id'],
+			't'	=> ['p.post_time', 'p.post_id'],
+			's'	=> ['p.post_subject', 'p.post_id']
+		];
+
+		$join_user_sql = ['a' => true, 't' => false, 's' => false];
 		$s_limit_days = $s_sort_key = $s_sort_dir = $u_sort_param = '';
 
 		gen_sort_selects($limit_days, $sort_by_text, $sort_days, $sort_key, $sort_dir, $s_limit_days, $s_sort_key, $s_sort_dir, $u_sort_param, $default_sort_days, $default_sort_key, $default_sort_dir);
+
+		// Convert $u_sort_param from string to array
+		$u_sort_param_ary = [];
+
+		if ($u_sort_param != '')
+		{
+			$u_sort_param = htmlspecialchars_decode($u_sort_param);
+			$u_sort_param_raw_ary = explode('&', $u_sort_param);
+
+			foreach ($u_sort_param_raw_ary as $u_sort_param_raw)
+			{
+				list($u_sort_param_raw_key, $u_sort_param_raw_value) = explode('=', $u_sort_param_raw);
+				$u_sort_param_ary[$u_sort_param_raw_key] = $u_sort_param_raw_value;
+			}
+		}
 
 		// Obtain correct post count and ordering SQL if user has
 		// requested anything different
@@ -569,7 +593,7 @@ class topic
 		$start = $this->pagination->validate_start($start, $this->config['posts_per_page'], $total_posts);
 
 		// General Viewtopic URL for return links
-		$viewtopic_url = append_sid("{$this->root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id" . (($start == 0) ? '' : "&amp;start=$start") . ((strlen($u_sort_param)) ? "&amp;$u_sort_param" : '') . (($highlight_match) ? "&amp;hilit=$highlight" : ''));
+		$viewtopic_url = append_sid("{$this->root_path}viewtopic.{$this->php_ext}", "f=$forum_id&amp;t=$topic_id" . (($start == 0) ? '' : "&amp;start=$start") . ((strlen($u_sort_param)) ? "&amp;$u_sort_param" : '') . (($highlight_match) ? "&amp;hilit=$highlight" : ''));
 
 		// Are we watching this topic?
 		$s_watching_topic = array(
@@ -642,36 +666,24 @@ class topic
 
 		// Quick mod tools
 		$allow_change_type = ($this->auth->acl_get('m_', $forum_id) || ($this->user->data['is_registered'] && $this->user->data['user_id'] == $topic_data['topic_poster'])) ? true : false;
+		$s_quickmod_action = $this->helper->route('vinabb_web_mcp_route', ['id' => 'front', 'mode' => 'quickmod', 'forum_id' => $forum_id, 'topic_id' => $topic_id, 'start' => $start, 'redirect' => urlencode(str_replace('&amp;', '&', $viewtopic_url))], true, $this->user->session_id);
 
-		$s_quickmod_action = append_sid(
-			"{$this->root_path}mcp.$phpEx",
-			array(
-				'f'	=> $forum_id,
-				't'	=> $topic_id,
-				'start'		=> $start,
-				'quickmod'	=> 1,
-				'redirect'	=> urlencode(str_replace('&amp;', '&', $viewtopic_url)),
-			),
-			true,
-			$this->user->session_id
-		);
-
-		$quickmod_array = array(
-			'lock'			=> array('LOCK_TOPIC', ($topic_data['topic_status'] == ITEM_UNLOCKED) && ($this->auth->acl_get('m_lock', $forum_id) || ($this->auth->acl_get('f_user_lock', $forum_id) && $this->user->data['is_registered'] && $this->user->data['user_id'] == $topic_data['topic_poster']))),
-			'unlock'		=> array('UNLOCK_TOPIC', ($topic_data['topic_status'] != ITEM_UNLOCKED) && ($this->auth->acl_get('m_lock', $forum_id))),
-			'delete_topic'	=> array('DELETE_TOPIC', ($this->auth->acl_get('m_delete', $forum_id) || (($topic_data['topic_visibility'] != ITEM_DELETED) && $this->auth->acl_get('m_softdelete', $forum_id)))),
-			'restore_topic'	=> array('RESTORE_TOPIC', (($topic_data['topic_visibility'] == ITEM_DELETED) && $this->auth->acl_get('m_approve', $forum_id))),
-			'move'			=> array('MOVE_TOPIC', $this->auth->acl_get('m_move', $forum_id) && $topic_data['topic_status'] != ITEM_MOVED),
-			'split'			=> array('SPLIT_TOPIC', $this->auth->acl_get('m_split', $forum_id)),
-			'merge'			=> array('MERGE_POSTS', $this->auth->acl_get('m_merge', $forum_id)),
-			'merge_topic'	=> array('MERGE_TOPIC', $this->auth->acl_get('m_merge', $forum_id)),
-			'fork'			=> array('FORK_TOPIC', $this->auth->acl_get('m_move', $forum_id)),
-			'make_normal'	=> array('MAKE_NORMAL', ($allow_change_type && $this->auth->acl_gets('f_sticky', 'f_announce', 'f_announce_global', $forum_id) && $topic_data['topic_type'] != POST_NORMAL)),
-			'make_sticky'	=> array('MAKE_STICKY', ($allow_change_type && $this->auth->acl_get('f_sticky', $forum_id) && $topic_data['topic_type'] != POST_STICKY)),
-			'make_announce'	=> array('MAKE_ANNOUNCE', ($allow_change_type && $this->auth->acl_get('f_announce', $forum_id) && $topic_data['topic_type'] != POST_ANNOUNCE)),
-			'make_global'	=> array('MAKE_GLOBAL', ($allow_change_type && $this->auth->acl_get('f_announce_global', $forum_id) && $topic_data['topic_type'] != POST_GLOBAL)),
-			'topic_logs'	=> array('VIEW_TOPIC_LOGS', $this->auth->acl_get('m_', $forum_id)),
-		);
+		$quickmod_array = [
+			'lock'			=> ['LOCK_TOPIC', ($topic_data['topic_status'] == ITEM_UNLOCKED) && ($this->auth->acl_get('m_lock', $forum_id) || ($this->auth->acl_get('f_user_lock', $forum_id) && $this->user->data['is_registered'] && $this->user->data['user_id'] == $topic_data['topic_poster']))],
+			'unlock'		=> ['UNLOCK_TOPIC', ($topic_data['topic_status'] != ITEM_UNLOCKED) && ($this->auth->acl_get('m_lock', $forum_id))],
+			'delete_topic'	=> ['DELETE_TOPIC', ($this->auth->acl_get('m_delete', $forum_id) || (($topic_data['topic_visibility'] != ITEM_DELETED) && $this->auth->acl_get('m_softdelete', $forum_id)))],
+			'restore_topic'	=> ['RESTORE_TOPIC', (($topic_data['topic_visibility'] == ITEM_DELETED) && $this->auth->acl_get('m_approve', $forum_id))],
+			'move'			=> ['MOVE_TOPIC', $this->auth->acl_get('m_move', $forum_id) && $topic_data['topic_status'] != ITEM_MOVED],
+			'split'			=> ['SPLIT_TOPIC', $this->auth->acl_get('m_split', $forum_id)],
+			'merge'			=> ['MERGE_POSTS', $this->auth->acl_get('m_merge', $forum_id)],
+			'merge_topic'	=> ['MERGE_TOPIC', $this->auth->acl_get('m_merge', $forum_id)],
+			'fork'			=> ['FORK_TOPIC', $this->auth->acl_get('m_move', $forum_id)],
+			'make_normal'	=> ['MAKE_NORMAL', ($allow_change_type && $this->auth->acl_gets('f_sticky', 'f_announce', 'f_announce_global', $forum_id) && $topic_data['topic_type'] != POST_NORMAL)],
+			'make_sticky'	=> ['MAKE_STICKY', ($allow_change_type && $this->auth->acl_get('f_sticky', $forum_id) && $topic_data['topic_type'] != POST_STICKY)],
+			'make_announce'	=> ['MAKE_ANNOUNCE', ($allow_change_type && $this->auth->acl_get('f_announce', $forum_id) && $topic_data['topic_type'] != POST_ANNOUNCE)],
+			'make_global'	=> ['MAKE_GLOBAL', ($allow_change_type && $this->auth->acl_get('f_announce_global', $forum_id) && $topic_data['topic_type'] != POST_GLOBAL)],
+			'topic_logs'	=> ['VIEW_TOPIC_LOGS', $this->auth->acl_get('m_', $forum_id)]
+		];
 
 		/**
 		* Event to modify data in the quickmod_array before it gets sent to the
@@ -715,7 +727,7 @@ class topic
 		generate_forum_rules($topic_data);
 
 		// Moderators
-		$forum_moderators = array();
+		$forum_moderators = [];
 
 		if ($this->config['load_moderators'])
 		{
@@ -728,10 +740,11 @@ class topic
 		// Replace naughty words in title
 		$topic_data['topic_title'] = censor_text($topic_data['topic_title']);
 
-		$s_search_hidden_fields = array(
-			't' => $topic_id,
-			'sf' => 'msgonly',
-		);
+		$s_search_hidden_fields = [
+			't'		=> $topic_id,
+			'sf'	=> 'msgonly'
+		];
+
 		if ($_SID)
 		{
 			$s_search_hidden_fields['sid'] = $_SID;
@@ -746,14 +759,27 @@ class topic
 			}
 		}
 
-		// If we've got a hightlight set pass it on to pagination.
-		$base_url = append_sid("{$this->root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id" . ((strlen($u_sort_param)) ? "&amp;$u_sort_param" : '') . (($highlight_match) ? "&amp;hilit=$highlight" : ''));
+		$pagination_params = [
+			'forum_id'	=> $forum_id,
+			'topic_id'	=> $topic_id
+		];
+
+		if (sizeof($u_sort_param_ary))
+		{
+			$pagination_params = array_merge($pagination_params, $u_sort_param_ary);
+		}
+
+		// If we've got a hightlight set pass it on to pagination
+		if ($highlight_match)
+		{
+			$pagination_params['hilit'] = $highlight;
+		}
 
 		/**
 		* Event to modify data before template variables are being assigned
 		*
 		* @event core.viewtopic_assign_template_vars_before
-		* @var	string	base_url			URL to be passed to generate pagination
+		* @var	array	pagination_params	URL parameters to be passed to generate pagination
 		* @var	int		forum_id			Forum ID
 		* @var	int		post_id				Post ID
 		* @var	array	quickmod_array		Array with quick moderation options data
@@ -765,22 +791,12 @@ class topic
 		* @var	string	viewtopic_url		URL to the topic page
 		* @since 3.1.0-RC4
 		* @change 3.1.2-RC1 Added viewtopic_url
+		* @change Replaced base_url with pagination_params
 		*/
-		$vars = array(
-			'base_url',
-			'forum_id',
-			'post_id',
-			'quickmod_array',
-			'start',
-			'topic_data',
-			'topic_id',
-			'topic_tracking_info',
-			'total_posts',
-			'viewtopic_url',
-		);
+		$vars = ['pagination_params', 'forum_id', 'post_id', 'quickmod_array', 'start', 'topic_data', 'topic_id', 'topic_tracking_info', 'total_posts', 'viewtopic_url'];
 		extract($this->dispatcher->trigger_event('core.viewtopic_assign_template_vars_before', compact($vars)));
 
-		$this->pagination->generate_template_pagination($base_url, 'pagination', 'start', $total_posts, $this->config['posts_per_page'], $start);
+		$this->pagination->generate_template_pagination('vinabb_web_board_topic_route', $pagination_params, 'pagination', $total_posts, $this->config['posts_per_page'], $start);
 
 		// Send vars to template
 		$this->template->assign_vars(array(
@@ -796,7 +812,7 @@ class topic
 				'TOPIC_AUTHOR'			=> get_username_string('username', $topic_data['topic_poster'], $topic_data['topic_first_poster_name'], $topic_data['topic_first_poster_colour']),
 
 				'TOTAL_POSTS'	=> $this->language->lang('VIEW_TOPIC_POSTS', (int) $total_posts),
-				'U_MCP' 		=> ($this->auth->acl_get('m_', $forum_id)) ? append_sid("{$this->root_path}mcp.$phpEx", "i=main&amp;mode=topic_view&amp;f=$forum_id&amp;t=$topic_id" . (($start == 0) ? '' : "&amp;start=$start") . ((strlen($u_sort_param)) ? "&amp;$u_sort_param" : ''), true, $this->user->session_id) : '',
+				'U_MCP' 		=> ($this->auth->acl_get('m_', $forum_id)) ? append_sid("{$this->root_path}mcp.{$this->php_ext}", "i=main&amp;mode=topic_view&amp;f=$forum_id&amp;t=$topic_id" . (($start == 0) ? '' : "&amp;start=$start") . ((strlen($u_sort_param)) ? "&amp;$u_sort_param" : ''), true, $this->user->session_id) : '',
 				'MODERATORS'	=> (isset($forum_moderators[$forum_id]) && sizeof($forum_moderators[$forum_id])) ? implode($this->language->lang('COMMA_SEPARATOR'), $forum_moderators[$forum_id]) : '',
 
 				'POST_IMG' 			=> ($topic_data['forum_status'] == ITEM_LOCKED) ? $this->user->img('button_topic_locked', 'FORUM_LOCKED') : $this->user->img('button_topic_new', 'POST_NEW_TOPIC'),
@@ -821,29 +837,29 @@ class topic
 				'S_SELECT_SORT_KEY' 	=> $s_sort_key,
 				'S_SELECT_SORT_DAYS' 	=> $s_limit_days,
 				'S_SINGLE_MODERATOR'	=> (!empty($forum_moderators[$forum_id]) && sizeof($forum_moderators[$forum_id]) > 1) ? false : true,
-				'S_TOPIC_ACTION' 		=> append_sid("{$this->root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id" . (($start == 0) ? '' : "&amp;start=$start")),
+				'S_TOPIC_ACTION' 		=> append_sid("{$this->root_path}viewtopic.{$this->php_ext}", "f=$forum_id&amp;t=$topic_id" . (($start == 0) ? '' : "&amp;start=$start")),
 				'S_MOD_ACTION' 			=> $s_quickmod_action,
 
 				'L_RETURN_TO_FORUM'		=> $this->language->lang('RETURN_TO', $topic_data['forum_name']),
 				'S_VIEWTOPIC'			=> true,
 				'S_UNREAD_VIEW'			=> $view == 'unread',
 				'S_DISPLAY_SEARCHBOX'	=> ($this->auth->acl_get('u_search') && $this->auth->acl_get('f_search', $forum_id) && $this->config['load_search']) ? true : false,
-				'S_SEARCHBOX_ACTION'	=> append_sid("{$this->root_path}search.$phpEx"),
+				'S_SEARCHBOX_ACTION'	=> append_sid("{$this->root_path}search.{$this->php_ext}"),
 				'S_SEARCH_LOCAL_HIDDEN_FIELDS'	=> build_hidden_fields($s_search_hidden_fields),
 
 				'S_DISPLAY_POST_INFO'	=> ($topic_data['forum_type'] == FORUM_POST && ($this->auth->acl_get('f_post', $forum_id) || $this->user->data['user_id'] == ANONYMOUS)) ? true : false,
 				'S_DISPLAY_REPLY_INFO'	=> ($topic_data['forum_type'] == FORUM_POST && ($this->auth->acl_get('f_reply', $forum_id) || $this->user->data['user_id'] == ANONYMOUS)) ? true : false,
 				'S_ENABLE_FEEDS_TOPIC'	=> ($this->config['feed_topic'] && !phpbb_optionget(FORUM_OPTION_FEED_EXCLUDE, $topic_data['forum_options'])) ? true : false,
 
-				'U_TOPIC'				=> "{$server_path}viewtopic.$phpEx?f=$forum_id&amp;t=$topic_id",
+				'U_TOPIC'				=> "{$server_path}viewtopic.{$this->php_ext}?f=$forum_id&amp;t=$topic_id",
 				'U_FORUM'				=> $server_path,
 				'U_VIEW_TOPIC' 			=> $viewtopic_url,
-				'U_CANONICAL'			=> generate_board_url() . '/' . append_sid("viewtopic.$phpEx", "t=$topic_id" . (($start) ? "&amp;start=$start" : ''), true, ''),
-				'U_VIEW_FORUM' 			=> append_sid("{$this->root_path}viewforum.$phpEx", 'f=' . $forum_id),
-				'U_VIEW_OLDER_TOPIC'	=> append_sid("{$this->root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id&amp;view=previous"),
-				'U_VIEW_NEWER_TOPIC'	=> append_sid("{$this->root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id&amp;view=next"),
+				'U_CANONICAL'			=> generate_board_url() . '/' . append_sid("viewtopic.{$this->php_ext}", "t=$topic_id" . (($start) ? "&amp;start=$start" : ''), true, ''),
+				'U_VIEW_FORUM' 			=> append_sid("{$this->root_path}viewforum.{$this->php_ext}", 'f=' . $forum_id),
+				'U_VIEW_OLDER_TOPIC'	=> append_sid("{$this->root_path}viewtopic.{$this->php_ext}", "f=$forum_id&amp;t=$topic_id&amp;view=previous"),
+				'U_VIEW_NEWER_TOPIC'	=> append_sid("{$this->root_path}viewtopic.{$this->php_ext}", "f=$forum_id&amp;t=$topic_id&amp;view=next"),
 				'U_PRINT_TOPIC'			=> ($this->auth->acl_get('f_print', $forum_id)) ? $viewtopic_url . '&amp;view=print' : '',
-				'U_EMAIL_TOPIC'			=> ($this->auth->acl_get('f_email', $forum_id) && $this->config['email_enable']) ? append_sid("{$this->root_path}memberlist.$phpEx", "mode=email&amp;t=$topic_id") : '',
+				'U_EMAIL_TOPIC'			=> ($this->auth->acl_get('f_email', $forum_id) && $this->config['email_enable']) ? append_sid("{$this->root_path}memberlist.{$this->php_ext}", "mode=email&amp;t=$topic_id") : '',
 
 				'U_WATCH_TOPIC'			=> $s_watching_topic['link'],
 				'U_WATCH_TOPIC_TOGGLE'	=> $s_watching_topic['link_toggle'],
@@ -856,9 +872,9 @@ class topic
 				'S_BOOKMARK_TOGGLE'		=> (!$this->user->data['is_registered'] || !$this->config['allow_bookmarks'] || !$topic_data['bookmarked']) ? $this->language->lang('BOOKMARK_TOPIC_REMOVE') : $this->language->lang('BOOKMARK_TOPIC'),
 				'S_BOOKMARKED_TOPIC'	=> ($this->user->data['is_registered'] && $this->config['allow_bookmarks'] && $topic_data['bookmarked']) ? true : false,
 
-				'U_POST_NEW_TOPIC' 		=> ($this->auth->acl_get('f_post', $forum_id) || $this->user->data['user_id'] == ANONYMOUS) ? append_sid("{$this->root_path}posting.$phpEx", "mode=post&amp;f=$forum_id") : '',
-				'U_POST_REPLY_TOPIC' 	=> ($this->auth->acl_get('f_reply', $forum_id) || $this->user->data['user_id'] == ANONYMOUS) ? append_sid("{$this->root_path}posting.$phpEx", "mode=reply&amp;f=$forum_id&amp;t=$topic_id") : '',
-				'U_BUMP_TOPIC'			=> (bump_topic_allowed($forum_id, $topic_data['topic_bumped'], $topic_data['topic_last_post_time'], $topic_data['topic_poster'], $topic_data['topic_last_poster_id'])) ? append_sid("{$this->root_path}posting.$phpEx", "mode=bump&amp;f=$forum_id&amp;t=$topic_id&amp;hash=" . generate_link_hash("topic_$topic_id")) : '')
+				'U_POST_NEW_TOPIC' 		=> ($this->auth->acl_get('f_post', $forum_id) || $this->user->data['user_id'] == ANONYMOUS) ? append_sid("{$this->root_path}posting.{$this->php_ext}", "mode=post&amp;f=$forum_id") : '',
+				'U_POST_REPLY_TOPIC' 	=> ($this->auth->acl_get('f_reply', $forum_id) || $this->user->data['user_id'] == ANONYMOUS) ? append_sid("{$this->root_path}posting.{$this->php_ext}", "mode=reply&amp;f=$forum_id&amp;t=$topic_id") : '',
+				'U_BUMP_TOPIC'			=> (bump_topic_allowed($forum_id, $topic_data['topic_bumped'], $topic_data['topic_last_post_time'], $topic_data['topic_poster'], $topic_data['topic_last_poster_id'])) ? append_sid("{$this->root_path}posting.{$this->php_ext}", "mode=bump&amp;f=$forum_id&amp;t=$topic_id&amp;hash=" . generate_link_hash("topic_$topic_id")) : '')
 		);
 
 		// Does this topic contain a poll?
@@ -933,18 +949,7 @@ class topic
 			* @var	array	voted_id					Array with updated options' IDs current user is voting for
 			* @since 3.1.5-RC1
 			*/
-			$vars = array(
-				'cur_voted_id',
-				'forum_id',
-				'poll_info',
-				's_can_vote',
-				's_display_results',
-				'topic_id',
-				'topic_data',
-				'viewtopic_url',
-				'vote_counts',
-				'voted_id',
-			);
+			$vars = ['cur_voted_id', 'forum_id', 'poll_info', 's_can_vote', 's_display_results', 'topic_id', 'topic_data', 'viewtopic_url', 'vote_counts', 'voted_id'];
 			extract($this->dispatcher->trigger_event('core.viewtopic_modify_poll_data', compact($vars)));
 
 			if ($update && $s_can_vote)
@@ -952,7 +957,7 @@ class topic
 
 				if (!sizeof($voted_id) || sizeof($voted_id) > $topic_data['poll_max_options'] || in_array(VOTE_CONVERTED, $cur_voted_id) || !check_form_key('posting'))
 				{
-					$redirect_url = append_sid("{$this->root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id" . (($start == 0) ? '' : "&amp;start=$start"));
+					$redirect_url = append_sid("{$this->root_path}viewtopic.{$this->php_ext}", "f=$forum_id&amp;t=$topic_id" . (($start == 0) ? '' : "&amp;start=$start"));
 
 					meta_refresh(5, $redirect_url);
 					if (!sizeof($voted_id))
@@ -1039,7 +1044,7 @@ class topic
 				//, topic_last_post_time = ' . time() . " -- for bumping topics with new votes, ignore for now
 				$this->db->sql_query($sql);
 
-				$redirect_url = append_sid("{$this->root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id" . (($start == 0) ? '' : "&amp;start=$start"));
+				$redirect_url = append_sid("{$this->root_path}viewtopic.{$this->php_ext}", "f=$forum_id&amp;t=$topic_id" . (($start == 0) ? '' : "&amp;start=$start"));
 				$message = $this->language->lang('VOTE_SUBMITTED') . '<br><br>' . $this->language->lang('RETURN_TOPIC', '<a href="' . $redirect_url . '">', '</a>');
 
 				if ($this->request->is_ajax())
@@ -1139,23 +1144,10 @@ class topic
 			* @var	array	voted_id						Array with updated options' IDs current user is voting for
 			* @since 3.1.5-RC1
 			*/
-			$vars = array(
-				'cur_voted_id',
-				'poll_end',
-				'poll_info',
-				'poll_options_template_data',
-				'poll_template_data',
-				'poll_total',
-				'poll_most',
-				'topic_data',
-				'viewtopic_url',
-				'vote_counts',
-				'voted_id',
-			);
+			$vars = ['cur_voted_id', 'poll_end', 'poll_info', 'poll_options_template_data', 'poll_template_data', 'poll_total', 'poll_most', 'topic_data', 'viewtopic_url', 'vote_counts', 'voted_id'];
 			extract($this->dispatcher->trigger_event('core.viewtopic_modify_poll_template_data', compact($vars)));
 
 			$this->template->assign_block_vars_array('poll_option', $poll_options_template_data);
-
 			$this->template->assign_vars($poll_template_data);
 
 			unset($poll_end, $poll_info, $poll_options_template_data, $poll_template_data, $voted_id);
@@ -1265,17 +1257,7 @@ class topic
 		* @since 3.1.0-a1
 		* @change 3.1.0-a2 Added vars forum_id, topic_id, topic_data, post_list, sort_days, sort_key, sort_dir, start
 		*/
-		$vars = array(
-			'forum_id',
-			'topic_id',
-			'topic_data',
-			'post_list',
-			'sort_days',
-			'sort_key',
-			'sort_dir',
-			'start',
-			'sql_ary',
-		);
+		$vars = ['forum_id', 'topic_id', 'topic_data', 'post_list', 'sort_days', 'sort_key', 'sort_dir', 'start', 'sql_ary'];
 		extract($this->dispatcher->trigger_event('core.viewtopic_get_post_data', compact($vars)));
 
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
@@ -1311,8 +1293,8 @@ class topic
 				}
 			}
 
-			$rowset_data = array(
-				'hide_post'			=> (($row['foe'] || $row['post_visibility'] == ITEM_DELETED) && ($view != 'show' || $post_id != $row['post_id'])) ? true : false,
+			$rowset_data = [
+				'hide_post'	=> (($row['foe'] || $row['post_visibility'] == ITEM_DELETED) && ($view != 'show' || $post_id != $row['post_id'])) ? true : false,
 
 				'post_id'			=> $row['post_id'],
 				'post_time'			=> $row['post_time'],
@@ -1343,8 +1325,8 @@ class topic
 				'enable_smilies'	=> $row['enable_smilies'],
 				'enable_sig'		=> $row['enable_sig'],
 				'friend'			=> $row['friend'],
-				'foe'				=> $row['foe'],
-			);
+				'foe'				=> $row['foe']
+			];
 
 			/**
 			* Modify the post rowset containing data to be displayed with posts
@@ -1354,7 +1336,7 @@ class topic
 			* @var	array	row			Array with original user and post data
 			* @since 3.1.0-a1
 			*/
-			$vars = array('rowset_data', 'row');
+			$vars = ['rowset_data', 'row'];
 			extract($this->dispatcher->trigger_event('core.viewtopic_post_rowset_data', compact($vars)));
 
 			$rowset[$row['post_id']] = $rowset_data;
@@ -1365,10 +1347,10 @@ class topic
 			{
 				if ($poster_id == ANONYMOUS)
 				{
-					$user_cache_data = array(
-						'user_type'		=> USER_IGNORE,
-						'joined'		=> '',
-						'posts'			=> '',
+					$user_cache_data = [
+						'user_type'	=> USER_IGNORE,
+						'joined'	=> '',
+						'posts'		=> '',
 
 						'sig'					=> '',
 						'sig_bbcode_uid'		=> '',
@@ -1386,13 +1368,13 @@ class topic
 						'search'			=> '',
 						'age'				=> '',
 
-						'username'			=> $row['username'],
-						'user_colour'		=> $row['user_colour'],
-						'contact_user'		=> '',
+						'username'		=> $row['username'],
+						'user_colour'	=> $row['user_colour'],
+						'contact_user'	=> '',
 
-						'warnings'			=> 0,
-						'allow_pm'			=> 0,
-					);
+						'warnings'	=> 0,
+						'allow_pm'	=> 0
+					];
 
 					/**
 					* Modify the guest user's data displayed with the posts
@@ -1403,7 +1385,7 @@ class topic
 					* @var	array	row				Array with original user and post data
 					* @since 3.1.0-a1
 					*/
-					$vars = array('user_cache_data', 'poster_id', 'row');
+					$vars = ['user_cache_data', 'poster_id', 'row'];
 					extract($this->dispatcher->trigger_event('core.viewtopic_cache_guest_data', compact($vars)));
 
 					$user_cache[$poster_id] = $user_cache_data;
@@ -1425,13 +1407,13 @@ class topic
 
 					$id_cache[] = $poster_id;
 
-					$user_cache_data = array(
-						'user_type'					=> $row['user_type'],
-						'user_inactive_reason'		=> $row['user_inactive_reason'],
+					$user_cache_data = [
+						'user_type'				=> $row['user_type'],
+						'user_inactive_reason'	=> $row['user_inactive_reason'],
 
-						'joined'		=> $this->user->format_date($row['user_regdate']),
-						'posts'			=> $row['user_posts'],
-						'warnings'		=> (isset($row['user_warnings'])) ? $row['user_warnings'] : 0,
+						'joined'	=> $this->user->format_date($row['user_regdate']),
+						'posts'		=> $row['user_posts'],
+						'warnings'	=> (isset($row['user_warnings'])) ? $row['user_warnings'] : 0,
 
 						'sig'					=> $user_sig,
 						'sig_bbcode_uid'		=> (!empty($row['user_sig_bbcode_uid'])) ? $row['user_sig_bbcode_uid'] : '',
@@ -1440,8 +1422,8 @@ class topic
 						'viewonline'	=> $row['user_allow_viewonline'],
 						'allow_pm'		=> $row['user_allow_pm'],
 
-						'avatar'		=> ($this->user->optionget('viewavatars')) ? phpbb_get_user_avatar($row) : '',
-						'age'			=> '',
+						'avatar'	=> ($this->user->optionget('viewavatars')) ? phpbb_get_user_avatar($row) : '',
+						'age'		=> '',
 
 						'rank_title'		=> '',
 						'rank_image'		=> '',
@@ -1451,15 +1433,15 @@ class topic
 						'user_colour'		=> $row['user_colour'],
 						'contact_user' 		=> $this->language->lang('CONTACT_USER', get_username_string('username', $poster_id, $row['username'], $row['user_colour'], $row['username'])),
 
-						'online'		=> false,
-						'jabber'		=> ($this->config['jab_enable'] && $row['user_jabber'] && $this->auth->acl_get('u_sendim')) ? append_sid("{$this->root_path}memberlist.$phpEx", "mode=contact&amp;action=jabber&amp;u=$poster_id") : '',
-						'search'		=> ($this->config['load_search'] && $this->auth->acl_get('u_search')) ? append_sid("{$this->root_path}search.$phpEx", "author_id=$poster_id&amp;sr=posts") : '',
+						'online'	=> false,
+						'jabber'	=> ($this->config['jab_enable'] && $row['user_jabber'] && $this->auth->acl_get('u_sendim')) ? append_sid("{$this->root_path}memberlist.{$this->php_ext}", "mode=contact&amp;action=jabber&amp;u=$poster_id") : '',
+						'search'	=> ($this->config['load_search'] && $this->auth->acl_get('u_search')) ? append_sid("{$this->root_path}search.{$this->php_ext}", "author_id=$poster_id&amp;sr=posts") : '',
 
 						'author_full'		=> get_username_string('full', $poster_id, $row['username'], $row['user_colour']),
 						'author_colour'		=> get_username_string('colour', $poster_id, $row['username'], $row['user_colour']),
 						'author_username'	=> get_username_string('username', $poster_id, $row['username'], $row['user_colour']),
-						'author_profile'	=> get_username_string('profile', $poster_id, $row['username'], $row['user_colour']),
-					);
+						'author_profile'	=> get_username_string('profile', $poster_id, $row['username'], $row['user_colour'])
+					];
 
 					/**
 					* Modify the users' data displayed with their posts
@@ -1470,7 +1452,7 @@ class topic
 					* @var	array	row				Array with original user and post data
 					* @since 3.1.0-a1
 					*/
-					$vars = array('user_cache_data', 'poster_id', 'row');
+					$vars = ['user_cache_data', 'poster_id', 'row'];
 					extract($this->dispatcher->trigger_event('core.viewtopic_cache_user_data', compact($vars)));
 
 					$user_cache[$poster_id] = $user_cache_data;
@@ -1482,7 +1464,7 @@ class topic
 
 					if ((!empty($row['user_allow_viewemail']) && $this->auth->acl_get('u_sendemail')) || $this->auth->acl_get('a_email'))
 					{
-						$user_cache[$poster_id]['email'] = ($this->config['board_email_form'] && $this->config['email_enable']) ? append_sid("{$this->root_path}memberlist.$phpEx", "mode=email&amp;u=$poster_id") : (($this->config['board_hide_emails'] && !$this->auth->acl_get('a_email')) ? '' : 'mailto:' . $row['user_email']);
+						$user_cache[$poster_id]['email'] = ($this->config['board_email_form'] && $this->config['email_enable']) ? append_sid("{$this->root_path}memberlist.{$this->php_ext}", "mode=email&amp;u=$poster_id") : (($this->config['board_hide_emails'] && !$this->auth->acl_get('a_email')) ? '' : 'mailto:' . $row['user_email']);
 					}
 					else
 					{
@@ -1516,17 +1498,16 @@ class topic
 		// Load custom profile fields
 		if ($this->config['load_cpf_viewtopic'])
 		{
-			/* @var $cp \phpbb\profilefields\manager */
-			$cp = $phpbb_container->get('profilefields.manager');
-
 			// Grab all profile fields from users in id cache for later use - similar to the poster cache
-			$profile_fields_tmp = $cp->grab_profile_fields_data($id_cache);
+			$profile_fields_tmp = $this->profile_fields->grab_profile_fields_data($id_cache);
 
 			// filter out fields not to be displayed on viewtopic. Yes, it's a hack, but this shouldn't break any MODs.
-			$profile_fields_cache = array();
+			$profile_fields_cache = [];
+
 			foreach ($profile_fields_tmp as $profile_user_id => $profile_fields)
 			{
-				$profile_fields_cache[$profile_user_id] = array();
+				$profile_fields_cache[$profile_user_id] = [];
+
 				foreach ($profile_fields as $used_ident => $profile_field)
 				{
 					if ($profile_field['data']['field_show_on_vt'])
@@ -1535,25 +1516,28 @@ class topic
 					}
 				}
 			}
+
 			unset($profile_fields_tmp);
 		}
 
 		// Generate online information for user
 		if ($this->config['load_onlinetrack'] && sizeof($id_cache))
 		{
-			$sql = 'SELECT session_user_id, MAX(session_time) as online_time, MIN(session_viewonline) AS viewonline
+			$sql = 'SELECT session_user_id, MAX(session_time) AS online_time, MIN(session_viewonline) AS viewonline
 				FROM ' . SESSIONS_TABLE . '
 				WHERE ' . $this->db->sql_in_set('session_user_id', $id_cache) . '
 				GROUP BY session_user_id';
 			$result = $this->db->sql_query($sql);
 
 			$update_time = $this->config['load_online_time'] * 60;
+
 			while ($row = $this->db->sql_fetchrow($result))
 			{
 				$user_cache[$row['session_user_id']]['online'] = (time() - $update_time < $row['online_time'] && (($row['viewonline']) || $this->auth->acl_get('u_viewonline'))) ? true : false;
 			}
 			$this->db->sql_freeresult($result);
 		}
+
 		unset($id_cache);
 
 		// Pull attachment data
@@ -1611,9 +1595,9 @@ class topic
 						$this->db->sql_query($sql);
 					}
 				}
+				// Topic has approved attachments but its flag is wrong
 				else if ($has_approved_attachments && !$topic_data['topic_attachment'])
 				{
-					// Topic has approved attachments but its flag is wrong
 					$sql = 'UPDATE ' . TOPICS_TABLE . "
 						SET topic_attachment = 1
 						WHERE topic_id = $topic_id";
@@ -1621,9 +1605,9 @@ class topic
 
 					$topic_data['topic_attachment'] = 1;
 				}
+				// Topic has only unapproved attachments but we have the right to see and download them
 				else if ($has_unapproved_attachments && !$topic_data['topic_attachment'])
 				{
-					// Topic has only unapproved attachments but we have the right to see and download them
 					$topic_data['topic_attachment'] = 1;
 				}
 			}
@@ -1643,10 +1627,10 @@ class topic
 		$i_total = sizeof($rowset) - 1;
 		$prev_post_id = '';
 
-		$this->template->assign_vars(array(
+		$this->template->assign_vars([
 			'S_HAS_ATTACHMENTS'	=> $topic_data['topic_attachment'],
 			'S_NUM_POSTS'		=> sizeof($post_list)
-		));
+		]);
 
 		/**
 		* Event to modify the post, poster and attachment data before assigning the posts
@@ -1669,23 +1653,7 @@ class topic
 		* @var	array	can_receive_pm_list			Array with posters that can receive pms
 		* @since 3.1.0-RC3
 		*/
-		$vars = array(
-			'forum_id',
-			'topic_id',
-			'topic_data',
-			'post_list',
-			'rowset',
-			'user_cache',
-			'sort_days',
-			'sort_key',
-			'sort_dir',
-			'start',
-			'permanently_banned_users',
-			'can_receive_pm_list',
-			'display_notice',
-			'has_approved_attachments',
-			'attachments',
-		);
+		$vars = ['forum_id', 'topic_id', 'topic_data', 'post_list', 'rowset', 'user_cache', 'sort_days', 'sort_key', 'sort_dir', 'start', 'permanently_banned_users', 'can_receive_pm_list', 'display_notice', 'has_approved_attachments', 'attachments'];
 		extract($this->dispatcher->trigger_event('core.viewtopic_modify_post_data', compact($vars)));
 
 		// Output the posts
@@ -1868,7 +1836,7 @@ class topic
 			//
 			if ($this->config['load_cpf_viewtopic'])
 			{
-				$cp_row = (isset($profile_fields_cache[$poster_id])) ? $cp->generate_profile_fields_template_data($profile_fields_cache[$poster_id]) : array();
+				$cp_row = (isset($profile_fields_cache[$poster_id])) ? $this->profile_fields->generate_profile_fields_template_data($profile_fields_cache[$poster_id]) : array();
 			}
 
 			$post_unread = (isset($topic_tracking_info[$topic_id]) && $row['post_time'] > $topic_tracking_info[$topic_id]) ? true : false;
@@ -1911,19 +1879,7 @@ class topic
 			* @var	bool	s_cannot_delete_time		User can not delete the post because edit_time has passed
 			* @since 3.1.0-b4
 			*/
-			$vars = array(
-				'row',
-				'topic_data',
-				'force_edit_allowed',
-				's_cannot_edit',
-				's_cannot_edit_locked',
-				's_cannot_edit_time',
-				'force_delete_allowed',
-				's_cannot_delete',
-				's_cannot_delete_lastpost',
-				's_cannot_delete_locked',
-				's_cannot_delete_time',
-			);
+			$vars = ['row', 'topic_data', 'force_edit_allowed', 's_cannot_edit', 's_cannot_edit_locked', 's_cannot_edit_time', 'force_delete_allowed', 's_cannot_delete', 's_cannot_delete_lastpost', 's_cannot_delete_locked', 's_cannot_delete_time'];
 			extract($this->dispatcher->trigger_event('core.viewtopic_modify_post_action_conditions', compact($vars)));
 
 			$edit_allowed = $force_edit_allowed || ($this->user->data['is_registered'] && ($this->auth->acl_get('m_edit', $forum_id) || (
@@ -1972,11 +1928,11 @@ class topic
 
 			if ($this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm') && $can_receive_pm)
 			{
-				$u_pm = append_sid("{$this->root_path}ucp.$phpEx", 'i=pm&amp;mode=compose&amp;action=quotepost&amp;p=' . $row['post_id']);
+				$u_pm = append_sid("{$this->root_path}ucp.{$this->php_ext}", 'i=pm&amp;mode=compose&amp;action=quotepost&amp;p=' . $row['post_id']);
 			}
 
 			//
-			$post_row = array(
+			$post_row = [
 				'POST_AUTHOR_FULL'		=> ($poster_id != ANONYMOUS) ? $user_cache[$poster_id]['author_full'] : get_username_string('full', $poster_id, $row['username'], $row['user_colour'], $row['post_username']),
 				'POST_AUTHOR_COLOUR'	=> ($poster_id != ANONYMOUS) ? $user_cache[$poster_id]['author_colour'] : get_username_string('colour', $poster_id, $row['username'], $row['user_colour'], $row['post_username']),
 				'POST_AUTHOR'			=> ($poster_id != ANONYMOUS) ? $user_cache[$poster_id]['author_username'] : get_username_string('username', $poster_id, $row['username'], $row['user_colour'], $row['post_username']),
@@ -2010,26 +1966,26 @@ class topic
 				'ONLINE_IMG'			=> ($poster_id == ANONYMOUS || !$this->config['load_onlinetrack']) ? '' : (($user_cache[$poster_id]['online']) ? $this->user->img('icon_user_online', 'ONLINE') : $this->user->img('icon_user_offline', 'OFFLINE')),
 				'S_ONLINE'				=> ($poster_id == ANONYMOUS || !$this->config['load_onlinetrack']) ? false : (($user_cache[$poster_id]['online']) ? true : false),
 
-				'U_EDIT'			=> ($edit_allowed) ? append_sid("{$this->root_path}posting.$phpEx", "mode=edit&amp;f=$forum_id&amp;p={$row['post_id']}") : '',
-				'U_QUOTE'			=> ($quote_allowed) ? append_sid("{$this->root_path}posting.$phpEx", "mode=quote&amp;f=$forum_id&amp;p={$row['post_id']}") : '',
-				'U_INFO'			=> ($this->auth->acl_get('m_info', $forum_id)) ? append_sid("{$this->root_path}mcp.$phpEx", "i=main&amp;mode=post_details&amp;f=$forum_id&amp;p=" . $row['post_id'], true, $this->user->session_id) : '',
-				'U_DELETE'			=> ($delete_allowed) ? append_sid("{$this->root_path}posting.$phpEx", 'mode=' . (($softdelete_allowed) ? 'soft_delete' : 'delete') . "&amp;f=$forum_id&amp;p={$row['post_id']}") : '',
+				'U_EDIT'			=> ($edit_allowed) ? append_sid("{$this->root_path}posting.{$this->php_ext}", "mode=edit&amp;f=$forum_id&amp;p={$row['post_id']}") : '',
+				'U_QUOTE'			=> ($quote_allowed) ? append_sid("{$this->root_path}posting.{$this->php_ext}", "mode=quote&amp;f=$forum_id&amp;p={$row['post_id']}") : '',
+				'U_INFO'			=> ($this->auth->acl_get('m_info', $forum_id)) ? append_sid("{$this->root_path}mcp.{$this->php_ext}", "i=main&amp;mode=post_details&amp;f=$forum_id&amp;p=" . $row['post_id'], true, $this->user->session_id) : '',
+				'U_DELETE'			=> ($delete_allowed) ? append_sid("{$this->root_path}posting.{$this->php_ext}", 'mode=' . (($softdelete_allowed) ? 'soft_delete' : 'delete') . "&amp;f=$forum_id&amp;p={$row['post_id']}") : '',
 
 				'U_SEARCH'		=> $user_cache[$poster_id]['search'],
 				'U_PM'			=> $u_pm,
 				'U_EMAIL'		=> $user_cache[$poster_id]['email'],
 				'U_JABBER'		=> $user_cache[$poster_id]['jabber'],
 
-				'U_APPROVE_ACTION'		=> append_sid("{$this->root_path}mcp.$phpEx", "i=queue&amp;p={$row['post_id']}&amp;f=$forum_id&amp;redirect=" . urlencode(str_replace('&amp;', '&', $viewtopic_url . '&amp;p=' . $row['post_id'] . '#p' . $row['post_id']))),
-				'U_REPORT'			=> ($this->auth->acl_get('f_report', $forum_id)) ? $phpbb_container->get('controller.helper')->route('phpbb_report_post_controller', array('id' => $row['post_id'])) : '',
-				'U_MCP_REPORT'		=> ($this->auth->acl_get('m_report', $forum_id)) ? append_sid("{$this->root_path}mcp.$phpEx", 'i=reports&amp;mode=report_details&amp;f=' . $forum_id . '&amp;p=' . $row['post_id'], true, $this->user->session_id) : '',
-				'U_MCP_APPROVE'		=> ($this->auth->acl_get('m_approve', $forum_id)) ? append_sid("{$this->root_path}mcp.$phpEx", 'i=queue&amp;mode=approve_details&amp;f=' . $forum_id . '&amp;p=' . $row['post_id'], true, $this->user->session_id) : '',
-				'U_MCP_RESTORE'		=> ($this->auth->acl_get('m_approve', $forum_id)) ? append_sid("{$this->root_path}mcp.$phpEx", 'i=queue&amp;mode=' . (($topic_data['topic_visibility'] != ITEM_DELETED) ? 'deleted_posts' : 'deleted_topics') . '&amp;f=' . $forum_id . '&amp;p=' . $row['post_id'], true, $this->user->session_id) : '',
-				'U_MINI_POST'		=> append_sid("{$this->root_path}viewtopic.$phpEx", 'p=' . $row['post_id']) . '#p' . $row['post_id'],
+				'U_APPROVE_ACTION'		=> append_sid("{$this->root_path}mcp.{$this->php_ext}", "i=queue&amp;p={$row['post_id']}&amp;f=$forum_id&amp;redirect=" . urlencode(str_replace('&amp;', '&', $viewtopic_url . '&amp;p=' . $row['post_id'] . '#p' . $row['post_id']))),
+				'U_REPORT'			=> ($this->auth->acl_get('f_report', $forum_id)) ? $this->helper->route('phpbb_report_post_controller', ['id' => $row['post_id']]) : '',
+				'U_MCP_REPORT'		=> ($this->auth->acl_get('m_report', $forum_id)) ? append_sid("{$this->root_path}mcp.{$this->php_ext}", 'i=reports&amp;mode=report_details&amp;f=' . $forum_id . '&amp;p=' . $row['post_id'], true, $this->user->session_id) : '',
+				'U_MCP_APPROVE'		=> ($this->auth->acl_get('m_approve', $forum_id)) ? append_sid("{$this->root_path}mcp.{$this->php_ext}", 'i=queue&amp;mode=approve_details&amp;f=' . $forum_id . '&amp;p=' . $row['post_id'], true, $this->user->session_id) : '',
+				'U_MCP_RESTORE'		=> ($this->auth->acl_get('m_approve', $forum_id)) ? append_sid("{$this->root_path}mcp.{$this->php_ext}", 'i=queue&amp;mode=' . (($topic_data['topic_visibility'] != ITEM_DELETED) ? 'deleted_posts' : 'deleted_topics') . '&amp;f=' . $forum_id . '&amp;p=' . $row['post_id'], true, $this->user->session_id) : '',
+				'U_MINI_POST'		=> append_sid("{$this->root_path}viewtopic.{$this->php_ext}", 'p=' . $row['post_id']) . '#p' . $row['post_id'],
 				'U_NEXT_POST_ID'	=> ($i < $i_total && isset($rowset[$post_list[$i + 1]])) ? $rowset[$post_list[$i + 1]]['post_id'] : '',
 				'U_PREV_POST_ID'	=> $prev_post_id,
-				'U_NOTES'			=> ($this->auth->acl_getf_global('m_')) ? append_sid("{$this->root_path}mcp.$phpEx", 'i=notes&amp;mode=user_notes&amp;u=' . $poster_id, true, $this->user->session_id) : '',
-				'U_WARN'			=> ($this->auth->acl_get('m_warn') && $poster_id != $this->user->data['user_id'] && $poster_id != ANONYMOUS) ? append_sid("{$this->root_path}mcp.$phpEx", 'i=warn&amp;mode=warn_post&amp;f=' . $forum_id . '&amp;p=' . $row['post_id'], true, $this->user->session_id) : '',
+				'U_NOTES'			=> ($this->auth->acl_getf_global('m_')) ? append_sid("{$this->root_path}mcp.{$this->php_ext}", 'i=notes&amp;mode=user_notes&amp;u=' . $poster_id, true, $this->user->session_id) : '',
+				'U_WARN'			=> ($this->auth->acl_get('m_warn') && $poster_id != $this->user->data['user_id'] && $poster_id != ANONYMOUS) ? append_sid("{$this->root_path}mcp.{$this->php_ext}", 'i=warn&amp;mode=warn_post&amp;f=' . $forum_id . '&amp;p=' . $row['post_id'], true, $this->user->session_id) : '',
 
 				'POST_ID'			=> $row['post_id'],
 				'POST_NUMBER'		=> $i + $start + 1,
@@ -2053,8 +2009,8 @@ class topic
 				'L_IGNORE_POST'		=> ($row['foe']) ? $this->language->lang('POST_BY_FOE', get_username_string('full', $poster_id, $row['username'], $row['user_colour'], $row['post_username'])) : '',
 				'S_POST_HIDDEN'		=> $row['hide_post'],
 				'L_POST_DISPLAY'	=> ($row['hide_post']) ? $this->language->lang('POST_DISPLAY', '<a class="display_post" data-post-id="' . $row['post_id'] . '" href="' . $viewtopic_url . "&amp;p={$row['post_id']}&amp;view=show#p{$row['post_id']}" . '">', '</a>') : '',
-				'S_DELETE_PERMANENT'	=> $permanent_delete_allowed,
-			);
+				'S_DELETE_PERMANENT'	=> $permanent_delete_allowed
+			];
 
 			$current_row_number = $i;
 
@@ -2078,19 +2034,7 @@ class topic
 			* @change 3.1.0-b3 Added topic_data array, total_posts
 			* @change 3.1.0-RC3 Added poster_id
 			*/
-			$vars = array(
-				'start',
-				'current_row_number',
-				'end',
-				'total_posts',
-				'poster_id',
-				'row',
-				'cp_row',
-				'attachments',
-				'user_poster_data',
-				'post_row',
-				'topic_data',
-			);
+			$vars = ['start', 'current_row_number', 'end', 'total_posts', 'poster_id', 'row', 'cp_row', 'attachments', 'user_poster_data', 'post_row', 'topic_data'];
 			extract($this->dispatcher->trigger_event('core.viewtopic_modify_post_row', compact($vars)));
 
 			$i = $current_row_number;
@@ -2103,23 +2047,23 @@ class topic
 			// Dump vars into template
 			$this->template->assign_block_vars('postrow', $post_row);
 
-			$contact_fields = array(
-				array(
+			$contact_fields = [
+				[
 					'ID'		=> 'pm',
 					'NAME' 		=> $this->language->lang('SEND_PRIVATE_MESSAGE'),
-					'U_CONTACT'	=> $u_pm,
-				),
-				array(
+					'U_CONTACT'	=> $u_pm
+				],
+				[
 					'ID'		=> 'email',
 					'NAME'		=> $this->language->lang('SEND_EMAIL'),
-					'U_CONTACT'	=> $user_cache[$poster_id]['email'],
-				),
-				array(
+					'U_CONTACT'	=> $user_cache[$poster_id]['email']
+				],
+				[
 					'ID'		=> 'jabber',
 					'NAME'		=> $this->language->lang('JABBER'),
-					'U_CONTACT'	=> $user_cache[$poster_id]['jabber'],
-				),
-			);
+					'U_CONTACT'	=> $user_cache[$poster_id]['jabber']
+				]
+			];
 
 			foreach ($contact_fields as $field)
 			{
@@ -2137,11 +2081,11 @@ class topic
 
 					if ($field_data['S_PROFILE_CONTACT'])
 					{
-						$this->template->assign_block_vars('postrow.contact', array(
+						$this->template->assign_block_vars('postrow.contact', [
 							'ID'		=> $field_data['PROFILE_FIELD_IDENT'],
 							'NAME'		=> $field_data['PROFILE_FIELD_NAME'],
-							'U_CONTACT'	=> $field_data['PROFILE_FIELD_CONTACT'],
-						));
+							'U_CONTACT'	=> $field_data['PROFILE_FIELD_CONTACT']
+						]);
 					}
 				}
 			}
@@ -2151,9 +2095,9 @@ class topic
 			{
 				foreach ($attachments[$row['post_id']] as $attachment)
 				{
-					$this->template->assign_block_vars('postrow.attachment', array(
+					$this->template->assign_block_vars('postrow.attachment', [
 						'DISPLAY_ATTACHMENT'	=> $attachment
-					));
+					]);
 				}
 			}
 
@@ -2176,18 +2120,7 @@ class topic
 			* @since 3.1.0-a3
 			* @change 3.1.0-b3 Added topic_data array, total_posts
 			*/
-			$vars = array(
-				'start',
-				'current_row_number',
-				'end',
-				'total_posts',
-				'row',
-				'cp_row',
-				'attachments',
-				'user_poster_data',
-				'post_row',
-				'topic_data',
-			);
+			$vars = ['start', 'current_row_number', 'end', 'total_posts', 'row', 'cp_row', 'attachments', 'user_poster_data', 'post_row', 'topic_data'];
 			extract($this->dispatcher->trigger_event('core.viewtopic_post_row_after', compact($vars)));
 
 			$i = $current_row_number;
@@ -2197,6 +2130,7 @@ class topic
 			unset($rowset[$post_list[$i]]);
 			unset($attachments[$row['post_id']]);
 		}
+
 		unset($rowset, $user_cache);
 
 		// Update topic view and if necessary attachment view counters ... but only for humans and if this is the first 'page view'
@@ -2236,15 +2170,11 @@ class topic
 		{
 			if ($post_unread)
 			{
-				$this->template->assign_vars(array(
-					'U_VIEW_UNREAD_POST'	=> '#unread',
-				));
+				$this->template->assign_var('U_VIEW_UNREAD_POST', '#unread');
 			}
 			else if (isset($topic_tracking_info[$topic_id]) && $topic_data['topic_last_post_time'] > $topic_tracking_info[$topic_id])
 			{
-				$this->template->assign_vars(array(
-					'U_VIEW_UNREAD_POST'	=> append_sid("{$this->root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id&amp;view=unread") . '#unread',
-				));
+				$this->template->assign_var('U_VIEW_UNREAD_POST', append_sid("{$this->root_path}viewtopic.{$this->php_ext}", "f=$forum_id&amp;t=$topic_id&amp;view=unread") . '#unread');
 			}
 		}
 		else if (!$all_marked_read)
@@ -2254,15 +2184,11 @@ class topic
 			// What can happen is that we are at the last displayed page. If so, we also display the #unread link based in $post_unread
 			if ($last_page && $post_unread)
 			{
-				$this->template->assign_vars(array(
-					'U_VIEW_UNREAD_POST'	=> '#unread',
-				));
+				$this->template->assign_var('U_VIEW_UNREAD_POST', '#unread');
 			}
 			else if (!$last_page)
 			{
-				$this->template->assign_vars(array(
-					'U_VIEW_UNREAD_POST'	=> append_sid("{$this->root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id&amp;view=unread") . '#unread',
-				));
+				$this->template->assign_var('U_VIEW_UNREAD_POST', append_sid("{$this->root_path}viewtopic.{$this->php_ext}", "f=$forum_id&amp;t=$topic_id&amp;view=unread") . '#unread');
 			}
 		}
 
@@ -2286,12 +2212,12 @@ class topic
 				$s_bbcode = $this->config['allow_bbcode'] && $this->user->optionget('bbcode') && $this->auth->acl_get('f_bbcode', $forum_id);
 				$s_notify = $this->config['allow_topic_notify'] && ($this->user->data['user_notify'] || $s_watching_topic['is_watching']);
 
-				$qr_hidden_fields = array(
+				$qr_hidden_fields = [
 					'topic_cur_post_id'	=> (int) $topic_data['topic_last_post_id'],
 					'lastclick'			=> (int) time(),
 					'topic_id'			=> (int) $topic_data['topic_id'],
-					'forum_id'			=> (int) $forum_id,
-				);
+					'forum_id'			=> (int) $forum_id
+				];
 
 				// Originally we use checkboxes and check with isset(), so we only provide them if they would be checked
 				(!$s_bbcode)					? $qr_hidden_fields['disable_bbcode'] = 1		: true;
@@ -2301,12 +2227,12 @@ class topic
 				($s_notify)						? $qr_hidden_fields['notify'] = 1				: true;
 				($topic_data['topic_status'] == ITEM_LOCKED) ? $qr_hidden_fields['lock_topic'] = 1 : true;
 
-				$this->template->assign_vars(array(
-					'S_QUICK_REPLY'			=> true,
-					'U_QR_ACTION'			=> append_sid("{$this->root_path}posting.$phpEx", "mode=reply&amp;f=$forum_id&amp;t=$topic_id"),
-					'QR_HIDDEN_FIELDS'		=> build_hidden_fields($qr_hidden_fields),
-					'SUBJECT'				=> 'Re: ' . censor_text($topic_data['topic_title']),
-				));
+				$this->template->assign_vars([
+					'S_QUICK_REPLY'		=> true,
+					'U_QR_ACTION'		=> append_sid("{$this->root_path}posting.{$this->php_ext}", "mode=reply&amp;f=$forum_id&amp;t=$topic_id"),
+					'QR_HIDDEN_FIELDS'	=> build_hidden_fields($qr_hidden_fields),
+					'SUBJECT'			=> 'Re: ' . censor_text($topic_data['topic_title'])
+				]);
 			}
 		}
 		// now I have the urge to wash my hands :(
@@ -2339,7 +2265,7 @@ class topic
 		* @since 3.1.0-a1
 		* @change 3.1.0-RC4 Added post_list var
 		*/
-		$vars = array('page_title', 'topic_data', 'forum_id', 'start', 'post_list');
+		$vars = ['page_title', 'topic_data', 'forum_id', 'start', 'post_list'];
 		extract($this->dispatcher->trigger_event('core.viewtopic_modify_page_title', compact($vars)));
 
 		return $this->helper->render(($view == 'print') ? 'viewtopic_print.html' : 'viewtopic_body.html', $page_title, 200, true, $forum_id);

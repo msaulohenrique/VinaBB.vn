@@ -178,6 +178,7 @@ services:
             - '@dispatcher'
             - '@language'
             - '@vinabb.web.pagination'
+            - '@profilefields.manager'
             - '@request'
             - '@template'
             - '@user'
