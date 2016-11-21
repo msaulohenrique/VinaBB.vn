@@ -334,7 +334,7 @@ class portal_articles implements portal_articles_interface
 			$message = 'MESSAGE_ARTICLE_ADD';
 		}
 
-		$this->cache->clear_index_articles();
+		$this->cache->clear_index_articles($entity->get_lang());
 
 		trigger_error($this->language->lang($message) . adm_back_link($this->u_action));
 	}
