@@ -42,18 +42,23 @@ class bb_author implements bb_author_interface
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \vinabb\web\entities\helper\helper_interface */
+	protected $entity_helper;
+
 	/** @var string */
 	protected $table_name;
 
 	/**
 	* Constructor
 	*
-	* @param \phpbb\db\driver\driver_interface	$db				Database object
-	* @param string								$table_name		Table name
+	* @param \phpbb\db\driver\driver_interface				$db				Database object
+	* @param \vinabb\web\entities\helper\helper_interface	$entity_helper	Entity helper
+	* @param string											$table_name		Table name
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, $table_name)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \vinabb\web\entities\helper\helper_interface $entity_helper, $table_name)
 	{
 		$this->db = $db;
+		$this->entity_helper = $entity_helper;
 		$this->table_name = $table_name;
 	}
 
@@ -249,19 +254,9 @@ class bb_author implements bb_author_interface
 		$id = (int) $id;
 
 		// This is a required field
-		if ($id > 0)
+		if ($id && !$this->entity_helper->check_user_id($id))
 		{
-			$sql = 'SELECT 1
-				FROM ' . USERS_TABLE . "
-				WHERE user_id = $id";
-			$result = $this->db->sql_query_limit($sql, 1);
-			$row = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
-
-			if ($row === false)
-			{
-				throw new \vinabb\web\exceptions\unexpected_value(['user_id', 'NOT_EXISTS']);
-			}
+			throw new \vinabb\web\exceptions\unexpected_value(['user_id', 'NOT_EXISTS']);
 		}
 		else
 		{
@@ -308,20 +303,9 @@ class bb_author implements bb_author_interface
 		}
 
 		// This field value must be unique
-		if ($this->get_name() !== '' && $this->get_name() != $text)
+		if ($this->get_name() != $text && $this->entity_helper->check_bb_author_name($text, $this->get_id()))
 		{
-			$sql = 'SELECT 1
-				FROM ' . $this->table_name . "
-				WHERE author_name = '" . $this->db->sql_escape($text) . "'
-					AND author_id <> " . $this->get_id();
-			$result = $this->db->sql_query_limit($sql, 1);
-			$row = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
-
-			if ($row)
-			{
-				throw new \vinabb\web\exceptions\unexpected_value(['author_name', 'DUPLICATE', $text]);
-			}
+			throw new \vinabb\web\exceptions\unexpected_value(['author_name', 'DUPLICATE', $text]);
 		}
 
 		// Set the value on our data array
@@ -454,19 +438,9 @@ class bb_author implements bb_author_interface
 		$id = (int) $id;
 
 		// Check existing group
-		if ($id)
+		if ($id && !$this->entity_helper->check_bb_author_id($id))
 		{
-			$sql = 'SELECT 1
-				FROM ' . $this->table_name . "
-				WHERE author_id = $id";
-			$result = $this->db->sql_query_limit($sql, 1);
-			$row = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
-
-			if ($row === false)
-			{
-				throw new \vinabb\web\exceptions\unexpected_value(['author_group', 'NOT_EXISTS']);
-			}
+			throw new \vinabb\web\exceptions\unexpected_value(['author_group', 'NOT_EXISTS']);
 		}
 
 		// Set the value on our data array
