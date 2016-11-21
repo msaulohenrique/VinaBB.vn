@@ -8,7 +8,6 @@
 
 namespace vinabb\web\controllers\board;
 
-use phpbb\groupposition\exception;
 use vinabb\web\includes\constants;
 
 class topic
