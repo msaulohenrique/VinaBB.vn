@@ -27,7 +27,7 @@ class bb_schema extends migration
 				$this->table_prefix . 'bb_categories' => [
 					'COLUMNS' => [
 						'cat_id'		=> ['UINT', null, 'auto_increment'],
-						'bb_type'		=> ['TINT:1', 0],
+						'bb_type'		=> ['USINT', 0],
 						'cat_name'		=> ['VCHAR_UNI', ''],
 						'cat_name_vi'	=> ['VCHAR_UNI', ''],
 						'cat_varname'	=> ['VCHAR', ''],
@@ -44,7 +44,7 @@ class bb_schema extends migration
 				$this->table_prefix . 'bb_items' => [
 					'COLUMNS' => [
 						'item_id'					=> ['UINT', null, 'auto_increment'],
-						'bb_type'					=> ['TINT:1', 0],
+						'bb_type'					=> ['USINT', 0],
 						'cat_id'					=> ['UINT', 0],
 						'author_id'					=> ['UINT', 0],
 						'item_name'					=> ['VCHAR_UNI', '', 'true_sort'],
@@ -68,8 +68,8 @@ class bb_schema extends migration
 						'item_style_responsive'		=> ['BOOL', 0],
 						'item_style_bootstrap'		=> ['BOOL', 0],
 						'item_lang_iso'				=> ['VCHAR:30', ''],
-						'item_tool_os'				=> ['TINT:2', 0],
-						'item_price'				=> ['BINT', 0],
+						'item_tool_os'				=> ['USINT', 0],
+						'item_price'				=> ['ULINT', 0],
 						'item_url'					=> ['VCHAR', ''],
 						'item_github'				=> ['VCHAR', ''],
 						'item_enable'				=> ['BOOL', 1],
@@ -121,7 +121,7 @@ class bb_schema extends migration
 						'user_id'		=> ['ULINT', 0],
 						'item_id'		=> ['UINT', 0],
 						'author_id'		=> ['UINT', 0],
-						'rate_value'	=> ['TINT:1', 0]
+						'rate_value'	=> ['USINT', 0]
 					],
 					'KEYS' => [
 						'u_id'	=> ['INDEX', 'user_id'],

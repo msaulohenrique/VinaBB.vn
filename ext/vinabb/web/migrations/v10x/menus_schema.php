@@ -33,7 +33,7 @@ class menus_schema extends migration
 						'menu_parents'				=> ['MTEXT_UNI', ''],
 						'menu_name'					=> ['VCHAR_UNI', ''],
 						'menu_name_vi'				=> ['VCHAR_UNI', ''],
-						'menu_type'					=> ['TINT:1', 0],
+						'menu_type'					=> ['USINT', 0],
 						'menu_icon'					=> ['VCHAR', ''],
 						'menu_data'					=> ['VCHAR', ''],
 						'menu_target'				=> ['BOOL', 0],

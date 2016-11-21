@@ -82,7 +82,7 @@ class portal_schema extends migration
 					'COLUMNS' => [
 						'user_id'		=> ['ULINT', 0],
 						'article_id'	=> ['UINT', 0],
-						'rate_value'	=> ['TINT:1', 0]
+						'rate_value'	=> ['USINT', 0]
 					],
 					'KEYS' => [
 						'u_id'	=> ['INDEX', 'user_id'],
