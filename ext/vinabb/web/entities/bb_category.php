@@ -34,18 +34,23 @@ class bb_category implements bb_category_interface
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \vinabb\web\entities\helper\helper_interface */
+	protected $entity_helper;
+
 	/** @var string */
 	protected $table_name;
 
 	/**
 	* Constructor
 	*
-	* @param \phpbb\db\driver\driver_interface    $db			Database object
-	* @param string                               $table_name	Table name
+	* @param \phpbb\db\driver\driver_interface				$db				Database object
+	* @param \vinabb\web\entities\helper\helper_interface	$entity_helper	Entity helper
+	* @param string											$table_name		Table name
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, $table_name)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \vinabb\web\entities\helper\helper_interface $entity_helper, $table_name)
 	{
 		$this->db = $db;
+		$this->entity_helper = $entity_helper;
 		$this->table_name = $table_name;
 	}
 
@@ -258,6 +263,12 @@ class bb_category implements bb_category_interface
 			throw new \vinabb\web\exceptions\unexpected_value(['cat_name', 'TOO_LONG']);
 		}
 
+		// This field value must be unique
+		if ($this->get_name() != $text && $this->entity_helper->check_bb_cat_name($this->get_bb_type(), $text, $this->get_id()))
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['cat_name', 'DUPLICATE', $text]);
+		}
+
 		// Set the value on our data array
 		$this->data['cat_name'] = $text;
 
@@ -289,6 +300,12 @@ class bb_category implements bb_category_interface
 		if (truncate_string($text, constants::MAX_PORTAL_CAT_NAME) != $text)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['cat_name_vi', 'TOO_LONG']);
+		}
+
+		// This field value must be unique
+		if ($this->get_name_vi() != $text && $this->entity_helper->check_bb_cat_name_vi($this->get_bb_type(), $text, $this->get_id()))
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['cat_name_vi', 'DUPLICATE', $text]);
 		}
 
 		// Set the value on our data array
@@ -337,21 +354,9 @@ class bb_category implements bb_category_interface
 		}
 
 		// This field value must be unique
-		if (!$this->get_id() || !$this->get_bb_type() || ($this->get_id() && $this->get_bb_type() && $this->get_varname() !== '' && $this->get_varname() != $text))
+		if ($this->get_varname() != $text && $this->entity_helper->check_bb_cat_varname($this->get_bb_type(), $text, $this->get_id()))
 		{
-			$sql = 'SELECT 1
-				FROM ' . $this->table_name . "
-				WHERE cat_varname = '" . $this->db->sql_escape($text) . "'
-					AND bb_type = " . $this->get_bb_type() . '
-					AND cat_id <> ' . $this->get_id();
-			$result = $this->db->sql_query_limit($sql, 1);
-			$row = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
-
-			if ($row)
-			{
-				throw new \vinabb\web\exceptions\unexpected_value(['cat_varname', 'DUPLICATE', $text]);
-			}
+			throw new \vinabb\web\exceptions\unexpected_value(['cat_varname', 'DUPLICATE', $text]);
 		}
 
 		// Set the value on our data array
