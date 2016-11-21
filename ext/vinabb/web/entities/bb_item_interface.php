@@ -456,6 +456,7 @@ interface bb_item_interface
 	*
 	* @param string				$text	Item URL
 	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_url($text);
 
@@ -471,6 +472,7 @@ interface bb_item_interface
 	*
 	* @param string				$text	Item GitHub URL
 	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_github($text);
 
@@ -480,14 +482,6 @@ interface bb_item_interface
 	* @return bool
 	*/
 	public function get_enable();
-
-	/**
-	* Set item display setting in template
-	*
-	* @param bool				$value	Config value
-	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_enable($value);
 
 	/**
 	* Get the time of adding item
@@ -509,11 +503,4 @@ interface bb_item_interface
 	* @return int
 	*/
 	public function get_updated();
-
-	/**
-	* Set the last updated time of item
-	*
-	* @return bb_item_interface $this Object for chaining calls: load()->set()->save()
-	*/
-	public function set_updated();
 }
