@@ -199,6 +199,43 @@ class service implements service_interface
 	}
 
 	/**
+	* Get cache from table: _icons
+	*
+	* @return array
+	*/
+	public function get_post_icons()
+	{
+		if (($smilies = $this->driver->get('_vinabb_web_post_icons')) === false)
+		{
+			$icons = [];
+
+			/** @var \vinabb\web\entities\post_icon_interface $entity */
+			foreach ($this->container->get('vinabb.web.operators.post_icon')->get_icons() as $entity)
+			{
+				$icons[$entity->get_id()] = [
+					'url'		=> $entity->get_url(),
+					'width'		=> $entity->get_width(),
+					'height'	=> $entity->get_height(),
+					'alt'		=> $entity->get_alt(),
+					'display'	=> $entity->get_display_on_posting()
+				];
+			}
+
+			$this->driver->put('_vinabb_web_post_icons', $icons);
+		}
+
+		return $icons;
+	}
+
+	/**
+	* Clear cache from table: _icons
+	*/
+	public function clear_post_icons()
+	{
+		$this->driver->destroy('_vinabb_web_post_icons');
+	}
+
+	/**
 	* Get cache from table: _smilies
 	*
 	* @return array

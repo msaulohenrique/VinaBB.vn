@@ -64,6 +64,18 @@ interface service_interface
 	public function clear_forum_data();
 
 	/**
+	* Get cache from table: _icons
+	*
+	* @return array
+	*/
+	public function get_post_icons();
+
+	/**
+	* Clear cache from table: _icons
+	*/
+	public function clear_post_icons();
+
+	/**
 	* Get cache from table: _smilies
 	*
 	* @return array
