@@ -8,7 +8,7 @@
 
 namespace vinabb\web\controllers\user;
 
-class user
+class profile
 {
 	/** @var \phpbb\auth\auth */
 	protected $auth;
@@ -103,10 +103,15 @@ class user
 		$this->php_ext = $php_ext;
 	}
 
-	public function main($user_id, $username)
+	public function main($username)
 	{
+		include "{$this->root_path}includes/functions_display.{$this->php_ext}";
+
+		// Language
+		$this->language->add_lang('memberlist');
+
 		// Display a profile
-		if ($user_id == ANONYMOUS && !$username)
+		if ($username == '')
 		{
 			trigger_error('NO_USER');
 		}
@@ -253,7 +258,7 @@ class user
 				include "{$this->root_path}includes/functions_module.{$this->php_ext}";
 			}
 
-			$module = new p_master();
+			$module = new \p_master();
 			$module->list_modules('ucp');
 			$module->list_modules('mcp');
 
@@ -343,11 +348,11 @@ class user
 			'S_CUSTOM_FIELDS'	=> (isset($profile_fields['row']) && sizeof($profile_fields['row'])) ? true : false,
 
 			'U_USER_ADMIN'			=> ($this->auth->acl_get('a_user')) ? append_sid("{$this->admin_path}index.{$this->php_ext}", 'i=users&amp;mode=overview&amp;u=' . $user_id, true, $this->user->session_id) : '',
-			'U_USER_BAN'			=> ($this->auth->acl_get('m_ban') && $user_id != $this->user->data['user_id']) ? append_sid("{$this->root_path}mcp.$phpEx", 'i=ban&amp;mode=user&amp;u=' . $user_id, true, $this->user->session_id) : '',
-			'U_MCP_QUEUE'			=> ($this->auth->acl_getf_global('m_approve')) ? append_sid("{$this->root_path}mcp.$phpEx", 'i=queue', true, $this->user->session_id) : '',
+			'U_USER_BAN'			=> ($this->auth->acl_get('m_ban') && $user_id != $this->user->data['user_id']) ? append_sid("{$this->root_path}mcp.{$this->php_ext}", 'i=ban&amp;mode=user&amp;u=' . $user_id, true, $this->user->session_id) : '',
+			'U_MCP_QUEUE'			=> ($this->auth->acl_getf_global('m_approve')) ? append_sid("{$this->root_path}mcp.{$this->php_ext}", 'i=queue', true, $this->user->session_id) : '',
 
-			'U_SWITCH_PERMISSIONS'	=> ($this->auth->acl_get('a_switchperm') && $this->user->data['user_id'] != $user_id) ? append_sid("{$this->root_path}ucp.$phpEx", "mode=switch_perm&amp;u={$user_id}&amp;hash=" . generate_link_hash('switchperm')) : '',
-			'U_EDIT_SELF'			=> ($user_id == $this->user->data['user_id'] && $this->auth->acl_get('u_chgprofileinfo')) ? append_sid("{$this->root_path}ucp.$phpEx", 'i=ucp_profile&amp;mode=profile_info') : '',
+			'U_SWITCH_PERMISSIONS'	=> ($this->auth->acl_get('a_switchperm') && $this->user->data['user_id'] != $user_id) ? append_sid("{$this->root_path}ucp.{$this->php_ext}", "mode=switch_perm&amp;u={$user_id}&amp;hash=" . generate_link_hash('switchperm')) : '',
+			'U_EDIT_SELF'			=> ($user_id == $this->user->data['user_id'] && $this->auth->acl_get('u_chgprofileinfo')) ? append_sid("{$this->root_path}ucp.{$this->php_ext}", 'i=ucp_profile&amp;mode=profile_info') : '',
 
 			'S_USER_NOTES'		=> ($user_notes_enabled) ? true : false,
 			'S_WARN_USER'		=> ($warn_user_enabled) ? true : false,
@@ -406,5 +411,28 @@ class user
 		}
 
 		return $this->helper->render('memberlist_view.html', $this->language->lang('VIEWING_PROFILE', $member['username']));
+	}
+
+	public function id($user_id)
+	{
+		// Display a profile
+		if ($user_id == ANONYMOUS)
+		{
+			trigger_error('NO_USER');
+		}
+
+		$sql = 'SELECT username
+			FROM ' . USERS_TABLE . "
+			WHERE user_id = $user_id";
+		$result = $this->db->sql_query($sql);
+		$username = (string) $this->db->sql_fetchfield('username');
+		$this->db->sql_freeresult($result);
+
+		if ($username === false)
+		{
+			trigger_error('NO_USER');
+		}
+
+		return $this->main($username);
 	}
 }
