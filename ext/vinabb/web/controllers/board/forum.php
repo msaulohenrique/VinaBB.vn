@@ -385,8 +385,9 @@ class forum implements forum_interface
 		gen_sort_selects($limit_days, $sort_by_text, $sort_days, $sort_key, $sort_dir, $s_limit_days, $s_sort_key, $s_sort_dir, $u_sort_param, $default_sort_days, $default_sort_key, $default_sort_dir);
 
 		// Convert $u_sort_param from string to array
-		$u_sort_param_ary = array();
-		if (!empty($u_sort_param))
+		$u_sort_param_ary = [];
+
+		if ($u_sort_param != '')
 		{
 			$u_sort_param = htmlspecialchars_decode($u_sort_param);
 			$u_sort_param_raw_ary = explode('&', $u_sort_param);
