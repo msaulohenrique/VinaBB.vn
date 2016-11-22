@@ -21,6 +21,9 @@ class headline implements headline_interface
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \phpbb\lock\db */
+	protected $lock;
+
 	/** @var string */
 	protected $table_name;
 
@@ -29,12 +32,14 @@ class headline implements headline_interface
 	*
 	* @param ContainerInterface					$container	Container object
 	* @param \phpbb\db\driver\driver_interface	$db			Database object
+	* @param \phpbb\lock\db						$lock		Lock table object
 	* @param string								$table_name	Table name
 	*/
-	public function __construct(ContainerInterface $container, \phpbb\db\driver\driver_interface $db, $table_name)
+	public function __construct(ContainerInterface $container, \phpbb\db\driver\driver_interface $db, \phpbb\lock\db $lock, $table_name)
 	{
 		$this->container = $container;
 		$this->db = $db;
+		$this->lock = $lock;
 		$this->table_name = $table_name;
 	}
 
@@ -67,7 +72,7 @@ class headline implements headline_interface
 	public function get_headlines($lang = '')
 	{
 		$entities = [];
-		$sql_where = ($lang != '') ? " WHERE headline_lang = '" . $this->db->sql_escape($lang) . "'" : '';
+		$sql_where = " WHERE headline_lang = '" . $this->db->sql_escape($lang) . "'";
 
 		$sql = 'SELECT *
 			FROM ' . $this->table_name . "
@@ -103,11 +108,71 @@ class headline implements headline_interface
 	}
 
 	/**
+	* Move a headline up/down
+	*
+	* @param string	$lang		2-letter language ISO code
+	* @param int	$id			Headline ID
+	* @param string	$direction	The direction: up|down
+	* @return bool True if row was moved, false otherwise
+	*/
+	public function move_headline($lang, $id, $direction = 'up')
+	{
+		$this->acquire_lock();
+
+		$sql = 'SELECT headline_order
+			FROM ' . $this->table_name . '
+			WHERE headline_id = ' . (int) $id;
+		$result = $this->db->sql_query($sql);
+		$order = $this->db->sql_fetchfield('headline_order');
+		$this->db->sql_freeresult($result);
+
+		if ($order === false || ($order == 0 && $direction == 'up'))
+		{
+			$this->lock->release();
+			return false;
+		}
+
+		$order = (int) $order;
+		$order_total = $order * 2 + (($direction == 'up') ? -1 : 1);
+
+		$sql = 'UPDATE ' . $this->table_name . '
+			SET headline_order = ' . $order_total . " - headline_order
+			WHERE headline_lang = '" . $this->db->sql_escape($lang) . "'
+				AND " . $this->db->sql_in_set('headline_order', [$order, ($direction == 'up') ? $order - 1 : $order + 1]);
+		$this->db->sql_query($sql);
+
+		$this->lock->release();
+
+		// Return true/false if the entity was moved
+		return (bool) $this->db->sql_affectedrows();
+	}
+
+	/**
+	* Acquires a lock on the item table
+	*
+	* @return bool True if the lock was acquired, false if it has been acquired previously
+	* @throws \RuntimeException If the lock could not be acquired
+	*/
+	protected function acquire_lock()
+	{
+		if ($this->lock->owns_lock())
+		{
+			return false;
+		}
+
+		if (!$this->lock->acquire())
+		{
+			throw new \RuntimeException('HEADLINES_LOCK_FAILED_ACQUIRE');
+		}
+
+		return true;
+	}
+
+	/**
 	* Delete a headline
 	*
 	* @param int $id Headline ID
 	* @return bool True if row was deleted, false otherwise
-	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function delete_headline($id)
 	{

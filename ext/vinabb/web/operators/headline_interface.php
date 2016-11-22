@@ -38,6 +38,16 @@ interface headline_interface
 	public function add_headline(\vinabb\web\entities\headline_interface $entity);
 
 	/**
+	* Move a headline up/down
+	*
+	* @param string	$lang		2-letter language ISO code
+	* @param int	$id			Headline ID
+	* @param string	$direction	The direction: up|down
+	* @return bool True if row was moved, false otherwise
+	*/
+	public function move_headline($lang, $id, $direction = 'up');
+
+	/**
 	* Delete a headline
 	*
 	* @param int $id Headline ID
