@@ -46,7 +46,7 @@ class bb_author implements bb_author_interface
 	*
 	* @return array
 	*/
-	protected function set_data()
+	protected function prepare_data()
 	{
 		return [
 			'author_id'				=> 'integer',
@@ -110,20 +110,16 @@ class bb_author implements bb_author_interface
 		// Clear out any saved data
 		$this->data = [];
 
-		// All of our fields
-		$fields = $this->set_data();
-
 		// Go through the basic fields and set them to our data array
-		foreach ($fields as $field => $type)
+		foreach ($this->prepare_data() as $field => $type)
 		{
 			// The data wasn't sent to us
 			if (!isset($data[$field]))
 			{
 				throw new \vinabb\web\exceptions\invalid_argument([$field, 'EMPTY']);
 			}
-
 			// We love unsigned numbers
-			if (in_array($type, ['integer', 'bool']) && $this->data[$field] < 0)
+			else if ($type != 'string' && $this->data[$field] < 0)
 			{
 				throw new \vinabb\web\exceptions\out_of_bounds($field);
 			}
