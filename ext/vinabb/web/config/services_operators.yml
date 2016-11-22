@@ -55,6 +55,7 @@ services:
         arguments:
             - '@service_container'
             - '@dbal.conn'
+            - '@vinabb.web.table_lock.bb_categories'
             - '%vinabb.web.tables.bb_categories%'
     vinabb.web.operators.bb_item:
         class: vinabb\web\operators\bb_item
@@ -84,4 +85,5 @@ services:
         arguments:
             - '@service_container'
             - '@dbal.conn'
+            - '@vinabb.web.table_lock.headlines'
             - '%vinabb.web.tables.headlines%'
