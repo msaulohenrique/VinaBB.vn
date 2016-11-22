@@ -15,37 +15,14 @@ use vinabb\web\includes\constants;
 */
 class menu implements menu_interface
 {
-	/**
-	* Data for this entity
-	*
-	* @var array
-	*	menu_id
-	*	parent_id
-	*	left_id
-	*	right_id
-	*	menu_parents
-	*	menu_name
-	*	menu_name_vi
-	*	menu_type
-	*	menu_icon
-	*	menu_data
-	*	menu_target
-	*	menu_enable_guest
-	*	menu_enable_bot
-	*	menu_enable_new_user
-	*	menu_enable_user
-	*	menu_enable_mod
-	*	menu_enable_global_mod
-	*	menu_enable_admin
-	*	menu_enable_founder
-	*/
-	protected $data;
-
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
 	/** @var string */
 	protected $table_name;
+
+	/** @var array */
+	protected $data;
 
 	/**
 	* Constructor
@@ -57,6 +34,36 @@ class menu implements menu_interface
 	{
 		$this->db = $db;
 		$this->table_name = $table_name;
+	}
+
+	/**
+	* Data for this entity
+	*
+	* @return array
+	*/
+	protected function prepare_data()
+	{
+		return [
+			'menu_id'					=> 'integer',
+			'parent_id'					=> 'integer',
+			'left_id'					=> 'integer',
+			'right_id'					=> 'integer',
+			'menu_parents'				=> 'string',
+			'menu_name'					=> 'string',
+			'menu_name_vi'				=> 'string',
+			'menu_type'					=> 'integer',
+			'menu_icon'					=> 'string',
+			'menu_data'					=> 'string',
+			'menu_target'				=> 'bool',
+			'menu_enable_guest'			=> 'bool',
+			'menu_enable_bot'			=> 'bool',
+			'menu_enable_new_user'		=> 'bool',
+			'menu_enable_user'			=> 'bool',
+			'menu_enable_mod'			=> 'bool',
+			'menu_enable_global_mod'	=> 'bool',
+			'menu_enable_admin'			=> 'bool',
+			'menu_enable_founder'		=> 'bool'
+		];
 	}
 
 	/**
@@ -100,65 +107,27 @@ class menu implements menu_interface
 		// Clear out any saved data
 		$this->data = [];
 
-		// All of our fields
-		$fields = [
-			'menu_id'					=> 'integer',
-			'parent_id'					=> 'integer',
-			'left_id'					=> 'integer',
-			'right_id'					=> 'integer',
-			'menu_parents'				=> 'string',
-			'menu_name'					=> 'set_name',
-			'menu_name_vi'				=> 'set_name_vi',
-			'menu_type'					=> 'set_type',
-			'menu_icon'					=> 'set_icon',
-			'menu_data'					=> 'set_data',
-			'menu_target'				=> 'bool',
-			'menu_enable_guest'			=> 'bool',
-			'menu_enable_bot'			=> 'bool',
-			'menu_enable_new_user'		=> 'bool',
-			'menu_enable_user'			=> 'bool',
-			'menu_enable_mod'			=> 'bool',
-			'menu_enable_global_mod'	=> 'bool',
-			'menu_enable_admin'			=> 'bool',
-			'menu_enable_founder'		=> 'bool'
-		];
-
 		// Go through the basic fields and set them to our data array
-		foreach ($fields as $field => $type)
+		foreach ($this->prepare_data() as $field => $type)
 		{
 			// The data wasn't sent to us
 			if (!isset($data[$field]))
 			{
 				throw new \vinabb\web\exceptions\invalid_argument([$field, 'EMPTY']);
 			}
-
-			// If the type is a method on this class, call it
-			if (method_exists($this, $type))
-			{
-				$this->$type($data[$field]);
-			}
-			else
-			{
-				// settype() passes values by reference
-				$value = $data[$field];
-
-				// We're using settype() to enforce data types
-				settype($value, $type);
-
-				$this->data[$field] = $value;
-			}
-		}
-
-		// Some fields must be >= 0
-		$validate_unsigned = ['menu_id', 'parent_id', 'left_id', 'right_id', 'menu_type', 'menu_target', 'menu_enable_guest', 'menu_enable_bot', 'menu_enable_new_user', 'menu_enable_user', 'menu_enable_mod', 'menu_enable_global_mod', 'menu_enable_admin', 'menu_enable_founder'];
-
-		foreach ($validate_unsigned as $field)
-		{
-			// If the data is less than 0, it's not unsigned and we'll throw an exception
-			if ($this->data[$field] < 0)
+			// We love unsigned numbers
+			else if ($type != 'string' && $this->data[$field] < 0)
 			{
 				throw new \vinabb\web\exceptions\out_of_bounds($field);
 			}
+
+			// settype() passes values by reference
+			$value = $data[$field];
+
+			// We're using settype() to enforce data types
+			settype($value, $type);
+
+			$this->data[$field] = $value;
 		}
 
 		return $this;
