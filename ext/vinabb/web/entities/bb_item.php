@@ -15,54 +15,6 @@ use vinabb\web\includes\constants;
 */
 class bb_item extends \vinabb\web\entities\abs\item_desc implements bb_item_interface
 {
-	/**
-	* Data for this entity
-	*
-	* @var array
-	*	item_id
-	*	bb_type
-	*	cat_id
-	*	author_id
-	*	item_name
-	*	item_varname
-	*	item_desc
-	*	item_desc_uid
-	*	item_desc_bitfield
-	*	item_desc_options
-	*	item_desc_vi
-	*	item_desc_vi_uid
-	*	item_desc_vi_bitfield
-	*	item_desc_vi_options
-	*
-	*	[bb_type = 1]
-	*		item_ext_style
-	*		item_ext_acp_style
-	*		item_ext_lang
-	*		item_ext_db_schema
-	*		item_ext_db_data
-	*
-	*	[bb_type = 2 || 3]
-	*		item_style_presets
-	*		item_style_presets_aio
-	*		item_style_source
-	*		item_style_responsive
-	*		item_style_bootstrap
-	*
-	*	[bb_type = 4]
-	*		item_lang_iso
-	*
-	*	[bb_type = 5]
-	*		item_tool_os
-	*
-	*	item_price
-	*	item_url
-	*	item_github
-	*	item_enable
-	*	item_added
-	*	item_updated
-	*/
-	protected $data;
-
 	/** @var \phpbb\config\config */
 	protected $config;
 
@@ -80,6 +32,9 @@ class bb_item extends \vinabb\web\entities\abs\item_desc implements bb_item_inte
 
 	/** @var string */
 	protected $author_table_name;
+
+	/** @var array */
+	protected $data;
 
 	/**
 	* Constructor
@@ -106,6 +61,49 @@ class bb_item extends \vinabb\web\entities\abs\item_desc implements bb_item_inte
 		$this->table_name = $table_name;
 		$this->cat_table_name = $cat_table_name;
 		$this->author_table_name = $author_table_name;
+	}
+
+	/**
+	* Data for this entity
+	*
+	* @return array
+	*/
+	protected function prepare_data()
+	{
+		return [
+			'item_id'					=> 'integer',
+			'bb_type'					=> 'integer',
+			'cat_id'					=> 'integer',
+			'author_id'					=> 'integer',
+			'item_name'					=> 'string',
+			'item_varname'				=> 'string',
+			'item_desc'					=> 'string',
+			'item_desc_uid'				=> 'string',
+			'item_desc_bitfield'		=> 'string',
+			'item_desc_options'			=> 'integer',
+			'item_desc_vi'				=> 'string',
+			'item_desc_vi_uid'			=> 'string',
+			'item_desc_vi_bitfield'		=> 'string',
+			'item_desc_vi_options'		=> 'integer',
+			'item_ext_style'			=> 'bool',
+			'item_ext_acp_style'		=> 'bool',
+			'item_ext_lang'				=> 'bool',
+			'item_ext_db_schema'		=> 'bool',
+			'item_ext_db_data'			=> 'bool',
+			'item_style_presets'		=> 'integer',
+			'item_style_presets_aio'	=> 'bool',
+			'item_style_source'			=> 'bool',
+			'item_style_responsive'		=> 'bool',
+			'item_style_bootstrap'		=> 'bool',
+			'item_lang_iso'				=> 'string',
+			'item_tool_os'				=> 'integer',
+			'item_price'				=> 'integer',
+			'item_url'					=> 'string',
+			'item_github'				=> 'string',
+			'item_enable'				=> 'bool',
+			'item_added'				=> 'integer',
+			'item_updated'				=> 'integer'
+		];
 	}
 
 	/**
@@ -149,80 +147,27 @@ class bb_item extends \vinabb\web\entities\abs\item_desc implements bb_item_inte
 		// Clear out any saved data
 		$this->data = [];
 
-		// All of our fields
-		$fields = [
-			'item_id'					=> 'integer',
-			'bb_type'					=> 'integer',
-			'cat_id'					=> 'set_cat_id',
-			'author_id'					=> 'set_author_id',
-			'item_name'					=> 'set_name',
-			'item_varname'				=> 'set_varname',
-			'item_ext_style'			=> 'set_ext_style',
-			'item_ext_acp_style'		=> 'set_ext_acp_style',
-			'item_ext_lang'				=> 'set_ext_lang',
-			'item_ext_db_schema'		=> 'set_ext_db_schema',
-			'item_ext_db_data'			=> 'set_ext_db_data',
-			'item_style_presets'		=> 'set_style_presets',
-			'item_style_presets_aio'	=> 'set_style_presets_aio',
-			'item_style_source'			=> 'set_style_source',
-			'item_style_responsive'		=> 'set_style_responsive',
-			'item_style_bootstrap'		=> 'set_style_bootstrap',
-			'item_lang_iso'				=> 'set_lang_iso',
-			'item_tool_os'				=> 'set_tool_os',
-			'item_price'				=> 'set_price',
-			'item_url'					=> 'set_url',
-			'item_github'				=> 'set_github',
-			'item_enable'				=> 'bool',
-			'item_added'				=> 'set_added',
-			'item_updated'				=> 'integer',
-
-			// We do not pass to set_desc() or set_desc_vi() as generate_text_for_storage() would run twice
-			'item_desc'				=> 'string',
-			'item_desc_uid'			=> 'string',
-			'item_desc_bitfield'	=> 'string',
-			'item_desc_options'		=> 'integer',
-			'item_desc_vi'			=> 'string',
-			'item_desc_vi_uid'		=> 'string',
-			'item_desc_vi_bitfield'	=> 'string',
-			'item_desc_vi_options'	=> 'integer'
-		];
-
 		// Go through the basic fields and set them to our data array
-		foreach ($fields as $field => $type)
+		foreach ($this->prepare_data() as $field => $type)
 		{
 			// The data wasn't sent to us
 			if (!isset($data[$field]))
 			{
 				throw new \vinabb\web\exceptions\invalid_argument([$field, 'EMPTY']);
 			}
-
-			// If the type is a method on this class, call it
-			if (method_exists($this, $type))
-			{
-				$this->$type($data[$field]);
-			}
-			else
-			{
-				// settype() passes values by reference
-				$value = $data[$field];
-
-				// We're using settype() to enforce data types
-				settype($value, $type);
-
-				$this->data[$field] = $value;
-			}
-		}
-
-		// Some fields must be >= 0
-		$validate_unsigned = ['item_id', 'bb_type', 'cat_id', 'author_id', 'item_desc_options', 'item_desc_vi_options', 'item_ext_style', 'item_ext_acp_style', 'item_ext_lang', 'item_ext_db_schema', 'item_ext_db_data', 'item_style_presets', 'item_style_presets_aio', 'item_style_source', 'item_style_responsive', 'item_style_bootstrap', 'item_tool_os', 'item_price', 'item_enable', 'item_added', 'item_updated'];
-
-		foreach ($validate_unsigned as $field)
-		{
-			// If the data is less than 0, it's not unsigned and we'll throw an exception
-			if ($this->data[$field] < 0)
+			// We love unsigned numbers
+			else if ($type != 'string' && $this->data[$field] < 0)
 			{
 				throw new \vinabb\web\exceptions\out_of_bounds($field);
 			}
+
+			// settype() passes values by reference
+			$value = $data[$field];
+
+			// We're using settype() to enforce data types
+			settype($value, $type);
+
+			$this->data[$field] = $value;
 		}
 
 		return $this;
