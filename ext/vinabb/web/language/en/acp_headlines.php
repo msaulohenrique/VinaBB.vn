@@ -31,6 +31,7 @@ $lang = array_merge($lang, [
 	'ERROR_HEADLINE_IMG_EMPTY'			=> 'You must select a headline image.',
 	'ERROR_HEADLINE_LANG_EMPTY'			=> 'You must select a language.',
 	'ERROR_HEADLINE_LANG_NOT_EXISTS'	=> 'The language does not exist.',
+	'ERROR_HEADLINE_MOVE'				=> 'Could not move this headline. Error: %s',
 	'ERROR_HEADLINE_NAME_EMPTY'			=> 'You must enter a title.',
 	'ERROR_HEADLINE_NAME_TOO_LONG'		=> 'The title is too long.',
 	'ERROR_HEADLINE_URL_EMPTY'			=> 'You must enter an URL.',

@@ -31,6 +31,7 @@ $lang = array_merge($lang, [
 	'ERROR_HEADLINE_IMG_EMPTY'			=> 'Chưa chọn hình quảng cáo.',
 	'ERROR_HEADLINE_LANG_EMPTY'			=> 'Chưa chọn ngôn ngữ.',
 	'ERROR_HEADLINE_LANG_NOT_EXISTS'	=> 'Ngôn ngữ không tồn tại.',
+	'ERROR_HEADLINE_MOVE'				=> 'Không thể di chuyển quảng cáo này. Lỗi: %s',
 	'ERROR_HEADLINE_NAME_EMPTY'			=> 'Chưa nhập tiêu đề.',
 	'ERROR_HEADLINE_NAME_TOO_LONG'		=> 'Tiêu đề quá dài.',
 	'ERROR_HEADLINE_URL_EMPTY'			=> 'Chưa nhập liên kết.',
