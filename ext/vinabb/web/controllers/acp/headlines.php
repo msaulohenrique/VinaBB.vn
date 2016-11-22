@@ -321,9 +321,6 @@ class headlines implements headlines_interface
 			trigger_error($this->language->lang('FORM_INVALID') . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
-		/* @var \vinabb\web\entities\headline_interface */
-		$entity = $this->container->get('vinabb.web.entities.headline')->load($headline_id);
-
 		try
 		{
 			$this->operator->move_headline($lang, $headline_id, $direction);
