@@ -19,9 +19,6 @@ class mcp
 	/** @var \phpbb\event\dispatcher_interface */
 	protected $dispatcher;
 
-	/** @var \phpbb\extension\manager */
-	protected $ext_manager;
-
 	/** @var \phpbb\language\language */
 	protected $language;
 
@@ -43,16 +40,12 @@ class mcp
 	/** @var string */
 	protected $php_ext;
 
-	/** @var string */
-	protected $ext_root_path;
-
 	/**
 	* Constructor
 	*
 	* @param \phpbb\auth\auth $auth
 	* @param \phpbb\db\driver\driver_interface $db
 	* @param \phpbb\event\dispatcher_interface $dispatcher
-	* @param \phpbb\extension\manager $ext_manager
 	* @param \phpbb\language\language $language
 	* @param \phpbb\request\request $request
 	* @param \phpbb\template\template $template
@@ -65,7 +58,6 @@ class mcp
 		\phpbb\auth\auth $auth,
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\event\dispatcher_interface $dispatcher,
-		\phpbb\extension\manager $ext_manager,
 		\phpbb\language\language $language,
 		\phpbb\request\request $request,
 		\phpbb\template\template $template,
@@ -78,7 +70,6 @@ class mcp
 		$this->auth = $auth;
 		$this->db = $db;
 		$this->dispatcher = $dispatcher;
-		$this->ext_manager = $ext_manager;
 		$this->language = $language;
 		$this->request = $request;
 		$this->template = $template;
@@ -86,8 +77,6 @@ class mcp
 		$this->helper = $helper;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
-
-		$this->ext_root_path = $this->ext_manager->get_extension_path('vinabb/web', true);
 	}
 
 	public function main($id, $mode)
@@ -98,7 +87,7 @@ class mcp
 		// Common functions
 		require "{$this->root_path}includes/functions_admin.{$this->php_ext}";
 		require "{$this->root_path}includes/functions_mcp.{$this->php_ext}";
-		require "{$this->ext_root_path}includes/functions_module.{$this->php_ext}";
+		require "{$this->root_path}includes/functions_module.{$this->php_ext}";
 
 		$this->language->add_lang('mcp');
 

@@ -25,9 +25,6 @@ class ucp implements ucp_interface
 	/** @var \phpbb\event\dispatcher_interface */
 	protected $dispatcher;
 
-	/** @var \phpbb\extension\manager */
-	protected $ext_manager;
-
 	/** @var \phpbb\language\language */
 	protected $language;
 
@@ -52,9 +49,6 @@ class ucp implements ucp_interface
 	/** @var string */
 	protected $php_ext;
 
-	/** @var string */
-	protected $ext_root_path;
-
 	/**
 	* Constructor
 	*
@@ -62,7 +56,6 @@ class ucp implements ucp_interface
 	* @param \phpbb\config\config $config
 	* @param \phpbb\db\driver\driver_interface $db
 	* @param \phpbb\event\dispatcher_interface $dispatcher
-	* @param \phpbb\extension\manager $ext_manager
 	* @param \phpbb\language\language $language
 	* @param \phpbb\log\log $log
 	* @param \phpbb\request\request $request
@@ -77,7 +70,6 @@ class ucp implements ucp_interface
 		\phpbb\config\config $config,
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\event\dispatcher_interface $dispatcher,
-		\phpbb\extension\manager $ext_manager,
 		\phpbb\language\language $language,
 		\phpbb\log\log $log,
 		\phpbb\request\request $request,
@@ -92,7 +84,6 @@ class ucp implements ucp_interface
 		$this->config = $config;
 		$this->db = $db;
 		$this->dispatcher = $dispatcher;
-		$this->ext_manager = $ext_manager;
 		$this->language = $language;
 		$this->log = $log;
 		$this->request = $request;
@@ -101,8 +92,6 @@ class ucp implements ucp_interface
 		$this->helper = $helper;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
-
-		$this->ext_root_path = $this->ext_manager->get_extension_path('vinabb/web', true);
 	}
 
 	/**
@@ -115,7 +104,7 @@ class ucp implements ucp_interface
 	{
 		// Common functions
 		require "{$this->root_path}includes/functions_user.{$this->php_ext}";
-		require "{$this->ext_root_path}includes/functions_module.{$this->php_ext}";
+		require "{$this->root_path}includes/functions_module.{$this->php_ext}";
 
 		if (in_array($mode, ['login', 'login_link', 'logout', 'confirm', 'sendpassword', 'activate']))
 		{

@@ -8,9 +8,6 @@
 
 namespace vinabb\web\includes;
 
-global $phpbb_root_path, $phpEx;
-require($phpbb_root_path . 'includes/functions_module.' . $phpEx);
-
 class p_master extends \p_master
 {
 	/**
