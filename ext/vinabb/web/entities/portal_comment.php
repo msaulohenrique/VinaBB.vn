@@ -15,22 +15,6 @@ use vinabb\web\includes\constants;
 */
 class portal_comment extends \vinabb\web\entities\abs\comment_text implements portal_comment_interface
 {
-	/**
-	* Data for this entity
-	*
-	* @var array
-	*	comment_id
-	*	user_id
-	*	article_id
-	*	comment_text
-	*	comment_text_uid
-	*	comment_text_bitfield
-	*	comment_text_options
-	*	comment_pending
-	*	comment_time
-	*/
-	protected $data;
-
 	/** @var \phpbb\config\config */
 	protected $config;
 
@@ -45,6 +29,9 @@ class portal_comment extends \vinabb\web\entities\abs\comment_text implements po
 
 	/** @var string */
 	protected $article_table_name;
+
+	/** @var array */
+	protected $data;
 
 	/**
 	* Constructor
@@ -62,6 +49,26 @@ class portal_comment extends \vinabb\web\entities\abs\comment_text implements po
 		$this->entity_helper = $entity_helper;
 		$this->table_name = $table_name;
 		$this->article_table_name = $article_table_name;
+	}
+
+	/**
+	* Data for this entity
+	*
+	* @return array
+	*/
+	protected function prepare_data()
+	{
+		return [
+			'comment_id'			=> 'integer',
+			'user_id'				=> 'integer',
+			'article_id'			=> 'integer',
+			'comment_text'			=> 'string',
+			'comment_text_uid'		=> 'string',
+			'comment_text_bitfield'	=> 'string',
+			'comment_text_options'	=> 'integer',
+			'comment_pending'		=> 'integer',
+			'comment_time'			=> 'integer'
+		];
 	}
 
 	/**
@@ -105,57 +112,27 @@ class portal_comment extends \vinabb\web\entities\abs\comment_text implements po
 		// Clear out any saved data
 		$this->data = [];
 
-		// All of our fields
-		$fields = [
-			'comment_id'		=> 'integer',
-			'user_id'			=> 'set_user_id',
-			'article_id'		=> 'set_article_id',
-			'comment_pending'	=> 'set_pending',
-			'comment_time'		=> 'set_time',
-
-			// We do not pass to set_text() as generate_text_for_storage() would run twice
-			'comment_text'			=> 'string',
-			'comment_text_uid'		=> 'string',
-			'comment_text_bitfield'	=> 'string',
-			'comment_text_options'	=> 'integer'
-		];
-
 		// Go through the basic fields and set them to our data array
-		foreach ($fields as $field => $type)
+		foreach ($this->prepare_data() as $field => $type)
 		{
 			// The data wasn't sent to us
 			if (!isset($data[$field]))
 			{
 				throw new \vinabb\web\exceptions\invalid_argument([$field, 'EMPTY']);
 			}
-
-			// If the type is a method on this class, call it
-			if (method_exists($this, $type))
-			{
-				$this->$type($data[$field]);
-			}
-			else
-			{
-				// settype() passes values by reference
-				$value = $data[$field];
-
-				// We're using settype() to enforce data types
-				settype($value, $type);
-
-				$this->data[$field] = $value;
-			}
-		}
-
-		// Some fields must be >= 0
-		$validate_unsigned = ['comment_id', 'user_id', 'article_id', 'comment_pending', 'comment_time', 'comment_text_options'];
-
-		foreach ($validate_unsigned as $field)
-		{
-			// If the data is less than 0, it's not unsigned and we'll throw an exception
-			if ($this->data[$field] < 0)
+			// We love unsigned numbers
+			else if ($type != 'string' && $this->data[$field] < 0)
 			{
 				throw new \vinabb\web\exceptions\out_of_bounds($field);
 			}
+
+			// settype() passes values by reference
+			$value = $data[$field];
+
+			// We're using settype() to enforce data types
+			settype($value, $type);
+
+			$this->data[$field] = $value;
 		}
 
 		return $this;
