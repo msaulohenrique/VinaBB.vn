@@ -15,21 +15,11 @@ use vinabb\web\includes\constants;
 */
 class language implements language_interface
 {
-	/**
-	* Data for this entity
-	*
-	* @var array
-	*	lang_id
-	*	lang_iso
-	*	lang_dir
-	*	lang_english_name
-	*	lang_local_name
-	*	lang_author
-	*/
-	protected $data;
-
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
+
+	/** @var array */
+	protected $data;
 
 	/**
 	* Constructor
@@ -39,6 +29,23 @@ class language implements language_interface
 	public function __construct(\phpbb\db\driver\driver_interface $db)
 	{
 		$this->db = $db;
+	}
+
+	/**
+	* Data for this entity
+	*
+	* @return array
+	*/
+	protected function prepare_data()
+	{
+		return [
+			'lang_id'			=> 'integer',
+			'lang_iso'			=> 'string',
+			'lang_dir'			=> 'string',
+			'lang_english_name'	=> 'string',
+			'lang_local_name'	=> 'string',
+			'lang_author'		=> 'string'
+		];
 	}
 
 	/**
@@ -82,52 +89,27 @@ class language implements language_interface
 		// Clear out any saved data
 		$this->data = [];
 
-		// All of our fields
-		$fields = [
-			'lang_id'			=> 'integer',
-			'lang_iso'			=> 'set_iso',
-			'lang_dir'			=> 'set_dir',
-			'lang_english_name'	=> 'set_english_name',
-			'lang_local_name'	=> 'set_local_name',
-			'lang_author'		=> 'set_author'
-		];
-
 		// Go through the basic fields and set them to our data array
-		foreach ($fields as $field => $type)
+		foreach ($this->prepare_data() as $field => $type)
 		{
 			// The data wasn't sent to us
 			if (!isset($data[$field]))
 			{
 				throw new \vinabb\web\exceptions\invalid_argument([$field, 'EMPTY']);
 			}
-
-			// If the type is a method on this class, call it
-			if (method_exists($this, $type))
-			{
-				$this->$type($data[$field]);
-			}
-			else
-			{
-				// settype() passes values by reference
-				$value = $data[$field];
-
-				// We're using settype() to enforce data types
-				settype($value, $type);
-
-				$this->data[$field] = $value;
-			}
-		}
-
-		// Some fields must be >= 0
-		$validate_unsigned = ['lang_id'];
-
-		foreach ($validate_unsigned as $field)
-		{
-			// If the data is less than 0, it's not unsigned and we'll throw an exception
-			if ($this->data[$field] < 0)
+			// We love unsigned numbers
+			else if ($type != 'string' && $this->data[$field] < 0)
 			{
 				throw new \vinabb\web\exceptions\out_of_bounds($field);
 			}
+
+			// settype() passes values by reference
+			$value = $data[$field];
+
+			// We're using settype() to enforce data types
+			settype($value, $type);
+
+			$this->data[$field] = $value;
 		}
 
 		return $this;
