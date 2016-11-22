@@ -288,7 +288,7 @@ class portal_category implements portal_category_interface
 		}
 
 		// This field value must be unique
-		if ($this->get_name() != '' && $this->get_name() != $text && $this->entity_helper->check_portal_cat_name($text, $this->get_id()))
+		if ($this->entity_helper->check_portal_cat_name($text, $this->get_id()))
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['cat_name', 'DUPLICATE', $text]);
 		}
@@ -327,7 +327,7 @@ class portal_category implements portal_category_interface
 		}
 
 		// This field value must be unique
-		if ($this->get_name_vi() != '' && $this->get_name_vi() != $text && $this->entity_helper->check_portal_cat_name_vi($text, $this->get_id()))
+		if ($this->entity_helper->check_portal_cat_name_vi($text, $this->get_id()))
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['cat_name', 'DUPLICATE', $text]);
 		}
@@ -378,7 +378,7 @@ class portal_category implements portal_category_interface
 		}
 
 		// This field value must be unique
-		if ($this->get_varname() != '' && $this->get_varname() != $text && $this->entity_helper->check_portal_cat_varname($text, $this->get_id()))
+		if ($this->entity_helper->check_portal_cat_varname($text, $this->get_id()))
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['cat_varname', 'DUPLICATE', $text]);
 		}

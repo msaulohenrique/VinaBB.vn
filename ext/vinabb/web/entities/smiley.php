@@ -221,7 +221,7 @@ class smiley implements smiley_interface
 		}
 
 		// This field value must be unique
-		if ($this->get_code() != '' && $this->get_code() != $text && $this->entity_helper->check_smiley_code($text, $this->get_id()))
+		if ($this->entity_helper->check_smiley_code($text, $this->get_id()))
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['code', 'DUPLICATE', $text]);
 		}

@@ -326,7 +326,7 @@ class page extends \vinabb\web\entities\abs\page_text implements page_interface
 		}
 
 		// This field value must be unique
-		if ($this->get_varname() != '' && $this->get_varname() != $text && $this->entity_helper->check_page_varname($text, $this->get_id()))
+		if ($this->entity_helper->check_page_varname($text, $this->get_id()))
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['page_varname', 'DUPLICATE', $text]);
 		}

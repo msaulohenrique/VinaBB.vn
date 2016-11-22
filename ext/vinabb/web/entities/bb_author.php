@@ -274,7 +274,7 @@ class bb_author implements bb_author_interface
 		}
 
 		// This field value must be unique
-		if ($this->get_name() != '' && $this->get_name() != $text && $this->entity_helper->check_bb_author_name($text, $this->get_id()))
+		if ($this->entity_helper->check_bb_author_name($text, $this->get_id()))
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['author_name', 'DUPLICATE', $text]);
 		}
