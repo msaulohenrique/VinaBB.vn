@@ -39,11 +39,20 @@ interface bb_category_interface
 	public function add_cat(\vinabb\web\entities\bb_category_interface $entity, $bb_type);
 
 	/**
+	* Move a category up/down
+	*
+	* @param int	$bb_type	phpBB resource type
+	* @param int	$id			Category ID
+	* @param string	$direction	The direction: up|down
+	* @return bool True if row was moved, false otherwise
+	*/
+	public function move_cat($bb_type, $id, $direction = 'up');
+
+	/**
 	* Delete a category
 	*
 	* @param int $id Category ID
 	* @return bool True if row was deleted, false otherwise
-	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function delete_cat($id);
 }
