@@ -381,6 +381,8 @@ class portal_categories implements portal_categories_interface
 			trigger_error($this->language->lang($e->getMessage()) . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
+		$this->cache->clear_portal_cats();
+
 		// If AJAX was used, show user a result message
 		if ($this->request->is_ajax())
 		{
@@ -416,6 +418,7 @@ class portal_categories implements portal_categories_interface
 		}
 
 		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_CAT_DELETE', time(), [$entity->get_name()]);
+		$this->cache->clear_portal_cats();
 
 		// If AJAX was used, show user a result message
 		if ($this->request->is_ajax())

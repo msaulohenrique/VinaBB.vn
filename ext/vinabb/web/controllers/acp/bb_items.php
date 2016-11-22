@@ -406,6 +406,7 @@ class bb_items implements bb_items_interface
 		}
 
 		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_{$this->lang_key}_DELETE", time(), [$entity->get_name()]);
+		$this->cache->clear_new_bb_items($this->bb_type);
 
 		// If AJAX was used, show user a result message
 		if ($this->request->is_ajax())

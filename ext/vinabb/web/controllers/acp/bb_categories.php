@@ -372,6 +372,7 @@ class bb_categories
 		}
 
 		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_BB_CAT_DELETE', time(), [$entity->get_name()]);
+		$this->cache->clear_bb_cats($this->bb_type);
 
 		// If AJAX was used, show user a result message
 		if ($this->request->is_ajax())

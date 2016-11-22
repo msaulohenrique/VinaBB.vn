@@ -389,6 +389,7 @@ class pages implements pages_interface
 		}
 
 		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PAGE_DELETE', time(), [$entity->get_name()]);
+		$this->cache->clear_pages();
 
 		// If AJAX was used, show user a result message
 		if ($this->request->is_ajax())

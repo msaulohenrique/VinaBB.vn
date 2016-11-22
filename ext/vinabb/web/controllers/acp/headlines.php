@@ -316,6 +316,7 @@ class headlines implements headlines_interface
 		}
 
 		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_HEADLINE_DELETE', time(), [$entity->get_name()]);
+		$this->cache->clear_headlines($entity->get_lang());
 
 		// If AJAX was used, show user a result message
 		if ($this->request->is_ajax())
