@@ -26,7 +26,7 @@ class nestedset_portal_categories extends \phpbb\tree\nestedset
 			$db,
 			$lock,
 			$table_name,
-			'PORTAL_CATEGORIES_NESTEDSET_',
+			'NESTEDSET_PORTAL_CATS_',
 			'',
 			[],
 			[

@@ -26,7 +26,7 @@ class nestedset_menus extends \phpbb\tree\nestedset
 			$db,
 			$lock,
 			$table_name,
-			'MENUS_NESTEDSET_',
+			'NESTEDSET_MENUS_',
 			'',
 			[],
 			[
