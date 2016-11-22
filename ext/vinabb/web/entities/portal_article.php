@@ -15,27 +15,6 @@ use vinabb\web\includes\constants;
 */
 class portal_article extends \vinabb\web\entities\abs\article_text implements portal_article_interface
 {
-	/**
-	* Data for this entity
-	*
-	* @var array
-	*	article_id
-	*	cat_id
-	*	article_name
-	*	article_name_seo
-	*	article_lang
-	*	article_img
-	*	article_desc
-	*	article_text
-	*	article_text_uid
-	*	article_text_bitfield
-	*	article_text_options
-	*	article_enable
-	*	article_views
-	*	article_time
-	*/
-	protected $data;
-
 	/** @var \phpbb\config\config */
 	protected $config;
 
@@ -50,6 +29,9 @@ class portal_article extends \vinabb\web\entities\abs\article_text implements po
 
 	/** @var string */
 	protected $cat_table_name;
+
+	/** @var array */
+	protected $data;
 
 	/**
 	* Constructor
@@ -67,6 +49,31 @@ class portal_article extends \vinabb\web\entities\abs\article_text implements po
 		$this->entity_helper = $entity_helper;
 		$this->table_name = $table_name;
 		$this->cat_table_name = $cat_table_name;
+	}
+
+	/**
+	* Data for this entity
+	*
+	* @return array
+	*/
+	protected function prepare_data()
+	{
+		return [
+			'article_id'			=> 'integer',
+			'cat_id'				=> 'integer',
+			'article_name'			=> 'string',
+			'article_name_seo'		=> 'string',
+			'article_lang'			=> 'string',
+			'article_img'			=> 'string',
+			'article_desc'			=> 'string',
+			'article_text'			=> 'string',
+			'article_text_uid'		=> 'string',
+			'article_text_bitfield'	=> 'string',
+			'article_text_options'	=> 'integer',
+			'article_enable'		=> 'bool',
+			'article_views'			=> 'integer',
+			'article_time'			=> 'integer'
+		];
 	}
 
 	/**
@@ -110,62 +117,27 @@ class portal_article extends \vinabb\web\entities\abs\article_text implements po
 		// Clear out any saved data
 		$this->data = [];
 
-		// All of our fields
-		$fields = [
-			'article_id'		=> 'integer',
-			'cat_id'			=> 'set_cat_id',
-			'article_name'		=> 'set_name',
-			'article_name_seo'	=> 'set_name_seo',
-			'article_lang'		=> 'set_lang',
-			'article_img'		=> 'set_img',
-			'article_desc'		=> 'set_desc',
-			'article_enable'	=> 'bool',
-			'article_views'		=> 'integer',
-			'article_time'		=> 'integer',
-
-			// We do not pass to set_text() as generate_text_for_storage() would run twice
-			'article_text'			=> 'string',
-			'article_text_uid'		=> 'string',
-			'article_text_bitfield'	=> 'string',
-			'article_text_options'	=> 'integer'
-		];
-
 		// Go through the basic fields and set them to our data array
-		foreach ($fields as $field => $type)
+		foreach ($this->prepare_data() as $field => $type)
 		{
 			// The data wasn't sent to us
 			if (!isset($data[$field]))
 			{
 				throw new \vinabb\web\exceptions\invalid_argument([$field, 'EMPTY']);
 			}
-
-			// If the type is a method on this class, call it
-			if (method_exists($this, $type))
-			{
-				$this->$type($data[$field]);
-			}
-			else
-			{
-				// settype() passes values by reference
-				$value = $data[$field];
-
-				// We're using settype() to enforce data types
-				settype($value, $type);
-
-				$this->data[$field] = $value;
-			}
-		}
-
-		// Some fields must be >= 0
-		$validate_unsigned = ['article_id', 'cat_id', 'article_enable', 'article_views', 'article_time', 'article_text_options'];
-
-		foreach ($validate_unsigned as $field)
-		{
-			// If the data is less than 0, it's not unsigned and we'll throw an exception
-			if ($this->data[$field] < 0)
+			// We love unsigned numbers
+			else if ($type != 'string' && $this->data[$field] < 0)
 			{
 				throw new \vinabb\web\exceptions\out_of_bounds($field);
 			}
+
+			// settype() passes values by reference
+			$value = $data[$field];
+
+			// We're using settype() to enforce data types
+			settype($value, $type);
+
+			$this->data[$field] = $value;
 		}
 
 		return $this;
