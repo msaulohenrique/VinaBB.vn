@@ -10,6 +10,11 @@ services:
         arguments:
             - '@service_container'
             - '@dbal.conn'
+    vinabb.web.operators.topic:
+        class: vinabb\web\operators\topic
+        arguments:
+            - '@service_container'
+            - '@dbal.conn'
     vinabb.web.operators.post_icon:
         class: vinabb\web\operators\post_icon
         arguments:
