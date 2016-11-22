@@ -376,9 +376,9 @@ class portal_categories implements portal_categories_interface
 		{
 			$this->operator->move_cat($cat_id, $direction, $amount);
 		}
-		catch (\Exception $e)
+		catch (\vinabb\web\exceptions\base $e)
 		{
-			trigger_error($this->language->lang($e->getMessage()) . adm_back_link($this->u_action), E_USER_WARNING);
+			trigger_error($this->language->lang('ERROR_CAT_MOVE', $e->get_message($this->language)) . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
 		$this->cache->clear_portal_cats();
