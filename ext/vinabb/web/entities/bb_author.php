@@ -15,30 +15,6 @@ use vinabb\web\includes\constants;
 */
 class bb_author implements bb_author_interface
 {
-	/**
-	* Data for this entity
-	*
-	* @var array
-	*	author_id
-	*	user_id
-	*	author_name
-	*	author_name_seo
-	*	author_firstname
-	*	author_lastname
-	*	author_is_group
-	*	author_group
-	*	author_www
-	*	author_email
-	*	author_phpbb
-	*	author_github
-	*	author_facebook
-	*	author_twitter
-	*	author_google
-	*	author_google_plus
-	*	author_skype
-	*/
-	protected $data;
-
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
@@ -47,6 +23,9 @@ class bb_author implements bb_author_interface
 
 	/** @var string */
 	protected $table_name;
+
+	/** @var array */
+	protected $data;
 
 	/**
 	* Constructor
@@ -60,6 +39,34 @@ class bb_author implements bb_author_interface
 		$this->db = $db;
 		$this->entity_helper = $entity_helper;
 		$this->table_name = $table_name;
+	}
+
+	/**
+	* Data for this entity
+	*
+	* @return array
+	*/
+	protected function set_data()
+	{
+		return [
+			'author_id'				=> 'integer',
+			'user_id'				=> 'integer',
+			'author_name'			=> 'string',
+			'author_name_seo'		=> 'string',
+			'author_firstname'		=> 'string',
+			'author_lastname'		=> 'string',
+			'author_is_group'		=> 'bool',
+			'author_group'			=> 'integer',
+			'author_www'			=> 'string',
+			'author_email'			=> 'string',
+			'author_phpbb'			=> 'integer',
+			'author_github'			=> 'string',
+			'author_facebook'		=> 'string',
+			'author_twitter'		=> 'string',
+			'author_google'			=> 'string',
+			'author_google_plus'	=> 'string',
+			'author_skype'			=> 'string'
+		];
 	}
 
 	/**
@@ -94,7 +101,7 @@ class bb_author implements bb_author_interface
 	* Any existing data on this entity is over-written.
 	* All data is validated and an exception is thrown if any data is invalid.
 	*
-	* @param array						$data	Data array from the database
+	* @param array					$data	Data array from the database
 	* @return bb_author_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\base
 	*/
@@ -104,25 +111,7 @@ class bb_author implements bb_author_interface
 		$this->data = [];
 
 		// All of our fields
-		$fields = [
-			'author_id'				=> 'integer',
-			'user_id'				=> 'set_user_id',
-			'author_name'			=> 'set_name',
-			'author_name_seo'		=> 'set_name_seo',
-			'author_firstname'		=> 'set_firstname',
-			'author_lastname'		=> 'set_lastname',
-			'author_is_group'		=> 'set_is_group',
-			'author_group'			=> 'set_group',
-			'author_www'			=> 'set_www',
-			'author_email'			=> 'set_email',
-			'author_phpbb'			=> 'set_phpbb',
-			'author_github'			=> 'set_github',
-			'author_facebook'		=> 'set_facebook',
-			'author_twitter'		=> 'set_twitter',
-			'author_google'			=> 'set_google',
-			'author_google_plus'	=> 'set_google_plus',
-			'author_skype'			=> 'set_skype'
-		];
+		$fields = $this->set_data();
 
 		// Go through the basic fields and set them to our data array
 		foreach ($fields as $field => $type)
@@ -133,33 +122,19 @@ class bb_author implements bb_author_interface
 				throw new \vinabb\web\exceptions\invalid_argument([$field, 'EMPTY']);
 			}
 
-			// If the type is a method on this class, call it
-			if (method_exists($this, $type))
-			{
-				$this->$type($data[$field]);
-			}
-			else
-			{
-				// settype() passes values by reference
-				$value = $data[$field];
-
-				// We're using settype() to enforce data types
-				settype($value, $type);
-
-				$this->data[$field] = $value;
-			}
-		}
-
-		// Some fields must be >= 0
-		$validate_unsigned = ['author_id', 'user_id', 'author_is_group', 'author_group', 'author_phpbb'];
-
-		foreach ($validate_unsigned as $field)
-		{
-			// If the data is less than 0, it's not unsigned and we'll throw an exception
-			if ($this->data[$field] < 0)
+			// We love unsigned numbers
+			if (in_array($type, ['integer', 'bool']) && $this->data[$field] < 0)
 			{
 				throw new \vinabb\web\exceptions\out_of_bounds($field);
 			}
+
+			// settype() passes values by reference
+			$value = $data[$field];
+
+			// We're using settype() to enforce data types
+			settype($value, $type);
+
+			$this->data[$field] = $value;
 		}
 
 		return $this;
