@@ -15,31 +15,6 @@ use vinabb\web\includes\constants;
 */
 class forum extends \vinabb\web\entities\abs\forum_desc_rules implements forum_interface
 {
-	/**
-	* Data for this entity
-	*
-	* @var array
-	*	forum_id
-	*	parent_id
-	*	left_id
-	*	right_id
-	*	forum_parents
-	*	forum_name
-	*	forum_name_seo
-	*		forum_desc
-	*		forum_desc_uid
-	*		forum_desc_bitfield
-	*		forum_desc_options
-	*		forum_rules
-	*		forum_rules_uid
-	*		forum_rules_bitfield
-	*		forum_rules_options
-	*	forum_topics_per_page
-	*	forum_type
-	*	forum_status
-	*/
-	protected $data;
-
 	/** @var \phpbb\config\config */
 	protected $config;
 
@@ -48,6 +23,9 @@ class forum extends \vinabb\web\entities\abs\forum_desc_rules implements forum_i
 
 	/** @var \vinabb\web\entities\helper\helper_interface */
 	protected $entity_helper;
+
+	/** @var array */
+	protected $data;
 
 	/**
 	* Constructor
@@ -61,6 +39,35 @@ class forum extends \vinabb\web\entities\abs\forum_desc_rules implements forum_i
 		$this->config = $config;
 		$this->db = $db;
 		$this->entity_helper = $entity_helper;
+	}
+
+	/**
+	* Data for this entity
+	*
+	* @return array
+	*/
+	protected function prepare_data()
+	{
+		return [
+			'forum_id'				=> 'integer',
+			'parent_id'				=> 'integer',
+			'left_id'				=> 'integer',
+			'right_id'				=> 'integer',
+			'forum_parents'			=> 'string',
+			'forum_name'			=> 'string',
+			'forum_name_seo'		=> 'string',
+			'forum_desc'			=> 'string',
+			'forum_desc_uid'		=> 'string',
+			'forum_desc_bitfield'	=> 'string',
+			'forum_desc_options'	=> 'integer',
+			'forum_rules'			=> 'string',
+			'forum_rules_uid'		=> 'string',
+			'forum_rules_bitfield'	=> 'string',
+			'forum_rules_options'	=> 'integer',
+			'forum_topics_per_page'	=> 'integer',
+			'forum_type'			=> 'integer',
+			'forum_status'			=> 'integer'
+		];
 	}
 
 	/**
@@ -104,66 +111,27 @@ class forum extends \vinabb\web\entities\abs\forum_desc_rules implements forum_i
 		// Clear out any saved data
 		$this->data = [];
 
-		// All of our fields
-		$fields = [
-			'forum_id'				=> 'integer',
-			'parent_id'				=> 'set_parent_id',
-			'left_id'				=> 'integer',
-			'right_id'				=> 'integer',
-			'forum_parents'			=> 'string',
-			'forum_name'			=> 'set_name',
-			'forum_name_seo'		=> 'set_name_seo',
-			'forum_topics_per_page'	=> 'integer',
-			'forum_type'			=> 'set_type',
-			'forum_status'			=> 'set_status',
-
-			// We do not pass to set_desc() or set_rules() as generate_text_for_storage() would run twice
-			'forum_desc'			=> 'string',
-			'forum_desc_uid'		=> 'string',
-			'forum_desc_bitfield'	=> 'string',
-			'forum_desc_options'	=> 'integer',
-			'forum_rules'			=> 'string',
-			'forum_rules_uid'		=> 'string',
-			'forum_rules_bitfield'	=> 'string',
-			'forum_rules_options'	=> 'integer'
-		];
-
 		// Go through the basic fields and set them to our data array
-		foreach ($fields as $field => $type)
+		foreach ($this->prepare_data() as $field => $type)
 		{
 			// The data wasn't sent to us
 			if (!isset($data[$field]))
 			{
 				throw new \vinabb\web\exceptions\invalid_argument([$field, 'EMPTY']);
 			}
-
-			// If the type is a method on this class, call it
-			if (method_exists($this, $type))
-			{
-				$this->$type($data[$field]);
-			}
-			else
-			{
-				// settype() passes values by reference
-				$value = $data[$field];
-
-				// We're using settype() to enforce data types
-				settype($value, $type);
-
-				$this->data[$field] = $value;
-			}
-		}
-
-		// Some fields must be >= 0
-		$validate_unsigned = ['forum_id', 'parent_id', 'left_id', 'right_id', 'forum_topics_per_page', 'forum_type', 'forum_status', 'forum_desc_options', 'forum_rules_options'];
-
-		foreach ($validate_unsigned as $field)
-		{
-			// If the data is less than 0, it's not unsigned and we'll throw an exception
-			if ($this->data[$field] < 0)
+			// We love unsigned numbers
+			else if ($type != 'string' && $this->data[$field] < 0)
 			{
 				throw new \vinabb\web\exceptions\out_of_bounds($field);
 			}
+
+			// settype() passes values by reference
+			$value = $data[$field];
+
+			// We're using settype() to enforce data types
+			settype($value, $type);
+
+			$this->data[$field] = $value;
 		}
 
 		return $this;
