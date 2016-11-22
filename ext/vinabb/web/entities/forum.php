@@ -352,7 +352,7 @@ class forum extends \vinabb\web\entities\abs\forum_desc_rules implements forum_i
 	*/
 	public function get_type()
 	{
-		return isset($this->data['forum_type']) ? (int) $this->data['forum_type'] : 0;
+		return isset($this->data['forum_type']) ? (int) $this->data['forum_type'] : FORUM_CAT;
 	}
 
 	/**
@@ -384,7 +384,7 @@ class forum extends \vinabb\web\entities\abs\forum_desc_rules implements forum_i
 	*/
 	public function get_status()
 	{
-		return isset($this->data['forum_status']) ? (int) $this->data['forum_status'] : 0;
+		return isset($this->data['forum_status']) ? (int) $this->data['forum_status'] : ITEM_UNLOCKED;
 	}
 
 	/**
@@ -398,7 +398,7 @@ class forum extends \vinabb\web\entities\abs\forum_desc_rules implements forum_i
 	{
 		$value = (int) $value;
 
-		if (!in_array($value, [ITEM_UNLOCKED, ITEM_LOCKED, ITEM_MOVED]))
+		if (!in_array($value, [ITEM_UNLOCKED, ITEM_LOCKED]))
 		{
 			throw new \vinabb\web\exceptions\out_of_bounds('forum_status');
 		}
