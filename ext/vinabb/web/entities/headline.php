@@ -15,20 +15,6 @@ use vinabb\web\includes\constants;
 */
 class headline implements headline_interface
 {
-	/**
-	* Data for this entity
-	*
-	* @var array
-	*	headline_id
-	*	headline_lang
-	*	headline_name
-	*	headline_desc
-	*	headline_img
-	*	headline_url
-	*	headline_order
-	*/
-	protected $data;
-
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
@@ -37,6 +23,9 @@ class headline implements headline_interface
 
 	/** @var string */
 	protected $table_name;
+
+	/** @var array */
+	protected $data;
 
 	/**
 	* Constructor
@@ -50,6 +39,24 @@ class headline implements headline_interface
 		$this->db = $db;
 		$this->entity_helper = $entity_helper;
 		$this->table_name = $table_name;
+	}
+
+	/**
+	* Data for this entity
+	*
+	* @return array
+	*/
+	protected function prepare_data()
+	{
+		return [
+			'headline_id'		=> 'integer',
+			'headline_lang'		=> 'string',
+			'headline_name'		=> 'string',
+			'headline_desc'		=> 'string',
+			'headline_img'		=> 'string',
+			'headline_url'		=> 'string',
+			'headline_order'	=> 'integer'
+		];
 	}
 
 	/**
@@ -93,53 +100,27 @@ class headline implements headline_interface
 		// Clear out any saved data
 		$this->data = [];
 
-		// All of our fields
-		$fields = [
-			'headline_id'		=> 'integer',
-			'headline_lang'		=> 'set_lang',
-			'headline_name'		=> 'set_name',
-			'headline_desc'		=> 'set_desc',
-			'headline_img'		=> 'set_img',
-			'headline_url'		=> 'set_url',
-			'headline_order'	=> 'integer'
-		];
-
 		// Go through the basic fields and set them to our data array
-		foreach ($fields as $field => $type)
+		foreach ($this->prepare_data() as $field => $type)
 		{
 			// The data wasn't sent to us
 			if (!isset($data[$field]))
 			{
 				throw new \vinabb\web\exceptions\invalid_argument([$field, 'EMPTY']);
 			}
-
-			// If the type is a method on this class, call it
-			if (method_exists($this, $type))
-			{
-				$this->$type($data[$field]);
-			}
-			else
-			{
-				// settype() passes values by reference
-				$value = $data[$field];
-
-				// We're using settype() to enforce data types
-				settype($value, $type);
-
-				$this->data[$field] = $value;
-			}
-		}
-
-		// Some fields must be >= 0
-		$validate_unsigned = ['headline_id', 'headline_order'];
-
-		foreach ($validate_unsigned as $field)
-		{
-			// If the data is less than 0, it's not unsigned and we'll throw an exception
-			if ($this->data[$field] < 0)
+			// We love unsigned numbers
+			else if ($type != 'string' && $this->data[$field] < 0)
 			{
 				throw new \vinabb\web\exceptions\out_of_bounds($field);
 			}
+
+			// settype() passes values by reference
+			$value = $data[$field];
+
+			// We're using settype() to enforce data types
+			settype($value, $type);
+
+			$this->data[$field] = $value;
 		}
 
 		return $this;
