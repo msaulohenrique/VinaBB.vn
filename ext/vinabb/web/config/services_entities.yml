@@ -12,6 +12,13 @@ services:
             - '@config'
             - '@dbal.conn'
             - '@vinabb.web.helper.entity'
+    vinabb.web.entities.topic:
+        class: vinabb\web\entities\topic
+        shared: false
+        arguments:
+            - '@config'
+            - '@dbal.conn'
+            - '@vinabb.web.helper.entity'
     vinabb.web.entities.post_icon:
         class: vinabb\web\entities\post_icon
         shared: false

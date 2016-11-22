@@ -8,87 +8,103 @@
 
 namespace vinabb\web\entities;
 
-/**
-* Entity for a single forum
-*/
-class topic
-{
-	/**
-	* Data for this entity
-	*
-	* @var array
-	*	topic_id
-	*	forum_id
-	*	icon_id
-	*	topic_poster
-	*	topic_title
-	*	topic_title_seo
-	*	topic_attachment
-	*	topic_reported
-	*	topic_time
-	*	topic_time_limit
-	*	topic_views
-	*	topic_status
-	*	topic_type
-	*	topic_first_post_id
-	*	topic_first_poster_name
-	*	topic_first_poster_colour
-	*	topic_last_post_id
-	*	topic_last_poster_id
-	*	topic_last_poster_name
-	*	topic_last_poster_colour
-	*	topic_last_post_subject
-	*	topic_last_post_time
-	*	topic_last_view_time
-	*	topic_moved_id
-	*	topic_bumped
-	*	topic_bumper
-	*	poll_title
-	*	poll_start
-	*	poll_length
-	*	poll_max_options
-	*	poll_last_vote
-	*	poll_vote_change
-	*	topic_visibility
-	*	topic_delete_time
-	*	topic_delete_reason
-	*	topic_delete_user
-	*	topic_posts_approved
-	*	topic_posts_unapproved
-	*	topic_posts_softdeleted
-	*/
-	protected $data;
+use vinabb\web\includes\constants;
 
+/**
+* Entity for a single topic
+*/
+class topic extends \vinabb\web\entities\abs\topic_poll implements topic_interface
+{
 	/** @var \phpbb\config\config */
 	protected $config;
 
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \vinabb\web\entities\helper\helper_interface */
+	protected $entity_helper;
+
+	/** @var array */
+	protected $data;
+
 	/**
 	* Constructor
 	*
-	* @param \phpbb\config\config				$config		Config object
-	* @param \phpbb\db\driver\driver_interface	$db			Database object
+	* @param \phpbb\config\config							$config			Config object
+	* @param \phpbb\db\driver\driver_interface				$db				Database object
+	* @param \vinabb\web\entities\helper\helper_interface	$entity_helper	Entity helper
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db)
+	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \vinabb\web\entities\helper\helper_interface $entity_helper)
 	{
 		$this->config = $config;
 		$this->db = $db;
+		$this->entity_helper = $entity_helper;
+	}
+
+	/**
+	* Data for this entity
+	*
+	* @return array
+	*/
+	protected function prepare_data()
+	{
+		return [
+			'topic_id'					=> 'integer',
+			'forum_id'					=> 'integer',
+			'icon_id'					=> 'integer',
+			'topic_poster'				=> 'integer',
+			'topic_title'				=> 'string',
+			'topic_title_seo'			=> 'string',
+			'topic_attachment'			=> 'bool',
+			'topic_reported'			=> 'bool',
+			'topic_time'				=> 'integer',
+			'topic_time_limit'			=> 'integer',
+			'topic_views'				=> 'integer',
+			'topic_status'				=> 'integer',
+			'topic_type'				=> 'integer',
+			'topic_first_post_id'		=> 'integer',
+			'topic_first_poster_name'	=> 'string',
+			'topic_first_poster_colour'	=> 'string',
+			'topic_last_post_id'		=> 'integer',
+			'topic_last_poster_id'		=> 'integer',
+			'topic_last_poster_name'	=> 'string',
+			'topic_last_poster_colour'	=> 'string',
+			'topic_last_post_subject'	=> 'string',
+			'topic_last_post_time'		=> 'integer',
+			'topic_last_view_time'		=> 'integer',
+			'topic_moved_id'			=> 'integer',
+			'topic_bumped'				=> 'bool',
+			'topic_bumper'				=> 'integer',
+			'topic_visibility'			=> 'integer',
+			'topic_delete_time'			=> 'integer',
+			'topic_delete_reason'		=> 'string',
+			'topic_delete_user'			=> 'integer',
+			'topic_posts_approved'		=> 'integer',
+			'topic_posts_unapproved'	=> 'integer',
+			'topic_posts_softdeleted'	=> 'integer',
+
+			// Entity: vinabb\web\entities\abs\topic_poll
+			'poll_title'		=> 'string',
+			'poll_start'		=> 'integer',
+			'poll_length'		=> 'integer',
+			'poll_max_options'	=> 'integer',
+			'poll_last_vote'	=> 'integer',
+			'poll_vote_change'	=> 'bool'
+		];
 	}
 
 	/**
 	* Load the data from the database for an entity
 	*
-	* @param int				$id		Forum ID
-	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	* @param int				$id		Topic ID
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function load($id)
 	{
 		$sql = 'SELECT *
 			FROM ' . TOPICS_TABLE . '
-			WHERE forum_id = ' . (int) $id;
+			WHERE topic_id = ' . (int) $id;
 		$result = $this->db->sql_query($sql);
 		$this->data = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
@@ -110,7 +126,7 @@ class topic
 	* All data is validated and an exception is thrown if any data is invalid.
 	*
 	* @param array				$data	Data array from the database
-	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\base
 	*/
 	public function import($data)
@@ -118,85 +134,27 @@ class topic
 		// Clear out any saved data
 		$this->data = [];
 
-		// All of our fields
-		$fields = [
-			'topic_id'					=> 'integer',
-			'forum_id'					=> 'set_forum_id',
-			'icon_id'					=> 'set_icon_id',
-			'topic_poster'				=> 'set_topic_poster',
-			'topic_title'				=> 'set_topic_title',
-			'topic_title_seo'			=> 'set_topic_title_seo',
-			'topic_attachment'			=> 'bool',
-			'topic_reported'			=> 'bool',
-			'topic_time'				=> 'integer',
-			'topic_time_limit'			=> 'integer',
-			'topic_views'				=> 'integer',
-			'topic_status'				=> 'set_status',
-			'topic_type'				=> 'set_type',
-			'topic_first_post_id'		=> 'set_first_post_id',
-			'topic_first_poster_name'	=> 'set_first_poster_name',
-			'topic_first_poster_colour'	=> 'set_first_poster_colour',
-			'topic_last_post_id'		=> 'set_last_post_id',
-			'topic_last_poster_id'		=> 'set_last_poster_id',
-			'topic_last_poster_name'	=> 'set_last_poster_name',
-			'topic_last_poster_colour'	=> 'set_last_poster_colour',
-			'topic_last_post_subject'	=> 'string',
-			'topic_last_post_time'		=> 'integer',
-			'topic_last_view_time'		=> 'integer',
-			'topic_moved_id'			=> 'set_moved_id',
-			'topic_bumped'				=> 'bool',
-			'topic_bumper'				=> 'set_bumper',
-			'poll_title'				=> 'string',
-			'poll_start'				=> 'integer',
-			'poll_length'				=> 'integer',
-			'poll_max_options'			=> 'integer',
-			'poll_last_vote'			=> 'integer',
-			'poll_vote_change'			=> 'bool',
-			'topic_visibility'			=> 'integer',
-			'topic_delete_time'			=> 'integer',
-			'topic_delete_reason'		=> 'string',
-			'topic_delete_user'			=> 'set_delete_user',
-			'topic_posts_approved'		=> 'integer',
-			'topic_posts_unapproved'	=> 'integer',
-			'topic_posts_softdeleted'	=> 'integer'
-		];
-
 		// Go through the basic fields and set them to our data array
-		foreach ($fields as $field => $type)
+		foreach ($this->prepare_data() as $field => $type)
 		{
 			// The data wasn't sent to us
 			if (!isset($data[$field]))
 			{
 				throw new \vinabb\web\exceptions\invalid_argument([$field, 'EMPTY']);
 			}
-
-			// If the type is a method on this class, call it
-			if (method_exists($this, $type))
-			{
-				$this->$type($data[$field]);
-			}
-			else
-			{
-				// settype() passes values by reference
-				$value = $data[$field];
-
-				// We're using settype() to enforce data types
-				settype($value, $type);
-
-				$this->data[$field] = $value;
-			}
-		}
-
-		// Some fields must be >= 0
-		$validate_unsigned = ['topic_id', 'forum_id', 'icon_id', 'topic_poster', 'topic_attachment', 'topic_reported', 'topic_time', 'topic_time_limit', 'topic_views', 'topic_first_post_id', 'topic_last_post_id', 'topic_last_poster_id', 'topic_last_post_time', 'topic_last_view_time', 'topic_moved_id', 'topic_bumped', 'topic_bumper', 'poll_start', 'poll_length', 'poll_last_vote', 'poll_vote_change', 'topic_delete_time', 'topic_delete_user', 'topic_posts_approved', 'topic_posts_unapproved', 'topic_posts_softdeleted'];
-
-		foreach ($validate_unsigned as $field)
-		{
-			// If the data is less than 0, it's not unsigned and we'll throw an exception
-			if ($this->data[$field] < 0)
+			// We love unsigned numbers
+			else if ($type != 'string' && $data[$field] < 0)
 			{
 				throw new \vinabb\web\exceptions\out_of_bounds($field);
 			}
+
+			// settype() passes values by reference
+			$value = $data[$field];
+
+			// We're using settype() to enforce data types
+			settype($value, $type);
+
+			$this->data[$field] = $value;
 		}
 
 		return $this;
@@ -207,7 +165,7 @@ class topic
 	*
 	* Will throw an exception if the entity was already inserted (call save() instead)
 	*
-	* @return forum_interface $this Object for chaining calls: load()->set()->save()
+	* @return topic_interface $this Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function insert()
@@ -236,7 +194,7 @@ class topic
 	* This must be called before closing or any changes will not be saved!
 	* If adding an entity (saving for the first time), you must call insert() or an exception will be thrown
 	*
-	* @return forum_interface $this Object for chaining calls: load()->set()->save()
+	* @return topic_interface $this Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function save()
@@ -267,5 +225,763 @@ class topic
 	public function get_id()
 	{
 		return isset($this->data['topic_id']) ? (int) $this->data['topic_id'] : 0;
+	}
+
+	/**
+	* Get the forum_id
+	*
+	* @return int
+	*/
+	public function get_forum_id()
+	{
+		return isset($this->data['forum_id']) ? (int) $this->data['forum_id'] : 0;
+	}
+
+	/**
+	* Set the forum_id
+	*
+	* @param int				$id		Forum ID
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_forum_id($id)
+	{
+		$id = (int) $id;
+
+		// Check existing forum
+		if ($id && !$this->entity_helper->check_forum_id($id))
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['forum_id', 'NOT_EXISTS']);
+		}
+
+		// Set the value on our data array
+		$this->data['forum_id'] = $id;
+
+		return $this;
+	}
+
+	/**
+	* Get the topic icon
+	*
+	* @return int
+	*/
+	public function get_icon_id()
+	{
+		return isset($this->data['icon_id']) ? (int) $this->data['icon_id'] : 0;
+	}
+
+	/**
+	* Set the topic icon
+	*
+	* @param int				$id		Icon ID
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_icon_id($id)
+	{
+		$id = (int) $id;
+
+		// Check existing icon
+		if ($id && !$this->entity_helper->check_post_icon_id($id))
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['icon_id', 'NOT_EXISTS']);
+		}
+
+		// Set the value on our data array
+		$this->data['icon_id'] = $id;
+
+		return $this;
+	}
+
+	/**
+	* Get the poster ID
+	*
+	* @return int
+	*/
+	public function get_poster()
+	{
+		return isset($this->data['topic_poster']) ? (int) $this->data['topic_poster'] : 0;
+	}
+
+	/**
+	* Set the poster ID
+	*
+	* @param int				$id		User ID
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_poster($id)
+	{
+		$id = (int) $id;
+
+		// Check existing user
+		if ($id && !$this->entity_helper->check_user_id($id))
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['topic_poster', 'NOT_EXISTS']);
+		}
+
+		// Set the value on our data array
+		$this->data['topic_poster'] = $id;
+
+		return $this;
+	}
+
+	/**
+	* Get the topic title
+	*
+	* @return string
+	*/
+	public function get_title()
+	{
+		return isset($this->data['topic_title']) ? (string) $this->data['topic_title'] : '';
+	}
+
+	/**
+	* Set the topic title
+	*
+	* @param string				$text	Topic title
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_title($text)
+	{
+		$text = (string) $text;
+
+		// This is a required field
+		if ($text == '')
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['topic_title', 'EMPTY']);
+		}
+
+		// Check the max length
+		if (truncate_string($text, constants::MAX_CONFIG_NAME) != $text)
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['topic_title', 'TOO_LONG']);
+		}
+
+		// Set the value on our data array
+		$this->data['topic_title'] = $text;
+
+		return $this;
+	}
+
+	/**
+	* Get the topic SEO title
+	*
+	* @return string
+	*/
+	public function get_title_seo()
+	{
+		return isset($this->data['topic_title_seo']) ? (string) $this->data['topic_title_seo'] : '';
+	}
+
+	/**
+	* Set the topic SEO title
+	*
+	* @param string				$text	Topic SEO title
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_title_seo($text)
+	{
+		$text = strtolower($text);
+
+		// Check invalid characters
+		if (!preg_match('#^[a-z0-9-]+$#', $text))
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['topic_title_seo', 'INVALID']);
+		}
+
+		// Set the value on our data array
+		$this->data['topic_title_seo'] = $text;
+
+		return $this;
+	}
+
+	/**
+	* Does the topic have attachments?
+	*
+	* @return bool
+	*/
+	public function get_attachment()
+	{
+		return isset($this->data['topic_attachment']) ? (bool) $this->data['topic_attachment'] : false;
+	}
+
+	/**
+	* Does the topic have open reports?
+	*
+	* @return bool
+	*/
+	public function get_reported()
+	{
+		return isset($this->data['topic_reported']) ? (bool) $this->data['topic_reported'] : false;
+	}
+
+	/**
+	* Get the topic time
+	*
+	* @return int
+	*/
+	public function get_time()
+	{
+		return isset($this->data['topic_time']) ? (int) $this->data['topic_time'] : 0;
+	}
+
+	/**
+	* Get the topic time limit
+	*
+	* @return int
+	*/
+	public function get_time_limit()
+	{
+		return isset($this->data['topic_time_limit']) ? (int) $this->data['topic_time_limit'] : 0;
+	}
+
+	/**
+	* Get the topic views
+	*
+	* @return int
+	*/
+	public function get_views()
+	{
+		return isset($this->data['topic_views']) ? (int) $this->data['topic_views'] : 0;
+	}
+
+	/**
+	* Get the topic status
+	*
+	* @return int
+	*/
+	public function get_status()
+	{
+		return isset($this->data['topic_status']) ? (int) $this->data['topic_status'] : ITEM_UNLOCKED;
+	}
+
+	/**
+	* Set the topic status
+	*
+	* @param int				$value	Topic status
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_status($value)
+	{
+		$value = (int) $value;
+
+		if (!in_array($value, [ITEM_UNLOCKED, ITEM_LOCKED, ITEM_MOVED]))
+		{
+			throw new \vinabb\web\exceptions\out_of_bounds('topic_status');
+		}
+
+		// Set the value on our data array
+		$this->data['topic_status'] = $value;
+
+		return $this;
+	}
+
+	/**
+	* Get the topic type
+	*
+	* @return int
+	*/
+	public function get_type()
+	{
+		return isset($this->data['topic_type']) ? (int) $this->data['topic_type'] : POST_NORMAL;
+	}
+
+	/**
+	* Set the topic type
+	*
+	* @param int				$value	Topic type
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_type($value)
+	{
+		$value = (int) $value;
+
+		if (!in_array($value, [POST_NORMAL, POST_STICKY, POST_ANNOUNCE, POST_GLOBAL]))
+		{
+			throw new \vinabb\web\exceptions\out_of_bounds('topic_type');
+		}
+
+		// Set the value on our data array
+		$this->data['topic_type'] = $value;
+
+		return $this;
+	}
+
+	/**
+	* Get the first post ID
+	*
+	* @return int
+	*/
+	public function get_first_post_id()
+	{
+		return isset($this->data['topic_first_post_id']) ? (int) $this->data['topic_first_post_id'] : 0;
+	}
+
+	/**
+	* Set the first post ID
+	*
+	* @param int				$id		Post ID
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_first_post_id($id)
+	{
+		$id = (int) $id;
+
+		// This is a required field
+		if ($id && !$this->entity_helper->check_post_id($id))
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['topic_first_post_id', 'NOT_EXISTS']);
+		}
+		else
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['topic_first_post_id', 'EMPTY']);
+		}
+
+		// Set the value on our data array
+		$this->data['topic_first_post_id'] = $id;
+
+		return $this;
+	}
+
+	/**
+	* Get the poster username
+	*
+	* @return string
+	*/
+	public function get_first_poster_name()
+	{
+		return isset($this->data['topic_first_poster_name']) ? (string) $this->data['topic_first_poster_name'] : '';
+	}
+
+	/**
+	* Set the poster username
+	*
+	* @param string				$text	Username
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_first_poster_name($text)
+	{
+		$text = (string) $text;
+
+		// This is a required field
+		if ($text == '')
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['topic_first_poster_name', 'EMPTY']);
+		}
+		else if (!$this->entity_helper->check_username($text, $this->get_poster()))
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['topic_first_poster_name', 'NOT_EXISTS']);
+		}
+
+		// Set the value on our data array
+		$this->data['topic_first_poster_name'] = $text;
+
+		return $this;
+	}
+
+	/**
+	* Get the poster username color
+	*
+	* @return string
+	*/
+	public function get_first_poster_colour()
+	{
+		return isset($this->data['topic_first_poster_colour']) ? (string) $this->data['topic_first_poster_colour'] : '';
+	}
+
+	/**
+	* Set the poster username color
+	*
+	* @param string				$text	6-char HEX code without #
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_first_poster_colour($text)
+	{
+		$text = (string) $text;
+
+		// Check invalid characters
+		if (!preg_match('/([a-f0-9]{3}){1,2}\b/i', $text))
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['topic_first_poster_colour', 'INVALID']);
+		}
+
+		// Set the value on our data array
+		$this->data['topic_first_poster_colour'] = $text;
+
+		return $this;
+	}
+
+	/**
+	* Get the last post ID
+	*
+	* @return int
+	*/
+	public function get_last_post_id()
+	{
+		return isset($this->data['topic_last_post_id']) ? (int) $this->data['topic_last_post_id'] : 0;
+	}
+
+	/**
+	* Set the last post ID
+	*
+	* @param int				$id		Post ID
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_last_post_id($id)
+	{
+		$id = (int) $id;
+
+		// This is a required field
+		if ($id && !$this->entity_helper->check_post_id($id))
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['topic_last_post_id', 'NOT_EXISTS']);
+		}
+		else
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['topic_last_post_id', 'EMPTY']);
+		}
+
+		// Set the value on our data array
+		$this->data['topic_last_post_id'] = $id;
+
+		return $this;
+	}
+
+	/**
+	* Get the last poster ID
+	*
+	* @return int
+	*/
+	public function get_last_poster_id()
+	{
+		return isset($this->data['topic_last_poster_id']) ? (int) $this->data['topic_last_poster_id'] : 0;
+	}
+
+	/**
+	* Set the last poster ID
+	*
+	* @param int				$id		User ID
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_last_poster_id($id)
+	{
+		$id = (int) $id;
+
+		// This is a required field
+		if ($id && !$this->entity_helper->check_user_id($id))
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['topic_last_poster_id', 'NOT_EXISTS']);
+		}
+		else
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['topic_last_poster_id', 'EMPTY']);
+		}
+
+		// Set the value on our data array
+		$this->data['topic_last_poster_id'] = $id;
+
+		return $this;
+	}
+
+	/**
+	* Get the last poster username
+	*
+	* @return string
+	*/
+	public function get_last_poster_name()
+	{
+		return isset($this->data['topic_last_poster_name']) ? (string) $this->data['topic_last_poster_name'] : '';
+	}
+
+	/**
+	* Set the last poster username
+	*
+	* @param string				$text	Username
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_last_poster_name($text)
+	{
+		$text = (string) $text;
+
+		// This is a required field
+		if ($text == '')
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['topic_last_poster_name', 'EMPTY']);
+		}
+		else if (!$this->entity_helper->check_username($text, $this->get_last_poster_id()))
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['topic_last_poster_name', 'NOT_EXISTS']);
+		}
+
+		// Set the value on our data array
+		$this->data['topic_last_poster_name'] = $text;
+
+		return $this;
+	}
+
+	/**
+	* Get the last poster username color
+	*
+	* @return string
+	*/
+	public function get_last_poster_colour()
+	{
+		return isset($this->data['topic_last_poster_colour']) ? (string) $this->data['topic_last_poster_colour'] : '';
+	}
+
+	/**
+	* Set the last poster username color
+	*
+	* @param string				$text	6-char HEX code without #
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_last_poster_colour($text)
+	{
+		$text = (string) $text;
+
+		// Check invalid characters
+		if (!preg_match('/([a-f0-9]{3}){1,2}\b/i', $text))
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['topic_last_poster_colour', 'INVALID']);
+		}
+
+		// Set the value on our data array
+		$this->data['topic_last_poster_colour'] = $text;
+
+		return $this;
+	}
+
+	/**
+	* Get the last post subject
+	*
+	* @return string
+	*/
+	public function get_last_post_subject()
+	{
+		return isset($this->data['topic_last_post_subject']) ? (string) $this->data['topic_last_post_subject'] : '';
+	}
+
+	/**
+	* Set the last post subject
+	*
+	* @param string				$text	Post subject
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_last_post_subject($text)
+	{
+		$text = (string) $text;
+
+		// Check the max length
+		if (truncate_string($text, constants::MAX_CONFIG_NAME) != $text)
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['topic_last_post_subject', 'TOO_LONG']);
+		}
+
+		// Set the value on our data array
+		$this->data['topic_last_post_subject'] = $text;
+
+		return $this;
+	}
+
+	/**
+	* Get the topic's last post time
+	*
+	* @return int
+	*/
+	public function get_last_post_time()
+	{
+		return isset($this->data['topic_last_post_time']) ? (int) $this->data['topic_last_post_time'] : 0;
+	}
+
+	/**
+	* Get the topic's last view time
+	*
+	* @return int
+	*/
+	public function get_last_view_time()
+	{
+		return isset($this->data['topic_last_view_time']) ? (int) $this->data['topic_last_view_time'] : 0;
+	}
+
+	/**
+	* Get the old topic ID after moving and leaving shadow
+	*
+	* @return int
+	*/
+	public function get_moved_id()
+	{
+		return isset($this->data['topic_moved_id']) ? (int) $this->data['topic_moved_id'] : 0;
+	}
+
+	/**
+	* Set the old topic ID after moving and leaving shadow
+	*
+	* @param int				$id		Topic ID
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_moved_id($id)
+	{
+		$id = (int) $id;
+
+		// Check existing topic
+		if ($id && !$this->entity_helper->check_topic_id($id))
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['topic_moved_id', 'NOT_EXISTS']);
+		}
+
+		// Set the value on our data array
+		$this->data['topic_moved_id'] = $id;
+
+		return $this;
+	}
+
+	/**
+	* Get the time of bumping topic up
+	*
+	* @return int
+	*/
+	public function get_bumped()
+	{
+		return isset($this->data['topic_bumped']) ? (int) $this->data['topic_bumped'] : 0;
+	}
+
+	/**
+	* Get the user bumped topic up
+	*
+	* @return int
+	*/
+	public function get_bumper()
+	{
+		return isset($this->data['topic_bumper']) ? (int) $this->data['topic_bumper'] : 0;
+	}
+
+	/**
+	* Set the user bumped topic up
+	*
+	* @param int				$id		User ID
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_bumper($id)
+	{
+		$id = (int) $id;
+
+		// Check existing user
+		if ($id && !$this->entity_helper->check_user_id($id))
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['topic_bumper', 'NOT_EXISTS']);
+		}
+
+		// Set the value on our data array
+		$this->data['topic_bumper'] = $id;
+
+		return $this;
+	}
+
+	/**
+	* Get the topic visibility
+	*
+	* @return int
+	*/
+	public function get_visibility()
+	{
+		return isset($this->data['topic_visibility']) ? (int) $this->data['topic_visibility'] : 0;
+	}
+
+	/**
+	* Get the time of deleting topic
+	*
+	* @return int
+	*/
+	public function get_delete_time()
+	{
+		return isset($this->data['topic_delete_time']) ? (int) $this->data['topic_delete_time'] : 0;
+	}
+
+	/**
+	* Get the deleted reason
+	*
+	* @return string
+	*/
+	public function get_delete_reason()
+	{
+		return isset($this->data['topic_delete_reason']) ? (string) $this->data['topic_delete_reason'] : '';
+	}
+
+	/**
+	* Get the user deleted topic
+	*
+	* @return int
+	*/
+	public function get_delete_user()
+	{
+		return isset($this->data['topic_delete_user']) ? (int) $this->data['topic_delete_user'] : 0;
+	}
+
+	/**
+	* Set the user deleted topic
+	*
+	* @param int				$id		User ID
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_delete_user($id)
+	{
+		$id = (int) $id;
+
+		// Check existing user
+		if ($id && !$this->entity_helper->check_user_id($id))
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['topic_delete_user', 'NOT_EXISTS']);
+		}
+
+		// Set the value on our data array
+		$this->data['topic_delete_user'] = $id;
+
+		return $this;
+	}
+
+	/**
+	* Get the number of approved posts
+	*
+	* @return int
+	*/
+	public function get_posts_approved()
+	{
+		return isset($this->data['topic_posts_approved']) ? (int) $this->data['topic_posts_approved'] : 0;
+	}
+
+	/**
+	* Get the number of disapproved posts
+	*
+	* @return int
+	*/
+	public function get_posts_unapproved()
+	{
+		return isset($this->data['topic_posts_unapproved']) ? (int) $this->data['topic_posts_unapproved'] : 0;
+	}
+
+	/**
+	* Get the number of soft-deleted posts
+	*
+	* @return int
+	*/
+	public function get_posts_softdeleted()
+	{
+		return isset($this->data['topic_posts_softdeleted']) ? (int) $this->data['topic_posts_softdeleted'] : 0;
 	}
 }
