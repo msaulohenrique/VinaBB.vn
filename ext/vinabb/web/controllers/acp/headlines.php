@@ -95,11 +95,13 @@ class headlines implements headlines_interface
 
 	/**
 	* Display headlines
+	*
+	* @param string $lang 2-letter language ISO code
 	*/
-	public function display_headlines()
+	public function display_headlines($lang = '')
 	{
 		// Grab all from database
-		$entities = $this->operator->get_headlines();
+		$entities = $this->operator->get_headlines($lang);
 
 		/* @var \vinabb\web\entities\headline_interface $entity */
 		foreach ($entities as $entity)
@@ -111,20 +113,24 @@ class headlines implements headlines_interface
 				'IMG'	=> $entity->get_img(),
 				'URL'	=> $entity->get_url(),
 
-				'U_EDIT'	=> "{$this->u_action}&action=edit&id={$entity->get_id()}",
-				'U_DELETE'	=> "{$this->u_action}&action=delete&id={$entity->get_id()}"
+				'U_EDIT'		=> "{$this->u_action}&action=edit&id={$entity->get_id()}",
+				'U_MOVE_DOWN'	=> "{$this->u_action}&action=move_down&id={$entity->get_id()}&hash=" . generate_link_hash('down' . $entity->get_id()),
+				'U_MOVE_UP'		=> "{$this->u_action}&action=move_up&id={$entity->get_id()}&hash=" . generate_link_hash('up' . $entity->get_id()),
+				'U_DELETE'		=> "{$this->u_action}&action=delete&id={$entity->get_id()}"
 			]);
 		}
 
 		$this->template->assign_vars([
-			'U_ACTION'	=> "{$this->u_action}&action=add"
+			'U_ACTION'	=> "{$this->u_action}&action=add&lang={$lang}"
 		]);
 	}
 
 	/**
 	* Add a headline
+	*
+	* @param string $lang 2-letter language ISO code
 	*/
-	public function add_headline()
+	public function add_headline($lang = '')
 	{
 		// Initiate an entity
 		/* @var \vinabb\web\entities\headline_interface */
@@ -135,7 +141,9 @@ class headlines implements headlines_interface
 
 		$this->template->assign_vars([
 			'S_ADD'		=> true,
-			'U_ACTION'	=> "{$this->u_action}&action=add"
+
+			'U_ACTION'	=> "{$this->u_action}&action=add&lang={$lang}",
+			'U_BACK'	=> "{$this->u_action}&lang={$lang}"
 		]);
 	}
 
@@ -155,7 +163,9 @@ class headlines implements headlines_interface
 
 		$this->template->assign_vars([
 			'S_EDIT'	=> true,
-			'U_ACTION'	=> "{$this->u_action}&action=edit&id={$headline_id}"
+
+			'U_ACTION'	=> "{$this->u_action}&action=edit&id={$headline_id}",
+			'U_BACK'	=> "{$this->u_action}&lang={$entity->get_lang()}"
 		]);
 	}
 
@@ -188,7 +198,7 @@ class headlines implements headlines_interface
 			// Insert or update
 			if (!sizeof($this->errors))
 			{
-				$this->save_data($entity);
+				$this->save_data($entity, $data['headline_lang']);
 			}
 		}
 
@@ -196,8 +206,7 @@ class headlines implements headlines_interface
 		$this->data_to_tpl($entity);
 
 		$this->template->assign_vars([
-			'ERRORS'	=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
-			'U_BACK'	=> $this->u_action
+			'ERRORS'	=> sizeof($this->errors) ? implode('<br>', $this->errors) : ''
 		]);
 	}
 
@@ -253,9 +262,10 @@ class headlines implements headlines_interface
 	/**
 	* Insert or update data, then log actions and clear cache if needed
 	*
-	* @param \vinabb\web\entities\headline_interface $entity Headline entity
+	* @param \vinabb\web\entities\headline_interface	$entity Headline entity
+	* @param string										$lang	2-letter language ISO code
 	*/
-	protected function save_data(\vinabb\web\entities\headline_interface $entity)
+	protected function save_data(\vinabb\web\entities\headline_interface $entity, $lang)
 	{
 		if ($entity->get_id())
 		{
@@ -269,14 +279,14 @@ class headlines implements headlines_interface
 		else
 		{
 			// Add the new entity to the database
-			$entity = $this->operator->add_headline($entity);
+			$entity = $this->operator->add_headline($entity, $lang);
 
 			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_HEADLINE_ADD', time(), [$entity->get_name()]);
 
 			$message = 'MESSAGE_HEADLINE_ADD';
 		}
 
-		$this->cache->clear_headlines($entity->get_lang());
+		$this->cache->clear_headlines($lang);
 
 		trigger_error($this->language->lang($message) . adm_back_link($this->u_action));
 	}
@@ -294,6 +304,43 @@ class headlines implements headlines_interface
 			'HEADLINE_IMG'	=> $entity->get_img(),
 			'HEADLINE_URL'	=> $entity->get_url()
 		]);
+	}
+
+	/**
+	* Move a headline up/down
+	*
+	* @param string	$lang			2-letter language ISO code
+	* @param int	$headline_id	Headline ID
+	* @param string	$direction		The direction (up|down)
+	*/
+	public function move_headline($lang, $headline_id, $direction)
+	{
+		// Check the valid link hash
+		if (!check_link_hash($this->request->variable('hash', ''), $direction . $headline_id))
+		{
+			trigger_error($this->language->lang('FORM_INVALID') . adm_back_link($this->u_action), E_USER_WARNING);
+		}
+
+		/* @var \vinabb\web\entities\headline_interface */
+		$entity = $this->container->get('vinabb.web.entities.headline')->load($headline_id);
+
+		try
+		{
+			$this->operator->move_headline($lang, $headline_id, $direction);
+		}
+		catch (\vinabb\web\exceptions\base $e)
+		{
+			trigger_error($this->language->lang('ERROR_HEADLINE_MOVE', $e->get_message($this->language)) . adm_back_link($this->u_action), E_USER_WARNING);
+		}
+
+		$this->cache->clear_headlines($lang);
+
+		// If AJAX was used, show user a result message
+		if ($this->request->is_ajax())
+		{
+			$json_response = new \phpbb\json_response;
+			$json_response->send(['success' => true]);
+		}
 	}
 
 	/**

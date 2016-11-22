@@ -54,6 +54,7 @@ class headlines_module
 
 		// Requests
 		$action = $this->request->variable('action', '');
+		$lang = $this->request->variable('lang', '');
 		$headline_id = $this->request->variable('id', 0);
 
 		$this->controller->set_form_action($this->u_action);
@@ -64,7 +65,7 @@ class headlines_module
 			case 'add':
 				$this->tpl_name = 'acp_headlines_edit';
 				$this->page_title = $this->language->lang('ADD_HEADLINE');
-				$this->controller->add_headline();
+				$this->controller->add_headline($lang);
 			// Return to stop execution of this script
 			return;
 
@@ -76,11 +77,11 @@ class headlines_module
 			return;
 
 			case 'move_down':
-				$this->controller->move_headline($headline_id, 'down');
+				$this->controller->move_headline($lang, $headline_id, 'down');
 			break;
 
 			case 'move_up':
-				$this->controller->move_headline($headline_id, 'up');
+				$this->controller->move_headline($lang, $headline_id, 'up');
 			break;
 
 			case 'delete':
@@ -100,7 +101,7 @@ class headlines_module
 			break;
 		}
 
-		// Manage menus
-		$this->controller->display_headlines();
+		// Manage headlines
+		$this->controller->display_headlines($lang);
 	}
 }

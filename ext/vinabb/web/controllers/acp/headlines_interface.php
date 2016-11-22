@@ -22,13 +22,17 @@ interface headlines_interface
 
 	/**
 	* Display headlines
+	*
+	* @param string $lang 2-letter language ISO code
 	*/
-	public function display_headlines();
+	public function display_headlines($lang = '');
 
 	/**
 	* Add a headline
+	*
+	* @param string $lang 2-letter language ISO code
 	*/
-	public function add_headline();
+	public function add_headline($lang = '');
 
 	/**
 	* Edit a headline
@@ -43,6 +47,15 @@ interface headlines_interface
 	* @param \vinabb\web\entities\headline_interface $entity Headline entity
 	*/
 	public function add_edit_data(\vinabb\web\entities\headline_interface $entity);
+
+	/**
+	* Move a headline up/down
+	*
+	* @param string	$lang			2-letter language ISO code
+	* @param int	$headline_id	Headline ID
+	* @param string	$direction		The direction (up|down)
+	*/
+	public function move_headline($lang, $headline_id, $direction);
 
 	/**
 	* Delete a headline
