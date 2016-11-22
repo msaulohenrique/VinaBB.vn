@@ -103,7 +103,7 @@ class smiley implements smiley_interface
 				throw new \vinabb\web\exceptions\invalid_argument([$field, 'EMPTY']);
 			}
 			// We love unsigned numbers
-			else if ($type != 'string' && $this->data[$field] < 0)
+			else if ($type != 'string' && $data[$field] < 0)
 			{
 				throw new \vinabb\web\exceptions\out_of_bounds($field);
 			}
