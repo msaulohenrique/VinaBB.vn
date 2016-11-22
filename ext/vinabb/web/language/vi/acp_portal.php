@@ -54,6 +54,7 @@ $lang = array_merge($lang, [
 	'ERROR_CAT_DELETE_IN_USE'			=> 'Không thể xóa danh mục đang được dùng.',
 	'ERROR_CAT_ID_EMPTY'				=> 'Chưa chọn danh mục.',
 	'ERROR_CAT_ID_NOT_EXISTS'			=> 'Danh mục không tồn tại.',
+	'ERROR_CAT_MOVE'					=> 'Không thể di chuyển danh mục này. Lỗi: %s',
 	'ERROR_CAT_NAME_EMPTY'				=> 'Chưa nhập tên danh mục.',
 	'ERROR_CAT_NAME_TOO_LONG'			=> 'Tên danh mục quá dài.',
 	'ERROR_CAT_NAME_VI_TOO_LONG'		=> 'Tên danh mục tiếng Việt quá dài.',

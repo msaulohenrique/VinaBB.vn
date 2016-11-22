@@ -54,6 +54,7 @@ $lang = array_merge($lang, [
 	'ERROR_CAT_DELETE_IN_USE'			=> 'Could not delete this category while it is still in use.',
 	'ERROR_CAT_ID_EMPTY'				=> 'You must select a category.',
 	'ERROR_CAT_ID_NOT_EXISTS'			=> 'The category does not exist.',
+	'ERROR_CAT_MOVE'					=> 'Could not move this category. Error: %s',
 	'ERROR_CAT_NAME_EMPTY'				=> 'You must enter a category name.',
 	'ERROR_CAT_NAME_TOO_LONG'			=> 'The category name is too long.',
 	'ERROR_CAT_NAME_VI_TOO_LONG'		=> 'The Vietnamese category name is too long.',

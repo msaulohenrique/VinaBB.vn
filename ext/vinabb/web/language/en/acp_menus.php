@@ -27,6 +27,7 @@ $lang = array_merge($lang, [
 	'EDIT_MENU'						=> 'Edit menu',
 	'ERROR_MENU_CHANGE_PARENT'		=> 'Could not change the parent menu. Error: %s',
 	'ERROR_MENU_DELETE'				=> 'Could not delete this menu. Error: %s',
+	'ERROR_MENU_MOVE'				=> 'Could not move this menu. Error: %s',
 	'ERROR_MENU_NAME_EMPTY'			=> 'You must enter a menu title.',
 	'ERROR_MENU_NAME_TOO_LONG'		=> 'The menu title is too long.',
 	'ERROR_MENU_NAME_VI_TOO_LONG'	=> 'The Vietnamese menu title is too long.',

@@ -27,6 +27,7 @@ $lang = array_merge($lang, [
 	'EDIT_MENU'						=> 'Sửa trình đơn',
 	'ERROR_MENU_CHANGE_PARENT'		=> 'Không thể đổi trình đơn cha. Lỗi: %s',
 	'ERROR_MENU_DELETE'				=> 'Không thể xóa trình đơn này. Lỗi: %s',
+	'ERROR_MENU_MOVE'				=> 'Không thể di chuyển trình đơn này. Lỗi: %s',
 	'ERROR_MENU_NAME_EMPTY'			=> 'Chưa nhập tên trình đơn.',
 	'ERROR_MENU_NAME_TOO_LONG'		=> 'Tên trình đơn quá dài.',
 	'ERROR_MENU_NAME_VI_TOO_LONG'	=> 'Tên trình đơn tiếng Việt quá dài.',
