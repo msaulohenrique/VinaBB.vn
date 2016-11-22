@@ -52,7 +52,6 @@ interface headline_interface
 	*
 	* @param int $id Headline ID
 	* @return bool True if row was deleted, false otherwise
-	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function delete_headline($id);
 }
