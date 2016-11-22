@@ -13,26 +13,14 @@ namespace vinabb\web\entities;
 */
 class smiley implements smiley_interface
 {
-	/**
-	* Data for this entity
-	*
-	* @var array
-	*	smiley_id
-	*	code
-	*	emotion
-	*	smiley_url
-	*	smiley_width
-	*	smiley_height
-	*	smiley_order
-	*	display_on_posting
-	*/
-	protected $data;
-
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
 	/** @var \vinabb\web\entities\helper\helper_interface */
 	protected $entity_helper;
+
+	/** @var array */
+	protected $data;
 
 	/**
 	* Constructor
@@ -44,6 +32,25 @@ class smiley implements smiley_interface
 	{
 		$this->db = $db;
 		$this->entity_helper = $entity_helper;
+	}
+
+	/**
+	* Data for this entity
+	*
+	* @return array
+	*/
+	protected function prepare_data()
+	{
+		return [
+			'smiley_id'				=> 'integer',
+			'code'					=> 'string',
+			'emotion'				=> 'string',
+			'smiley_url'			=> 'string',
+			'smiley_width'			=> 'integer',
+			'smiley_height'			=> 'integer',
+			'smiley_order'			=> 'integer',
+			'display_on_posting'	=> 'bool'
+		];
 	}
 
 	/**
@@ -87,54 +94,27 @@ class smiley implements smiley_interface
 		// Clear out any saved data
 		$this->data = [];
 
-		// All of our fields
-		$fields = [
-			'smiley_id'				=> 'integer',
-			'code'					=> 'set_code',
-			'emotion'				=> 'set_emotion',
-			'smiley_url'			=> 'set_url',
-			'smiley_width'			=> 'integer',
-			'smiley_height'			=> 'integer',
-			'smiley_order'			=> 'integer',
-			'display_on_posting'	=> 'bool'
-		];
-
 		// Go through the basic fields and set them to our data array
-		foreach ($fields as $field => $type)
+		foreach ($this->prepare_data() as $field => $type)
 		{
 			// The data wasn't sent to us
 			if (!isset($data[$field]))
 			{
 				throw new \vinabb\web\exceptions\invalid_argument([$field, 'EMPTY']);
 			}
-
-			// If the type is a method on this class, call it
-			if (method_exists($this, $type))
-			{
-				$this->$type($data[$field]);
-			}
-			else
-			{
-				// settype() passes values by reference
-				$value = $data[$field];
-
-				// We're using settype() to enforce data types
-				settype($value, $type);
-
-				$this->data[$field] = $value;
-			}
-		}
-
-		// Some fields must be >= 0
-		$validate_unsigned = ['smiley_id', 'smiley_width', 'smiley_height', 'smiley_order', 'display_on_posting'];
-
-		foreach ($validate_unsigned as $field)
-		{
-			// If the data is less than 0, it's not unsigned and we'll throw an exception
-			if ($this->data[$field] < 0)
+			// We love unsigned numbers
+			else if ($type != 'string' && $this->data[$field] < 0)
 			{
 				throw new \vinabb\web\exceptions\out_of_bounds($field);
 			}
+
+			// settype() passes values by reference
+			$value = $data[$field];
+
+			// We're using settype() to enforce data types
+			settype($value, $type);
+
+			$this->data[$field] = $value;
 		}
 
 		return $this;
