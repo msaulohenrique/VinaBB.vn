@@ -409,9 +409,9 @@ class menus implements menus_interface
 		{
 			$this->operator->move_menu($menu_id, $direction, $amount);
 		}
-		catch (\Exception $e)
+		catch (\vinabb\web\exceptions\base $e)
 		{
-			trigger_error($this->language->lang($e->getMessage()) . adm_back_link($this->u_action), E_USER_WARNING);
+			trigger_error($this->language->lang('ERROR_MENU_MOVE', $e->get_message($this->language)) . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
 		$this->cache->clear_menus();
