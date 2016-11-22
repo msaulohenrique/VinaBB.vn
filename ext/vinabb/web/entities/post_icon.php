@@ -15,22 +15,11 @@ use vinabb\web\includes\constants;
 */
 class post_icon implements post_icon_interface
 {
-	/**
-	* Data for this entity
-	*
-	* @var array
-	*	icons_id
-	*	icons_url
-	*	icons_width
-	*	icons_height
-	*	icons_alt
-	*	icons_order
-	*	display_on_posting
-	*/
-	protected $data;
-
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
+
+	/** @var array */
+	protected $data;
 
 	/**
 	* Constructor
@@ -40,6 +29,24 @@ class post_icon implements post_icon_interface
 	public function __construct(\phpbb\db\driver\driver_interface $db)
 	{
 		$this->db = $db;
+	}
+
+	/**
+	* Data for this entity
+	*
+	* @return array
+	*/
+	protected function prepare_data()
+	{
+		return [
+			'icons_id'				=> 'integer',
+			'icons_url'				=> 'string',
+			'icons_width'			=> 'integer',
+			'icons_height'			=> 'integer',
+			'icons_alt'				=> 'string',
+			'icons_order'			=> 'integer',
+			'display_on_posting'	=> 'bool'
+		];
 	}
 
 	/**
@@ -83,53 +90,27 @@ class post_icon implements post_icon_interface
 		// Clear out any saved data
 		$this->data = [];
 
-		// All of our fields
-		$fields = [
-			'icons_id'				=> 'integer',
-			'icons_url'				=> 'set_url',
-			'icons_width'			=> 'integer',
-			'icons_height'			=> 'integer',
-			'icons_alt'				=> 'set_alt',
-			'icons_order'			=> 'integer',
-			'display_on_posting'	=> 'bool'
-		];
-
 		// Go through the basic fields and set them to our data array
-		foreach ($fields as $field => $type)
+		foreach ($this->prepare_data() as $field => $type)
 		{
 			// The data wasn't sent to us
 			if (!isset($data[$field]))
 			{
 				throw new \vinabb\web\exceptions\invalid_argument([$field, 'EMPTY']);
 			}
-
-			// If the type is a method on this class, call it
-			if (method_exists($this, $type))
-			{
-				$this->$type($data[$field]);
-			}
-			else
-			{
-				// settype() passes values by reference
-				$value = $data[$field];
-
-				// We're using settype() to enforce data types
-				settype($value, $type);
-
-				$this->data[$field] = $value;
-			}
-		}
-
-		// Some fields must be >= 0
-		$validate_unsigned = ['icons_id', 'icons_width', 'icons_height', 'icons_order', 'display_on_posting'];
-
-		foreach ($validate_unsigned as $field)
-		{
-			// If the data is less than 0, it's not unsigned and we'll throw an exception
-			if ($this->data[$field] < 0)
+			// We love unsigned numbers
+			else if ($type != 'string' && $this->data[$field] < 0)
 			{
 				throw new \vinabb\web\exceptions\out_of_bounds($field);
 			}
+
+			// settype() passes values by reference
+			$value = $data[$field];
+
+			// We're using settype() to enforce data types
+			settype($value, $type);
+
+			$this->data[$field] = $value;
 		}
 
 		return $this;
