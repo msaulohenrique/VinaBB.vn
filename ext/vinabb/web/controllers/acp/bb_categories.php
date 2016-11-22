@@ -126,8 +126,10 @@ class bb_categories
 				'DESC_VI'	=> $entity->get_desc_vi(),
 				'ICON'		=> $entity->get_icon(),
 
-				'U_EDIT'	=> "{$this->u_action}&action=edit&id={$entity->get_id()}",
-				'U_DELETE'	=> "{$this->u_action}&action=delete&id={$entity->get_id()}"
+				'U_EDIT'		=> "{$this->u_action}&action=edit&id={$entity->get_id()}",
+				'U_MOVE_DOWN'	=> "{$this->u_action}&action=move_down&id={$entity->get_id()}&hash=" . generate_link_hash('down' . $entity->get_id()),
+				'U_MOVE_UP'		=> "{$this->u_action}&action=move_up&id={$entity->get_id()}&hash=" . generate_link_hash('up' . $entity->get_id()),
+				'U_DELETE'		=> "{$this->u_action}&action=delete&id={$entity->get_id()}"
 			]);
 		}
 
@@ -315,6 +317,39 @@ class bb_categories
 
 			'ICON_OPTIONS'	=> $this->ext_helper->build_icon_list($entity->get_icon())
 		]);
+	}
+
+	/**
+	* Move a category up/down
+	*
+	* @param int	$cat_id		Category ID
+	* @param string	$direction	The direction (up|down)
+	*/
+	public function move_cat($cat_id, $direction)
+	{
+		// Check the valid link hash
+		if (!check_link_hash($this->request->variable('hash', ''), $direction . $cat_id))
+		{
+			trigger_error($this->language->lang('FORM_INVALID') . adm_back_link($this->u_action), E_USER_WARNING);
+		}
+
+		try
+		{
+			$this->operator->move_cat($this->bb_type, $cat_id, $direction);
+		}
+		catch (\vinabb\web\exceptions\base $e)
+		{
+			trigger_error($this->language->lang('ERROR_CAT_MOVE', $e->get_message($this->language)) . adm_back_link($this->u_action), E_USER_WARNING);
+		}
+
+		$this->cache->clear_bb_cats($this->bb_type);
+
+		// If AJAX was used, show user a result message
+		if ($this->request->is_ajax())
+		{
+			$json_response = new \phpbb\json_response;
+			$json_response->send(['success' => true]);
+		}
 	}
 
 	/**

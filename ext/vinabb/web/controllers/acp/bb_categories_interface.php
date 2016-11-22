@@ -52,6 +52,14 @@ interface bb_categories_interface
 	public function add_edit_data(\vinabb\web\entities\bb_category_interface $entity);
 
 	/**
+	* Move a category up/down
+	*
+	* @param int	$cat_id		Category ID
+	* @param string	$direction	The direction (up|down)
+	*/
+	public function move_cat($cat_id, $direction);
+
+	/**
 	* Delete a category
 	*
 	* @param int $cat_id Category ID
