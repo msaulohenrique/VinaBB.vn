@@ -279,7 +279,7 @@ class headlines implements headlines_interface
 		else
 		{
 			// Add the new entity to the database
-			$entity = $this->operator->add_headline($entity, $lang);
+			$entity = $this->operator->add_headline($entity);
 
 			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_HEADLINE_ADD', time(), [$entity->get_name()]);
 
