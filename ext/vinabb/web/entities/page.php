@@ -15,35 +15,6 @@ use vinabb\web\includes\constants;
 */
 class page extends \vinabb\web\entities\abs\page_text implements page_interface
 {
-	/**
-	* Data for this entity
-	*
-	* @var array
-	*	page_id
-	*	page_name
-	*	page_name_vi
-	*	page_varname
-	*	page_desc
-	*	page_desc_vi
-	*		page_text
-	*		page_text_uid
-	*		page_text_bitfield
-	*		page_text_options
-	*		page_text_vi
-	*		page_text_vi_uid
-	*		page_text_vi_bitfield
-	*		page_text_vi_options
-	*	page_enable_guest
-	*	page_enable_bot
-	*	page_enable_new_user
-	*	page_enable_user
-	*	page_enable_mod
-	*	page_enable_global_mod
-	*	page_enable_admin
-	*	page_enable_founder
-	*/
-	protected $data;
-
 	/** @var \phpbb\config\config */
 	protected $config;
 
@@ -55,6 +26,9 @@ class page extends \vinabb\web\entities\abs\page_text implements page_interface
 
 	/** @var string */
 	protected $table_name;
+
+	/** @var array */
+	protected $data;
 
 	/**
 	* Constructor
@@ -70,6 +44,40 @@ class page extends \vinabb\web\entities\abs\page_text implements page_interface
 		$this->db = $db;
 		$this->entity_helper = $entity_helper;
 		$this->table_name = $table_name;
+	}
+
+	/**
+	* Data for this entity
+	*
+	* @return array
+	*/
+	protected function prepare_data()
+	{
+		return [
+			'page_id'					=> 'integer',
+			'page_name'					=> 'string',
+			'page_name_vi'				=> 'string',
+			'page_varname'				=> 'string',
+			'page_desc'					=> 'string',
+			'page_desc_vi'				=> 'string',
+			'page_text'					=> 'string',
+			'page_text_uid'				=> 'string',
+			'page_text_bitfield'		=> 'string',
+			'page_text_options'			=> 'integer',
+			'page_text_vi'				=> 'string',
+			'page_text_vi_uid'			=> 'string',
+			'page_text_vi_bitfield'		=> 'string',
+			'page_text_vi_options'		=> 'integer',
+			'page_enable'				=> 'bool',
+			'page_enable_guest'			=> 'bool',
+			'page_enable_bot'			=> 'bool',
+			'page_enable_new_user'		=> 'bool',
+			'page_enable_user'			=> 'bool',
+			'page_enable_mod'			=> 'bool',
+			'page_enable_global_mod'	=> 'bool',
+			'page_enable_admin'			=> 'bool',
+			'page_enable_founder'		=> 'bool'
+		];
 	}
 
 	/**
@@ -113,71 +121,27 @@ class page extends \vinabb\web\entities\abs\page_text implements page_interface
 		// Clear out any saved data
 		$this->data = [];
 
-		// All of our fields
-		$fields = [
-			'page_id'					=> 'integer',
-			'page_name'					=> 'set_name',
-			'page_name_vi'				=> 'set_name_vi',
-			'page_varname'				=> 'set_varname',
-			'page_desc'					=> 'set_desc',
-			'page_desc_vi'				=> 'set_desc_vi',
-			'page_enable'				=> 'bool',
-			'page_enable_guest'			=> 'bool',
-			'page_enable_bot'			=> 'bool',
-			'page_enable_new_user'		=> 'bool',
-			'page_enable_user'			=> 'bool',
-			'page_enable_mod'			=> 'bool',
-			'page_enable_global_mod'	=> 'bool',
-			'page_enable_admin'			=> 'bool',
-			'page_enable_founder'		=> 'bool',
-
-			// We do not pass to set_text() or set_text_vi() as generate_text_for_storage() would run twice
-			'page_text'				=> 'string',
-			'page_text_uid'			=> 'string',
-			'page_text_bitfield'	=> 'string',
-			'page_text_options'		=> 'integer',
-			'page_text_vi'			=> 'string',
-			'page_text_vi_uid'		=> 'string',
-			'page_text_vi_bitfield'	=> 'string',
-			'page_text_vi_options'	=> 'integer'
-		];
-
 		// Go through the basic fields and set them to our data array
-		foreach ($fields as $field => $type)
+		foreach ($this->prepare_data() as $field => $type)
 		{
 			// The data wasn't sent to us
 			if (!isset($data[$field]))
 			{
 				throw new \vinabb\web\exceptions\invalid_argument([$field, 'EMPTY']);
 			}
-
-			// If the type is a method on this class, call it
-			if (method_exists($this, $type))
-			{
-				$this->$type($data[$field]);
-			}
-			else
-			{
-				// settype() passes values by reference
-				$value = $data[$field];
-
-				// We're using settype() to enforce data types
-				settype($value, $type);
-
-				$this->data[$field] = $value;
-			}
-		}
-
-		// Some fields must be >= 0
-		$validate_unsigned = ['page_id', 'page_enable', 'page_enable_guest', 'page_enable_bot', 'page_enable_new_user', 'page_enable_user', 'page_enable_mod', 'page_enable_global_mod', 'page_enable_admin', 'page_enable_founder', 'page_text_options', 'page_text_vi_options'];
-
-		foreach ($validate_unsigned as $field)
-		{
-			// If the data is less than 0, it's not unsigned and we'll throw an exception
-			if ($this->data[$field] < 0)
+			// We love unsigned numbers
+			else if ($type != 'string' && $this->data[$field] < 0)
 			{
 				throw new \vinabb\web\exceptions\out_of_bounds($field);
 			}
+
+			// settype() passes values by reference
+			$value = $data[$field];
+
+			// We're using settype() to enforce data types
+			settype($value, $type);
+
+			$this->data[$field] = $value;
 		}
 
 		return $this;
