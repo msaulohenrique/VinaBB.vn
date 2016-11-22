@@ -21,6 +21,9 @@ class bb_category implements bb_category_interface
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \phpbb\lock\db */
+	protected $lock;
+
 	/** @var string */
 	protected $table_name;
 
@@ -29,12 +32,14 @@ class bb_category implements bb_category_interface
 	*
 	* @param ContainerInterface					$container	Container object
 	* @param \phpbb\db\driver\driver_interface	$db			Database object
+	* @param \phpbb\lock\db						$lock		Lock table object
 	* @param string								$table_name	Table name
 	*/
-	public function __construct(ContainerInterface $container, \phpbb\db\driver\driver_interface $db, $table_name)
+	public function __construct(ContainerInterface $container, \phpbb\db\driver\driver_interface $db, \phpbb\lock\db $lock, $table_name)
 	{
 		$this->container = $container;
 		$this->db = $db;
+		$this->lock = $lock;
 		$this->table_name = $table_name;
 	}
 
@@ -101,11 +106,71 @@ class bb_category implements bb_category_interface
 	}
 
 	/**
+	* Move a category up/down
+	*
+	* @param int	$bb_type	phpBB resource type
+	* @param int	$id			Category ID
+	* @param string	$direction	The direction: up|down
+	* @return bool True if row was moved, false otherwise
+	*/
+	public function move_cat($bb_type, $id, $direction = 'up')
+	{
+		$this->acquire_lock();
+
+		$sql = 'SELECT cat_order
+			FROM ' . $this->table_name . '
+			WHERE cat_id = ' . (int) $id;
+		$result = $this->db->sql_query($sql);
+		$order = $this->db->sql_fetchfield('cat_order');
+		$this->db->sql_freeresult($result);
+
+		if ($order === false || ($order == 0 && $direction == 'up'))
+		{
+			$this->lock->release();
+			return false;
+		}
+
+		$order = (int) $order;
+		$order_total = $order * 2 + (($direction == 'up') ? -1 : 1);
+
+		$sql = 'UPDATE ' . $this->table_name . '
+			SET cat_order = ' . $order_total . ' - cat_order
+			WHERE bb_type = ' . (int) $bb_type . '
+				AND ' . $this->db->sql_in_set('cat_order', [$order, ($direction == 'up') ? $order - 1 : $order + 1]);
+		$this->db->sql_query($sql);
+
+		$this->lock->release();
+
+		// Return true/false if the entity was moved
+		return (bool) $this->db->sql_affectedrows();
+	}
+
+	/**
+	* Acquires a lock on the item table
+	*
+	* @return bool True if the lock was acquired, false if it has been acquired previously
+	* @throws \RuntimeException If the lock could not be acquired
+	*/
+	protected function acquire_lock()
+	{
+		if ($this->lock->owns_lock())
+		{
+			return false;
+		}
+
+		if (!$this->lock->acquire())
+		{
+			throw new \RuntimeException('BB_CATS_LOCK_FAILED_ACQUIRE');
+		}
+
+		return true;
+	}
+
+	/**
 	* Delete a category
 	*
 	* @param int $id Category ID
 	* @return bool True if row was deleted, false otherwise
-	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function delete_cat($id)
 	{
