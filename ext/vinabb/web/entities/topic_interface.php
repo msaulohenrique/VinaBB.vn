@@ -80,6 +80,22 @@ interface topic_interface
 	public function set_forum_id($id);
 
 	/**
+	* Get the first post ID
+	*
+	* @return int
+	*/
+	public function get_first_post_id();
+
+	/**
+	* Set the first post ID
+	*
+	* @param int				$id		Post ID
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_first_post_id($id);
+
+	/**
 	* Get the topic icon
 	*
 	* @return int
@@ -110,149 +126,6 @@ interface topic_interface
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_poster($id);
-
-	/**
-	* Get the topic title
-	*
-	* @return string
-	*/
-	public function get_title();
-
-	/**
-	* Set the topic title
-	*
-	* @param string				$text	Topic title
-	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\unexpected_value
-	*/
-	public function set_title($text);
-
-	/**
-	* Get the topic SEO title
-	*
-	* @return string
-	*/
-	public function get_title_seo();
-
-	/**
-	* Set the topic SEO title
-	*
-	* @param string				$text	Topic SEO title
-	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\unexpected_value
-	*/
-	public function set_title_seo($text);
-
-	/**
-	* Get the topic time
-	*
-	* @return int
-	*/
-	public function get_time();
-
-	/**
-	* Get the topic time limit
-	*
-	* @return int
-	*/
-	public function get_time_limit();
-
-	/**
-	* Get the topic views
-	*
-	* @return int
-	*/
-	public function get_views();
-
-	/**
-	* Get the topic status
-	*
-	* @return int
-	*/
-	public function get_status();
-
-	/**
-	* Set the topic status
-	*
-	* @param int				$value	Topic status
-	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\out_of_bounds
-	*/
-	public function set_status($value);
-
-	/**
-	* Get the topic type
-	*
-	* @return int
-	*/
-	public function get_type();
-
-	/**
-	* Set the topic type
-	*
-	* @param int				$value	Topic type
-	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\out_of_bounds
-	*/
-	public function set_type($value);
-
-	/**
-	* Get the topic visibility
-	*
-	* @return int
-	*/
-	public function get_visibility();
-
-	/**
-	* Get the number of approved posts
-	*
-	* @return int
-	*/
-	public function get_posts_approved();
-
-	/**
-	* Get the number of disapproved posts
-	*
-	* @return int
-	*/
-	public function get_posts_unapproved();
-
-	/**
-	* Get the number of soft-deleted posts
-	*
-	* @return int
-	*/
-	public function get_posts_softdeleted();
-
-	/**
-	* Does the topic have attachments?
-	*
-	* @return bool
-	*/
-	public function get_attachment();
-
-	/**
-	* Does the topic have open reports?
-	*
-	* @return bool
-	*/
-	public function get_reported();
-
-	/**
-	* Get the first post ID
-	*
-	* @return int
-	*/
-	public function get_first_post_id();
-
-	/**
-	* Set the first post ID
-	*
-	* @param int				$id		Post ID
-	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\unexpected_value
-	*/
-	public function set_first_post_id($id);
 
 	/**
 	* Get the poster username
@@ -287,97 +160,131 @@ interface topic_interface
 	public function set_first_poster_colour($text);
 
 	/**
-	* Get the last post ID
-	*
-	* @return int
-	*/
-	public function get_last_post_id();
-
-	/**
-	* Set the last post ID
-	*
-	* @param int				$id		Post ID
-	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\unexpected_value
-	*/
-	public function set_last_post_id($id);
-
-	/**
-	* Get the last poster ID
-	*
-	* @return int
-	*/
-	public function get_last_poster_id();
-
-	/**
-	* Set the last poster ID
-	*
-	* @param int				$id		User ID
-	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\unexpected_value
-	*/
-	public function set_last_poster_id($id);
-
-	/**
-	* Get the last poster username
+	* Get the topic title
 	*
 	* @return string
 	*/
-	public function get_last_poster_name();
+	public function get_title();
 
 	/**
-	* Set the last poster username
+	* Set the topic title
 	*
-	* @param string				$text	Username
+	* @param string				$text	Topic title
 	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
-	public function set_last_poster_name($text);
+	public function set_title($text);
 
 	/**
-	* Get the last poster username color
+	* Get the topic SEO title
 	*
 	* @return string
 	*/
-	public function get_last_poster_colour();
+	public function get_title_seo();
+
 	/**
-	* Set the last poster username color
+	* Set the topic SEO title
 	*
-	* @param string				$text	6-char HEX code without #
+	* @param string				$text	Topic SEO title
 	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
-	public function set_last_poster_colour($text);
+	public function set_title_seo($text);
 
 	/**
-	* Get the last post subject
+	* Get the topic type
 	*
-	* @return string
+	* @return int
 	*/
-	public function get_last_post_subject();
+	public function get_type();
 
 	/**
-	* Set the last post subject
+	* Set the topic type
 	*
-	* @param string				$text	Post subject
+	* @param int				$value	Topic type
 	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\unexpected_value
+	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
-	public function set_last_post_subject($text);
+	public function set_type($value);
 
 	/**
-	* Get the topic's last post time
+	* Get the topic status
 	*
 	* @return int
 	*/
-	public function get_last_post_time();
+	public function get_status();
 
 	/**
-	* Get the topic's last view time
+	* Set the topic status
+	*
+	* @param int				$value	Topic status
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_status($value);
+
+	/**
+	* Get the topic views
 	*
 	* @return int
 	*/
-	public function get_last_view_time();
+	public function get_views();
+
+	/**
+	* Get the number of approved posts
+	*
+	* @return int
+	*/
+	public function get_posts_approved();
+
+	/**
+	* Get the number of disapproved posts
+	*
+	* @return int
+	*/
+	public function get_posts_unapproved();
+
+	/**
+	* Get the number of soft-deleted posts
+	*
+	* @return int
+	*/
+	public function get_posts_softdeleted();
+
+	/**
+	* Get the topic time
+	*
+	* @return int
+	*/
+	public function get_time();
+
+	/**
+	* Get the topic time limit
+	*
+	* @return int
+	*/
+	public function get_time_limit();
+
+	/**
+	* Get the topic visibility
+	*
+	* @return int
+	*/
+	public function get_visibility();
+
+	/**
+	* Does the topic have attachments?
+	*
+	* @return bool
+	*/
+	public function get_attachment();
+
+	/**
+	* Does the topic have open reports?
+	*
+	* @return bool
+	*/
+	public function get_reported();
 
 	/**
 	* Get the old topic ID after moving and leaving shadow
@@ -447,6 +354,100 @@ interface topic_interface
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_delete_user($id);
+
+	/**
+	* Get the last post ID
+	*
+	* @return int
+	*/
+	public function get_last_post_id();
+
+	/**
+	* Set the last post ID
+	*
+	* @param int				$id		Post ID
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_last_post_id($id);
+
+	/**
+	* Get the last poster ID
+	*
+	* @return int
+	*/
+	public function get_last_poster_id();
+
+	/**
+	* Set the last poster ID
+	*
+	* @param int				$id		User ID
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_last_poster_id($id);
+
+	/**
+	* Get the last poster username
+	*
+	* @return string
+	*/
+	public function get_last_poster_name();
+
+	/**
+	* Set the last poster username
+	*
+	* @param string				$text	Username
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_last_poster_name($text);
+
+	/**
+	* Get the last poster username color
+	*
+	* @return string
+	*/
+	public function get_last_poster_colour();
+
+	/**
+	* Set the last poster username color
+	*
+	* @param string				$text	6-char HEX code without #
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_last_poster_colour($text);
+
+	/**
+	* Get the last post subject
+	*
+	* @return string
+	*/
+	public function get_last_post_subject();
+
+	/**
+	* Set the last post subject
+	*
+	* @param string				$text	Post subject
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_last_post_subject($text);
+
+	/**
+	* Get the topic's last post time
+	*
+	* @return int
+	*/
+	public function get_last_post_time();
+
+	/**
+	* Get the topic's last view time
+	*
+	* @return int
+	*/
+	public function get_last_view_time();
 
 	/**
 	* Get the poll title
