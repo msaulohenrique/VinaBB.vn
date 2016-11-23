@@ -1,4 +1,6 @@
 services:
+    vinabb.web.constants:
+        class: vinabb\web\includes\constants
     vinabb.web.cache:
         class: vinabb\web\controllers\cache\service
         arguments:
