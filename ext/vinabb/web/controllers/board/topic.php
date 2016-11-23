@@ -51,6 +51,9 @@ class topic
 	/** @var \phpbb\controller\helper */
 	protected $helper;
 
+	/** @var \vinabb\web\controllers\helper_interface */
+	protected $ext_helper;
+
 	/** @var string */
 	protected $root_path;
 
@@ -73,6 +76,7 @@ class topic
 	* @param \phpbb\template\template $template
 	* @param \phpbb\user $user
 	* @param \phpbb\controller\helper $helper
+	* @param \vinabb\web\controllers\helper_interface $ext_helper
 	* @param string $root_path
 	* @param string $php_ext
 	*/
@@ -90,6 +94,7 @@ class topic
 		\phpbb\template\template $template,
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
+		\vinabb\web\controllers\helper_interface $ext_helper,
 		$root_path,
 		$php_ext
 	)
@@ -107,6 +112,7 @@ class topic
 		$this->template = $template;
 		$this->user = $user;
 		$this->helper = $helper;
+		$this->ext_helper = $ext_helper;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 	}
@@ -444,15 +450,7 @@ class topic
 		*												Set it to an array to override original data.
 		* @since 3.1.3-RC1
 		*/
-		$vars = array(
-			'forum_id',
-			'topic_id',
-			'post_id',
-			'topic_data',
-			'overrides_f_read_check',
-			'overrides_forum_password_check',
-			'topic_tracking_info',
-		);
+		$vars = ['forum_id', 'topic_id', 'post_id', 'topic_data', 'overrides_f_read_check', 'overrides_forum_password_check', 'topic_tracking_info'];
 		extract($this->dispatcher->trigger_event('core.viewtopic_before_f_read_check', compact($vars)));
 
 		// Start auth check
@@ -699,16 +697,7 @@ class topic
 		* @var	bool			allow_change_type		Topic change permissions check
 		* @since 3.1.9-RC1
 		*/
-		$vars = array(
-			'forum_id',
-			'post_id',
-			'quickmod_array',
-			'topic_data',
-			'topic_id',
-			'topic_tracking_info',
-			'viewtopic_url',
-			'allow_change_type',
-		);
+		$vars = ['forum_id', 'post_id', 'quickmod_array', 'topic_data', 'topic_id', 'topic_tracking_info', 'viewtopic_url', 'allow_change_type'];
 		extract($this->dispatcher->trigger_event('core.viewtopic_add_quickmod_option_before', compact($vars)));
 
 		foreach ($quickmod_array as $option => $qm_ary)
@@ -797,6 +786,11 @@ class topic
 
 		$this->pagination->generate_template_pagination('vinabb_web_board_topic_route', $pagination_params, 'pagination', $total_posts, $this->config['posts_per_page'], $start);
 
+		// Breadcrumb
+		$this->ext_helper->set_breadcrumb($this->language->lang('BOARD'), $this->helper->route('vinabb_web_board_route'));
+		$this->ext_helper->set_breadcrumb($topic_data['forum_name'], $this->helper->route('vinabb_web_board_forum_route', ['forum_id' => $forum_id, 'seo' => $topic_data['forum_name_seo'] . constants::REWRITE_URL_SEO]));
+		$this->ext_helper->set_breadcrumb($this->language->lang('TOPIC'));
+
 		// Send vars to template
 		$this->template->assign_vars(array(
 				'FORUM_ID' 		=> $forum_id,
@@ -842,19 +836,19 @@ class topic
 				'L_RETURN_TO_FORUM'		=> $this->language->lang('RETURN_TO', $topic_data['forum_name']),
 				'S_VIEWTOPIC'			=> true,
 				'S_UNREAD_VIEW'			=> $view == 'unread',
-				'S_DISPLAY_SEARCHBOX'	=> ($this->auth->acl_get('u_search') && $this->auth->acl_get('f_search', $forum_id) && $this->config['load_search']) ? true : false,
+				'S_DISPLAY_SEARCHBOX'	=> ($this->auth->acl_get('u_search') && $this->auth->acl_get('f_search', $forum_id) && $this->config['load_search']),
 				'S_SEARCHBOX_ACTION'	=> append_sid("{$this->root_path}search.{$this->php_ext}"),
 				'S_SEARCH_LOCAL_HIDDEN_FIELDS'	=> build_hidden_fields($s_search_hidden_fields),
 
-				'S_DISPLAY_POST_INFO'	=> ($topic_data['forum_type'] == FORUM_POST && ($this->auth->acl_get('f_post', $forum_id) || $this->user->data['user_id'] == ANONYMOUS)) ? true : false,
-				'S_DISPLAY_REPLY_INFO'	=> ($topic_data['forum_type'] == FORUM_POST && ($this->auth->acl_get('f_reply', $forum_id) || $this->user->data['user_id'] == ANONYMOUS)) ? true : false,
-				'S_ENABLE_FEEDS_TOPIC'	=> ($this->config['feed_topic'] && !phpbb_optionget(FORUM_OPTION_FEED_EXCLUDE, $topic_data['forum_options'])) ? true : false,
+				'S_DISPLAY_POST_INFO'	=> ($topic_data['forum_type'] == FORUM_POST && ($this->auth->acl_get('f_post', $forum_id) || $this->user->data['user_id'] == ANONYMOUS)),
+				'S_DISPLAY_REPLY_INFO'	=> ($topic_data['forum_type'] == FORUM_POST && ($this->auth->acl_get('f_reply', $forum_id) || $this->user->data['user_id'] == ANONYMOUS)),
+				'S_ENABLE_FEEDS_TOPIC'	=> ($this->config['feed_topic'] && !phpbb_optionget(FORUM_OPTION_FEED_EXCLUDE, $topic_data['forum_options'])),
 
 				'U_TOPIC'				=> "{$server_path}viewtopic.{$this->php_ext}?f=$forum_id&amp;t=$topic_id",
 				'U_FORUM'				=> $server_path,
 				'U_VIEW_TOPIC' 			=> $viewtopic_url,
 				'U_CANONICAL'			=> generate_board_url() . '/' . append_sid("viewtopic.{$this->php_ext}", "t=$topic_id" . (($start) ? "&amp;start=$start" : ''), true, ''),
-				'U_VIEW_FORUM' 			=> append_sid("{$this->root_path}viewforum.{$this->php_ext}", 'f=' . $forum_id),
+				'U_VIEW_FORUM' 			=> $this->helper->route('vinabb_web_board_forum_route', ['forum_id' => $forum_id, 'seo' => $topic_data['forum_name_seo'] . constants::REWRITE_URL_SEO]),
 				'U_VIEW_OLDER_TOPIC'	=> append_sid("{$this->root_path}viewtopic.{$this->php_ext}", "f=$forum_id&amp;t=$topic_id&amp;view=previous"),
 				'U_VIEW_NEWER_TOPIC'	=> append_sid("{$this->root_path}viewtopic.{$this->php_ext}", "f=$forum_id&amp;t=$topic_id&amp;view=next"),
 				'U_PRINT_TOPIC'			=> ($this->auth->acl_get('f_print', $forum_id)) ? $viewtopic_url . '&amp;view=print' : '',
@@ -869,7 +863,7 @@ class topic
 				'U_BOOKMARK_TOPIC'		=> ($this->user->data['is_registered'] && $this->config['allow_bookmarks']) ? $viewtopic_url . '&amp;bookmark=1&amp;hash=' . generate_link_hash("topic_$topic_id") : '',
 				'S_BOOKMARK_TOPIC'		=> ($this->user->data['is_registered'] && $this->config['allow_bookmarks'] && $topic_data['bookmarked']) ? $this->language->lang('BOOKMARK_TOPIC_REMOVE') : $this->language->lang('BOOKMARK_TOPIC'),
 				'S_BOOKMARK_TOGGLE'		=> (!$this->user->data['is_registered'] || !$this->config['allow_bookmarks'] || !$topic_data['bookmarked']) ? $this->language->lang('BOOKMARK_TOPIC_REMOVE') : $this->language->lang('BOOKMARK_TOPIC'),
-				'S_BOOKMARKED_TOPIC'	=> ($this->user->data['is_registered'] && $this->config['allow_bookmarks'] && $topic_data['bookmarked']) ? true : false,
+				'S_BOOKMARKED_TOPIC'	=> ($this->user->data['is_registered'] && $this->config['allow_bookmarks'] && $topic_data['bookmarked']),
 
 				'U_POST_NEW_TOPIC' 		=> ($this->auth->acl_get('f_post', $forum_id) || $this->user->data['user_id'] == ANONYMOUS) ? append_sid("{$this->root_path}posting.{$this->php_ext}", "mode=post&amp;f=$forum_id") : '',
 				'U_POST_REPLY_TOPIC' 	=> ($this->auth->acl_get('f_reply', $forum_id) || $this->user->data['user_id'] == ANONYMOUS) ? append_sid("{$this->root_path}posting.{$this->php_ext}", "mode=reply&amp;f=$forum_id&amp;t=$topic_id") : '',
