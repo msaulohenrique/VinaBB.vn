@@ -895,7 +895,6 @@ class topic
 
 			if ($update && $s_can_vote)
 			{
-
 				if (!sizeof($voted_id) || sizeof($voted_id) > $topic_data['poll_max_options'] || in_array(VOTE_CONVERTED, $cur_voted_id) || !check_form_key('posting'))
 				{
 					$redirect_url = append_sid("{$this->root_path}viewtopic.{$this->php_ext}", "f=$forum_id&amp;t=$topic_id" . (($start == 0) ? '' : "&amp;start=$start"));
@@ -1439,26 +1438,7 @@ class topic
 		// Load custom profile fields
 		if ($this->config['load_cpf_viewtopic'])
 		{
-			// Grab all profile fields from users in id cache for later use - similar to the poster cache
-			$profile_fields_tmp = $this->profile_fields->grab_profile_fields_data($id_cache);
-
-			// filter out fields not to be displayed on viewtopic. Yes, it's a hack, but this shouldn't break any MODs.
-			$profile_fields_cache = [];
-
-			foreach ($profile_fields_tmp as $profile_user_id => $profile_fields)
-			{
-				$profile_fields_cache[$profile_user_id] = [];
-
-				foreach ($profile_fields as $used_ident => $profile_field)
-				{
-					if ($profile_field['data']['field_show_on_vt'])
-					{
-						$profile_fields_cache[$profile_user_id][$used_ident] = $profile_field;
-					}
-				}
-			}
-
-			unset($profile_fields_tmp);
+			$profile_fields_cache = $this->load_cpf($id_cache);
 		}
 
 		// Generate online information for user
@@ -2250,5 +2230,31 @@ class topic
 
 		meta_refresh(3, $topic_url);
 		trigger_error($message);
+	}
+
+	protected function load_cpf($id_cache)
+	{
+		// Grab all profile fields from users in id cache for later use - similar to the poster cache
+		$profile_fields_tmp = $this->profile_fields->grab_profile_fields_data($id_cache);
+
+		// filter out fields not to be displayed on viewtopic. Yes, it's a hack, but this shouldn't break any MODs.
+		$profile_fields_cache = [];
+
+		foreach ($profile_fields_tmp as $profile_user_id => $profile_fields)
+		{
+			$profile_fields_cache[$profile_user_id] = [];
+
+			foreach ($profile_fields as $used_ident => $profile_field)
+			{
+				if ($profile_field['data']['field_show_on_vt'])
+				{
+					$profile_fields_cache[$profile_user_id][$used_ident] = $profile_field;
+				}
+			}
+		}
+
+		unset($profile_fields_tmp);
+
+		return $profile_fields_cache;
 	}
 }
