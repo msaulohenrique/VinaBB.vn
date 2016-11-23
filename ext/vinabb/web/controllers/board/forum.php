@@ -51,6 +51,9 @@ class forum implements forum_interface
 	/** @var \phpbb\controller\helper */
 	protected $helper;
 
+	/** @var \vinabb\web\controllers\helper_interface */
+	protected $ext_helper;
+
 	/** @var string */
 	protected $root_path;
 
@@ -73,6 +76,7 @@ class forum implements forum_interface
 	* @param \phpbb\template\template $template
 	* @param \phpbb\user $user
 	* @param \phpbb\controller\helper $helper
+	* @param \vinabb\web\controllers\helper_interface $ext_helper
 	* @param string $root_path
 	* @param string $php_ext
 	*/
@@ -90,6 +94,7 @@ class forum implements forum_interface
 		\phpbb\template\template $template,
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
+		\vinabb\web\controllers\helper_interface $ext_helper,
 		$root_path,
 		$php_ext
 	)
@@ -107,6 +112,7 @@ class forum implements forum_interface
 		$this->template = $template;
 		$this->user = $user;
 		$this->helper = $helper;
+		$this->ext_helper = $ext_helper;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 	}
@@ -229,7 +235,7 @@ class forum implements forum_interface
 		}
 
 		// Do we have subforums?
-		$active_forum_ary = $moderators = array();
+		$active_forum_ary = $moderators = [];
 
 		if ($forum_data['left_id'] != $forum_data['right_id'] - 1)
 		{
@@ -251,13 +257,13 @@ class forum implements forum_interface
 
 		page_header($forum_data['forum_name'] . ($start ? ' - ' . $this->language->lang('PAGE_TITLE_NUMBER', $this->pagination->get_on_page($this->config['topics_per_page'], $start)) : ''), true, $forum_id);
 
-		$this->template->set_filenames(array(
+		$this->template->set_filenames([
 			'body'	=> 'viewforum_body.html'
-		));
+		]);
 
-		$this->template->assign_vars(array(
-			'U_VIEW_FORUM'	=> $this->helper->route('vinabb_web_board_forum_route', ($start == 0) ? array('forum_id' => $forum_id) : array('forum_id' => $forum_id, 'seo' => $forum_data['forum_name_seo'] . constants::REWRITE_URL_SEO, 'page' => constants::REWRITE_URL_PAGE . $this->pagination->get_on_page($this->config['topics_per_page'], $start)))
-		));
+		$this->template->assign_vars([
+			'U_VIEW_FORUM'	=> $this->helper->route('vinabb_web_board_forum_route', ($start == 0) ? ['forum_id' => $forum_id] : ['forum_id' => $forum_id, 'seo' => $forum_data['forum_name_seo'] . constants::REWRITE_URL_SEO, 'page' => constants::REWRITE_URL_PAGE . $this->pagination->get_on_page($this->config['topics_per_page'], $start)])
+		]);
 
 		// Not postable forum or showing active topics?
 		if (!($forum_data['forum_type'] == FORUM_POST || (($forum_data['forum_flags'] & FORUM_FLAG_ACTIVE_TOPICS) && $forum_data['forum_type'] == FORUM_CAT)))
@@ -269,9 +275,7 @@ class forum implements forum_interface
 		// We also make this circumstance available to the template in case we want to display a notice. ;)
 		if (!$this->auth->acl_get('f_read', $forum_id))
 		{
-			$this->template->assign_vars(array(
-				'S_NO_READ_ACCESS'		=> true
-			));
+			$this->template->assign_var('S_NO_READ_ACCESS', true);
 
 			page_footer();
 		}
@@ -339,13 +343,13 @@ class forum implements forum_interface
 		}
 
 		// Forum rules and subscription info
-		$s_watching_forum = array(
+		$s_watching_forum = [
 			'link'			=> '',
 			'link_toggle'	=> '',
 			'title'			=> '',
 			'title_toggle'	=> '',
-			'is_watching'	=> false,
-		);
+			'is_watching'	=> false
+		];
 
 		if ($this->config['allow_forum_notify'] && $forum_data['forum_type'] == FORUM_POST && ($this->auth->acl_get('f_subscribe', $forum_id) || $this->user->data['user_id'] == ANONYMOUS))
 		{
@@ -356,7 +360,7 @@ class forum implements forum_interface
 		gen_forum_auth_level('forum', $forum_id, $forum_data['forum_status']);
 
 		// Topic ordering options
-		$limit_days = array(
+		$limit_days = [
 			0	=> $this->language->lang('ALL_TOPICS'),
 			1	=> $this->language->lang('1_DAY'),
 			7	=> $this->language->lang('7_DAYS'),
@@ -365,21 +369,24 @@ class forum implements forum_interface
 			90	=> $this->language->lang('3_MONTHS'),
 			180	=> $this->language->lang('6_MONTHS'),
 			365	=> $this->language->lang('1_YEAR')
-		);
-		$sort_by_text = array(
+		];
+
+		$sort_by_text = [
 			'a'	=> $this->language->lang('AUTHOR'),
 			't'	=> $this->language->lang('POST_TIME'),
 			'r'	=> $this->language->lang('REPLIES'),
 			's'	=> $this->language->lang('SUBJECT'),
 			'v'	=> $this->language->lang('VIEWS')
-		);
-		$sort_by_sql = array(
+		];
+
+		$sort_by_sql = [
 			'a'	=> 't.topic_first_poster_name',
-			't'	=> array('t.topic_last_post_time', 't.topic_last_post_id'),
+			't'	=> ['t.topic_last_post_time', 't.topic_last_post_id'],
 			'r'	=> (($this->auth->acl_get('m_approve', $forum_id)) ? 't.topic_posts_approved + t.topic_posts_unapproved + t.topic_posts_softdeleted' : 't.topic_posts_approved'),
 			's'	=> $this->db->sql_lower_text('t.topic_title'),
 			'v'	=> 't.topic_views'
-		);
+		];
+
 		$s_limit_days = $s_sort_key = $s_sort_dir = $u_sort_param = '';
 
 		gen_sort_selects($limit_days, $sort_by_text, $sort_days, $sort_key, $sort_dir, $s_limit_days, $s_sort_key, $s_sort_dir, $u_sort_param, $default_sort_days, $default_sort_key, $default_sort_dir);
@@ -404,17 +411,15 @@ class forum implements forum_interface
 		{
 			$min_post_time = time() - ($sort_days * 86400);
 
-			$sql_array = array(
+			$sql_array = [
 				'SELECT'	=> 'COUNT(t.topic_id) AS num_topics',
-				'FROM'		=> array(
-					TOPICS_TABLE	=> 't',
-				),
+				'FROM'		=> [TOPICS_TABLE => 't'],
 				'WHERE'		=> 't.forum_id = ' . $forum_id . '
 					AND (t.topic_last_post_time >= ' . $min_post_time . '
 						OR t.topic_type = ' . POST_ANNOUNCE . '
 						OR t.topic_type = ' . POST_GLOBAL . ')
-					AND ' . $this->content_visibility->get_visibility_sql('topic', $forum_id, 't.'),
-			);
+					AND ' . $this->content_visibility->get_visibility_sql('topic', $forum_id, 't.')
+			];
 
 			/**
 			* Modify the sort data SQL query for getting additional fields if needed
@@ -429,14 +434,7 @@ class forum implements forum_interface
 			* @var array	sql_array		The SQL array to get the data of all topics
 			* @since 3.1.9-RC1
 			*/
-			$vars = array(
-				'forum_id',
-				'start',
-				'sort_days',
-				'sort_key',
-				'sort_dir',
-				'sql_array',
-			);
+			$vars = ['forum_id', 'start', 'sort_days', 'sort_key', 'sort_dir', 'sql_array'];
 			extract($this->dispatcher->trigger_event('core.viewforum_modify_sort_data_sql', compact($vars)));
 
 			$result = $this->db->sql_query($this->db->sql_build_query('SELECT', $sql_array));
@@ -458,13 +456,12 @@ class forum implements forum_interface
 			$sql_limit_time = '';
 		}
 
-		// Basic pagewide vars
-		$post_alt = ($forum_data['forum_status'] == ITEM_LOCKED) ? $this->language->lang('FORUM_LOCKED') : $this->language->lang('POST_NEW_TOPIC');
-
 		// Display active topics?
 		$s_display_active = ($forum_data['forum_type'] == FORUM_CAT && ($forum_data['forum_flags'] & FORUM_FLAG_ACTIVE_TOPICS)) ? true : false;
 
-		$s_search_hidden_fields = array('fid' => array($forum_id));
+		// Search hidden fields
+		$s_search_hidden_fields = ['fid' => [$forum_id]];
+
 		if (!empty($_SID))
 		{
 			$s_search_hidden_fields['sid'] = $_SID;
@@ -480,7 +477,7 @@ class forum implements forum_interface
 		}
 
 		// Build forum URL with parameters
-		$forum_url_params = array('forum_id' => $forum_id);
+		$forum_url_params = ['forum_id' => $forum_id];
 
 		if ($start)
 		{
@@ -496,45 +493,19 @@ class forum implements forum_interface
 		}
 
 		// Breadcrumb
-		$this->template->assign_block_vars('breadcrumb', array(
-			'NAME'	=> $this->language->lang('BOARD'),
-			'URL'	=> $this->helper->route('vinabb_web_board_route'),
-		));
-
-		$this->template->assign_block_vars('breadcrumb', array(
-			'NAME'	=> $forum_data['forum_name']
-		));
+		$this->ext_helper->set_breadcrumb($this->language->lang('BOARD'), $this->helper->route('vinabb_web_board_route'));
+		$this->ext_helper->set_breadcrumb($forum_data['forum_name']);
 
 		// Output
-		$this->template->assign_vars(array(
+		$this->template->assign_vars([
 			'MODERATORS'	=> (!empty($moderators[$forum_id])) ? implode($this->language->lang('COMMA_SEPARATOR'), $moderators[$forum_id]) : '',
-
-			'POST_IMG'					=> ($forum_data['forum_status'] == ITEM_LOCKED) ? $this->user->img('button_topic_locked', $post_alt) : $this->user->img('button_topic_new', $post_alt),
-			'NEWEST_POST_IMG'			=> $this->user->img('icon_topic_newest', 'VIEW_NEWEST_POST'),
-			'LAST_POST_IMG'				=> $this->user->img('icon_topic_latest', 'VIEW_LATEST_POST'),
-			'FOLDER_IMG'				=> $this->user->img('topic_read', 'NO_UNREAD_POSTS'),
-			'FOLDER_UNREAD_IMG'			=> $this->user->img('topic_unread', 'UNREAD_POSTS'),
-			'FOLDER_HOT_IMG'			=> $this->user->img('topic_read_hot', 'NO_UNREAD_POSTS_HOT'),
-			'FOLDER_HOT_UNREAD_IMG'		=> $this->user->img('topic_unread_hot', 'UNREAD_POSTS_HOT'),
-			'FOLDER_LOCKED_IMG'			=> $this->user->img('topic_read_locked', 'NO_UNREAD_POSTS_LOCKED'),
-			'FOLDER_LOCKED_UNREAD_IMG'	=> $this->user->img('topic_unread_locked', 'UNREAD_POSTS_LOCKED'),
-			'FOLDER_STICKY_IMG'			=> $this->user->img('sticky_read', 'POST_STICKY'),
-			'FOLDER_STICKY_UNREAD_IMG'	=> $this->user->img('sticky_unread', 'POST_STICKY'),
-			'FOLDER_ANNOUNCE_IMG'		=> $this->user->img('announce_read', 'POST_ANNOUNCEMENT'),
-			'FOLDER_ANNOUNCE_UNREAD_IMG'=> $this->user->img('announce_unread', 'POST_ANNOUNCEMENT'),
-			'FOLDER_MOVED_IMG'			=> $this->user->img('topic_moved', 'TOPIC_MOVED'),
-			'REPORTED_IMG'				=> $this->user->img('icon_topic_reported', 'TOPIC_REPORTED'),
-			'UNAPPROVED_IMG'			=> $this->user->img('icon_topic_unapproved', 'TOPIC_UNAPPROVED'),
-			'DELETED_IMG'				=> $this->user->img('icon_topic_deleted', 'TOPIC_DELETED'),
-			'POLL_IMG'					=> $this->user->img('icon_topic_poll', 'TOPIC_POLL'),
-			'GOTO_PAGE_IMG'				=> $this->user->img('icon_post_target', 'GOTO_PAGE'),
 
 			'L_NO_TOPICS' 			=> ($forum_data['forum_status'] == ITEM_LOCKED) ? $this->language->lang('POST_FORUM_LOCKED') : $this->language->lang('NO_TOPICS'),
 
 			'S_DISPLAY_POST_INFO'	=> ($forum_data['forum_type'] == FORUM_POST && ($this->auth->acl_get('f_post', $forum_id) || $this->user->data['user_id'] == ANONYMOUS)) ? true : false,
 
-			'S_IS_POSTABLE'					=> ($forum_data['forum_type'] == FORUM_POST) ? true : false,
-			'S_USER_CAN_POST'				=> ($this->auth->acl_get('f_post', $forum_id)) ? true : false,
+			'S_IS_POSTABLE'					=> $forum_data['forum_type'] == FORUM_POST,
+			'S_USER_CAN_POST'				=> $this->auth->acl_get('f_post', $forum_id),
 			'S_DISPLAY_ACTIVE'				=> $s_display_active,
 			'S_SELECT_SORT_DIR'				=> $s_sort_dir,
 			'S_SELECT_SORT_KEY'				=> $s_sort_key,
@@ -546,33 +517,31 @@ class forum implements forum_interface
 			'S_WATCH_FORUM_TOGGLE'			=> $s_watching_forum['title_toggle'],
 			'S_WATCHING_FORUM'				=> $s_watching_forum['is_watching'],
 			'S_FORUM_ACTION'				=> $this->helper->route('vinabb_web_board_forum_route', $forum_url_params),
-			'S_DISPLAY_SEARCHBOX'			=> ($this->auth->acl_get('u_search') && $this->auth->acl_get('f_search', $forum_id) && $this->config['load_search']) ? true : false,
+			'S_DISPLAY_SEARCHBOX'			=> ($this->auth->acl_get('u_search') && $this->auth->acl_get('f_search', $forum_id) && $this->config['load_search']),
 			'S_SEARCHBOX_ACTION'			=> $this->helper->route('vinabb_web_board_search_route'),
 			'S_SEARCH_LOCAL_HIDDEN_FIELDS'	=> build_hidden_fields($s_search_hidden_fields),
 			'S_SINGLE_MODERATOR'			=> (!empty($moderators[$forum_id]) && sizeof($moderators[$forum_id]) > 1) ? false : true,
-			'S_IS_LOCKED'					=> ($forum_data['forum_status'] == ITEM_LOCKED) ? true : false,
+			'S_IS_LOCKED'					=> $forum_data['forum_status'] == ITEM_LOCKED,
 			'S_VIEWFORUM'					=> true,
 
-			'U_MCP'				=> ($this->auth->acl_get('m_', $forum_id)) ? $this->helper->route('vinabb_web_mcp_route', array('id' => 'main', 'mode' => 'forum_view', 'f' => $forum_id), true, $this->user->session_id) : '',
-			'U_POST_NEW_TOPIC'	=> ($this->auth->acl_get('f_post', $forum_id) || $this->user->data['user_id'] == ANONYMOUS) ? $this->helper->route('vinabb_web_board_posting_route', array('mode' => 'post', 'forum_id' => $forum_id)) : '',
+			'U_MCP'				=> ($this->auth->acl_get('m_', $forum_id)) ? $this->helper->route('vinabb_web_mcp_route', ['id' => 'main', 'mode' => 'forum_view', 'f' => $forum_id], true, $this->user->session_id) : '',
+			'U_POST_NEW_TOPIC'	=> ($this->auth->acl_get('f_post', $forum_id) || $this->user->data['user_id'] == ANONYMOUS) ? $this->helper->route('vinabb_web_board_posting_route', ['mode' => 'post', 'forum_id' => $forum_id]) : '',
 			'U_VIEW_FORUM'		=> $this->helper->route('vinabb_web_board_forum_route', $forum_url_sort_params),
 			'U_CANONICAL'		=> generate_board_url(true) . htmlspecialchars_decode($this->helper->route('vinabb_web_board_forum_route', $forum_url_params)),
-			'U_MARK_TOPICS'		=> ($this->user->data['is_registered'] || $this->config['load_anon_lastread']) ? $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $forum_id, 'seo' => $forum_data['forum_name_seo'] . constants::REWRITE_URL_SEO, 'hash' => generate_link_hash('global'), 'mark' => 'topics', 'mark_time' => time())) : '',
-		));
+			'U_MARK_TOPICS'		=> ($this->user->data['is_registered'] || $this->config['load_anon_lastread']) ? $this->helper->route('vinabb_web_board_forum_route', ['forum_id' => $forum_id, 'seo' => $forum_data['forum_name_seo'] . constants::REWRITE_URL_SEO, 'hash' => generate_link_hash('global'), 'mark' => 'topics', 'mark_time' => time()]) : '',
+		]);
 
 		// Grab icons
 		$icons = $this->cache->obtain_icons();
 
 		// Grab all topic data
-		$rowset = $announcement_list = $topic_list = $global_announce_forums = array();
+		$rowset = $announcement_list = $topic_list = $global_announce_forums = [];
 
-		$sql_array = array(
+		$sql_array = [
 			'SELECT'	=> 't.*',
-			'FROM'		=> array(
-				TOPICS_TABLE		=> 't'
-			),
-			'LEFT_JOIN'	=> array(),
-		);
+			'FROM'		=> [TOPICS_TABLE => 't'],
+			'LEFT_JOIN'	=> []
+		];
 
 		/**
 		* Event to modify the SQL query before the topic data is retrieved
@@ -593,15 +562,7 @@ class forum implements forum_interface
 		* @change 3.1.4-RC1 Added forum_id, topics_count, sort_days, sort_key and sort_dir vars
 		* @change 3.1.9-RC1 Fix types of properties
 		*/
-		$vars = array(
-			'forum_data',
-			'sql_array',
-			'forum_id',
-			'topics_count',
-			'sort_days',
-			'sort_key',
-			'sort_dir',
-		);
+		$vars = ['forum_data', 'sql_array', 'forum_id', 'topics_count', 'sort_days', 'sort_key', 'sort_dir'];
 		extract($this->dispatcher->trigger_event('core.viewforum_get_topic_data', compact($vars)));
 
 		$sql_approved = ' AND ' . $this->content_visibility->get_visibility_sql('topic', $forum_id, 't.');
@@ -610,18 +571,18 @@ class forum implements forum_interface
 		{
 			if ($this->config['load_db_track'])
 			{
-				$sql_array['LEFT_JOIN'][] = array('FROM' => array(TOPICS_POSTED_TABLE => 'tp'), 'ON' => 'tp.topic_id = t.topic_id AND tp.user_id = ' . $this->user->data['user_id']);
+				$sql_array['LEFT_JOIN'][] = ['FROM' => [TOPICS_POSTED_TABLE => 'tp'], 'ON' => 'tp.topic_id = t.topic_id AND tp.user_id = ' . $this->user->data['user_id']];
 				$sql_array['SELECT'] .= ', tp.topic_posted';
 			}
 
 			if ($this->config['load_db_lastread'])
 			{
-				$sql_array['LEFT_JOIN'][] = array('FROM' => array(TOPICS_TRACK_TABLE => 'tt'), 'ON' => 'tt.topic_id = t.topic_id AND tt.user_id = ' . $this->user->data['user_id']);
+				$sql_array['LEFT_JOIN'][] = ['FROM' => [TOPICS_TRACK_TABLE => 'tt'], 'ON' => 'tt.topic_id = t.topic_id AND tt.user_id = ' . $this->user->data['user_id']];
 				$sql_array['SELECT'] .= ', tt.mark_time';
 
 				if ($s_display_active && sizeof($active_forum_ary))
 				{
-					$sql_array['LEFT_JOIN'][] = array('FROM' => array(FORUMS_TRACK_TABLE => 'ft'), 'ON' => 'ft.forum_id = t.forum_id AND ft.user_id = ' . $this->user->data['user_id']);
+					$sql_array['LEFT_JOIN'][] = ['FROM' => [FORUMS_TRACK_TABLE => 'ft'], 'ON' => 'ft.forum_id = t.forum_id AND ft.user_id = ' . $this->user->data['user_id']];
 					$sql_array['SELECT'] .= ', ft.mark_time AS forum_mark_time';
 				}
 			}
@@ -634,7 +595,7 @@ class forum implements forum_interface
 			$g_forum_ary = array_unique(array_keys($g_forum_ary));
 
 			$sql_anounce_array['LEFT_JOIN'] = $sql_array['LEFT_JOIN'];
-			$sql_anounce_array['LEFT_JOIN'][] = array('FROM' => array(FORUMS_TABLE => 'f'), 'ON' => 'f.forum_id = t.forum_id');
+			$sql_anounce_array['LEFT_JOIN'][] = ['FROM' => [FORUMS_TABLE => 'f'], 'ON' => 'f.forum_id = t.forum_id'];
 			$sql_anounce_array['SELECT'] = $sql_array['SELECT'] . ', f.forum_name';
 
 			// Obtain announcements ... removed sort ordering, sort by time in all cases
@@ -673,7 +634,7 @@ class forum implements forum_interface
 			$this->db->sql_freeresult($result);
 		}
 
-		$forum_tracking_info = array();
+		$forum_tracking_info = [];
 
 		if ($this->user->data['is_registered'] && $this->config['load_db_lastread'])
 		{
@@ -740,17 +701,15 @@ class forum implements forum_interface
 		}
 
 		// Grab just the sorted topic ids
-		$sql_ary = array(
+		$sql_ary = [
 			'SELECT'	=> 't.topic_id',
-			'FROM'		=> array(
-				TOPICS_TABLE => 't',
-			),
+			'FROM'		=> [TOPICS_TABLE => 't'],
 			'WHERE'		=> "$sql_where
-				AND " . $this->db->sql_in_set('t.topic_type', array(POST_NORMAL, POST_STICKY)) . "
+				AND " . $this->db->sql_in_set('t.topic_type', [POST_NORMAL, POST_STICKY]) . "
 				$sql_approved
 				$sql_limit_time",
 			'ORDER_BY'	=> 't.topic_type ' . ((!$store_reverse) ? 'DESC' : 'ASC') . ', ' . $sql_sort_order,
-		);
+		];
 
 		/**
 		* Event to modify the SQL query before the topic ids data is retrieved
@@ -770,17 +729,7 @@ class forum implements forum_interface
 		*
 		* @changed 3.1.3 Added forum_data
 		*/
-		$vars = array(
-			'forum_data',
-			'sql_ary',
-			'sql_approved',
-			'sql_limit',
-			'sql_limit_time',
-			'sql_sort_order',
-			'sql_start',
-			'sql_where',
-			'store_reverse',
-		);
+		$vars = ['forum_data', 'sql_ary', 'sql_approved', 'sql_limit', 'sql_limit_time', 'sql_sort_order', 'sql_start', 'sql_where', 'store_reverse'];
 		extract($this->dispatcher->trigger_event('core.viewforum_get_topic_ids_data', compact($vars)));
 
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
@@ -793,17 +742,17 @@ class forum implements forum_interface
 		$this->db->sql_freeresult($result);
 
 		// For storing shadow topics
-		$shadow_topic_list = array();
+		$shadow_topic_list = [];
 
 		if (sizeof($topic_list))
 		{
 			// SQL array for obtaining topics/stickies
-			$sql_array = array(
+			$sql_array = [
 				'SELECT'	=> $sql_array['SELECT'],
 				'FROM'		=> $sql_array['FROM'],
 				'LEFT_JOIN'	=> $sql_array['LEFT_JOIN'],
 				'WHERE'		=> $this->db->sql_in_set('t.topic_id', $topic_list)
-			);
+			];
 
 			// If store_reverse, then first obtain topics, then stickies, else the other way around...
 			// Funnily enough you typically save one query if going from the last page to the middle (store_reverse) because
@@ -827,13 +776,11 @@ class forum implements forum_interface
 		if (sizeof($shadow_topic_list))
 		{
 			// SQL array for obtaining shadow topics
-			$sql_array = array(
+			$sql_array = [
 				'SELECT'	=> 't.*',
-				'FROM'		=> array(
-					TOPICS_TABLE	=> 't'
-				),
-				'WHERE'		=> $this->db->sql_in_set('t.topic_id', array_keys($shadow_topic_list)),
-			);
+				'FROM'		=> [TOPICS_TABLE => 't'],
+				'WHERE'		=> $this->db->sql_in_set('t.topic_id', array_keys($shadow_topic_list))
+			];
 
 			/**
 			* Event to modify the SQL query before the shadowtopic data is retrieved
@@ -842,7 +789,7 @@ class forum implements forum_interface
 			* @var	array	sql_array		SQL array to get the data of any shadowtopics
 			* @since 3.1.0-a1
 			*/
-			$vars = array('sql_array');
+			$vars = ['sql_array'];
 			extract($this->dispatcher->trigger_event('core.viewforum_get_shadowtopic_data', compact($vars)));
 
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
@@ -877,12 +824,12 @@ class forum implements forum_interface
 				}
 
 				// We want to retain some values
-				$row = array_merge($row, array(
+				$row = array_merge($row, [
 					'topic_moved_id'	=> $rowset[$orig_topic_id]['topic_moved_id'],
 					'topic_status'		=> $rowset[$orig_topic_id]['topic_status'],
 					'topic_type'		=> $rowset[$orig_topic_id]['topic_type'],
-					'topic_title'		=> $rowset[$orig_topic_id]['topic_title'],
-				));
+					'topic_title'		=> $rowset[$orig_topic_id]['topic_title']
+				]);
 
 				// Shadow topics are never reported
 				$row['topic_reported'] = 0;
@@ -907,12 +854,12 @@ class forum implements forum_interface
 		unset($forum_url_sort_params['page']);
 		$this->pagination->generate_template_pagination('vinabb_web_board_forum_route', $forum_url_sort_params, 'pagination', $total_topic_count, $this->config['topics_per_page'], $start);
 
-		$this->template->assign_vars(array(
-			'TOTAL_TOPICS'	=> ($s_display_active) ? false : $this->language->lang('VIEW_FORUM_TOPICS', (int) $total_topic_count),
-		));
+		$this->template->assign_vars([
+			'TOTAL_TOPICS'	=> ($s_display_active) ? false : $this->language->lang('VIEW_FORUM_TOPICS', (int) $total_topic_count)
+		]);
 
 		$topic_list = ($store_reverse) ? array_merge($announcement_list, array_reverse($topic_list)) : array_merge($announcement_list, $topic_list);
-		$topic_tracking_info = $tracking_topics = array();
+		$topic_tracking_info = $tracking_topics = [];
 
 		/**
 		* Modify topics data before we display the viewforum page
@@ -923,7 +870,7 @@ class forum implements forum_interface
 		* @var	int		total_topic_count	Forum's total topic count
 		* @since 3.1.0-b3
 		*/
-		$vars = array('topic_list', 'rowset', 'total_topic_count');
+		$vars = ['topic_list', 'rowset', 'total_topic_count'];
 		extract($this->dispatcher->trigger_event('core.viewforum_modify_topics_data', compact($vars)));
 
 		// Okay, lets dump out the page ...
@@ -933,7 +880,8 @@ class forum implements forum_interface
 			$mark_time_forum = 0;
 
 			// Generate topic forum list...
-			$topic_forum_list = array();
+			$topic_forum_list = [];
+
 			foreach ($rowset as $t_id => $row)
 			{
 				if (isset($forum_tracking_info[$row['forum_id']]))
@@ -1008,14 +956,14 @@ class forum implements forum_interface
 				topic_status($row, $replies, $unread_topic, $folder_img, $folder_alt, $topic_type);
 
 				// Generate all the URIs...
-				$view_topic_url = $this->helper->route('vinabb_web_board_topic_route', array('topic_id' => $topic_id));
+				$view_topic_url = $this->helper->route('vinabb_web_board_topic_route', ['topic_id' => $topic_id]);
 
 				$topic_unapproved = (($row['topic_visibility'] == ITEM_UNAPPROVED || $row['topic_visibility'] == ITEM_REAPPROVE) && $this->auth->acl_get('m_approve', $row['forum_id']));
 				$posts_unapproved = ($row['topic_visibility'] == ITEM_APPROVED && $row['topic_posts_unapproved'] && $this->auth->acl_get('m_approve', $row['forum_id']));
 				$topic_deleted = $row['topic_visibility'] == ITEM_DELETED;
 
-				$u_mcp_queue = ($topic_unapproved || $posts_unapproved) ? $this->helper->route('vinabb_web_mcp_route', array('id' => 'queue', 'mode' => (($topic_unapproved) ? 'approve_details' : 'unapproved_posts'), 't' => $topic_id), true, $this->user->session_id) : '';
-				$u_mcp_queue = (!$u_mcp_queue && $topic_deleted) ? $this->helper->route('vinabb_web_mcp_route', array('id' => 'queue', 'mode' => 'deleted_topics', 't' => $topic_id), true, $this->user->session_id) : $u_mcp_queue;
+				$u_mcp_queue = ($topic_unapproved || $posts_unapproved) ? $this->helper->route('vinabb_web_mcp_route', ['id' => 'queue', 'mode' => (($topic_unapproved) ? 'approve_details' : 'unapproved_posts'), 't' => $topic_id], true, $this->user->session_id) : '';
+				$u_mcp_queue = (!$u_mcp_queue && $topic_deleted) ? $this->helper->route('vinabb_web_mcp_route', ['id' => 'queue', 'mode' => 'deleted_topics', 't' => $topic_id], true, $this->user->session_id) : $u_mcp_queue;
 
 				// Send vars to template
 				$topic_row = array(
@@ -1055,20 +1003,20 @@ class forum implements forum_interface
 					'S_TOPIC_UNAPPROVED'	=> $topic_unapproved,
 					'S_POSTS_UNAPPROVED'	=> $posts_unapproved,
 					'S_TOPIC_DELETED'		=> $topic_deleted,
-					'S_HAS_POLL'			=> ($row['poll_start']) ? true : false,
-					'S_POST_ANNOUNCE'		=> ($row['topic_type'] == POST_ANNOUNCE) ? true : false,
-					'S_POST_GLOBAL'			=> ($row['topic_type'] == POST_GLOBAL) ? true : false,
-					'S_POST_STICKY'			=> ($row['topic_type'] == POST_STICKY) ? true : false,
-					'S_TOPIC_LOCKED'		=> ($row['topic_status'] == ITEM_LOCKED) ? true : false,
-					'S_TOPIC_MOVED'			=> ($row['topic_status'] == ITEM_MOVED) ? true : false,
+					'S_HAS_POLL'			=> $row['poll_start'],
+					'S_POST_ANNOUNCE'		=> $row['topic_type'] == POST_ANNOUNCE,
+					'S_POST_GLOBAL'			=> $row['topic_type'] == POST_GLOBAL,
+					'S_POST_STICKY'			=> $row['topic_type'] == POST_STICKY,
+					'S_TOPIC_LOCKED'		=> $row['topic_status'] == ITEM_LOCKED,
+					'S_TOPIC_MOVED'			=> $row['topic_status'] == ITEM_MOVED,
 
-					'U_NEWEST_POST'			=> $this->helper->route('vinabb_web_board_topic_route', array('topic_id' => $topic_id, 'view' => 'unread', '#' => 'unread')),
-					'U_LAST_POST'			=> $this->helper->route('vinabb_web_board_topic_route', array('topic_id' => $topic_id, '#' => 'p' . $row['topic_last_post_id'])),
+					'U_NEWEST_POST'			=> $this->helper->route('vinabb_web_board_topic_route', ['topic_id' => $topic_id, 'view' => 'unread', '#' => 'unread']),
+					'U_LAST_POST'			=> $this->helper->route('vinabb_web_board_topic_route', ['topic_id' => $topic_id, '#' => 'p' . $row['topic_last_post_id']]),
 					'U_LAST_POST_AUTHOR'	=> get_username_string('profile', $row['topic_last_poster_id'], $row['topic_last_poster_name'], $row['topic_last_poster_colour']),
 					'U_TOPIC_AUTHOR'		=> get_username_string('profile', $row['topic_poster'], $row['topic_first_poster_name'], $row['topic_first_poster_colour']),
 					'U_VIEW_TOPIC'			=> $view_topic_url,
-					'U_VIEW_FORUM'			=> $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $row['forum_id'], 'seo' => $forum_data['forum_name_seo'] . constants::REWRITE_URL_SEO)),
-					'U_MCP_REPORT'			=> $this->helper->route('vinabb_web_mcp_route', array('id' => 'reports', 'mode' => 'reports', 'f' => $row['forum_id'], 't' => $topic_id), true, $this->user->session_id),
+					'U_VIEW_FORUM'			=> $this->helper->route('vinabb_web_board_forum_route', ['forum_id' => $row['forum_id'], 'seo' => $forum_data['forum_name_seo'] . constants::REWRITE_URL_SEO]),
+					'U_MCP_REPORT'			=> $this->helper->route('vinabb_web_mcp_route', ['id' => 'reports', 'mode' => 'reports', 'f' => $row['forum_id'], 't' => $topic_id], true, $this->user->session_id),
 					'U_MCP_QUEUE'			=> $u_mcp_queue,
 
 					'S_TOPIC_TYPE_SWITCH'	=> ($s_type_switch == $s_type_switch_test) ? -1 : $s_type_switch_test,
@@ -1082,12 +1030,12 @@ class forum implements forum_interface
 				* @var	array	topic_row	Template array with topic data
 				* @since 3.1.0-a1
 				*/
-				$vars = array('row', 'topic_row');
+				$vars = ['row', 'topic_row'];
 				extract($this->dispatcher->trigger_event('core.viewforum_modify_topicrow', compact($vars)));
 
 				$this->template->assign_block_vars('topicrow', $topic_row);
 
-				$this->pagination->generate_template_pagination('vinabb_web_board_topic_route', array('topic_id' => $topic_id), 'topicrow.pagination', $replies + 1, $this->config['posts_per_page'], 1, true, true);
+				$this->pagination->generate_template_pagination('vinabb_web_board_topic_route', ['topic_id' => $topic_id], 'topicrow.pagination', $replies + 1, $this->config['posts_per_page'], 1, true, true);
 
 				$s_type_switch = ($row['topic_type'] == POST_ANNOUNCE || $row['topic_type'] == POST_GLOBAL) ? 1 : 0;
 
@@ -1103,14 +1051,7 @@ class forum implements forum_interface
 				* @var	array	topic_row		Template array with topic data
 				* @since 3.1.3-RC1
 				*/
-				$vars = array(
-					'row',
-					'rowset',
-					's_type_switch',
-					'topic_id',
-					'topic_list',
-					'topic_row',
-				);
+				$vars = ['row', 'rowset', 's_type_switch', 'topic_id', 'topic_list', 'topic_row'];
 				extract($this->dispatcher->trigger_event('core.viewforum_topic_row_after', compact($vars)));
 
 				if ($unread_topic)
