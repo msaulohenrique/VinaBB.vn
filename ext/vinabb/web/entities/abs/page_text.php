@@ -13,21 +13,7 @@ namespace vinabb\web\entities\abs;
 */
 abstract class page_text extends bbcode_content
 {
-	/**
-	* Data for this abstract entity
-	*
-	* @var array
-	*	...
-	*		page_text
-	*		page_text_uid
-	*		page_text_bitfield
-	*		page_text_options
-	*		page_text_vi
-	*		page_text_vi_uid
-	*		page_text_vi_bitfield
-	*		page_text_vi_options
-	*	...
-	*/
+	/** @var array */
 	protected $data;
 
 	/** @var bool */

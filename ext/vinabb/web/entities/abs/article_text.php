@@ -13,17 +13,7 @@ namespace vinabb\web\entities\abs;
 */
 abstract class article_text extends bbcode_content
 {
-	/**
-	* Data for this abstract entity
-	*
-	* @var array
-	*	...
-	*		article_text
-	*		article_text_uid
-	*		article_text_bitfield
-	*		article_text_options
-	*	...
-	*/
+	/** @var array */
 	protected $data;
 
 	/** @var bool */

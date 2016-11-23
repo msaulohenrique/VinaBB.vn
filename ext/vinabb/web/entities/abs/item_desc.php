@@ -13,21 +13,7 @@ namespace vinabb\web\entities\abs;
 */
 abstract class item_desc extends bbcode_content
 {
-	/**
-	* Data for this abstract entity
-	*
-	* @var array
-	*	...
-	*		item_desc
-	*		item_desc_uid
-	*		item_desc_bitfield
-	*		item_desc_options
-	*		item_desc_vi
-	*		item_desc_vi_uid
-	*		item_desc_vi_bitfield
-	*		item_desc_vi_options
-	*	...
-	*/
+	/** @var array */
 	protected $data;
 
 	/** @var bool */

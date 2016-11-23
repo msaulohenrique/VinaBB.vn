@@ -15,19 +15,7 @@ use vinabb\web\includes\constants;
 */
 abstract class topic_poll
 {
-	/**
-	* Data for this abstract entity
-	*
-	* @var array
-	*	...
-	*		poll_title
-	*		poll_start
-	*		poll_length
-	*		poll_max_options
-	*		poll_last_vote
-	*		poll_vote_change
-	*	...
-	*/
+	/** @var array */
 	protected $data;
 
 	/**

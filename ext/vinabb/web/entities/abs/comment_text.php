@@ -13,17 +13,7 @@ namespace vinabb\web\entities\abs;
 */
 abstract class comment_text extends bbcode_content
 {
-	/**
-	* Data for this abstract entity
-	*
-	* @var array
-	*	...
-	*		comment_text
-	*		comment_text_uid
-	*		comment_text_bitfield
-	*		comment_text_options
-	*	...
-	*/
+	/** @var array */
 	protected $data;
 
 	/** @var bool */

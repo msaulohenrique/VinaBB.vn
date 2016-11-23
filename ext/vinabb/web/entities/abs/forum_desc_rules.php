@@ -13,21 +13,7 @@ namespace vinabb\web\entities\abs;
 */
 abstract class forum_desc_rules extends bbcode_content
 {
-	/**
-	* Data for this abstract entity
-	*
-	* @var array
-	*	...
-	*		forum_desc
-	*		forum_desc_uid
-	*		forum_desc_bitfield
-	*		forum_desc_options
-	*		forum_rules
-	*		forum_rules_uid
-	*		forum_rules_bitfield
-	*		forum_rules_options
-	*	...
-	*/
+	/** @var array */
 	protected $data;
 
 	/** @var bool */
