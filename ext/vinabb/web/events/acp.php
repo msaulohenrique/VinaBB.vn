@@ -24,18 +24,34 @@ class acp implements EventSubscriberInterface
 	/** @var \phpbb\config\config */
 	protected $config;
 
+	/** @var \phpbb\template\template */
+	protected $template;
+
+	/** @var \phpbb\user */
+	protected $user;
+
 	/**
 	* Constructor
 	*
 	* @param \phpbb\db\driver\driver_interface $db
 	* @param \vinabb\web\controllers\cache\service_interface $cache
 	* @param \phpbb\config\config $config
+	* @param \phpbb\template\template $template
+	* @param \phpbb\user $user
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \vinabb\web\controllers\cache\service_interface $cache, \phpbb\config\config $config)
+	public function __construct(
+		\phpbb\db\driver\driver_interface $db,
+		\vinabb\web\controllers\cache\service_interface $cache,
+		\phpbb\config\config $config,
+		\phpbb\template\template $template,
+		\phpbb\user $user
+	)
 	{
 		$this->db = $db;
 		$this->cache = $cache;
 		$this->config = $config;
+		$this->template = $template;
+		$this->user = $user;
 	}
 
 	/**

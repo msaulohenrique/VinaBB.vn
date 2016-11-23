@@ -21,6 +21,8 @@ services:
             - '@dbal.conn'
             - '@vinabb.web.cache'
             - '@config'
+            - '@template'
+            - '@user'
         tags:
             - { name: event.listener }
     vinabb.web.listener.seo:
