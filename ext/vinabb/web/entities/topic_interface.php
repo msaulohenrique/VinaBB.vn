@@ -340,6 +340,15 @@ interface topic_interface
 	public function get_delete_reason();
 
 	/**
+	* Set the deleted reason
+	*
+	* @param string				$text	Reason
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_delete_reason($text);
+
+	/**
 	* Get the user deleted topic
 	*
 	* @return int

@@ -8,6 +8,8 @@
 
 namespace vinabb\web\entities\abs;
 
+use vinabb\web\includes\constants;
+
 /**
 * Abstract entity for topic_actions + topic_last_post + topic_poll
 */
@@ -140,6 +142,29 @@ abstract class topic_actions extends topic_last_post
 	public function get_delete_reason()
 	{
 		return isset($this->data['topic_delete_reason']) ? (string) $this->data['topic_delete_reason'] : '';
+	}
+
+	/**
+	* Set the deleted reason
+	*
+	* @param string				$text	Reason
+	* @return topic_last_post	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_delete_reason($text)
+	{
+		$text = (string) $text;
+
+		// Check the max length
+		if (truncate_string($text, constants::MAX_CONFIG_NAME) != $text)
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['topic_delete_reason', 'TOO_LONG']);
+		}
+
+		// Set the value on our data array
+		$this->data['topic_delete_reason'] = $text;
+
+		return $this;
 	}
 
 	/**
