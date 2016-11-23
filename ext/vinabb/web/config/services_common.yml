@@ -32,7 +32,7 @@ services:
             - '@controller.helper'
             - '@group_helper'
     vinabb.web.helper.event:
-        class: vinabb\web\events\helper
+        class: vinabb\web\events\helper\helper
         arguments:
             - '@auth'
             - '@vinabb.web.cache'

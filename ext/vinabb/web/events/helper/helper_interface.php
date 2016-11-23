@@ -6,7 +6,7 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\events;
+namespace vinabb\web\events\helper;
 
 interface helper_interface
 {
