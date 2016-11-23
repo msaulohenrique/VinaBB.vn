@@ -90,13 +90,17 @@ class portal implements portal_interface
 	/**
 	* Index page
 	*
-	* @param bool $index_page	true: Use on the index page (Get x latest articles from all categories - cached)
-	*							false: Use with a news category (Get all articles from that category)
+	* @param bool	$index_page			true: Use on the index page (Get x latest articles from all categories - cached)
+	*									false: Use with a news category (Get all articles from that category)
+	* @param bool	$mark_notifications	true to check marking notifications as read
 	*/
-	public function index($index_page = true)
+	public function index($index_page = true, $mark_notifications = true)
 	{
 		// Mark notification as read
-		$this->portal_helper->mark_read_notifications();
+		if ($mark_notifications)
+		{
+			$this->portal_helper->mark_read_notifications();
+		}
 
 		// Check new versions
 		$this->portal_helper->check_new_versions();
@@ -156,7 +160,7 @@ class portal implements portal_interface
 	*/
 	public function news()
 	{
-		$this->index();
+		$this->index(true, false);
 
 		return $this->helper->render('portal.html', $this->language->lang('VINABB'), 200, true);
 	}
@@ -172,7 +176,7 @@ class portal implements portal_interface
 	public function category($varname, $page)
 	{
 		// Display index blocks
-		$this->index(false);
+		$this->index(false, false);
 
 		// Pagination
 		$page = max(1, floor(str_replace(constants::REWRITE_URL_PAGE, '', $page)));
