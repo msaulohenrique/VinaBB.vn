@@ -59,15 +59,17 @@ class portal_comment extends \vinabb\web\entities\abs\comment_text implements po
 	protected function prepare_data()
 	{
 		return [
-			'comment_id'			=> 'integer',
-			'user_id'				=> 'integer',
-			'article_id'			=> 'integer',
+			'comment_id'		=> 'integer',
+			'user_id'			=> 'integer',
+			'article_id'		=> 'integer',
+			'comment_pending'	=> 'integer',
+			'comment_time'		=> 'integer',
+
+			// Entity: vinabb\web\entities\abs\comment_text
 			'comment_text'			=> 'string',
 			'comment_text_uid'		=> 'string',
 			'comment_text_bitfield'	=> 'string',
-			'comment_text_options'	=> 'integer',
-			'comment_pending'		=> 'integer',
-			'comment_time'			=> 'integer'
+			'comment_text_options'	=> 'integer'
 		];
 	}
 

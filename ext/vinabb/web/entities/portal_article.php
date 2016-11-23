@@ -59,20 +59,22 @@ class portal_article extends \vinabb\web\entities\abs\article_text implements po
 	protected function prepare_data()
 	{
 		return [
-			'article_id'			=> 'integer',
-			'cat_id'				=> 'integer',
-			'article_name'			=> 'string',
-			'article_name_seo'		=> 'string',
-			'article_lang'			=> 'string',
-			'article_img'			=> 'string',
-			'article_desc'			=> 'string',
+			'article_id'		=> 'integer',
+			'cat_id'			=> 'integer',
+			'article_name'		=> 'string',
+			'article_name_seo'	=> 'string',
+			'article_lang'		=> 'string',
+			'article_img'		=> 'string',
+			'article_desc'		=> 'string',
+			'article_enable'	=> 'bool',
+			'article_views'		=> 'integer',
+			'article_time'		=> 'integer',
+
+			// Entity: vinabb\web\entities\abs\article_text
 			'article_text'			=> 'string',
 			'article_text_uid'		=> 'string',
 			'article_text_bitfield'	=> 'string',
-			'article_text_options'	=> 'integer',
-			'article_enable'		=> 'bool',
-			'article_views'			=> 'integer',
-			'article_time'			=> 'integer'
+			'article_text_options'	=> 'integer'
 		];
 	}
 

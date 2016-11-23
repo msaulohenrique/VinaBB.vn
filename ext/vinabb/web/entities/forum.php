@@ -56,6 +56,11 @@ class forum extends \vinabb\web\entities\abs\forum_desc_rules implements forum_i
 			'forum_parents'			=> 'string',
 			'forum_name'			=> 'string',
 			'forum_name_seo'		=> 'string',
+			'forum_topics_per_page'	=> 'integer',
+			'forum_type'			=> 'integer',
+			'forum_status'			=> 'integer',
+
+			// Entity: vinabb\web\entities\abs\forum_desc_rules
 			'forum_desc'			=> 'string',
 			'forum_desc_uid'		=> 'string',
 			'forum_desc_bitfield'	=> 'string',
@@ -63,10 +68,7 @@ class forum extends \vinabb\web\entities\abs\forum_desc_rules implements forum_i
 			'forum_rules'			=> 'string',
 			'forum_rules_uid'		=> 'string',
 			'forum_rules_bitfield'	=> 'string',
-			'forum_rules_options'	=> 'integer',
-			'forum_topics_per_page'	=> 'integer',
-			'forum_type'			=> 'integer',
-			'forum_status'			=> 'integer'
+			'forum_rules_options'	=> 'integer'
 		];
 	}
 

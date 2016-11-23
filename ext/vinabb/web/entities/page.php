@@ -60,14 +60,6 @@ class page extends \vinabb\web\entities\abs\page_text implements page_interface
 			'page_varname'				=> 'string',
 			'page_desc'					=> 'string',
 			'page_desc_vi'				=> 'string',
-			'page_text'					=> 'string',
-			'page_text_uid'				=> 'string',
-			'page_text_bitfield'		=> 'string',
-			'page_text_options'			=> 'integer',
-			'page_text_vi'				=> 'string',
-			'page_text_vi_uid'			=> 'string',
-			'page_text_vi_bitfield'		=> 'string',
-			'page_text_vi_options'		=> 'integer',
 			'page_enable'				=> 'bool',
 			'page_enable_guest'			=> 'bool',
 			'page_enable_bot'			=> 'bool',
@@ -76,7 +68,17 @@ class page extends \vinabb\web\entities\abs\page_text implements page_interface
 			'page_enable_mod'			=> 'bool',
 			'page_enable_global_mod'	=> 'bool',
 			'page_enable_admin'			=> 'bool',
-			'page_enable_founder'		=> 'bool'
+			'page_enable_founder'		=> 'bool',
+
+			// Entity: vinabb\web\entities\abs\page_text
+			'page_text'				=> 'string',
+			'page_text_uid'			=> 'string',
+			'page_text_bitfield'	=> 'string',
+			'page_text_options'		=> 'integer',
+			'page_text_vi'			=> 'string',
+			'page_text_vi_uid'		=> 'string',
+			'page_text_vi_bitfield'	=> 'string',
+			'page_text_vi_options'	=> 'integer'
 		];
 	}
 
