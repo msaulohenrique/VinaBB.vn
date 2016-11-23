@@ -49,3 +49,13 @@ services:
         arguments:
             - '@service_container'
             - '@dbal.conn'
+    vinabb.web.helper.setting_tasks:
+        class: vinabb\web\controllers\acp\helper\setting_tasks
+        arguments:
+            - '@vinabb.web.cache'
+            - '@config'
+            - '@dbal.conn'
+            - '@language'
+            - '@log'
+            - '@request'
+            - '@user'
