@@ -9,20 +9,9 @@ Source code on VinaBB.vn without private bits.
 ## Quick Note
 * Install the extension "vinabb/web".
 * Copy and replace front files:
-```
-faq.php
-feed.php
-index.php
-mcp.php
-memberlist.php
-posting.php
-report.php
-search.php
-ucp.php
-viewforum.php
-viewonline.php
-viewtopic.php
-```
+  * Required: `index.php`
+  * Optional (For cached results from Google Search):
+`viewforum.php` `viewtopic.php`
 * Install Vietnamese language pack from [phpBB iVN](https://github.com/VinaBB/phpBB.iVN).
 * `style.min.css`
   * Purchase a copy of the template [Float](https://themeforest.net/item/float/17838778).
