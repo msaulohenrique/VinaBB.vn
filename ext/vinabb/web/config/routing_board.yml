@@ -31,7 +31,7 @@ vinabb_web_board_posting_route:
     defaults:
         _controller: vinabb.web.board.posting:main
     requirements:
-        mode: '(post|reply|quote|edit|delete|bump|smilies|popup)'
+        mode: '(post|reply|quote|edit|delete|soft_delete|bump|smilies|popup)'
 vinabb_web_board_search_route:
     path: /search/{mode}
     defaults:
