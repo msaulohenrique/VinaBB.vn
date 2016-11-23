@@ -2,23 +2,15 @@ services:
     vinabb.web.portal:
         class: vinabb\web\controllers\portal\portal
         arguments:
-            - '@auth'
             - '@vinabb.web.cache'
             - '@config'
-            - '@content.visibility'
-            - '@dbal.conn'
-            - '@dispatcher'
-            - '@ext.manager'
             - '@language'
             - '@vinabb.web.pagination'
-            - '@request'
             - '@template'
             - '@user'
             - '@controller.helper'
             - '@vinabb.web.helper'
-            - '@path_helper'
-            - '%core.root_path%'
-            - '%core.php_ext%'
+            - '@vinabb.web.helper.portal'
     vinabb.web.portal.article:
         class: vinabb\web\controllers\portal\article
         arguments:

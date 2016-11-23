@@ -8,6 +8,9 @@
 
 namespace vinabb\web\controllers\portal;
 
+/**
+* Interface for the portal and news category
+*/
 interface portal_interface
 {
 	/**
