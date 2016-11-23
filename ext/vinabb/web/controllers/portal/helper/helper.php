@@ -64,6 +64,9 @@ class helper implements helper_interface
 	protected $path_helper;
 
 	/** @var string */
+	protected $root_path;
+
+	/** @var string */
 	protected $ext_root_path;
 
 	/** @var string */
@@ -94,6 +97,7 @@ class helper implements helper_interface
 	* @param \phpbb\controller\helper $helper
 	* @param \vinabb\web\controllers\helper_interface $ext_helper
 	* @param \phpbb\path_helper $path_helper
+	* @param string $root_path
 	*/
 	public function __construct(
 		\phpbb\auth\auth $auth,
@@ -111,7 +115,8 @@ class helper implements helper_interface
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
 		\vinabb\web\controllers\helper_interface $ext_helper,
-		\phpbb\path_helper $path_helper
+		\phpbb\path_helper $path_helper,
+		$root_path
 	)
 	{
 		$this->auth = $auth;
@@ -130,6 +135,7 @@ class helper implements helper_interface
 		$this->helper = $helper;
 		$this->ext_helper = $ext_helper;
 		$this->path_helper = $path_helper;
+		$this->root_path = $root_path;
 
 		$this->ext_root_path = $this->ext_manager->get_extension_path('vinabb/web', true);
 		$this->ext_web_path = $this->path_helper->update_web_root_path($this->ext_root_path);
