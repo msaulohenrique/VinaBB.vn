@@ -12,30 +12,24 @@ use phpbb\db\migration\migration;
 use vinabb\web\includes\constants;
 
 /**
-* Add SEO columns for forum/topic/user
+* Update for existing forum/topic/post/user columns
 */
-class seo_board extends migration
+class seo_update extends migration
 {
+	/** @var array */
+	protected $forum_seo_names;
+
+	/** @var array */
+	protected $duplicate_forum_seo_names;
+
 	/**
-	* Update schema
+	* List of required migrations
 	*
 	* @return array
 	*/
-	public function update_schema()
+	static public function depends_on()
 	{
-		return [
-			'add_columns'	=> [
-				$this->table_prefix . 'forums'	=> [
-					'forum_name_seo'	=> ['VCHAR', '']
-				],
-				$this->table_prefix . 'topics'	=> [
-					'topic_title_seo'	=> ['VCHAR', '']
-				],
-				$this->table_prefix . 'users'	=> [
-					'username_seo'		=> ['VCHAR', '']
-				]
-			]
-		];
+		return ['\vinabb\web\migrations\v10x\seo_schema'];
 	}
 
 	/**
@@ -49,45 +43,17 @@ class seo_board extends migration
 	}
 
 	/**
-	* Revert schema
-	*
-	* @return array
-	*/
-	public function revert_schema()
-	{
-		return [
-			'drop_columns'	=> [
-				$this->table_prefix . 'forums'	=> ['forum_name_seo'],
-				$this->table_prefix . 'topics'	=> ['topic_title_seo'],
-				$this->table_prefix . 'users'	=> ['username_seo']
-			]
-		];
-	}
-
-	/**
 	* Update SEO column value for current entities
 	*/
 	public function update_seo_columns()
 	{
 		$tables_list = [
-			$this->table_prefix . 'forums'	=> [
-				'id'			=> 'forum_id',
-				'column'		=> 'forum_name',
-				'seo_column'	=> 'forum_name_seo'
-			],
-			$this->table_prefix . 'topics'	=> [
-				'id'			=> 'topic_id',
-				'column'		=> 'topic_title',
-				'seo_column'	=> 'topic_title_seo'
-			],
-			$this->table_prefix . 'users'	=> [
-				'id'			=> 'user_id',
-				'column'		=> 'username',
-				'seo_column'	=> 'username_seo'
-			]
+			$this->table_prefix . 'forums'	=> ['id' => 'forum_id', 'column' => 'forum_name', 'seo_column' => 'forum_name_seo'],
+			$this->table_prefix . 'topics'	=> ['id' => 'topic_id', 'column' => 'topic_title', 'seo_column' => 'topic_title_seo'],
+			$this->table_prefix . 'post'	=> ['id' => 'post_id', 'column' => 'post_subject', 'seo_column' => 'post_subject_seo'],
+			$this->table_prefix . 'users'	=> ['id' => 'user_id', 'column' => 'username', 'seo_column' => 'username_seo']
 		];
 
-		$forum_seo_names = [];
 		foreach ($tables_list as $table_name => $data)
 		{
 			list($column_id, $column, $seo_column) = array_values($data);
@@ -107,34 +73,40 @@ class seo_board extends migration
 
 				if ($table_name == $this->table_prefix . 'forums')
 				{
-					$forum_seo_names[$row[$column_id]] = $clean_name;
+					$this->forum_seo_names[$row[$column_id]] = $clean_name;
 				}
 			}
 			$this->db->sql_freeresult($result);
 		}
 
 		// If there have more than 2 same forum SEO names, add parent forum SEO name as prefix
-		$duplicate_forum_seo_names = [];
+		$this->update_duplicate_forum_seo_names();
+	}
 
-		foreach (array_count_values($forum_seo_names) as $forum_seo_name => $count)
+	/**
+	* Add parent forum SEO name as prefix
+	*/
+	protected function update_duplicate_forum_seo_names()
+	{
+		foreach (array_count_values($this->forum_seo_names) as $forum_seo_name => $count)
 		{
 			if ($count > 1)
 			{
-				$duplicate_forum_seo_names[] = $forum_seo_name;
+				$this->duplicate_forum_seo_names[] = $forum_seo_name;
 			}
 		}
 
-		if (sizeof($duplicate_forum_seo_names))
+		if (sizeof($this->duplicate_forum_seo_names))
 		{
 			$sql = 'SELECT forum_id, parent_id
 				FROM ' . $this->table_prefix . 'forums
 				WHERE parent_id <> 0
-					AND ' . $this->db->sql_in_set('forum_name_seo', $duplicate_forum_seo_names);
+					AND ' . $this->db->sql_in_set('forum_name_seo', $this->duplicate_forum_seo_names);
 			$result = $this->db->sql_query($sql);
 
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				$new_clean_name = $forum_seo_names[$row['parent_id']] . constants::REWRITE_URL_FORUM_CAT . $forum_seo_names[$row['forum_id']];
+				$new_clean_name = $this->forum_seo_names[$row['parent_id']] . constants::REWRITE_URL_FORUM_CAT . $this->forum_seo_names[$row['forum_id']];
 
 				$sql = 'UPDATE ' . $this->table_prefix . "forums
 					SET forum_name_seo = '" . $new_clean_name . "'
