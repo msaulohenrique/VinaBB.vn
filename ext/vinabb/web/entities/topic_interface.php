@@ -144,20 +144,6 @@ interface topic_interface
 	public function set_title_seo($text);
 
 	/**
-	* Does the topic have attachments?
-	*
-	* @return bool
-	*/
-	public function get_attachment();
-
-	/**
-	* Does the topic have open reports?
-	*
-	* @return bool
-	*/
-	public function get_reported();
-
-	/**
 	* Get the topic time
 	*
 	* @return int
@@ -209,6 +195,48 @@ interface topic_interface
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function set_type($value);
+
+	/**
+	* Get the topic visibility
+	*
+	* @return int
+	*/
+	public function get_visibility();
+
+	/**
+	* Get the number of approved posts
+	*
+	* @return int
+	*/
+	public function get_posts_approved();
+
+	/**
+	* Get the number of disapproved posts
+	*
+	* @return int
+	*/
+	public function get_posts_unapproved();
+
+	/**
+	* Get the number of soft-deleted posts
+	*
+	* @return int
+	*/
+	public function get_posts_softdeleted();
+
+	/**
+	* Does the topic have attachments?
+	*
+	* @return bool
+	*/
+	public function get_attachment();
+
+	/**
+	* Does the topic have open reports?
+	*
+	* @return bool
+	*/
+	public function get_reported();
 
 	/**
 	* Get the first post ID
@@ -391,13 +419,6 @@ interface topic_interface
 	public function set_bumper($id);
 
 	/**
-	* Get the topic visibility
-	*
-	* @return int
-	*/
-	public function get_visibility();
-
-	/**
 	* Get the time of deleting topic
 	*
 	* @return int
@@ -426,27 +447,6 @@ interface topic_interface
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_delete_user($id);
-
-	/**
-	* Get the number of approved posts
-	*
-	* @return int
-	*/
-	public function get_posts_approved();
-
-	/**
-	* Get the number of disapproved posts
-	*
-	* @return int
-	*/
-	public function get_posts_unapproved();
-
-	/**
-	* Get the number of soft-deleted posts
-	*
-	* @return int
-	*/
-	public function get_posts_softdeleted();
 
 	/**
 	* Get the poll title
