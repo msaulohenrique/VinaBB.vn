@@ -21,29 +21,30 @@ if ($phpbb_extension_manager->is_enabled('vinabb/web'))
 
 	// Parameters from old URLs
 	$forum_id = $request->variable('f', 0);
+	$topic_id = $request->variable('t', 0);
+	$post_id = $request->variable('p', 0);
 	$start = $request->variable('start', 0);
 
 	// Build new URL parameters
-	$url_params['forum_id'] = $forum_id;
-
-	// Add forum SEO name to URL
-	if ($forum_id)
+	if ($post_id)
 	{
-		$forum_data = $phpbb_container->get('vinabb.web.cache')->get_forum_data();
+		$route_name = 'vinabb_web_board_post_route';
+		$url_params['post_id'] = $post_id;
+	}
+	else
+	{
+		$route_name = 'vinabb_web_board_topic_route';
+		$url_params['forum_id'] = $forum_id ? $forum_id : $constants::REWRITE_URL_FORUM_ZERO;
+		$url_params['topic_id'] = $topic_id;
 
-		if (isset($forum_data[$forum_id]['name_seo']))
+		// Convert from 'start=' to '/page-{x}'
+		if ($start)
 		{
-			$url_params['seo'] = $forum_data[$forum_id]['name_seo'] . $constants::REWRITE_URL_SEO;
+			$url_params['page'] = $constants::REWRITE_URL_PAGE . (floor($start / $config['posts_per_page']) + 1);
 		}
 	}
 
-	// Convert from 'start=' to '/page-{x}'
-	if ($start)
-	{
-		$url_params['page'] = $constants::REWRITE_URL_PAGE . (floor($start / $config['topics_per_page']) + 1);
-	}
-
-	$url = $phpbb_container->get('controller.helper')->route('vinabb_web_board_forum_route', $url_params);
+	$url = $phpbb_container->get('controller.helper')->route($route_name, $url_params);
 }
 else
 {
