@@ -149,33 +149,30 @@ class helper implements helper_interface
 		$raw = $this->ext_helper->fetch_url($this->config['vinabb_web_check_phpbb_url']);
 
 		// Parse JSON
-		if ($raw != '')
+		$phpbb_data = json_decode($raw, true);
+
+		// Latest version
+		$latest_phpbb_version = isset($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_branch']]['current']) ? strtoupper($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_branch']]['current']) : '';
+
+		if (version_compare($latest_phpbb_version, $this->config['vinabb_web_check_phpbb_version'], '>'))
 		{
-			$phpbb_data = json_decode($raw, true);
+			$this->config->set('vinabb_web_check_phpbb_version', $latest_phpbb_version);
+		}
 
-			// Latest version
-			$latest_phpbb_version = isset($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_branch']]['current']) ? strtoupper($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_branch']]['current']) : '';
+		// Legacy version
+		$latest_phpbb_legacy_version = isset($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_legacy_branch']]['current']) ? strtoupper($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_legacy_branch']]['current']) : '';
 
-			if (version_compare($latest_phpbb_version, $this->config['vinabb_web_check_phpbb_version'], '>'))
-			{
-				$this->config->set('vinabb_web_check_phpbb_version', $latest_phpbb_version);
-			}
+		if (version_compare($latest_phpbb_legacy_version, $this->config['vinabb_web_check_phpbb_legacy_version'], '>'))
+		{
+			$this->config->set('vinabb_web_check_phpbb_legacy_version', $latest_phpbb_legacy_version);
+		}
 
-			// Legacy version
-			$latest_phpbb_legacy_version = isset($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_legacy_branch']]['current']) ? strtoupper($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_legacy_branch']]['current']) : '';
+		// Development version
+		$latest_phpbb_dev_version = isset($phpbb_data['unstable'][$this->config['vinabb_web_check_phpbb_dev_branch']]['current']) ? strtoupper($phpbb_data['unstable'][$this->config['vinabb_web_check_phpbb_dev_branch']]['current']) : '';
 
-			if (version_compare($latest_phpbb_legacy_version, $this->config['vinabb_web_check_phpbb_legacy_version'], '>'))
-			{
-				$this->config->set('vinabb_web_check_phpbb_legacy_version', $latest_phpbb_legacy_version);
-			}
-
-			// Development version
-			$latest_phpbb_dev_version = isset($phpbb_data['unstable'][$this->config['vinabb_web_check_phpbb_dev_branch']]['current']) ? strtoupper($phpbb_data['unstable'][$this->config['vinabb_web_check_phpbb_dev_branch']]['current']) : '';
-
-			if (version_compare($latest_phpbb_dev_version, $this->config['vinabb_web_check_phpbb_dev_version'], '>'))
-			{
-				$this->config->set('vinabb_web_check_phpbb_dev_version', $latest_phpbb_dev_version);
-			}
+		if (version_compare($latest_phpbb_dev_version, $this->config['vinabb_web_check_phpbb_dev_version'], '>'))
+		{
+			$this->config->set('vinabb_web_check_phpbb_dev_version', $latest_phpbb_dev_version);
 		}
 	}
 
@@ -188,40 +185,37 @@ class helper implements helper_interface
 		$raw = str_replace('php:version', 'php-version', $raw);
 
 		// Parse XML
-		if ($raw != '')
+		$php_data = simplexml_load_string($raw);
+		$latest_php_version = $latest_php_version_url = $latest_php_legacy_version = $latest_php_legacy_version_url = '';
+
+		// Find the latest version from feed data
+		foreach ($php_data->entry as $entry)
 		{
-			$php_data = simplexml_load_string($raw);
-			$latest_php_version = $latest_php_version_url = $latest_php_legacy_version = $latest_php_legacy_version_url = '';
+			$php_version = isset($entry->{'php-version'}) ? $entry->{'php-version'} : '';
+			$php_version_url = isset($entry->id) ? $entry->id : '';
 
-			// Find the latest version from feed data
-			foreach ($php_data->entry as $entry)
+			if ($this->config['vinabb_web_check_php_branch'] != '' && substr($php_version, 0, strlen($this->config['vinabb_web_check_php_branch'])) == $this->config['vinabb_web_check_php_branch'] && version_compare($php_version, $latest_php_version, '>'))
 			{
-				$php_version = isset($entry->{'php-version'}) ? $entry->{'php-version'} : '';
-				$php_version_url = isset($entry->id) ? $entry->id : '';
-
-				if ($this->config['vinabb_web_check_php_branch'] != '' && substr($php_version, 0, strlen($this->config['vinabb_web_check_php_branch'])) == $this->config['vinabb_web_check_php_branch'] && version_compare($php_version, $latest_php_version, '>'))
-				{
-					$latest_php_version = $php_version;
-					$latest_php_version_url = $php_version_url;
-				}
-				else if ($this->config['vinabb_web_check_php_legacy_branch'] != '' && substr($php_version, 0, strlen($this->config['vinabb_web_check_php_legacy_branch'])) == $this->config['vinabb_web_check_php_legacy_branch'] && version_compare($php_version, $latest_php_legacy_version, '>'))
-				{
-					$latest_php_legacy_version = $php_version;
-					$latest_php_legacy_version_url = $php_version_url;
-				}
+				$latest_php_version = $php_version;
+				$latest_php_version_url = $php_version_url;
 			}
-
-			if (version_compare($latest_php_version, $this->config['vinabb_web_check_php_version'], '>'))
+			else if ($this->config['vinabb_web_check_php_legacy_branch'] != '' && substr($php_version, 0, strlen($this->config['vinabb_web_check_php_legacy_branch'])) == $this->config['vinabb_web_check_php_legacy_branch'] && version_compare($php_version, $latest_php_legacy_version, '>'))
 			{
-				$this->config->set('vinabb_web_check_php_version', $latest_php_version);
-				$this->config->set('vinabb_web_check_php_version_url', $latest_php_version_url);
+				$latest_php_legacy_version = $php_version;
+				$latest_php_legacy_version_url = $php_version_url;
 			}
+		}
 
-			if (version_compare($latest_php_legacy_version, $this->config['vinabb_web_check_php_legacy_version'], '>'))
-			{
-				$this->config->set('vinabb_web_check_php_legacy_version', $latest_php_legacy_version);
-				$this->config->set('vinabb_web_check_php_legacy_version_url', $latest_php_legacy_version_url);
-			}
+		if (version_compare($latest_php_version, $this->config['vinabb_web_check_php_version'], '>'))
+		{
+			$this->config->set('vinabb_web_check_php_version', $latest_php_version);
+			$this->config->set('vinabb_web_check_php_version_url', $latest_php_version_url);
+		}
+
+		if (version_compare($latest_php_legacy_version, $this->config['vinabb_web_check_php_legacy_version'], '>'))
+		{
+			$this->config->set('vinabb_web_check_php_legacy_version', $latest_php_legacy_version);
+			$this->config->set('vinabb_web_check_php_legacy_version_url', $latest_php_legacy_version_url);
 		}
 	}
 
@@ -233,15 +227,12 @@ class helper implements helper_interface
 		$raw = file_get_contents("{$this->ext_root_path}composer.json");
 
 		// Parse JSON
-		if ($raw != '')
-		{
-			$vinabb_data = json_decode($raw, true);
-			$vinabb_version = isset($vinabb_data['version']) ? strtoupper($vinabb_data['version']) : '';
+		$vinabb_data = json_decode($raw, true);
+		$vinabb_version = isset($vinabb_data['version']) ? strtoupper($vinabb_data['version']) : '';
 
-			if (version_compare($vinabb_version, $this->config['vinabb_web_check_vinabb_version'], '>'))
-			{
-				$this->config->set('vinabb_web_check_vinabb_version', $vinabb_version);
-			}
+		if (version_compare($vinabb_version, $this->config['vinabb_web_check_vinabb_version'], '>'))
+		{
+			$this->config->set('vinabb_web_check_vinabb_version', $vinabb_version);
 		}
 	}
 
