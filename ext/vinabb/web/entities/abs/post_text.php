@@ -38,11 +38,11 @@ abstract class post_text
 		// Use defaults if these haven't been set yet
 		$text = isset($this->data['post_text']) ? $this->data['post_text'] : '';
 		$uid = isset($this->data['bbcode_uid']) ? $this->data['bbcode_uid'] : '';
-		$enable_bbcode = (isset($this->data['enable_bbcode']) && $this->data['enable_bbcode'] === true) ? OPTION_FLAG_BBCODE : 0;
-		$enable_smilies = (isset($this->data['enable_smilies']) && $this->data['enable_smilies'] === true) ? OPTION_FLAG_SMILIES : 0;
-		$enable_magic_url = (isset($this->data['enable_magic_url']) && $this->data['enable_magic_url'] === true) ? OPTION_FLAG_LINKS : 0;
+		$options = (isset($this->data['enable_bbcode']) && $this->data['enable_bbcode'] === true) ? OPTION_FLAG_BBCODE : 0;
+		$options |= (isset($this->data['enable_magic_url']) && $this->data['enable_magic_url'] === true) ? OPTION_FLAG_LINKS : 0;
+		$options |= (isset($this->data['enable_smilies']) && $this->data['enable_smilies'] === true) ? OPTION_FLAG_SMILIES : 0;
 
-		$text_data = generate_text_for_edit($text, $uid, $enable_bbcode + $enable_smilies + $enable_magic_url);
+		$text_data = generate_text_for_edit($text, $uid, $options);
 
 		return $text_data['text'];
 	}
@@ -59,18 +59,18 @@ abstract class post_text
 		$text = isset($this->data['post_text']) ? $this->data['post_text'] : '';
 		$uid = isset($this->data['bbcode_uid']) ? $this->data['bbcode_uid'] : '';
 		$bitfield = isset($this->data['bbcode_bitfield']) ? $this->data['bbcode_bitfield'] : '';
-		$enable_bbcode = (isset($this->data['enable_bbcode']) && $this->data['enable_bbcode'] === true) ? OPTION_FLAG_BBCODE : 0;
-		$enable_smilies = (isset($this->data['enable_smilies']) && $this->data['enable_smilies'] === true) ? OPTION_FLAG_SMILIES : 0;
-		$enable_magic_url = (isset($this->data['enable_magic_url']) && $this->data['enable_magic_url'] === true) ? OPTION_FLAG_LINKS : 0;
+		$options = (isset($this->data['enable_bbcode']) && $this->data['enable_bbcode'] === true) ? OPTION_FLAG_BBCODE : 0;
+		$options |= (isset($this->data['enable_magic_url']) && $this->data['enable_magic_url'] === true) ? OPTION_FLAG_LINKS : 0;
+		$options |= (isset($this->data['enable_smilies']) && $this->data['enable_smilies'] === true) ? OPTION_FLAG_SMILIES : 0;
 
-		return generate_text_for_display($text, $uid, $bitfield, $enable_bbcode + $enable_smilies + $enable_magic_url, $censor);
+		return generate_text_for_display($text, $uid, $bitfield, $options, $censor);
 	}
 
 	/**
 	* Set post content
 	*
-	* @param string				$text	Post content
-	* @return bbcode_content	$this	Object for chaining calls: load()->set()->save()
+	* @param string		$text	Post content
+	* @return post_text	$this	Object for chaining calls: load()->set()->save()
 	*/
 	public function set_text($text)
 	{
@@ -101,8 +101,8 @@ abstract class post_text
 	* Enable/Disable BBCode on the post content
 	* This should be called before set_text(); text_enable_bbcode()->set_text()
 	*
-	* @param bool				$enable	true: enable; false: disable
-	* @return bbcode_content	$this	Object for chaining calls: load()->set()->save()
+	* @param bool		$enable	true: enable; false: disable
+	* @return post_text	$this	Object for chaining calls: load()->set()->save()
 	*/
 	public function text_enable_bbcode($enable = true)
 	{
@@ -125,8 +125,8 @@ abstract class post_text
 	* Enable/Disable URLs on the post content
 	* This should be called before set_text(); text_enable_urls()->set_text()
 	*
-	* @param bool				$enable	true: enable; false: disable
-	* @return bbcode_content	$this	Object for chaining calls: load()->set()->save()
+	* @param bool		$enable	true: enable; false: disable
+	* @return post_text	$this	Object for chaining calls: load()->set()->save()
 	*/
 	public function text_enable_urls($enable = true)
 	{
@@ -149,8 +149,8 @@ abstract class post_text
 	* Enable/Disable smilies on the post content
 	* This should be called before set_text(); text_enable_smilies()->set_text()
 	*
-	* @param bool				$enable	true: enable; false: disable
-	* @return bbcode_content	$this	Object for chaining calls: load()->set()->save()
+	* @param bool		$enable	true: enable; false: disable
+	* @return post_text	$this	Object for chaining calls: load()->set()->save()
 	*/
 	public function text_enable_smilies($enable = true)
 	{
