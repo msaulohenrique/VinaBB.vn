@@ -32,20 +32,14 @@ abstract class bbcode_content
 	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var \phpbb\db\driver\driver_interface */
-	protected $db;
-
 	/**
 	* Constructor
 	*
-	* @param \phpbb\config\config				$config	Config object
-	* @param \phpbb\db\driver\driver_interface	$db		Database object
+	* @param \phpbb\config\config $config Config object
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db
-	)
+	public function __construct(\phpbb\config\config $config)
 	{
 		$this->config = $config;
-		$this->db = $db;
 	}
 
 	/**
