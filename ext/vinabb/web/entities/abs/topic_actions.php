@@ -18,6 +18,19 @@ abstract class topic_actions extends topic_poll
 	/** @var array */
 	protected $data;
 
+	/** @var \vinabb\web\entities\helper\helper_interface */
+	protected $entity_helper;
+
+	/**
+	* Constructor
+	*
+	* @param \vinabb\web\entities\helper\helper_interface $entity_helper Entity helper
+	*/
+	public function __construct(\vinabb\web\entities\helper\helper_interface $entity_helper)
+	{
+		$this->entity_helper = $entity_helper;
+	}
+
 	/**
 	* Does the topic have attachments?
 	*
