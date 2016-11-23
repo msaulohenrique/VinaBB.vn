@@ -430,6 +430,38 @@ interface bb_item_interface
 	public function set_style_bootstrap($value);
 
 	/**
+	* Get the language package property: ISO code
+	*
+	* @return string
+	*/
+	public function get_lang_iso();
+
+	/**
+	* Set the language package property: ISO code
+	*
+	* @param string				$text	2-letter language ISO code
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\base
+	*/
+	public function set_lang_iso($text);
+
+	/**
+	* Get the tool property: OS Support
+	*
+	* @return int
+	*/
+	public function get_tool_os();
+
+	/**
+	* Set the tool property: OS Support
+	*
+	* @param int				$value	OS constant value
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_tool_os($value);
+
+	/**
 	* Get the item price
 	*
 	* @return int
@@ -439,7 +471,7 @@ interface bb_item_interface
 	/**
 	* Set the item price
 	*
-	* @param int					$value	Item price
+	* @param int				$value	Item price
 	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
 	public function set_price($value);

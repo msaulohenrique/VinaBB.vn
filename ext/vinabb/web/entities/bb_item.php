@@ -13,7 +13,7 @@ use vinabb\web\includes\constants;
 /**
 * Entity for a single phpBB resource item
 */
-class bb_item extends \vinabb\web\entities\abs\item_desc implements bb_item_interface
+class bb_item extends \vinabb\web\entities\abs\item_properties implements bb_item_interface
 {
 	/** @var \phpbb\config\config */
 	protected $config;
@@ -71,20 +71,20 @@ class bb_item extends \vinabb\web\entities\abs\item_desc implements bb_item_inte
 	protected function prepare_data()
 	{
 		return [
-			'item_id'					=> 'integer',
-			'bb_type'					=> 'integer',
-			'cat_id'					=> 'integer',
-			'author_id'					=> 'integer',
-			'item_name'					=> 'string',
-			'item_varname'				=> 'string',
-			'item_desc'					=> 'string',
-			'item_desc_uid'				=> 'string',
-			'item_desc_bitfield'		=> 'string',
-			'item_desc_options'			=> 'integer',
-			'item_desc_vi'				=> 'string',
-			'item_desc_vi_uid'			=> 'string',
-			'item_desc_vi_bitfield'		=> 'string',
-			'item_desc_vi_options'		=> 'integer',
+			'item_id'		=> 'integer',
+			'bb_type'		=> 'integer',
+			'cat_id'		=> 'integer',
+			'author_id'		=> 'integer',
+			'item_name'		=> 'string',
+			'item_varname'	=> 'string',
+			'item_price'	=> 'integer',
+			'item_url'		=> 'string',
+			'item_github'	=> 'string',
+			'item_enable'	=> 'bool',
+			'item_added'	=> 'integer',
+			'item_updated'	=> 'integer',
+
+			// Entity: vinabb\web\entities\abs\item_properties
 			'item_ext_style'			=> 'bool',
 			'item_ext_acp_style'		=> 'bool',
 			'item_ext_lang'				=> 'bool',
@@ -97,12 +97,16 @@ class bb_item extends \vinabb\web\entities\abs\item_desc implements bb_item_inte
 			'item_style_bootstrap'		=> 'bool',
 			'item_lang_iso'				=> 'string',
 			'item_tool_os'				=> 'integer',
-			'item_price'				=> 'integer',
-			'item_url'					=> 'string',
-			'item_github'				=> 'string',
-			'item_enable'				=> 'bool',
-			'item_added'				=> 'integer',
-			'item_updated'				=> 'integer'
+
+			// Entity: vinabb\web\entities\abs\item_desc
+			'item_desc'				=> 'string',
+			'item_desc_uid'			=> 'string',
+			'item_desc_bitfield'	=> 'string',
+			'item_desc_options'		=> 'integer',
+			'item_desc_vi'			=> 'string',
+			'item_desc_vi_uid'		=> 'string',
+			'item_desc_vi_bitfield'	=> 'string',
+			'item_desc_vi_options'	=> 'integer'
 		];
 	}
 
@@ -421,336 +425,6 @@ class bb_item extends \vinabb\web\entities\abs\item_desc implements bb_item_inte
 	}
 
 	/**
-	* Get the extension property: Style Changes
-	*
-	* @return bool
-	*/
-	public function get_ext_style()
-	{
-		return ($this->get_bb_type() === constants::BB_TYPE_EXT && isset($this->data['item_ext_style'])) ? (bool) $this->data['item_ext_style'] : false;
-	}
-
-	/**
-	* Set the extension property: Style Changes
-	*
-	* @param bool				$value	Config value
-	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\out_of_bounds
-	*/
-	public function set_ext_style($value)
-	{
-		$value = (bool) $value;
-
-		// This is a field only for extensions
-		if ($this->get_bb_type() !== constants::BB_TYPE_EXT)
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
-		}
-
-		// Set the value on our data array
-		$this->data['item_ext_style'] = $value;
-
-		return $this;
-	}
-
-	/**
-	* Get the extension property: ACP Style Changes
-	*
-	* @return bool
-	*/
-	public function get_ext_acp_style()
-	{
-		return ($this->get_bb_type() === constants::BB_TYPE_EXT && isset($this->data['item_ext_acp_style'])) ? (bool) $this->data['item_ext_acp_style'] : false;
-	}
-
-	/**
-	* Set the extension property: ACP Style Changes
-	*
-	* @param bool				$value	Config value
-	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\out_of_bounds
-	*/
-	public function set_ext_acp_style($value)
-	{
-		$value = (bool) $value;
-
-		// This is a field only for extensions
-		if ($this->get_bb_type() !== constants::BB_TYPE_EXT)
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
-		}
-
-		// Set the value on our data array
-		$this->data['item_ext_acp_style'] = $value;
-
-		return $this;
-	}
-
-	/**
-	* Get the extension property: Language Changes
-	*
-	* @return bool
-	*/
-	public function get_ext_lang()
-	{
-		return ($this->get_bb_type() === constants::BB_TYPE_EXT && isset($this->data['item_ext_lang'])) ? (bool) $this->data['item_ext_lang'] : false;
-	}
-
-	/**
-	* Set the extension property: Language Changes
-	*
-	* @param bool				$value	Config value
-	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\out_of_bounds
-	*/
-	public function set_ext_lang($value)
-	{
-		$value = (bool) $value;
-
-		// This is a field only for extensions
-		if ($this->get_bb_type() !== constants::BB_TYPE_EXT)
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
-		}
-
-		// Set the value on our data array
-		$this->data['item_ext_lang'] = $value;
-
-		return $this;
-	}
-
-	/**
-	* Get the extension property: Schema Changes
-	*
-	* @return bool
-	*/
-	public function get_ext_db_schema()
-	{
-		return ($this->get_bb_type() === constants::BB_TYPE_EXT && isset($this->data['item_ext_db_schema'])) ? (bool) $this->data['item_ext_db_schema'] : false;
-	}
-
-	/**
-	* Set the extension property: Schema Changes
-	*
-	* @param bool				$value	Config value
-	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\out_of_bounds
-	*/
-	public function set_ext_db_schema($value)
-	{
-		$value = (bool) $value;
-
-		// This is a field only for extensions
-		if ($this->get_bb_type() !== constants::BB_TYPE_EXT)
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
-		}
-
-		// Set the value on our data array
-		$this->data['item_ext_db_schema'] = $value;
-
-		return $this;
-	}
-
-	/**
-	* Get the extension property: Data Changes
-	*
-	* @return bool
-	*/
-	public function get_ext_db_data()
-	{
-		return ($this->get_bb_type() === constants::BB_TYPE_EXT && isset($this->data['item_ext_db_data'])) ? (bool) $this->data['item_ext_db_data'] : false;
-	}
-
-	/**
-	* Set the extension property: Data Changes
-	*
-	* @param bool				$value	Config value
-	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\out_of_bounds
-	*/
-	public function set_ext_db_data($value)
-	{
-		$value = (bool) $value;
-
-		// This is a field only for extensions
-		if ($this->get_bb_type() !== constants::BB_TYPE_EXT)
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
-		}
-
-		// Set the value on our data array
-		$this->data['item_ext_db_data'] = $value;
-
-		return $this;
-	}
-
-	/**
-	* Get the style property: Number of Presets
-	*
-	* @return int
-	*/
-	public function get_style_presets()
-	{
-		return (($this->get_bb_type() === constants::BB_TYPE_STYLE || $this->get_bb_type() === constants::BB_TYPE_ACP_STYLE) && isset($this->data['item_style_presets'])) ? (int) $this->data['item_style_presets'] : 0;
-	}
-
-	/**
-	* Set the style property: Number of Presets
-	*
-	* @param int				$value	Config value
-	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\out_of_bounds
-	*/
-	public function set_style_presets($value)
-	{
-		$value = (int) $value;
-
-		// This is a field only for styles
-		if ($this->get_bb_type() !== constants::BB_TYPE_STYLE && $this->get_bb_type() !== constants::BB_TYPE_ACP_STYLE)
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
-		}
-
-		// Set the value on our data array
-		$this->data['item_style_presets'] = $value;
-
-		return $this;
-	}
-
-	/**
-	* Get the style property: All Presets in One Style
-	*
-	* @return bool
-	*/
-	public function get_style_presets_aio()
-	{
-		return (($this->get_bb_type() === constants::BB_TYPE_STYLE || $this->get_bb_type() === constants::BB_TYPE_ACP_STYLE) && isset($this->data['item_style_presets_aio'])) ? (bool) $this->data['item_style_presets_aio'] : false;
-	}
-
-	/**
-	* Set the style property: All Presets in One Style
-	*
-	* @param bool				$value	Config value
-	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\out_of_bounds
-	*/
-	public function set_style_presets_aio($value)
-	{
-		$value = (bool) $value;
-
-		// This is a field only for styles
-		if ($this->get_bb_type() !== constants::BB_TYPE_STYLE && $this->get_bb_type() !== constants::BB_TYPE_ACP_STYLE)
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
-		}
-
-		// Set the value on our data array
-		$this->data['item_style_presets_aio'] = $value;
-
-		return $this;
-	}
-
-	/**
-	* Get the style property: Source Files
-	*
-	* @return bool
-	*/
-	public function get_style_source()
-	{
-		return (($this->get_bb_type() === constants::BB_TYPE_STYLE || $this->get_bb_type() === constants::BB_TYPE_ACP_STYLE) && isset($this->data['item_style_source'])) ? (bool) $this->data['item_style_source'] : false;
-	}
-
-	/**
-	* Set the style property: Source Files
-	*
-	* @param bool				$value	Config value
-	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\out_of_bounds
-	*/
-	public function set_style_source($value)
-	{
-		$value = (bool) $value;
-
-		// This is a field only for styles
-		if ($this->get_bb_type() !== constants::BB_TYPE_STYLE && $this->get_bb_type() !== constants::BB_TYPE_ACP_STYLE)
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
-		}
-
-		// Set the value on our data array
-		$this->data['item_style_source'] = $value;
-
-		return $this;
-	}
-
-	/**
-	* Get the style property: Responsive Support
-	*
-	* @return bool
-	*/
-	public function get_style_responsive()
-	{
-		return (($this->get_bb_type() === constants::BB_TYPE_STYLE || $this->get_bb_type() === constants::BB_TYPE_ACP_STYLE) && isset($this->data['item_style_responsive'])) ? (bool) $this->data['item_style_responsive'] : false;
-	}
-
-	/**
-	* Set the style property: Responsive Support
-	*
-	* @param bool				$value	Config value
-	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\out_of_bounds
-	*/
-	public function set_style_responsive($value)
-	{
-		$value = (bool) $value;
-
-		// This is a field only for styles
-		if ($this->get_bb_type() !== constants::BB_TYPE_STYLE && $this->get_bb_type() !== constants::BB_TYPE_ACP_STYLE)
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
-		}
-
-		// Set the value on our data array
-		$this->data['item_style_responsive'] = $value;
-
-		return $this;
-	}
-
-	/**
-	* Get the style property: Bootstrap Support
-	*
-	* @return bool
-	*/
-	public function get_style_bootstrap()
-	{
-		return (($this->get_bb_type() === constants::BB_TYPE_STYLE || $this->get_bb_type() === constants::BB_TYPE_ACP_STYLE) && isset($this->data['item_style_bootstrap'])) ? (bool) $this->data['item_style_bootstrap'] : false;
-	}
-
-	/**
-	* Set the style property: Bootstrap Support
-	*
-	* @param bool				$value	Config value
-	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\out_of_bounds
-	*/
-	public function set_style_bootstrap($value)
-	{
-		$value = (bool) $value;
-
-		// This is a field only for styles
-		if ($this->get_bb_type() !== constants::BB_TYPE_STYLE && $this->get_bb_type() !== constants::BB_TYPE_ACP_STYLE)
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
-		}
-
-		// Set the value on our data array
-		$this->data['item_style_bootstrap'] = $value;
-
-		return $this;
-	}
-
-	/**
 	* Get the item price
 	*
 	* @return int
@@ -763,7 +437,7 @@ class bb_item extends \vinabb\web\entities\abs\item_desc implements bb_item_inte
 	/**
 	* Set the item price
 	*
-	* @param int					$value	Item price
+	* @param int				$value	Item price
 	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
 	public function set_price($value)
