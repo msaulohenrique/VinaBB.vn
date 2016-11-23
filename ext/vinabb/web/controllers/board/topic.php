@@ -617,42 +617,7 @@ class topic
 		// Bookmarks
 		if ($this->config['allow_bookmarks'] && $this->user->data['is_registered'] && $this->request->variable('bookmark', 0))
 		{
-			if (check_link_hash($this->request->variable('hash', ''), "topic_$topic_id"))
-			{
-				if (!$topic_data['bookmarked'])
-				{
-					$sql = 'INSERT INTO ' . BOOKMARKS_TABLE . ' ' . $this->db->sql_build_array('INSERT', array(
-						'user_id'	=> $this->user->data['user_id'],
-						'topic_id'	=> $topic_id,
-					));
-					$this->db->sql_query($sql);
-				}
-				else
-				{
-					$sql = 'DELETE FROM ' . BOOKMARKS_TABLE . "
-						WHERE user_id = {$this->user->data['user_id']}
-							AND topic_id = $topic_id";
-					$this->db->sql_query($sql);
-				}
-				$message = (($topic_data['bookmarked']) ? $this->language->lang('BOOKMARK_REMOVED') : $this->language->lang('BOOKMARK_ADDED'));
-
-				if (!$this->request->is_ajax())
-				{
-					$message .= '<br><br>' . $this->language->lang('RETURN_TOPIC', '<a href="' . $viewtopic_url . '">', '</a>');
-				}
-			}
-			else
-			{
-				$message = $this->language->lang('BOOKMARK_ERR');
-
-				if (!$this->request->is_ajax())
-				{
-					$message .= '<br><br>' . $this->language->lang('RETURN_TOPIC', '<a href="' . $viewtopic_url . '">', '</a>');
-				}
-			}
-			meta_refresh(3, $viewtopic_url);
-
-			trigger_error($message);
+			$this->bookmark($topic_id, $viewtopic_url, $topic_data['bookmarked']);
 		}
 
 		// Grab icons
@@ -807,23 +772,6 @@ class topic
 				'TOTAL_POSTS'	=> $this->language->lang('VIEW_TOPIC_POSTS', (int) $total_posts),
 				'U_MCP' 		=> ($this->auth->acl_get('m_', $forum_id)) ? append_sid("{$this->root_path}mcp.{$this->php_ext}", "i=main&amp;mode=topic_view&amp;f=$forum_id&amp;t=$topic_id" . (($start == 0) ? '' : "&amp;start=$start") . ((strlen($u_sort_param)) ? "&amp;$u_sort_param" : ''), true, $this->user->session_id) : '',
 				'MODERATORS'	=> (isset($forum_moderators[$forum_id]) && sizeof($forum_moderators[$forum_id])) ? implode($this->language->lang('COMMA_SEPARATOR'), $forum_moderators[$forum_id]) : '',
-
-				'POST_IMG' 			=> ($topic_data['forum_status'] == ITEM_LOCKED) ? $this->user->img('button_topic_locked', 'FORUM_LOCKED') : $this->user->img('button_topic_new', 'POST_NEW_TOPIC'),
-				'QUOTE_IMG' 		=> $this->user->img('icon_post_quote', 'REPLY_WITH_QUOTE'),
-				'REPLY_IMG'			=> ($topic_data['forum_status'] == ITEM_LOCKED || $topic_data['topic_status'] == ITEM_LOCKED) ? $this->user->img('button_topic_locked', 'TOPIC_LOCKED') : $this->user->img('button_topic_reply', 'REPLY_TO_TOPIC'),
-				'EDIT_IMG' 			=> $this->user->img('icon_post_edit', 'EDIT_POST'),
-				'DELETE_IMG' 		=> $this->user->img('icon_post_delete', 'DELETE_POST'),
-				'DELETED_IMG'		=> $this->user->img('icon_topic_deleted', 'POST_DELETED_RESTORE'),
-				'INFO_IMG' 			=> $this->user->img('icon_post_info', 'VIEW_INFO'),
-				'PROFILE_IMG'		=> $this->user->img('icon_user_profile', 'READ_PROFILE'),
-				'SEARCH_IMG' 		=> $this->user->img('icon_user_search', 'SEARCH_USER_POSTS'),
-				'PM_IMG' 			=> $this->user->img('icon_contact_pm', 'SEND_PRIVATE_MESSAGE'),
-				'EMAIL_IMG' 		=> $this->user->img('icon_contact_email', 'SEND_EMAIL'),
-				'JABBER_IMG'		=> $this->user->img('icon_contact_jabber', 'JABBER') ,
-				'REPORT_IMG'		=> $this->user->img('icon_post_report', 'REPORT_POST'),
-				'REPORTED_IMG'		=> $this->user->img('icon_topic_reported', 'POST_REPORTED'),
-				'UNAPPROVED_IMG'	=> $this->user->img('icon_topic_unapproved', 'POST_UNAPPROVED'),
-				'WARN_IMG'			=> $this->user->img('icon_user_warn', 'WARN_USER'),
 
 				'S_IS_LOCKED'			=> ($topic_data['topic_status'] == ITEM_UNLOCKED && $topic_data['forum_status'] == ITEM_UNLOCKED) ? false : true,
 				'S_SELECT_SORT_DIR' 	=> $s_sort_dir,
@@ -2262,5 +2210,45 @@ class topic
 		extract($this->dispatcher->trigger_event('core.viewtopic_modify_page_title', compact($vars)));
 
 		return $this->helper->render(($view == 'print') ? 'viewtopic_print.html' : 'viewtopic_body.html', $page_title, 200, true, $forum_id);
+	}
+
+	protected function bookmark($topic_id, $topic_url, $bookmarked)
+	{
+		if (check_link_hash($this->request->variable('hash', ''), "topic_$topic_id"))
+		{
+			if (!$bookmarked)
+			{
+				$sql = 'INSERT INTO ' . BOOKMARKS_TABLE . ' ' . $this->db->sql_build_array('INSERT', array(
+					'user_id'	=> $this->user->data['user_id'],
+					'topic_id'	=> $topic_id,
+				));
+				$this->db->sql_query($sql);
+			}
+			else
+			{
+				$sql = 'DELETE FROM ' . BOOKMARKS_TABLE . "
+						WHERE user_id = {$this->user->data['user_id']}
+							AND topic_id = $topic_id";
+				$this->db->sql_query($sql);
+			}
+			$message = (($bookmarked) ? $this->language->lang('BOOKMARK_REMOVED') : $this->language->lang('BOOKMARK_ADDED'));
+
+			if (!$this->request->is_ajax())
+			{
+				$message .= '<br><br>' . $this->language->lang('RETURN_TOPIC', '<a href="' . $topic_url . '">', '</a>');
+			}
+		}
+		else
+		{
+			$message = $this->language->lang('BOOKMARK_ERR');
+
+			if (!$this->request->is_ajax())
+			{
+				$message .= '<br><br>' . $this->language->lang('RETURN_TOPIC', '<a href="' . $topic_url . '">', '</a>');
+			}
+		}
+
+		meta_refresh(3, $topic_url);
+		trigger_error($message);
 	}
 }
