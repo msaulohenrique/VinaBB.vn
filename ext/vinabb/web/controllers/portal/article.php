@@ -10,6 +10,9 @@ namespace vinabb\web\controllers\portal;
 
 use vinabb\web\includes\constants;
 
+/**
+* Controller for the article
+*/
 class article implements article_interface
 {
 	/** @var \vinabb\web\controllers\cache\service_interface */

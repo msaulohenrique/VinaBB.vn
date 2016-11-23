@@ -8,6 +8,9 @@
 
 namespace vinabb\web\controllers\portal;
 
+/**
+* Interface for the article
+*/
 interface article_interface
 {
 	/**
