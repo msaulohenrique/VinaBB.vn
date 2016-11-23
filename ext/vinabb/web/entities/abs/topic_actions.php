@@ -8,8 +8,6 @@
 
 namespace vinabb\web\entities\abs;
 
-use vinabb\web\includes\constants;
-
 /**
 * Abstract entity for topic_actions + topic_last_post + topic_poll
 */
