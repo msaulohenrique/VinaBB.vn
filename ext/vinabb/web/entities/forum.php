@@ -13,7 +13,7 @@ use vinabb\web\includes\constants;
 /**
 * Entity for a single forum
 */
-class forum extends \vinabb\web\entities\abs\forum_desc_rules implements forum_interface
+class forum extends \vinabb\web\entities\abs\forum_options implements forum_interface
 {
 	/** @var \phpbb\config\config */
 	protected $config;
@@ -49,16 +49,53 @@ class forum extends \vinabb\web\entities\abs\forum_desc_rules implements forum_i
 	protected function prepare_data()
 	{
 		return [
-			'forum_id'				=> 'integer',
-			'parent_id'				=> 'integer',
-			'left_id'				=> 'integer',
-			'right_id'				=> 'integer',
-			'forum_parents'			=> 'string',
-			'forum_name'			=> 'string',
-			'forum_name_seo'		=> 'string',
-			'forum_topics_per_page'	=> 'integer',
-			'forum_type'			=> 'integer',
-			'forum_status'			=> 'integer',
+			'forum_id'					=> 'integer',
+			'parent_id'					=> 'integer',
+			'left_id'					=> 'integer',
+			'right_id'					=> 'integer',
+			'forum_parents'				=> 'string',
+			'forum_name'				=> 'string',
+			'forum_name_seo'			=> 'string',
+			'forum_type'				=> 'integer',
+			'forum_status'				=> 'integer',
+			'forum_topics_per_page'		=> 'integer',
+			'forum_topics_approved'		=> 'integer',
+			'forum_topics_unapproved'	=> 'integer',
+			'forum_topics_softdeleted'	=> 'integer',
+			'forum_posts_approved'		=> 'integer',
+			'forum_posts_unapproved'	=> 'integer',
+			'forum_posts_softdeleted'	=> 'integer',
+
+			// Entity: vinabb\web\entities\abs\forum_options
+			'forum_link'			=> 'string',
+			'forum_password'		=> 'string',
+			'forum_style'			=> 'integer',
+			'forum_image'			=> 'string',
+			'forum_flags'			=> 'integer',
+			'forum_options'			=> 'integer',
+			'display_on_index'		=> 'bool',
+			'enable_indexing'		=> 'bool',
+			'enable_icons'			=> 'bool',
+			'display_subforum_list'	=> 'bool',
+
+			// Entity: vinabb\web\entities\abs\forum_last_post
+			'forum_last_post_id'		=> 'integer',
+			'forum_last_poster_id'		=> 'integer',
+			'forum_last_poster_name'	=> 'string',
+			'forum_last_poster_colour'	=> 'string',
+			'forum_last_post_subject'	=> 'string',
+			'forum_last_post_time'		=> 'integer',
+
+			// Entity: vinabb\web\entities\abs\forum_prune
+			'enable_prune'			=> 'bool',
+			'enable_shadow_prune'	=> 'bool',
+			'prune_days'			=> 'integer',
+			'prune_freq'			=> 'integer',
+			'prune_next'			=> 'integer',
+			'prune_viewed'			=> 'integer',
+			'prune_shadow_days'		=> 'integer',
+			'prune_shadow_freq'		=> 'integer',
+			'prune_shadow_next'		=> 'integer',
 
 			// Entity: vinabb\web\entities\abs\forum_desc_rules
 			'forum_desc'			=> 'string',
@@ -338,16 +375,6 @@ class forum extends \vinabb\web\entities\abs\forum_desc_rules implements forum_i
 	}
 
 	/**
-	* Get the number of topics per page in this forum
-	*
-	* @return int
-	*/
-	public function get_topics_per_page()
-	{
-		return isset($this->data['forum_topics_per_page']) ? (int) $this->data['forum_topics_per_page'] : 0;
-	}
-
-	/**
 	* Get the forum type
 	*
 	* @return int
@@ -409,5 +436,75 @@ class forum extends \vinabb\web\entities\abs\forum_desc_rules implements forum_i
 		$this->data['forum_status'] = $value;
 
 		return $this;
+	}
+
+	/**
+	* Get the number of topics per page in this forum
+	*
+	* @return int
+	*/
+	public function get_topics_per_page()
+	{
+		return isset($this->data['forum_topics_per_page']) ? (int) $this->data['forum_topics_per_page'] : 0;
+	}
+
+	/**
+	* Get the number of approved topics
+	*
+	* @return int
+	*/
+	public function get_topics_approved()
+	{
+		return isset($this->data['forum_topics_approved']) ? (int) $this->data['forum_topics_approved'] : 0;
+	}
+
+	/**
+	* Get the number of disapproved topics
+	*
+	* @return int
+	*/
+	public function get_topics_unapproved()
+	{
+		return isset($this->data['forum_topics_unapproved']) ? (int) $this->data['forum_topics_unapproved'] : 0;
+	}
+
+	/**
+	* Get the number of soft-deleted topics
+	*
+	* @return int
+	*/
+	public function get_topics_softdeleted()
+	{
+		return isset($this->data['forum_topics_softdeleted']) ? (int) $this->data['forum_topics_softdeleted'] : 0;
+	}
+
+	/**
+	* Get the number of approved posts
+	*
+	* @return int
+	*/
+	public function get_posts_approved()
+	{
+		return isset($this->data['forum_posts_approved']) ? (int) $this->data['forum_posts_approved'] : 0;
+	}
+
+	/**
+	* Get the number of disapproved posts
+	*
+	* @return int
+	*/
+	public function get_posts_unapproved()
+	{
+		return isset($this->data['forum_posts_unapproved']) ? (int) $this->data['forum_posts_unapproved'] : 0;
+	}
+
+	/**
+	* Get the number of soft-deleted posts
+	*
+	* @return int
+	*/
+	public function get_posts_softdeleted()
+	{
+		return isset($this->data['forum_posts_softdeleted']) ? (int) $this->data['forum_posts_softdeleted'] : 0;
 	}
 }
