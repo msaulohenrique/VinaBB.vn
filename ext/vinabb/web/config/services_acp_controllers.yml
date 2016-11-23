@@ -6,12 +6,12 @@ services:
             - '@vinabb.web.cache'
             - '@config'
             - '@config_text'
-            - '@dbal.conn'
             - '@language'
             - '@log'
             - '@request'
             - '@template'
             - '@user'
+            - '@vinabb.web.helper.setting_tasks'
     vinabb.web.acp.portal_categories:
         class: vinabb\web\controllers\acp\portal_categories
         arguments:
