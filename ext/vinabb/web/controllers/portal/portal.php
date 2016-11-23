@@ -95,6 +95,9 @@ class portal implements portal_interface
 	*/
 	public function index($index_page = true)
 	{
+		// Mark notification as read
+		$this->portal_helper->mark_read_notifications();
+
 		// Check new versions
 		$this->portal_helper->check_new_versions();
 

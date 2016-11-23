@@ -39,8 +39,14 @@ class helper implements helper_interface
 	/** @var \phpbb\language\language */
 	protected $language;
 
+	/** @var \phpbb\notification\manager */
+	protected $notification;
+
 	/** @var \vinabb\web\controllers\pagination */
 	protected $pagination;
+
+	/** @var \phpbb\request\request */
+	protected $request;
 
 	/** @var \phpbb\template\template */
 	protected $template;
@@ -80,7 +86,9 @@ class helper implements helper_interface
 	* @param \phpbb\event\dispatcher_interface $dispatcher
 	* @param \phpbb\extension\manager $ext_manager
 	* @param \phpbb\language\language $language
+	* @param \phpbb\notification\manager $notification
 	* @param \vinabb\web\controllers\pagination $pagination
+	* @param \phpbb\request\request $request
 	* @param \phpbb\template\template $template
 	* @param \phpbb\user $user
 	* @param \phpbb\controller\helper $helper
@@ -96,7 +104,9 @@ class helper implements helper_interface
 		\phpbb\event\dispatcher_interface $dispatcher,
 		\phpbb\extension\manager $ext_manager,
 		\phpbb\language\language $language,
+		\phpbb\notification\manager $notification,
 		\vinabb\web\controllers\pagination $pagination,
+		\phpbb\request\request $request,
 		\phpbb\template\template $template,
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
@@ -112,7 +122,9 @@ class helper implements helper_interface
 		$this->dispatcher = $dispatcher;
 		$this->ext_manager = $ext_manager;
 		$this->language = $language;
+		$this->notification = $notification;
 		$this->pagination = $pagination;
+		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
 		$this->helper = $helper;
@@ -123,6 +135,49 @@ class helper implements helper_interface
 		$this->ext_web_path = $this->path_helper->update_web_root_path($this->ext_root_path);
 		$this->forum_data = $this->cache->get_forum_data();
 		$this->portal_cats = $this->cache->get_portal_cats();
+	}
+
+	/**
+	* Mark notifications as read
+	*/
+	public function mark_read_notifications()
+	{
+		if (($mark_notification = $this->request->variable('mark_notification', 0)))
+		{
+			if ($this->user->data['user_id'] == ANONYMOUS)
+			{
+				if ($this->request->is_ajax())
+				{
+					trigger_error('LOGIN_REQUIRED');
+				}
+
+				login_box('', $this->language->lang('LOGIN_REQUIRED'));
+			}
+
+			if (check_link_hash($this->request->variable('hash', ''), 'mark_notification_read'))
+			{
+				$notification = $this->notification->load_notifications('notification.method.board', ['notification_id' => $mark_notification]);
+
+				if (isset($notification['notifications'][$mark_notification]))
+				{
+					$notification = $notification['notifications'][$mark_notification];
+					$notification->mark_read();
+
+					if ($this->request->is_ajax())
+					{
+						$json_response = new \phpbb\json_response();
+						$json_response->send(['success' => true]);
+					}
+
+					if (($redirect = $this->request->variable('redirect', '')))
+					{
+						redirect(append_sid($this->root_path . $redirect));
+					}
+
+					redirect($notification->get_redirect_url());
+				}
+			}
+		}
 	}
 
 	/**

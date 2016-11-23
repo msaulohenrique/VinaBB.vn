@@ -14,6 +14,11 @@ namespace vinabb\web\controllers\portal\helper;
 interface helper_interface
 {
 	/**
+	* Mark notifications as read
+	*/
+	public function mark_read_notifications();
+
+	/**
 	* Check all of new versions
 	*/
 	public function check_new_versions();

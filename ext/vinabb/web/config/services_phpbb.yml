@@ -140,11 +140,10 @@ services:
             - '@config'
             - '@dbal.conn'
             - '@language'
-            - '@notification_manager'
-            - '@request'
             - '@template'
             - '@user'
             - '@controller.helper'
+            - '@vinabb.web.helper'
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.board.forum:
@@ -163,6 +162,7 @@ services:
             - '@template'
             - '@user'
             - '@controller.helper'
+            - '@vinabb.web.helper'
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.board.topic:
@@ -181,6 +181,7 @@ services:
             - '@template'
             - '@user'
             - '@controller.helper'
+            - '@vinabb.web.helper'
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.board.post:
