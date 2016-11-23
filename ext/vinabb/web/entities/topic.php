@@ -51,26 +51,34 @@ class topic extends \vinabb\web\entities\abs\topic_actions implements topic_inte
 		return [
 			'topic_id'					=> 'integer',
 			'forum_id'					=> 'integer',
+			'topic_first_post_id'		=> 'integer',
 			'icon_id'					=> 'integer',
 			'topic_poster'				=> 'integer',
+			'topic_first_poster_name'	=> 'string',
+			'topic_first_poster_colour'	=> 'string',
 			'topic_title'				=> 'string',
 			'topic_title_seo'			=> 'string',
-			'topic_time'				=> 'integer',
-			'topic_time_limit'			=> 'integer',
-			'topic_views'				=> 'integer',
-			'topic_status'				=> 'integer',
 			'topic_type'				=> 'integer',
-			'topic_visibility'			=> 'integer',
+			'topic_status'				=> 'integer',
+			'topic_views'				=> 'integer',
 			'topic_posts_approved'		=> 'integer',
 			'topic_posts_unapproved'	=> 'integer',
 			'topic_posts_softdeleted'	=> 'integer',
+			'topic_time'				=> 'integer',
+			'topic_time_limit'			=> 'integer',
 
 			// Entity: vinabb\web\entities\abs\topic_actions
-			'topic_attachment'			=> 'bool',
-			'topic_reported'			=> 'bool',
-			'topic_first_post_id'		=> 'integer',
-			'topic_first_poster_name'	=> 'string',
-			'topic_first_poster_colour'	=> 'string',
+			'topic_visibility'		=> 'integer',
+			'topic_attachment'		=> 'bool',
+			'topic_reported'		=> 'bool',
+			'topic_moved_id'		=> 'integer',
+			'topic_bumped'			=> 'bool',
+			'topic_bumper'			=> 'integer',
+			'topic_delete_time'		=> 'integer',
+			'topic_delete_reason'	=> 'string',
+			'topic_delete_user'		=> 'integer',
+
+			// Entity: vinabb\web\entities\abs\topic_last_post
 			'topic_last_post_id'		=> 'integer',
 			'topic_last_poster_id'		=> 'integer',
 			'topic_last_poster_name'	=> 'string',
@@ -78,12 +86,6 @@ class topic extends \vinabb\web\entities\abs\topic_actions implements topic_inte
 			'topic_last_post_subject'	=> 'string',
 			'topic_last_post_time'		=> 'integer',
 			'topic_last_view_time'		=> 'integer',
-			'topic_moved_id'			=> 'integer',
-			'topic_bumped'				=> 'bool',
-			'topic_bumper'				=> 'integer',
-			'topic_delete_time'			=> 'integer',
-			'topic_delete_reason'		=> 'string',
-			'topic_delete_user'			=> 'integer',
 
 			// Entity: vinabb\web\entities\abs\topic_poll
 			'poll_title'		=> 'string',
@@ -263,6 +265,43 @@ class topic extends \vinabb\web\entities\abs\topic_actions implements topic_inte
 	}
 
 	/**
+	* Get the first post ID
+	*
+	* @return int
+	*/
+	public function get_first_post_id()
+	{
+		return isset($this->data['topic_first_post_id']) ? (int) $this->data['topic_first_post_id'] : 0;
+	}
+
+	/**
+	* Set the first post ID
+	*
+	* @param int				$id		Post ID
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_first_post_id($id)
+	{
+		$id = (int) $id;
+
+		// This is a required field
+		if ($id && !$this->entity_helper->check_post_id($id))
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['topic_first_post_id', 'NOT_EXISTS']);
+		}
+		else
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['topic_first_post_id', 'EMPTY']);
+		}
+
+		// Set the value on our data array
+		$this->data['topic_first_post_id'] = $id;
+
+		return $this;
+	}
+
+	/**
 	* Get the topic icon
 	*
 	* @return int
@@ -324,6 +363,76 @@ class topic extends \vinabb\web\entities\abs\topic_actions implements topic_inte
 
 		// Set the value on our data array
 		$this->data['topic_poster'] = $id;
+
+		return $this;
+	}
+
+	/**
+	* Get the poster username
+	*
+	* @return string
+	*/
+	public function get_first_poster_name()
+	{
+		return isset($this->data['topic_first_poster_name']) ? (string) $this->data['topic_first_poster_name'] : '';
+	}
+
+	/**
+	* Set the poster username
+	*
+	* @param string				$text	Username
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_first_poster_name($text)
+	{
+		$text = (string) $text;
+
+		// This is a required field
+		if ($text == '')
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['topic_first_poster_name', 'EMPTY']);
+		}
+		else if (!$this->entity_helper->check_username($text, $this->get_poster()))
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['topic_first_poster_name', 'NOT_EXISTS']);
+		}
+
+		// Set the value on our data array
+		$this->data['topic_first_poster_name'] = $text;
+
+		return $this;
+	}
+
+	/**
+	* Get the poster username color
+	*
+	* @return string
+	*/
+	public function get_first_poster_colour()
+	{
+		return isset($this->data['topic_first_poster_colour']) ? (string) $this->data['topic_first_poster_colour'] : '';
+	}
+
+	/**
+	* Set the poster username color
+	*
+	* @param string				$text	6-char HEX code without #
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_first_poster_colour($text)
+	{
+		$text = (string) $text;
+
+		// Check invalid characters
+		if (!preg_match('/([a-f0-9]{3}){1,2}\b/i', $text))
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['topic_first_poster_colour', 'INVALID']);
+		}
+
+		// Set the value on our data array
+		$this->data['topic_first_poster_colour'] = $text;
 
 		return $this;
 	}
@@ -401,33 +510,35 @@ class topic extends \vinabb\web\entities\abs\topic_actions implements topic_inte
 	}
 
 	/**
-	* Get the topic time
+	* Get the topic type
 	*
 	* @return int
 	*/
-	public function get_time()
+	public function get_type()
 	{
-		return isset($this->data['topic_time']) ? (int) $this->data['topic_time'] : 0;
+		return isset($this->data['topic_type']) ? (int) $this->data['topic_type'] : POST_NORMAL;
 	}
 
 	/**
-	* Get the topic time limit
+	* Set the topic type
 	*
-	* @return int
+	* @param int				$value	Topic type
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
-	public function get_time_limit()
+	public function set_type($value)
 	{
-		return isset($this->data['topic_time_limit']) ? (int) $this->data['topic_time_limit'] : 0;
-	}
+		$value = (int) $value;
 
-	/**
-	* Get the topic views
-	*
-	* @return int
-	*/
-	public function get_views()
-	{
-		return isset($this->data['topic_views']) ? (int) $this->data['topic_views'] : 0;
+		if (!in_array($value, [POST_NORMAL, POST_STICKY, POST_ANNOUNCE, POST_GLOBAL]))
+		{
+			throw new \vinabb\web\exceptions\out_of_bounds('topic_type');
+		}
+
+		// Set the value on our data array
+		$this->data['topic_type'] = $value;
+
+		return $this;
 	}
 
 	/**
@@ -463,45 +574,13 @@ class topic extends \vinabb\web\entities\abs\topic_actions implements topic_inte
 	}
 
 	/**
-	* Get the topic type
+	* Get the topic views
 	*
 	* @return int
 	*/
-	public function get_type()
+	public function get_views()
 	{
-		return isset($this->data['topic_type']) ? (int) $this->data['topic_type'] : POST_NORMAL;
-	}
-
-	/**
-	* Set the topic type
-	*
-	* @param int				$value	Topic type
-	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\out_of_bounds
-	*/
-	public function set_type($value)
-	{
-		$value = (int) $value;
-
-		if (!in_array($value, [POST_NORMAL, POST_STICKY, POST_ANNOUNCE, POST_GLOBAL]))
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('topic_type');
-		}
-
-		// Set the value on our data array
-		$this->data['topic_type'] = $value;
-
-		return $this;
-	}
-
-	/**
-	* Get the topic visibility
-	*
-	* @return int
-	*/
-	public function get_visibility()
-	{
-		return isset($this->data['topic_visibility']) ? (int) $this->data['topic_visibility'] : 0;
+		return isset($this->data['topic_views']) ? (int) $this->data['topic_views'] : 0;
 	}
 
 	/**
@@ -532,5 +611,25 @@ class topic extends \vinabb\web\entities\abs\topic_actions implements topic_inte
 	public function get_posts_softdeleted()
 	{
 		return isset($this->data['topic_posts_softdeleted']) ? (int) $this->data['topic_posts_softdeleted'] : 0;
+	}
+
+	/**
+	* Get the topic time
+	*
+	* @return int
+	*/
+	public function get_time()
+	{
+		return isset($this->data['topic_time']) ? (int) $this->data['topic_time'] : 0;
+	}
+
+	/**
+	* Get the topic time limit
+	*
+	* @return int
+	*/
+	public function get_time_limit()
+	{
+		return isset($this->data['topic_time_limit']) ? (int) $this->data['topic_time_limit'] : 0;
 	}
 }
