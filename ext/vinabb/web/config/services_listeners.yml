@@ -1,22 +1,40 @@
 services:
     vinabb.web.listener:
-        class: vinabb\web\events\listener
+        class: vinabb\web\events\common
         arguments:
             - '@auth'
-            - '@dbal.conn'
             - '@vinabb.web.cache'
             - '@config'
             - '@ext.manager'
             - '@language'
-            - '@request'
             - '@template'
             - '@user'
             - '@controller.helper'
             - '@vinabb.web.helper.event'
-            - '@vinabb.web.helper'
             - '@path_helper'
-            - '%core.root_path%'
-            - '%core.adm_relative_path%'
             - '%core.php_ext%'
+        tags:
+            - { name: event.listener }
+    vinabb.web.listener.acp:
+        class: vinabb\web\events\acp
+        arguments:
+            - '@dbal.conn'
+            - '@vinabb.web.cache'
+            - '@config'
+        tags:
+            - { name: event.listener }
+    vinabb.web.listener.seo:
+        class: vinabb\web\events\seo
+        arguments:
+            - '@dbal.conn'
+            - '@vinabb.web.cache'
+            - '@vinabb.web.helper'
+        tags:
+            - { name: event.listener }
+    vinabb.web.listener.text_formatter:
+        class: vinabb\web\events\text_formatter
+        arguments:
+            - '@template'
+            - '@vinabb.web.helper.event'
         tags:
             - { name: event.listener }
