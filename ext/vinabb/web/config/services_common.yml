@@ -49,6 +49,23 @@ services:
         arguments:
             - '@service_container'
             - '@dbal.conn'
+    vinabb.web.helper.portal:
+        class: vinabb\web\controllers\portal\helper\helper
+        arguments:
+            - '@auth'
+            - '@vinabb.web.cache'
+            - '@config'
+            - '@content.visibility'
+            - '@dbal.conn'
+            - '@dispatcher'
+            - '@ext.manager'
+            - '@language'
+            - '@vinabb.web.pagination'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '@vinabb.web.helper'
+            - '@path_helper'
     vinabb.web.helper.setting_tasks:
         class: vinabb\web\controllers\acp\helper\setting_tasks
         arguments:
