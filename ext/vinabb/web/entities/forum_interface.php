@@ -126,6 +126,334 @@ interface forum_interface
 	public function set_name_seo($text);
 
 	/**
+	* Get the forum type
+	*
+	* @return int
+	*/
+	public function get_type();
+
+	/**
+	* Set the forum type
+	*
+	* @param int				$value	Forum type
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_type($value);
+
+	/**
+	* Get the forum status
+	*
+	* @return int
+	*/
+	public function get_status();
+
+	/**
+	* Set the forum status
+	*
+	* @param int				$value	Forum status
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_status($value);
+
+	/**
+	* Get the number of topics per page in this forum
+	*
+	* @return int
+	*/
+	public function get_topics_per_page();
+
+	/**
+	* Get the number of approved topics
+	*
+	* @return int
+	*/
+	public function get_topics_approved();
+
+	/**
+	* Get the number of disapproved topics
+	*
+	* @return int
+	*/
+	public function get_topics_unapproved();
+
+	/**
+	* Get the number of soft-deleted topics
+	*
+	* @return int
+	*/
+	public function get_topics_softdeleted();
+
+	/**
+	* Get the number of approved posts
+	*
+	* @return int
+	*/
+	public function get_posts_approved();
+
+	/**
+	* Get the number of disapproved posts
+	*
+	* @return int
+	*/
+	public function get_posts_unapproved();
+
+	/**
+	* Get the number of soft-deleted posts
+	*
+	* @return int
+	*/
+	public function get_posts_softdeleted();
+
+	/**
+	* Get the forum redirect link
+	*
+	* @return string
+	*/
+	public function get_forum_link();
+
+	/**
+	* Set the forum redirect link
+	*
+	* @param string			$text	URL
+	* @return forum_options	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_forum_link($text);
+
+	/**
+	* Get the forum password
+	*
+	* @return string
+	*/
+	public function get_forum_password();
+
+	/**
+	* Set the forum password
+	*
+	* @param string			$text	Forum password
+	* @return forum_options	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_forum_password($text);
+
+	/**
+	* Get the forum style
+	*
+	* @return int
+	*/
+	public function get_forum_style();
+
+	/**
+	* Get the forum image
+	*
+	* @return string
+	*/
+	public function get_forum_image();
+
+	/**
+	* Set the forum image
+	*
+	* @param string			$text	Image URL
+	* @return forum_options	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_forum_image($text);
+
+	/**
+	* Get forum flags
+	*
+	* @return int
+	*/
+	public function get_forum_flags();
+
+	/**
+	* Get forum options
+	*
+	* @return int
+	*/
+	public function get_forum_options();
+
+	/**
+	* Get the forum setting: Display on the board page
+	*
+	* @return bool
+	*/
+	public function get_display_on_index();
+
+	/**
+	* Get the forum setting: Enable creating search indexes
+	*
+	* @return bool
+	*/
+	public function get_enable_indexing();
+
+	/**
+	* Get the forum setting: Enable topic/post icons
+	*
+	* @return bool
+	*/
+	public function get_enable_icons();
+
+	/**
+	* Get the forum setting: Display list of subforums
+	*
+	* @return bool
+	*/
+	public function get_display_subforum_list();
+
+	/**
+	* Get the last post ID
+	*
+	* @return int
+	*/
+	public function get_last_post_id();
+
+	/**
+	* Set the last post ID
+	*
+	* @param int				$id		Post ID
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_last_post_id($id);
+
+	/**
+	* Get the last poster ID
+	*
+	* @return int
+	*/
+	public function get_last_poster_id();
+
+	/**
+	* Set the last poster ID
+	*
+	* @param int				$id		User ID
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_last_poster_id($id);
+
+	/**
+	* Get the last poster username
+	*
+	* @return string
+	*/
+	public function get_last_poster_name();
+
+	/**
+	* Set the last poster username
+	*
+	* @param string				$text	Username
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_last_poster_name($text);
+
+	/**
+	* Get the last poster username color
+	*
+	* @return string
+	*/
+	public function get_last_poster_colour();
+
+	/**
+	* Set the last poster username color
+	*
+	* @param string				$text	6-char HEX code without #
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_last_poster_colour($text);
+
+	/**
+	* Get the last post subject
+	*
+	* @return string
+	*/
+	public function get_last_post_subject();
+
+	/**
+	* Set the last post subject
+	*
+	* @param string				$text	Post subject
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_last_post_subject($text);
+
+	/**
+	* Get the forum's last post time
+	*
+	* @return int
+	*/
+	public function get_last_post_time();
+
+	/**
+	* Is the auto-pruning enable?
+	*
+	* @return bool
+	*/
+	public function get_enable_prune();
+
+	/**
+	* Is the auto-pruning shadow topics enable?
+	*
+	* @return bool
+	*/
+	public function get_enable_shadow_prune();
+
+	/**
+	* Get number of age-days after the topics will be removed
+	*
+	* @return int
+	*/
+	public function get_prune_days();
+
+	/**
+	* Get number of days between pruning times
+	*
+	* @return int
+	*/
+	public function get_prune_freq();
+
+	/**
+	* Get the beginning time of next pruning
+	*
+	* @return int
+	*/
+	public function get_prune_next();
+
+	/**
+	* Get number of age-days since the last view, then the topics will be removed
+	*
+	* @return int
+	*/
+	public function get_prune_viewed();
+
+	/**
+	* Get number of age-days after the shadow topics will be removed
+	*
+	* @return int
+	*/
+	public function get_prune_shadow_days();
+
+	/**
+	* Get number of days between pruning times of shadow topics
+	*
+	* @return int
+	*/
+	public function get_prune_shadow_freq();
+
+	/**
+	* Get the beginning time of next pruning shadow topics
+	*
+	* @return int
+	*/
+	public function get_prune_shadow_next();
+
+	/**
 	* Get forum description for edit
 	*
 	* @return string
@@ -266,43 +594,4 @@ interface forum_interface
 	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
 	public function rules_enable_smilies($enable);
-
-	/**
-	* Get the number of topics per page in this forum
-	*
-	* @return int
-	*/
-	public function get_topics_per_page();
-
-	/**
-	* Get the forum type
-	*
-	* @return int
-	*/
-	public function get_type();
-
-	/**
-	* Set the forum type
-	*
-	* @param int				$value	Forum type
-	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\out_of_bounds
-	*/
-	public function set_type($value);
-
-	/**
-	* Get the forum status
-	*
-	* @return int
-	*/
-	public function get_status();
-
-	/**
-	* Set the forum status
-	*
-	* @param int				$value	Forum status
-	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\out_of_bounds
-	*/
-	public function set_status($value);
 }
