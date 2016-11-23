@@ -453,16 +453,16 @@ class settings
 	* Generate HTML from our defined data types for each config row
 	*
 	* Input types:
-	*	tpl: Return a template variable as string {ABC}
-	*	int: Integer number: <input type="number"
-	*	url: URL <input type="url"
-	*	email: email address <input type="email"
-	*	string: Text <input type="text"
-	*	string_uni: Unicode text <input type="text"
-	*	text: Block text <textarea (Stored in the table _config_text)
-	*	text_uni: Unicode block text <textarea (Stored in the table _config_text)
-	*	radio: Radio button
-	*	select: Dropdown selection
+	*	tpl			Return a template variable as string {ABC}
+	*	int			Integer number: <input type="number"
+	*	url			URL <input type="url"
+	*	email		Email address <input type="email"
+	*	string		Text <input type="text"
+	*	string_uni	Unicode text <input type="text"
+	*	text		Block text <textarea (Stored in the table _config_text)
+	*	text_uni	Unicode block text <textarea (Stored in the table _config_text)
+	*	radio		Radio button
+	*	select		Dropdown selection
 	*
 	* @param string $name	Config name, used for field name: <input name="..."
 	* @param array $data	Config item data
@@ -479,12 +479,9 @@ class settings
 			break;
 
 			case 'int':
-				$min = (isset($data['type_data']['min']) && is_numeric($data['type_data']['min'])) ? $data['type_data']['min'] : 0;
-				$min_html = ($min != '') ? ' min="' . $min . '"' : '';
-				$max = (isset($data['type_data']['max']) && is_numeric($data['type_data']['max'])) ? $data['type_data']['max'] : '';
-				$max_html = ($max != '') ? ' max=" ' . $max .'"' : '';
-				$step = (isset($data['type_data']['step']) && is_numeric($data['type_data']['step'])) ? $data['type_data']['step'] : '';
-				$step_html = ($step != '') ? ' step="' . $step . '"' : '';
+				$min_html = ' min="' . (isset($data['type_data']['min']) ? $data['type_data']['min'] : 0) . '"';
+				$max_html = isset($data['type_data']['max']) ? ' max="' . $data['type_data']['max'] .'"' : '';
+				$step_html = isset($data['type_data']['step']) ? ' step="' . $data['type_data']['step'] . '"' : '';
 				$html = '<input class="text" type="number" name="' . $name . '" id="' . $name . '"' . $min_html . $max_html . $step_html . ' value="' . $this->config['vinabb_web_' . $name] . '">';
 			break;
 
@@ -493,17 +490,14 @@ class settings
 			case 'string':
 			case 'string_uni':
 				$type = str_replace(['string', 'string_uni'], 'text', $data['type']);
-				$maxlength = (isset($data['type_data']['max']) && is_numeric($data['type_data']['max'])) ? $data['type_data']['max'] : constants::MAX_CONFIG_NAME;
-				$maxlength_html = ($maxlength != '') ? ' maxlength=" ' . $maxlength .'"' : '';
+				$maxlength_html = ' maxlength="' . (isset($data['type_data']['max']) ? $data['type_data']['max'] : constants::MAX_CONFIG_NAME) . '"';
 				$html = '<input class="text medium" type="' . $type . '" name="' . $name . '" id="' . $name . '"' . $maxlength_html . ' value="' . $this->config['vinabb_web_' . $name] . '">';
 			break;
 
 			case 'text':
 			case 'text_uni':
-				$rows = (isset($data['type_data']['rows']) && is_numeric($data['type_data']['rows'])) ? $data['type_data']['rows'] : 5;
-				$rows_html = ($rows != '') ? ' rows="' . $rows . '"' : '';
-				$maxlength = (isset($data['type_data']['max']) && is_numeric($data['type_data']['max'])) ? $data['type_data']['max'] : '';
-				$maxlength_html = ($maxlength != '') ? ' maxlength=" ' . $maxlength .'"' : '';
+				$rows_html = ' rows="' . (isset($data['type_data']['rows']) ? $data['type_data']['rows'] : 5) . '"';
+				$maxlength_html = (isset($data['type_data']['max'])) ? ' maxlength=" ' . $data['type_data']['max'] .'"' : '';
 				$html = '<textarea name="' . $name . '" id="' . $name . '"' . $rows_html . $maxlength_html . '>' . $this->config_text_data['vinabb_web_' . $name] . '</textarea>';
 			break;
 
