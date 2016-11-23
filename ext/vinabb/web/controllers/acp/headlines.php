@@ -43,10 +43,10 @@ class headlines implements headlines_interface
 	protected $u_action;
 
 	/** @var array */
-	protected $errors = [];
+	protected $errors;
 
 	/** @var array */
-	protected $lang_data = [];
+	protected $lang_data;
 
 	/**
 	* Constructor

@@ -43,7 +43,7 @@ class bb_authors implements bb_authors_interface
 	protected $u_action;
 
 	/** @var array */
-	protected $errors = [];
+	protected $errors;
 
 	/**
 	* Constructor

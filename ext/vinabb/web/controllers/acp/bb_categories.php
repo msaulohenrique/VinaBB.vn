@@ -46,7 +46,7 @@ class bb_categories
 	protected $u_action;
 
 	/** @var array */
-	protected $errors = [];
+	protected $errors;
 
 	/** @var int */
 	protected $bb_type;

@@ -53,13 +53,13 @@ class portal_articles implements portal_articles_interface
 	protected $u_action;
 
 	/** @var array */
-	protected $errors = [];
+	protected $errors;
 
 	/** @var array */
-	protected $lang_data = [];
+	protected $lang_data;
 
 	/** @var array */
-	protected $cat_data = [];
+	protected $cat_data;
 
 	/**
 	* Constructor

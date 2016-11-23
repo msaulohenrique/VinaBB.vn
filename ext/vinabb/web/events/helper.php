@@ -44,7 +44,7 @@ class helper implements helper_interface
 	protected $php_ext;
 
 	/** @var array */
-	protected $config_text = [];
+	protected $config_text;
 
 	/**
 	* Constructor

@@ -49,7 +49,7 @@ class pages implements pages_interface
 	protected $u_action;
 
 	/** @var array */
-	protected $errors = [];
+	protected $errors;
 
 	/**
 	* Constructor

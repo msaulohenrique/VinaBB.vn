@@ -49,7 +49,7 @@ class bb_items implements bb_items_interface
 	protected $u_action;
 
 	/** @var array */
-	protected $errors = [];
+	protected $errors;
 
 	/** @var int */
 	protected $bb_type;
@@ -58,7 +58,7 @@ class bb_items implements bb_items_interface
 	protected $lang_key;
 
 	/** @var array */
-	protected $cat_data = [];
+	protected $cat_data;
 
 	/**
 	* Constructor

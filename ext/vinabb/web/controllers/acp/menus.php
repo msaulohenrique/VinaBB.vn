@@ -46,7 +46,7 @@ class menus implements menus_interface
 	protected $u_action;
 
 	/** @var array */
-	protected $errors = [];
+	protected $errors;
 
 	/**
 	* Constructor

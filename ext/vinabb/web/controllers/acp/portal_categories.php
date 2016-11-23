@@ -46,7 +46,7 @@ class portal_categories implements portal_categories_interface
 	protected $u_action;
 
 	/** @var array */
-	protected $errors = [];
+	protected $errors;
 
 	/**
 	* Constructor
