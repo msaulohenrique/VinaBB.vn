@@ -30,9 +30,6 @@ class posting
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var \phpbb\event\dispatcher_interface */
-	protected $dispatcher;
-
 	/** @var \phpbb\language\language */
 	protected $language;
 
@@ -81,7 +78,6 @@ class posting
 	* @param \phpbb\config\config $config
 	* @param \phpbb\content_visibility $content_visibility
 	* @param \phpbb\db\driver\driver_interface $db
-	* @param \phpbb\event\dispatcher_interface $dispatcher
 	* @param \phpbb\language\language $language
 	* @param \phpbb\log\log $log
 	* @param \phpbb\plupload\plupload $plupload
@@ -99,7 +95,6 @@ class posting
 		\phpbb\config\config $config,
 		\phpbb\content_visibility $content_visibility,
 		\phpbb\db\driver\driver_interface $db,
-		\phpbb\event\dispatcher_interface $dispatcher,
 		\phpbb\language\language $language,
 		\phpbb\log\log $log,
 		\phpbb\plupload\plupload $plupload,
@@ -117,7 +112,6 @@ class posting
 		$this->config = $config;
 		$this->content_visibility = $content_visibility;
 		$this->db = $db;
-		$this->dispatcher = $dispatcher;
 		$this->language = $language;
 		$this->log = $log;
 		$this->plupload = $plupload;
@@ -144,7 +138,6 @@ class posting
 		$topic_id = $this->request->variable('t', 0);
 		$forum_id = $this->request->variable('f', 0);
 		$draft_id = $this->request->variable('d', 0);
-		$lastclick = $this->request->variable('lastclick', 0);
 
 		$preview = $this->request->is_set_post('preview');
 		$save = $this->request->is_set_post('save');
@@ -160,41 +153,6 @@ class posting
 		{
 			$mode = 'soft_delete';
 		}
-
-		/**
-		* This event allows you to alter the above parameters, such as submit and mode
-		*
-		* Note: $refresh must be true to retain previously submitted form data.
-		*
-		* Note: The template class will not work properly until $this->user->setup() is
-		* called, and it has not been called yet. Extensions requiring template
-		* assignments should use an event that comes later in this file.
-		*
-		* @event core.modify_posting_parameters
-		* @var	int		post_id		ID of the post
-		* @var	int		topic_id	ID of the topic
-		* @var	int		forum_id	ID of the forum
-		* @var	int		draft_id	ID of the draft
-		* @var	int		lastclick	Timestamp of when the form was last loaded
-		* @var	bool	submit		Whether or not the form has been submitted
-		* @var	bool	preview		Whether or not the post is being previewed
-		* @var	bool	save		Whether or not a draft is being saved
-		* @var	bool	load		Whether or not a draft is being loaded
-		* @var	bool	cancel		Whether or not to cancel the form (returns to
-		*							viewtopic or viewforum depending on if the user
-		*							is posting a new topic or editing a post)
-		* @var	bool	refresh		Whether or not to retain previously submitted data
-		* @var	string	mode		What action to take if the form has been submitted
-		*							post|reply|quote|edit|delete|bump|smilies|popup
-		* @var	array	error		Any error strings; a non-empty array aborts
-		*							form submission.
-		*							NOTE: Should be actual language strings, NOT
-		*							language keys.
-		* @since 3.1.0-a1
-		* @change 3.1.2-RC1			Removed 'delete' var as it does not exist
-		*/
-		$vars = ['post_id', 'topic_id', 'forum_id', 'draft_id', 'lastclick', 'submit', 'preview', 'save', 'load', 'cancel', 'refresh', 'mode', 'error'];
-		extract($this->dispatcher->trigger_event('core.modify_posting_parameters', compact($vars)));
 
 		// Was cancel pressed? If so then redirect to the appropriate page
 		if ($cancel)
@@ -377,20 +335,6 @@ class posting
 			$s_cannot_edit = $this->user->data['user_id'] != $this->post_data['poster_id'];
 			$s_cannot_edit_time = $this->config['edit_time'] && $this->post_data['post_time'] <= time() - ($this->config['edit_time'] * 60);
 			$s_cannot_edit_locked = $this->post_data['post_edit_locked'];
-
-			/**
-			 * This event allows you to modify the conditions for the "cannot edit post" checks
-			 *
-			 * @event core.posting_modify_cannot_edit_conditions
-			 * @var	array	post_data	Array with post data
-			 * @var	bool	force_edit_allowed		Allow the user to edit the post (all permissions and conditions are ignored)
-			 * @var	bool	s_cannot_edit			User can not edit the post because it's not his
-			 * @var	bool	s_cannot_edit_locked	User can not edit the post because it's locked
-			 * @var	bool	s_cannot_edit_time		User can not edit the post because edit_time has passed
-			 * @since 3.1.0-b4
-			 */
-			$vars = ['post_data', 'force_edit_allowed', 's_cannot_edit', 's_cannot_edit_locked', 's_cannot_edit_time'];
-			extract($this->dispatcher->trigger_event('core.posting_modify_cannot_edit_conditions', compact($vars)));
 
 			if (!$force_edit_allowed)
 			{
@@ -835,30 +779,6 @@ class posting
 			// Parse Attachments - before checksum is calculated
 			$message_parser->parse_attachments('fileupload', $mode, $forum_id, $submit, $preview, $refresh);
 
-			/**
-			 * This event allows you to modify message text before parsing
-			 *
-			 * @event core.posting_modify_message_text
-			 * @var	array	post_data	Array with post data
-			 * @var	string	mode		What action to take if the form is submitted
-			 *				post|reply|quote|edit|delete|bump|smilies|popup
-			 * @var	int	post_id		ID of the post
-			 * @var	int	topic_id	ID of the topic
-			 * @var	int	forum_id	ID of the forum
-			 * @var	bool	submit		Whether or not the form has been submitted
-			 * @var	bool	preview		Whether or not the post is being previewed
-			 * @var	bool	save		Whether or not a draft is being saved
-			 * @var	bool	load		Whether or not a draft is being loaded
-			 * @var	bool	cancel		Whether or not to cancel the form (returns to
-			 *				viewtopic or viewforum depending on if the user
-			 *				is posting a new topic or editing a post)
-			 * @var	bool	refresh		Whether or not to retain previously submitted data
-			 * @var	object	message_parser	The message parser object
-			 * @since 3.1.2-RC1
-			 */
-			$vars = ['post_data', 'mode', 'post_id', 'topic_id', 'forum_id', 'submit', 'preview', 'save', 'load', 'cancel', 'refresh', 'message_parser'];
-			extract($this->dispatcher->trigger_event('core.posting_modify_message_text', compact($vars)));
-
 			// Grab md5 'checksum' of new message
 			$message_md5 = md5($message_parser->message);
 
@@ -1107,27 +1027,6 @@ class posting
 				}
 			}
 
-			/**
-			 * This event allows you to define errors before the post action is performed
-			 *
-			 * @event core.posting_modify_submission_errors
-			 * @var	array	post_data	Array with post data
-			 * @var	array	poll		Array with poll data from post (must be used instead of the post_data equivalent)
-			 * @var	string	mode		What action to take if the form is submitted
-			 *				post|reply|quote|edit|delete|bump|smilies|popup
-			 * @var	int	post_id		ID of the post
-			 * @var	int	topic_id	ID of the topic
-			 * @var	int	forum_id	ID of the forum
-			 * @var	bool	submit		Whether or not the form has been submitted
-			 * @var	array	error		Any error strings; a non-empty array aborts form submission.
-			 *				NOTE: Should be actual language strings, NOT language keys.
-			 * @since 3.1.0-RC5
-			 * @change 3.1.5-RC1 Added poll array to the event
-			 * @change 3.2.0-a1 Removed undefined page_title
-			 */
-			$vars = ['post_data', 'poll', 'mode', 'post_id', 'topic_id', 'forum_id', 'submit', 'error'];
-			extract($this->dispatcher->trigger_event('core.posting_modify_submission_errors', compact($vars)));
-
 			// Store message, sync counters
 			if (!sizeof($this->errors) && $submit)
 			{
@@ -1223,55 +1122,8 @@ class posting
 					// post's poster, not the poster of the current post). See: PHPBB3-11769 for more information.
 					$post_author_name = ((!$this->user->data['is_registered'] || $mode == 'edit') && $this->post_data['username'] !== '') ? $this->post_data['username'] : '';
 
-					/**
-					 * This event allows you to define errors before the post action is performed
-					 *
-					 * @event core.posting_modify_submit_post_before
-					 * @var	array	post_data	Array with post data
-					 * @var	array	poll		Array with poll data
-					 * @var	array	data		Array with post data going to be stored in the database
-					 * @var	string	mode		What action to take if the form is submitted
-					 *				post|reply|quote|edit|delete
-					 * @var	int	post_id		ID of the post
-					 * @var	int	topic_id	ID of the topic
-					 * @var	int	forum_id	ID of the forum
-					 * @var	string	post_author_name	Author name for guest posts
-					 * @var	bool	update_message		Boolean if the post message was changed
-					 * @var	bool	update_subject		Boolean if the post subject was changed
-					 *				NOTE: Should be actual language strings, NOT language keys.
-					 * @since 3.1.0-RC5
-					 * @changed 3.1.6-RC1 remove submit and error from event  Submit and Error are checked previously prior to running event
-					 * @change 3.2.0-a1 Removed undefined page_title
-					 */
-					$vars = ['post_data', 'poll', 'data', 'mode', 'post_id', 'topic_id', 'forum_id', 'post_author_name', 'update_message', 'update_subject'];
-					extract($this->dispatcher->trigger_event('core.posting_modify_submit_post_before', compact($vars)));
-
 					// The last parameter tells submit_post if search indexer has to be run
 					$redirect_url = submit_post($mode, $this->post_data['post_subject'], $post_author_name, $this->post_data['topic_type'], $poll, $data, $update_message, ($update_message || $update_subject) ? true : false);
-
-					/**
-					 * This event allows you to define errors after the post action is performed
-					 *
-					 * @event core.posting_modify_submit_post_after
-					 * @var	array	post_data	Array with post data
-					 * @var	array	poll		Array with poll data
-					 * @var	array	data		Array with post data going to be stored in the database
-					 * @var	string	mode		What action to take if the form is submitted
-					 *				post|reply|quote|edit|delete
-					 * @var	int	post_id		ID of the post
-					 * @var	int	topic_id	ID of the topic
-					 * @var	int	forum_id	ID of the forum
-					 * @var	string	post_author_name	Author name for guest posts
-					 * @var	bool	update_message		Boolean if the post message was changed
-					 * @var	bool	update_subject		Boolean if the post subject was changed
-					 * @var	string	redirect_url		URL the user is going to be redirected to
-					 *				NOTE: Should be actual language strings, NOT language keys.
-					 * @since 3.1.0-RC5
-					 * @changed 3.1.6-RC1 remove submit and error from event  Submit and Error are checked previously prior to running event
-					 * @change 3.2.0-a1 Removed undefined page_title
-					 */
-					$vars = ['post_data', 'poll', 'data', 'mode', 'post_id', 'topic_id', 'forum_id', 'post_author_name', 'update_message', 'update_subject', 'redirect_url'];
-					extract($this->dispatcher->trigger_event('core.posting_modify_submit_post_after', compact($vars)));
 
 					if ($this->config['enable_post_confirm'] && !$this->user->data['is_registered'] && (isset($captcha) && $captcha->is_solved() === true) && ($mode == 'post' || $mode == 'reply' || $mode == 'quote'))
 					{
@@ -1670,51 +1522,6 @@ class posting
 			);
 		}
 
-		/**
-		 * This event allows you to modify template variables for the posting screen
-		 *
-		 * @event core.posting_modify_template_vars
-		 * @var	array	post_data	Array with post data
-		 * @var	array	moderators	Array with forum moderators
-		 * @var	string	mode		What action to take if the form is submitted
-		 *				post|reply|quote|edit|delete|bump|smilies|popup
-		 * @var	string	page_title	Title of the mode page
-		 * @var	bool	s_topic_icons	Whether or not to show the topic icons
-		 * @var	string	form_enctype	If attachments are allowed for this form
-		 *				"multipart/form-data" or empty string
-		 * @var	string	s_action	The URL to submit the POST data to
-		 * @var	string	s_hidden_fields	Concatenated hidden input tags of posting form
-		 * @var	int	post_id		ID of the post
-		 * @var	int	topic_id	ID of the topic
-		 * @var	int	forum_id	ID of the forum
-		 * @var	int	draft_id	ID of the draft
-		 * @var	bool	submit		Whether or not the form has been submitted
-		 * @var	bool	preview		Whether or not the post is being previewed
-		 * @var	bool	save		Whether or not a draft is being saved
-		 * @var	bool	load		Whether or not a draft is being loaded
-		 * @var	bool	cancel		Whether or not to cancel the form (returns to
-		 *				viewtopic or viewforum depending on if the user
-		 *				is posting a new topic or editing a post)
-		 * @var	array	error		Any error strings; a non-empty array aborts
-		 *				form submission.
-		 *				NOTE: Should be actual language strings, NOT
-		 *				language keys.
-		 * @var	bool	refresh		Whether or not to retain previously submitted data
-		 * @var	array	page_data	Posting page data that should be passed to the
-		 *				posting page via $this->template->assign_vars()
-		 * @var	object	message_parser	The message parser object
-		 * @since 3.1.0-a1
-		 * @change 3.1.0-b3 Added vars post_data, moderators, mode, page_title,
-		 *		s_topic_icons, form_enctype, s_action, s_hidden_fields,
-		 *		post_id, topic_id, forum_id, submit, preview, save, load,
-		 *		delete, cancel, refresh, error, page_data, message_parser
-		 * @change 3.1.2-RC1 Removed 'delete' var as it does not exist
-		 * @change 3.1.5-RC1 Added poll variables to the page_data array
-		 * @change 3.1.6-RC1 Added 'draft_id' var
-		 */
-		$vars = ['post_data', 'moderators', 'mode', 'page_title', 's_topic_icons', 'form_enctype', 's_action', 's_hidden_fields', 'post_id', 'topic_id', 'forum_id', 'draft_id', 'submit', 'preview', 'save', 'load', 'cancel', 'refresh', 'error', 'page_data', 'message_parser'];
-		extract($this->dispatcher->trigger_event('core.posting_modify_template_vars', compact($vars)));
-
 		// Start assigning vars for main posting page ...
 		$this->template->assign_vars($page_data);
 
@@ -1827,35 +1634,6 @@ class posting
 				}
 			break;
 		}
-
-		/**
-		* This event allows you to do extra auth checks and verify if the user
-		* has the required permissions
-		*
-		* Extensions should only change the error and is_authed variables.
-		*
-		* @event core.modify_posting_auth
-		* @var	int		post_id		ID of the post
-		* @var	int		topic_id	ID of the topic
-		* @var	int		forum_id	ID of the forum
-		* @var	int		draft_id	ID of the draft
-		* @var	int		lastclick	Timestamp of when the form was last loaded
-		* @var	bool	submit		Whether or not the form has been submitted
-		* @var	bool	preview		Whether or not the post is being previewed
-		* @var	bool	save		Whether or not a draft is being saved
-		* @var	bool	load		Whether or not a draft is being loaded
-		* @var	bool	refresh		Whether or not to retain previously submitted data
-		* @var	string	mode		What action to take if the form has been submitted
-		*							post|reply|quote|edit|delete|bump|smilies|popup
-		* @var	array	error		Any error strings; a non-empty array aborts
-		*							form submission.
-		*							NOTE: Should be actual language strings, NOT
-		*							language keys.
-		* @var	bool	is_authed	Does the user have the required permissions?
-		* @since 3.1.3-RC1
-		*/
-		$vars = ['post_id', 'topic_id', 'forum_id', 'draft_id', 'lastclick', 'submit', 'preview', 'save', 'load', 'refresh', 'mode', 'error', 'is_authed'];
-		extract($this->dispatcher->trigger_event('core.modify_posting_auth', compact($vars)));
 
 		if (!$is_authed)
 		{
