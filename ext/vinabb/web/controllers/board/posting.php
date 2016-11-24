@@ -483,8 +483,6 @@ class posting
 			);
 		}
 
-		$orig_poll_options_size = sizeof($this->post_data['poll_options']);
-
 		$message_parser = new parse_message();
 		$message_parser->set_plupload($this->plupload);
 
