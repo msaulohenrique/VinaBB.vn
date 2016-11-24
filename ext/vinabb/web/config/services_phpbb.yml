@@ -71,6 +71,7 @@ services:
         class: vinabb\web\controllers\user\team
         arguments:
             - '@auth'
+            - '@vinabb.web.cache'
             - '@config'
             - '@dbal.conn'
             - '@dispatcher'

@@ -16,6 +16,9 @@ class team implements team_interface
 	/** @var \phpbb\auth\auth */
 	protected $auth;
 
+	/** @var \vinabb\web\controllers\cache\service_interface */
+	protected $cache;
+
 	/** @var \phpbb\config\config */
 	protected $config;
 
@@ -46,10 +49,14 @@ class team implements team_interface
 	/** @var string */
 	protected $php_ext;
 
+	/** @var array */
+	protected $forum_data;
+
 	/**
 	* Constructor
 	*
 	* @param \phpbb\auth\auth $auth
+	* @param \vinabb\web\controllers\cache\service_interface $cache
 	* @param \phpbb\config\config $config
 	* @param \phpbb\db\driver\driver_interface $db
 	* @param \phpbb\event\dispatcher_interface $dispatcher
@@ -63,6 +70,7 @@ class team implements team_interface
 	*/
 	public function __construct(
 		\phpbb\auth\auth $auth,
+		\vinabb\web\controllers\cache\service_interface $cache,
 		\phpbb\config\config $config,
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\event\dispatcher_interface $dispatcher,
@@ -76,6 +84,7 @@ class team implements team_interface
 	)
 	{
 		$this->auth = $auth;
+		$this->cache = $cache;
 		$this->config = $config;
 		$this->db = $db;
 		$this->dispatcher = $dispatcher;
@@ -86,6 +95,8 @@ class team implements team_interface
 		$this->group_helper = $group_helper;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
+
+		$this->forum_data = $this->cache->get_forum_data();
 	}
 
 	/**
@@ -219,17 +230,6 @@ class team implements team_interface
 				}
 			}
 
-			$sql = 'SELECT forum_id, forum_name
-				FROM ' . FORUMS_TABLE;
-			$result = $this->db->sql_query($sql);
-
-			$forums = [];
-			while ($row = $this->db->sql_fetchrow($result))
-			{
-				$forums[$row['forum_id']] = $row['forum_name'];
-			}
-			$this->db->sql_freeresult($result);
-
 			foreach ($user_ary as $user_id => $user_data)
 			{
 				if (!$user_data['forums'])
@@ -238,12 +238,9 @@ class team implements team_interface
 					{
 						$user_ary[$user_id]['forums_options'] = true;
 
-						if (isset($forums[$forum_id]))
+						if ($this->auth->acl_get('f_list', $forum_id))
 						{
-							if ($this->auth->acl_get('f_list', $forum_id))
-							{
-								$user_ary[$user_id]['forums'] .= '<option value="">' . $forums[$forum_id] . '</option>';
-							}
+							$user_ary[$user_id]['forums'] .= '<option value="">' . $this->forum_data[$forum_id]['name'] . '</option>';
 						}
 					}
 				}
@@ -337,10 +334,6 @@ class team implements team_interface
 				}
 			}
 		}
-
-		$this->template->assign_vars([
-			'PM_IMG'	=> $this->user->img('icon_contact_pm', $this->language->lang('SEND_PRIVATE_MESSAGE'))
-		]);
 
 		return $this->helper->render('memberlist_team.html', $this->language->lang('THE_TEAM'));
 	}
