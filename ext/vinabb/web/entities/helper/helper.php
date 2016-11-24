@@ -150,6 +150,17 @@ class helper implements helper_interface
 	}
 
 	/**
+	* Check the existing rank
+	*
+	* @param int $id Rank ID
+	* @return bool
+	*/
+	public function check_rank_id($id)
+	{
+		return $this->check_column_for_id(RANKS_TABLE, 'rank_id', $id);
+	}
+
+	/**
 	* Check the existing news category
 	*
 	* @param int $id Category ID

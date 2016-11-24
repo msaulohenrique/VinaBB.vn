@@ -96,6 +96,14 @@ interface helper_interface
 	public function check_smiley_code($text, $id = 0);
 
 	/**
+	* Check the existing rank
+	*
+	* @param int $id Rank ID
+	* @return bool
+	*/
+	public function check_rank_id($id);
+
+	/**
 	* Check the existing news category
 	*
 	* @param int $id Category ID
