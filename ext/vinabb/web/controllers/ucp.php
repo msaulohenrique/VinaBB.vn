@@ -22,9 +22,6 @@ class ucp implements ucp_interface
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var \phpbb\event\dispatcher_interface */
-	protected $dispatcher;
-
 	/** @var \phpbb\language\language */
 	protected $language;
 
@@ -55,7 +52,6 @@ class ucp implements ucp_interface
 	* @param \phpbb\auth\auth $auth
 	* @param \phpbb\config\config $config
 	* @param \phpbb\db\driver\driver_interface $db
-	* @param \phpbb\event\dispatcher_interface $dispatcher
 	* @param \phpbb\language\language $language
 	* @param \phpbb\log\log $log
 	* @param \phpbb\request\request $request
@@ -69,7 +65,6 @@ class ucp implements ucp_interface
 		\phpbb\auth\auth $auth,
 		\phpbb\config\config $config,
 		\phpbb\db\driver\driver_interface $db,
-		\phpbb\event\dispatcher_interface $dispatcher,
 		\phpbb\language\language $language,
 		\phpbb\log\log $log,
 		\phpbb\request\request $request,
@@ -83,7 +78,6 @@ class ucp implements ucp_interface
 		$this->auth = $auth;
 		$this->config = $config;
 		$this->db = $db;
-		$this->dispatcher = $dispatcher;
 		$this->language = $language;
 		$this->log = $log;
 		$this->request = $request;
@@ -236,18 +230,6 @@ class ucp implements ucp_interface
 			$module->set_display('main', 'subscribed', false);
 		}
 
-		/**
-		* Use this event to enable and disable additional UCP modules
-		*
-		* @event core.ucp_display_module_before
-		* @var	p_master	module	Object holding all modules and their status
-		* @var	mixed		id		Active module category (can be the int or string)
-		* @var	string		mode	Active module
-		* @since 3.1.0-a1
-		*/
-		$vars = ['module', 'id', 'mode'];
-		extract($this->dispatcher->trigger_event('core.ucp_display_module_before', compact($vars)));
-
 		// Select the active module
 		$module->set_active($id, $mode);
 
@@ -339,23 +321,6 @@ class ucp implements ucp_interface
 				}
 
 				$cookie_name = str_replace($this->config['cookie_name'] . '_', '', $cookie_name);
-
-				/**
-				* Event to save custom cookies from deletion
-				*
-				* @event core.ucp_delete_cookies
-				* @var	string	cookie_name		Cookie name to checking
-				* @var	bool	retain_cookie	Do we retain our cookie or not, true if retain
-				* @since 3.1.3-RC1
-				*/
-				$retain_cookie = false;
-				$vars = ['cookie_name', 'retain_cookie'];
-				extract($this->dispatcher->trigger_event('core.ucp_delete_cookies', compact($vars)));
-
-				if ($retain_cookie)
-				{
-					continue;
-				}
 
 				// Polls are stored as {cookie_name}_poll_{topic_id}, cookie_name_ got removed, therefore checking for poll_
 				if (strpos($cookie_name, 'poll_') !== false)

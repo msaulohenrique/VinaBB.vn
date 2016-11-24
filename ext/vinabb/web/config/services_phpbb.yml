@@ -108,7 +108,6 @@ services:
             - '@auth'
             - '@config'
             - '@dbal.conn'
-            - '@dispatcher'
             - '@language'
             - '@log'
             - '@request'
