@@ -121,7 +121,6 @@ services:
         arguments:
             - '@auth'
             - '@dbal.conn'
-            - '@dispatcher'
             - '@language'
             - '@request'
             - '@template'

@@ -16,9 +16,6 @@ class mcp
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var \phpbb\event\dispatcher_interface */
-	protected $dispatcher;
-
 	/** @var \phpbb\language\language */
 	protected $language;
 
@@ -45,7 +42,6 @@ class mcp
 	*
 	* @param \phpbb\auth\auth $auth
 	* @param \phpbb\db\driver\driver_interface $db
-	* @param \phpbb\event\dispatcher_interface $dispatcher
 	* @param \phpbb\language\language $language
 	* @param \phpbb\request\request $request
 	* @param \phpbb\template\template $template
@@ -57,7 +53,6 @@ class mcp
 	public function __construct(
 		\phpbb\auth\auth $auth,
 		\phpbb\db\driver\driver_interface $db,
-		\phpbb\event\dispatcher_interface $dispatcher,
 		\phpbb\language\language $language,
 		\phpbb\request\request $request,
 		\phpbb\template\template $template,
@@ -69,7 +64,6 @@ class mcp
 	{
 		$this->auth = $auth;
 		$this->db = $db;
-		$this->dispatcher = $dispatcher;
 		$this->language = $language;
 		$this->request = $request;
 		$this->template = $template;
@@ -196,28 +190,6 @@ class mcp
 			trigger_error('NOT_AUTHORISED');
 		}
 
-		/**
-		* Allow applying additional permissions to MCP access besides f_read
-		*
-		* @event core.mcp_global_f_read_auth_after
-		* @var	string		action			The action the user tried to execute
-		* @var	int			forum_id		The forum the user tried to access
-		* @var	string		mode			The MCP module the user is trying to access
-		* @var	p_master	module			Module system class
-		* @var	bool		quickmod		True if the user is accessing using quickmod tools
-		* @var	int			topic_id		The topic the user tried to access
-		* @since 3.1.3-RC1
-		*/
-		$vars = array(
-			'action',
-			'forum_id',
-			'mode',
-			'module',
-			'quickmod',
-			'topic_id',
-		);
-		extract($this->dispatcher->trigger_event('core.mcp_global_f_read_auth_after', compact($vars)));
-
 		if ($forum_id)
 		{
 			$module->acl_forum_id = $forum_id;
@@ -268,27 +240,7 @@ class mcp
 				break;
 
 				default:
-					// If needed, the flag can be set to true within event listener
-					// to indicate that the action was handled properly
-					// and to pass by the trigger_error() call below
-					$is_valid_action = false;
-
-					/**
-					* This event allows you to add custom quickmod options
-					*
-					* @event core.modify_quickmod_options
-					* @var	object	module			Instance of module system class
-					* @var	string	action			Quickmod option
-					* @var	bool	is_valid_action	Flag indicating if the action was handled properly
-					* @since 3.1.0-a4
-					*/
-					$vars = array('module', 'action', 'is_valid_action');
-					extract($this->dispatcher->trigger_event('core.modify_quickmod_options', compact($vars)));
-
-					if (!$is_valid_action)
-					{
-						trigger_error($this->language->lang('QUICKMOD_ACTION_NOT_ALLOWED', $action), E_USER_ERROR);
-					}
+					trigger_error($this->language->lang('QUICKMOD_ACTION_NOT_ALLOWED', $action), E_USER_ERROR);
 				break;
 			}
 		}
@@ -337,32 +289,6 @@ class mcp
 			$module->set_display('notes', 'user_notes', false);
 			$module->set_display('warn', 'warn_user', false);
 		}
-
-		/**
-		* This event allows you to set display option for custom MCP modules
-		*
-		* @event core.modify_mcp_modules_display_option
-		* @var	p_master	module			Module system class
-		* @var	string		mode			MCP mode
-		* @var	int			user_id			User id
-		* @var	int			forum_id		Forum id
-		* @var	int			topic_id		Topic id
-		* @var	int			post_id			Post id
-		* @var	string		username		User name
-		* @var	int			id				Parent module id
-		* @since 3.1.0-b2
-		*/
-		$vars = array(
-			'module',
-			'mode',
-			'user_id',
-			'forum_id',
-			'topic_id',
-			'post_id',
-			'username',
-			'id',
-		);
-		extract($this->dispatcher->trigger_event('core.modify_mcp_modules_display_option', compact($vars)));
 
 		// Load and execute the relevant module
 		$module->load_active();
