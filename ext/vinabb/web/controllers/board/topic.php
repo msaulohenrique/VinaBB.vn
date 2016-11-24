@@ -1021,7 +1021,6 @@ class topic
 		// Container for user details, only process once
 		$post_list = $user_cache = $id_cache = $attachments = $attach_list = $rowset = $update_count = $post_edit_list = $post_delete_list = array();
 		$has_unapproved_attachments = $has_approved_attachments = $display_notice = false;
-		$i_total = 0;
 
 		// Go ahead and pull all data for this topic
 		$sql = 'SELECT p.post_id
