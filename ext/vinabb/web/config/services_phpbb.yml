@@ -209,6 +209,7 @@ services:
             - '@plupload'
             - '@request'
             - '@template'
+            - '@text_formatter.utils'
             - '@user'
             - '@controller.helper'
             - '%core.root_path%'

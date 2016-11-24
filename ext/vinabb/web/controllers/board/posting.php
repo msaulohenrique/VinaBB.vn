@@ -45,6 +45,9 @@ class posting
 	/** @var \phpbb\template\template */
 	protected $template;
 
+	/** @var \phpbb\textformatter\s9e\utils */
+	protected $text_formatter_utils;
+
 	/** @var \phpbb\user */
 	protected $user;
 
@@ -72,21 +75,22 @@ class posting
 	/**
 	* Constructor
 	*
-	* @param \phpbb\auth\auth $auth
-	* @param \vinabb\web\controllers\cache\service_interface $cache
-	* @param \phpbb\captcha\factory $captcha_factory
-	* @param \phpbb\config\config $config
-	* @param \phpbb\content_visibility $content_visibility
-	* @param \phpbb\db\driver\driver_interface $db
-	* @param \phpbb\language\language $language
-	* @param \phpbb\log\log $log
-	* @param \phpbb\plupload\plupload $plupload
-	* @param \phpbb\request\request $request
-	* @param \phpbb\template\template $template
-	* @param \phpbb\user $user
-	* @param \phpbb\controller\helper $helper
-	* @param string $root_path
-	* @param string $php_ext
+	* @param \phpbb\auth\auth									$auth
+	* @param \vinabb\web\controllers\cache\service_interface	$cache
+	* @param \phpbb\captcha\factory								$captcha_factory
+	* @param \phpbb\config\config								$config
+	* @param \phpbb\content_visibility							$content_visibility
+	* @param \phpbb\db\driver\driver_interface					$db
+	* @param \phpbb\language\language							$language
+	* @param \phpbb\log\log										$log
+	* @param \phpbb\plupload\plupload							$plupload
+	* @param \phpbb\request\request								$request
+	* @param \phpbb\template\template							$template
+	* @param \phpbb\textformatter\s9e\utils						$text_formatter_utils	Text manipulation utilities
+	* @param \phpbb\user										$user
+	* @param \phpbb\controller\helper							$helper
+	* @param string												$root_path
+	* @param string												$php_ext
 	*/
 	public function __construct(
 		\phpbb\auth\auth $auth,
@@ -100,6 +104,7 @@ class posting
 		\phpbb\plupload\plupload $plupload,
 		\phpbb\request\request $request,
 		\phpbb\template\template $template,
+		\phpbb\textformatter\s9e\utils $text_formatter_utils,
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
 		$root_path,
@@ -117,6 +122,7 @@ class posting
 		$this->plupload = $plupload;
 		$this->request = $request;
 		$this->template = $template;
+		$this->text_formatter_utils = $text_formatter_utils;
 		$this->user = $user;
 		$this->helper = $helper;
 		$this->root_path = $root_path;
@@ -1277,7 +1283,7 @@ class posting
 
 			if ($this->config['allow_bbcode'])
 			{
-				$message_parser->message = $phpbb_container->get('text_formatter.utils')->generate_quote(
+				$message_parser->message = $this->text_formatter_utils->generate_quote(
 					censor_text($message_parser->message),
 					array(
 						'author'  => $this->post_data['quote_username'],
