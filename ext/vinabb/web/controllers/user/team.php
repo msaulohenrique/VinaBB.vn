@@ -25,9 +25,6 @@ class team implements team_interface
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var \phpbb\event\dispatcher_interface */
-	protected $dispatcher;
-
 	/** @var \phpbb\language\language */
 	protected $language;
 
@@ -59,7 +56,6 @@ class team implements team_interface
 	* @param \vinabb\web\controllers\cache\service_interface $cache
 	* @param \phpbb\config\config $config
 	* @param \phpbb\db\driver\driver_interface $db
-	* @param \phpbb\event\dispatcher_interface $dispatcher
 	* @param \phpbb\language\language $language
 	* @param \phpbb\template\template $template
 	* @param \phpbb\user $user
@@ -73,7 +69,6 @@ class team implements team_interface
 		\vinabb\web\controllers\cache\service_interface $cache,
 		\phpbb\config\config $config,
 		\phpbb\db\driver\driver_interface $db,
-		\phpbb\event\dispatcher_interface $dispatcher,
 		\phpbb\language\language $language,
 		\phpbb\template\template $template,
 		\phpbb\user $user,
@@ -87,7 +82,6 @@ class team implements team_interface
 		$this->cache = $cache;
 		$this->config = $config;
 		$this->db = $db;
-		$this->dispatcher = $dispatcher;
 		$this->language = $language;
 		$this->template = $template;
 		$this->user = $user;
@@ -177,19 +171,6 @@ class team implements team_interface
 			'WHERE'		=> $this->db->sql_in_set('g.group_id', $group_ids, false, true),
 			'ORDER_BY'	=> 'u.username_clean'
 		];
-
-		/**
-		* Modify the query used to get the users for the team page
-		*
-		* @event core.memberlist_team_modify_query
-		* @var array	sql_ary			Array containing the query
-		* @var array	group_ids		Array of group ids
-		* @var array	teampage_data	The teampage data
-		* @since 3.1.3-RC1
-		*/
-		$vars = ['sql_ary', 'group_ids', 'teampage_data'];
-		extract($this->dispatcher->trigger_event('core.memberlist_team_modify_query', compact($vars)));
-
 		$result = $this->db->sql_query($this->db->sql_build_query('SELECT', $sql_ary));
 
 		$user_ary = $user_ids = $group_users = [];
@@ -311,18 +292,6 @@ class team implements team_interface
 							'USER_COLOR'		=> get_username_string('colour', $row['user_id'], $row['username'], $row['user_colour']),
 							'U_VIEW_PROFILE'	=> get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour'])
 						];
-
-						/**
-						* Modify the template vars for displaying the user in the groups on the teampage
-						*
-						* @event core.memberlist_team_modify_template_vars
-						* @var array	template_vars		Array containing the query
-						* @var array	row					Array containing the action user row
-						* @var array	groups_ary			Array of groups with all users that should be displayed
-						* @since 3.1.3-RC1
-						*/
-						$vars = ['template_vars', 'row', 'groups_ary'];
-						extract($this->dispatcher->trigger_event('core.memberlist_team_modify_template_vars', compact($vars)));
 
 						$this->template->assign_block_vars('group.user', $template_vars);
 
