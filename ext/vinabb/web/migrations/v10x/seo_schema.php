@@ -26,8 +26,7 @@ class seo_schema extends migration
 			'add_columns'	=> [
 				$this->table_prefix . 'forums'	=> ['forum_name_seo' => ['VCHAR', '']],
 				$this->table_prefix . 'topics'	=> ['topic_title_seo' => ['VCHAR', '']],
-				$this->table_prefix . 'post'	=> ['post_subject_seo' => ['VCHAR', '']],
-				$this->table_prefix . 'users'	=> ['username_seo' => ['VCHAR', '']]
+				$this->table_prefix . 'post'	=> ['post_subject_seo' => ['VCHAR', '']]
 			]
 		];
 	}
@@ -43,8 +42,7 @@ class seo_schema extends migration
 			'drop_columns'	=> [
 				$this->table_prefix . 'forums'	=> ['forum_name_seo'],
 				$this->table_prefix . 'topics'	=> ['topic_title_seo'],
-				$this->table_prefix . 'post'	=> ['post_subject_seo'],
-				$this->table_prefix . 'users'	=> ['username_seo']
+				$this->table_prefix . 'post'	=> ['post_subject_seo']
 			]
 		];
 	}

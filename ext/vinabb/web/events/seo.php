@@ -47,40 +47,9 @@ class seo implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return [
-			'core.user_add_modify_data'					=> 'user_add_modify_data',
-			'core.update_username'						=> 'update_username',
 			'core.submit_post_modify_sql_data'			=> 'submit_post_modify_sql_data',
 			'core.acp_manage_forums_update_data_before'	=> 'acp_manage_forums_update_data_before'
 		];
-	}
-
-	/**
-	* core.user_add_modify_data
-	*
-	* @param array $event Data from the PHP event
-	*/
-	public function user_add_modify_data($event)
-	{
-		// Add SEO username for newly registered users
-		$sql_ary = $event['sql_ary'];
-		$sql_ary['username_seo'] = $this->ext_helper->clean_url($sql_ary['username']);
-		$event['sql_ary'] = $sql_ary;
-	}
-
-	/**
-	* core.update_username
-	*
-	* @param array $event Data from the PHP event
-	*/
-	public function update_username($event)
-	{
-		// Update SEO username again when changed
-		$username_seo = $this->ext_helper->clean_url($event['new_name']);
-
-		$sql = 'UPDATE ' . USERS_TABLE . "
-			SET username_seo = '$username_seo'
-			WHERE username = '" . $this->db->sql_escape($event['new_name']) . "'";
-		$this->db->sql_query($sql);
 	}
 
 	/**
@@ -91,7 +60,7 @@ class seo implements EventSubscriberInterface
 	public function submit_post_modify_sql_data($event)
 	{
 		// Adjust topic SEO title based on topic title
-		if ($event['post_mode'] == 'post' || $event['post_mode'] == 'edit_topic' || $event['post_mode'] == 'edit_first_post')
+		if (in_array($event['post_mode'], ['post', 'edit_topic', 'edit_first_post']))
 		{
 			$sql_data = $event['sql_data'];
 			$sql_data[TOPICS_TABLE]['sql']['topic_title_seo'] = $this->ext_helper->clean_url($sql_data[TOPICS_TABLE]['sql']['topic_title']);

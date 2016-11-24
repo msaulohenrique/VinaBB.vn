@@ -50,8 +50,7 @@ class seo_update extends migration
 		$tables_list = [
 			$this->table_prefix . 'forums'	=> ['id' => 'forum_id', 'column' => 'forum_name', 'seo_column' => 'forum_name_seo'],
 			$this->table_prefix . 'topics'	=> ['id' => 'topic_id', 'column' => 'topic_title', 'seo_column' => 'topic_title_seo'],
-			$this->table_prefix . 'post'	=> ['id' => 'post_id', 'column' => 'post_subject', 'seo_column' => 'post_subject_seo'],
-			$this->table_prefix . 'users'	=> ['id' => 'user_id', 'column' => 'username', 'seo_column' => 'username_seo']
+			$this->table_prefix . 'post'	=> ['id' => 'post_id', 'column' => 'post_subject', 'seo_column' => 'post_subject_seo']
 		];
 
 		foreach ($tables_list as $table_name => $data)
