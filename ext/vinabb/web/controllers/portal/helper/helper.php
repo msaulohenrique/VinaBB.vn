@@ -30,9 +30,6 @@ class helper implements helper_interface
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var \phpbb\event\dispatcher_interface */
-	protected $dispatcher;
-
 	/** @var \phpbb\extension\manager */
 	protected $ext_manager;
 
@@ -86,7 +83,6 @@ class helper implements helper_interface
 	* @param \phpbb\config\config $config
 	* @param \phpbb\content_visibility $content_visibility
 	* @param \phpbb\db\driver\driver_interface $db
-	* @param \phpbb\event\dispatcher_interface $dispatcher
 	* @param \phpbb\extension\manager $ext_manager
 	* @param \phpbb\language\language $language
 	* @param \phpbb\notification\manager $notification
@@ -105,7 +101,6 @@ class helper implements helper_interface
 		\phpbb\config\config $config,
 		\phpbb\content_visibility $content_visibility,
 		\phpbb\db\driver\driver_interface $db,
-		\phpbb\event\dispatcher_interface $dispatcher,
 		\phpbb\extension\manager $ext_manager,
 		\phpbb\language\language $language,
 		\phpbb\notification\manager $notification,
@@ -124,7 +119,6 @@ class helper implements helper_interface
 		$this->config = $config;
 		$this->content_visibility = $content_visibility;
 		$this->db = $db;
-		$this->dispatcher = $dispatcher;
 		$this->ext_manager = $ext_manager;
 		$this->language = $language;
 		$this->notification = $notification;
@@ -676,19 +670,6 @@ class helper implements helper_interface
 					AND (u.user_birthday LIKE '" . $this->db->sql_escape(sprintf('%2d-%2d-', $now['mday'], $now['mon'])) . "%' $leap_year_birthdays)
 					AND u.user_type IN (" . USER_NORMAL . ', ' . USER_FOUNDER . ')'
 			];
-
-			/**
-			* Event to modify the SQL query to get birthdays data
-			*
-			* @event core.index_modify_birthdays_sql
-			* @var	array	now			The assoc array with the 'now' local timestamp data
-			* @var	array	sql_ary		The SQL array to get the birthdays data
-			* @var	object	time		The user related Datetime object
-			* @since 3.1.7-RC1
-			*/
-			$vars = ['now', 'sql_ary', 'time'];
-			extract($this->dispatcher->trigger_event('core.index_modify_birthdays_sql', compact($vars)));
-
 			$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 			$result = $this->db->sql_query($sql);
 			$rows = $this->db->sql_fetchrowset($result);
@@ -704,17 +685,6 @@ class helper implements helper_interface
 					'AGE'		=> $birthday_age
 				];
 			}
-
-			/**
-			* Event to modify the birthdays list
-			*
-			* @event core.index_modify_birthdays_list
-			* @var	array	birthdays		Array with the users birthdays data
-			* @var	array	rows			Array with the birthdays SQL query result
-			* @since 3.1.7-RC1
-			*/
-			$vars = ['birthdays', 'rows'];
-			extract($this->dispatcher->trigger_event('core.index_modify_birthdays_list', compact($vars)));
 		}
 
 		return $birthdays;

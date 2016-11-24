@@ -59,7 +59,6 @@ services:
             - '@config'
             - '@content.visibility'
             - '@dbal.conn'
-            - '@dispatcher'
             - '@ext.manager'
             - '@language'
             - '@notification_manager'
