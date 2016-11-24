@@ -5,6 +5,13 @@ services:
         shared: false
         arguments:
             - '@dbal.conn'
+    vinabb.web.entities.group:
+        class: vinabb\web\entities\group
+        shared: false
+        arguments:
+            - '@config'
+            - '@dbal.conn'
+            - '@vinabb.web.helper.entity'
     vinabb.web.entities.forum:
         class: vinabb\web\entities\forum
         shared: false
