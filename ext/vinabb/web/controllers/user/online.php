@@ -24,9 +24,6 @@ class online implements online_interface
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var \phpbb\event\dispatcher_interface */
-	protected $dispatcher;
-
 	/** @var \phpbb\language\language */
 	protected $language;
 
@@ -64,7 +61,6 @@ class online implements online_interface
 	* @param \phpbb\cache\service $cache
 	* @param \phpbb\config\config $config
 	* @param \phpbb\db\driver\driver_interface $db
-	* @param \phpbb\event\dispatcher_interface $dispatcher
 	* @param \phpbb\language\language $language
 	* @param \phpbb\pagination $pagination
 	* @param \phpbb\request\request $request
@@ -81,7 +77,6 @@ class online implements online_interface
 		\phpbb\cache\service $cache,
 		\phpbb\config\config $config,
 		\phpbb\db\driver\driver_interface $db,
-		\phpbb\event\dispatcher_interface $dispatcher,
 		\phpbb\language\language $language,
 		\phpbb\pagination $pagination,
 		\phpbb\request\request $request,
@@ -98,7 +93,6 @@ class online implements online_interface
 		$this->cache = $cache;
 		$this->config = $config;
 		$this->db = $db;
-		$this->dispatcher = $dispatcher;
 		$this->language = $language;
 		$this->pagination = $pagination;
 		$this->request = $request;
@@ -194,21 +188,6 @@ class online implements online_interface
 				((!$show_guests) ? ' AND s.session_user_id <> ' . ANONYMOUS : ''),
 			'ORDER_BY'	=> $order_by
 		];
-
-		/**
-		* Modify the SQL query for getting the user data to display viewonline list
-		*
-		* @event core.viewonline_modify_sql
-		* @var	array	sql_ary			The SQL array
-		* @var	bool	show_guests		Do we display guests in the list
-		* @var	int		guest_counter	Number of guests displayed
-		* @var	array	forum_data		Array with forum data
-		* @since 3.1.0-a1
-		* @change 3.1.0-a2 Added vars guest_counter and forum_data
-		*/
-		$vars = ['sql_ary', 'show_guests', 'guest_counter', 'forum_data'];
-		extract($this->dispatcher->trigger_event('core.viewonline_modify_sql', compact($vars)));
-
 		$result = $this->db->sql_query($this->db->sql_build_query('SELECT', $sql_ary));
 
 		$prev_id = $prev_ip = [];
@@ -405,22 +384,7 @@ class online implements online_interface
 				}
 			}
 
-			/**
-			* Overwrite the location's name and URL, which are displayed in the list
-			*
-			* @event core.viewonline_overwrite_location
-			* @var	array	on_page			File name and query string
-			* @var	array	row				Array with the users sql row
-			* @var	string	location		Page name to displayed in the list
-			* @var	string	location_url	Page url to displayed in the list
-			* @var	array	forum_data		Array with forum data
-			* @since 3.1.0-a1
-			* @change 3.1.0-a2 Added var forum_data
-			*/
-			$vars = ['on_page', 'row', 'location', 'location_url', 'forum_data'];
-			extract($this->dispatcher->trigger_event('core.viewonline_overwrite_location', compact($vars)));
-
-			$template_row = [
+			$this->template->assign_block_vars('user_row', [
 				'USERNAME' 			=> $row['username'],
 				'USERNAME_COLOUR'	=> $row['user_colour'],
 				'USERNAME_FULL'		=> $username_full,
@@ -437,22 +401,7 @@ class online implements online_interface
 				'S_USER_HIDDEN'		=> $s_user_hidden,
 				'S_GUEST'			=> ($row['user_id'] == ANONYMOUS),
 				'S_USER_TYPE'		=> $row['user_type']
-			];
-
-			/**
-			* Modify viewonline template data before it is displayed in the list
-			*
-			* @event core.viewonline_modify_user_row
-			* @var	array	on_page			File name and query string
-			* @var	array	row				Array with the users sql row
-			* @var	array	forum_data		Array with forum data
-			* @var	array	template_row	Array with template variables for the user row
-			* @since 3.1.0-RC4
-			*/
-			$vars = ['on_page', 'row', 'forum_data', 'template_row'];
-			extract($this->dispatcher->trigger_event('core.viewonline_modify_user_row', compact($vars)));
-
-			$this->template->assign_block_vars('user_row', $template_row);
+			]);
 		}
 		$this->db->sql_freeresult($result);
 		unset($prev_id, $prev_ip);
