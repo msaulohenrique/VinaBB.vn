@@ -156,7 +156,6 @@ services:
             - '@content.visibility'
             - '@cron.manager'
             - '@dbal.conn'
-            - '@dispatcher'
             - '@language'
             - '@vinabb.web.pagination'
             - '@request'

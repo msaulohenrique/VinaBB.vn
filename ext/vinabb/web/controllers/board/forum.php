@@ -30,9 +30,6 @@ class forum implements forum_interface
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var \phpbb\event\dispatcher_interface */
-	protected $dispatcher;
-
 	/** @var \phpbb\language\language */
 	protected $language;
 
@@ -69,7 +66,6 @@ class forum implements forum_interface
 	* @param \phpbb\content_visibility $content_visibility
 	* @param \phpbb\cron\manager $cron
 	* @param \phpbb\db\driver\driver_interface $db
-	* @param \phpbb\event\dispatcher_interface $dispatcher
 	* @param \phpbb\language\language $language
 	* @param \vinabb\web\controllers\pagination $pagination
 	* @param \phpbb\request\request $request
@@ -87,7 +83,6 @@ class forum implements forum_interface
 		\phpbb\content_visibility $content_visibility,
 		\phpbb\cron\manager $cron,
 		\phpbb\db\driver\driver_interface $db,
-		\phpbb\event\dispatcher_interface $dispatcher,
 		\phpbb\language\language $language,
 		\vinabb\web\controllers\pagination $pagination,
 		\phpbb\request\request $request,
@@ -105,7 +100,6 @@ class forum implements forum_interface
 		$this->content_visibility = $content_visibility;
 		$this->cron = $cron;
 		$this->db = $db;
-		$this->dispatcher = $dispatcher;
 		$this->language = $language;
 		$this->pagination = $pagination;
 		$this->request = $request;
@@ -420,23 +414,6 @@ class forum implements forum_interface
 						OR t.topic_type = ' . POST_GLOBAL . ')
 					AND ' . $this->content_visibility->get_visibility_sql('topic', $forum_id, 't.')
 			];
-
-			/**
-			* Modify the sort data SQL query for getting additional fields if needed
-			*
-			* @event core.viewforum_modify_sort_data_sql
-			* @var int		forum_id		The forum_id whose topics are being listed
-			* @var int		start			Variable containing start for pagination
-			* @var int		sort_days		The oldest topic displayable in elapsed days
-			* @var string	sort_key		The sorting by. It is one of the first character of (in low case):
-			*								Author, Post time, Replies, Subject, Views
-			* @var string	sort_dir		Either "a" for ascending or "d" for descending
-			* @var array	sql_array		The SQL array to get the data of all topics
-			* @since 3.1.9-RC1
-			*/
-			$vars = ['forum_id', 'start', 'sort_days', 'sort_key', 'sort_dir', 'sql_array'];
-			extract($this->dispatcher->trigger_event('core.viewforum_modify_sort_data_sql', compact($vars)));
-
 			$result = $this->db->sql_query($this->db->sql_build_query('SELECT', $sql_array));
 			$topics_count = (int) $this->db->sql_fetchfield('num_topics');
 			$this->db->sql_freeresult($result);
@@ -542,28 +519,6 @@ class forum implements forum_interface
 			'FROM'		=> [TOPICS_TABLE => 't'],
 			'LEFT_JOIN'	=> []
 		];
-
-		/**
-		* Event to modify the SQL query before the topic data is retrieved
-		*
-		* It may also be used to override the above assigned template vars
-		*
-		* @event core.viewforum_get_topic_data
-		* @var	array	forum_data			Array with forum data
-		* @var	array	sql_array			The SQL array to get the data of all topics
-		* @var	int		forum_id			The forum_id whose topics are being listed
-		* @var	int		topics_count		The total number of topics for display
-		* @var	int		sort_days			The oldest topic displayable in elapsed days
-		* @var	string	sort_key			The sorting by. It is one of the first character of (in low case):
-		*									Author, Post time, Replies, Subject, Views
-		* @var	string	sort_dir			Either "a" for ascending or "d" for descending
-		* @since 3.1.0-a1
-		* @change 3.1.0-RC4 Added forum_data var
-		* @change 3.1.4-RC1 Added forum_id, topics_count, sort_days, sort_key and sort_dir vars
-		* @change 3.1.9-RC1 Fix types of properties
-		*/
-		$vars = ['forum_data', 'sql_array', 'forum_id', 'topics_count', 'sort_days', 'sort_key', 'sort_dir'];
-		extract($this->dispatcher->trigger_event('core.viewforum_get_topic_data', compact($vars)));
 
 		$sql_approved = ' AND ' . $this->content_visibility->get_visibility_sql('topic', $forum_id, 't.');
 
@@ -710,28 +665,6 @@ class forum implements forum_interface
 				$sql_limit_time",
 			'ORDER_BY'	=> 't.topic_type ' . ((!$store_reverse) ? 'DESC' : 'ASC') . ', ' . $sql_sort_order,
 		];
-
-		/**
-		* Event to modify the SQL query before the topic ids data is retrieved
-		*
-		* @event core.viewforum_get_topic_ids_data
-		* @var	array	forum_data		Data about the forum
-		* @var	array	sql_ary			SQL query array to get the topic ids data
-		* @var	string	sql_approved	Topic visibility SQL string
-		* @var	int		sql_limit		Number of records to select
-		* @var	string	sql_limit_time	SQL string to limit topic_last_post_time data
-		* @var	array	sql_sort_order	SQL sorting string
-		* @var	int		sql_start		Offset point to start selection from
-		* @var	string	sql_where		SQL WHERE clause string
-		* @var	bool	store_reverse	Flag indicating if we select from the late pages
-		*
-		* @since 3.1.0-RC4
-		*
-		* @changed 3.1.3 Added forum_data
-		*/
-		$vars = ['forum_data', 'sql_ary', 'sql_approved', 'sql_limit', 'sql_limit_time', 'sql_sort_order', 'sql_start', 'sql_where', 'store_reverse'];
-		extract($this->dispatcher->trigger_event('core.viewforum_get_topic_ids_data', compact($vars)));
-
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query_limit($sql, $sql_limit, $sql_start);
 
@@ -781,17 +714,6 @@ class forum implements forum_interface
 				'FROM'		=> [TOPICS_TABLE => 't'],
 				'WHERE'		=> $this->db->sql_in_set('t.topic_id', array_keys($shadow_topic_list))
 			];
-
-			/**
-			* Event to modify the SQL query before the shadowtopic data is retrieved
-			*
-			* @event core.viewforum_get_shadowtopic_data
-			* @var	array	sql_array		SQL array to get the data of any shadowtopics
-			* @since 3.1.0-a1
-			*/
-			$vars = ['sql_array'];
-			extract($this->dispatcher->trigger_event('core.viewforum_get_shadowtopic_data', compact($vars)));
-
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
 			$result = $this->db->sql_query($sql);
 
@@ -860,18 +782,6 @@ class forum implements forum_interface
 
 		$topic_list = ($store_reverse) ? array_merge($announcement_list, array_reverse($topic_list)) : array_merge($announcement_list, $topic_list);
 		$topic_tracking_info = $tracking_topics = [];
-
-		/**
-		* Modify topics data before we display the viewforum page
-		*
-		* @event core.viewforum_modify_topics_data
-		* @var	array	topic_list			Array with current viewforum page topic ids
-		* @var	array	rowset				Array with topics data (in topic_id => topic_data format)
-		* @var	int		total_topic_count	Forum's total topic count
-		* @since 3.1.0-b3
-		*/
-		$vars = ['topic_list', 'rowset', 'total_topic_count'];
-		extract($this->dispatcher->trigger_event('core.viewforum_modify_topics_data', compact($vars)));
 
 		// Okay, lets dump out the page ...
 		if (sizeof($topic_list))
@@ -1022,37 +932,11 @@ class forum implements forum_interface
 					'S_TOPIC_TYPE_SWITCH'	=> ($s_type_switch == $s_type_switch_test) ? -1 : $s_type_switch_test,
 				);
 
-				/**
-				* Modify the topic data before it is assigned to the template
-				*
-				* @event core.viewforum_modify_topicrow
-				* @var	array	row			Array with topic data
-				* @var	array	topic_row	Template array with topic data
-				* @since 3.1.0-a1
-				*/
-				$vars = ['row', 'topic_row'];
-				extract($this->dispatcher->trigger_event('core.viewforum_modify_topicrow', compact($vars)));
-
 				$this->template->assign_block_vars('topicrow', $topic_row);
 
 				$this->pagination->generate_template_pagination('vinabb_web_board_topic_route', ['topic_id' => $topic_id], 'topicrow.pagination', $replies + 1, $this->config['posts_per_page'], 1, true, true);
 
 				$s_type_switch = ($row['topic_type'] == POST_ANNOUNCE || $row['topic_type'] == POST_GLOBAL) ? 1 : 0;
-
-				/**
-				* Event after the topic data has been assigned to the template
-				*
-				* @event core.viewforum_topic_row_after
-				* @var	array	row				Array with the topic data
-				* @var	array	rowset			Array with topics data (in topic_id => topic_data format)
-				* @var	bool	s_type_switch	Flag indicating if the topic type is [global] announcement
-				* @var	int		topic_id		The topic ID
-				* @var	array	topic_list		Array with current viewforum page topic ids
-				* @var	array	topic_row		Template array with topic data
-				* @since 3.1.3-RC1
-				*/
-				$vars = ['row', 'rowset', 's_type_switch', 'topic_id', 'topic_list', 'topic_row'];
-				extract($this->dispatcher->trigger_event('core.viewforum_topic_row_after', compact($vars)));
 
 				if ($unread_topic)
 				{
