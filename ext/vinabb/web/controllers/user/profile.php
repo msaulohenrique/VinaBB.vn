@@ -19,9 +19,6 @@ class profile
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var \phpbb\event\dispatcher_interface */
-	protected $dispatcher;
-
 	/** @var \phpbb\language\language */
 	protected $language;
 
@@ -58,7 +55,6 @@ class profile
 	* @param \phpbb\auth\auth $auth
 	* @param \phpbb\config\config $config
 	* @param \phpbb\db\driver\driver_interface $db
-	* @param \phpbb\event\dispatcher_interface $dispatcher
 	* @param \phpbb\language\language $language
 	* @param \phpbb\profilefields\manager $profile_fields
 	* @param \phpbb\request\request $request
@@ -74,7 +70,6 @@ class profile
 		\phpbb\auth\auth $auth,
 		\phpbb\config\config $config,
 		\phpbb\db\driver\driver_interface $db,
-		\phpbb\event\dispatcher_interface $dispatcher,
 		\phpbb\language\language $language,
 		\phpbb\profilefields\manager $profile_fields,
 		\phpbb\request\request $request,
@@ -90,7 +85,6 @@ class profile
 		$this->auth = $auth;
 		$this->config = $config;
 		$this->db = $db;
-		$this->dispatcher = $dispatcher;
 		$this->language = $language;
 		$this->profile_fields = $profile_fields;
 		$this->request = $request;
@@ -282,36 +276,6 @@ class profile
 			$profile_fields = $this->profile_fields->grab_profile_fields_data($user_id);
 			$profile_fields = (isset($profile_fields[$user_id])) ? $this->profile_fields->generate_profile_fields_template_data($profile_fields[$user_id]) : array();
 		}
-
-		/**
-		 * Modify user data before we display the profile
-		 *
-		 * @event core.memberlist_view_profile
-		 * @var	array	member					Array with user's data
-		 * @var	bool	user_notes_enabled		Is the mcp user notes module enabled?
-		 * @var	bool	warn_user_enabled		Is the mcp warnings module enabled?
-		 * @var	bool	zebra_enabled			Is the ucp zebra module enabled?
-		 * @var	bool	friends_enabled			Is the ucp friends module enabled?
-		 * @var	bool	foes_enabled			Is the ucp foes module enabled?
-		 * @var	bool    friend					Is the user friend?
-		 * @var	bool	foe						Is the user foe?
-		 * @var	array	profile_fields			Array with user's profile field data
-		 * @since 3.1.0-a1
-		 * @changed 3.1.0-b2 Added friend and foe status
-		 * @changed 3.1.0-b3 Added profile fields data
-		 */
-		$vars = array(
-			'member',
-			'user_notes_enabled',
-			'warn_user_enabled',
-			'zebra_enabled',
-			'friends_enabled',
-			'foes_enabled',
-			'friend',
-			'foe',
-			'profile_fields',
-		);
-		extract($this->dispatcher->trigger_event('core.memberlist_view_profile', compact($vars)));
 
 		$this->template->assign_vars(phpbb_show_profile($member, $user_notes_enabled, $warn_user_enabled));
 

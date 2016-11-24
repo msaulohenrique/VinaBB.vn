@@ -21,7 +21,6 @@ services:
             - '@auth'
             - '@config'
             - '@dbal.conn'
-            - '@dispatcher'
             - '@language'
             - '@profilefields.manager'
             - '@request'
