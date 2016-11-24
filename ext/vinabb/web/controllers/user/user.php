@@ -21,9 +21,6 @@ class user
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var \phpbb\event\dispatcher_interface */
-	protected $dispatcher;
-
 	/** @var \phpbb\language\language */
 	protected $language;
 
@@ -60,7 +57,6 @@ class user
 	* @param \phpbb\auth\auth $auth
 	* @param \phpbb\config\config $config
 	* @param \phpbb\db\driver\driver_interface $db
-	* @param \phpbb\event\dispatcher_interface $dispatcher
 	* @param \phpbb\language\language $language
 	* @param \vinabb\web\controllers\pagination $pagination
 	* @param \phpbb\profilefields\manager $profile_fields
@@ -76,7 +72,6 @@ class user
 		\phpbb\auth\auth $auth,
 		\phpbb\config\config $config,
 		\phpbb\db\driver\driver_interface $db,
-		\phpbb\event\dispatcher_interface $dispatcher,
 		\phpbb\language\language $language,
 		\vinabb\web\controllers\pagination $pagination,
 		\phpbb\profilefields\manager $profile_fields,
@@ -92,7 +87,6 @@ class user
 		$this->auth = $auth;
 		$this->config = $config;
 		$this->db = $db;
-		$this->dispatcher = $dispatcher;
 		$this->language = $language;
 		$this->pagination = $pagination;
 		$this->profile_fields = $profile_fields;
@@ -295,23 +289,6 @@ class user
 						FROM ' . POSTS_TABLE . '
 						WHERE poster_ip ' . ((strpos($ips, '%') !== false) ? 'LIKE' : 'IN') . " ($ips)
 							AND " . $this->db->sql_in_set('forum_id', $ip_forums);
-
-					/**
-					 * Modify sql query for members search by ip address / hostname
-					 *
-					 * @event core.memberlist_modify_ip_search_sql_query
-					 * @var	string	ipdomain	The host name
-					 * @var	string	ips			IP address list for the given host name
-					 * @var	string	sql			The SQL query for searching members by IP address
-					 * @since 3.1.7-RC1
-					 */
-					$vars = array(
-						'ipdomain',
-						'ips',
-						'sql',
-					);
-					extract($this->dispatcher->trigger_event('core.memberlist_modify_ip_search_sql_query', compact($vars)));
-
 					$result = $this->db->sql_query($sql);
 
 					if ($row = $this->db->sql_fetchrow($result))
@@ -472,32 +449,6 @@ class user
 		{
 			$order_by .= ', u.user_posts DESC';
 		}
-
-		/**
-		 * Modify sql query data for members search
-		 *
-		 * @event core.memberlist_modify_sql_query_data
-		 * @var	string	order_by		SQL ORDER BY clause condition
-		 * @var	string	sort_dir		The sorting direction
-		 * @var	string	sort_key		The sorting key
-		 * @var	array	sort_key_sql	Arraty with the sorting conditions data
-		 * @var	string	sql_from		SQL FROM clause condition
-		 * @var	string	sql_select		SQL SELECT fields list
-		 * @var	string	sql_where		SQL WHERE clause condition
-		 * @var	string	sql_where_data	SQL WHERE clause additional conditions data
-		 * @since 3.1.7-RC1
-		 */
-		$vars = array(
-			'order_by',
-			'sort_dir',
-			'sort_key',
-			'sort_key_sql',
-			'sql_from',
-			'sql_select',
-			'sql_where',
-			'sql_where_data',
-		);
-		extract($this->dispatcher->trigger_event('core.memberlist_modify_sql_query_data', compact($vars)));
 
 		// Count the users ...
 		$sql = 'SELECT COUNT(u.user_id) AS total_users
@@ -769,18 +720,7 @@ class user
 			}
 
 			// do we need to display contact fields as such
-			$use_contact_fields = false;
-
-			/**
-			 * Modify list of users before member row is created
-			 *
-			 * @event core.memberlist_memberrow_before
-			 * @var array	user_list			Array containing list of users
-			 * @var bool	use_contact_fields	Should we display contact fields as such?
-			 * @since 3.1.7-RC1
-			 */
-			$vars = array('user_list', 'use_contact_fields');
-			extract($this->dispatcher->trigger_event('core.memberlist_memberrow_before', compact($vars)));
+			$use_contact_fields = true;
 
 			for ($i = 0, $end = sizeof($user_list); $i < $end; ++$i)
 			{

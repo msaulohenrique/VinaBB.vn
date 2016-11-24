@@ -5,7 +5,6 @@ services:
             - '@auth'
             - '@config'
             - '@dbal.conn'
-            - '@dispatcher'
             - '@language'
             - '@vinabb.web.pagination'
             - '@profilefields.manager'
