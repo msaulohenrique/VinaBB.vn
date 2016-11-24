@@ -1891,7 +1891,7 @@ class posting
 	*/
 	protected function bump_topic($forum_id, $topic_id)
 	{
-		if ($bump_time = bump_topic_allowed($forum_id, $this->post_data['topic_bumped'], $this->post_data['topic_last_post_time'], $this->post_data['topic_poster'], $this->post_data['topic_last_poster_id'])
+		if (bump_topic_allowed($forum_id, $this->post_data['topic_bumped'], $this->post_data['topic_last_post_time'], $this->post_data['topic_poster'], $this->post_data['topic_last_poster_id'])
 			&& check_link_hash($this->request->variable('hash', ''), "topic_{$this->post_data['topic_id']}"))
 		{
 			$meta_url = phpbb_bump_topic($forum_id, $topic_id, $this->post_data, $this->current_time);
