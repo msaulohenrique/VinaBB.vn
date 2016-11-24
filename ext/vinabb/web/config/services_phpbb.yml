@@ -173,7 +173,6 @@ services:
             - '@config'
             - '@content.visibility'
             - '@dbal.conn'
-            - '@dispatcher'
             - '@language'
             - '@vinabb.web.pagination'
             - '@profilefields.manager'

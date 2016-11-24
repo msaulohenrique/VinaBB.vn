@@ -27,9 +27,6 @@ class topic
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var \phpbb\event\dispatcher_interface */
-	protected $dispatcher;
-
 	/** @var \phpbb\language\language */
 	protected $language;
 
@@ -68,7 +65,6 @@ class topic
 	* @param \phpbb\config\config $config
 	* @param \phpbb\content_visibility $content_visibility
 	* @param \phpbb\db\driver\driver_interface $db
-	* @param \phpbb\event\dispatcher_interface $dispatcher
 	* @param \phpbb\language\language $language
 	* @param \vinabb\web\controllers\pagination $pagination
 	* @param \phpbb\profilefields\manager $profile_fields
@@ -86,7 +82,6 @@ class topic
 		\phpbb\config\config $config,
 		\phpbb\content_visibility $content_visibility,
 		\phpbb\db\driver\driver_interface $db,
-		\phpbb\event\dispatcher_interface $dispatcher,
 		\phpbb\language\language $language,
 		\vinabb\web\controllers\pagination $pagination,
 		\phpbb\profilefields\manager $profile_fields,
@@ -104,7 +99,6 @@ class topic
 		$this->config = $config;
 		$this->content_visibility = $content_visibility;
 		$this->db = $db;
-		$this->dispatcher = $dispatcher;
 		$this->language = $language;
 		$this->pagination = $pagination;
 		$this->profile_fields = $profile_fields;
@@ -432,27 +426,6 @@ class topic
 		$overrides_forum_password_check = false;
 		$topic_tracking_info = isset($topic_tracking_info) ? $topic_tracking_info : null;
 
-		/**
-		* Event to apply extra permissions and to override original phpBB's f_read permission and forum password check
-		* on viewtopic access
-		*
-		* @event core.viewtopic_before_f_read_check
-		* @var	int		forum_id						The forum id from where the topic belongs
-		* @var	int		topic_id						The id of the topic the user tries to access
-		* @var	int		post_id							The id of the post the user tries to start viewing at.
-		*												It may be 0 for none given.
-		* @var	array	topic_data						All the information from the topic and forum tables for this topic
-		* 												It includes posts information if post_id is not 0
-		* @var	bool	overrides_f_read_check			Set true to remove f_read check afterwards
-		* @var	bool	overrides_forum_password_check	Set true to remove forum_password check afterwards
-		* @var	array	topic_tracking_info				Information upon calling get_topic_tracking()
-		*												Set it to NULL to allow auto-filling later.
-		*												Set it to an array to override original data.
-		* @since 3.1.3-RC1
-		*/
-		$vars = ['forum_id', 'topic_id', 'post_id', 'topic_data', 'overrides_f_read_check', 'overrides_forum_password_check', 'topic_tracking_info'];
-		extract($this->dispatcher->trigger_event('core.viewtopic_before_f_read_check', compact($vars)));
-
 		// Start auth check
 		if (!$overrides_f_read_check && !$this->auth->acl_get('f_read', $forum_id))
 		{
@@ -647,24 +620,6 @@ class topic
 			'topic_logs'	=> ['VIEW_TOPIC_LOGS', $this->auth->acl_get('m_', $forum_id)]
 		];
 
-		/**
-		* Event to modify data in the quickmod_array before it gets sent to the
-		* phpbb_add_quickmod_option function.
-		*
-		* @event core.viewtopic_add_quickmod_option_before
-		* @var	int				forum_id				Forum ID
-		* @var	int				post_id					Post ID
-		* @var	array			quickmod_array			Array with quick moderation options data
-		* @var	array			topic_data				Array with topic data
-		* @var	int				topic_id				Topic ID
-		* @var	array			topic_tracking_info		Array with topic tracking data
-		* @var	string			viewtopic_url			URL to the topic page
-		* @var	bool			allow_change_type		Topic change permissions check
-		* @since 3.1.9-RC1
-		*/
-		$vars = ['forum_id', 'post_id', 'quickmod_array', 'topic_data', 'topic_id', 'topic_tracking_info', 'viewtopic_url', 'allow_change_type'];
-		extract($this->dispatcher->trigger_event('core.viewtopic_add_quickmod_option_before', compact($vars)));
-
 		foreach ($quickmod_array as $option => $qm_ary)
 		{
 			if (!empty($qm_ary[1]))
@@ -727,27 +682,6 @@ class topic
 		{
 			$pagination_params['hilit'] = $highlight;
 		}
-
-		/**
-		* Event to modify data before template variables are being assigned
-		*
-		* @event core.viewtopic_assign_template_vars_before
-		* @var	array	pagination_params	URL parameters to be passed to generate pagination
-		* @var	int		forum_id			Forum ID
-		* @var	int		post_id				Post ID
-		* @var	array	quickmod_array		Array with quick moderation options data
-		* @var	int		start				Pagination information
-		* @var	array	topic_data			Array with topic data
-		* @var	int		topic_id			Topic ID
-		* @var	array	topic_tracking_info	Array with topic tracking data
-		* @var	int		total_posts			Topic total posts count
-		* @var	string	viewtopic_url		URL to the topic page
-		* @since 3.1.0-RC4
-		* @change 3.1.2-RC1 Added viewtopic_url
-		* @change Replaced base_url with pagination_params
-		*/
-		$vars = ['pagination_params', 'forum_id', 'post_id', 'quickmod_array', 'start', 'topic_data', 'topic_id', 'topic_tracking_info', 'total_posts', 'viewtopic_url'];
-		extract($this->dispatcher->trigger_event('core.viewtopic_assign_template_vars_before', compact($vars)));
 
 		$this->pagination->generate_template_pagination('vinabb_web_board_topic_route', $pagination_params, 'pagination', $total_posts, $this->config['posts_per_page'], $start);
 
@@ -873,25 +807,6 @@ class topic
 				(!sizeof($cur_voted_id) ||
 					($this->auth->acl_get('f_votechg', $forum_id) && $topic_data['poll_vote_change']))) ? true : false;
 			$s_display_results = (!$s_can_vote || ($s_can_vote && sizeof($cur_voted_id)) || $view == 'viewpoll') ? true : false;
-
-			/**
-			* Event to manipulate the poll data
-			*
-			* @event core.viewtopic_modify_poll_data
-			* @var	array	cur_voted_id				Array with options' IDs current user has voted for
-			* @var	int		forum_id					The topic's forum id
-			* @var	array	poll_info					Array with the poll information
-			* @var	bool	s_can_vote					Flag indicating if a user can vote
-			* @var	bool	s_display_results			Flag indicating if results or poll options should be displayed
-			* @var	int		topic_id					The id of the topic the user tries to access
-			* @var	array	topic_data					All the information from the topic and forum tables for this topic
-			* @var	string	viewtopic_url				URL to the topic page
-			* @var	array	vote_counts					Array with the vote counts for every poll option
-			* @var	array	voted_id					Array with updated options' IDs current user is voting for
-			* @since 3.1.5-RC1
-			*/
-			$vars = ['cur_voted_id', 'forum_id', 'poll_info', 's_can_vote', 's_display_results', 'topic_id', 'topic_data', 'viewtopic_url', 'vote_counts', 'voted_id'];
-			extract($this->dispatcher->trigger_event('core.viewtopic_modify_poll_data', compact($vars)));
 
 			if ($update && $s_can_vote)
 			{
@@ -1067,26 +982,6 @@ class topic
 				'U_VIEW_RESULTS'	=> $viewtopic_url . '&amp;view=viewpoll',
 			);
 
-			/**
-			* Event to add/modify poll template data
-			*
-			* @event core.viewtopic_modify_poll_template_data
-			* @var	array	cur_voted_id					Array with options' IDs current user has voted for
-			* @var	int		poll_end						The poll end time
-			* @var	array	poll_info						Array with the poll information
-			* @var	array	poll_options_template_data		Array with the poll options template data
-			* @var	array	poll_template_data				Array with the common poll template data
-			* @var	int		poll_total						Total poll votes count
-			* @var	int		poll_most						Mostly voted option votes count
-			* @var	array	topic_data						All the information from the topic and forum tables for this topic
-			* @var	string	viewtopic_url					URL to the topic page
-			* @var	array	vote_counts						Array with the vote counts for every poll option
-			* @var	array	voted_id						Array with updated options' IDs current user is voting for
-			* @since 3.1.5-RC1
-			*/
-			$vars = ['cur_voted_id', 'poll_end', 'poll_info', 'poll_options_template_data', 'poll_template_data', 'poll_total', 'poll_most', 'topic_data', 'viewtopic_url', 'vote_counts', 'voted_id'];
-			extract($this->dispatcher->trigger_event('core.viewtopic_modify_poll_template_data', compact($vars)));
-
 			$this->template->assign_block_vars_array('poll_option', $poll_options_template_data);
 			$this->template->assign_vars($poll_template_data);
 
@@ -1180,26 +1075,6 @@ class topic
 			'WHERE'		=> $this->db->sql_in_set('p.post_id', $post_list) . '
 				AND u.user_id = p.poster_id',
 		);
-
-		/**
-		* Event to modify the SQL query before the post and poster data is retrieved
-		*
-		* @event core.viewtopic_get_post_data
-		* @var	int		forum_id	Forum ID
-		* @var	int		topic_id	Topic ID
-		* @var	array	topic_data	Array with topic data
-		* @var	array	post_list	Array with post_ids we are going to retrieve
-		* @var	int		sort_days	Display posts of previous x days
-		* @var	string	sort_key	Key the posts are sorted by
-		* @var	string	sort_dir	Direction the posts are sorted by
-		* @var	int		start		Pagination information
-		* @var	array	sql_ary		The SQL array to get the data of posts and posters
-		* @since 3.1.0-a1
-		* @change 3.1.0-a2 Added vars forum_id, topic_id, topic_data, post_list, sort_days, sort_key, sort_dir, start
-		*/
-		$vars = ['forum_id', 'topic_id', 'topic_data', 'post_list', 'sort_days', 'sort_key', 'sort_dir', 'start', 'sql_ary'];
-		extract($this->dispatcher->trigger_event('core.viewtopic_get_post_data', compact($vars)));
-
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query($sql);
 
@@ -1268,17 +1143,6 @@ class topic
 				'foe'				=> $row['foe']
 			];
 
-			/**
-			* Modify the post rowset containing data to be displayed with posts
-			*
-			* @event core.viewtopic_post_rowset_data
-			* @var	array	rowset_data	Array with the rowset data for this post
-			* @var	array	row			Array with original user and post data
-			* @since 3.1.0-a1
-			*/
-			$vars = ['rowset_data', 'row'];
-			extract($this->dispatcher->trigger_event('core.viewtopic_post_rowset_data', compact($vars)));
-
 			$rowset[$row['post_id']] = $rowset_data;
 
 			// Cache various user specific data ... so we don't have to recompute
@@ -1315,18 +1179,6 @@ class topic
 						'warnings'	=> 0,
 						'allow_pm'	=> 0
 					];
-
-					/**
-					* Modify the guest user's data displayed with the posts
-					*
-					* @event core.viewtopic_cache_guest_data
-					* @var	array	user_cache_data	Array with the user's data
-					* @var	int		poster_id		Poster's user id
-					* @var	array	row				Array with original user and post data
-					* @since 3.1.0-a1
-					*/
-					$vars = ['user_cache_data', 'poster_id', 'row'];
-					extract($this->dispatcher->trigger_event('core.viewtopic_cache_guest_data', compact($vars)));
 
 					$user_cache[$poster_id] = $user_cache_data;
 
@@ -1382,18 +1234,6 @@ class topic
 						'author_username'	=> get_username_string('username', $poster_id, $row['username'], $row['user_colour']),
 						'author_profile'	=> get_username_string('profile', $poster_id, $row['username'], $row['user_colour'])
 					];
-
-					/**
-					* Modify the users' data displayed with their posts
-					*
-					* @event core.viewtopic_cache_user_data
-					* @var	array	user_cache_data	Array with the user's data
-					* @var	int		poster_id		Poster's user id
-					* @var	array	row				Array with original user and post data
-					* @since 3.1.0-a1
-					*/
-					$vars = ['user_cache_data', 'poster_id', 'row'];
-					extract($this->dispatcher->trigger_event('core.viewtopic_cache_user_data', compact($vars)));
 
 					$user_cache[$poster_id] = $user_cache_data;
 
@@ -1552,30 +1392,6 @@ class topic
 			'S_HAS_ATTACHMENTS'	=> $topic_data['topic_attachment'],
 			'S_NUM_POSTS'		=> sizeof($post_list)
 		]);
-
-		/**
-		* Event to modify the post, poster and attachment data before assigning the posts
-		*
-		* @event core.viewtopic_modify_post_data
-		* @var	int		forum_id	Forum ID
-		* @var	int		topic_id	Topic ID
-		* @var	array	topic_data	Array with topic data
-		* @var	array	post_list	Array with post_ids we are going to display
-		* @var	array	rowset		Array with post_id => post data
-		* @var	array	user_cache	Array with prepared user data
-		* @var	int		start		Pagination information
-		* @var	int		sort_days	Display posts of previous x days
-		* @var	string	sort_key	Key the posts are sorted by
-		* @var	string	sort_dir	Direction the posts are sorted by
-		* @var	bool	display_notice				Shall we display a notice instead of attachments
-		* @var	bool	has_approved_attachments	Does the topic have approved attachments
-		* @var	array	attachments					List of attachments post_id => array of attachments
-		* @var	array	permanently_banned_users	List of permanently banned users
-		* @var	array	can_receive_pm_list			Array with posters that can receive pms
-		* @since 3.1.0-RC3
-		*/
-		$vars = ['forum_id', 'topic_id', 'topic_data', 'post_list', 'rowset', 'user_cache', 'sort_days', 'sort_key', 'sort_dir', 'start', 'permanently_banned_users', 'can_receive_pm_list', 'display_notice', 'has_approved_attachments', 'attachments'];
-		extract($this->dispatcher->trigger_event('core.viewtopic_modify_post_data', compact($vars)));
 
 		// Output the posts
 		$first_unread = $post_unread = false;
@@ -1783,26 +1599,6 @@ class topic
 			// we do not want to allow removal of the last post if a moderator locked it!
 			$s_cannot_delete_locked = $topic_data['topic_status'] == ITEM_LOCKED || $row['post_edit_locked'];
 
-			/**
-			* This event allows you to modify the conditions for the "can edit post" and "can delete post" checks
-			*
-			* @event core.viewtopic_modify_post_action_conditions
-			* @var	array	row			Array with post data
-			* @var	array	topic_data	Array with topic data
-			* @var	bool	force_edit_allowed		Allow the user to edit the post (all permissions and conditions are ignored)
-			* @var	bool	s_cannot_edit			User can not edit the post because it's not his
-			* @var	bool	s_cannot_edit_locked	User can not edit the post because it's locked
-			* @var	bool	s_cannot_edit_time		User can not edit the post because edit_time has passed
-			* @var	bool	force_delete_allowed		Allow the user to delete the post (all permissions and conditions are ignored)
-			* @var	bool	s_cannot_delete				User can not delete the post because it's not his
-			* @var	bool	s_cannot_delete_lastpost	User can not delete the post because it's not the last post of the topic
-			* @var	bool	s_cannot_delete_locked		User can not delete the post because it's locked
-			* @var	bool	s_cannot_delete_time		User can not delete the post because edit_time has passed
-			* @since 3.1.0-b4
-			*/
-			$vars = ['row', 'topic_data', 'force_edit_allowed', 's_cannot_edit', 's_cannot_edit_locked', 's_cannot_edit_time', 'force_delete_allowed', 's_cannot_delete', 's_cannot_delete_lastpost', 's_cannot_delete_locked', 's_cannot_delete_time'];
-			extract($this->dispatcher->trigger_event('core.viewtopic_modify_post_action_conditions', compact($vars)));
-
 			$edit_allowed = $force_edit_allowed || ($this->user->data['is_registered'] && ($this->auth->acl_get('m_edit', $forum_id) || (
 				!$s_cannot_edit &&
 				!$s_cannot_edit_time &&
@@ -1933,33 +1729,6 @@ class topic
 				'S_DELETE_PERMANENT'	=> $permanent_delete_allowed
 			];
 
-			$current_row_number = $i;
-
-			/**
-			* Modify the posts template block
-			*
-			* @event core.viewtopic_modify_post_row
-			* @var	int		start				Start item of this page
-			* @var	int		current_row_number	Number of the post on this page
-			* @var	int		end					Number of posts on this page
-			* @var	int		total_posts			Total posts count
-			* @var	int		poster_id			Post author id
-			* @var	array	row					Array with original post and user data
-			* @var	array	cp_row				Custom profile field data of the poster
-			* @var	array	attachments			List of attachments
-			* @var	array	user_poster_data	Poster's data from user cache
-			* @var	array	post_row			Template block array of the post
-			* @var	array	topic_data			Array with topic data
-			* @since 3.1.0-a1
-			* @change 3.1.0-a3 Added vars start, current_row_number, end, attachments
-			* @change 3.1.0-b3 Added topic_data array, total_posts
-			* @change 3.1.0-RC3 Added poster_id
-			*/
-			$vars = ['start', 'current_row_number', 'end', 'total_posts', 'poster_id', 'row', 'cp_row', 'attachments', 'user_poster_data', 'post_row', 'topic_data'];
-			extract($this->dispatcher->trigger_event('core.viewtopic_modify_post_row', compact($vars)));
-
-			$i = $current_row_number;
-
 			if (isset($cp_row['row']) && sizeof($cp_row['row']))
 			{
 				$post_row = array_merge($post_row, $cp_row['row']);
@@ -2021,30 +1790,6 @@ class topic
 					]);
 				}
 			}
-
-			$current_row_number = $i;
-
-			/**
-			* Event after the post data has been assigned to the template
-			*
-			* @event core.viewtopic_post_row_after
-			* @var	int		start				Start item of this page
-			* @var	int		current_row_number	Number of the post on this page
-			* @var	int		end					Number of posts on this page
-			* @var	int		total_posts			Total posts count
-			* @var	array	row					Array with original post and user data
-			* @var	array	cp_row				Custom profile field data of the poster
-			* @var	array	attachments			List of attachments
-			* @var	array	user_poster_data	Poster's data from user cache
-			* @var	array	post_row			Template block array of the post
-			* @var	array	topic_data			Array with topic data
-			* @since 3.1.0-a3
-			* @change 3.1.0-b3 Added topic_data array, total_posts
-			*/
-			$vars = ['start', 'current_row_number', 'end', 'total_posts', 'row', 'cp_row', 'attachments', 'user_poster_data', 'post_row', 'topic_data'];
-			extract($this->dispatcher->trigger_event('core.viewtopic_post_row_after', compact($vars)));
-
-			$i = $current_row_number;
 
 			$prev_post_id = $row['post_id'];
 
@@ -2173,21 +1918,6 @@ class topic
 		}
 
 		$page_title = $topic_data['topic_title'] . ($start ? ' - ' . $this->language->lang('PAGE_TITLE_NUMBER', $this->pagination->get_on_page($this->config['posts_per_page'], $start)) : '');
-
-		/**
-		* You can use this event to modify the page title of the viewtopic page
-		*
-		* @event core.viewtopic_modify_page_title
-		* @var	string	page_title		Title of the viewtopic page
-		* @var	array	topic_data		Array with topic data
-		* @var	int		forum_id		Forum ID of the topic
-		* @var	int		start			Start offset used to calculate the page
-		* @var	array	post_list		Array with post_ids we are going to display
-		* @since 3.1.0-a1
-		* @change 3.1.0-RC4 Added post_list var
-		*/
-		$vars = ['page_title', 'topic_data', 'forum_id', 'start', 'post_list'];
-		extract($this->dispatcher->trigger_event('core.viewtopic_modify_page_title', compact($vars)));
 
 		return $this->helper->render(($view == 'print') ? 'viewtopic_print.html' : 'viewtopic_body.html', $page_title, 200, true, $forum_id);
 	}
