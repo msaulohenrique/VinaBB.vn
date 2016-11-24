@@ -956,7 +956,7 @@ class forum implements forum_interface
 				topic_status($row, $replies, $unread_topic, $folder_img, $folder_alt, $topic_type);
 
 				// Generate all the URIs...
-				$view_topic_url = $this->helper->route('vinabb_web_board_topic_route', ['topic_id' => $topic_id]);
+				$view_topic_url = $this->helper->route('vinabb_web_board_topic_route', ['forum_id' => $forum_id, 'topic_id' => $topic_id]);
 
 				$topic_unapproved = (($row['topic_visibility'] == ITEM_UNAPPROVED || $row['topic_visibility'] == ITEM_REAPPROVE) && $this->auth->acl_get('m_approve', $row['forum_id']));
 				$posts_unapproved = ($row['topic_visibility'] == ITEM_APPROVED && $row['topic_posts_unapproved'] && $this->auth->acl_get('m_approve', $row['forum_id']));
