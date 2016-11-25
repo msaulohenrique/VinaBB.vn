@@ -19,6 +19,9 @@ class whois implements whois_interface
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \phpbb\language\language */
+	protected $language;
+
 	/** @var \phpbb\template\template */
 	protected $template;
 
@@ -36,6 +39,7 @@ class whois implements whois_interface
 	*
 	* @param \phpbb\auth\auth $auth
 	* @param \phpbb\db\driver\driver_interface $db
+	* @param \phpbb\language\language $language
 	* @param \phpbb\template\template $template
 	* @param \phpbb\controller\helper $helper
 	* @param string $root_path
@@ -44,6 +48,7 @@ class whois implements whois_interface
 	public function __construct(
 		\phpbb\auth\auth $auth,
 		\phpbb\db\driver\driver_interface $db,
+		\phpbb\language\language $language,
 		\phpbb\template\template $template,
 		\phpbb\controller\helper $helper,
 		$root_path,
@@ -52,6 +57,7 @@ class whois implements whois_interface
 	{
 		$this->auth = $auth;
 		$this->db = $db;
+		$this->language = $language;
 		$this->template = $template;
 		$this->helper = $helper;
 		$this->root_path = $root_path;

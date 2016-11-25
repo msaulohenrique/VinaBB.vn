@@ -107,6 +107,7 @@ services:
         arguments:
             - '@auth'
             - '@dbal.conn'
+            - '@language'
             - '@template'
             - '@controller.helper'
             - '%core.root_path%'
