@@ -46,6 +46,11 @@ services:
         arguments:
             - '@dbal.conn'
             - '@vinabb.web.helper.entity'
+    vinabb.web.entities.rank:
+        class: vinabb\web\entities\rank
+        shared: false
+        arguments:
+            - '@dbal.conn'
     # VinaBB
     vinabb.web.entities.portal_category:
         class: vinabb\web\entities\portal_category
