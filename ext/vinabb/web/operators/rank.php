@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
 * Operator for a set of ranks
 */
-class rank
+class rank implements rank_interface
 {
 	/** @var ContainerInterface */
 	protected $container;
