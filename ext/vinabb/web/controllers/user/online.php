@@ -395,7 +395,7 @@ class online implements online_interface
 
 				'U_USER_PROFILE'	=> ($row['user_type'] != USER_IGNORE) ? get_username_string('profile', $row['user_id'], '') : '',
 				'U_USER_IP'			=> ($mode != 'lookup' || $row['session_id'] != $session_id) ? $this->helper->route('vinabb_web_user_online_route', ['mode' => 'lookup', 's' => $row['session_id'], 'sg' => $show_guests, 'start' => $start, 'sk' => $sort_key, 'sd' => $sort_dir]) : $this->helper->route('vinabb_web_user_online_route', ['mode' => 'lookup', 'sg' => $show_guests, 'start' => $start, 'sk' => $sort_key, 'sd' => $sort_dir]),
-				'U_WHOIS'			=> $this->helper->route('vinabb_web_user_online_whois_route', ['session_id' => $row['session_id']]),
+				'U_WHOIS'			=> $this->helper->route('vinabb_web_user_whois_route', ['session_id' => $row['session_id']]),
 				'U_FORUM_LOCATION'	=> $location_url,
 
 				'S_USER_HIDDEN'		=> $s_user_hidden,
@@ -468,38 +468,5 @@ class online implements online_interface
 		$this->db->sql_freeresult($result);
 
 		return $guest_counter;
-	}
-
-	/**
-	* Whois requested
-	*
-	* @param string $session_id Session ID
-	* @return \Symfony\Component\HttpFoundation\Response
-	*/
-	public function whois($session_id)
-	{
-		if ($this->auth->acl_get('a_'))
-		{
-			include "{$this->root_path}includes/functions_user.{$this->php_ext}";
-
-			$sql = 'SELECT u.user_id, u.username, u.user_type, s.session_ip
-				FROM ' . USERS_TABLE . ' u, ' . SESSIONS_TABLE . " s
-				WHERE s.session_id = '" . $this->db->sql_escape($session_id) . "'
-			AND	u.user_id = s.session_user_id";
-			$result = $this->db->sql_query($sql);
-
-			if ($row = $this->db->sql_fetchrow($result))
-			{
-				$this->template->assign_var('WHOIS', user_ipwhois($row['session_ip']));
-			}
-			$this->db->sql_freeresult($result);
-
-			return $this->helper->render('viewonline_whois.html', $this->language->lang('WHO_IS_ONLINE'));
-		}
-		else
-		{
-			send_status_line(401, 'Unauthorized');
-			trigger_error('NOT_AUTHORISED');
-		}
 	}
 }

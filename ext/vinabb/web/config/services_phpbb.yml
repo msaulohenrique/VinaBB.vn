@@ -102,6 +102,15 @@ services:
             - '%core.root_path%'
             - '%core.adm_relative_path%'
             - '%core.php_ext%'
+    vinabb.web.user.whois:
+        class: vinabb\web\controllers\user\whois
+        arguments:
+            - '@auth'
+            - '@dbal.conn'
+            - '@template'
+            - '@controller.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
     vinabb.web.ucp:
         class: vinabb\web\controllers\ucp
         arguments:
