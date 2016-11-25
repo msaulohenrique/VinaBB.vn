@@ -45,6 +45,17 @@ class helper implements helper_interface
 	}
 
 	/**
+	* Check the existing style
+	*
+	* @param int $id Style ID
+	* @return bool
+	*/
+	public function check_style_id($id)
+	{
+		return $this->check_column_for_id(STYLES_TABLE, 'style_id', $id);
+	}
+
+	/**
 	* Check the existing group
 	*
 	* @param int $id Group ID

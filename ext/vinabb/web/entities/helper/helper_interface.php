@@ -22,6 +22,14 @@ interface helper_interface
 	public function check_lang_iso($text);
 
 	/**
+	* Check the existing style
+	*
+	* @param int $id Style ID
+	* @return bool
+	*/
+	public function check_style_id($id);
+
+	/**
 	* Check the existing group
 	*
 	* @param int $id Group ID
