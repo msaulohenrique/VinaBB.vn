@@ -61,7 +61,7 @@ class post extends post_options implements post_interface
 			'post_subject_seo'	=> 'string',
 			'post_time'			=> 'integer',
 
-			// Entity: vinabb\web\entities\abs\post_options
+			// Entity: vinabb\web\entities\sub\post_options
 			'post_visibility'	=> 'integer',
 			'post_attachment'	=> 'bool',
 			'post_reported'		=> 'bool',
@@ -69,7 +69,7 @@ class post extends post_options implements post_interface
 			'post_postcount'	=> 'bool',
 			'post_checksum'		=> 'string',
 
-			// Entity: vinabb\web\entities\abs\post_actions
+			// Entity: vinabb\web\entities\sub\post_actions
 			'post_edit_time'		=> 'integer',
 			'post_edit_reason'		=> 'string',
 			'post_edit_user'		=> 'integer',
@@ -79,7 +79,7 @@ class post extends post_options implements post_interface
 			'post_delete_reason'	=> 'string',
 			'post_delete_user'		=> 'integer',
 
-			// Entity: vinabb\web\entities\abs\post_text
+			// Entity: vinabb\web\entities\sub\post_text
 			'post_text'			=> 'string',
 			'bbcode_uid'		=> 'string',
 			'bbcode_bitfield'	=> 'string',

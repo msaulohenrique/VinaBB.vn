@@ -66,7 +66,7 @@ class portal_comment extends comment_text implements portal_comment_interface
 			'comment_pending'	=> 'integer',
 			'comment_time'		=> 'integer',
 
-			// Entity: vinabb\web\entities\abs\comment_text
+			// Entity: vinabb\web\entities\sub\comment_text
 			'comment_text'			=> 'string',
 			'comment_text_uid'		=> 'string',
 			'comment_text_bitfield'	=> 'string',

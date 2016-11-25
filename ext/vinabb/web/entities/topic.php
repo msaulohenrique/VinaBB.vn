@@ -68,7 +68,7 @@ class topic extends topic_actions implements topic_interface
 			'topic_time'				=> 'integer',
 			'topic_time_limit'			=> 'integer',
 
-			// Entity: vinabb\web\entities\abs\topic_actions
+			// Entity: vinabb\web\entities\sub\topic_actions
 			'topic_visibility'		=> 'integer',
 			'topic_attachment'		=> 'bool',
 			'topic_reported'		=> 'bool',
@@ -79,7 +79,7 @@ class topic extends topic_actions implements topic_interface
 			'topic_delete_reason'	=> 'string',
 			'topic_delete_user'		=> 'integer',
 
-			// Entity: vinabb\web\entities\abs\topic_last_post
+			// Entity: vinabb\web\entities\sub\topic_last_post
 			'topic_last_post_id'		=> 'integer',
 			'topic_last_poster_id'		=> 'integer',
 			'topic_last_poster_name'	=> 'string',
@@ -88,7 +88,7 @@ class topic extends topic_actions implements topic_interface
 			'topic_last_post_time'		=> 'integer',
 			'topic_last_view_time'		=> 'integer',
 
-			// Entity: vinabb\web\entities\abs\topic_poll
+			// Entity: vinabb\web\entities\sub\topic_poll
 			'poll_title'		=> 'string',
 			'poll_start'		=> 'integer',
 			'poll_length'		=> 'integer',

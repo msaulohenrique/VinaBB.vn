@@ -71,7 +71,7 @@ class portal_article extends article_text implements portal_article_interface
 			'article_views'		=> 'integer',
 			'article_time'		=> 'integer',
 
-			// Entity: vinabb\web\entities\abs\article_text
+			// Entity: vinabb\web\entities\sub\article_text
 			'article_text'			=> 'string',
 			'article_text_uid'		=> 'string',
 			'article_text_bitfield'	=> 'string',

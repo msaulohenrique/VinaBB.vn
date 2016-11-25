@@ -67,7 +67,7 @@ class forum extends forum_options implements forum_interface
 			'forum_posts_unapproved'	=> 'integer',
 			'forum_posts_softdeleted'	=> 'integer',
 
-			// Entity: vinabb\web\entities\abs\forum_options
+			// Entity: vinabb\web\entities\sub\forum_options
 			'forum_link'			=> 'string',
 			'forum_password'		=> 'string',
 			'forum_style'			=> 'integer',
@@ -79,7 +79,7 @@ class forum extends forum_options implements forum_interface
 			'enable_icons'			=> 'bool',
 			'display_subforum_list'	=> 'bool',
 
-			// Entity: vinabb\web\entities\abs\forum_last_post
+			// Entity: vinabb\web\entities\sub\forum_last_post
 			'forum_last_post_id'		=> 'integer',
 			'forum_last_poster_id'		=> 'integer',
 			'forum_last_poster_name'	=> 'string',
@@ -87,7 +87,7 @@ class forum extends forum_options implements forum_interface
 			'forum_last_post_subject'	=> 'string',
 			'forum_last_post_time'		=> 'integer',
 
-			// Entity: vinabb\web\entities\abs\forum_prune
+			// Entity: vinabb\web\entities\sub\forum_prune
 			'enable_prune'			=> 'bool',
 			'enable_shadow_prune'	=> 'bool',
 			'prune_days'			=> 'integer',
@@ -98,7 +98,7 @@ class forum extends forum_options implements forum_interface
 			'prune_shadow_freq'		=> 'integer',
 			'prune_shadow_next'		=> 'integer',
 
-			// Entity: vinabb\web\entities\abs\forum_desc_rules
+			// Entity: vinabb\web\entities\sub\forum_desc_rules
 			'forum_desc'			=> 'string',
 			'forum_desc_uid'		=> 'string',
 			'forum_desc_bitfield'	=> 'string',

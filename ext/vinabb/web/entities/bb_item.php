@@ -85,7 +85,7 @@ class bb_item extends item_properties implements bb_item_interface
 			'item_added'	=> 'integer',
 			'item_updated'	=> 'integer',
 
-			// Entity: vinabb\web\entities\abs\item_properties
+			// Entity: vinabb\web\entities\sub\item_properties
 			'item_ext_style'			=> 'bool',
 			'item_ext_acp_style'		=> 'bool',
 			'item_ext_lang'				=> 'bool',
@@ -99,7 +99,7 @@ class bb_item extends item_properties implements bb_item_interface
 			'item_lang_iso'				=> 'string',
 			'item_tool_os'				=> 'integer',
 
-			// Entity: vinabb\web\entities\abs\item_desc
+			// Entity: vinabb\web\entities\sub\item_desc
 			'item_desc'				=> 'string',
 			'item_desc_uid'			=> 'string',
 			'item_desc_bitfield'	=> 'string',

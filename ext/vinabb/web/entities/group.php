@@ -62,7 +62,7 @@ class group extends group_profile implements group_interface
 			'group_legend'			=> 'integer',
 			'group_max_recipients'	=> 'integer',
 
-			// Entity: vinabb\web\entities\abs\group_profile
+			// Entity: vinabb\web\entities\sub\group_profile
 			'group_avatar'			=> 'string',
 			'group_avatar_type'		=> 'string',
 			'group_avatar_width'	=> 'integer',
@@ -70,7 +70,7 @@ class group extends group_profile implements group_interface
 			'group_rank'			=> 'integer',
 			'group_colour'			=> 'string',
 
-			// Entity: vinabb\web\entities\abs\group_desc
+			// Entity: vinabb\web\entities\sub\group_desc
 			'group_desc'			=> 'string',
 			'group_desc_uid'		=> 'string',
 			'group_desc_bitfield'	=> 'string',
