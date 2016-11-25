@@ -17,7 +17,7 @@ interface user_interface
 	* Load the data from the database for an entity
 	*
 	* @param int				$id		Group ID
-	* @return group_interface	$this	Object for chaining calls: load()->set()->save()
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function load($id);
@@ -30,7 +30,7 @@ interface user_interface
 	* All data is validated and an exception is thrown if any data is invalid.
 	*
 	* @param array				$data	Data array from the database
-	* @return group_interface	$this	Object for chaining calls: load()->set()->save()
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\invalid_argument
 	*/
 	public function import($data);
@@ -40,7 +40,7 @@ interface user_interface
 	*
 	* Will throw an exception if the entity was already inserted (call save() instead)
 	*
-	* @return group_interface $this Object for chaining calls: load()->set()->save()
+	* @return user_interface $this Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function insert();
@@ -51,7 +51,7 @@ interface user_interface
 	* This must be called before closing or any changes will not be saved!
 	* If adding an entity (saving for the first time), you must call insert() or an exception will be thrown
 	*
-	* @return group_interface $this Object for chaining calls: load()->set()->save()
+	* @return user_interface $this Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function save();
