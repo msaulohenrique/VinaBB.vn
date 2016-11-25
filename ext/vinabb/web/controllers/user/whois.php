@@ -8,7 +8,10 @@
 
 namespace vinabb\web\controllers\user;
 
-class whois
+/**
+* User Whois tool for only administrators
+*/
+class whois implements whois_interface
 {
 	/** @var \phpbb\auth\auth */
 	protected $auth;
@@ -56,7 +59,7 @@ class whois
 	}
 
 	/**
-	* Whois requested
+	* Main method
 	*
 	* @param string $session_id Session ID
 	* @return \Symfony\Component\HttpFoundation\Response
