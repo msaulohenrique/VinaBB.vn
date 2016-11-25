@@ -145,6 +145,76 @@ class service implements service_interface
 	}
 
 	/**
+	* Get cache from table: _groups
+	*
+	* @return array
+	*/
+	public function get_groups()
+	{
+		if (($rows = $this->driver->get('_vinabb_web_groups')) === false)
+		{
+			$rows = [];
+
+			/** @var \vinabb\web\entities\group_interface $entity */
+			foreach ($this->container->get('vinabb.web.operators.group')->get_groups() as $entity)
+			{
+				$rows[$entity->get_id()] = [
+					'name'	=> $entity->get_name(),
+					'type'	=> $entity->get_type(),
+					'desc'	=> $entity->get_desc_for_display()
+				];
+			}
+
+			$this->driver->put('_vinabb_web_groups', $rows);
+		}
+
+		return $rows;
+	}
+
+	/**
+	* Clear cache from table: _groups
+	*/
+	public function clear_groups()
+	{
+		$this->driver->destroy('_vinabb_web_groups');
+	}
+
+	/**
+	* Get cache from table: _teampage
+	*
+	* @return array
+	*/
+	public function get_teams()
+	{
+		if (($rows = $this->driver->get('_vinabb_web_teams')) === false)
+		{
+			$rows = [];
+
+			/** @var \vinabb\web\entities\team_interface $entity */
+			foreach ($this->container->get('vinabb.web.operators.team')->get_teams() as $entity)
+			{
+				$rows[$entity->get_id()] = [
+					'group_id'	=> $entity->get_group_id(),
+					'name'		=> $entity->get_name(),
+					'parent'	=> $entity->get_parent()
+				];
+			}
+
+			$this->driver->put('_vinabb_web_teams', $rows);
+		}
+
+		return $rows;
+	}
+
+	/**
+	* Clear cache from table: _teampage
+	*/
+	public function clear_teams()
+	{
+		$this->driver->destroy('_vinabb_web_teams');
+	}
+
+	/**
 	* Get cache from table: _forums
 	*
 	* @return array
