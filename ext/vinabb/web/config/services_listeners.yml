@@ -36,6 +36,8 @@ services:
     vinabb.web.listener.text_formatter:
         class: vinabb\web\events\text_formatter
         arguments:
+            - '@vinabb.web.cache'
+            - '@language'
             - '@template'
             - '@vinabb.web.helper.event'
         tags:

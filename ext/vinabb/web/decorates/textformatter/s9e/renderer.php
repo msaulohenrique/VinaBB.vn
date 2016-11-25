@@ -19,14 +19,14 @@ class renderer extends \phpbb\textformatter\s9e\renderer
 	/**
 	* Constructor
 	*
-	* @param \phpbb\cache\driver\driver_interface $cache
-	* @param string                               $cache_dir
-	* @param string                               $key
-	* @param factory                              $factory
-	* @param \phpbb\event\dispatcher_interface    $dispatcher
-	* @param \phpbb\language\language             $language
+	* @param \phpbb\cache\driver\driver_interface	$cache
+	* @param string									$cache_dir
+	* @param string									$key
+	* @param \phpbb\textformatter\s9e\factory		$factory
+	* @param \phpbb\event\dispatcher_interface		$dispatcher
+	* @param \phpbb\language\language				$language
 	*/
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, $cache_dir, $key, factory $factory, \phpbb\event\dispatcher_interface $dispatcher, \phpbb\language\language $language)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, $cache_dir, $key, \phpbb\textformatter\s9e\factory $factory, \phpbb\event\dispatcher_interface $dispatcher, \phpbb\language\language $language)
 	{
 		parent::__construct($cache, $cache_dir, $key, $factory, $dispatcher);
 		$this->language = $language;

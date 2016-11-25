@@ -15,6 +15,12 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 */
 class text_formatter implements EventSubscriberInterface
 {
+	/** @var \vinabb\web\controllers\cache\service_interface */
+	protected $cache;
+
+	/** @var \phpbb\language\language */
+	protected $language;
+
 	/** @var \phpbb\template\template */
 	protected $template;
 
@@ -24,11 +30,20 @@ class text_formatter implements EventSubscriberInterface
 	/**
 	* Constructor
 	*
+	* @param \vinabb\web\controllers\cache\service_interface $cache
+	* @param \phpbb\language\language $language
 	* @param \phpbb\template\template $template
 	* @param \vinabb\web\events\helper\helper_interface $event_helper
 	*/
-	public function __construct(\phpbb\template\template $template, \vinabb\web\events\helper\helper_interface $event_helper)
+	public function __construct(
+		\vinabb\web\controllers\cache\service_interface $cache,
+		\phpbb\language\language $language,
+		\phpbb\template\template $template,
+		\vinabb\web\events\helper\helper_interface $event_helper
+	)
 	{
+		$this->cache = $cache;
+		$this->language = $language;
 		$this->template = $template;
 		$this->event_helper = $event_helper;
 	}
@@ -126,13 +141,14 @@ class text_formatter implements EventSubscriberInterface
 	*/
 	public function text_formatter_s9e_configure_after($event)
 	{
+		$configurator = $event['configurator'];
+
 		/**
 		* Use backticks to post inline code: `$phpBB`
 		*
 		* https://github.com/s9e/phpbb-ext-incode
 		* @copyright Copyright (c) 2015 The s9e Authors
 		*/
-		$configurator = $event['configurator'];
 		$action = $configurator->tags->onDuplicate('ignore');
 
 		$configurator->Preg->replace(
@@ -142,6 +158,34 @@ class text_formatter implements EventSubscriberInterface
 		);
 
 		$configurator->tags->onDuplicate($action);
+
+		// Remove old smilies
+		unset($configurator->Emoticons);
+
+		// Load smilies
+		foreach ($this->cache->get_smilies() as $smiley_code => $smiley_data)
+		{
+			if ($this->language->is_set(['EMOTICON_TEXT', strtoupper($smiley_data['emotion'])]))
+			{
+				$emotion_text = '{$LE_' . strtoupper($smiley_data['emotion']) . '}';
+			}
+			else
+			{
+				$emotion_text = $smiley_data['emotion'];
+			}
+
+			$configurator->Emoticons->add($smiley_code, '<img class="smilies" src="{$T_SMILIES_PATH}/' . $smiley_data['url'] . '" width="' . $smiley_data['width'] . '" height="' . $smiley_data['height'] . '" alt="{.}" title="' . $emotion_text . '"/>');
+		}
+
+		if (isset($configurator->Emoticons))
+		{
+			// Force emoticons to be rendered as text if $S_VIEWSMILIES is not set
+			$configurator->Emoticons->notIfCondition = 'not($S_VIEWSMILIES)';
+
+			// Only parse emoticons at the beginning of the text or if they're preceded by any
+			// one of: a new line, a space, a dot, or a right square bracket
+			$configurator->Emoticons->notAfter = '[^\\n .\\]]';
+		}
 	}
 
 	/**
