@@ -6,14 +6,14 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\entities\abs;
+namespace vinabb\web\entities\sub;
 
 use vinabb\web\includes\constants;
 
 /**
-* Abstract entity for topic_last_post + topic_poll
+* Sub-entity for topic_last_post + topic_poll
 */
-abstract class topic_last_post extends topic_poll
+class topic_last_post extends topic_poll
 {
 	/** @var array */
 	protected $data;

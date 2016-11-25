@@ -6,12 +6,12 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\entities\abs;
+namespace vinabb\web\entities\sub;
 
 /**
-* Abstract entity for post_options + post_actions + post_text
+* Sub-entity for post_options + post_actions + post_text
 */
-abstract class post_options extends post_actions
+class post_options extends post_actions
 {
 	/** @var array */
 	protected $data;

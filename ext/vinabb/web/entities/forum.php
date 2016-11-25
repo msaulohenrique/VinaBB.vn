@@ -8,12 +8,13 @@
 
 namespace vinabb\web\entities;
 
+use vinabb\web\entities\sub\forum_options;
 use vinabb\web\includes\constants;
 
 /**
 * Entity for a single forum
 */
-class forum extends \vinabb\web\entities\abs\forum_options implements forum_interface
+class forum extends forum_options implements forum_interface
 {
 	/** @var \phpbb\config\config */
 	protected $config;

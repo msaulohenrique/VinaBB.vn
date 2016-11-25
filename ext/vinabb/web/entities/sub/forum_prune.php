@@ -6,12 +6,12 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\entities\abs;
+namespace vinabb\web\entities\sub;
 
 /**
-* Abstract entity for forum prune + forum_desc_rules
+* Sub-entity for forum prune + forum_desc_rules
 */
-abstract class forum_prune extends forum_desc_rules
+class forum_prune extends forum_desc_rules
 {
 	/** @var array */
 	protected $data;

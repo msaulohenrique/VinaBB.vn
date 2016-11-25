@@ -8,12 +8,13 @@
 
 namespace vinabb\web\entities;
 
+use vinabb\web\entities\sub\comment_text;
 use vinabb\web\includes\constants;
 
 /**
 * Entity for a single comment
 */
-class portal_comment extends \vinabb\web\entities\abs\comment_text implements portal_comment_interface
+class portal_comment extends comment_text implements portal_comment_interface
 {
 	/** @var \phpbb\config\config */
 	protected $config;

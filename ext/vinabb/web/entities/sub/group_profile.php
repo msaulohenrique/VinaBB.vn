@@ -6,14 +6,14 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\entities\abs;
+namespace vinabb\web\entities\sub;
 
 use vinabb\web\includes\constants;
 
 /**
-* Abstract entity for group_profile + group_desc
+* Sub-entity for group_profile + group_desc
 */
-abstract class group_profile extends group_desc
+class group_profile extends group_desc
 {
 	/** @var array */
 	protected $data;

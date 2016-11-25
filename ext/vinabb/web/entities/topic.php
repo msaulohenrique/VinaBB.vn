@@ -8,12 +8,13 @@
 
 namespace vinabb\web\entities;
 
+use vinabb\web\entities\sub\topic_actions;
 use vinabb\web\includes\constants;
 
 /**
 * Entity for a single topic
 */
-class topic extends \vinabb\web\entities\abs\topic_actions implements topic_interface
+class topic extends topic_actions implements topic_interface
 {
 	/** @var \phpbb\config\config */
 	protected $config;

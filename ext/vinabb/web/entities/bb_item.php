@@ -8,12 +8,13 @@
 
 namespace vinabb\web\entities;
 
+use vinabb\web\entities\sub\item_properties;
 use vinabb\web\includes\constants;
 
 /**
 * Entity for a single phpBB resource item
 */
-class bb_item extends \vinabb\web\entities\abs\item_properties implements bb_item_interface
+class bb_item extends item_properties implements bb_item_interface
 {
 	/** @var \phpbb\config\config */
 	protected $config;

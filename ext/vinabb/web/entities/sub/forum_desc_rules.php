@@ -6,12 +6,14 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\entities\abs;
+namespace vinabb\web\entities\sub;
+
+use vinabb\web\entities\abs\bbcode_content;
 
 /**
-* Abstract entity for forum/forum_desc and forum/forum_rules
+* Sub-entity for forum/forum_desc and forum/forum_rules
 */
-abstract class forum_desc_rules extends bbcode_content
+class forum_desc_rules extends bbcode_content
 {
 	/** @var array */
 	protected $data;

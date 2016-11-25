@@ -6,12 +6,14 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\entities\abs;
+namespace vinabb\web\entities\sub;
+
+use vinabb\web\entities\abs\bbcode_content;
 
 /**
-* Abstract entity for group/group_desc
+* Sub-entity for group/group_desc
 */
-abstract class group_desc extends bbcode_content
+class group_desc extends bbcode_content
 {
 	/** @var array */
 	protected $data;

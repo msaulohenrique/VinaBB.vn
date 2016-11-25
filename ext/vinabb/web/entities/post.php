@@ -8,12 +8,13 @@
 
 namespace vinabb\web\entities;
 
+use vinabb\web\entities\sub\post_options;
 use vinabb\web\includes\constants;
 
 /**
 * Entity for a single post
 */
-class post extends \vinabb\web\entities\abs\post_options implements post_interface
+class post extends post_options implements post_interface
 {
 	/** @var \phpbb\config\config */
 	protected $config;

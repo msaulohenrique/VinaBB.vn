@@ -8,12 +8,13 @@
 
 namespace vinabb\web\entities;
 
+use vinabb\web\entities\sub\article_text;
 use vinabb\web\includes\constants;
 
 /**
 * Entity for a single article
 */
-class portal_article extends \vinabb\web\entities\abs\article_text implements portal_article_interface
+class portal_article extends article_text implements portal_article_interface
 {
 	/** @var \phpbb\config\config */
 	protected $config;

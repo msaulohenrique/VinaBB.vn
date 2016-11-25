@@ -6,12 +6,12 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\entities\abs;
+namespace vinabb\web\entities\sub;
 
 /**
-* Abstract entity for post/post_text
+* Sub-entity for post/post_text
 */
-abstract class post_text
+class post_text
 {
 	/**
 	* Data for this abstract entity

@@ -6,24 +6,26 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\entities\abs;
+namespace vinabb\web\entities\sub;
+
+use vinabb\web\entities\abs\bbcode_content;
 
 /**
-* Abstract entity for portal_article/article_text
+* Sub-entity for portal_comment/comment_text
 */
-abstract class article_text extends bbcode_content
+class comment_text extends bbcode_content
 {
 	/** @var array */
 	protected $data;
 
 	/** @var bool */
-	protected $ignore_max_post_chars = true;
+	protected $ignore_max_post_chars = false;
 
 	/** @var string */
-	protected $prefix = 'article_text';
+	protected $prefix = 'comment_text';
 
 	/**
-	* Get article content for edit
+	* Get comment content for edit
 	*
 	* @return string
 	*/
@@ -33,7 +35,7 @@ abstract class article_text extends bbcode_content
 	}
 
 	/**
-	* Get article content for display
+	* Get comment content for display
 	*
 	* @param bool $censor True to censor the text
 	* @return string
@@ -44,10 +46,10 @@ abstract class article_text extends bbcode_content
 	}
 
 	/**
-	* Set article content
+	* Set comment content
 	*
-	* @param string			$text	Article content
-	* @return article_text	$this	Object for chaining calls: load()->set()->save()
+	* @param string			$text	Comment content
+	* @return comment_text	$this	Object for chaining calls: load()->set()->save()
 	*/
 	public function set_text($text)
 	{
@@ -55,7 +57,7 @@ abstract class article_text extends bbcode_content
 	}
 
 	/**
-	* Check if BBCode is enabled on the article content
+	* Check if BBCode is enabled on the comment content
 	*
 	* @return bool
 	*/
@@ -65,11 +67,11 @@ abstract class article_text extends bbcode_content
 	}
 
 	/**
-	* Enable/Disable BBCode on the article content
+	* Enable/Disable BBCode on the comment content
 	* This should be called before set_text(); text_enable_bbcode()->set_text()
 	*
 	* @param bool			$enable	true: enable; false: disable
-	* @return article_text	$this	Object for chaining calls: load()->set()->save()
+	* @return comment_text	$this	Object for chaining calls: load()->set()->save()
 	*/
 	public function text_enable_bbcode($enable)
 	{
@@ -77,7 +79,7 @@ abstract class article_text extends bbcode_content
 	}
 
 	/**
-	* Check if URLs is enabled on the article content
+	* Check if URLs is enabled on the comment content
 	*
 	* @return bool
 	*/
@@ -87,11 +89,11 @@ abstract class article_text extends bbcode_content
 	}
 
 	/**
-	* Enable/Disable URLs on the article content
+	* Enable/Disable URLs on the comment content
 	* This should be called before set_text(); text_enable_urls()->set_text()
 	*
 	* @param bool			$enable	true: enable; false: disable
-	* @return article_text	$this	Object for chaining calls: load()->set()->save()
+	* @return comment_text	$this	Object for chaining calls: load()->set()->save()
 	*/
 	public function text_enable_urls($enable)
 	{
@@ -99,7 +101,7 @@ abstract class article_text extends bbcode_content
 	}
 
 	/**
-	* Check if smilies are enabled on the article content
+	* Check if smilies are enabled on the comment content
 	*
 	* @return bool
 	*/
@@ -109,11 +111,11 @@ abstract class article_text extends bbcode_content
 	}
 
 	/**
-	* Enable/Disable smilies on the article content
+	* Enable/Disable smilies on the comment content
 	* This should be called before set_text(); text_enable_smilies()->set_text()
 	*
 	* @param bool			$enable	true: enable; false: disable
-	* @return article_text	$this	Object for chaining calls: load()->set()->save()
+	* @return comment_text	$this	Object for chaining calls: load()->set()->save()
 	*/
 	public function text_enable_smilies($enable)
 	{

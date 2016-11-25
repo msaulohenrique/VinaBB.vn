@@ -8,12 +8,13 @@
 
 namespace vinabb\web\entities;
 
+use vinabb\web\entities\sub\page_text;
 use vinabb\web\includes\constants;
 
 /**
 * Entity for a single page
 */
-class page extends \vinabb\web\entities\abs\page_text implements page_interface
+class page extends page_text implements page_interface
 {
 	/** @var \phpbb\config\config */
 	protected $config;

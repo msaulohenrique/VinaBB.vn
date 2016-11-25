@@ -6,14 +6,14 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\entities\abs;
+namespace vinabb\web\entities\sub;
 
 use vinabb\web\includes\constants;
 
 /**
-* Abstract entity for item properties and descriptions
+* Sub-entity for item properties and descriptions
 */
-abstract class item_properties extends item_desc
+class item_properties extends item_desc
 {
 	/** @var array */
 	protected $data;

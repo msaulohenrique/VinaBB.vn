@@ -6,14 +6,14 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\entities\abs;
+namespace vinabb\web\entities\sub;
 
 use vinabb\web\includes\constants;
 
 /**
-* Abstract entity for forum_options + forum_last_post + forum_prune + forum_desc_rules
+* Sub-entity for forum_options + forum_last_post + forum_prune + forum_desc_rules
 */
-abstract class forum_options extends forum_last_post
+class forum_options extends forum_last_post
 {
 	/** @var array */
 	protected $data;

@@ -8,12 +8,13 @@
 
 namespace vinabb\web\entities;
 
+use vinabb\web\entities\sub\group_profile;
 use vinabb\web\includes\constants;
 
 /**
 * Entity for a single group
 */
-class group extends \vinabb\web\entities\abs\group_profile implements group_interface
+class group extends group_profile implements group_interface
 {
 	/** @var \phpbb\config\config */
 	protected $config;

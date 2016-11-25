@@ -6,14 +6,14 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace vinabb\web\entities\abs;
+namespace vinabb\web\entities\sub;
 
 use vinabb\web\includes\constants;
 
 /**
-* Abstract entity for post_actions + post_text
+* Sub-entity for post_actions + post_text
 */
-abstract class post_actions extends post_text
+class post_actions extends post_text
 {
 	/** @var array */
 	protected $data;
