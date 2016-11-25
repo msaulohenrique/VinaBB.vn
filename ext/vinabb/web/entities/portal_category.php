@@ -95,7 +95,7 @@ class portal_category implements portal_category_interface
 	*
 	* @param array						$data	Data array from the database
 	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\base
+	* @throws \vinabb\web\exceptions\invalid_argument
 	*/
 	public function import($data)
 	{
@@ -109,11 +109,6 @@ class portal_category implements portal_category_interface
 			if (!isset($data[$field]))
 			{
 				throw new \vinabb\web\exceptions\invalid_argument([$field, 'EMPTY']);
-			}
-			// We love unsigned numbers
-			else if ($type != 'string' && $data[$field] < 0)
-			{
-				throw new \vinabb\web\exceptions\out_of_bounds($field);
 			}
 
 			// settype() passes values by reference

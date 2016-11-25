@@ -131,7 +131,7 @@ class topic extends \vinabb\web\entities\abs\topic_actions implements topic_inte
 	*
 	* @param array				$data	Data array from the database
 	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\base
+	* @throws \vinabb\web\exceptions\invalid_argument
 	*/
 	public function import($data)
 	{
@@ -145,11 +145,6 @@ class topic extends \vinabb\web\entities\abs\topic_actions implements topic_inte
 			if (!isset($data[$field]))
 			{
 				throw new \vinabb\web\exceptions\invalid_argument([$field, 'EMPTY']);
-			}
-			// We love unsigned numbers
-			else if ($type != 'string' && $data[$field] < 0)
-			{
-				throw new \vinabb\web\exceptions\out_of_bounds($field);
 			}
 
 			// settype() passes values by reference

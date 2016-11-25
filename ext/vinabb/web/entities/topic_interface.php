@@ -31,7 +31,7 @@ interface topic_interface
 	*
 	* @param array				$data	Data array from the database
 	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\base
+	* @throws \vinabb\web\exceptions\invalid_argument
 	*/
 	public function import($data);
 

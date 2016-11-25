@@ -16,7 +16,7 @@ interface headline_interface
 	/**
 	* Load the data from the database for an entity
 	*
-	* @param int				$id		Headline ID
+	* @param int					$id		Headline ID
 	* @return headline_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
@@ -29,9 +29,9 @@ interface headline_interface
 	* Any existing data on this entity is over-written.
 	* All data is validated and an exception is thrown if any data is invalid.
 	*
-	* @param array				$data	Data array from the database
+	* @param array					$data	Data array from the database
 	* @return headline_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\base
+	* @throws \vinabb\web\exceptions\invalid_argument
 	*/
 	public function import($data);
 

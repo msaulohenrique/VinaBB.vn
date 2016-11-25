@@ -29,9 +29,9 @@ interface bb_author_interface
 	* Any existing data on this entity is over-written.
 	* All data is validated and an exception is thrown if any data is invalid.
 	*
-	* @param array						$data	Data array from the database
+	* @param array					$data	Data array from the database
 	* @return bb_author_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\base
+	* @throws \vinabb\web\exceptions\invalid_argument
 	*/
 	public function import($data);
 

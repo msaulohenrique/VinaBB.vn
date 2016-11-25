@@ -13,6 +13,13 @@ namespace vinabb\web\entities;
 */
 interface bb_item_interface
 {
+	/**
+	* Load the data from the database for an entity
+	*
+	* @param int				$id		Item ID
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
 	public function load($id);
 
 	/**
@@ -22,9 +29,9 @@ interface bb_item_interface
 	* Any existing data on this entity is over-written.
 	* All data is validated and an exception is thrown if any data is invalid.
 	*
-	* @param array						$data	Data array from the database
+	* @param array				$data	Data array from the database
 	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\base
+	* @throws \vinabb\web\exceptions\invalid_argument
 	*/
 	public function import($data);
 
@@ -74,7 +81,7 @@ interface bb_item_interface
 	/**
 	* Set the category ID
 	*
-	* @param int						$id		Category ID
+	* @param int				$id		Category ID
 	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
@@ -90,7 +97,7 @@ interface bb_item_interface
 	/**
 	* Set the author ID
 	*
-	* @param int						$id		Author ID
+	* @param int				$id		Author ID
 	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
@@ -106,7 +113,7 @@ interface bb_item_interface
 	/**
 	* Set the item name
 	*
-	* @param string						$text	Item name
+	* @param string				$text	Item name
 	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
