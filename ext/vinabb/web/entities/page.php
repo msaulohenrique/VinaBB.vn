@@ -8,13 +8,13 @@
 
 namespace vinabb\web\entities;
 
-use vinabb\web\entities\sub\page_text;
+use vinabb\web\entities\sub\page_enable;
 use vinabb\web\includes\constants;
 
 /**
 * Entity for a single page
 */
-class page extends page_text implements page_interface
+class page extends page_enable implements page_interface
 {
 	/** @var \phpbb\config\config */
 	protected $config;
@@ -55,12 +55,14 @@ class page extends page_text implements page_interface
 	protected function prepare_data()
 	{
 		return [
-			'page_id'					=> 'integer',
-			'page_name'					=> 'string',
-			'page_name_vi'				=> 'string',
-			'page_varname'				=> 'string',
-			'page_desc'					=> 'string',
-			'page_desc_vi'				=> 'string',
+			'page_id'		=> 'integer',
+			'page_name'		=> 'string',
+			'page_name_vi'	=> 'string',
+			'page_varname'	=> 'string',
+			'page_desc'		=> 'string',
+			'page_desc_vi'	=> 'string',
+
+			// Entity: vinabb\web\entities\sub\page_enable
 			'page_enable'				=> 'bool',
 			'page_enable_guest'			=> 'bool',
 			'page_enable_bot'			=> 'bool',
@@ -71,7 +73,7 @@ class page extends page_text implements page_interface
 			'page_enable_admin'			=> 'bool',
 			'page_enable_founder'		=> 'bool',
 
-			// Entity: vinabb\web\entities\abs\page_text
+			// Entity: vinabb\web\entities\sub\page_text
 			'page_text'				=> 'string',
 			'page_text_uid'			=> 'string',
 			'page_text_bitfield'	=> 'string',
@@ -379,95 +381,5 @@ class page extends page_text implements page_interface
 		$this->data['page_desc_vi'] = (string) $text;
 
 		return $this;
-	}
-
-	/**
-	* Get page display setting in template
-	*
-	* @return bool
-	*/
-	public function get_enable()
-	{
-		return isset($this->data['page_enable']) ? (bool) $this->data['page_enable'] : true;
-	}
-
-	/**
-	* Get page display setting for guests
-	*
-	* @return bool
-	*/
-	public function get_enable_guest()
-	{
-		return isset($this->data['page_enable_guest']) ? (bool) $this->data['page_enable_guest'] : true;
-	}
-
-	/**
-	* Get page display setting for bots
-	*
-	* @return bool
-	*/
-	public function get_enable_bot()
-	{
-		return isset($this->data['page_enable_bot']) ? (bool) $this->data['page_enable_bot'] : true;
-	}
-
-	/**
-	* Get page display setting for newly registered users
-	*
-	* @return bool
-	*/
-	public function get_enable_new_user()
-	{
-		return isset($this->data['page_enable_new_user']) ? (bool) $this->data['page_enable_new_user'] : true;
-	}
-
-	/**
-	* Get page display setting for registered users
-	*
-	* @return bool
-	*/
-	public function get_enable_user()
-	{
-		return isset($this->data['page_enable_user']) ? (bool) $this->data['page_enable_user'] : true;
-	}
-
-	/**
-	* Get page display setting for moderators
-	*
-	* @return bool
-	*/
-	public function get_enable_mod()
-	{
-		return isset($this->data['page_enable_mod']) ? (bool) $this->data['page_enable_mod'] : true;
-	}
-
-	/**
-	* Get page display setting for global moderators
-	*
-	* @return bool
-	*/
-	public function get_enable_global_mod()
-	{
-		return isset($this->data['page_enable_global_mod']) ? (bool) $this->data['page_enable_global_mod'] : true;
-	}
-
-	/**
-	* Get page display setting for administrators
-	*
-	* @return bool
-	*/
-	public function get_enable_admin()
-	{
-		return isset($this->data['page_enable_admin']) ? (bool) $this->data['page_enable_admin'] : true;
-	}
-
-	/**
-	* Get page display setting for founders
-	*
-	* @return bool
-	*/
-	public function get_enable_founder()
-	{
-		return isset($this->data['page_enable_founder']) ? (bool) $this->data['page_enable_founder'] : true;
 	}
 }

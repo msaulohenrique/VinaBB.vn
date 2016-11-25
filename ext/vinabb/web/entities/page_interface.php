@@ -345,4 +345,13 @@ interface page_interface
 	* @return bool
 	*/
 	public function get_enable_founder();
+
+	/**
+	* Set page display setting for founders
+	*
+	* @param bool				$value	Config value
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\not_auth
+	*/
+	public function set_enable_founder($value);
 }
