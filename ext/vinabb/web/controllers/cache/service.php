@@ -262,6 +262,42 @@ class service implements service_interface
 	}
 
 	/**
+	* Get cache from table: _ranks
+	*
+	* @return array
+	*/
+	public function get_ranks()
+	{
+		if (($ranks = $this->driver->get('_vinabb_web_ranks')) === false)
+		{
+			$ranks = [];
+
+			/** @var \vinabb\web\entities\rank_interface $entity */
+			foreach ($this->container->get('vinabb.web.operators.rank')->get_ranks() as $entity)
+			{
+				$ranks[$entity->get_id()] = [
+					'title'		=> $entity->get_title(),
+					'min'		=> $entity->get_min(),
+					'special'	=> $entity->get_special(),
+					'image'		=> $entity->get_image()
+				];
+			}
+
+			$this->driver->put('_vinabb_web_ranks', $ranks);
+		}
+
+		return $ranks;
+	}
+
+	/**
+	* Clear cache from table: _ranks
+	*/
+	public function clear_ranks()
+	{
+		$this->driver->destroy('_vinabb_web_ranks');
+	}
+
+	/**
 	* Get cache from table: _bb_categories
 	*
 	* @param int $bb_type phpBB resource type
