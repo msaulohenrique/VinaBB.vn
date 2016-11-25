@@ -16,9 +16,6 @@ use vinabb\web\includes\constants;
 */
 class bb_item extends item_properties implements bb_item_interface
 {
-	/** @var \phpbb\config\config */
-	protected $config;
-
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
@@ -40,23 +37,14 @@ class bb_item extends item_properties implements bb_item_interface
 	/**
 	* Constructor
 	*
-	* @param \phpbb\config\config							$config				Config object
 	* @param \phpbb\db\driver\driver_interface				$db					Database object
 	* @param \vinabb\web\entities\helper\helper_interface	$entity_helper		Entity helper
 	* @param string											$table_name			Table name
 	* @param string											$cat_table_name		Table name of categories
 	* @param string											$author_table_name	Table name of authors
 	*/
-	public function __construct(
-		\phpbb\config\config $config,
-		\phpbb\db\driver\driver_interface $db,
-		\vinabb\web\entities\helper\helper_interface $entity_helper,
-		$table_name,
-		$cat_table_name,
-		$author_table_name
-	)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \vinabb\web\entities\helper\helper_interface $entity_helper, $table_name, $cat_table_name, $author_table_name)
 	{
-		$this->config = $config;
 		$this->db = $db;
 		$this->entity_helper = $entity_helper;
 		$this->table_name = $table_name;

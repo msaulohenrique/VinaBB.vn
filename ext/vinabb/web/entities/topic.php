@@ -16,9 +16,6 @@ use vinabb\web\includes\constants;
 */
 class topic extends topic_actions implements topic_interface
 {
-	/** @var \phpbb\config\config */
-	protected $config;
-
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
@@ -31,13 +28,11 @@ class topic extends topic_actions implements topic_interface
 	/**
 	* Constructor
 	*
-	* @param \phpbb\config\config							$config			Config object
 	* @param \phpbb\db\driver\driver_interface				$db				Database object
 	* @param \vinabb\web\entities\helper\helper_interface	$entity_helper	Entity helper
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \vinabb\web\entities\helper\helper_interface $entity_helper)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \vinabb\web\entities\helper\helper_interface $entity_helper)
 	{
-		$this->config = $config;
 		$this->db = $db;
 		$this->entity_helper = $entity_helper;
 	}
