@@ -298,6 +298,40 @@ class service implements service_interface
 	}
 
 	/**
+	* Get cache from table: _words
+	*
+	* @return array
+	*/
+	public function get_censor_words()
+	{
+		if (($words = $this->driver->get('_vinabb_web_censor_words')) === false)
+		{
+			$words = [];
+
+			/** @var \vinabb\web\entities\censor_word_interface $entity */
+			foreach ($this->container->get('vinabb.web.operators.censor_word')->get_words() as $entity)
+			{
+				$words[$entity->get_id()] = [
+					'word'			=> $entity->get_word(),
+					'replacement'	=> $entity->get_replacement()
+				];
+			}
+
+			$this->driver->put('_vinabb_web_censor_words', $words);
+		}
+
+		return $words;
+	}
+
+	/**
+	* Clear cache from table: _words
+	*/
+	public function clear_censor_words()
+	{
+		$this->driver->destroy('_vinabb_web_censor_words');
+	}
+
+	/**
 	* Get cache from table: _bb_categories
 	*
 	* @param int $bb_type phpBB resource type
