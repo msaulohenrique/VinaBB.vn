@@ -28,12 +28,6 @@ class service implements service_interface
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var string */
-	protected $phpbb_root_path;
-
-	/** @var string */
-	protected $php_ext;
-
 	/**
 	* Constructor
 	*
@@ -41,24 +35,18 @@ class service implements service_interface
 	* @param \phpbb\config\config $config
 	* @param ContainerInterface $container
 	* @param \phpbb\db\driver\driver_interface $db
-	* @param string $root_path
-	* @param string $php_ext
 	*/
 	public function __construct(
 		\phpbb\cache\driver\driver_interface $driver,
 		\phpbb\config\config $config,
 		ContainerInterface $container,
-		\phpbb\db\driver\driver_interface $db,
-		$root_path,
-		$php_ext
+		\phpbb\db\driver\driver_interface $db
 	)
 	{
 		$this->set_driver($driver);
 		$this->config = $config;
 		$this->container = $container;
 		$this->db = $db;
-		$this->phpbb_root_path = $root_path;
-		$this->php_ext = $php_ext;
 	}
 
 	/**
