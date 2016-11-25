@@ -126,11 +126,6 @@ class group extends \vinabb\web\entities\abs\group_profile implements group_inte
 			{
 				throw new \vinabb\web\exceptions\invalid_argument([$field, 'EMPTY']);
 			}
-			// We love unsigned numbers
-			else if ($type != 'string' && $data[$field] < 0)
-			{
-				throw new \vinabb\web\exceptions\out_of_bounds($field);
-			}
 
 			// settype() passes values by reference
 			$value = $data[$field];
