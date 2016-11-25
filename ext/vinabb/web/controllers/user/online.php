@@ -10,6 +10,9 @@ namespace vinabb\web\controllers\user;
 
 use vinabb\web\includes\constants;
 
+/**
+* 'Who is online' page
+*/
 class online implements online_interface
 {
 	/** @var \phpbb\auth\auth */
@@ -106,7 +109,7 @@ class online implements online_interface
 	}
 
 	/**
-	* 'Who is online' page
+	* Main method
 	*
 	* @param $mode View mode
 	* @return \Symfony\Component\HttpFoundation\Response
@@ -158,15 +161,6 @@ class online implements online_interface
 
 		// Forum info
 		$forum_data = $this->cache->get_forum_data();
-
-		/**
-		* [REMOVED]
-		* Modify the forum data SQL query for getting additional fields if needed
-		*
-		* @event core.viewonline_modify_forum_data_sql
-		* @var	array	sql_ary			The SQL array
-		* @since 3.1.5-RC1
-		*/
 
 		// Get number of online guests (if we do not display them)
 		$guest_counter = 0;
@@ -247,87 +241,16 @@ class online implements online_interface
 				continue;
 			}
 
-			$on_page_data = [
-				"index.{$this->php_ext}"	=> [
-					'lang'	=> $this->language->lang('INDEX'),
-					'url'	=> append_sid("{$this->root_path}index.{$this->php_ext}")
-				],
-				"{$this->admin_path}index.{$this->php_ext}"	=> [
-					'lang'	=> $this->language->lang('ACP'),
-					'url'	=> ''
-				],
-				"app.{$this->php_ext}/search"	=> [
-					'lang'	=> $this->language->lang('SEARCHING_FORUMS'),
-					'url'	=> $this->helper->route('vinabb_web_board_search_route')
-				],
-				"app.{$this->php_ext}/online"	=> [
-					'lang'	=> $this->language->lang('VIEWING_ONLINE'),
-					'url'	=> $this->helper->route('vinabb_web_user_online_route')
-				],
-				"app.{$this->php_ext}/user/list"	=> [
-					'lang'	=> $this->language->lang('VIEWING_MEMBERS'),
-					'url'	=> $this->helper->route('vinabb_web_user_list_route')
-				],
-				"app.{$this->php_ext}/user/profile"	=> [
-					'lang'	=> $this->language->lang('VIEWING_MEMBER_PROFILE'),
-					'url'	=> $this->helper->route('vinabb_web_user_list_route')
-				],
-				"app.{$this->php_ext}/user/contact/admin"	=> [
-					'lang'	=> $this->language->lang('VIEWING_CONTACT_ADMIN'),
-					'url'	=> $this->helper->route('vinabb_web_user_contact_admin_route')
-				],
-				"app.{$this->php_ext}/mcp"	=> [
-					'lang'	=> $this->language->lang('VIEWING_MCP'),
-					'url'	=> ''
-				],
-				"app.{$this->php_ext}/ucp/front/register"	=> [
-					'lang'	=> $this->language->lang('VIEWING_REGISTER'),
-					'url'	=> ''
-				],
-				"app.{$this->php_ext}/ucp/pm/compose"	=> [
-					'lang'	=> $this->language->lang('POSTING_PRIVATE_MESSAGE'),
-					'url'	=> ''
-				],
-				"app.{$this->php_ext}/ucp/pm"	=> [
-					'lang'	=> $this->language->lang('VIEWING_PRIVATE_MESSAGES'),
-					'url'	=> ''
-				],
-				"app.{$this->php_ext}/ucp/profile"	=> [
-					'lang'	=> $this->language->lang('CHANGING_PROFILE'),
-					'url'	=> ''
-				],
-				"app.{$this->php_ext}/ucp/prefs"	=> [
-					'lang'	=> $this->language->lang('CHANGING_PREFERENCES'),
-					'url'	=> ''
-				],
-				"app.{$this->php_ext}/ucp"	=> [
-					'lang'	=> $this->language->lang('VIEWING_UCP'),
-					'url'	=> ''
-				],
-				"app.{$this->php_ext}/attachment"		=> [
-					'lang'	=> $this->language->lang('DOWNLOADING_FILE'),
-					'url'	=> ''
-				],
-				"app.{$this->php_ext}/post/"		=> [
-					'lang'	=> $this->language->lang('REPORTING_POST'),
-					'url'	=> ''
-				],
-				"app.{$this->php_ext}/help/"		=> [
-					'lang'	=> $this->language->lang('VIEWING_FAQ'),
-					'url'	=> $this->helper->route('phpbb_help_faq_controller')
-				]
-			];
-
 			// What are they viewing?
 			$location = $location_url = '';
 
 			// First, try to detect from the basic list
-			foreach ($on_page_data as $page_str => $page_data)
+			foreach ($this->get_on_page_data() as $page_str => $page_data)
 			{
 				if (strpos($row['session_page'], $page_str) !== false)
 				{
 					$location = $page_data['lang'];
-					$location_url = (isset($page_data['url']) && !empty($page_data['url'])) ? $page_data['url'] : append_sid("{$this->root_path}index.{$this->php_ext}");
+					$location_url = isset($page_data['url']) ? $page_data['url'] : append_sid("{$this->root_path}index.{$this->php_ext}");
 				}
 			}
 
@@ -436,17 +359,45 @@ class online implements online_interface
 	}
 
 	/**
+	* List of our pages and their URLs
+	*
+	* @return array
+	*/
+	protected function get_on_page_data()
+	{
+		return [
+			"index.{$this->php_ext}"					=> ['lang' => $this->language->lang('INDEX'), 'url' => append_sid("{$this->root_path}index.{$this->php_ext}")],
+			"{$this->admin_path}index.{$this->php_ext}"	=> ['lang' => $this->language->lang('ACP')],
+			"app.{$this->php_ext}/search"				=> ['lang' => $this->language->lang('SEARCHING_FORUMS'), 'url' => $this->helper->route('vinabb_web_board_search_route')],
+			"app.{$this->php_ext}/online"				=> ['lang' => $this->language->lang('VIEWING_ONLINE'), 'url' => $this->helper->route('vinabb_web_user_online_route')],
+			"app.{$this->php_ext}/user/list"			=> ['lang' => $this->language->lang('VIEWING_MEMBERS'), 'url' => $this->helper->route('vinabb_web_user_list_route')],
+			"app.{$this->php_ext}/user/profile"			=> ['lang' => $this->language->lang('VIEWING_MEMBER_PROFILE'), 'url' => $this->helper->route('vinabb_web_user_list_route')],
+			"app.{$this->php_ext}/user/contact/admin"	=> ['lang' => $this->language->lang('VIEWING_CONTACT_ADMIN'), 'url' => $this->helper->route('vinabb_web_user_contact_admin_route')],
+			"app.{$this->php_ext}/mcp"					=> ['lang' => $this->language->lang('VIEWING_MCP')],
+			"app.{$this->php_ext}/ucp/front/register"	=> ['lang' => $this->language->lang('VIEWING_REGISTER')],
+			"app.{$this->php_ext}/ucp/pm/compose"		=> ['lang' => $this->language->lang('POSTING_PRIVATE_MESSAGE')],
+			"app.{$this->php_ext}/ucp/pm"				=> ['lang' => $this->language->lang('VIEWING_PRIVATE_MESSAGES')],
+			"app.{$this->php_ext}/ucp/profile"			=> ['lang' => $this->language->lang('CHANGING_PROFILE')],
+			"app.{$this->php_ext}/ucp/prefs"			=> ['lang' => $this->language->lang('CHANGING_PREFERENCES')],
+			"app.{$this->php_ext}/ucp"					=> ['lang' => $this->language->lang('VIEWING_UCP')],
+			"app.{$this->php_ext}/attachment"			=> ['lang' => $this->language->lang('DOWNLOADING_FILE')],
+			"app.{$this->php_ext}/post/"				=> ['lang' => $this->language->lang('REPORTING_POST')],
+			"app.{$this->php_ext}/help/"				=> ['lang' => $this->language->lang('VIEWING_FAQ'), 'url' => $this->helper->route('phpbb_help_faq_controller')]
+		];
+	}
+
+	/**
 	* Get number of online guests
 	*
 	* @return int
 	*/
-	protected function get_guest_counter()
+	public function get_guest_counter()
 	{
 		switch ($this->db->get_sql_layer())
 		{
 			case 'sqlite':
 			case 'sqlite3':
-				$sql = 'SELECT COUNT(session_ip) as num_guests
+				$sql = 'SELECT COUNT(session_ip) AS num_guests
 					FROM (
 						SELECT DISTINCT session_ip
 							FROM ' . SESSIONS_TABLE . '
@@ -456,7 +407,7 @@ class online implements online_interface
 			break;
 
 			default:
-				$sql = 'SELECT COUNT(DISTINCT session_ip) as num_guests
+				$sql = 'SELECT COUNT(DISTINCT session_ip) AS num_guests
 					FROM ' . SESSIONS_TABLE . '
 					WHERE session_user_id = ' . ANONYMOUS . '
 						AND session_time >= ' . (time() - ($this->config['load_online_time'] * 60));

@@ -14,10 +14,17 @@ namespace vinabb\web\controllers\user;
 interface online_interface
 {
 	/**
-	* 'Who is online' page
+	* Main method
 	*
 	* @param $mode View mode
 	* @return \Symfony\Component\HttpFoundation\Response
 	*/
 	public function main($mode);
+
+	/**
+	* Get number of online guests
+	*
+	* @return int
+	*/
+	public function get_guest_counter();
 }
