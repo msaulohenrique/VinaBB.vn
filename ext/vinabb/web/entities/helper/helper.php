@@ -67,6 +67,17 @@ class helper implements helper_interface
 	}
 
 	/**
+	* Check the existing team
+	*
+	* @param int $id Team ID
+	* @return bool
+	*/
+	public function check_team_id($id)
+	{
+		return $this->check_column_for_id(TEAMPAGE_TABLE, 'teampage_id', $id);
+	}
+
+	/**
 	* Check the existing user
 	*
 	* @param int $id User ID

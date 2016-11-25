@@ -38,6 +38,14 @@ interface helper_interface
 	public function check_group_id($id);
 
 	/**
+	* Check the existing team
+	*
+	* @param int $id Team ID
+	* @return bool
+	*/
+	public function check_team_id($id);
+
+	/**
 	* Check the existing user
 	*
 	* @param int $id User ID
