@@ -371,7 +371,7 @@ class helper implements helper_interface
 		$raw = '';
 
 		// Test URL
-		$test = get_headers($url);
+		$test = ($url != '') ? get_headers($url) : '';
 
 		if (strpos($test[0], '200') !== false)
 		{
