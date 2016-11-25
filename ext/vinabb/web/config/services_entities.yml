@@ -11,6 +11,12 @@ services:
         arguments:
             - '@dbal.conn'
             - '@vinabb.web.helper.entity'
+    vinabb.web.entities.user:
+        class: vinabb\web\entities\user
+        shared: false
+        arguments:
+            - '@dbal.conn'
+            - '@vinabb.web.helper.entity'
     vinabb.web.entities.forum:
         class: vinabb\web\entities\forum
         shared: false
