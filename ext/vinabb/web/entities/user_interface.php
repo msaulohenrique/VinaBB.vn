@@ -16,7 +16,7 @@ interface user_interface
 	/**
 	* Load the data from the database for an entity
 	*
-	* @param int				$id		Group ID
+	* @param int				$id		User ID
 	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
