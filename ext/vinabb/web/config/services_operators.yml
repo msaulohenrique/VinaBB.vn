@@ -10,6 +10,11 @@ services:
         arguments:
             - '@service_container'
             - '@dbal.conn'
+    vinabb.web.operators.team:
+        class: vinabb\web\operators\team
+        arguments:
+            - '@service_container'
+            - '@dbal.conn'
     vinabb.web.operators.user:
         class: vinabb\web\operators\user
         arguments:
