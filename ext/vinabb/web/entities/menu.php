@@ -8,12 +8,13 @@
 
 namespace vinabb\web\entities;
 
+use vinabb\web\entities\sub\menu_enable;
 use vinabb\web\includes\constants;
 
 /**
 * Entity for a single menu item
 */
-class menu implements menu_interface
+class menu extends menu_enable implements menu_interface
 {
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
@@ -44,17 +45,19 @@ class menu implements menu_interface
 	protected function prepare_data()
 	{
 		return [
-			'menu_id'					=> 'integer',
-			'parent_id'					=> 'integer',
-			'left_id'					=> 'integer',
-			'right_id'					=> 'integer',
-			'menu_parents'				=> 'string',
-			'menu_name'					=> 'string',
-			'menu_name_vi'				=> 'string',
-			'menu_type'					=> 'integer',
-			'menu_icon'					=> 'string',
-			'menu_data'					=> 'string',
-			'menu_target'				=> 'bool',
+			'menu_id'		=> 'integer',
+			'parent_id'		=> 'integer',
+			'left_id'		=> 'integer',
+			'right_id'		=> 'integer',
+			'menu_parents'	=> 'string',
+			'menu_name'		=> 'string',
+			'menu_name_vi'	=> 'string',
+			'menu_type'		=> 'integer',
+			'menu_icon'		=> 'string',
+			'menu_data'		=> 'string',
+			'menu_target'	=> 'bool',
+
+			// Entity: vinabb\web\entities\sub\menu_enable
 			'menu_enable_guest'			=> 'bool',
 			'menu_enable_bot'			=> 'bool',
 			'menu_enable_new_user'		=> 'bool',
@@ -389,85 +392,5 @@ class menu implements menu_interface
 	public function get_target()
 	{
 		return isset($this->data['menu_target']) ? (bool) $this->data['menu_target'] : false;
-	}
-
-	/**
-	* Get menu display setting for guests
-	*
-	* @return bool
-	*/
-	public function get_enable_guest()
-	{
-		return isset($this->data['menu_enable_guest']) ? (bool) $this->data['menu_enable_guest'] : true;
-	}
-
-	/**
-	* Get menu display setting for bots
-	*
-	* @return bool
-	*/
-	public function get_enable_bot()
-	{
-		return isset($this->data['menu_enable_bot']) ? (bool) $this->data['menu_enable_bot'] : true;
-	}
-
-	/**
-	* Get menu display setting for newly registered users
-	*
-	* @return bool
-	*/
-	public function get_enable_new_user()
-	{
-		return isset($this->data['menu_enable_new_user']) ? (bool) $this->data['menu_enable_new_user'] : true;
-	}
-
-	/**
-	* Get menu display setting for registered users
-	*
-	* @return bool
-	*/
-	public function get_enable_user()
-	{
-		return isset($this->data['menu_enable_user']) ? (bool) $this->data['menu_enable_user'] : true;
-	}
-
-	/**
-	* Get menu display setting for moderators
-	*
-	* @return bool
-	*/
-	public function get_enable_mod()
-	{
-		return isset($this->data['menu_enable_mod']) ? (bool) $this->data['menu_enable_mod'] : true;
-	}
-
-	/**
-	* Get menu display setting for global moderators
-	*
-	* @return bool
-	*/
-	public function get_enable_global_mod()
-	{
-		return isset($this->data['menu_enable_global_mod']) ? (bool) $this->data['menu_enable_global_mod'] : true;
-	}
-
-	/**
-	* Get menu display setting for administrators
-	*
-	* @return bool
-	*/
-	public function get_enable_admin()
-	{
-		return isset($this->data['menu_enable_admin']) ? (bool) $this->data['menu_enable_admin'] : true;
-	}
-
-	/**
-	* Get menu display setting for founders
-	*
-	* @return bool
-	*/
-	public function get_enable_founder()
-	{
-		return isset($this->data['menu_enable_founder']) ? (bool) $this->data['menu_enable_founder'] : true;
 	}
 }
