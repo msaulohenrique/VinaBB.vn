@@ -8,12 +8,13 @@
 
 namespace vinabb\web\entities;
 
+use vinabb\web\entities\sub\author_social;
 use vinabb\web\includes\constants;
 
 /**
 * Entity for a single author
 */
-class bb_author implements bb_author_interface
+class bb_author extends author_social implements bb_author_interface
 {
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
@@ -59,6 +60,8 @@ class bb_author implements bb_author_interface
 			'author_group'			=> 'integer',
 			'author_www'			=> 'string',
 			'author_email'			=> 'string',
+
+			// Entity: vinabb\web\entities\sub\author_social
 			'author_phpbb'			=> 'integer',
 			'author_github'			=> 'string',
 			'author_facebook'		=> 'string',
@@ -475,166 +478,5 @@ class bb_author implements bb_author_interface
 
 		// Set the value on our data array
 		$this->data['author_email'] = $text;
-	}
-
-	/**
-	* Get the author's phpBB.com user ID
-	*
-	* @return int
-	*/
-	public function get_phpbb()
-	{
-		return isset($this->data['author_phpbb']) ? (int) $this->data['author_phpbb'] : 0;
-	}
-
-	/**
-	* Set the author's phpBB.com user ID
-	*
-	* @param int					$value	phpBB.com user ID
-	* @return bb_author_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_phpbb($value)
-	{
-		$this->data['author_phpbb'] = (int) $value;
-
-		return $this;
-	}
-
-	/**
-	* Get the author's social page: GitHub
-	*
-	* @return string
-	*/
-	public function get_github()
-	{
-		return isset($this->data['author_github']) ? (string) $this->data['author_github'] : '';
-	}
-
-	/**
-	* Set the author's social page: GitHub
-	*
-	* @param string					$text	GitHub username
-	* @return bb_author_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_github($text)
-	{
-		$this->data['author_github'] = (string) $text;
-
-		return $this;
-	}
-
-	/**
-	* Get the author's social page: Facebook
-	*
-	* @return string
-	*/
-	public function get_facebook()
-	{
-		return isset($this->data['author_facebook']) ? (string) $this->data['author_facebook'] : '';
-	}
-
-	/**
-	* Set the author's social page: Facebook
-	*
-	* @param string					$text	Facebook username
-	* @return bb_author_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_facebook($text)
-	{
-		$this->data['author_facebook'] = (string) $text;
-
-		return $this;
-	}
-
-	/**
-	* Get the author's social page: Twitter
-	*
-	* @return string
-	*/
-	public function get_twitter()
-	{
-		return isset($this->data['author_twitter']) ? (string) $this->data['author_twitter'] : '';
-	}
-
-	/**
-	* Set the author's social page: Twitter
-	*
-	* @param string					$text	Twitter username
-	* @return bb_author_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_twitter($text)
-	{
-		$this->data['author_twitter'] = (string) $text;
-
-		return $this;
-	}
-
-	/**
-	* Get the author's social page: Google (YouTube, Gmail...)
-	*
-	* @return string
-	*/
-	public function get_google()
-	{
-		return isset($this->data['author_google']) ? (string) $this->data['author_google'] : '';
-	}
-
-	/**
-	* Set the author's social page: Google (YouTube, Gmail...)
-	*
-	* @param string					$text	Google username
-	* @return bb_author_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_google($text)
-	{
-		$this->data['author_google'] = (string) $text;
-
-		return $this;
-	}
-
-	/**
-	* Get the author's social page: Google+
-	*
-	* @return string
-	*/
-	public function get_google_plus()
-	{
-		return isset($this->data['author_google_plus']) ? (string) $this->data['author_google_plus'] : '';
-	}
-
-	/**
-	* Set the author's social page: Google+
-	*
-	* @param string					$text	Google+ username
-	* @return bb_author_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_google_plus($text)
-	{
-		$this->data['author_google_plus'] = (string) $text;
-
-		return $this;
-	}
-
-	/**
-	* Get the author's social page: Skype
-	*
-	* @return string
-	*/
-	public function get_skype()
-	{
-		return isset($this->data['author_skype']) ? (string) $this->data['author_skype'] : '';
-	}
-
-	/**
-	* Set the author's social page: Skype
-	*
-	* @param string					$text	Skype username
-	* @return bb_author_interface	$this	Object for chaining calls: load()->set()->save()
-	*/
-	public function set_skype($text)
-	{
-		$this->data['author_skype'] = (string) $text;
-
-		return $this;
 	}
 }

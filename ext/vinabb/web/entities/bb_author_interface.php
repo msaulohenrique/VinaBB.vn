@@ -230,6 +230,7 @@ interface bb_author_interface
 	*
 	* @param string					$text	GitHub username
 	* @return bb_author_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_github($text);
 
@@ -245,6 +246,7 @@ interface bb_author_interface
 	*
 	* @param string					$text	Facebook username
 	* @return bb_author_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_facebook($text);
 
@@ -260,6 +262,7 @@ interface bb_author_interface
 	*
 	* @param string					$text	Twitter username
 	* @return bb_author_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_twitter($text);
 
@@ -275,6 +278,7 @@ interface bb_author_interface
 	*
 	* @param string					$text	Google username
 	* @return bb_author_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_google($text);
 
@@ -290,6 +294,7 @@ interface bb_author_interface
 	*
 	* @param string					$text	Google+ username
 	* @return bb_author_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_google_plus($text);
 
@@ -305,6 +310,7 @@ interface bb_author_interface
 	*
 	* @param string					$text	Skype username
 	* @return bb_author_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_skype($text);
 }
