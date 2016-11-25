@@ -81,23 +81,23 @@ class service implements service_interface
 	*/
 	public function get_config_text()
 	{
-		if (($config_text = $this->driver->get('_vinabb_web_config_text')) === false)
+		if (($rows = $this->driver->get('_vinabb_web_config_text')) === false)
 		{
 			$sql = 'SELECT *
 				FROM ' . CONFIG_TEXT_TABLE;
 			$result = $this->db->sql_query($sql);
 
-			$config_text = [];
+			$rows = [];
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				$config_text[$row['config_name']] = $row['config_value'];
+				$rows[$row['config_name']] = $row['config_value'];
 			}
 			$this->db->sql_freeresult($result);
 
-			$this->driver->put('_vinabb_web_config_text', $config_text);
+			$this->driver->put('_vinabb_web_config_text', $rows);
 		}
 
-		return $config_text;
+		return $rows;
 	}
 
 	/**
@@ -115,14 +115,14 @@ class service implements service_interface
 	*/
 	public function get_lang_data()
 	{
-		if (($lang_data = $this->driver->get('_vinabb_web_languages')) === false)
+		if (($rows = $this->driver->get('_vinabb_web_languages')) === false)
 		{
-			$lang_data = [];
+			$rows = [];
 
 			/** @var \vinabb\web\entities\language_interface $entity */
 			foreach ($this->container->get('vinabb.web.operators.language')->get_langs() as $entity)
 			{
-				$lang_data[$entity->get_iso()] = [
+				$rows[$entity->get_iso()] = [
 					'dir'			=> $entity->get_dir(),
 					'english_name'	=> $entity->get_english_name(),
 					'local_name'	=> $entity->get_local_name(),
@@ -130,10 +130,10 @@ class service implements service_interface
 				];
 			}
 
-			$this->driver->put('_vinabb_web_languages', $lang_data);
+			$this->driver->put('_vinabb_web_languages', $rows);
 		}
 
-		return $lang_data;
+		return $rows;
 	}
 
 	/**
@@ -151,14 +151,14 @@ class service implements service_interface
 	*/
 	public function get_forum_data()
 	{
-		if (($forum_data = $this->driver->get('_vinabb_web_forums')) === false)
+		if (($rows = $this->driver->get('_vinabb_web_forums')) === false)
 		{
-			$forum_data = [];
+			$rows = [];
 
 			/** @var \vinabb\web\entities\forum_interface $entity */
 			foreach ($this->container->get('vinabb.web.operators.forum')->get_forums() as $entity)
 			{
-				$forum_data[$entity->get_id()] = [
+				$rows[$entity->get_id()] = [
 					'parent_id'			=> $entity->get_parent_id(),
 					'left_id'			=> $entity->get_left_id(),
 					'right_id'			=> $entity->get_right_id(),
@@ -172,10 +172,10 @@ class service implements service_interface
 				];
 			}
 
-			$this->driver->put('_vinabb_web_forums', $forum_data);
+			$this->driver->put('_vinabb_web_forums', $rows);
 		}
 
-		return $forum_data;
+		return $rows;
 	}
 
 	/**
@@ -193,14 +193,14 @@ class service implements service_interface
 	*/
 	public function get_post_icons()
 	{
-		if (($icons = $this->driver->get('_vinabb_web_post_icons')) === false)
+		if (($rows = $this->driver->get('_vinabb_web_post_icons')) === false)
 		{
-			$icons = [];
+			$rows = [];
 
 			/** @var \vinabb\web\entities\post_icon_interface $entity */
 			foreach ($this->container->get('vinabb.web.operators.post_icon')->get_icons() as $entity)
 			{
-				$icons[$entity->get_id()] = [
+				$rows[$entity->get_id()] = [
 					'url'		=> $entity->get_url(),
 					'width'		=> $entity->get_width(),
 					'height'	=> $entity->get_height(),
@@ -209,10 +209,10 @@ class service implements service_interface
 				];
 			}
 
-			$this->driver->put('_vinabb_web_post_icons', $icons);
+			$this->driver->put('_vinabb_web_post_icons', $rows);
 		}
 
-		return $icons;
+		return $rows;
 	}
 
 	/**
@@ -230,14 +230,14 @@ class service implements service_interface
 	*/
 	public function get_smilies()
 	{
-		if (($smilies = $this->driver->get('_vinabb_web_smilies')) === false)
+		if (($rows = $this->driver->get('_vinabb_web_smilies')) === false)
 		{
-			$smilies = [];
+			$rows = [];
 
 			/** @var \vinabb\web\entities\smiley_interface $entity */
 			foreach ($this->container->get('vinabb.web.operators.smiley')->get_smilies() as $entity)
 			{
-				$smilies[$entity->get_code()] = [
+				$rows[$entity->get_code()] = [
 					'id'		=> $entity->get_id(),
 					'emotion'	=> $entity->get_emotion(),
 					'url'		=> $entity->get_url(),
@@ -247,10 +247,10 @@ class service implements service_interface
 				];
 			}
 
-			$this->driver->put('_vinabb_web_smilies', $smilies);
+			$this->driver->put('_vinabb_web_smilies', $rows);
 		}
 
-		return $smilies;
+		return $rows;
 	}
 
 	/**
@@ -268,14 +268,14 @@ class service implements service_interface
 	*/
 	public function get_ranks()
 	{
-		if (($ranks = $this->driver->get('_vinabb_web_ranks')) === false)
+		if (($rows = $this->driver->get('_vinabb_web_ranks')) === false)
 		{
-			$ranks = [];
+			$rows = [];
 
 			/** @var \vinabb\web\entities\rank_interface $entity */
 			foreach ($this->container->get('vinabb.web.operators.rank')->get_ranks() as $entity)
 			{
-				$ranks[$entity->get_id()] = [
+				$rows[$entity->get_id()] = [
 					'title'		=> $entity->get_title(),
 					'min'		=> $entity->get_min(),
 					'special'	=> $entity->get_special(),
@@ -283,10 +283,10 @@ class service implements service_interface
 				];
 			}
 
-			$this->driver->put('_vinabb_web_ranks', $ranks);
+			$this->driver->put('_vinabb_web_ranks', $rows);
 		}
 
-		return $ranks;
+		return $rows;
 	}
 
 	/**
@@ -304,23 +304,23 @@ class service implements service_interface
 	*/
 	public function get_censor_words()
 	{
-		if (($words = $this->driver->get('_vinabb_web_censor_words')) === false)
+		if (($rows = $this->driver->get('_vinabb_web_censor_words')) === false)
 		{
-			$words = [];
+			$rows = [];
 
 			/** @var \vinabb\web\entities\censor_word_interface $entity */
 			foreach ($this->container->get('vinabb.web.operators.censor_word')->get_words() as $entity)
 			{
-				$words[$entity->get_id()] = [
+				$rows[$entity->get_id()] = [
 					'word'			=> $entity->get_word(),
 					'replacement'	=> $entity->get_replacement()
 				];
 			}
 
-			$this->driver->put('_vinabb_web_censor_words', $words);
+			$this->driver->put('_vinabb_web_censor_words', $rows);
 		}
 
-		return $words;
+		return $rows;
 	}
 
 	/**
@@ -339,14 +339,14 @@ class service implements service_interface
 	*/
 	public function get_bb_cats($bb_type)
 	{
-		if (($bb_cats = $this->driver->get('_vinabb_web_bb_categories_' . $bb_type)) === false)
+		if (($rows = $this->driver->get('_vinabb_web_bb_categories_' . $bb_type)) === false)
 		{
-			$bb_cats = [];
+			$rows = [];
 
 			/** @var \vinabb\web\entities\bb_category_interface $entity */
 			foreach ($this->container->get('vinabb.web.operators.bb_category')->get_cats($bb_type) as $entity)
 			{
-				$bb_cats[$entity->get_id()] = [
+				$rows[$entity->get_id()] = [
 					'name'		=> $entity->get_name(),
 					'name_vi'	=> ($entity->get_name_vi() == '') ? $entity->get_name() : $entity->get_name_vi(),
 					'varname'	=> $entity->get_varname(),
@@ -356,10 +356,10 @@ class service implements service_interface
 				];
 			}
 
-			$this->driver->put('_vinabb_web_bb_categories_' . $bb_type, $bb_cats);
+			$this->driver->put('_vinabb_web_bb_categories_' . $bb_type, $rows);
 		}
 
-		return $bb_cats;
+		return $rows;
 	}
 
 	/**
@@ -380,14 +380,14 @@ class service implements service_interface
 	*/
 	public function get_new_bb_items($bb_type)
 	{
-		if (($items = $this->driver->get('_vinabb_web_new_bb_items_' . $bb_type)) === false)
+		if (($rows = $this->driver->get('_vinabb_web_new_bb_items_' . $bb_type)) === false)
 		{
-			$items = [];
+			$rows = [];
 
 			/** @var \vinabb\web\entities\bb_item_interface $entity */
 			foreach ($this->container->get('vinabb.web.operators.bb_item')->get_latest_items($bb_type, constants::NUM_NEW_ITEMS_ON_INDEX) as $entity)
 			{
-				$items[] = [
+				$rows[] = [
 					'id'		=> $entity->get_id(),
 					'name'		=> $entity->get_name(),
 					'varname'	=> $entity->get_varname(),
@@ -397,10 +397,10 @@ class service implements service_interface
 				];
 			}
 
-			$this->driver->put('_vinabb_web_new_bb_items_' . $bb_type, $items);
+			$this->driver->put('_vinabb_web_new_bb_items_' . $bb_type, $rows);
 		}
 
-		return $items;
+		return $rows;
 	}
 
 	/**
@@ -420,14 +420,14 @@ class service implements service_interface
 	*/
 	public function get_portal_cats()
 	{
-		if (($portal_cats = $this->driver->get('_vinabb_web_portal_categories')) === false)
+		if (($rows = $this->driver->get('_vinabb_web_portal_categories')) === false)
 		{
-			$portal_cats = [];
+			$rows = [];
 
 			/** @var \vinabb\web\entities\portal_category_interface $entity */
 			foreach ($this->container->get('vinabb.web.operators.portal_category')->get_cats() as $entity)
 			{
-				$portal_cats[$entity->get_id()] = [
+				$rows[$entity->get_id()] = [
 					'parent_id'	=> $entity->get_parent_id(),
 					'left_id'	=> $entity->get_left_id(),
 					'right_id'	=> $entity->get_right_id(),
@@ -438,10 +438,10 @@ class service implements service_interface
 				];
 			}
 
-			$this->driver->put('_vinabb_web_portal_categories', $portal_cats);
+			$this->driver->put('_vinabb_web_portal_categories', $rows);
 		}
 
-		return $portal_cats;
+		return $rows;
 	}
 
 	/**
@@ -460,14 +460,14 @@ class service implements service_interface
 	*/
 	public function get_index_articles($lang)
 	{
-		if (($articles = $this->driver->get('_vinabb_web_index_articles_' . $lang)) === false)
+		if (($rows = $this->driver->get('_vinabb_web_index_articles_' . $lang)) === false)
 		{
-			$articles = [];
+			$rows = [];
 
 			/** @var \vinabb\web\entities\portal_article_interface $entity */
 			foreach ($this->container->get('vinabb.web.operators.portal_article')->get_latest_articles($lang, constants::NUM_ARTICLES_ON_INDEX) as $entity)
 			{
-				$articles[] = [
+				$rows[] = [
 					'cat_id'		=> $entity->get_cat_id(),
 					'id'			=> $entity->get_id(),
 					'name'			=> $entity->get_name(),
@@ -479,10 +479,10 @@ class service implements service_interface
 				];
 			}
 
-			$this->driver->put('_vinabb_web_index_articles_' . $lang, $articles);
+			$this->driver->put('_vinabb_web_index_articles_' . $lang, $rows);
 		}
 
-		return $articles;
+		return $rows;
 	}
 
 	/**
@@ -504,7 +504,7 @@ class service implements service_interface
 	*/
 	public function get_index_comment_counter($lang)
 	{
-		if (($comment_count = $this->driver->get('_vinabb_web_index_comment_counter_' . $lang)) === false)
+		if (($rows = $this->driver->get('_vinabb_web_index_comment_counter_' . $lang)) === false)
 		{
 			$article_ids = [0];
 
@@ -519,17 +519,17 @@ class service implements service_interface
 				GROUP BY article_id';
 			$result = $this->db->sql_query($sql);
 
-			$comment_count = [];
+			$rows = [];
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				$comment_count[$row['article_id']] = $row['total_comments'];
+				$rows[$row['article_id']] = $row['total_comments'];
 			}
 			$this->db->sql_freeresult($result);
 
-			$this->driver->put('_vinabb_web_index_comment_counter_' . $lang, $comment_count);
+			$this->driver->put('_vinabb_web_index_comment_counter_' . $lang, $rows);
 		}
 
-		return $comment_count;
+		return $rows;
 	}
 
 	/**
@@ -549,14 +549,14 @@ class service implements service_interface
 	*/
 	public function get_pages()
 	{
-		if (($pages = $this->driver->get('_vinabb_web_pages')) === false)
+		if (($rows = $this->driver->get('_vinabb_web_pages')) === false)
 		{
-			$pages = [];
+			$rows = [];
 
 			/** @var \vinabb\web\entities\page_interface $entity */
 			foreach ($this->container->get('vinabb.web.operators.page')->get_pages() as $entity)
 			{
-				$pages[$entity->get_id()] = [
+				$rows[$entity->get_id()] = [
 					'name'				=> $entity->get_name(),
 					'name_vi'			=> ($entity->get_name_vi() == '') ? $entity->get_name() : $entity->get_name_vi(),
 					'varname'			=> $entity->get_varname(),
@@ -575,10 +575,10 @@ class service implements service_interface
 				];
 			}
 
-			$this->driver->put('_vinabb_web_pages', $pages);
+			$this->driver->put('_vinabb_web_pages', $rows);
 		}
 
-		return $pages;
+		return $rows;
 	}
 
 	/**
@@ -596,14 +596,14 @@ class service implements service_interface
 	*/
 	public function get_menus()
 	{
-		if (($menus = $this->driver->get('_vinabb_web_menus')) === false)
+		if (($rows = $this->driver->get('_vinabb_web_menus')) === false)
 		{
-			$menus = [];
+			$rows = [];
 
 			/** @var \vinabb\web\entities\menu_interface $entity */
 			foreach ($this->container->get('vinabb.web.operators.menu')->get_menus() as $entity)
 			{
-				$menus[$entity->get_id()] = [
+				$rows[$entity->get_id()] = [
 					'parent_id'			=> $entity->get_parent_id(),
 					'left_id'			=> $entity->get_left_id(),
 					'right_id'			=> $entity->get_right_id(),
@@ -624,10 +624,10 @@ class service implements service_interface
 				];
 			}
 
-			$this->driver->put('_vinabb_web_menus', $menus);
+			$this->driver->put('_vinabb_web_menus', $rows);
 		}
 
-		return $menus;
+		return $rows;
 	}
 
 	/**
@@ -646,14 +646,14 @@ class service implements service_interface
 	*/
 	public function get_headlines($lang)
 	{
-		if (($headlines = $this->driver->get('_vinabb_web_headlines_' . $lang)) === false)
+		if (($rows = $this->driver->get('_vinabb_web_headlines_' . $lang)) === false)
 		{
-			$headlines = [];
+			$rows = [];
 
 			/** @var \vinabb\web\entities\headline_interface $entity */
 			foreach ($this->container->get('vinabb.web.operators.headline')->get_headlines($lang) as $entity)
 			{
-				$headlines[] = [
+				$rows[] = [
 					'id'	=> $entity->get_id(),
 					'name'	=> $entity->get_name(),
 					'desc'	=> $entity->get_desc(),
@@ -662,10 +662,10 @@ class service implements service_interface
 				];
 			}
 
-			$this->driver->put('_vinabb_web_headlines_' . $lang, $headlines);
+			$this->driver->put('_vinabb_web_headlines_' . $lang, $rows);
 		}
 
-		return $headlines;
+		return $rows;
 	}
 
 	/**
