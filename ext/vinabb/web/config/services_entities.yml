@@ -53,6 +53,12 @@ services:
         arguments:
             - '@dbal.conn'
             - '@vinabb.web.helper.entity'
+    vinabb.web.entities.attachment:
+        class: vinabb\web\entities\attachment
+        shared: false
+        arguments:
+            - '@dbal.conn'
+            - '@vinabb.web.helper.entity'
     vinabb.web.entities.post_icon:
         class: vinabb\web\entities\post_icon
         shared: false
