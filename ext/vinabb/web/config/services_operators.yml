@@ -31,6 +31,11 @@ services:
         arguments:
             - '@service_container'
             - '@dbal.conn'
+    vinabb.web.operators.poll_option:
+        class: vinabb\web\operators\poll_option
+        arguments:
+            - '@service_container'
+            - '@dbal.conn'
     vinabb.web.operators.post:
         class: vinabb\web\operators\post
         arguments:
