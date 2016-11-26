@@ -300,7 +300,7 @@ class draft implements draft_interface
 	* Set the draft subject
 	*
 	* @param string				$text	Draft subject
-	* @return rank_interface	$this	Object for chaining calls: load()->set()->save()
+	* @return draft_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_subject($text)

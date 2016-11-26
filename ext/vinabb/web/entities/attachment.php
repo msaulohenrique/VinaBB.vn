@@ -206,8 +206,8 @@ class attachment extends attachment_file implements attachment_interface
 	/**
 	* Set the poster ID
 	*
-	* @param int				$id		User ID
-	* @return post_interface	$this	Object for chaining calls: load()->set()->save()
+	* @param int					$id		User ID
+	* @return attachment_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_poster_id($id)
