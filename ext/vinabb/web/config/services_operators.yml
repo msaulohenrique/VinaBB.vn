@@ -46,6 +46,11 @@ services:
         arguments:
             - '@service_container'
             - '@dbal.conn'
+    vinabb.web.operators.attachment:
+        class: vinabb\web\operators\attachment
+        arguments:
+            - '@service_container'
+            - '@dbal.conn'
     vinabb.web.operators.post_icon:
         class: vinabb\web\operators\post_icon
         arguments:
