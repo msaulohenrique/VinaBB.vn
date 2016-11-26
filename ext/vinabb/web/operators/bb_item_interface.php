@@ -31,6 +31,14 @@ interface bb_item_interface
 	public function get_count_data_by_cat($bb_type);
 
 	/**
+	* Get item counter data by author
+	*
+	* @param int $author_id Author ID
+	* @return array
+	*/
+	public function get_count_data_by_author($author_id = 0);
+
+	/**
 	* Get all items
 	*
 	* @param int $bb_type phpBB resource type

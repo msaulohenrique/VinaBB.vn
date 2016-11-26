@@ -85,6 +85,30 @@ class bb_item implements bb_item_interface
 	}
 
 	/**
+	* Get item counter data by author
+	*
+	* @param int $author_id Author ID
+	* @return array
+	*/
+	public function get_count_data_by_author($author_id = 0)
+	{
+		$sql = 'SELECT bb_type, COUNT(item_id) AS counter
+			FROM ' . $this->table_name . '
+			WHERE author_id = ' . (int) $author_id . '
+			GROUP BY bb_type';
+		$result = $this->db->sql_query($sql);
+
+		$counter = [];
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$counter[$row['bb_type']] = $row['counter'];
+		}
+		$this->db->sql_freeresult($result);
+
+		return $counter;
+	}
+
+	/**
 	* Get all items
 	*
 	* @param int $bb_type phpBB resource type
