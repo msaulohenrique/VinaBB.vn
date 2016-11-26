@@ -30,6 +30,7 @@ $lang = array_merge($lang, [
 	'ADD_CAT'					=> 'Create new category',
 
 	'CAT_DESC'						=> 'Description',
+	'CAT_DETAILS'					=> 'Category details',
 	'CAT_ICON'						=> 'Menu icon',
 	'CAT_NAME'						=> 'Category name',
 	'CAT_VARNAME'					=> 'Varname',
