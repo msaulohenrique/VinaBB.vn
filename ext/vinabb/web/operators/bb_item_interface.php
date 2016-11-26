@@ -23,6 +23,14 @@ interface bb_item_interface
 	public function count_items($bb_type, $cat_id = 0);
 
 	/**
+	* Get item counter data by category
+	*
+	* @param int $bb_type phpBB resource type
+	* @return array
+	*/
+	public function get_count_data_by_cat($bb_type);
+
+	/**
 	* Get all items
 	*
 	* @param int $bb_type phpBB resource type

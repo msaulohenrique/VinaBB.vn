@@ -61,6 +61,30 @@ class bb_item implements bb_item_interface
 	}
 
 	/**
+	* Get item counter data by category
+	*
+	* @param int $bb_type phpBB resource type
+	* @return array
+	*/
+	public function get_count_data_by_cat($bb_type)
+	{
+		$sql = 'SELECT cat_id, COUNT(item_id) AS counter
+			FROM ' . $this->table_name . '
+			WHERE bb_type = ' . (int) $bb_type . '
+			GROUP BY cat_id';
+		$result = $this->db->sql_query($sql);
+
+		$counter = [];
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$counter[$row['cat_id']] = $row['counter'];
+		}
+		$this->db->sql_freeresult($result);
+
+		return $counter;
+	}
+
+	/**
 	* Get all items
 	*
 	* @param int $bb_type phpBB resource type
