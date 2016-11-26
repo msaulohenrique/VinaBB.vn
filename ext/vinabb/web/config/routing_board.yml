@@ -20,22 +20,3 @@ vinabb_web_board_topic_route:
         topic_id: '\d*'
         seo: '(|([a-zA-Z0-9-]*)(\.*))'
         page: '(|((page-)(\d+)))'
-vinabb_web_board_post_route:
-    path: /post/{post_id}
-    defaults:
-        _controller: vinabb.web.board.post:main
-    requirements:
-        post_id: '\d+'
-vinabb_web_board_posting_route:
-    path: /posting/{mode}
-    defaults:
-        _controller: vinabb.web.board.posting:main
-    requirements:
-        mode: '(post|reply|quote|edit|delete|soft_delete|bump|smilies|popup)'
-vinabb_web_board_search_route:
-    path: /search/{mode}
-    defaults:
-        _controller: vinabb.web.board.search:main
-        mode: ''
-    requirements:
-        mode: '[a-z_]+'
