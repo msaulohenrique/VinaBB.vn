@@ -368,7 +368,7 @@ class online implements online_interface
 		return [
 			"index.{$this->php_ext}"					=> ['lang' => $this->language->lang('INDEX'), 'url' => append_sid("{$this->root_path}index.{$this->php_ext}")],
 			"{$this->admin_path}index.{$this->php_ext}"	=> ['lang' => $this->language->lang('ACP')],
-			"app.{$this->php_ext}/search"				=> ['lang' => $this->language->lang('SEARCHING_FORUMS'), 'url' => $this->helper->route('vinabb_web_board_search_route')],
+			"search.{$this->php_ext}"					=> ['lang' => $this->language->lang('SEARCHING_FORUMS'), 'url' => append_sid("{$this->root_path}search.{$this->php_ext}")],
 			"app.{$this->php_ext}/user/online"			=> ['lang' => $this->language->lang('VIEWING_ONLINE'), 'url' => $this->helper->route('vinabb_web_user_online_route')],
 			"app.{$this->php_ext}/user/list"			=> ['lang' => $this->language->lang('VIEWING_MEMBERS'), 'url' => $this->helper->route('vinabb_web_user_list_route')],
 			"app.{$this->php_ext}/user/profile"			=> ['lang' => $this->language->lang('VIEWING_MEMBER_PROFILE'), 'url' => $this->helper->route('vinabb_web_user_list_route')],
