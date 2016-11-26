@@ -57,7 +57,7 @@ interface user_interface
 	public function save();
 
 	/**
-	* Get the user_id
+	* Get the user ID
 	*
 	* @return int
 	*/

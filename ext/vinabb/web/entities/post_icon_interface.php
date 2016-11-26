@@ -57,7 +57,7 @@ interface post_icon_interface
 	public function save();
 
 	/**
-	* Get the icons_id
+	* Get the icon ID
 	*
 	* @return int
 	*/

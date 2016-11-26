@@ -57,14 +57,14 @@ interface menu_interface
 	public function save();
 
 	/**
-	* Get the menu_id
+	* Get the menu ID
 	*
 	* @return int
 	*/
 	public function get_id();
 
 	/**
-	* Get the parent_id
+	* Get the parent menu ID
 	*
 	* @return int
 	*/

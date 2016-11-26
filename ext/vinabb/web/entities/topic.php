@@ -213,7 +213,7 @@ class topic extends topic_actions implements topic_interface
 	}
 
 	/**
-	* Get the topic_id
+	* Get the topic ID
 	*
 	* @return int
 	*/
@@ -223,7 +223,7 @@ class topic extends topic_actions implements topic_interface
 	}
 
 	/**
-	* Get the forum_id
+	* Get the forum ID
 	*
 	* @return int
 	*/
@@ -233,7 +233,7 @@ class topic extends topic_actions implements topic_interface
 	}
 
 	/**
-	* Set the forum_id
+	* Set the forum ID
 	*
 	* @param int				$id		Forum ID
 	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()

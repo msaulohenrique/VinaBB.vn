@@ -167,7 +167,7 @@ class rank implements rank_interface
 	}
 
 	/**
-	* Get the rank_id
+	* Get the rank ID
 	*
 	* @return int
 	*/

@@ -185,7 +185,7 @@ class bb_category implements bb_category_interface
 	}
 
 	/**
-	* Get the cat_id
+	* Get the category ID
 	*
 	* @return int
 	*/
@@ -195,7 +195,7 @@ class bb_category implements bb_category_interface
 	}
 
 	/**
-	* Get the bb_type
+	* Get the phpBB resource type
 	*
 	* @return int
 	*/

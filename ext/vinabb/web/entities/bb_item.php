@@ -223,7 +223,7 @@ class bb_item extends item_properties implements bb_item_interface
 	}
 
 	/**
-	* Get the item_id
+	* Get the item ID
 	*
 	* @return int
 	*/
@@ -233,7 +233,7 @@ class bb_item extends item_properties implements bb_item_interface
 	}
 
 	/**
-	* Get the bb_type
+	* Get the phpBB resource type
 	*
 	* @return int
 	*/

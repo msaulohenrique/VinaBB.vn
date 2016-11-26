@@ -57,7 +57,7 @@ interface censor_word_interface
 	public function save();
 
 	/**
-	* Get the word_id
+	* Get the word ID
 	*
 	* @return int
 	*/

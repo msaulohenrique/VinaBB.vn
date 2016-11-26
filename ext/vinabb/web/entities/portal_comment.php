@@ -189,7 +189,7 @@ class portal_comment extends comment_text implements portal_comment_interface
 	}
 
 	/**
-	* Get the comment_id
+	* Get the comment ID
 	*
 	* @return int
 	*/

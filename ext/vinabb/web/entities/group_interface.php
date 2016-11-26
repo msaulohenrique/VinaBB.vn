@@ -57,37 +57,37 @@ interface group_interface
 	public function save();
 
 	/**
-	* Get the forum_id
+	* Get the group ID
 	*
 	* @return int
 	*/
 	public function get_id();
 
 	/**
-	* Get the forum name
+	* Get the group name
 	*
 	* @return string
 	*/
 	public function get_name();
 
 	/**
-	* Set the forum name
+	* Set the group name
 	*
-	* @param string				$text	Forum name
+	* @param string				$text	Group name
 	* @return group_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_name($text);
 
 	/**
-	* Get the forum type
+	* Get the group type
 	*
 	* @return int
 	*/
 	public function get_type();
 
 	/**
-	* Set the forum type
+	* Set the group type
 	*
 	* @param int				$value	Group type
 	* @return group_interface	$this	Object for chaining calls: load()->set()->save()

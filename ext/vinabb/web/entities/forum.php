@@ -231,7 +231,7 @@ class forum extends forum_options implements forum_interface
 	}
 
 	/**
-	* Get the forum_id
+	* Get the forum ID
 	*
 	* @return int
 	*/
@@ -241,7 +241,7 @@ class forum extends forum_options implements forum_interface
 	}
 
 	/**
-	* Get the parent_id
+	* Get the parent forum ID
 	*
 	* @return int
 	*/
@@ -251,7 +251,7 @@ class forum extends forum_options implements forum_interface
 	}
 
 	/**
-	* Set the parent_id
+	* Set the parent forum ID
 	*
 	* @param int				$id		Parent ID
 	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()

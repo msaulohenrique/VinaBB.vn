@@ -57,7 +57,7 @@ interface language_interface
 	public function save();
 
 	/**
-	* Get the lang_id
+	* Get the language ID
 	*
 	* @return int
 	*/

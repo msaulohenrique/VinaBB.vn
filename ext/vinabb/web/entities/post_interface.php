@@ -57,21 +57,21 @@ interface post_interface
 	public function save();
 
 	/**
-	* Get the post_id
+	* Get the post ID
 	*
 	* @return int
 	*/
 	public function get_id();
 
 	/**
-	* Get the forum_id
+	* Get the forum ID
 	*
 	* @return int
 	*/
 	public function get_forum_id();
 
 	/**
-	* Set the forum_id
+	* Set the forum ID
 	*
 	* @param int				$id		Forum ID
 	* @return post_interface	$this	Object for chaining calls: load()->set()->save()
@@ -80,14 +80,14 @@ interface post_interface
 	public function set_forum_id($id);
 
 	/**
-	* Get the topic_id
+	* Get the topic ID
 	*
 	* @return int
 	*/
 	public function get_topic_id();
 
 	/**
-	* Set the topic_id
+	* Set the topic ID
 	*
 	* @param int				$id		Topic ID
 	* @return post_interface	$this	Object for chaining calls: load()->set()->save()

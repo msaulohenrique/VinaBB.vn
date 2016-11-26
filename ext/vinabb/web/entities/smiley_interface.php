@@ -57,7 +57,7 @@ interface smiley_interface
 	public function save();
 
 	/**
-	* Get the lang_id
+	* Get the smiley ID
 	*
 	* @return int
 	*/

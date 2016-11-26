@@ -172,7 +172,7 @@ class team implements team_interface
 	}
 
 	/**
-	* Get the teampage_id
+	* Get the team ID
 	*
 	* @return int
 	*/

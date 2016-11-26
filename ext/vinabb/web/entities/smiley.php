@@ -173,7 +173,7 @@ class smiley implements smiley_interface
 	}
 
 	/**
-	* Get the smiley_id
+	* Get the smiley ID
 	*
 	* @return int
 	*/

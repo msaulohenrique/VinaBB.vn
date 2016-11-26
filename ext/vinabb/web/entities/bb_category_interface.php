@@ -58,14 +58,14 @@ interface bb_category_interface
 	public function save();
 
 	/**
-	* Get the cat_id
+	* Get the category ID
 	*
 	* @return int
 	*/
 	public function get_id();
 
 	/**
-	* Get the bb_type
+	* Get the phpBB resource type
 	*
 	* @return int
 	*/

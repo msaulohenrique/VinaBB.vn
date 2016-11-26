@@ -57,7 +57,7 @@ interface team_interface
 	public function save();
 
 	/**
-	* Get the teampage_id
+	* Get the team ID
 	*
 	* @return int
 	*/

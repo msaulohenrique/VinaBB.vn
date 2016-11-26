@@ -192,7 +192,7 @@ class bb_author extends author_social implements bb_author_interface
 	}
 
 	/**
-	* Get the author_id
+	* Get the author ID
 	*
 	* @return int
 	*/

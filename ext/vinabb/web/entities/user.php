@@ -245,7 +245,7 @@ class user extends user_data implements user_interface
 	}
 
 	/**
-	* Get the user_id
+	* Get the user ID
 	*
 	* @return int
 	*/

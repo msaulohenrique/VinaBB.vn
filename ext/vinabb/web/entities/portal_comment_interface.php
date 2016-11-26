@@ -57,7 +57,7 @@ interface portal_comment_interface
 	public function save();
 
 	/**
-	* Get the comment_id
+	* Get the comment ID
 	*
 	* @return int
 	*/

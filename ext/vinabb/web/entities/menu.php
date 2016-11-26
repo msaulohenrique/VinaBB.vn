@@ -195,7 +195,7 @@ class menu extends menu_enable implements menu_interface
 	}
 
 	/**
-	* Get the menu_id
+	* Get the menu ID
 	*
 	* @return int
 	*/
@@ -205,7 +205,7 @@ class menu extends menu_enable implements menu_interface
 	}
 
 	/**
-	* Get the parent_id
+	* Get the parent menu ID
 	*
 	* @return int
 	*/

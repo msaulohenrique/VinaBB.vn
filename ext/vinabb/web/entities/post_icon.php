@@ -169,7 +169,7 @@ class post_icon implements post_icon_interface
 	}
 
 	/**
-	* Get the icons_id
+	* Get the icon ID
 	*
 	* @return int
 	*/

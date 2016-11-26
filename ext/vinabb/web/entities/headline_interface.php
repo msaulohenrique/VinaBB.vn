@@ -57,7 +57,7 @@ interface headline_interface
 	public function save();
 
 	/**
-	* Get the headline_id
+	* Get the headline ID
 	*
 	* @return int
 	*/

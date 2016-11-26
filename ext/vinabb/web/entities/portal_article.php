@@ -194,7 +194,7 @@ class portal_article extends article_text implements portal_article_interface
 	}
 
 	/**
-	* Get the article_id
+	* Get the article ID
 	*
 	* @return int
 	*/

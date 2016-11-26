@@ -57,7 +57,7 @@ interface bb_author_interface
 	public function save();
 
 	/**
-	* Get the author_id
+	* Get the author ID
 	*
 	* @return int
 	*/

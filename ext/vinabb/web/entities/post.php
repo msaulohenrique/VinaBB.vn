@@ -204,7 +204,7 @@ class post extends post_options implements post_interface
 	}
 
 	/**
-	* Get the post_id
+	* Get the post ID
 	*
 	* @return int
 	*/
@@ -214,7 +214,7 @@ class post extends post_options implements post_interface
 	}
 
 	/**
-	* Get the forum_id
+	* Get the forum ID
 	*
 	* @return int
 	*/
@@ -224,7 +224,7 @@ class post extends post_options implements post_interface
 	}
 
 	/**
-	* Set the forum_id
+	* Set the forum ID
 	*
 	* @param int				$id		Forum ID
 	* @return post_interface	$this	Object for chaining calls: load()->set()->save()
@@ -247,7 +247,7 @@ class post extends post_options implements post_interface
 	}
 
 	/**
-	* Get the topic_id
+	* Get the topic ID
 	*
 	* @return int
 	*/
@@ -257,7 +257,7 @@ class post extends post_options implements post_interface
 	}
 
 	/**
-	* Set the topic_id
+	* Set the topic ID
 	*
 	* @param int				$id		Topic ID
 	* @return post_interface	$this	Object for chaining calls: load()->set()->save()

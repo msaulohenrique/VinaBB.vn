@@ -57,7 +57,7 @@ interface portal_article_interface
 	public function save();
 
 	/**
-	* Get the article_id
+	* Get the article ID
 	*
 	* @return int
 	*/

@@ -187,7 +187,7 @@ class portal_category implements portal_category_interface
 	}
 
 	/**
-	* Get the cat_id
+	* Get the category ID
 	*
 	* @return int
 	*/
@@ -197,7 +197,7 @@ class portal_category implements portal_category_interface
 	}
 
 	/**
-	* Get the parent_id
+	* Get the parent category ID
 	*
 	* @return int
 	*/
@@ -207,7 +207,7 @@ class portal_category implements portal_category_interface
 	}
 
 	/**
-	* Set the parent_id
+	* Set the parent category ID
 	*
 	* @param int						$id		Parent ID
 	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()

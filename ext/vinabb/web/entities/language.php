@@ -168,7 +168,7 @@ class language implements language_interface
 	}
 
 	/**
-	* Get the lang_id
+	* Get the language ID
 	*
 	* @return int
 	*/

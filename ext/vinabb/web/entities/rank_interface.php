@@ -57,7 +57,7 @@ interface rank_interface
 	public function save();
 
 	/**
-	* Get the rank_id
+	* Get the rank ID
 	*
 	* @return int
 	*/

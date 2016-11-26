@@ -179,7 +179,7 @@ class headline implements headline_interface
 	}
 
 	/**
-	* Get the headline_id
+	* Get the headline ID
 	*
 	* @return int
 	*/

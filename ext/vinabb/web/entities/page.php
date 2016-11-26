@@ -200,7 +200,7 @@ class page extends page_enable implements page_interface
 	}
 
 	/**
-	* Get the page_id
+	* Get the page ID
 	*
 	* @return int
 	*/

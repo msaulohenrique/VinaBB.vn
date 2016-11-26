@@ -57,21 +57,21 @@ interface portal_category_interface
 	public function save();
 
 	/**
-	* Get the cat_id
+	* Get the category ID
 	*
 	* @return int
 	*/
 	public function get_id();
 
 	/**
-	* Get the parent_id
+	* Get the parent category ID
 	*
 	* @return int
 	*/
 	public function get_parent_id();
 
 	/**
-	* Set the parent_id
+	* Set the parent category ID
 	*
 	* @param int						$id		Parent ID
 	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()

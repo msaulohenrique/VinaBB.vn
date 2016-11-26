@@ -57,21 +57,21 @@ interface forum_interface
 	public function save();
 
 	/**
-	* Get the forum_id
+	* Get the forum ID
 	*
 	* @return int
 	*/
 	public function get_id();
 
 	/**
-	* Get the parent_id
+	* Get the parent forum ID
 	*
 	* @return int
 	*/
 	public function get_parent_id();
 
 	/**
-	* Set the parent_id
+	* Set the parent forum ID
 	*
 	* @param int				$id		Parent ID
 	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()

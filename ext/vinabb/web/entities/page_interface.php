@@ -57,7 +57,7 @@ interface page_interface
 	public function save();
 
 	/**
-	* Get the page_id
+	* Get the page ID
 	*
 	* @return int page_id
 	*/

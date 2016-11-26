@@ -193,7 +193,7 @@ class group extends group_profile implements group_interface
 	}
 
 	/**
-	* Get the forum_id
+	* Get the group ID
 	*
 	* @return int
 	*/
@@ -203,7 +203,7 @@ class group extends group_profile implements group_interface
 	}
 
 	/**
-	* Get the forum name
+	* Get the group name
 	*
 	* @return string
 	*/
@@ -213,9 +213,9 @@ class group extends group_profile implements group_interface
 	}
 
 	/**
-	* Set the forum name
+	* Set the group name
 	*
-	* @param string				$text	Forum name
+	* @param string				$text	Group name
 	* @return group_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
@@ -242,7 +242,7 @@ class group extends group_profile implements group_interface
 	}
 
 	/**
-	* Get the forum type
+	* Get the group type
 	*
 	* @return int
 	*/
@@ -252,7 +252,7 @@ class group extends group_profile implements group_interface
 	}
 
 	/**
-	* Set the forum type
+	* Set the group type
 	*
 	* @param int				$value	Group type
 	* @return group_interface	$this	Object for chaining calls: load()->set()->save()

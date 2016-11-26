@@ -165,7 +165,7 @@ class censor_word implements censor_word_interface
 	}
 
 	/**
-	* Get the word_id
+	* Get the word ID
 	*
 	* @return int
 	*/
