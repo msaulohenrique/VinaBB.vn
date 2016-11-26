@@ -150,6 +150,9 @@ class bb_items implements bb_items_interface
 		}
 
 		$this->template->assign_vars([
+			'ADD_ITEM_LANG'		=> $this->language->lang('ADD_BB_' . $this->lang_key),
+			'ITEM_NAME_LANG'	=> $this->language->lang($this->lang_key . '_NAME'),
+
 			'U_ACTION'	=> "{$this->u_action}&action=add"
 		]);
 	}
@@ -235,7 +238,10 @@ class bb_items implements bb_items_interface
 		$this->data_to_tpl($entity);
 
 		$this->template->assign_vars([
-			'ERRORS'	=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
+			'ERRORS'			=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
+			'ITEM_NAME_LANG'	=> $this->language->lang($this->lang_key . '_NAME'),
+			'ITEM_VARNAME_LANG'	=> $this->language->lang($this->lang_key . '_VARNAME'),
+
 			'U_BACK'	=> $this->u_action
 		]);
 
