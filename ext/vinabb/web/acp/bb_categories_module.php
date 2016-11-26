@@ -65,7 +65,7 @@ class bb_categories_module
 		$cat_id = $this->request->variable('id', 0);
 
 		$this->controller->set_form_action($this->u_action);
-		$this->controller->set_bb_type($bb_type);
+		$this->controller->set_bb_type($bb_type, $mode);
 
 		// Do actions via the controller
 		switch ($action)

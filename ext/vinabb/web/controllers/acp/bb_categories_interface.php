@@ -23,9 +23,10 @@ interface bb_categories_interface
 	/**
 	* Set phpBB resource types
 	*
-	* @param int $bb_type phpBB resource type
+	* @param int	$bb_type	phpBB resource type
+	* @param string	$mode		Module mode
 	*/
-	public function set_bb_type($bb_type);
+	public function set_bb_type($bb_type, $mode);
 
 	/**
 	* Display categories
