@@ -33,7 +33,7 @@
 			<span class="down-disabled" style="display:none;">{{ ICON_MOVE_DOWN_DISABLED }}</span>
 			<span class="down"><a href="{{ cat.U_MOVE_DOWN }}" data-ajax="row_down">{{ ICON_MOVE_DOWN }}</a></span>
 			<a href="{{ cat.U_EDIT }}">{{ ICON_EDIT }}</a>
-			<a href="{{ cat.U_DELETE }}" data-ajax="row_delete">{{ ICON_DELETE }}</a>
+			{% if cat.U_DELETE %}<a href="{{ cat.U_DELETE }}" data-ajax="row_delete">{{ ICON_DELETE }}</a>{% else %}{{ ICON_DELETE_DISABLED }}{% endif %}
 		</td>
 	</tr>
 	{% else %}

@@ -132,6 +132,8 @@ class bb_categories
 		/* @var \vinabb\web\entities\bb_category_interface $entity */
 		foreach ($entities as $entity)
 		{
+			$items = isset($item_count[$entity->get_id()]) ? $item_count[$entity->get_id()] : 0;
+
 			$this->template->assign_block_vars('cats', [
 				'NAME'		=> $entity->get_name(),
 				'NAME_VI'	=> $entity->get_name_vi(),
@@ -139,12 +141,12 @@ class bb_categories
 				'DESC'		=> $entity->get_desc(),
 				'DESC_VI'	=> $entity->get_desc_vi(),
 				'ICON'		=> $entity->get_icon(),
-				'ITEMS'		=> isset($item_count[$entity->get_id()]) ? $item_count[$entity->get_id()] : 0,
+				'ITEMS'		=> $items,
 
 				'U_EDIT'		=> "{$this->u_action}&action=edit&id={$entity->get_id()}",
 				'U_MOVE_DOWN'	=> "{$this->u_action}&action=move_down&id={$entity->get_id()}&hash=" . generate_link_hash('down' . $entity->get_id()),
 				'U_MOVE_UP'		=> "{$this->u_action}&action=move_up&id={$entity->get_id()}&hash=" . generate_link_hash('up' . $entity->get_id()),
-				'U_DELETE'		=> "{$this->u_action}&action=delete&id={$entity->get_id()}"
+				'U_DELETE'		=> $items ? '' : "{$this->u_action}&action=delete&id={$entity->get_id()}"
 			]);
 		}
 
@@ -376,6 +378,12 @@ class bb_categories
 	*/
 	public function delete_cat($cat_id)
 	{
+		// Do not delete if the category has assigned items
+		if ($this->item_operator->count_items($this->bb_type, $cat_id) > 0)
+		{
+			trigger_error($this->language->lang('ERROR_CAT_DELETE_IN_USE') . adm_back_link($this->u_action), E_USER_WARNING);
+		}
+
 		/* @var \vinabb\web\entities\bb_category_interface */
 		$entity = $this->container->get('vinabb.web.entities.bb_category')->load($cat_id);
 
