@@ -43,6 +43,7 @@ services:
         arguments:
             - '@vinabb.web.cache'
             - '@service_container'
+            - '@vinabb.web.operators.bb_item'
             - '@language'
             - '@log'
             - '@vinabb.web.operators.bb_category'

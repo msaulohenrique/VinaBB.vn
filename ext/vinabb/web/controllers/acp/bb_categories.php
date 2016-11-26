@@ -21,6 +21,9 @@ class bb_categories
 	/** @var ContainerInterface */
 	protected $container;
 
+	/** @var \vinabb\web\operators\bb_item_interface */
+	protected $item_operator;
+
 	/** @var \phpbb\language\language */
 	protected $language;
 
@@ -51,22 +54,27 @@ class bb_categories
 	/** @var int */
 	protected $bb_type;
 
+	/** @var string */
+	protected $lang_key;
+
 	/**
 	* Constructor
 	*
-	* @param \vinabb\web\controllers\cache\service_interface	$cache		Cache service
-	* @param ContainerInterface									$container	Container object
-	* @param \phpbb\language\language							$language	Language object
-	* @param \phpbb\log\log										$log		Log object
-	* @param \vinabb\web\operators\bb_category_interface		$operator	BB author operators
-	* @param \phpbb\request\request								$request	Request object
-	* @param \phpbb\template\template							$template	Template object
-	* @param \phpbb\user										$user		User object
-	* @param \vinabb\web\controllers\helper_interface			$ext_helper	Extension helper
+	* @param \vinabb\web\controllers\cache\service_interface	$cache			Cache service
+	* @param ContainerInterface									$container		Container object
+	* @param \vinabb\web\operators\bb_item_interface			$item_operator	BB item operators
+	* @param \phpbb\language\language							$language		Language object
+	* @param \phpbb\log\log										$log			Log object
+	* @param \vinabb\web\operators\bb_category_interface		$operator		BB category operators
+	* @param \phpbb\request\request								$request		Request object
+	* @param \phpbb\template\template							$template		Template object
+	* @param \phpbb\user										$user			User object
+	* @param \vinabb\web\controllers\helper_interface			$ext_helper		Extension helper
 	*/
 	public function __construct(
 		\vinabb\web\controllers\cache\service_interface $cache,
 		ContainerInterface $container,
+		\vinabb\web\operators\bb_item_interface $item_operator,
 		\phpbb\language\language $language,
 		\phpbb\log\log $log,
 		\vinabb\web\operators\bb_category_interface $operator,
@@ -78,6 +86,7 @@ class bb_categories
 	{
 		$this->cache = $cache;
 		$this->container = $container;
+		$this->item_operator = $item_operator;
 		$this->language = $language;
 		$this->log = $log;
 		$this->operator = $operator;
@@ -100,11 +109,13 @@ class bb_categories
 	/**
 	* Set phpBB resource types
 	*
-	* @param int $bb_type phpBB resource type
+	* @param int	$bb_type	phpBB resource type
+	* @param string	$mode		Module mode
 	*/
-	public function set_bb_type($bb_type)
+	public function set_bb_type($bb_type, $mode)
 	{
 		$this->bb_type = $bb_type;
+		$this->lang_key = strtoupper($mode);
 	}
 
 	/**
@@ -112,6 +123,9 @@ class bb_categories
 	*/
 	public function display_cats()
 	{
+		// Item counter
+		$item_count = $this->item_operator->get_count_data_by_cat($this->bb_type);
+
 		// Grab all from database
 		$entities = $this->operator->get_cats($this->bb_type);
 
@@ -125,6 +139,7 @@ class bb_categories
 				'DESC'		=> $entity->get_desc(),
 				'DESC_VI'	=> $entity->get_desc_vi(),
 				'ICON'		=> $entity->get_icon(),
+				'ITEMS'		=> isset($item_count[$entity->get_id()]) ? $item_count[$entity->get_id()] : 0,
 
 				'U_EDIT'		=> "{$this->u_action}&action=edit&id={$entity->get_id()}",
 				'U_MOVE_DOWN'	=> "{$this->u_action}&action=move_down&id={$entity->get_id()}&hash=" . generate_link_hash('down' . $entity->get_id()),
@@ -134,6 +149,8 @@ class bb_categories
 		}
 
 		$this->template->assign_vars([
+			'TOTAL_ITEMS_LANG'	=> $this->language->lang('TOTAL_' . $this->lang_key . 'S'),
+
 			'U_ACTION'	=> "{$this->u_action}&action=add"
 		]);
 	}
