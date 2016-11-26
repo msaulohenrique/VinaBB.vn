@@ -35,6 +35,12 @@ services:
         arguments:
             - '@dbal.conn'
             - '@vinabb.web.helper.entity'
+    vinabb.web.entities.poll_option:
+        class: vinabb\web\entities\poll_option
+        shared: false
+        arguments:
+            - '@dbal.conn'
+            - '@vinabb.web.helper.entity'
     vinabb.web.entities.post:
         class: vinabb\web\entities\post
         shared: false
