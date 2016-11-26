@@ -136,6 +136,17 @@ class helper implements helper_interface
 	}
 
 	/**
+	* Check the existing PM
+	*
+	* @param int $id PM ID
+	* @return bool
+	*/
+	public function check_pm_id($id)
+	{
+		return $this->check_column_for_id(PRIVMSGS_TABLE, 'msg_id', $id);
+	}
+
+	/**
 	* Check the existing post icon
 	*
 	* @param int $id Post icon ID

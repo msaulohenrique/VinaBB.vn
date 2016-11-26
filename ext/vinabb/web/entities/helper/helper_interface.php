@@ -87,6 +87,14 @@ interface helper_interface
 	public function check_post_id($id);
 
 	/**
+	* Check the existing PM
+	*
+	* @param int $id PM ID
+	* @return bool
+	*/
+	public function check_pm_id($id);
+
+	/**
 	* Check the existing post icon
 	*
 	* @param int $id Post icon ID
