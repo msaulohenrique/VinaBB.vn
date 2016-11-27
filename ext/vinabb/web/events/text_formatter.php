@@ -213,5 +213,9 @@ class text_formatter implements EventSubscriberInterface
 			// one of: a new line, a space, a dot, or a right square bracket
 			$configurator->Emoticons->notAfter = '[^\\n .\\]]';
 		}
+
+		// Use EmojiOne
+		$configurator->Emoji->useEmojiOne();
+		$configurator->Emoji->setImageSize(16);
 	}
 }
