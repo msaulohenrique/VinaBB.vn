@@ -43,53 +43,7 @@ class p_master extends \p_master
 		//    and a linear list for subcategories/items
 		foreach ($this->module_ary as $row_id => $item_ary)
 		{
-			// Skip hidden modules
-			if (!$item_ary['display'])
-			{
-				continue;
-			}
-
-			// Skip branch
-			if ($right_id !== false)
-			{
-				if ($item_ary['left'] < $right_id)
-				{
-					continue;
-				}
-
-				$right_id = false;
-			}
-
-			// Category with no members on their way down (we have to check every level)
-			if (!$item_ary['name'])
-			{
-				$empty_category = true;
-
-				// We go through the branch and look for an activated module
-				foreach (array_slice($this->module_ary, $row_id + 1) as $temp_row)
-				{
-					if ($temp_row['left'] > $item_ary['left'] && $temp_row['left'] < $item_ary['right'])
-					{
-						// Module there and displayed?
-						if ($temp_row['name'] && $temp_row['display'])
-						{
-							$empty_category = false;
-							break;
-						}
-
-						continue;
-					}
-
-					break;
-				}
-
-				// Skip the branch
-				if ($empty_category)
-				{
-					$right_id = $item_ary['right'];
-					continue;
-				}
-			}
+			$this->check_and_skip($item_ary, $row_id, $right_id);
 
 			// Select first id we can get
 			if (!$current_id && (isset($this->module_cache['parents'][$item_ary['id']]) || $item_ary['id'] == $this->p_id))
@@ -170,6 +124,57 @@ class p_master extends \p_master
 			$template->assign_block_vars($linear_offset, array_merge($tpl_ary, array_change_key_case($item_ary, CASE_UPPER)));
 
 			$current_depth = $depth;
+		}
+	}
+
+	protected function check_and_skip($item_ary, $row_id, &$right_id)
+	{
+		// Skip hidden modules
+		if (!$item_ary['display'])
+		{
+			return;
+		}
+
+		// Skip branch
+		if ($right_id !== false)
+		{
+			if ($item_ary['left'] < $right_id)
+			{
+				return;
+			}
+
+			$right_id = false;
+		}
+
+		// Category with no members on their way down (we have to check every level)
+		if (!$item_ary['name'])
+		{
+			$empty_category = true;
+
+			// We go through the branch and look for an activated module
+			foreach (array_slice($this->module_ary, $row_id + 1) as $temp_row)
+			{
+				if ($temp_row['left'] > $item_ary['left'] && $temp_row['left'] < $item_ary['right'])
+				{
+					// Module there and displayed?
+					if ($temp_row['name'] && $temp_row['display'])
+					{
+						$empty_category = false;
+						break;
+					}
+
+					return;
+				}
+
+				break;
+			}
+
+			// Skip the branch
+			if ($empty_category)
+			{
+				$right_id = $item_ary['right'];
+				return;
+			}
 		}
 	}
 }
