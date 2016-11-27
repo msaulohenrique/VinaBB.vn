@@ -189,10 +189,14 @@ class common implements EventSubscriberInterface
 			if ($event['params'] !== false || strpos($event['url'], "ucp.{$this->php_ext}") !== false || strpos($event['url'], "mcp.{$this->php_ext}") !== false)
 			{
 				$event_params = ($event['params'] !== false) ? $event['params'] : substr(strrchr($event['url'], '?'), 1);
+				$event_params = str_replace(['&amp;', '?'], ['&', ''], $event_params);
+
+				// Some cases: abc.php?&x=1
+				$event_params = (substr($event_params, 0, 1) == '&') ? substr($event_params, 1) : $event_params;
 
 				if (!empty($event_params))
 				{
-					$params = explode('&', str_replace(['&amp;', '?'], ['&', ''], $event_params));
+					$params = explode('&', $event_params);
 
 					foreach ($params as $param)
 					{
