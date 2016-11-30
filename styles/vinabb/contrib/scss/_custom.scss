@@ -199,6 +199,76 @@ img.external-img {
 	display:  none;
 }
 
+/* Avatar */
+.avatar{
+	position: relative;
+	display: inline-block;
+	width: 40px;
+	white-space: nowrap;
+	vertical-align: bottom;
+	border-radius: 1000px;
+	i {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		width: 10px;
+		height: 10px;
+		border: 2px solid #fff;
+		border-radius: 100%;
+	}
+	img {
+		width: 100%;
+		max-width: 100%;
+		height: auto;
+		border: 0 none;
+		border-radius: 1000px;
+	}
+}
+
+.avatar-online i{
+	background-color: $bg-success;
+}
+
+.avatar-off i{
+	background-color: $bg-default;
+}
+
+.avatar-busy i{
+	background-color: $bg-danger;
+}
+
+.avatar-lg {
+	width: 100px;
+	i {
+		width: 20px;
+		height: 20px;
+	}
+}
+
+.avatar-md {
+	width: 50px;
+	i {
+		width: 12px;
+		height: 12px;
+	}
+}
+
+.avatar-sm {
+	width: 30px;
+	i {
+		width: 8px;
+		height: 8px;
+	}
+}
+
+.avatar-xs {
+	width: 20px;
+	i {
+		width: 7px;
+		height: 7px;
+	}
+}
+
 /* OVERRIDE */
 
 /* _base.scss */
