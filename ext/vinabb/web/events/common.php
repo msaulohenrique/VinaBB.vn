@@ -115,7 +115,7 @@ class common implements EventSubscriberInterface
 			'core.login_box_redirect'				=> 'login_box_redirect',
 			'core.memberlist_prepare_profile_data'	=> 'memberlist_prepare_profile_data',
 			'core.ucp_pm_view_messsage'				=> 'ucp_pm_view_messsage',
-			'core.obtain_users_online_string_sql'	=> 'obtain_users_online_string_sql',
+			'core.obtain_users_online_string_sql'	=> 'obtain_users_online_string_sql'
 		];
 	}
 
@@ -352,14 +352,23 @@ class common implements EventSubscriberInterface
 	*/
 	public function memberlist_prepare_profile_data($event)
 	{
-		// Add USER_ID and U_PM_ALT without checking $can_receive_pm
-		// Also translate the rank title RANK_TITLE with the original value RANK_TITLE_RAW
 		$data = $event['data'];
 		$template_data = $event['template_data'];
+
+		// Add USER_ID
 		$template_data['USER_ID'] = $data['user_id'];
+
+		// Translate the rank title RANK_TITLE with the original value RANK_TITLE_RAW
 		$template_data['RANK_TITLE_RAW'] = $template_data['RANK_TITLE'];
 		$template_data['RANK_TITLE'] = ($this->language->is_set(['RANK_TITLES', strtoupper($template_data['RANK_TITLE'])])) ? $this->language->lang(['RANK_TITLES', strtoupper($template_data['RANK_TITLE'])]) : $template_data['RANK_TITLE'];
-		$template_data['U_PM_ALT'] = ($this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm')) ? $this->helper->route('vinabb_web_ucp_route', ['id' => 'pm', 'mode' => 'compose', 'u' => $data['user_id']]) : '';
+
+		// Override U_PM_ALT without checking $can_receive_pm
+		$template_data['U_PM'] = ($this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm')) ? $this->helper->route('vinabb_web_ucp_route', ['id' => 'pm', 'mode' => 'compose', 'u' => $data['user_id']]) : '';
+
+		// Override U_VIEW_PROFILE with our profile route
+		$template_data['U_VIEW_PROFILE'] = $this->helper->route('vinabb_web_user_profile_route', ['username' => $data['username']]);
+
+		// Return new data
 		$event['template_data'] = $template_data;
 	}
 

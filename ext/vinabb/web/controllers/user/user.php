@@ -740,9 +740,7 @@ class user
 
 					'S_CUSTOM_PROFILE'	=> (isset($cp_row['row']) && sizeof($cp_row['row'])) ? true : false,
 					'S_GROUP_LEADER'	=> $is_leader,
-					'S_INACTIVE'		=> $row['user_type'] == USER_INACTIVE,
-
-					'U_VIEW_PROFILE'	=> get_username_string('profile', $user_id, $row['username']),
+					'S_INACTIVE'		=> $row['user_type'] == USER_INACTIVE
 				));
 
 				if (isset($cp_row['row']) && sizeof($cp_row['row']))
