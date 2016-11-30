@@ -1,5 +1,10 @@
 {% include 'overall_header.html' %}
 
+{% if S_HAS_SUBFORUM %}
+	{% include 'forumlist_body.html' %}
+{% endif %}
+
+{% if topicrow %}
 <div class="row">
 	<div class="col-sm-2 mailbox-sidenav">
 		<div class="clearfix margin-b-10">
@@ -90,5 +95,6 @@
 		</div>
 	</div>
 </div>
+{% endif %}
 
 {% include 'overall_footer.html' %}
