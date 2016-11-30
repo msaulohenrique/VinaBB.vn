@@ -253,6 +253,7 @@ $lang = array_merge($lang, [
 	'MAP'							=> 'Bản đồ',
 	'MEMBERS'						=> 'Thành viên',
 
+	'NEW'					=> 'Mới',
 	'NEWS'					=> 'Tin tức',
 	'NO_BB_ACP_STYLE'		=> 'Giao diện quản trị không tồn tại.',
 	'NO_BB_ACP_STYLE_ID'	=> 'Giao diện quản trị không xác định.',

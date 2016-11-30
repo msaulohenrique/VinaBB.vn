@@ -253,6 +253,7 @@ $lang = array_merge($lang, [
 	'MAP'							=> 'Map',
 	'MEMBERS'						=> 'Members',
 
+	'NEW'					=> 'New',
 	'NEWS'					=> 'News',
 	'NO_BB_ACP_STYLE'		=> 'The ACP style does not exist.',
 	'NO_BB_ACP_STYLE_ID'	=> 'No ACP styles specified.',
