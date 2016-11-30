@@ -134,7 +134,7 @@
 						{% if S_REGISTERED_USER %}
 						<li class="dropdown avtar-dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<img src="{{ CURRENT_USER_AVATAR_URL ?: T_THEME_PATH ~ '/images/no_avatar.png' }}" class="img-circle white-bg" width="30" alt="">
+								<img src="{{ CURRENT_USER_AVATAR ?: T_THEME_PATH ~ '/images/no_avatar.png' }}" class="img-circle white-bg" width="30" alt="">
 							</a>
 							<ul class="dropdown-menu top-dropdown">
 								{% if U_ACP %}<li><a href="{{ U_ACP }}"><i class="icon-equalizer"></i> {{ lang('ACP_SHORT') }}</a></li>{% endif %}
