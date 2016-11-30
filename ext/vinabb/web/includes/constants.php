@@ -95,6 +95,7 @@ class constants
 	const NUM_ARTICLES_ON_INDEX = 5;
 
 	// Pagination
+	const USERS_PER_PAGE = 20;
 	const PORTAL_ARTICLES_PER_PAGE = 20;
 	const BB_ITEMS_PER_PAGE = 10;
 

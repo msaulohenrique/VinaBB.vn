@@ -119,7 +119,7 @@ class user
 			$user_types[] = USER_INACTIVE;
 		}
 
-		$start = floor(($page - 1) * $this->config['topics_per_page']);
+		$start = floor(($page - 1) * constants::USERS_PER_PAGE);
 		$submit = $this->request->is_set_post('submit');
 		$group_id = $this->request->variable('g', 0);
 
@@ -619,7 +619,7 @@ class user
 			);
 		}
 
-		$start = $this->pagination->validate_start($start, $this->config['topics_per_page'], $total_users);
+		$start = $this->pagination->validate_start($start, constants::USERS_PER_PAGE, $total_users);
 
 		// Get us some users :D
 		$sql = "SELECT u.user_id
@@ -628,7 +628,7 @@ class user
 			WHERE " . $this->db->sql_in_set('u.user_type', $user_types) . "
 				$sql_where
 			ORDER BY $order_by";
-		$result = $this->db->sql_query_limit($sql, $this->config['topics_per_page'], $start);
+		$result = $this->db->sql_query_limit($sql, constants::USERS_PER_PAGE, $start);
 
 		$user_list = array();
 		while ($row = $this->db->sql_fetchrow($result))
@@ -764,17 +764,11 @@ class user
 			}
 		}
 
-		$this->pagination->generate_template_pagination('vinabb_web_user_list_route', $params, 'pagination', $total_users, $this->config['topics_per_page'], $start);
+		$this->pagination->generate_template_pagination('vinabb_web_user_list_route', $params, 'pagination', $total_users, constants::USERS_PER_PAGE, $start);
 
 		// Generate page
 		$this->template->assign_vars([
 			'TOTAL_USERS'	=> $this->language->lang('LIST_USERS', (int) $total_users),
-
-			'PROFILE_IMG'	=> $this->user->img('icon_user_profile', $this->user->lang['PROFILE']),
-			'PM_IMG'		=> $this->user->img('icon_contact_pm', $this->user->lang['SEND_PRIVATE_MESSAGE']),
-			'EMAIL_IMG'		=> $this->user->img('icon_contact_email', $this->user->lang['EMAIL']),
-			'JABBER_IMG'	=> $this->user->img('icon_contact_jabber', $this->user->lang['JABBER']),
-			'SEARCH_IMG'	=> $this->user->img('icon_user_search', $this->user->lang['SEARCH']),
 
 			'U_FIND_MEMBER'			=> ($this->config['load_search'] || $this->auth->acl_get('a_')) ? append_sid("{$this->root_path}memberlist.{$this->php_ext}", 'mode=search' . (($start) ? "&amp;start=$start" : '') . (!empty($params) ? '&amp;' . implode('&amp;', $params) : '')) : '',
 			'U_HIDE_FIND_MEMBER'	=> ($mode == 'search' || ($mode == '' && $submit)) ? $u_hide_find_member : '',
