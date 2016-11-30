@@ -2,31 +2,55 @@
 
 <div class="row">
 	{% for row in memberrow %}
+
+	{% set BG_COLOR = '' %}
+	{% if row.RANK_TITLE_RAW == 'ADMINISTRATOR' %}
+		{% set BG_COLOR = 'danger' %}
+	{% elseif row.RANK_TITLE_RAW == 'DEVELOPER' %}
+		{% set BG_COLOR = 'primary' %}
+	{% elseif row.RANK_TITLE_RAW == 'MANAGER' %}
+		{% set BG_COLOR = 'success' %}
+	{% elseif row.RANK_TITLE_RAW == 'SUPPORTER' %}
+		{% set BG_COLOR = 'indigo' %}
+	{% elseif row.RANK_TITLE_RAW in ['GLOBAL_MODERATOR', 'MODERATOR'] %}
+		{% set BG_COLOR = 'warning' %}
+	{% endif %}
+
 	<div class="col-md-3 col-sm-6">
 		<div class="panel panel-default">
 			<div class="panel-body text-center">
-				<img alt="profile" class="img-circle margin-b-10 white-bg" src="{{ T_THEME_PATH }}/images/no_avatar.png" width="64">
+				<img alt="{{ row.USERNAME }}" class="img-circle margin-b-10 white-bg" src="{{ row.AVATAR_IMG ?: T_THEME_PATH ~ '/images/no_avatar.png' }}" width="128" height="128">
 				<p class="lead margin-b-0">{{ row.USERNAME_FULL }}</p>
-				<p class="text-muted">MO, Columbia</p>
+				<p class="text-muted">{{ row.JOINED }}</p>
 				<p>
 					<a href="#" target="_blank" data-tooltip="true" data-placement="bottom" title="{{ lang('FACEBOOK') }}"><i class="fa fa-facebook-square fa-2x btn-icon-facebook"></i></a>
 					<a href="#" target="_blank" data-tooltip="true" data-placement="bottom" title="{{ lang('TWITTER') }}"><i class="fa fa-twitter-square fa-2x btn-icon-twitter"></i></a>
 					<a href="#" target="_blank" data-tooltip="true" data-placement="bottom" title="{{ lang('GOOGLE_PLUS') }}"><i class="fa fa-google-plus-square fa-2x btn-icon-googleplus"></i></a>
 					<a href="#" target="_blank" data-tooltip="true" data-placement="bottom" title="{{ lang('SKYPE') }}"><i class="fa fa-skype fa-2x btn-icon-twitter"></i></a>
 				</p>
-				<hr>
+				{% if row.S_INACTIVE %}
+				<div class="ribbon ribbon-clip ribbon-reverse">
+					<span class="ribbon-inner">{{ lang('INACTIVE') }}</span>
+				</div>
+				{% elseif BG_COLOR %}
+				<div class="ribbon ribbon-clip ribbon-reverse ribbon-{{ BG_COLOR }}">
+					<span class="ribbon-inner">{{ row.RANK_TITLE }}</span>
+				</div>
+				{% endif %}
+			</div>
+			<div class="panel-footer{{ BG_COLOR ? ' bg-' ~ BG_COLOR : '' }}">
 				<ul class="list-unstyled margin-b-0 text-center row">
 					<li class="col-xs-4">
-						<span class="font-600">1,345</span>
-						<p class="text-muted text-sm margin-b-0">Following</p>
+						<span class="font-600">{{ row.USER_ID }}</span>
+						<p class="{% if not BG_COLOR %}text-muted {% endif %}text-sm margin-b-0">{{ lang('ID') }}</p>
 					</li>
 					<li class="col-xs-4">
 						<span class="font-600">23K</span>
-						<p class="text-muted text-sm margin-b-0">Followers</p>
+						<p class="{% if not BG_COLOR %}text-muted {% endif %}text-sm margin-b-0">Followers</p>
 					</li>
 					<li class="col-xs-4">
-						<span class="font-600">{{ row.POSTS }}</span>
-						<p class="text-muted text-sm margin-b-0">{{ lang('POSTS') }}</p>
+						<span class="font-600">{{ row.POSTS|number_format }}</span>
+						<p class="{% if not BG_COLOR %}text-muted {% endif %}text-sm margin-b-0">{{ lang('POSTS') }}</p>
 					</li>
 				</ul>
 			</div>
