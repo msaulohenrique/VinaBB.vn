@@ -113,6 +113,7 @@ class common implements EventSubscriberInterface
 			'core.append_sid'						=> 'append_sid',
 			'core.get_avatar_after'					=> 'get_avatar_after',
 			'core.login_box_redirect'				=> 'login_box_redirect',
+			'core.memberlist_prepare_profile_data'	=> 'memberlist_prepare_profile_data',
 			'core.ucp_pm_view_messsage'				=> 'ucp_pm_view_messsage',
 			'core.obtain_users_online_string_sql'	=> 'obtain_users_online_string_sql',
 		];
@@ -325,13 +326,9 @@ class common implements EventSubscriberInterface
 	*/
 	public function get_avatar_after($event)
 	{
+		// Modify phpbb_get_avatar() to return only the attribute src=""
 		$avatar_data = $event['avatar_data'];
-
-		$this->template->assign_vars([
-			'CURRENT_USER_AVATAR_URL'		=>	$avatar_data['src'],
-			'CURRENT_USER_AVATAR_WIDTH'		=>	$avatar_data['width'],
-			'CURRENT_USER_AVATAR_HEIGHT'	=>	$avatar_data['height']
-		]);
+		$event['html'] = $avatar_data['src'];
 	}
 
 	/**
@@ -346,6 +343,24 @@ class common implements EventSubscriberInterface
 		{
 			$this->user->unset_admin();
 		}
+	}
+
+	/**
+	* core.memberlist_prepare_profile_data
+	*
+	* @param array $event Data from the PHP event
+	*/
+	public function memberlist_prepare_profile_data($event)
+	{
+		// Add USER_ID and U_PM_ALT without checking $can_receive_pm
+		// Also translate the rank title RANK_TITLE with the original value RANK_TITLE_RAW
+		$data = $event['data'];
+		$template_data = $event['template_data'];
+		$template_data['USER_ID'] = $data['user_id'];
+		$template_data['RANK_TITLE_RAW'] = $template_data['RANK_TITLE'];
+		$template_data['RANK_TITLE'] = ($this->language->is_set(['RANK_TITLES', strtoupper($template_data['RANK_TITLE'])])) ? $this->language->lang(['RANK_TITLES', strtoupper($template_data['RANK_TITLE'])]) : $template_data['RANK_TITLE'];
+		$template_data['U_PM_ALT'] = ($this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm')) ? $this->helper->route('vinabb_web_ucp_route', ['id' => 'pm', 'mode' => 'compose', 'u' => $data['user_id']]) : '';
+		$event['template_data'] = $template_data;
 	}
 
 	/**
