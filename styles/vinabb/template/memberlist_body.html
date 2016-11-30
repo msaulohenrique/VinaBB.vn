@@ -1,10 +1,14 @@
 {% include 'overall_header.html' %}
 
+<div class="row margin-r-5">
+	{% if pagination %}{% include 'pagination.html' %}{% endif %}
+</div>
+
 <div class="row">
 	{% for row in memberrow %}
 
 	{% set BG_COLOR = '' %}
-	{% if row.RANK_TITLE_RAW == 'ADMINISTRATOR' %}
+	{% if row.RANK_TITLE_RAW in ['FOUNDER', 'ADMINISTRATOR'] %}
 		{% set BG_COLOR = 'danger' %}
 	{% elseif row.RANK_TITLE_RAW == 'DEVELOPER' %}
 		{% set BG_COLOR = 'primary' %}
@@ -14,19 +18,38 @@
 		{% set BG_COLOR = 'indigo' %}
 	{% elseif row.RANK_TITLE_RAW in ['GLOBAL_MODERATOR', 'MODERATOR'] %}
 		{% set BG_COLOR = 'warning' %}
+	{% elseif row.S_INACTIVE %}
+		{% set BG_COLOR = 'grey' %}
 	{% endif %}
 
 	<div class="col-md-3 col-sm-6">
 		<div class="panel panel-default">
 			<div class="panel-body text-center">
-				<img alt="{{ row.USERNAME }}" class="img-circle margin-b-10 white-bg" src="{{ row.AVATAR_IMG ?: T_THEME_PATH ~ '/images/no_avatar.png' }}" width="128" height="128">
-				<p class="lead margin-b-0">{{ row.USERNAME_FULL }}</p>
+				<span class="avatar avatar-lg{% if row.S_ONLINE %} avatar-online{% endif %}">
+					<a href="{{ row.U_VIEW_PROFILE }}"><img alt="{{ row.USERNAME }}" class="bg-light-dark" src="{{ row.AVATAR_IMG ?: T_THEME_PATH ~ '/images/no_avatar.png' }}"></a>
+					{% if row.S_ONLINE %}<i></i>{% endif %}
+				</span>
+				<p class="lead margin-b-0 text-{{ BG_COLOR ?: 'info' }}">{{ row.USERNAME }}</p>
 				<p class="text-muted">{{ row.JOINED }}</p>
 				<p>
-					<a href="#" target="_blank" data-tooltip="true" data-placement="bottom" title="{{ lang('FACEBOOK') }}"><i class="fa fa-facebook-square fa-2x btn-icon-facebook"></i></a>
-					<a href="#" target="_blank" data-tooltip="true" data-placement="bottom" title="{{ lang('TWITTER') }}"><i class="fa fa-twitter-square fa-2x btn-icon-twitter"></i></a>
-					<a href="#" target="_blank" data-tooltip="true" data-placement="bottom" title="{{ lang('GOOGLE_PLUS') }}"><i class="fa fa-google-plus-square fa-2x btn-icon-googleplus"></i></a>
-					<a href="#" target="_blank" data-tooltip="true" data-placement="bottom" title="{{ lang('SKYPE') }}"><i class="fa fa-skype fa-2x btn-icon-twitter"></i></a>
+					<a href="{{ row.U_PM }}" data-tooltip="true" data-placement="bottom" title="{{ lang('PM') }}"><i class="fa fa-envelope-o fa-2x text-primary"></i></a>
+					{% if row.custom_fields %}
+						{% for cpf in row.custom_fields %}
+							{% if cpf.PROFILE_FIELD_IDENT == 'phpbb_website' %}
+								<a href="{{ cpf.PROFILE_FIELD_VALUE }}" target="_blank" data-tooltip="true" data-placement="bottom" title="{{ lang('WEBSITE') }}"><i class="fa fa-globe fa-2x btn-icon-github"></i></a>
+							{% elseif cpf.PROFILE_FIELD_IDENT == 'phpbb_facebook' %}
+								<a href="{{ cpf.PROFILE_FIELD_CONTACT }}" target="_blank" data-tooltip="true" data-placement="bottom" title="{{ lang('FACEBOOK') }}"><i class="fa fa-facebook-square fa-2x btn-icon-facebook"></i></a>
+							{% elseif cpf.PROFILE_FIELD_IDENT == 'phpbb_twitter' %}
+								<a href="{{ cpf.PROFILE_FIELD_CONTACT }}" target="_blank" data-tooltip="true" data-placement="bottom" title="{{ lang('TWITTER') }}"><i class="fa fa-twitter-square fa-2x btn-icon-twitter"></i></a>
+							{% elseif cpf.PROFILE_FIELD_IDENT == 'phpbb_googleplus' %}
+								<a href="{{ cpf.PROFILE_FIELD_CONTACT }}" target="_blank" data-tooltip="true" data-placement="bottom" title="{{ lang('GOOGLEPLUS') }}"><i class="fa fa-google-plus-square fa-2x btn-icon-googleplus"></i></a>
+							{% elseif cpf.PROFILE_FIELD_IDENT == 'phpbb_skype' %}
+								<a href="{{ cpf.PROFILE_FIELD_CONTACT }}" target="_blank" data-tooltip="true" data-placement="bottom" title="{{ lang('SKYPE') }}"><i class="fa fa-skype fa-2x btn-icon-twitter"></i></a>
+							{% endif %}
+						{% endfor %}
+					{% else %}
+						<a href="{{ row.U_VIEW_PROFILE }}" data-tooltip="true" data-placement="bottom" title="{{ lang('VINABB') }}"><i class="fa fa-vimeo fa-2x"></i></a>
+					{% endif %}
 				</p>
 				{% if row.S_INACTIVE %}
 				<div class="ribbon ribbon-clip ribbon-reverse">
@@ -45,8 +68,8 @@
 						<p class="{% if not BG_COLOR %}text-muted {% endif %}text-sm margin-b-0">{{ lang('ID') }}</p>
 					</li>
 					<li class="col-xs-4">
-						<span class="font-600">23K</span>
-						<p class="{% if not BG_COLOR %}text-muted {% endif %}text-sm margin-b-0">Followers</p>
+						<span class="font-600">{{ row.AGE ?: '--' }}</span>
+						<p class="{% if not BG_COLOR %}text-muted {% endif %}text-sm margin-b-0">{{ lang('AGE') }}</p>
 					</li>
 					<li class="col-xs-4">
 						<span class="font-600">{{ row.POSTS|number_format }}</span>
@@ -57,6 +80,10 @@
 		</div>
 	</div>
 	{% endfor %}
+</div>
+
+<div class="row margin-r-5">
+	{% if pagination %}{% include 'pagination.html' %}{% endif %}
 </div>
 
 {% include 'overall_footer.html' %}

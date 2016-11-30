@@ -10,7 +10,6 @@
 					<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
 					<li data-target="#myCarousel" data-slide-to="1"></li>
 					<li data-target="#myCarousel" data-slide-to="2"></li>
-					<li data-target="#myCarousel" data-slide-to="3"></li>
 				</ol>
 
 				<!-- Wrapper for slides -->
@@ -22,23 +21,13 @@
 							<p>Người xưa còn đó, tình yêu còn đó, mãi mãi phpBB...</p>
 						</div>
 					</div>
-
 					<div class="item">
-						<img src="{{ T_THEME_PATH }}/images/headlines/stylesdemo.jpg" alt="" class="img-responsive">
+						<a href="http://recyclebin.vinabb.vn/" target="_blank"><img src="{{ T_THEME_PATH }}/images/headlines/stylesdemo.jpg" alt="" class="img-responsive"></a>
 						<div class="carousel-caption">
-							<h3>styles.vinabb.vn</h3>
-							<p>The atmosphere in Chania has a touch of Florence and Venice.</p>
+							<h3>Styles Demo</h3>
+							<p>Xem thử và tìm nhanh giao diện phù hợp với sở thích của bạn.</p>
 						</div>
 					</div>
-
-					<div class="item">
-						<img src="{{ T_THEME_PATH }}/images/headlines/abcde.jpg" alt="" class="img-responsive">
-						<div class="carousel-caption">
-							<h3>sss</h3>
-							<p>The atmosphere in Chania has a touch of Florence and Venice.</p>
-						</div>
-					</div>
-
 					<div class="item">
 						<img src="{{ T_THEME_PATH }}/images/headlines/abcde.jpg" alt="" class="img-responsive">
 						<div class="carousel-caption">
@@ -136,7 +125,7 @@
 							<a href="{{ cat.URL }}">
 								<em class="{{ cat.ICON ?: 'fa fa-home' }}"></em>
 								<span>{{ cat.NAME }}</span>
-								<span class="label label-success pull-right">153</span>
+								<span class="label label-success pull-right">{{ lang('NEW') }}</span>
 							</a>
 						</li>
 						{% endfor %}
