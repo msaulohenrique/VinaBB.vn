@@ -649,3 +649,62 @@
 	border-top-color: transparent;
 	border-bottom-color: $bg-danger;
 }
+
+.ribbon-indigo .ribbon-inner {
+	background-color: $bg-indigo;
+}
+
+.ribbon-indigo.ribbon-bookmark .ribbon-inner:before {
+	border-color: $bg-indigo;
+	border-right-color: transparent;
+}
+
+.ribbon-indigo.ribbon-bookmark.ribbon-reverse .ribbon-inner:before {
+	border-right-color: $bg-indigo;
+	border-left-color: transparent;
+}
+
+.ribbon-indigo.ribbon-bookmark.ribbon-vertical .ribbon-inner:before {
+	border-right-color: $bg-indigo;
+	border-bottom-color: transparent;
+}
+
+.ribbon-indigo.ribbon-bookmark.ribbon-vertical.ribbon-reverse .ribbon-inner:before {
+	border-right-color: $bg-indigo;
+	border-bottom-color: transparent;
+	border-left-color: $bg-indigo;
+}
+
+.ribbon-indigo.ribbon-corner .ribbon-inner {
+	background-color: transparent;
+}
+
+.ribbon-indigo.ribbon-corner .ribbon-inner:before {
+	border-top-color: $bg-indigo;
+	border-left-color: $bg-indigo;
+}
+
+.ribbon-indigo.ribbon-corner.ribbon-reverse .ribbon-inner:before {
+	border-right-color: $bg-indigo;
+	border-left-color: transparent;
+}
+
+.ribbon-indigo.ribbon-corner.ribbon-bottom .ribbon-inner:before {
+	border-top-color: transparent;
+	border-bottom-color: $bg-indigo;
+}
+
+.ribbon-indigo .ribbon-inner:after {
+	border-top-color: $bg-indigo;
+	border-right-color: $bg-indigo;
+}
+
+.ribbon-indigo.ribbon-reverse .ribbon-inner:after {
+	border-right-color: transparent;
+	border-left-color: $bg-indigo;
+}
+
+.ribbon-indigo.ribbon-bottom .ribbon-inner:after {
+	border-top-color: transparent;
+	border-bottom-color: $bg-indigo;
+}
