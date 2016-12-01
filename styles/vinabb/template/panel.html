@@ -1,0 +1,64 @@
+<nav id="right-sidebar-toggle" class="right_sidebar">
+	<div class="nano">
+		<div class="nano-content">
+			<div>
+				<ul class="list-inline nav-tab-panel clearfix" role="tablist">
+					<li role="presentation" class="active"><a href="#projects" aria-controls="projects" role="tab" data-toggle="tab">Dự án</a></li>
+					<li role="presentation"><a href="#team" aria-controls="team" role="tab" data-toggle="tab">Ban quản trị</a></li>
+				</ul>
+
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane active" id="projects">
+						<ul class="sidebar-list">
+							<li class="sidebar-title">
+								<h3 class="font-100"> Current projects</h3>
+								<small>There are <strong>7</strong> Current project</small>
+							</li>
+							<li>
+								<a href="#">
+									<span class="label label-primary pull-right">New</span>
+									<h4>YII with material design</h4>
+									<p>It is a long established fact that a reader will be distracted.</p>
+
+									<div class="small">Completion with: 50%</div>
+									<div class="progress progress-mini">
+										<div style="width: 50%;" class="progress-bar progress-bar-warning"></div>
+									</div>
+									<div class="small text-danger">Deadline - September 15, 2016</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div role="tabpanel" class="tab-pane" id="team">
+						<ul class="list-unstyled sidebar-contact-list">
+							{% for user in 1..5 %}
+							<li class="clearfix">
+								<a href="#" class="media-box">
+										<span class="pull-right">
+											<span class="circle circle-lg{% if user is even %} circle-success{% endif %}"></span>
+										</span>
+										<span class="pull-left">
+											<img src="{{ T_THEME_PATH }}/images/no_avatar.png" alt="user" class="media-box-object img-circle" width="50">
+										</span>
+										<span class="media-box-body">
+											<span class="media-box-heading">
+												<strong>misen</strong>
+												<br>
+												<small class="text-muted">Nhóm phát triển</small>
+											</span>
+										</span>
+								</a>
+							</li>
+							{% endfor %}
+							<li>
+								<div class="text-center">
+									<a href="{{ U_TEAM }}" class="btn btn-primary btn-xs">{{ lang('VIEW_DETAILS') }}</a>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</nav>

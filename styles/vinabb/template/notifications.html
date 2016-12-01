@@ -1,0 +1,43 @@
+{% if S_REGISTERED_USER %}
+<li id="iconNotification" data-tooltip="true" data-placement="bottom" title="{{ lang('NOTIFICATIONS') }}" class="dropdown hidden-xs icon-dropdown">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+		<i class="fa fa-eercast"></i>
+		{% if NOTIFICATIONS_COUNT %}<span class="badge badge-danger">{{ NOTIFICATIONS_COUNT }}</span>{% endif %}
+	</a>
+	<ul class="dropdown-menu top-dropdown lg-dropdown notification-dropdown">
+		<li>
+			<div class="dropdown-header">
+				<a href="{{ U_NOTIFICATION_SETTINGS }}" class="pull-{{ S_CONTENT_FLOW_END }} text-muted" data-tooltip="true" data-placement="left" title="{{ lang('SETTINGS') }}"><i class="icon-settings"></i></a>
+				<a href="{{ U_VIEW_ALL_NOTIFICATIONS }}" data-tooltip="true" data-placement="right" title="{{ lang('SEE_ALL') }}">{{ lang('NOTIFICATIONS') }}</a>
+			</div>
+			{% if notifications %}
+			<div class="scrollDiv">
+				<div class="notification-list">
+					{% for notification in notifications %}
+					<a{% if notification.URL %} href="{{ notification.URL }}"{% endif %} class="clearfix">
+					<span class="notification-icon"><i class="icon-info {{ notification.UNREAD ? 'text-danger' : 'text-success' }}"></i></span>
+					<span class="notification-title">{{ notification.FORMATTED_TITLE }}</span>
+					{% if notification.REFERENCE %}<span class="notification-description">{{ notification.REFERENCE }}</span>{% endif %}
+					{% if notification.FORUM %}<span class="notification-description">{{ notification.FORUM }}</span>{% endif %}
+					{% if notification.REASON %}<span class="notification-description">{{ notification.REASON }}</span>{% endif %}
+					<span class="notification-time">{{ notification.TIME }}</span>
+					</a>
+					{% endfor %}
+
+					<a href="{{ U_MARK_ALL_NOTIFICATIONS }}" class="clearfix">
+						<span class="notification-icon"><i class="icon-check text-primary"></i></span>
+						<span class="notification-title">{{ lang('OPTIONS') }}</span>
+						<span class="notification-description">{{ lang('MARK_ALL_READ') }}</span>
+					</a>
+				</div>
+			</div>
+			{% else %}
+			<div class="widget text-center text-muted">
+				<em class="icon-emotsmile fa-3x"></em>
+				<p>{{ lang('NO_NOTIFICATIONS') }}</p>
+			</div>
+			{% endif %}
+		</li>
+	</ul>
+</li>
+{% endif %}

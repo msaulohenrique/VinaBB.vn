@@ -1,0 +1,174 @@
+<nav class="navbar navbar-default navbar-static-top">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">{{ lang('TOGGLE') }}</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+			<ul class="nav navbar-nav">
+				{% if U_SITE_HOME %}
+				<li class="dropdown"><a href="{{ U_SITE_HOME }}" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-home"></i> {{ lang('SITE_HOME') }}</a></li>
+				{% endif %}
+				<li class="dropdown{% if S_INDEX %} active{% endif %}">
+					<a href="{{ U_PORTAL }}" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-event"></i> {{ lang('NEWS') }}</a>
+				</li>
+				{# Board menu #}
+				<li class="dropdown{% if S_BOARD or S_VIEWFORUM or S_VIEWTOPIC %} active{% endif %}">
+					<a href="{{ U_BOARD }}" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-bubbles"></i> {{ lang('BOARD') }}</a>
+					{% if header_forums %}
+					<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+						{% set TREE_LEVEL = 0 %}
+						{% for forum in header_forums %}
+
+						{# Category icon #}
+						{% if forum.FORUM_ID == FORUM_ID_VIETNAMESE %}
+							{% set CAT_ICON = 'icon-star' %}
+						{% elseif forum.FORUM_ID == FORUM_ID_VIETNAMESE_SUPPORT %}
+							{% set CAT_ICON = 'icon-note' %}
+						{% elseif forum.FORUM_ID == FORUM_ID_VIETNAMESE_EXT %}
+							{% set CAT_ICON = 'icon-rocket' %}
+						{% elseif forum.FORUM_ID == FORUM_ID_VIETNAMESE_STYLE %}
+							{% set CAT_ICON = 'icon-layers' %}
+						{% elseif forum.FORUM_ID == FORUM_ID_VIETNAMESE_TUTORIAL %}
+							{% set CAT_ICON = 'icon-directions' %}
+						{% elseif forum.FORUM_ID == FORUM_ID_VIETNAMESE_DISCUSSION %}
+							{% set CAT_ICON = 'icon-bubble' %}
+						{% elseif forum.FORUM_ID == FORUM_ID_ENGLISH %}
+							{% set CAT_ICON = 'icon-globe' %}
+						{% elseif forum.FORUM_ID == FORUM_ID_ENGLISH_SUPPORT %}
+							{% set CAT_ICON = 'icon-note' %}
+						{% elseif forum.FORUM_ID == FORUM_ID_ENGLISH_TUTORIAL %}
+							{% set CAT_ICON = 'icon-directions' %}
+						{% elseif forum.FORUM_ID == FORUM_ID_ENGLISH_DISCUSSION %}
+							{% set CAT_ICON = 'icon-bubble' %}
+						{% else %}
+							{% set CAT_ICON = 'icon-arrow-right-circle' %}
+						{% endif %}
+
+						{% if TREE_LEVEL > 1 and forum.PARENT_ID == 0 %}
+						{% for i in 2..TREE_LEVEL %}
+							</ul>
+						</li>
+						{% endfor %}
+						{% endif %}
+
+						{% if forum.PARENT_ID == 0 %}
+							{% set TREE_LEVEL = 0 %}
+						{% endif %}
+
+						{% if LAST_HAS_SUBFORUMS is defined and not LAST_HAS_SUBFORUMS and LAST_PARENT_ID is defined and forum.PARENT_ID != LAST_PARENT_ID %}
+							{% set TREE_LEVEL = max(0, TREE_LEVEL - 1) %}
+							</ul>
+						</li>
+						{% endif %}
+
+						{% if forum.S_HAS_SUBFORUMS %}
+						<li class="dropdown-submenu">
+							<a tabindex="-1" href="{{ forum.URL }}"><i class="{{ CAT_ICON }}"></i> {{ forum.NAME }}</a>
+							<ul class="dropdown-menu">
+						{% else %}
+								<li><a href="{{ forum.URL }}">{{ forum.NAME }}</a></li>
+						{% endif %}
+
+						{% if loop.last and TREE_LEVEL %}
+						{% for i in 1..TREE_LEVEL %}
+							</ul>
+						</li>
+						{% endfor %}
+						{% endif %}
+
+						{% if forum.S_HAS_SUBFORUMS %}
+							{% set TREE_LEVEL = TREE_LEVEL + 1 %}
+						{% endif %}
+
+						{% set LAST_PARENT_ID = forum.PARENT_ID %}
+						{% set LAST_HAS_SUBFORUMS = forum.S_HAS_SUBFORUMS %}
+
+						{% endfor %}
+					</ul>
+					{% endif %}
+				</li>
+				{# phpBB Resource menu #}
+				<li class="dropdown{% if S_BB %} active{% endif %}">
+					<a href="{{ U_BB }}" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-grid"></i> {{ lang('BB') }}</a>
+					<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+						<li class="dropdown-submenu">
+							<a tabindex="-1" href="{{ U_BB_EXTS }}"><i class="icon-rocket"></i> {{ lang('BB_EXTS') }}</a>
+							{% if ext_cats %}
+							<ul class="dropdown-menu">
+								{% for cat in ext_cats %}
+								<li><a href="{{ cat.URL }}"><i class="{{ cat.ICON }}"></i> {{ cat.NAME }}</a></li>
+								{% endfor %}
+							</ul>
+							{% endif %}
+						</li>
+						<li class="dropdown-submenu">
+							<a tabindex="-1" href="{{ U_BB_STYLES }}"><i class="icon-layers"></i> {{ lang('BB_STYLES') }}</a>
+							{% if style_cats %}
+							<ul class="dropdown-menu">
+								{% for cat in style_cats %}
+								<li><a href="{{ cat.URL }}"><i class="{{ cat.ICON }}"></i> {{ cat.NAME }}</a></li>
+								{% endfor %}
+							</ul>
+							{% endif %}
+						</li>
+						<li class="dropdown-submenu">
+							<a tabindex="-1" href="{{ U_BB_ACP_STYLES }}"><i class="icon-equalizer"></i> {{ lang('BB_ACP_STYLES') }}</a>
+							{% if acp_style_cats %}
+							<ul class="dropdown-menu">
+								{% for cat in acp_style_cats %}
+								<li><a href="{{ cat.URL }}"><i class="{{ cat.ICON }}"></i> {{ cat.NAME }}</a></li>
+								{% endfor %}
+							</ul>
+							{% endif %}
+						</li>
+						<li class="dropdown-submenu">
+							<a tabindex="-1" href="{{ U_BB_LANGS }}"><i class="icon-speech"></i> {{ lang('BB_LANGS_ALT') }}</a>
+							{% if lang_cats %}
+							<ul class="dropdown-menu">
+								{% for cat in lang_cats %}
+								<li><a href="{{ cat.URL }}"><i class="{{ cat.ICON }}"></i> {{ cat.NAME }}</a></li>
+								{% endfor %}
+							</ul>
+							{% endif %}
+						</li>
+						<li class="dropdown-submenu">
+							<a tabindex="-1" href="{{ U_BB_TOOLS }}"><i class="icon-wrench"></i> {{ lang('BB_TOOLS') }}</a>
+							{% if tool_cats %}
+							<ul class="dropdown-menu">
+								{% for cat in tool_cats %}
+								<li><a href="{{ cat.URL }}"><i class="{{ cat.ICON }}"></i> {{ cat.NAME }}</a></li>
+								{% endfor %}
+							</ul>
+							{% endif %}
+						</li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-people"></i> {{ lang('COMMUNITY') }}</a>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+						{% if S_DISPLAY_MEMBERLIST %}<li><a href="{{ U_MEMBERLIST }}"><i class="icon-list"></i> {{ lang('MEMBERLIST') }}</a></li>{% endif %}
+						{% if U_TEAM %}<li><a href="{{ U_TEAM }}"><i class="icon-eyeglass"></i> {{ lang('THE_TEAM') }}</a></li>{% endif %}
+					</ul>
+				</li>
+				{% if S_DISPLAY_SEARCH %}
+				<li class="dropdown{% if S_IN_SEARCH %} active{% endif %}">
+					<a href="#" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-magnifier-add"></i> {{ lang('SEARCH') }}</a>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+						{% if S_REGISTERED_USER %}<li><a href="{{ U_SEARCH_SELF }}"><i class="icon-magnifier-remove"></i> {{ lang('SEARCH_SELF') }}</a></li>{% endif %}
+						{% if S_USER_LOGGED_IN %}<li><a href="{{ U_SEARCH_NEW }}"><i class="icon-magnifier-remove"></i> {{ lang('SEARCH_NEW') }}</a></li>{% endif %}
+						{% if S_LOAD_UNREADS %}<li><a href="{{ U_SEARCH_UNREAD }}"><i class="icon-magnifier-remove"></i> {{ lang('SEARCH_UNREAD') }}</a></li>{% endif %}
+						<li><a href="{{ U_SEARCH_UNANSWERED }}"><i class="icon-magnifier-remove"></i> {{ lang('SEARCH_UNANSWERED') }}</a></li>
+						<li><a href="{{ U_SEARCH_ACTIVE_TOPICS }}"><i class="icon-magnifier-remove"></i> {{ lang('SEARCH_ACTIVE_TOPICS') }}</a></li>
+						<li><a href="{{ U_SEARCH }}"><i class="icon-magnifier-remove"></i> {{ lang('SEARCH_ADV') }}</a></li>
+					</ul>
+				</li>
+				{% endif %}
+			</ul>
+		</div>
+	</div>
+</nav>
