@@ -68,7 +68,7 @@
 						<p class="{% if not BG_COLOR %}text-muted {% endif %}text-sm margin-b-0">{{ lang('ID') }}</p>
 					</li>
 					<li class="col-xs-4">
-						<span class="font-600">{{ row.AGE ?: '--' }}</span>
+						<span class="font-600">{{ row.AGE ?: lang('ELLIPSIS') }}</span>
 						<p class="{% if not BG_COLOR %}text-muted {% endif %}text-sm margin-b-0">{{ lang('AGE') }}</p>
 					</li>
 					<li class="col-xs-4">
