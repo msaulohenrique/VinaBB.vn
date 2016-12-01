@@ -108,14 +108,15 @@ class common implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return [
-			'core.user_setup'						=> 'user_setup',
-			'core.page_header_after'				=> 'page_header_after',
-			'core.modify_username_string'			=> 'modify_username_string',
-			'core.get_avatar_after'					=> 'get_avatar_after',
-			'core.login_box_redirect'				=> 'login_box_redirect',
-			'core.memberlist_prepare_profile_data'	=> 'memberlist_prepare_profile_data',
-			'core.ucp_pm_view_messsage'				=> 'ucp_pm_view_messsage',
-			'core.obtain_users_online_string_sql'	=> 'obtain_users_online_string_sql'
+			'core.user_setup'							=> 'user_setup',
+			'core.page_header_after'					=> 'page_header_after',
+			'core.modify_username_string'				=> 'modify_username_string',
+			'core.get_avatar_after'						=> 'get_avatar_after',
+			'core.login_box_redirect'					=> 'login_box_redirect',
+			'core.display_forums_modify_template_vars'	=> 'display_forums_modify_template_vars',
+			'core.memberlist_prepare_profile_data'		=> 'memberlist_prepare_profile_data',
+			'core.ucp_pm_view_messsage'					=> 'ucp_pm_view_messsage',
+			'core.obtain_users_online_string_sql'		=> 'obtain_users_online_string_sql'
 		];
 	}
 
@@ -230,6 +231,26 @@ class common implements EventSubscriberInterface
 	}
 
 	/**
+	* core.display_forums_modify_template_vars
+	*
+	* @param array $event Data from the PHP event
+	*/
+	public function display_forums_modify_template_vars($event)
+	{
+		// Add description to the subforum list
+		$subforums = $event['subforums_row'];
+		$forum_data = $this->cache->get_forum_data();
+
+		foreach ($subforums as $i => $subforum)
+		{
+			$forum_id = substr(strrchr($subforum['U_SUBFORUM'], '.'), 1);
+			$subforums[$i]['FORUM_DESC'] = $forum_data[$forum_id]['desc_raw'];
+		}
+
+		$event['subforums_row'] = $subforums;
+	}
+
+	/**
 	* core.memberlist_prepare_profile_data
 	*
 	* @param array $event Data from the PHP event
@@ -283,9 +304,7 @@ class common implements EventSubscriberInterface
 		// Get total online users (only number)
 		$online_users = $event['online_users'];
 
-		$this->template->assign_vars([
-			'TOTAL_ONLINE_USERS'	=> $online_users['total_online']
-		]);
+		$this->template->assign_var('TOTAL_ONLINE_USERS', $online_users['total_online']);
 	}
 
 	/**

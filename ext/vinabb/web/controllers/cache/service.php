@@ -235,6 +235,7 @@ class service implements service_interface
 					'name'				=> $entity->get_name(),
 					'name_seo'			=> $entity->get_name_seo(),
 					'desc'				=> $entity->get_desc_for_display(),
+					'desc_raw'			=> $entity->get_desc_for_edit(),
 					'rules'				=> $entity->get_rules_for_display(),
 					'topics_per_page'	=> $entity->get_topics_per_page(),
 					'type'				=> $entity->get_type(),

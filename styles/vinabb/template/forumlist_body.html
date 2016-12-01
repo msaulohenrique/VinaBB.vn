@@ -38,6 +38,8 @@
 	</ul>
 
 	<div class="tab-content">
+		{% set FORUM_INDEX = 0 %}
+
 		{% for row in forumrow %}
 
 		{% if row.FORUM_ID == FORUM_ID_VIETNAMESE or row.FORUM_ID == FORUM_ID_ENGLISH %}
@@ -59,15 +61,26 @@
 		{% endif %}
 
 		{% if not row.S_IS_CAT %}
+			{% set FORUM_INDEX = FORUM_INDEX + 1 %}
 					<li class="clearfix">
 						<img src="{{ T_THEME_PATH }}/images/forum_icons/{{ row.FORUM_ID }}.png" alt="" width="64" class="img-circle">
 						<div class="content">
 							<div class="comments-header">
+								{% if row.subforum %}
 								<strong class="text-primary">{{ row.FORUM_NAME }}</strong>
-								{% if row.LAST_POST_TIME %}<small class="text-muted">{{ row.LAST_POST_TIME }}</small>{% endif %}
+								{% else %}
+								<a href="{{ row.U_VIEWFORUM }}"{% if row.FORUM_DESC %} data-tooltip="true" data-placement="right" title="{{ row.FORUM_DESC }}"{% endif %} class="btn btn-{{ row.S_UNREAD_FORUM ? 'danger' : 'primary' }} btn-icon margin-b-5"><i>{{ FORUM_INDEX }}</i> {{ row.FORUM_NAME }}</a>
+								{% endif %}
+								{% if row.LAST_POST_TIME %}<small class="text-muted" data-tooltip="true" data-placement="right" title="{{ row.LAST_POST_SUBJECT }}">{{ row.LAST_POST_TIME }}</small>{% endif %}
 							</div>
 							<div>
-								<span class="hidden-xs hidden-sm">{% if row.subforum and row.S_LIST_SUBFORUMS %}{% for sub in row.subforum %}<a href="{{ sub.U_SUBFORUM }}" class="btn btn-{{ sub.S_UNREAD ? 'danger' : 'primary' }} btn-icon"><i>{{ loop.index }}</i> {{ sub.SUBFORUM_NAME }}</a> {% endfor %}{% elseif row.MODERATORS %}{row.L_MODERATOR_STR}{{ lang('COLON') }} {{ row.MODERATORS }}{% endif %}</span>
+								<span class="hidden-xs hidden-sm">
+									{% if row.subforum and row.S_LIST_SUBFORUMS %}
+										{% for sub in row.subforum %}<a href="{{ sub.U_SUBFORUM }}"{% if sub.FORUM_DESC %} data-tooltip="true" data-placement="bottom" title="{{ sub.FORUM_DESC }}"{% endif %} class="btn btn-{{ sub.S_UNREAD ? 'danger' : 'primary' }} btn-icon"><i>{{ loop.index }}</i> {{ sub.SUBFORUM_NAME }}</a> {% endfor %}
+									{% elseif row.MODERATORS %}
+										{row.L_MODERATOR_STR}{{ lang('COLON') }} {{ row.MODERATORS }}
+									{% endif %}
+								</span>
 								<ul class="list-inline pull-right">
 									<li><a data-tooltip="true" data-placement="bottom" title="{{ lang('TOPICS') }}"><i class="icon-notebook fa-2x"></i> {{ row.TOPICS }}</a></li>
 									<li><a data-tooltip="true" data-placement="bottom" title="{{ lang('POSTS') }}"><i class="icon-docs fa-2x"></i> {{ row.POSTS }}</a></li>
@@ -75,6 +88,8 @@
 							</div>
 						</div>
 					</li>
+		{% else %}
+			{% set FORUM_INDEX = 0 %}
 		{% endif %}
 
 		{% if loop.last %}
