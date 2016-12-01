@@ -503,9 +503,17 @@ class helper implements helper_interface
 			$offset = ($offset - $limit < 0) ? 0 : $offset - $limit;
 		}
 
-		foreach ($operators->list_items($bb_type, $cat_id, 'item_updated DESC', $limit, $offset) as $row)
+		/** @var \vinabb\web\entities\bb_item_interface $entity */
+		foreach ($operators->list_items($bb_type, $cat_id, 'item_updated DESC', $limit, $offset) as $entity)
 		{
-			$items[] = $row;
+			$items[] = [
+				'id'		=> $entity->get_id(),
+				'name'		=> $entity->get_name(),
+				'varname'	=> $entity->get_varname(),
+				'price'		=> $entity->get_price(),
+				'added'		=> $entity->get_added(),
+				'updated'	=> $entity->get_updated()
+			];
 		}
 
 		return $offset;
@@ -538,9 +546,19 @@ class helper implements helper_interface
 			$offset = ($offset - $limit < 0) ? 0 : $offset - $limit;
 		}
 
-		foreach ($operators->list_articles($lang, $cat_id, 'article_time DESC', $limit, $offset) as $row)
+		/** @var \vinabb\web\entities\portal_article_interface $entity */
+		foreach ($operators->list_articles($lang, $cat_id, 'article_time DESC', $limit, $offset) as $entity)
 		{
-			$articles[] = $row;
+			$articles[] = [
+				'cat_id'		=> $entity->get_cat_id(),
+				'id'			=> $entity->get_id(),
+				'name'			=> $entity->get_name(),
+				'name_seo'		=> $entity->get_name_seo(),
+				'desc'			=> $entity->get_desc(),
+				'text'			=> $entity->get_text_for_display(),
+				'views'			=> $entity->get_views(),
+				'time'			=> $entity->get_time()
+			];
 		}
 
 		return $offset;

@@ -205,10 +205,13 @@ class portal implements portal_interface
 			$this->template->assign_block_vars('articles', [
 				'CATEGORY'	=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->portal_cats[$row['cat_id']]['name_vi'] : $this->portal_cats[$row['cat_id']]['name'],
 				'CAT_URL'	=> $this->helper->route('vinabb_web_portal_cat_route', ['varname' => $this->portal_cats[$row['cat_id']]['varname']]),
-				'NAME'		=> $row['article_name'],
-				'DESC'		=> $row['article_desc'],
-				'TIME'		=> $this->user->format_date($row['article_time']),
-				'URL'		=> $this->helper->route('vinabb_web_portal_article_route', ['varname' => $this->portal_cats[$row['cat_id']]['varname'], 'article_id' => $row['article_id'], 'seo' => $row['article_name_seo'] . constants::REWRITE_URL_SEO])
+				'NAME'		=> $row['name'],
+				'DESC'		=> $row['desc'],
+				'TIME'		=> $this->user->format_date($row['time']),
+				'URL'		=> $this->helper->route('vinabb_web_portal_article_route', ['varname' => $this->portal_cats[$row['cat_id']]['varname'], 'article_id' => $row['id'], 'seo' => $row['name_seo'] . constants::REWRITE_URL_SEO]),
+				'COMMENTS'	=> 0,
+
+				'S_NEW'	=> ($row['time'] + (constants::FLAG_DAY_NEW_ARTICLE * 24 * 60 * 60)) > time()
 			]);
 		}
 

@@ -436,7 +436,7 @@
 				{% endif %}
 			</div>
 			<div class="panel-footer">
-				<span class="pull-right"><a href="#"><i class="fa fa-comments-o"></i> {{ lang('COUNTER_COMMENT', article.COMMENTS) }}</a></span>
+				<span class="pull-right"><a href="{{ article.URL }}#comments" data-tooltip="true" data-placement="left" title="{{ lang('COMMENTS') }}"><i class="fa fa-comments-o"></i> {{ article.COMMENTS }}</a></span>
 				<a href="{{ article.CAT_URL }}" class="btn btn-primary btn-xs"><i class="fa fa-tags"></i> {{ article.CATEGORY }}</a>
 			</div>
 		</div>

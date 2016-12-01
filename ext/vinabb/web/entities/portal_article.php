@@ -430,7 +430,7 @@ class portal_article extends article_text implements portal_article_interface
 	*/
 	public function set_desc($text)
 	{
-		$text = strtolower($text);
+		$text = (string) $text;
 
 		// This is a required field
 		if ($text == '')
