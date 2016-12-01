@@ -453,6 +453,37 @@ class helper implements helper_interface
 	}
 
 	/**
+	* Enable SCEditor and load data for the smiley list
+	*/
+	public function load_sceditor()
+	{
+		$sceditor_smilies = $sceditor_hidden_smilies = $sceditor_smilies_desc = [];
+
+		foreach ($this->cache->get_smilies() as $smiley_code => $smiley_data)
+		{
+			if ($smiley_data['display'])
+			{
+				$sceditor_smilies[$smiley_code] = $smiley_data['url'];
+			}
+			else
+			{
+				$sceditor_hidden_smilies[$smiley_code] = $smiley_data['url'];
+			}
+
+			$sceditor_smilies_desc[$smiley_code] = $this->language->lang(['EMOTICON_TEXT', strtoupper($smiley_data['emotion'])]);
+		}
+
+		// Output
+		$this->template->assign_vars([
+			'SCEDITOR_SMILIES'			=> json_encode($sceditor_smilies),
+			'SCEDITOR_HIDDEN_SMILIES'	=> json_encode($sceditor_hidden_smilies),
+			'SCEDITOR_SMILIES_DESC'		=> json_encode($sceditor_smilies_desc),
+
+			'S_WYSIWYG_EDITOR'	=> true
+		]);
+	}
+
+	/**
 	* List phpBB resource items with pagination
 	*
 	* @param int	$bb_type	phpBB resource type in constant value

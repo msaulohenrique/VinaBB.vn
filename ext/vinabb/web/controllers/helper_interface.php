@@ -106,6 +106,11 @@ interface helper_interface
 	public function get_group_legend();
 
 	/**
+	* Enable SCEditor and load data for the smiley list
+	*/
+	public function load_sceditor();
+
+	/**
 	* List phpBB resource items with pagination
 	*
 	* @param int	$bb_type	phpBB resource type in constant value
