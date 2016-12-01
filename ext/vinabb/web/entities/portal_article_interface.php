@@ -80,6 +80,22 @@ interface portal_article_interface
 	public function set_cat_id($id);
 
 	/**
+	* Get the author ID
+	*
+	* @return int
+	*/
+	public function get_user_id();
+
+	/**
+	* Set the author ID
+	*
+	* @param int						$id		User ID
+	* @return portal_article_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_user_id($id);
+
+	/**
 	* Get the article name
 	*
 	* @return string

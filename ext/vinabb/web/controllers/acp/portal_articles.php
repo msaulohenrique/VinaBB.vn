@@ -249,6 +249,7 @@ class portal_articles implements portal_articles_interface
 	{
 		return [
 			'cat_id'			=> $this->request->variable('cat_id', 0),
+			'user_id'			=> $this->user->data['user_id'],
 			'article_name'		=> $this->request->variable('article_name', '', true),
 			'article_lang'		=> $this->request->variable('article_lang', ''),
 			'article_img'		=> $this->request->variable('article_img', ''),
@@ -288,6 +289,7 @@ class portal_articles implements portal_articles_interface
 	{
 		$map_fields = [
 			'set_cat_id'	=> $data['cat_id'],
+			'set_user_id'	=> $data['user_id'],
 			'set_name'		=> $data['article_name'],
 			'set_lang'		=> $data['article_lang'],
 			'set_img'		=> $data['article_img'],

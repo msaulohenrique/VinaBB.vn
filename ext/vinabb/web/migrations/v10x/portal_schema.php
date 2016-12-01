@@ -66,6 +66,7 @@ class portal_schema extends migration
 			'COLUMNS' => [
 				'article_id'			=> ['UINT', null, 'auto_increment'],
 				'cat_id'				=> ['UINT', 0],
+				'user_id'				=> ['ULINT', 0],
 				'article_name'			=> ['VCHAR_UNI', ''],
 				'article_name_seo'		=> ['VCHAR', ''],
 				'article_lang'			=> ['VCHAR:30', ''],
@@ -81,7 +82,8 @@ class portal_schema extends migration
 			],
 			'PRIMARY_KEY' => 'article_id',
 			'KEYS' => [
-				'c_id'	=> ['INDEX', 'cat_id']
+				'c_id'	=> ['INDEX', 'cat_id'],
+				'u_id'	=> ['INDEX', 'user_id']
 			]
 		];
 	}

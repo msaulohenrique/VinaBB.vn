@@ -57,6 +57,7 @@ class portal_article extends article_text implements portal_article_interface
 		return [
 			'article_id'		=> 'integer',
 			'cat_id'			=> 'integer',
+			'user_id'			=> 'integer',
 			'article_name'		=> 'string',
 			'article_name_seo'	=> 'string',
 			'article_lang'		=> 'string',
@@ -236,6 +237,43 @@ class portal_article extends article_text implements portal_article_interface
 
 		// Set the value on our data array
 		$this->data['cat_id'] = $id;
+
+		return $this;
+	}
+
+	/**
+	* Get the author ID
+	*
+	* @return int
+	*/
+	public function get_user_id()
+	{
+		return isset($this->data['user_id']) ? (int) $this->data['user_id'] : 0;
+	}
+
+	/**
+	* Set the author ID
+	*
+	* @param int						$id		User ID
+	* @return portal_article_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_user_id($id)
+	{
+		$id = (int) $id;
+
+		// This is a required field
+		if ($id && !$this->entity_helper->check_user_id($id))
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['user_id', 'NOT_EXISTS']);
+		}
+		else
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['user_id', 'EMPTY']);
+		}
+
+		// Set the value on our data array
+		$this->data['user_id'] = $id;
 
 		return $this;
 	}
