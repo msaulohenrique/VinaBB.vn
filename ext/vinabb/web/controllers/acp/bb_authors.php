@@ -96,7 +96,7 @@ class bb_authors implements bb_authors_interface
 		// Grab all from database
 		$entities = $this->operator->get_authors();
 
-		/* @var \vinabb\web\entities\bb_author_interface $entity */
+		/** @var \vinabb\web\entities\bb_author_interface $entity */
 		foreach ($entities as $entity)
 		{
 			$this->template->assign_block_vars('authors', [
@@ -120,7 +120,7 @@ class bb_authors implements bb_authors_interface
 	public function add_author()
 	{
 		// Initiate an entity
-		/* @var \vinabb\web\entities\bb_author_interface */
+		/** @var \vinabb\web\entities\bb_author_interface */
 		$entity = $this->container->get('vinabb.web.entities.bb_author');
 
 		// Process the new entity
@@ -140,7 +140,7 @@ class bb_authors implements bb_authors_interface
 	public function edit_author($author_id)
 	{
 		// Initiate and load the entity
-		/* @var \vinabb\web\entities\bb_author_interface */
+		/** @var \vinabb\web\entities\bb_author_interface */
 		$entity = $this->container->get('vinabb.web.entities.bb_author')->load($author_id);
 
 		// Process the edited entity
@@ -318,7 +318,7 @@ class bb_authors implements bb_authors_interface
 	*/
 	public function delete_author($author_id)
 	{
-		/* @var \vinabb\web\entities\bb_author_interface */
+		/** @var \vinabb\web\entities\bb_author_interface */
 		$entity = $this->container->get('vinabb.web.entities.bb_author')->load($author_id);
 
 		try

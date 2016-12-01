@@ -129,7 +129,7 @@ class bb_categories
 		// Grab all from database
 		$entities = $this->operator->get_cats($this->bb_type);
 
-		/* @var \vinabb\web\entities\bb_category_interface $entity */
+		/** @var \vinabb\web\entities\bb_category_interface $entity */
 		foreach ($entities as $entity)
 		{
 			$items = isset($item_count[$entity->get_id()]) ? $item_count[$entity->get_id()] : 0;
@@ -163,7 +163,7 @@ class bb_categories
 	public function add_cat()
 	{
 		// Initiate an entity
-		/* @var \vinabb\web\entities\bb_category_interface */
+		/** @var \vinabb\web\entities\bb_category_interface */
 		$entity = $this->container->get('vinabb.web.entities.bb_category');
 
 		// Process the new entity
@@ -183,7 +183,7 @@ class bb_categories
 	public function edit_cat($cat_id)
 	{
 		// Initiate and load the entity
-		/* @var \vinabb\web\entities\bb_category_interface */
+		/** @var \vinabb\web\entities\bb_category_interface */
 		$entity = $this->container->get('vinabb.web.entities.bb_category')->load($cat_id);
 
 		// Process the edited entity
@@ -384,7 +384,7 @@ class bb_categories
 			trigger_error($this->language->lang('ERROR_CAT_DELETE_IN_USE') . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
-		/* @var \vinabb\web\entities\bb_category_interface */
+		/** @var \vinabb\web\entities\bb_category_interface */
 		$entity = $this->container->get('vinabb.web.entities.bb_category')->load($cat_id);
 
 		try

@@ -103,7 +103,7 @@ class headlines implements headlines_interface
 		// Grab all from database
 		$entities = $this->operator->get_headlines($lang);
 
-		/* @var \vinabb\web\entities\headline_interface $entity */
+		/** @var \vinabb\web\entities\headline_interface $entity */
 		foreach ($entities as $entity)
 		{
 			$this->template->assign_block_vars('headlines', [
@@ -133,7 +133,7 @@ class headlines implements headlines_interface
 	public function add_headline($lang = '')
 	{
 		// Initiate an entity
-		/* @var \vinabb\web\entities\headline_interface */
+		/** @var \vinabb\web\entities\headline_interface */
 		$entity = $this->container->get('vinabb.web.entities.headline');
 
 		// Process the new entity
@@ -155,7 +155,7 @@ class headlines implements headlines_interface
 	public function edit_headline($headline_id)
 	{
 		// Initiate and load the entity
-		/* @var \vinabb\web\entities\headline_interface */
+		/** @var \vinabb\web\entities\headline_interface */
 		$entity = $this->container->get('vinabb.web.entities.headline')->load($headline_id);
 
 		// Process the edited entity
@@ -347,7 +347,7 @@ class headlines implements headlines_interface
 	*/
 	public function delete_headline($headline_id)
 	{
-		/* @var \vinabb\web\entities\headline_interface */
+		/** @var \vinabb\web\entities\headline_interface */
 		$entity = $this->container->get('vinabb.web.entities.headline')->load($headline_id);
 
 		try

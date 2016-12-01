@@ -108,7 +108,7 @@ class pages implements pages_interface
 		// Grab all from database
 		$entities = $this->operator->get_pages();
 
-		/* @var \vinabb\web\entities\page_interface $entity */
+		/** @var \vinabb\web\entities\page_interface $entity */
 		foreach ($entities as $entity)
 		{
 			$this->template->assign_block_vars('pages', [
@@ -133,7 +133,7 @@ class pages implements pages_interface
 	public function add_page()
 	{
 		// Initiate an entity
-		/* @var \vinabb\web\entities\page_interface */
+		/** @var \vinabb\web\entities\page_interface */
 		$entity = $this->container->get('vinabb.web.entities.page');
 
 		// Process the new entity
@@ -153,7 +153,7 @@ class pages implements pages_interface
 	public function edit_page($page_id)
 	{
 		// Initiate and load the entity
-		/* @var \vinabb\web\entities\page_interface */
+		/** @var \vinabb\web\entities\page_interface */
 		$entity = $this->container->get('vinabb.web.entities.page')->load($page_id);
 
 		// Process the edited entity
@@ -376,7 +376,7 @@ class pages implements pages_interface
 	*/
 	public function delete_page($page_id)
 	{
-		/* @var \vinabb\web\entities\page_interface */
+		/** @var \vinabb\web\entities\page_interface */
 		$entity = $this->container->get('vinabb.web.entities.page')->load($page_id);
 
 		try

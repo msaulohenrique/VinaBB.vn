@@ -107,7 +107,7 @@ class menus implements menus_interface
 		// Initialize a variable to hold the right_id value
 		$last_right_id = 0;
 
-		/* @var \vinabb\web\entities\menu_interface $entity */
+		/** @var \vinabb\web\entities\menu_interface $entity */
 		foreach ($entities as $entity)
 		{
 			// The current entity is a child of a previous entity, do not display it
@@ -141,7 +141,7 @@ class menus implements menus_interface
 		$entities = $this->operator->get_parents($parent_id);
 
 		// Process each entity for breadcrumb
-		/* @var \vinabb\web\entities\menu_interface $entity */
+		/** @var \vinabb\web\entities\menu_interface $entity */
 		foreach ($entities as $entity)
 		{
 			$this->template->assign_block_vars('breadcrumb', [
@@ -166,10 +166,10 @@ class menus implements menus_interface
 	public function add_menu($parent_id = 0)
 	{
 		// Initiate an entity
-		/* @var \vinabb\web\entities\menu_interface */
+		/** @var \vinabb\web\entities\menu_interface */
 		$entity = $this->container->get('vinabb.web.entities.menu');
 
-		// Build the parent dropdown selection
+		// Build the parent selection
 		$this->build_parent_options($entity, $parent_id, 'add');
 
 		// Process the new entity
@@ -191,10 +191,10 @@ class menus implements menus_interface
 	public function edit_menu($menu_id)
 	{
 		// Initiate and load the entity
-		/* @var \vinabb\web\entities\menu_interface */
+		/** @var \vinabb\web\entities\menu_interface */
 		$entity = $this->container->get('vinabb.web.entities.menu')->load($menu_id);
 
-		// Build the parent dropdown selection
+		// Build the parent selection
 		$this->build_parent_options($entity);
 
 		// Process the edited entity
@@ -424,7 +424,7 @@ class menus implements menus_interface
 		}
 
 		// Initiate and load the entity for no AJAX request
-		/* @var \vinabb\web\entities\menu_interface */
+		/** @var \vinabb\web\entities\menu_interface */
 		$entity = $this->container->get('vinabb.web.entities.menu')->load($menu_id);
 
 		// Reload the current page
@@ -438,7 +438,7 @@ class menus implements menus_interface
 	*/
 	public function delete_menu($menu_id)
 	{
-		/* @var \vinabb\web\entities\menu_interface */
+		/** @var \vinabb\web\entities\menu_interface */
 		$entity = $this->container->get('vinabb.web.entities.menu')->load($menu_id);
 
 		try
@@ -481,7 +481,7 @@ class menus implements menus_interface
 		$padding_store = [];
 		$right = 0;
 
-		/* @var \vinabb\web\entities\menu_interface $option */
+		/** @var \vinabb\web\entities\menu_interface $option */
 		foreach ($options as $option)
 		{
 			if ($option->get_left_id() < $right)

@@ -107,7 +107,7 @@ class portal_categories implements portal_categories_interface
 		// Initialize a variable to hold the right_id value
 		$last_right_id = 0;
 
-		/* @var \vinabb\web\entities\portal_category_interface $entity */
+		/** @var \vinabb\web\entities\portal_category_interface $entity */
 		foreach ($entities as $entity)
 		{
 			// The current entity is a child of a previous entity, do not display it
@@ -138,7 +138,7 @@ class portal_categories implements portal_categories_interface
 		$entities = $this->operator->get_parents($parent_id);
 
 		// Process each entity for breadcrumb
-		/* @var \vinabb\web\entities\portal_category_interface $entity */
+		/** @var \vinabb\web\entities\portal_category_interface $entity */
 		foreach ($entities as $entity)
 		{
 			$this->template->assign_block_vars('breadcrumb', [
@@ -163,10 +163,10 @@ class portal_categories implements portal_categories_interface
 	public function add_cat($parent_id = 0)
 	{
 		// Initiate an entity
-		/* @var \vinabb\web\entities\portal_category_interface */
+		/** @var \vinabb\web\entities\portal_category_interface */
 		$entity = $this->container->get('vinabb.web.entities.portal_category');
 
-		// Build the parent dropdown selection
+		// Build the parent selection
 		$this->build_parent_options($entity, $parent_id, 'add');
 
 		// Process the new entity
@@ -188,10 +188,10 @@ class portal_categories implements portal_categories_interface
 	public function edit_cat($cat_id)
 	{
 		// Initiate and load the entity
-		/* @var \vinabb\web\entities\portal_category_interface */
+		/** @var \vinabb\web\entities\portal_category_interface */
 		$entity = $this->container->get('vinabb.web.entities.portal_category')->load($cat_id);
 
-		// Build the parent dropdown selection
+		// Build the parent selection
 		$this->build_parent_options($entity);
 
 		// Process the edited entity
@@ -391,7 +391,7 @@ class portal_categories implements portal_categories_interface
 		}
 
 		// Initiate and load the entity for no AJAX request
-		/* @var \vinabb\web\entities\portal_category_interface */
+		/** @var \vinabb\web\entities\portal_category_interface */
 		$entity = $this->container->get('vinabb.web.entities.portal_category')->load($cat_id);
 
 		// Reload the current page
@@ -405,7 +405,7 @@ class portal_categories implements portal_categories_interface
 	*/
 	public function delete_cat($cat_id)
 	{
-		/* @var \vinabb\web\entities\portal_category_interface */
+		/** @var \vinabb\web\entities\portal_category_interface */
 		$entity = $this->container->get('vinabb.web.entities.portal_category')->load($cat_id);
 
 		try
@@ -448,7 +448,7 @@ class portal_categories implements portal_categories_interface
 		$padding_store = [];
 		$right = 0;
 
-		/* @var \vinabb\web\entities\portal_category_interface $option */
+		/** @var \vinabb\web\entities\portal_category_interface $option */
 		foreach ($options as $option)
 		{
 			if ($option->get_left_id() < $right)
