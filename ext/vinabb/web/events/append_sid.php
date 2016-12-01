@@ -29,10 +29,10 @@ class append_sid implements EventSubscriberInterface
 	protected $php_ext;
 
 	/** @var string */
-	protected $route_name;
+	private $route_name;
 
 	/** @var array */
-	protected $route_data;
+	private $route_data;
 
 	/**
 	* Constructor
@@ -77,6 +77,10 @@ class append_sid implements EventSubscriberInterface
 		// Add checking our extension, unless it causes errors when disabling the extension
 		if (!$event['is_route'] && $this->ext_manager->is_enabled('vinabb/web'))
 		{
+			// Reset values
+			$this->route_name = '';
+			$this->route_data = [];
+
 			// Get parameters
 			if ($event['params'] !== false || strpos($event['url'], "ucp.{$this->php_ext}") !== false || strpos($event['url'], "mcp.{$this->php_ext}") !== false)
 			{
@@ -131,7 +135,7 @@ class append_sid implements EventSubscriberInterface
 	/**
 	* Conversion rules for URLs from viewforum.php
 	*/
-	protected function convert_viewforum()
+	private function convert_viewforum()
 	{
 		// Get forum SEO names from cache
 		$forum_data = $this->cache->get_forum_data();
@@ -159,7 +163,7 @@ class append_sid implements EventSubscriberInterface
 	/**
 	* Conversion rules for URLs from mcp.php
 	*/
-	protected function convert_mcp()
+	private function convert_mcp()
 	{
 		if (isset($this->route_data['i']))
 		{
@@ -174,7 +178,7 @@ class append_sid implements EventSubscriberInterface
 	/**
 	* Conversion rules for URLs from ucp.php
 	*/
-	protected function convert_ucp()
+	private function convert_ucp()
 	{
 		if (isset($this->route_data['i']))
 		{
@@ -193,7 +197,7 @@ class append_sid implements EventSubscriberInterface
 	/**
 	* Conversion rules for URLs from memberlist.php
 	*/
-	protected function convert_memberlist()
+	private function convert_memberlist()
 	{
 		if (isset($this->route_data['mode']))
 		{
@@ -223,7 +227,7 @@ class append_sid implements EventSubscriberInterface
 				break;
 
 				case 'contact':
-					if (isset($params_ary['u']))
+					if (isset($this->route_data['u']))
 					{
 						$this->route_data['user_id'] = $this->route_data['u'];
 
