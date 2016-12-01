@@ -159,6 +159,12 @@ class common implements EventSubscriberInterface
 		$this->event_helper->config_to_template();
 		$this->event_helper->add_new_routes();
 
+		// If Gravatar, only return the attribute src="..."
+		if ($this->user->data['user_avatar_type'] == 'avatar.driver.gravatar')
+		{
+			$this->template->assign_var('CURRENT_USER_AVATAR', $this->get_gravatar_url($this->user->data));
+		}
+
 		$this->template->assign_vars([
 			'S_VIETNAMESE'	=> $this->user->lang_name == constants::LANG_VIETNAMESE,
 
@@ -358,6 +364,12 @@ class common implements EventSubscriberInterface
 		// Add USER_ID
 		$template_data['USER_ID'] = $data['user_id'];
 
+		// If Gravatar, only return the attribute src="..."
+		if ($data['user_avatar_type'] == 'avatar.driver.gravatar')
+		{
+			$template_data['AVATAR_IMG'] = $this->get_gravatar_url($data);
+		}
+
 		// Translate the rank title RANK_TITLE with the original value RANK_TITLE_RAW
 		$template_data['RANK_TITLE_RAW'] = $template_data['RANK_TITLE'];
 		$template_data['RANK_TITLE'] = ($this->language->is_set(['RANK_TITLES', strtoupper($template_data['RANK_TITLE'])])) ? $this->language->lang(['RANK_TITLES', strtoupper($template_data['RANK_TITLE'])]) : $template_data['RANK_TITLE'];
@@ -399,5 +411,24 @@ class common implements EventSubscriberInterface
 		$this->template->assign_vars([
 			'TOTAL_ONLINE_USERS'	=> $online_users['total_online']
 		]);
+	}
+
+	/**
+	* Build gravatar URL for output on page
+	*
+	* @param array $row User data or group data that has been cleaned with
+	*        \phpbb\avatar\manager::clean_row
+	* @return string Gravatar URL
+	*/
+	protected function get_gravatar_url($row)
+	{
+		$url =  '//secure.gravatar.com/avatar/' . md5(strtolower(trim($row['user_avatar'])));
+
+		if ($row['user_avatar_width'] || $row['user_avatar_height'])
+		{
+			$url .= '?s=' . max($row['user_avatar_width'], $row['user_avatar_height']);
+		}
+
+		return $url;
 	}
 }
