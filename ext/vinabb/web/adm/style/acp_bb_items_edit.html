@@ -29,7 +29,7 @@
 				<select name="cat_id" id="cat_id">
 					<option value="0">{{ lang('NONE') }}</option>
 					{% for option in cat_options %}
-					<option value="{{ option.ID }}"{% if option.SELECTED %} selected{% endif %}>{{ option.NAME }}{% if option.NAME_VI != option.NAME %} ({{ option.NAME_VI }}){% endif %}</option>
+					<option value="{{ option.ID }}"{% if option.S_SELECTED %} selected{% endif %}>{{ option.NAME }}{% if option.NAME_VI != option.NAME %} ({{ option.NAME_VI }}){% endif %}</option>
 					{% endfor %}
 				</select>
 			</dd>
