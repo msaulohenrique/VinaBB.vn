@@ -28,6 +28,12 @@ class append_sid implements EventSubscriberInterface
 	/** @var string */
 	protected $php_ext;
 
+	/** @var string */
+	protected $route_name;
+
+	/** @var array */
+	protected $route_data;
+
 	/**
 	* Constructor
 	*
@@ -72,8 +78,6 @@ class append_sid implements EventSubscriberInterface
 		if (!$event['is_route'] && $this->ext_manager->is_enabled('vinabb/web'))
 		{
 			// Get parameters
-			$params_ary = [];
-
 			if ($event['params'] !== false || strpos($event['url'], "ucp.{$this->php_ext}") !== false || strpos($event['url'], "mcp.{$this->php_ext}") !== false)
 			{
 				$event_params = ($event['params'] !== false) ? $event['params'] : substr(strrchr($event['url'], '?'), 1);
@@ -89,120 +93,156 @@ class append_sid implements EventSubscriberInterface
 					foreach ($params as $param)
 					{
 						list($param_key, $param_value) = explode('=', $param);
-						$params_ary[$param_key] = $param_value;
+						$this->route_data[$param_key] = $param_value;
 					}
 				}
 			}
 
 			// Detect URLs
-			$route_name = '';
-
 			if (strpos($event['url'], "viewforum.{$this->php_ext}") !== false)
 			{
-				// Get forum SEO names from cache
-				$forum_data = $this->cache->get_forum_data();
-
-				if (!sizeof($params_ary))
-				{
-					$params_ary['f'] = '';
-				}
-
-				if (isset($params_ary['f']))
-				{
-					$params_ary['forum_id'] = $params_ary['f'];
-					unset($params_ary['f']);
-
-					if ($params_ary['forum_id'])
-					{
-						$params_ary['seo'] = $forum_data[$params_ary['forum_id']]['name_seo'] . constants::REWRITE_URL_SEO;
-					}
-				}
-
-				$route_name = 'vinabb_web_board_forum_route';
+				$this->convert_viewforum();
 			}
 			else if (strpos($event['url'], "viewonline.{$this->php_ext}") !== false)
 			{
-				$route_name = 'vinabb_web_user_online_route';
+				$this->route_name = 'vinabb_web_user_online_route';
 			}
 			else if (strpos($event['url'], "mcp.{$this->php_ext}") !== false)
 			{
-				if (isset($params_ary['i']))
-				{
-					$params_ary['id'] = (substr($params_ary['i'], 0, 4) == 'mcp_') ? substr($params_ary['i'], 4) : $params_ary['i'];
-					unset($params_ary['i']);
-				}
-
-				$route_name = 'vinabb_web_mcp_route';
+				$this->convert_mcp();
 			}
 			else if (strpos($event['url'], "ucp.{$this->php_ext}") !== false)
 			{
-				if (isset($params_ary['i']))
-				{
-					$params_ary['id'] = (substr($params_ary['i'], 0, 4) == 'ucp_') ? substr($params_ary['i'], 4) : $params_ary['i'];
-					unset($params_ary['i']);
-				}
-				else if (isset($params_ary['mode']) && in_array($params_ary['mode'], ['activate', 'resend_act', 'sendpassword', 'register', 'confirm', 'login', 'login_link', 'logout', 'terms', 'privacy', 'delete_cookies', 'switch_perm', 'restore_perm']))
-				{
-					$params_ary['id'] = 'front';
-				}
-
-				$route_name = 'vinabb_web_ucp_route';
+				$this->convert_ucp();
 			}
 			else if (strpos($event['url'], "memberlist.{$this->php_ext}") !== false)
 			{
-				if (isset($params_ary['mode']))
-				{
-					switch ($params_ary['mode'])
-					{
-						case 'contactadmin':
-							$route_name = 'vinabb_web_user_contact_route';
-						break;
-
-						case 'email':
-							if (isset($params_ary['t']))
-							{
-								$params_ary['type'] = 'topic';
-								$params_ary['id'] = $params_ary['t'];
-								unset($params_ary['t']);
-							}
-							else if (isset($params_ary['u']))
-							{
-								$params_ary['type'] = 'user';
-								$params_ary['id'] = $params_ary['u'];
-								unset($params_ary['u']);
-							}
-
-							$route_name = 'vinabb_web_user_email_route';
-						break;
-
-						case 'contact':
-							if (isset($params_ary['u']))
-							{
-								$params_ary['user_id'] = $params_ary['u'];
-								unset($params_ary['u']);
-							}
-
-							$route_name = 'vinabb_web_user_messenger_route';
-						break;
-
-						case 'team':
-							$route_name = 'vinabb_web_user_team_route';
-						break;
-					}
-
-					unset($params_ary['mode']);
-				}
-				else
-				{
-					$route_name = 'vinabb_web_user_list_route';
-				}
+				$this->convert_memberlist();
 			}
 
 			// Replace by routes
-			if (!empty($route_name))
+			if ($this->route_name != '')
 			{
-				$event['append_sid_overwrite'] = $this->helper->route($route_name, $params_ary, false, $event['session_id']);
+				$event['append_sid_overwrite'] = $this->helper->route($this->route_name, $this->route_data, false, $event['session_id']);
 			}
+		}
+	}
+
+	/**
+	* Conversion rules for URLs from viewforum.php
+	*/
+	protected function convert_viewforum()
+	{
+		// Get forum SEO names from cache
+		$forum_data = $this->cache->get_forum_data();
+
+		if (!sizeof($this->route_data))
+		{
+			$this->route_data['f'] = '';
+		}
+
+		if (isset($this->route_data['f']))
+		{
+			$this->route_data['forum_id'] = $this->route_data['f'];
+
+			unset($this->route_data['f']);
+
+			if ($this->route_data['forum_id'])
+			{
+				$this->route_data['seo'] = $forum_data[$this->route_data['forum_id']]['name_seo'] . constants::REWRITE_URL_SEO;
+			}
+		}
+
+		$this->route_name = 'vinabb_web_board_forum_route';
+	}
+
+	/**
+	* Conversion rules for URLs from mcp.php
+	*/
+	protected function convert_mcp()
+	{
+		if (isset($this->route_data['i']))
+		{
+			$this->route_data['id'] = (substr($this->route_data['i'], 0, 4) == 'mcp_') ? substr($this->route_data['i'], 4) : $this->route_data['i'];
+
+			unset($this->route_data['i']);
+		}
+
+		$this->route_name = 'vinabb_web_mcp_route';
+	}
+
+	/**
+	* Conversion rules for URLs from ucp.php
+	*/
+	protected function convert_ucp()
+	{
+		if (isset($this->route_data['i']))
+		{
+			$this->route_data['id'] = (substr($this->route_data['i'], 0, 4) == 'ucp_') ? substr($this->route_data['i'], 4) : $this->route_data['i'];
+
+			unset($this->route_data['i']);
+		}
+		else if (isset($this->route_data['mode']) && in_array($this->route_data['mode'], ['activate', 'resend_act', 'sendpassword', 'register', 'confirm', 'login', 'login_link', 'logout', 'terms', 'privacy', 'delete_cookies', 'switch_perm', 'restore_perm']))
+		{
+			$this->route_data['id'] = 'front';
+		}
+
+		$this->route_name = 'vinabb_web_ucp_route';
+	}
+
+	/**
+	* Conversion rules for URLs from memberlist.php
+	*/
+	protected function convert_memberlist()
+	{
+		if (isset($this->route_data['mode']))
+		{
+			switch ($this->route_data['mode'])
+			{
+				case 'contactadmin':
+					$this->route_name = 'vinabb_web_user_contact_route';
+				break;
+
+				case 'email':
+					if (isset($this->route_data['t']))
+					{
+						$this->route_data['type'] = 'topic';
+						$this->route_data['id'] = $this->route_data['t'];
+
+						unset($this->route_data['t']);
+					}
+					else if (isset($this->route_data['u']))
+					{
+						$this->route_data['type'] = 'user';
+						$this->route_data['id'] = $this->route_data['u'];
+
+						unset($this->route_data['u']);
+					}
+
+					$this->route_name = 'vinabb_web_user_email_route';
+				break;
+
+				case 'contact':
+					if (isset($params_ary['u']))
+					{
+						$this->route_data['user_id'] = $this->route_data['u'];
+
+						unset($this->route_data['u']);
+					}
+
+					$this->route_name = 'vinabb_web_user_messenger_route';
+				break;
+
+				case 'team':
+					$this->route_name = 'vinabb_web_user_team_route';
+				break;
+			}
+
+			unset($this->route_data['mode']);
+		}
+		else
+		{
+			$this->route_name = 'vinabb_web_user_list_route';
 		}
 	}
 }
