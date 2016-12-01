@@ -15,6 +15,15 @@ services:
             - '%core.php_ext%'
         tags:
             - { name: event.listener }
+    vinabb.web.listener.append_sid:
+        class: vinabb\web\events\append_sid
+        arguments:
+            - '@vinabb.web.cache'
+            - '@ext.manager'
+            - '@controller.helper'
+            - '%core.php_ext%'
+        tags:
+            - { name: event.listener }
     vinabb.web.listener.acp:
         class: vinabb\web\events\acp
         arguments:
