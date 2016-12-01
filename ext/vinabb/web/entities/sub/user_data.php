@@ -88,13 +88,13 @@ class user_data extends user_logtime
 		$id = (int) $id;
 
 		// This is a required field
-		if ($id && !$this->entity_helper->check_style_id($id))
-		{
-			throw new \vinabb\web\exceptions\unexpected_value(['user_style', 'NOT_EXISTS']);
-		}
-		else
+		if (!$id)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['user_style', 'EMPTY']);
+		}
+		else if (!$this->entity_helper->check_style_id($id))
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['user_style', 'NOT_EXISTS']);
 		}
 
 		// Set the value on our data array

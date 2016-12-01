@@ -220,13 +220,13 @@ class portal_comment extends comment_text implements portal_comment_interface
 		$id = (int) $id;
 
 		// This is a required field
-		if ($id && !$this->entity_helper->check_portal_cat_id($id))
-		{
-			throw new \vinabb\web\exceptions\unexpected_value(['user_id', 'NOT_EXISTS']);
-		}
-		else
+		if (!$id)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['user_id', 'EMPTY']);
+		}
+		else if (!$this->entity_helper->check_portal_cat_id($id))
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['user_id', 'NOT_EXISTS']);
 		}
 
 		// Set the value on our data array
@@ -257,13 +257,13 @@ class portal_comment extends comment_text implements portal_comment_interface
 		$id = (int) $id;
 
 		// This is a required field
-		if ($id && !$this->entity_helper->check_portal_article_id($id))
-		{
-			throw new \vinabb\web\exceptions\unexpected_value(['article_id', 'NOT_EXISTS']);
-		}
-		else
+		if (!$id)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['article_id', 'EMPTY']);
+		}
+		else if (!$this->entity_helper->check_portal_article_id($id))
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['article_id', 'NOT_EXISTS']);
 		}
 
 		// Set the value on our data array

@@ -276,13 +276,13 @@ class user extends user_data implements user_interface
 		$id = (int) $id;
 
 		// This is a required field
-		if ($id && !$this->entity_helper->check_group_id($id))
-		{
-			throw new \vinabb\web\exceptions\unexpected_value(['group_id', 'NOT_EXISTS']);
-		}
-		else
+		if (!$id)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['group_id', 'EMPTY']);
+		}
+		else if (!$this->entity_helper->check_group_id($id))
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['group_id', 'NOT_EXISTS']);
 		}
 
 		// Set the value on our data array
