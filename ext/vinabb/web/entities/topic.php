@@ -486,7 +486,7 @@ class topic extends topic_actions implements topic_interface
 	*/
 	public function set_title_seo($text)
 	{
-		$text = strtolower($text);
+		$text = (string) $text;
 
 		// Check invalid characters
 		if (!preg_match('#^[a-z0-9-]+$#', $text))

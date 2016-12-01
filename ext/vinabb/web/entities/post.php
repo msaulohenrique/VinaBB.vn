@@ -450,7 +450,7 @@ class post extends post_options implements post_interface
 	*/
 	public function set_subject_seo($text)
 	{
-		$text = strtolower($text);
+		$text = (string) $text;
 
 		// Check invalid characters
 		if (!preg_match('#^[a-z0-9-]+$#', $text))

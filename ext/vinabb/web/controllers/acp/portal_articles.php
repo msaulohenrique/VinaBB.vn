@@ -291,6 +291,7 @@ class portal_articles implements portal_articles_interface
 			'set_cat_id'	=> $data['cat_id'],
 			'set_user_id'	=> $data['user_id'],
 			'set_name'		=> $data['article_name'],
+			'set_name_seo'	=> $this->ext_helper->clean_url($data['article_name']),
 			'set_lang'		=> $data['article_lang'],
 			'set_img'		=> $data['article_img'],
 			'set_desc'		=> $data['article_desc'],

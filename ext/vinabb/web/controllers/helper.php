@@ -217,21 +217,14 @@ class helper implements helper_interface
 	}
 
 	/**
-	* Create clean URLs from titles. It works with many languages
+	* Create clean URLs for SEO
 	*
-	* @author hello@weblap.ro
 	* @param string $text Input text
 	* @return string
 	*/
 	public function clean_url($text)
 	{
-		return strtolower(
-			preg_replace(
-				['/[^a-zA-Z0-9 -.]/', '/[.]/', '/[ -]+/', '/^-|-$/'],
-				['', '-', '-', ''],
-				$this->remove_accents($text)
-			)
-		);
+		return strtolower(preg_replace(['/[^a-zA-Z0-9-\s\.]/', '/[ -]+/', '/^-|-$/'], ['', '-', ''], html_entity_decode($this->remove_accents($text))));
 	}
 
 	/**

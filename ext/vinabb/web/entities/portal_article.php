@@ -337,7 +337,7 @@ class portal_article extends article_text implements portal_article_interface
 	*/
 	public function set_name_seo($text)
 	{
-		$text = strtolower($text);
+		$text = (string) $text;
 
 		// Check invalid characters
 		if (!preg_match('#^[a-z0-9-]+$#', $text))

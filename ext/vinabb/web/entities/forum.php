@@ -351,7 +351,7 @@ class forum extends forum_options implements forum_interface
 	*/
 	public function set_name_seo($text)
 	{
-		$text = strtolower($text);
+		$text = (string) $text;
 
 		// Check invalid characters
 		if (!preg_match('#^[a-z0-9-]+$#', $text))
