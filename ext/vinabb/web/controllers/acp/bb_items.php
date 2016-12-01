@@ -130,7 +130,7 @@ class bb_items implements bb_items_interface
 		// Grab all from database
 		$entities = $this->operator->get_items($this->bb_type);
 
-		/* @var \vinabb\web\entities\bb_item_interface $entity */
+		/** @var \vinabb\web\entities\bb_item_interface $entity */
 		foreach ($entities as $entity)
 		{
 			$this->template->assign_block_vars('items', [
@@ -163,8 +163,11 @@ class bb_items implements bb_items_interface
 	public function add_item()
 	{
 		// Initiate an entity
-		/* @var \vinabb\web\entities\bb_item_interface */
+		/** @var \vinabb\web\entities\bb_item_interface */
 		$entity = $this->container->get('vinabb.web.entities.bb_item');
+
+		// Build the category selection
+		$this->build_cat_options($entity, 0, 'add');
 
 		// Process the new entity
 		$this->add_edit_data($entity);
@@ -183,8 +186,11 @@ class bb_items implements bb_items_interface
 	public function edit_item($item_id)
 	{
 		// Initiate and load the entity
-		/* @var \vinabb\web\entities\bb_item_interface */
+		/** @var \vinabb\web\entities\bb_item_interface */
 		$entity = $this->container->get('vinabb.web.entities.bb_item')->load($item_id);
+
+		// Build the category selection
+		$this->build_cat_options($entity);
 
 		// Process the edited entity
 		$this->add_edit_data($entity);
@@ -399,7 +405,7 @@ class bb_items implements bb_items_interface
 	*/
 	public function delete_item($item_id)
 	{
-		/* @var \vinabb\web\entities\bb_item_interface */
+		/** @var \vinabb\web\entities\bb_item_interface */
 		$entity = $this->container->get('vinabb.web.entities.bb_item')->load($item_id);
 
 		try
@@ -422,6 +428,31 @@ class bb_items implements bb_items_interface
 				'MESSAGE_TITLE'	=> $this->language->lang('INFORMATION'),
 				'MESSAGE_TEXT'	=> $this->language->lang("MESSAGE_{$this->lang_key}_DELETE"),
 				'REFRESH_DATA'	=> ['time'	=> 3]
+			]);
+		}
+	}
+
+	/**
+	* Generate options of available categories
+	*
+	* @param \vinabb\web\entities\bb_item_interface	$entity BB item entity
+	* @param int									$cat_id	Category ID
+	* @param string									$mode	Add or edit mode?
+	*/
+	protected function build_cat_options($entity, $cat_id = 0, $mode = 'edit')
+	{
+		$options = $this->container->get('vinabb.web.operators.bb_category')->get_cats($this->bb_type);
+		$cat_id = ($mode == 'edit') ? $entity->get_cat_id() : $cat_id;
+
+		/** @var \vinabb\web\entities\portal_category_interface $option */
+		foreach ($options as $option)
+		{
+			$this->template->assign_block_vars('cat_options', [
+				'ID'		=> $option->get_id(),
+				'NAME'		=> $option->get_name(),
+				'NAME_VI'	=> $option->get_name_vi(),
+
+				'S_SELECTED'	=> $option->get_id() == $cat_id
 			]);
 		}
 	}

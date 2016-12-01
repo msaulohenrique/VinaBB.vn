@@ -25,15 +25,14 @@
 		</dl>
 		<dl>
 			<dt><label for="cat_id">{{ lang('CATEGORY') ~ lang('COLON') }}</label></dt>
-			<dd><select name="cat_id" id="cat_id">{{ CAT_OPTIONS }}</select></dd>
-		</dl>
-		<dl>
-			<dt><label for="item_version">{{ lang('VERSION') ~ lang('COLON') }}</label></dt>
-			<dd><input type="text" name="item_version" id="item_version" value="{{ ITEM_VERSION }}" maxlength="255"></dd>
-		</dl>
-		<dl>
-			<dt><label for="item_phpbb_version">{{ lang('PHPBB_VERSION') ~ lang('COLON') }}</label></dt>
-			<dd><select name="item_phpbb_version" id="item_phpbb_version">{{ PHPBB_VERSION_OPTIONS }}</select></dd>
+			<dd>
+				<select name="cat_id" id="cat_id">
+					<option value="0">{{ lang('NONE') }}</option>
+					{% for option in cat_options %}
+					<option value="{{ option.ID }}"{% if option.SELECTED %} selected{% endif %}>{{ option.NAME }}{% if option.NAME_VI != option.NAME %} ({{ option.NAME_VI }}){% endif %}</option>
+					{% endfor %}
+				</select>
+			</dd>
 		</dl>
 		<dl>
 			<dt><label for="item_price">{{ lang('PRICE') ~ lang('COLON') }}</label></dt>
