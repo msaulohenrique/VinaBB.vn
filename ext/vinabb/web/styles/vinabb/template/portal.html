@@ -429,6 +429,11 @@
 				<a href="{{ article.URL }}"><h4>{{ article.NAME }}</h4></a>
 				<p class="text-muted">{{ article.TIME }}</p>
 				<p class="text-justify">{{ article.DESC }}</p>
+				{% if article.S_NEW %}
+				<div class="ribbon ribbon-clip ribbon-reverse ribbon-danger">
+					<span class="ribbon-inner">{{ lang('NEW') }}</span>
+				</div>
+				{% endif %}
 			</div>
 			<div class="panel-footer">
 				<span class="pull-right"><a href="#"><i class="fa fa-comments-o"></i> {{ lang('COUNTER_COMMENT', article.COMMENTS) }}</a></span>

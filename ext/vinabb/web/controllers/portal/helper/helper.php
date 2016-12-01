@@ -328,7 +328,9 @@ class helper implements helper_interface
 				'DESC'		=> $article_data['desc'],
 				'TIME'		=> $this->user->format_date($article_data['time']),
 				'URL'		=> $this->helper->route('vinabb_web_portal_article_route', ['varname' => $this->portal_cats[$article_data['cat_id']]['varname'], 'article_id' => $article_data['id'], 'seo' => $article_data['name_seo'] . constants::REWRITE_URL_SEO]),
-				'COMMENTS'	=> isset($comment_counter[$article_data['id']]) ? $comment_counter[$article_data['id']] : 0
+				'COMMENTS'	=> isset($comment_counter[$article_data['id']]) ? $comment_counter[$article_data['id']] : 0,
+
+				'S_NEW'	=> ($article_data['time'] + (constants::FLAG_DAY_NEW_ARTICLE * 24 * 60 * 60)) > time()
 			]);
 		}
 	}

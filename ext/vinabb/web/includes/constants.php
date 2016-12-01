@@ -117,6 +117,10 @@ class constants
 	const MAX_HEADLINE_NAME = 64;
 	const MAX_HEADLINE_DESC = 128;
 
+	// Flag as new (in time: days, hours...)
+	const FLAG_DAY_NEW_ARTICLE = 3;
+	const FLAG_DAY_NEW_BB_ITEM = 1;
+
 	// Number of hours to check new versions again
 	const CHECK_VERSION_HOURS = 8;
 }
