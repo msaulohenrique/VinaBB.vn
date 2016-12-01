@@ -153,6 +153,9 @@ class portal_articles implements portal_articles_interface
 		/* @var \vinabb\web\entities\portal_article_interface */
 		$entity = $this->container->get('vinabb.web.entities.portal_article');
 
+		// Build the category selection
+		$this->build_cat_options($entity, 0, 'add');
+
 		// Process the new entity
 		$this->add_edit_data($entity);
 
@@ -172,6 +175,9 @@ class portal_articles implements portal_articles_interface
 		// Initiate and load the entity
 		/* @var \vinabb\web\entities\portal_article_interface */
 		$entity = $this->container->get('vinabb.web.entities.portal_article')->load($article_id);
+
+		// Build the category selection
+		$this->build_cat_options($entity);
 
 		// Process the edited entity
 		$this->add_edit_data($entity);
@@ -370,7 +376,7 @@ class portal_articles implements portal_articles_interface
 	*/
 	public function delete_article($article_id)
 	{
-		/* @var \vinabb\web\entities\portal_article_interface */
+		/** @var \vinabb\web\entities\portal_article_interface */
 		$entity = $this->container->get('vinabb.web.entities.portal_article')->load($article_id);
 
 		try
@@ -393,6 +399,47 @@ class portal_articles implements portal_articles_interface
 				'MESSAGE_TITLE'	=> $this->language->lang('INFORMATION'),
 				'MESSAGE_TEXT'	=> $this->language->lang('MESSAGE_ARTICLE_DELETE'),
 				'REFRESH_DATA'	=> ['time'	=> 3]
+			]);
+		}
+	}
+
+	/**
+	* Generate options of available categories
+	*
+	* @param \vinabb\web\entities\portal_article_interface	$entity	Article entity
+	* @param int											$cat_id	Category ID
+	* @param string											$mode	Add or edit mode?
+	*/
+	protected function build_cat_options($entity, $cat_id = 0, $mode = 'edit')
+	{
+		$options = $this->container->get('vinabb.web.operators.portal_category')->get_cats();
+		$cat_id = ($mode == 'edit') ? $entity->get_cat_id() : $cat_id;
+
+		$padding = '';
+		$padding_store = [];
+		$right = 0;
+
+		/** @var \vinabb\web\entities\portal_category_interface $option */
+		foreach ($options as $option)
+		{
+			if ($option->get_left_id() < $right)
+			{
+				$padding .= '&nbsp;&nbsp;';
+				$padding_store[$option->get_parent_id()] = $padding;
+			}
+			else if ($option->get_left_id() > $right + 1)
+			{
+				$padding = isset($padding_store[$option->get_parent_id()]) ? $padding_store[$option->get_parent_id()] : '';
+			}
+
+			$right = $option->get_right_id();
+
+			$this->template->assign_block_vars('cat_options', [
+				'ID'		=> $option->get_id(),
+				'NAME'		=> $padding . $option->get_name(),
+				'NAME_VI'	=> $padding . $option->get_name_vi(),
+
+				'S_SELECTED'	=> $option->get_id() == $cat_id
 			]);
 		}
 	}
