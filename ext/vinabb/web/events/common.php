@@ -110,6 +110,7 @@ class common implements EventSubscriberInterface
 		return [
 			'core.user_setup'						=> 'user_setup',
 			'core.page_header_after'				=> 'page_header_after',
+			'core.modify_username_string'			=> 'modify_username_string',
 			'core.get_avatar_after'					=> 'get_avatar_after',
 			'core.login_box_redirect'				=> 'login_box_redirect',
 			'core.memberlist_prepare_profile_data'	=> 'memberlist_prepare_profile_data',
@@ -180,6 +181,29 @@ class common implements EventSubscriberInterface
 	}
 
 	/**
+	* core.modify_username_string
+	*
+	* @param array $event Data from the PHP event
+	*/
+	public function modify_username_string($event)
+	{
+		// Rewrite all profile URLs with our new route
+		if ($event['user_id'])
+		{
+			$url = $this->helper->route('vinabb_web_user_profile_route', ['username' => $event['username']]);
+
+			if ($event['mode'] == 'profile')
+			{
+				$event['username_string'] = $url;
+			}
+			else if ($event['mode'] == 'full')
+			{
+				$event['username_string'] = '<a href="' . $url . '" style="color: ' . $event['username_colour'] . ';" class="username-coloured">' . $event['username'] . '</a>';
+			}
+		}
+	}
+
+	/**
 	* core.get_avatar_after
 	*
 	* @param array $event Data from the PHP event
@@ -230,9 +254,6 @@ class common implements EventSubscriberInterface
 
 		// Override U_PM_ALT without checking $can_receive_pm
 		$template_data['U_PM'] = ($this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm')) ? $this->helper->route('vinabb_web_ucp_route', ['id' => 'pm', 'mode' => 'compose', 'u' => $data['user_id']]) : '';
-
-		// Override U_VIEW_PROFILE with our profile route
-		$template_data['U_VIEW_PROFILE'] = $this->helper->route('vinabb_web_user_profile_route', ['username' => $data['username']]);
 
 		// Return new data
 		$event['template_data'] = $template_data;
