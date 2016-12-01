@@ -295,7 +295,6 @@ class portal_articles implements portal_articles_interface
 			'set_img'		=> $data['article_img'],
 			'set_desc'		=> $data['article_desc'],
 			'set_text'		=> $data['article_text'],
-			'set_enable'	=> $data['article_enable'],
 			'set_time'		=> $data['article_time']
 		];
 
@@ -355,10 +354,13 @@ class portal_articles implements portal_articles_interface
 	protected function data_to_tpl(\vinabb\web\entities\portal_article_interface $entity)
 	{
 		$this->template->assign_vars([
-			'ARTICLE_NAME'		=> $entity->get_name(),
-			'ARTICLE_DESC'		=> $entity->get_desc(),
-			'ARTICLE_TEXT'		=> $entity->get_text_for_edit(),
-			'ARTICLE_ENABLE'	=> $entity->get_enable(),
+			'ARTICLE_NAME'			=> $entity->get_name(),
+			'ARTICLE_DESC'			=> $entity->get_desc(),
+			'ARTICLE_TEXT'			=> $entity->get_text_for_edit(),
+			'ARTICLE_TEXT_BBCODE'	=> $entity->text_bbcode_enabled(),
+			'ARTICLE_TEXT_URLS'		=> $entity->text_urls_enabled(),
+			'ARTICLE_TEXT_SMILIES'	=> $entity->text_smilies_enabled(),
+			'ARTICLE_ENABLE'		=> $entity->get_enable(),
 
 			'LANG_OPTIONS'	=> $this->ext_helper->build_lang_list($entity->get_lang()),
 
