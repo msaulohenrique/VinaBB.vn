@@ -8,6 +8,7 @@
 
 namespace vinabb\web\controllers\portal;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use vinabb\web\includes\constants;
 
 /**
@@ -20,6 +21,9 @@ class article implements article_interface
 
 	/** @var \phpbb\config\config */
 	protected $config;
+
+	/** @var ContainerInterface */
+	protected $container;
 
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
@@ -51,36 +55,30 @@ class article implements article_interface
 	/** @var string */
 	protected $php_ext;
 
-	/** @var string */
-	protected $portal_articles_table;
-
-	/** @var string */
-	protected $portal_comments_table;
-
 	/** @var array */
 	protected $portal_cats;
 
 	/**
 	* Constructor
 	*
-	* @param \vinabb\web\controllers\cache\service_interface $cache
-	* @param \phpbb\config\config $config
-	* @param \phpbb\db\driver\driver_interface $db
-	* @param \phpbb\language\language $language
-	* @param \vinabb\web\controllers\pagination $pagination
-	* @param \phpbb\request\request $request
-	* @param \phpbb\template\template $template
-	* @param \phpbb\user $user
-	* @param \phpbb\controller\helper $helper
-	* @param \vinabb\web\controllers\helper_interface $ext_helper
-	* @param string $root_path
-	* @param string $php_ext
-	* @param string $portal_articles_table
-	* @param string $portal_comments_table
+	* @param \vinabb\web\controllers\cache\service_interface	$cache			Cache service
+	* @param \phpbb\config\config								$config			Config object
+	* @param ContainerInterface									$container		Container object
+	* @param \phpbb\db\driver\driver_interface					$db				Database object
+	* @param \phpbb\language\language							$language		Language object
+	* @param \vinabb\web\controllers\pagination					$pagination		Pagination object
+	* @param \phpbb\request\request								$request		Request object
+	* @param \phpbb\template\template							$template		Template object
+	* @param \phpbb\user										$user			User  object
+	* @param \phpbb\controller\helper							$helper			Controller helper
+	* @param \vinabb\web\controllers\helper_interface			$ext_helper		Extension helper
+	* @param string												$root_path		phpBB root path
+	* @param string												$php_ext		PHP file extension
 	*/
 	public function __construct(
 		\vinabb\web\controllers\cache\service_interface $cache,
 		\phpbb\config\config $config,
+		ContainerInterface $container,
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\language\language $language,
 		\vinabb\web\controllers\pagination $pagination,
@@ -90,13 +88,12 @@ class article implements article_interface
 		\phpbb\controller\helper $helper,
 		\vinabb\web\controllers\helper_interface $ext_helper,
 		$root_path,
-		$php_ext,
-		$portal_articles_table,
-		$portal_comments_table
+		$php_ext
 	)
 	{
 		$this->cache = $cache;
 		$this->config = $config;
+		$this->container = $container;
 		$this->db = $db;
 		$this->language = $language;
 		$this->pagination = $pagination;
@@ -107,8 +104,6 @@ class article implements article_interface
 		$this->ext_helper = $ext_helper;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
-		$this->portal_articles_table = $portal_articles_table;
-		$this->portal_comments_table = $portal_comments_table;
 
 		$this->portal_cats = $this->cache->get_portal_cats();
 	}
@@ -129,22 +124,19 @@ class article implements article_interface
 		}
 		else
 		{
-			$sql = 'SELECT *
-				FROM ' . $this->portal_articles_table . "
-				WHERE article_id = $article_id";
-			$result = $this->db->sql_query($sql);
-			$article_data = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
+			// Initiate and load the entity
+			/** @var \vinabb\web\entities\portal_article_interface $entity */
+			$entity = $this->container->get('vinabb.web.entities.portal_article')->load($article_id);
 
-			if ($article_data === false)
+			if (!$entity->get_id())
 			{
 				trigger_error('NO_PORTAL_ARTICLE');
 			}
 			else
 			{
-				$page_title = $article_data['article_name'];
-				$category_name = ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->portal_cats[$article_data['cat_id']]['name_vi'] : $this->portal_cats[$article_data['cat_id']]['name'];
-				$cat_varname = $this->portal_cats[$article_data['cat_id']]['varname'];
+				$page_title = $entity->get_name();
+				$category_name = $this->portal_cats[$entity->get_cat_id()][($this->user->lang_name == constants::LANG_VIETNAMESE) ? 'name_vi' : 'name'];
+				$cat_varname = $this->portal_cats[$entity->get_cat_id()]['varname'];
 
 				// Breadcrumb
 				$this->ext_helper->set_breadcrumb($this->language->lang('NEWS'), $this->helper->route('vinabb_web_portal_route'));
@@ -152,10 +144,11 @@ class article implements article_interface
 				$this->ext_helper->set_breadcrumb($this->language->lang('PORTAL_ARTICLE'));
 
 				$this->template->assign_vars([
-					'ARTICLE_NAME'	=> $article_data['article_name'],
-					'ARTICLE_DESC'	=> $article_data['article_desc'],
-					'ARTICLE_TEXT'	=> generate_text_for_display($article_data['article_text'], $article_data['article_text_uid'], $article_data['article_text_bitfield'], $article_data['article_text_options']),
-					'ARTICLE_TIME'	=> $this->user->format_date($article_data['article_time'])
+					'ARTICLE_NAME'	=> $entity->get_name(),
+					'ARTICLE_IMG'	=> $entity->get_img(),
+					'ARTICLE_DESC'	=> $entity->get_desc(),
+					'ARTICLE_TEXT'	=> $entity->get_text_for_display(),
+					'ARTICLE_TIME'	=> $this->user->format_date($entity->get_time())
 				]);
 			}
 		}
