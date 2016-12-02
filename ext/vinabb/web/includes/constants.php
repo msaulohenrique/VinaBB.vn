@@ -24,6 +24,15 @@ class constants
 	const VINABB_CODECLIMATE_URL = 'http://cc.vinabb.vn/';
 	const VINABB_CODECLIMATE_IMG_URL = 'https://codeclimate.com/github/VinaBB/VinaBB.vn/badges/gpa.svg';
 
+	// Directories
+	const DIR_ARTICLE_IMAGES = 'data/uploads/article_images/';
+	const DIR_BB_FILES = 'data/uploads/bb_files/';
+	const DIR_HEADLINE_IMAGES = 'data/uploads/headline_images/';
+
+	// Allowed file extensions
+	const FILE_EXTENSION_IMAGES = ['gif', 'jpg', 'jpeg', 'png', 'svg'];
+	const FILE_EXTENSION_BB_FILES = ['deb', 'dmg', 'exe', 'msi', 'pkg', 'rpm', 'tar.gz', 'zip'];
+
 	// Languages
 	const LANG_VIETNAMESE = 'vi';
 	const LANG_ENGLISH = 'en';
