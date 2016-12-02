@@ -8,13 +8,13 @@
 
 namespace vinabb\web\entities;
 
-use vinabb\web\entities\sub\article_text;
+use vinabb\web\entities\sub\article_data;
 use vinabb\web\includes\constants;
 
 /**
 * Entity for a single article
 */
-class portal_article extends article_text implements portal_article_interface
+class portal_article extends article_data implements portal_article_interface
 {
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
@@ -33,6 +33,12 @@ class portal_article extends article_text implements portal_article_interface
 
 	/** @var string */
 	protected $cat_table_name;
+
+	/** @var string */
+	protected $ext_root_path;
+
+	/** @var string */
+	protected $ext_web_path;
 
 	/** @var array */
 	protected $data;
@@ -82,6 +88,8 @@ class portal_article extends article_text implements portal_article_interface
 			'article_name_seo'	=> 'string',
 			'article_lang'		=> 'string',
 			'article_img'		=> 'string',
+
+			// Entity: vinabb\web\entities\sub\article_data
 			'article_desc'		=> 'string',
 			'article_enable'	=> 'bool',
 			'article_views'		=> 'integer',
@@ -433,90 +441,6 @@ class portal_article extends article_text implements portal_article_interface
 	public function set_img($text)
 	{
 		$this->data['article_img'] = (string) $text;
-
-		return $this;
-	}
-
-	/**
-	* Get the article description
-	*
-	* @return string
-	*/
-	public function get_desc()
-	{
-		return isset($this->data['article_desc']) ? (string) $this->data['article_desc'] : '';
-	}
-
-	/**
-	* Set the article description
-	*
-	* @param string						$text	Article description
-	* @return portal_article_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\unexpected_value
-	*/
-	public function set_desc($text)
-	{
-		$text = (string) $text;
-
-		// This is a required field
-		if ($text == '')
-		{
-			throw new \vinabb\web\exceptions\unexpected_value(['article_desc', 'EMPTY']);
-		}
-
-		// Check the max length
-		if (truncate_string($text, constants::MAX_PORTAL_ARTICLE_DESC) != $text)
-		{
-			throw new \vinabb\web\exceptions\unexpected_value(['article_desc', 'TOO_LONG']);
-		}
-
-		// Set the value on our data array
-		$this->data['article_desc'] = $text;
-
-		return $this;
-	}
-
-	/**
-	* Get article display setting
-	*
-	* @return bool
-	*/
-	public function get_enable()
-	{
-		return isset($this->data['article_enable']) ? (bool) $this->data['article_enable'] : true;
-	}
-
-	/**
-	* Get the article views
-	*
-	* @return int
-	*/
-	public function get_views()
-	{
-		return isset($this->data['article_views']) ? (int) $this->data['article_views'] : 0;
-	}
-
-	/**
-	* Get the article time
-	*
-	* @return int
-	*/
-	public function get_time()
-	{
-		return isset($this->data['article_time']) ? (int) $this->data['article_time'] : 0;
-	}
-
-	/**
-	* Set the article time
-	*
-	* @return portal_article_interface $this Object for chaining calls: load()->set()->save()
-	*/
-	public function set_time()
-	{
-		if (!isset($this->data['article_time']))
-		{
-			$this->data['article_time'] = time();
-		}
 
 		return $this;
 	}
