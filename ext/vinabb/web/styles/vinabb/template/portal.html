@@ -422,9 +422,11 @@
 	<div class="col-md-8">
 		{% for article in articles %}
 		<div class="panel panel-default blog-box">
+			{% if article.IMG %}
 			<div class="panel-img">
-				<img src="{{ T_THEME_PATH }}/images/2.jpg" alt="" class="img-responsive">
+				<img src="{{ article.IMG }}" alt="{{ article.NAME }}" class="img-responsive">
 			</div>
+			{% endif %}
 			<div class="panel-body">
 				<a href="{{ article.URL }}"><h4>{{ article.NAME }}</h4></a>
 				<p class="text-muted">{{ article.TIME }}</p>

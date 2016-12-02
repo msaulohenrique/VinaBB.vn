@@ -9,6 +9,9 @@
 		</div>
 		<h3 class="font-300">{{ ARTICLE_NAME }}</h3>
 		<hr class="clearfix">
+		{% if ARTICLE_IMG %}
+		<img src="{{ ARTICLE_IMG }}" alt="{{ ARTICLE_NAME }}" class="img-responsive center-block">
+		{% endif %}
 		<div class="media margin-b-20">
 			<a class="pull-left" href="#"> <img class="media-object img-circle" src="{{ T_THEME_PATH }}/images/no_avatar.png" width="40" alt=""> </a>
 			<div class="media-body">
