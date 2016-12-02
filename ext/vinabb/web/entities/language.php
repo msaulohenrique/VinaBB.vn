@@ -205,7 +205,7 @@ class language implements language_interface
 		}
 
 		// Check the max length
-		if (truncate_string($text, 30) != $text)
+		if (utf8_strlen($text) > 30)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['lang_iso', 'TOO_LONG']);
 		}
@@ -244,7 +244,7 @@ class language implements language_interface
 		}
 
 		// Check the max length
-		if (truncate_string($text, 30) != $text)
+		if (utf8_strlen($text) > 30)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['lang_dir', 'TOO_LONG']);
 		}
@@ -283,7 +283,7 @@ class language implements language_interface
 		}
 
 		// Check the max length
-		if (truncate_string($text, 100) != $text)
+		if (utf8_strlen($text) > 100)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['lang_english_name', 'TOO_LONG']);
 		}
@@ -322,7 +322,7 @@ class language implements language_interface
 		}
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_CONFIG_NAME) != $text)
+		if (utf8_strlen($text) > constants::MAX_CONFIG_NAME)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['lang_local_name', 'TOO_LONG']);
 		}
@@ -361,7 +361,7 @@ class language implements language_interface
 		}
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_CONFIG_NAME) != $text)
+		if (utf8_strlen($text) > constants::MAX_CONFIG_NAME)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['lang_author', 'TOO_LONG']);
 		}

@@ -335,7 +335,7 @@ class portal_article extends article_data implements portal_article_interface
 		}
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_PORTAL_ARTICLE_NAME) != $text)
+		if (utf8_strlen($text) > constants::MAX_PORTAL_ARTICLE_NAME)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['article_name', 'TOO_LONG']);
 		}
@@ -366,8 +366,6 @@ class portal_article extends article_data implements portal_article_interface
 	public function set_name_seo($text)
 	{
 		$text = (string) $text;
-
-		echo $text;
 
 		// Check invalid characters
 		if (!preg_match(constants::REGEX_SEO, $text))

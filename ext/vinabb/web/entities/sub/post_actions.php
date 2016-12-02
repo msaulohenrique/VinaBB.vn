@@ -63,7 +63,7 @@ class post_actions extends post_text
 		$text = (string) $text;
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_CONFIG_NAME) != $text)
+		if (utf8_strlen($text) > constants::MAX_CONFIG_NAME)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['post_edit_reason', 'TOO_LONG']);
 		}
@@ -159,7 +159,7 @@ class post_actions extends post_text
 		$text = (string) $text;
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_CONFIG_NAME) != $text)
+		if (utf8_strlen($text) > constants::MAX_CONFIG_NAME)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['post_delete_reason', 'TOO_LONG']);
 		}

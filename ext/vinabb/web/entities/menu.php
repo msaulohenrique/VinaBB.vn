@@ -262,7 +262,7 @@ class menu extends menu_enable implements menu_interface
 		}
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_MENU_NAME) != $text)
+		if (utf8_strlen($text) > constants::MAX_MENU_NAME)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['menu_name', 'TOO_LONG']);
 		}
@@ -295,7 +295,7 @@ class menu extends menu_enable implements menu_interface
 		$text = (string) $text;
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_MENU_NAME) != $text)
+		if (utf8_strlen($text) > constants::MAX_MENU_NAME)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['menu_name_vi', 'TOO_LONG']);
 		}

@@ -197,7 +197,7 @@ class forum_last_post extends forum_prune
 		$text = (string) $text;
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_CONFIG_NAME) != $text)
+		if (utf8_strlen($text) > constants::MAX_CONFIG_NAME)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['forum_last_post_subject', 'TOO_LONG']);
 		}

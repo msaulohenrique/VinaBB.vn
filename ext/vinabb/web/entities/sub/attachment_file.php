@@ -40,7 +40,7 @@ class attachment_file
 		$text = (string) $text;
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_CONFIG_NAME) != $text)
+		if (utf8_strlen($text) > constants::MAX_CONFIG_NAME)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['physical_filename', 'TOO_LONG']);
 		}
@@ -73,7 +73,7 @@ class attachment_file
 		$text = (string) $text;
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_CONFIG_NAME) != $text)
+		if (utf8_strlen($text) > constants::MAX_CONFIG_NAME)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['real_filename', 'TOO_LONG']);
 		}
@@ -106,7 +106,7 @@ class attachment_file
 		$text = (string) $text;
 
 		// Check the max length
-		if (truncate_string($text, 100) != $text)
+		if (utf8_strlen($text) > 100)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['extension', 'TOO_LONG']);
 		}
@@ -139,7 +139,7 @@ class attachment_file
 		$text = (string) $text;
 
 		// Check the max length
-		if (truncate_string($text, 100) != $text)
+		if (utf8_strlen($text) > 100)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['mimetype', 'TOO_LONG']);
 		}

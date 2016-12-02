@@ -232,7 +232,7 @@ class bb_category implements bb_category_interface
 		}
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_PORTAL_CAT_NAME) != $text)
+		if (utf8_strlen($text) > constants::MAX_PORTAL_CAT_NAME)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['cat_name', 'TOO_LONG']);
 		}
@@ -271,7 +271,7 @@ class bb_category implements bb_category_interface
 		$text = (string) $text;
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_PORTAL_CAT_NAME) != $text)
+		if (utf8_strlen($text) > constants::MAX_PORTAL_CAT_NAME)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['cat_name_vi', 'TOO_LONG']);
 		}
@@ -316,7 +316,7 @@ class bb_category implements bb_category_interface
 		}
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_BB_CAT_VARNAME) != $text)
+		if (utf8_strlen($text) > constants::MAX_BB_CAT_VARNAME)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['cat_varname', 'TOO_LONG']);
 		}
@@ -361,7 +361,7 @@ class bb_category implements bb_category_interface
 		$text = (string) $text;
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_BB_CAT_DESC) != $text)
+		if (utf8_strlen($text) > constants::MAX_BB_CAT_DESC)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['cat_desc', 'TOO_LONG']);
 		}
@@ -394,7 +394,7 @@ class bb_category implements bb_category_interface
 		$text = (string) $text;
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_BB_CAT_DESC) != $text)
+		if (utf8_strlen($text) > constants::MAX_BB_CAT_DESC)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['cat_desc_vi', 'TOO_LONG']);
 		}

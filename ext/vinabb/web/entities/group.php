@@ -230,7 +230,7 @@ class group extends group_profile implements group_interface
 		}
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_CONFIG_NAME) != $text)
+		if (utf8_strlen($text) > constants::MAX_CONFIG_NAME)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['group_name', 'TOO_LONG']);
 		}

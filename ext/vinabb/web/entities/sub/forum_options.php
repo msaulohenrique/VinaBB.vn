@@ -40,7 +40,7 @@ class forum_options extends forum_last_post
 		$text = (string) $text;
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_CONFIG_NAME) != $text)
+		if (utf8_strlen($text) > constants::MAX_CONFIG_NAME)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['forum_link', 'TOO_LONG']);
 		}
@@ -80,7 +80,7 @@ class forum_options extends forum_last_post
 		$text = (string) $text;
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_CONFIG_NAME) != $text)
+		if (utf8_strlen($text) > constants::MAX_CONFIG_NAME)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['forum_password', 'TOO_LONG']);
 		}
@@ -123,7 +123,7 @@ class forum_options extends forum_last_post
 		$text = (string) $text;
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_CONFIG_NAME) != $text)
+		if (utf8_strlen($text) > constants::MAX_CONFIG_NAME)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['forum_image', 'TOO_LONG']);
 		}

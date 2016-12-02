@@ -266,7 +266,7 @@ class bb_author extends author_social implements bb_author_interface
 		}
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_BB_AUTHOR_NAME) != $text)
+		if (utf8_strlen($text) > constants::MAX_BB_AUTHOR_NAME)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['author_name', 'TOO_LONG']);
 		}

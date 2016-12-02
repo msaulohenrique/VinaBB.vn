@@ -210,7 +210,7 @@ class smiley implements smiley_interface
 		}
 
 		// Check the max length
-		if (truncate_string($text, 50) != $text)
+		if (utf8_strlen($text) > 50)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['code', 'TOO_LONG']);
 		}
@@ -255,7 +255,7 @@ class smiley implements smiley_interface
 		}
 
 		// Check the max length
-		if (truncate_string($text, 50) != $text)
+		if (utf8_strlen($text) > 50)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['emotion', 'TOO_LONG']);
 		}
@@ -294,7 +294,7 @@ class smiley implements smiley_interface
 		}
 
 		// Check the max length
-		if (truncate_string($text, 50) != $text)
+		if (utf8_strlen($text) > 50)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['smiley_url', 'TOO_LONG']);
 		}

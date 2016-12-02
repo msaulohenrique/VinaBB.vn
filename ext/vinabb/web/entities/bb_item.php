@@ -350,7 +350,7 @@ class bb_item extends item_data implements bb_item_interface
 		}
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_BB_ITEM_NAME) != $text)
+		if (utf8_strlen($text) > constants::MAX_BB_ITEM_NAME)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['item_name', 'TOO_LONG']);
 		}
@@ -389,7 +389,7 @@ class bb_item extends item_data implements bb_item_interface
 		}
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_BB_ITEM_VARNAME) != $text)
+		if (utf8_strlen($text) > constants::MAX_BB_ITEM_VARNAME)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['item_varname', 'TOO_LONG']);
 		}

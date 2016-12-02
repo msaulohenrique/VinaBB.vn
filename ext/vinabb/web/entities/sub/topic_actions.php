@@ -169,7 +169,7 @@ class topic_actions extends topic_last_post
 		$text = (string) $text;
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_CONFIG_NAME) != $text)
+		if (utf8_strlen($text) > constants::MAX_CONFIG_NAME)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['topic_delete_reason', 'TOO_LONG']);
 		}

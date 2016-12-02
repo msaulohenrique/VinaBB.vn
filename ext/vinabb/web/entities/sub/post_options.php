@@ -88,7 +88,7 @@ class post_options extends post_actions
 		$text = (string) $text;
 
 		// Check the max length
-		if (truncate_string($text, 32) != $text)
+		if (utf8_strlen($text) > 32)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['post_checksum', 'TOO_LONG']);
 		}

@@ -253,7 +253,7 @@ class headline implements headline_interface
 		}
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_HEADLINE_NAME) != $text)
+		if (utf8_strlen($text) > constants::MAX_HEADLINE_NAME)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['headline_name', 'TOO_LONG']);
 		}
@@ -292,7 +292,7 @@ class headline implements headline_interface
 		}
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_HEADLINE_DESC) != $text)
+		if (utf8_strlen($text) > constants::MAX_HEADLINE_DESC)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['headline_desc', 'TOO_LONG']);
 		}

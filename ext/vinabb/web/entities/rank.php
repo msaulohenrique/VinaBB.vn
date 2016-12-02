@@ -204,7 +204,7 @@ class rank implements rank_interface
 		}
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_PAGE_NAME) != $text)
+		if (utf8_strlen($text) > constants::MAX_CONFIG_NAME)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['rank_title', 'TOO_LONG']);
 		}
@@ -257,7 +257,7 @@ class rank implements rank_interface
 		$text = (string) $text;
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_PAGE_NAME) != $text)
+		if (utf8_strlen($text) > constants::MAX_CONFIG_NAME)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['rank_image', 'TOO_LONG']);
 		}

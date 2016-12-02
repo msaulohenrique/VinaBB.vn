@@ -237,7 +237,7 @@ class page extends page_enable implements page_interface
 		}
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_PAGE_NAME) != $text)
+		if (utf8_strlen($text) > constants::MAX_PAGE_NAME)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['page_name', 'TOO_LONG']);
 		}
@@ -270,7 +270,7 @@ class page extends page_enable implements page_interface
 		$text = (string) $text;
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_PAGE_NAME) != $text)
+		if (utf8_strlen($text) > constants::MAX_PAGE_NAME)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['page_name_vi', 'TOO_LONG']);
 		}
@@ -309,7 +309,7 @@ class page extends page_enable implements page_interface
 		}
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_PAGE_VARNAME) != $text)
+		if (utf8_strlen($text) > constants::MAX_PAGE_VARNAME)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['page_varname', 'TOO_LONG']);
 		}

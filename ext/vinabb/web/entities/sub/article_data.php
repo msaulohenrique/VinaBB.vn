@@ -46,7 +46,7 @@ class article_data extends article_text
 		}
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_PORTAL_ARTICLE_DESC) != $text)
+		if (utf8_strlen($text) > constants::MAX_PORTAL_ARTICLE_DESC)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['article_desc', 'TOO_LONG']);
 		}

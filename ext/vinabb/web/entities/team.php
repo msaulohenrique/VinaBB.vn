@@ -246,7 +246,7 @@ class team implements team_interface
 		}
 
 		// Check the max length
-		if (truncate_string($text, constants::MAX_PAGE_NAME) != $text)
+		if (utf8_strlen($text) > constants::MAX_CONFIG_NAME)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['teampage_name', 'TOO_LONG']);
 		}
