@@ -7,7 +7,7 @@ vinabb_web_board_forum_route:
         page: ''
     requirements:
         forum_id: '\d*'
-        seo: '(|([a-zA-Z0-9-]*)(\.*))'
+        seo: '(|([a-z0-9-\.]*)(\.*))'
         page: '(|((page-)(\d+)))'
 vinabb_web_board_topic_route:
     path: /f{forum_id}/topic/{seo}{topic_id}/{page}
@@ -19,5 +19,5 @@ vinabb_web_board_topic_route:
     requirements:
         forum_id: '(x|\d+)'
         topic_id: '\d*'
-        seo: '(|([a-zA-Z0-9-]*)(\.*))'
+        seo: '(|([a-z0-9-\.]*)(\.*))'
         page: '(|((page-)(\d+)))'
