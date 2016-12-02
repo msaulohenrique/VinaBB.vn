@@ -8,13 +8,13 @@
 
 namespace vinabb\web\entities;
 
-use vinabb\web\entities\sub\topic_actions;
+use vinabb\web\entities\sub\topic_data;
 use vinabb\web\includes\constants;
 
 /**
 * Entity for a single topic
 */
-class topic extends topic_actions implements topic_interface
+class topic extends topic_data implements topic_interface
 {
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
@@ -54,6 +54,8 @@ class topic extends topic_actions implements topic_interface
 			'topic_first_poster_colour'	=> 'string',
 			'topic_title'				=> 'string',
 			'topic_title_seo'			=> 'string',
+
+			// Entity: vinabb\web\entities\sub\topic_data
 			'topic_type'				=> 'integer',
 			'topic_status'				=> 'integer',
 			'topic_views'				=> 'integer',
@@ -498,129 +500,5 @@ class topic extends topic_actions implements topic_interface
 		$this->data['topic_title_seo'] = $text;
 
 		return $this;
-	}
-
-	/**
-	* Get the topic type
-	*
-	* @return int
-	*/
-	public function get_type()
-	{
-		return isset($this->data['topic_type']) ? (int) $this->data['topic_type'] : POST_NORMAL;
-	}
-
-	/**
-	* Set the topic type
-	*
-	* @param int				$value	Topic type
-	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\out_of_bounds
-	*/
-	public function set_type($value)
-	{
-		$value = (int) $value;
-
-		if (!in_array($value, [POST_NORMAL, POST_STICKY, POST_ANNOUNCE, POST_GLOBAL]))
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('topic_type');
-		}
-
-		// Set the value on our data array
-		$this->data['topic_type'] = $value;
-
-		return $this;
-	}
-
-	/**
-	* Get the topic status
-	*
-	* @return int
-	*/
-	public function get_status()
-	{
-		return isset($this->data['topic_status']) ? (int) $this->data['topic_status'] : ITEM_UNLOCKED;
-	}
-
-	/**
-	* Set the topic status
-	*
-	* @param int				$value	Topic status
-	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\out_of_bounds
-	*/
-	public function set_status($value)
-	{
-		$value = (int) $value;
-
-		if (!in_array($value, [ITEM_UNLOCKED, ITEM_LOCKED, ITEM_MOVED]))
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('topic_status');
-		}
-
-		// Set the value on our data array
-		$this->data['topic_status'] = $value;
-
-		return $this;
-	}
-
-	/**
-	* Get the topic views
-	*
-	* @return int
-	*/
-	public function get_views()
-	{
-		return isset($this->data['topic_views']) ? (int) $this->data['topic_views'] : 0;
-	}
-
-	/**
-	* Get the number of approved posts
-	*
-	* @return int
-	*/
-	public function get_posts_approved()
-	{
-		return isset($this->data['topic_posts_approved']) ? (int) $this->data['topic_posts_approved'] : 0;
-	}
-
-	/**
-	* Get the number of disapproved posts
-	*
-	* @return int
-	*/
-	public function get_posts_unapproved()
-	{
-		return isset($this->data['topic_posts_unapproved']) ? (int) $this->data['topic_posts_unapproved'] : 0;
-	}
-
-	/**
-	* Get the number of soft-deleted posts
-	*
-	* @return int
-	*/
-	public function get_posts_softdeleted()
-	{
-		return isset($this->data['topic_posts_softdeleted']) ? (int) $this->data['topic_posts_softdeleted'] : 0;
-	}
-
-	/**
-	* Get the topic time
-	*
-	* @return int
-	*/
-	public function get_time()
-	{
-		return isset($this->data['topic_time']) ? (int) $this->data['topic_time'] : 0;
-	}
-
-	/**
-	* Get the topic time limit
-	*
-	* @return int
-	*/
-	public function get_time_limit()
-	{
-		return isset($this->data['topic_time_limit']) ? (int) $this->data['topic_time_limit'] : 0;
 	}
 }
