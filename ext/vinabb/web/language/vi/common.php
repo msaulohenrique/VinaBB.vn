@@ -84,6 +84,7 @@ $lang = array_merge($lang, [
 		2	=> '%d công cụ'
 	],
 	'CURRENCY'			=> 'Tiền tệ',
+	'CURRENT_IMAGE'		=> 'Hình hiện tại',
 
 	'DEBUG'				=> 'Dò lỗi',
 	'DEBUG_INFO'		=> 'Thông số đánh giá',
@@ -329,8 +330,9 @@ $lang = array_merge($lang, [
 	'TOTAL_STYLES'		=> 'Số giao diện',
 	'TOTAL_TOOLS'		=> 'Số công cụ',
 
-	'UNKNOWN'	=> 'Không biết',
-	'USER_ID'	=> 'ID tài khoản',
+	'UNKNOWN'			=> 'Không biết',
+	'UPLOAD_NEW_IMAGE'	=> 'Tải hình mới lên',
+	'USER_ID'			=> 'ID tài khoản',
 
 	'VERSION'			=> 'Phiên bản',
 	'VIETNAMESE'		=> 'Tiếng Việt',

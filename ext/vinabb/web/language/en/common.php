@@ -84,6 +84,7 @@ $lang = array_merge($lang, [
 		2	=> '%d tools'
 	],
 	'CURRENCY'			=> 'Currency',
+	'CURRENT_IMAGE'		=> 'Current image',
 
 	'DEBUG'				=> 'Debug',
 	'DEBUG_INFO'		=> 'Debug information',
@@ -329,8 +330,9 @@ $lang = array_merge($lang, [
 	'TOTAL_STYLES'		=> 'Total styles',
 	'TOTAL_TOOLS'		=> 'Total tools',
 
-	'UNKNOWN'	=> 'Unknown',
-	'USER_ID'	=> 'User ID',
+	'UNKNOWN'			=> 'Unknown',
+	'UPLOAD_NEW_IMAGE'	=> 'Upload new image',
+	'USER_ID'			=> 'User ID',
 
 	'VERSION'			=> 'Version',
 	'VIETNAMESE'		=> 'Vietnamese',
