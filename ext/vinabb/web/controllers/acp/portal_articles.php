@@ -68,6 +68,9 @@ class portal_articles implements portal_articles_interface
 	protected $u_action;
 
 	/** @var array */
+	protected $data;
+
+	/** @var array */
 	protected $errors = [];
 
 	/** @var string */
@@ -242,7 +245,7 @@ class portal_articles implements portal_articles_interface
 		add_form_key('acp_portal_articles');
 
 		// Get form data
-		$data = $this->request_data();
+		$this->request_data();
 
 		// Set the parse options to the entity
 		$this->set_bbcode_options($entity, $submit);
@@ -255,8 +258,14 @@ class portal_articles implements portal_articles_interface
 				$this->errors[] = $this->language->lang('FORM_INVALID');
 			}
 
+			// Delete the old article image if uploaded a new one
+			if ($this->data['article_img'] != '' && $this->data['article_img'] != $entity->get_img())
+			{
+				$this->filesystem->remove($this->ext_root_path . constants::DIR_ARTICLE_IMAGES . $entity->get_img());
+			}
+
 			// Map and set data to the entity
-			$this->map_set_data($entity, $data);
+			$this->map_set_data($entity);
 
 			// Insert or update
 			if (!sizeof($this->errors))
@@ -280,12 +289,10 @@ class portal_articles implements portal_articles_interface
 
 	/**
 	* Request data from the form
-	*
-	* @return array
 	*/
 	protected function request_data()
 	{
-		return [
+		$this->data = [
 			'cat_id'			=> $this->request->variable('cat_id', 0),
 			'user_id'			=> $this->user->data['user_id'],
 			'article_name'		=> $this->request->variable('article_name', '', true),
@@ -320,21 +327,20 @@ class portal_articles implements portal_articles_interface
 	/**
 	* Map the form data fields to setters and set them to the entity
 	*
-	* @param \vinabb\web\entities\portal_article_interface	$entity	Article entity
-	* @param array											$data	Form data
+	* @param \vinabb\web\entities\portal_article_interface $entity Article entity
 	*/
-	protected function map_set_data(\vinabb\web\entities\portal_article_interface $entity, $data)
+	protected function map_set_data(\vinabb\web\entities\portal_article_interface $entity)
 	{
 		$map_fields = [
-			'set_cat_id'	=> $data['cat_id'],
-			'set_user_id'	=> $data['user_id'],
-			'set_name'		=> $data['article_name'],
-			'set_name_seo'	=> $this->ext_helper->clean_url($data['article_name']),
-			'set_lang'		=> $data['article_lang'],
-			'set_img'		=> $data['article_img'],
-			'set_desc'		=> $data['article_desc'],
-			'set_text'		=> $data['article_text'],
-			'set_time'		=> $data['article_time']
+			'set_cat_id'	=> $this->data['cat_id'],
+			'set_user_id'	=> $this->data['user_id'],
+			'set_name'		=> $this->data['article_name'],
+			'set_name_seo'	=> $this->ext_helper->clean_url($this->data['article_name']),
+			'set_lang'		=> $this->data['article_lang'],
+			'set_img'		=> ($entity->get_id() && $this->data['article_img'] == '') ? $entity->get_img() : $this->data['article_img'],
+			'set_desc'		=> $this->data['article_desc'],
+			'set_text'		=> $this->data['article_text'],
+			'set_time'		=> $this->data['article_time']
 		];
 
 		// Set the mapped data in the entity
@@ -501,7 +507,7 @@ class portal_articles implements portal_articles_interface
 	/**
 	* Upload article image
 	*
-	* @return string Filename
+	* @return string Filename, empty if there are errors
 	*/
 	protected function upload_article_img($form_name)
 	{
@@ -524,6 +530,9 @@ class portal_articles implements portal_articles_interface
 		{
 			return '';
 		}
+
+		// Rename file
+		$file->clean_filename('avatar', date('Y-m-d-H-i-s_', time()), $this->user->data['user_id']);
 
 		// If there was an error during upload, then abort operation
 		if (sizeof($file->error))
