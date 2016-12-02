@@ -1,14 +1,36 @@
 {% include 'ucp_header.html' %}
 
-{% for row in profile_fields %}
+<form id="ucp" method="post" action="{{ S_UCP_ACTION }}"{{ S_FORM_ENCTYPE }}>
+
+{% if profile_fields %}
 <fieldset>
 	<div class="form-group">
-		<label class="col-sm-2 control-label"{% if row.FIELD_ID %} for="{{ row.FIELD_ID }}"{% endif %}>{{ row.LANG_NAME ~ lang('COLON') }}</label>
-		<div class="col-sm-10">
-			{{ row.FIELD }}
-		</div>
+{% endif %}
+
+{% for row in profile_fields %}
+{% if not loop.first and loop.index is odd %}
 	</div>
 </fieldset>
+<fieldset>
+	<div class="form-group">
+{% endif %}
+		<label class="col-md-2 control-label"{% if row.FIELD_ID %} for="{{ row.FIELD_ID }}"{% endif %}>{{ row.LANG_NAME ~ lang('COLON') }}</label>
+		<div class="col-md-4">
+			{{ row.FIELD }}
+		</div>
 {% endfor %}
+
+{% if profile_fields %}
+	</div>
+</fieldset>
+
+<div class="form-group text-center">
+	{{ S_HIDDEN_FIELDS }}
+	<input type="submit" name="submit" value="{{ lang('SAVE') }}" class="btn btn-primary">
+	{{ S_FORM_TOKEN }}
+</div>
+{% endif %}
+
+</form>
 
 {% include 'ucp_footer.html' %}
