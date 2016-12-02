@@ -222,8 +222,6 @@ class pages implements pages_interface
 
 	/**
 	* Request data from the form
-	*
-	* @return array
 	*/
 	protected function request_data()
 	{

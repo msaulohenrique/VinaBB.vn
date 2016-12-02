@@ -199,8 +199,6 @@ class bb_authors implements bb_authors_interface
 
 	/**
 	* Request data from the form
-	*
-	* @return array
 	*/
 	protected function request_data()
 	{

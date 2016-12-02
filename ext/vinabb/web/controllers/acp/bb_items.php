@@ -261,8 +261,6 @@ class bb_items implements bb_items_interface
 
 	/**
 	* Request data from the form
-	*
-	* @return array
 	*/
 	protected function request_data()
 	{

@@ -242,8 +242,6 @@ class bb_categories
 
 	/**
 	* Request data from the form
-	*
-	* @return array
 	*/
 	protected function request_data()
 	{

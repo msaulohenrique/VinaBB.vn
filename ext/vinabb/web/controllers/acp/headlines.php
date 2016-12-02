@@ -215,8 +215,6 @@ class headlines implements headlines_interface
 
 	/**
 	* Request data from the form
-	*
-	* @return array
 	*/
 	protected function request_data()
 	{
