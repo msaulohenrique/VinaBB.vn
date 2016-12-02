@@ -49,6 +49,9 @@ class bb_items implements bb_items_interface
 	protected $u_action;
 
 	/** @var array */
+	protected $data;
+
+	/** @var array */
 	protected $errors;
 
 	/** @var int */
@@ -217,7 +220,7 @@ class bb_items implements bb_items_interface
 		add_form_key('acp_bb_items');
 
 		// Get form data
-		$data = $this->request_data();
+		$this->request_data();
 
 		// Set the parse options to the entity
 		$this->set_bbcode_options($entity, $submit);
@@ -231,7 +234,7 @@ class bb_items implements bb_items_interface
 			}
 
 			// Map and set data to the entity
-			$this->map_set_data($entity, $data);
+			$this->map_set_data($entity);
 
 			// Insert or update
 			if (!sizeof($this->errors))
@@ -263,7 +266,7 @@ class bb_items implements bb_items_interface
 	*/
 	protected function request_data()
 	{
-		return [
+		$this->data = [
 			'cat_id'			=> $this->request->variable('cat_id', 0),
 			'author_id'			=> $this->request->variable('author_id', 0),
 			'item_name'			=> $this->request->variable('item_name', '', true),
@@ -306,21 +309,20 @@ class bb_items implements bb_items_interface
 	/**
 	* Map the form data fields to setters and set them to the entity
 	*
-	* @param \vinabb\web\entities\bb_item_interface	$entity	BB item entity
-	* @param array									$data	Form data
+	* @param \vinabb\web\entities\bb_item_interface $entity BB item entity
 	*/
-	protected function map_set_data(\vinabb\web\entities\bb_item_interface $entity, $data)
+	protected function map_set_data(\vinabb\web\entities\bb_item_interface $entity)
 	{
 		$map_fields = [
-			'set_cat_id'	=> $data['cat_id'],
-			'set_author_id'	=> $data['page_name_vi'],
-			'set_name'		=> $data['item_name'],
-			'set_varname'	=> $data['item_varname'],
-			'set_desc'		=> $data['item_desc'],
-			'set_desc_vi'	=> $data['item_desc_vi'],
-			'set_price'		=> $data['item_price'],
-			'set_url'		=> $data['item_url'],
-			'set_github'	=> $data['item_github'],
+			'set_cat_id'	=> $this->data['cat_id'],
+			'set_author_id'	=> $this->data['page_name_vi'],
+			'set_name'		=> $this->data['item_name'],
+			'set_varname'	=> $this->data['item_varname'],
+			'set_desc'		=> $this->data['item_desc'],
+			'set_desc_vi'	=> $this->data['item_desc_vi'],
+			'set_price'		=> $this->data['item_price'],
+			'set_url'		=> $this->data['item_url'],
+			'set_github'	=> $this->data['item_github'],
 			'set_added'		=> null
 		];
 

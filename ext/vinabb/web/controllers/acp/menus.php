@@ -46,6 +46,9 @@ class menus implements menus_interface
 	protected $u_action;
 
 	/** @var array */
+	protected $data;
+
+	/** @var array */
 	protected $errors;
 
 	/**
@@ -222,7 +225,7 @@ class menus implements menus_interface
 		add_form_key('acp_menus');
 
 		// Get form data
-		$data = $this->request_data();
+		$this->request_data();
 
 		if ($submit)
 		{
@@ -233,12 +236,12 @@ class menus implements menus_interface
 			}
 
 			// Map and set data to the entity
-			$this->map_set_data($entity, $data);
+			$this->map_set_data($entity);
 
 			// Insert or update
 			if (!sizeof($this->errors))
 			{
-				$this->save_data($entity, $data['parent_id']);
+				$this->save_data($entity);
 			}
 		}
 
@@ -257,7 +260,7 @@ class menus implements menus_interface
 	*/
 	protected function request_data()
 	{
-		return [
+		$this->data = [
 			'parent_id'					=> $this->request->variable('parent_id', 0),
 			'menu_name'					=> $this->request->variable('menu_name', '', true),
 			'menu_name_vi'				=> $this->request->variable('menu_name_vi', '', true),
@@ -279,27 +282,26 @@ class menus implements menus_interface
 	/**
 	* Map the form data fields to setters and set them to the entity
 	*
-	* @param \vinabb\web\entities\menu_interface	$entity	Menu entity
-	* @param array									$data	Form data
+	* @param \vinabb\web\entities\menu_interface $entity Menu entity
 	*/
-	protected function map_set_data(\vinabb\web\entities\menu_interface $entity, $data)
+	protected function map_set_data(\vinabb\web\entities\menu_interface $entity)
 	{
 		$map_fields = [
-			'set_parent_id'			=> $data['parent_id'],
-			'set_name'				=> $data['menu_name'],
-			'set_name_vi'			=> $data['menu_name_vi'],
-			'set_type'				=> $data['menu_type'],
-			'set_icon'				=> $data['menu_icon'],
-			'set_data'				=> $data['menu_data'],
-			'set_target'			=> $data['menu_target'],
-			'set_enable_guest'		=> $data['menu_enable_guest'],
-			'set_enable_bot'		=> $data['menu_enable_bot'],
-			'set_enable_new_user'	=> $data['menu_enable_new_user'],
-			'set_enable_user'		=> $data['menu_enable_user'],
-			'set_enable_mod'		=> $data['menu_enable_mod'],
-			'set_enable_global_mod'	=> $data['menu_enable_global_mod'],
-			'set_enable_admin'		=> $data['menu_enable_admin'],
-			'set_enable_founder'	=> $data['menu_enable_founder']
+			'set_parent_id'			=> $this->data['parent_id'],
+			'set_name'				=> $this->data['menu_name'],
+			'set_name_vi'			=> $this->data['menu_name_vi'],
+			'set_type'				=> $this->data['menu_type'],
+			'set_icon'				=> $this->data['menu_icon'],
+			'set_data'				=> $this->data['menu_data'],
+			'set_target'			=> $this->data['menu_target'],
+			'set_enable_guest'		=> $this->data['menu_enable_guest'],
+			'set_enable_bot'		=> $this->data['menu_enable_bot'],
+			'set_enable_new_user'	=> $this->data['menu_enable_new_user'],
+			'set_enable_user'		=> $this->data['menu_enable_user'],
+			'set_enable_mod'		=> $this->data['menu_enable_mod'],
+			'set_enable_global_mod'	=> $this->data['menu_enable_global_mod'],
+			'set_enable_admin'		=> $this->data['menu_enable_admin'],
+			'set_enable_founder'	=> $this->data['menu_enable_founder']
 		];
 
 		// Set the mapped data in the entity
@@ -322,10 +324,9 @@ class menus implements menus_interface
 	/**
 	* Insert or update data, then log actions and clear cache if needed
 	*
-	* @param int									$parent_id	Parent ID
-	* @param \vinabb\web\entities\menu_interface	$entity		Menu entity
+	* @param \vinabb\web\entities\menu_interface $entity Menu entity
 	*/
-	protected function save_data(\vinabb\web\entities\menu_interface $entity, $parent_id)
+	protected function save_data(\vinabb\web\entities\menu_interface $entity)
 	{
 		if ($entity->get_id())
 		{
@@ -333,11 +334,11 @@ class menus implements menus_interface
 			$entity->save();
 
 			// Change the parent
-			if ($parent_id != $entity->get_parent_id())
+			if ($this->data['parent_id'] != $entity->get_parent_id())
 			{
 				try
 				{
-					$this->operator->change_parent($entity->get_id(), $parent_id);
+					$this->operator->change_parent($entity->get_id(), $this->data['parent_id']);
 				}
 				catch (\vinabb\web\exceptions\base $e)
 				{
@@ -352,7 +353,7 @@ class menus implements menus_interface
 		else
 		{
 			// Add the new entity to the database
-			$entity = $this->operator->add_menu($entity, $parent_id);
+			$entity = $this->operator->add_menu($entity, $this->data['parent_id']);
 
 			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_MENU_ADD', time(), [$entity->get_name()]);
 
@@ -361,7 +362,7 @@ class menus implements menus_interface
 
 		$this->cache->clear_menus();
 
-		trigger_error($this->language->lang($message) . adm_back_link("{$this->u_action}&parent_id={$parent_id}"));
+		trigger_error($this->language->lang($message) . adm_back_link("{$this->u_action}&parent_id={$this->data['parent_id']}"));
 	}
 
 	/**

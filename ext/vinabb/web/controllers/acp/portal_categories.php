@@ -46,6 +46,9 @@ class portal_categories implements portal_categories_interface
 	protected $u_action;
 
 	/** @var array */
+	protected $data;
+
+	/** @var array */
 	protected $errors;
 
 	/**
@@ -219,7 +222,7 @@ class portal_categories implements portal_categories_interface
 		add_form_key('acp_portal_categories');
 
 		// Get form data
-		$data = $this->request_data();
+		$this->request_data();
 
 		if ($submit)
 		{
@@ -230,12 +233,12 @@ class portal_categories implements portal_categories_interface
 			}
 
 			// Map and set data to the entity
-			$this->map_set_data($entity, $data);
+			$this->map_set_data($entity);
 
 			// Insert or update
 			if (!sizeof($this->errors))
 			{
-				$this->save_data($entity, $data['parent_id']);
+				$this->save_data($entity);
 			}
 		}
 
@@ -249,12 +252,10 @@ class portal_categories implements portal_categories_interface
 
 	/**
 	* Request data from the form
-	*
-	* @return array
 	*/
 	protected function request_data()
 	{
-		return [
+		$this->data = [
 			'parent_id'		=> $this->request->variable('parent_id', 0),
 			'cat_name'		=> $this->request->variable('cat_name', '', true),
 			'cat_name_vi'	=> $this->request->variable('cat_name_vi', '', true),
@@ -266,17 +267,16 @@ class portal_categories implements portal_categories_interface
 	/**
 	* Map the form data fields to setters and set them to the entity
 	*
-	* @param \vinabb\web\entities\portal_category_interface	$entity	Portal category entity
-	* @param array											$data	Form data
+	* @param \vinabb\web\entities\portal_category_interface $entity Portal category entity
 	*/
-	protected function map_set_data(\vinabb\web\entities\portal_category_interface $entity, $data)
+	protected function map_set_data(\vinabb\web\entities\portal_category_interface $entity)
 	{
 		$map_fields = [
-			'set_parent_id'	=> $data['parent_id'],
-			'set_name'		=> $data['cat_name'],
-			'set_name_vi'	=> $data['cat_name_vi'],
-			'set_varname'	=> $data['cat_varname'],
-			'set_icon'		=> $data['cat_icon']
+			'set_parent_id'	=> $this->data['parent_id'],
+			'set_name'		=> $this->data['cat_name'],
+			'set_name_vi'	=> $this->data['cat_name_vi'],
+			'set_varname'	=> $this->data['cat_varname'],
+			'set_icon'		=> $this->data['cat_icon']
 		];
 
 		// Set the mapped data in the entity
@@ -299,10 +299,9 @@ class portal_categories implements portal_categories_interface
 	/**
 	* Insert or update data, then log actions and clear cache if needed
 	*
-	* @param int											$parent_id	Parent ID
-	* @param \vinabb\web\entities\portal_category_interface $entity 	Portal category entity
+	* @param \vinabb\web\entities\portal_category_interface $entity Portal category entity
 	*/
-	protected function save_data(\vinabb\web\entities\portal_category_interface $entity, $parent_id)
+	protected function save_data(\vinabb\web\entities\portal_category_interface $entity)
 	{
 		if ($entity->get_id())
 		{
@@ -310,11 +309,11 @@ class portal_categories implements portal_categories_interface
 			$entity->save();
 
 			// Change the parent
-			if ($parent_id != $entity->get_parent_id())
+			if ($this->data['parent_id'] != $entity->get_parent_id())
 			{
 				try
 				{
-					$this->operator->change_parent($entity->get_id(), $parent_id);
+					$this->operator->change_parent($entity->get_id(), $this->data['parent_id']);
 				}
 				catch (\vinabb\web\exceptions\base $e)
 				{
@@ -329,7 +328,7 @@ class portal_categories implements portal_categories_interface
 		else
 		{
 			// Add the new entity to the database
-			$entity = $this->operator->add_cat($entity, $parent_id);
+			$entity = $this->operator->add_cat($entity, $this->data['parent_id']);
 
 			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_CAT_ADD', time(), [$entity->get_name()]);
 
@@ -338,7 +337,7 @@ class portal_categories implements portal_categories_interface
 
 		$this->cache->clear_portal_cats();
 
-		trigger_error($this->language->lang($message) . adm_back_link("{$this->u_action}&parent_id={$parent_id}"));
+		trigger_error($this->language->lang($message) . adm_back_link("{$this->u_action}&parent_id={$this->data['parent_id']}"));
 	}
 
 	/**

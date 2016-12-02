@@ -49,6 +49,9 @@ class bb_categories
 	protected $u_action;
 
 	/** @var array */
+	protected $data;
+
+	/** @var array */
 	protected $errors;
 
 	/** @var int */
@@ -208,7 +211,7 @@ class bb_categories
 		add_form_key('acp_bb_categories');
 
 		// Get form data
-		$data = $this->request_data();
+		$this->request_data();
 
 		if ($submit)
 		{
@@ -219,7 +222,7 @@ class bb_categories
 			}
 
 			// Map and set data to the entity
-			$this->map_set_data($entity, $data);
+			$this->map_set_data($entity);
 
 			// Insert or update
 			if (!sizeof($this->errors))
@@ -244,7 +247,7 @@ class bb_categories
 	*/
 	protected function request_data()
 	{
-		return [
+		$this->data = [
 			'cat_name'		=> $this->request->variable('cat_name', '', true),
 			'cat_name_vi'	=> $this->request->variable('cat_name_vi', '', true),
 			'cat_varname'	=> $this->request->variable('cat_varname', ''),
@@ -257,19 +260,18 @@ class bb_categories
 	/**
 	* Map the form data fields to setters and set them to the entity
 	*
-	* @param \vinabb\web\entities\bb_category_interface	$entity	BB category entity
-	* @param array										$data	Form data
+	* @param \vinabb\web\entities\bb_category_interface $entity BB category entity
 	*/
-	protected function map_set_data(\vinabb\web\entities\bb_category_interface $entity, $data)
+	protected function map_set_data(\vinabb\web\entities\bb_category_interface $entity)
 	{
 		// Map the form data fields to setters
 		$map_fields = [
-			'set_name'		=> $data['cat_name'],
-			'set_name_vi'	=> $data['cat_name_vi'],
-			'set_varname'	=> $data['cat_varname'],
-			'set_desc'		=> $data['cat_desc'],
-			'set_desc_vi'	=> $data['cat_desc_vi'],
-			'set_icon'		=> $data['cat_icon']
+			'set_name'		=> $this->data['cat_name'],
+			'set_name_vi'	=> $this->data['cat_name_vi'],
+			'set_varname'	=> $this->data['cat_varname'],
+			'set_desc'		=> $this->data['cat_desc'],
+			'set_desc_vi'	=> $this->data['cat_desc_vi'],
+			'set_icon'		=> $this->data['cat_icon']
 		];
 
 		// Set the mapped data in the entity

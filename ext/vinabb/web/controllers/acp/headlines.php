@@ -43,6 +43,9 @@ class headlines implements headlines_interface
 	protected $u_action;
 
 	/** @var array */
+	protected $data;
+
+	/** @var array */
 	protected $errors;
 
 	/** @var array */
@@ -182,7 +185,7 @@ class headlines implements headlines_interface
 		add_form_key('acp_headlines');
 
 		// Get form data
-		$data = $this->request_data();
+		$this->request_data();
 
 		if ($submit)
 		{
@@ -193,12 +196,12 @@ class headlines implements headlines_interface
 			}
 
 			// Map and set data to the entity
-			$this->map_set_data($entity, $data);
+			$this->map_set_data($entity);
 
 			// Insert or update
 			if (!sizeof($this->errors))
 			{
-				$this->save_data($entity, $data['headline_lang']);
+				$this->save_data($entity);
 			}
 		}
 
@@ -217,7 +220,7 @@ class headlines implements headlines_interface
 	*/
 	protected function request_data()
 	{
-		return [
+		$this->data = [
 			'headline_lang'	=> $this->request->variable('headline_lang', ''),
 			'headline_name'	=> $this->request->variable('headline_name', '', true),
 			'headline_desc'	=> $this->request->variable('headline_desc', '', true),
@@ -229,17 +232,16 @@ class headlines implements headlines_interface
 	/**
 	* Map the form data fields to setters and set them to the entity
 	*
-	* @param \vinabb\web\entities\headline_interface	$entity	Headline entity
-	* @param array										$data	Form data
+	* @param \vinabb\web\entities\headline_interface $entity Headline entity
 	*/
-	protected function map_set_data(\vinabb\web\entities\headline_interface $entity, $data)
+	protected function map_set_data(\vinabb\web\entities\headline_interface $entity)
 	{
 		$map_fields = [
-			'set_lang'	=> $data['headline_lang'],
-			'set_name'	=> $data['headline_name'],
-			'set_desc'	=> $data['headline_desc'],
-			'set_img'	=> $data['headline_img'],
-			'set_url'	=> $data['headline_url']
+			'set_lang'	=> $this->data['headline_lang'],
+			'set_name'	=> $this->data['headline_name'],
+			'set_desc'	=> $this->data['headline_desc'],
+			'set_img'	=> $this->data['headline_img'],
+			'set_url'	=> $this->data['headline_url']
 		];
 
 		// Set the mapped data in the entity
@@ -262,10 +264,9 @@ class headlines implements headlines_interface
 	/**
 	* Insert or update data, then log actions and clear cache if needed
 	*
-	* @param \vinabb\web\entities\headline_interface	$entity Headline entity
-	* @param string										$lang	2-letter language ISO code
+	* @param \vinabb\web\entities\headline_interface $entity Headline entity
 	*/
-	protected function save_data(\vinabb\web\entities\headline_interface $entity, $lang)
+	protected function save_data(\vinabb\web\entities\headline_interface $entity)
 	{
 		if ($entity->get_id())
 		{
@@ -286,7 +287,7 @@ class headlines implements headlines_interface
 			$message = 'MESSAGE_HEADLINE_ADD';
 		}
 
-		$this->cache->clear_headlines($lang);
+		$this->cache->clear_headlines($this->data['headline_lang']);
 
 		trigger_error($this->language->lang($message) . adm_back_link($this->u_action));
 	}

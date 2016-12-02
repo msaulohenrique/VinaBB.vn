@@ -43,6 +43,9 @@ class bb_authors implements bb_authors_interface
 	protected $u_action;
 
 	/** @var array */
+	protected $data;
+
+	/** @var array */
 	protected $errors;
 
 	/**
@@ -165,7 +168,7 @@ class bb_authors implements bb_authors_interface
 		add_form_key('acp_bb_authors');
 
 		// Get form data
-		$data = $this->request_data();
+		$this->request_data();
 
 		if ($submit)
 		{
@@ -176,7 +179,7 @@ class bb_authors implements bb_authors_interface
 			}
 
 			// Map and set data to the entity
-			$this->map_set_data($entity, $data);
+			$this->map_set_data($entity);
 
 			// Insert or update
 			if (!sizeof($this->errors))
@@ -201,7 +204,7 @@ class bb_authors implements bb_authors_interface
 	*/
 	protected function request_data()
 	{
-		return [
+		$this->data = [
 			'user_id'				=> $this->request->variable('user_id', 0),
 			'author_name'			=> $this->request->variable('author_name', '', true),
 			'author_firstname'		=> $this->request->variable('author_firstname', '', true),
@@ -221,25 +224,24 @@ class bb_authors implements bb_authors_interface
 	/**
 	* Map the form data fields to setters and set them to the entity
 	*
-	* @param \vinabb\web\entities\bb_author_interface	$entity	BB author entity
-	* @param array										$data	Form data
+	* @param \vinabb\web\entities\bb_author_interface $entity BB author entity
 	*/
-	protected function map_set_data(\vinabb\web\entities\bb_author_interface $entity, $data)
+	protected function map_set_data(\vinabb\web\entities\bb_author_interface $entity)
 	{
 		$map_fields = [
-			'set_user_id'		=> $data['user_id'],
-			'set_name'			=> $data['author_name'],
-			'set_name_seo'		=> $data['author_name'],
-			'set_firstname'		=> $data['author_firstname'],
-			'set_lastname'		=> $data['author_lastname'],
-			'set_www'			=> $data['author_www'],
-			'set_email'			=> $data['author_email'],
-			'set_github'		=> $data['author_github'],
-			'set_facebook'		=> $data['author_facebook'],
-			'set_twitter'		=> $data['author_twitter'],
-			'set_google'		=> $data['author_google'],
-			'set_google_plus'	=> $data['author_google_plus'],
-			'set_skype'			=> $data['author_skype']
+			'set_user_id'		=> $this->data['user_id'],
+			'set_name'			=> $this->data['author_name'],
+			'set_name_seo'		=> $this->data['author_name'],
+			'set_firstname'		=> $this->data['author_firstname'],
+			'set_lastname'		=> $this->data['author_lastname'],
+			'set_www'			=> $this->data['author_www'],
+			'set_email'			=> $this->data['author_email'],
+			'set_github'		=> $this->data['author_github'],
+			'set_facebook'		=> $this->data['author_facebook'],
+			'set_twitter'		=> $this->data['author_twitter'],
+			'set_google'		=> $this->data['author_google'],
+			'set_google_plus'	=> $this->data['author_google_plus'],
+			'set_skype'			=> $this->data['author_skype']
 		];
 
 		// Set the mapped data in the entity

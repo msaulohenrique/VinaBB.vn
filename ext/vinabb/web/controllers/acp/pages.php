@@ -49,6 +49,9 @@ class pages implements pages_interface
 	protected $u_action;
 
 	/** @var array */
+	protected $data;
+
+	/** @var array */
 	protected $errors;
 
 	/**
@@ -181,7 +184,7 @@ class pages implements pages_interface
 		add_form_key('acp_pages');
 
 		// Get form data
-		$data = $this->request_data();
+		$this->request_data();
 
 		// Set the parse options to the entity
 		$this->set_bbcode_options($entity, $submit);
@@ -195,7 +198,7 @@ class pages implements pages_interface
 			}
 
 			// Map and set data to the entity
-			$this->map_set_data($entity, $data);
+			$this->map_set_data($entity);
 
 			// Insert or update
 			if (!sizeof($this->errors))
@@ -224,7 +227,7 @@ class pages implements pages_interface
 	*/
 	protected function request_data()
 	{
-		return [
+		$this->data = [
 			'page_name'					=> $this->request->variable('page_name', '', true),
 			'page_name_vi'				=> $this->request->variable('page_name_vi', '', true),
 			'page_varname'				=> $this->request->variable('page_varname', ''),
@@ -266,19 +269,18 @@ class pages implements pages_interface
 	/**
 	* Map the form data fields to setters and set them to the entity
 	*
-	* @param \vinabb\web\entities\page_interface	$entity	Page entity
-	* @param array									$data	Form data
+	* @param \vinabb\web\entities\page_interface $entity Page entity
 	*/
-	protected function map_set_data(\vinabb\web\entities\page_interface $entity, $data)
+	protected function map_set_data(\vinabb\web\entities\page_interface $entity)
 	{
 		$map_fields = [
-			'set_name'		=> $data['page_name'],
-			'set_name_vi'	=> $data['page_name_vi'],
-			'set_varname'	=> $data['page_varname'],
-			'set_desc'		=> $data['page_desc'],
-			'set_desc_vi'	=> $data['page_desc_vi'],
-			'set_text'		=> $data['page_text'],
-			'set_text_vi'	=> $data['page_text_vi']
+			'set_name'		=> $this->data['page_name'],
+			'set_name_vi'	=> $this->data['page_name_vi'],
+			'set_varname'	=> $this->data['page_varname'],
+			'set_desc'		=> $this->data['page_desc'],
+			'set_desc_vi'	=> $this->data['page_desc_vi'],
+			'set_text'		=> $this->data['page_text'],
+			'set_text_vi'	=> $this->data['page_text_vi']
 		];
 
 		// Set the mapped data in the entity
