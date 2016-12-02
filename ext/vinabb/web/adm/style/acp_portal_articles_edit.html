@@ -20,7 +20,7 @@
 </div>
 {% endif %}
 
-<form id="acp_portal_articles" method="post" action="{{ U_ACTION }}">
+<form id="acp_portal_articles" method="post" action="{{ U_ACTION }}" enctype="multipart/form-data">
 	<fieldset>
 		<legend>{{ lang('ARTICLE_DETAILS') }}</legend>
 		<dl>
@@ -46,19 +46,26 @@
 			<dt><label for="article_desc">{{ lang('ARTICLE_DESC') ~ lang('COLON') }}</label></dt>
 			<dd><textarea name="article_desc" id="article_desc" cols="40" rows="3">{{ ARTICLE_DESC }}</textarea></dd>
 		</dl>
-		{% if ACTION == 'edit' %}
+		{% if S_EDIT %}
 		<dl>
 			<dt><label for="revision">{{ lang('ARTICLE_REVISION') ~ lang('COLON') }}</label></dt>
 			<dd><input type="checkbox" name="revision" id="revision" value="1"></dd>
 		</dl>
 		{% endif %}
 	</fieldset>
-	{% if ARTICLE_TEXT_PREVIEW %}
 	<fieldset>
-		<legend>{{ lang('PREVIEW') }}</legend>
-		<p>{{ ARTICLE_TEXT_PREVIEW }}</p>
+		<legend>{{ lang('ARTICLE_IMG') }}</legend>
+		{% if ARTICLE_IMG %}
+		<dl>
+			<dt style="width: 120px;"><label for="article_img">{{ lang('CURRENT_IMAGE') ~ lang('COLON') }}</label></dt>
+			<dd style="margin-{{ S_CONTENT_FLOW_BEGIN }}: 120px;"><img src="{{ ARTICLE_IMG }}"></dd>
+		</dl>
+		{% endif %}
+		<dl>
+			<dt style="width: 120px;"><label for="article_img">{{ lang('UPLOAD_NEW_IMAGE') ~ lang('COLON') }}</label></dt>
+			<dd style="margin-{{ S_CONTENT_FLOW_BEGIN }}: 120px;"><input type="file" name="article_img" id="article_img" class="inputbox autowidth"></dd>
+		</dl>
 	</fieldset>
-	{% endif %}
 	<fieldset>
 		<legend>{{ lang('ARTICLE_TEXT') }}</legend>
 		{% include 'acp_posting_buttons.html' %}

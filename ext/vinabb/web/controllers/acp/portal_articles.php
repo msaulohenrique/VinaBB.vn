@@ -19,8 +19,17 @@ class portal_articles implements portal_articles_interface
 	/** @var \vinabb\web\controllers\cache\service_interface */
 	protected $cache;
 
+	/** @var \phpbb\config\config */
+	protected $config;
+
 	/** @var ContainerInterface */
 	protected $container;
+
+	/** @var \phpbb\extension\manager */
+	protected $ext_manager;
+
+	/** @var \phpbb\filesystem\filesystem_interface */
+	protected $filesystem;
 
 	/** @var \phpbb\language\language */
 	protected $language;
@@ -37,11 +46,17 @@ class portal_articles implements portal_articles_interface
 	/** @var \phpbb\template\template */
 	protected $template;
 
+	/** @var \phpbb\files\upload */
+	protected $upload;
+
 	/** @var \phpbb\user */
 	protected $user;
 
 	/** @var \vinabb\web\controllers\helper_interface */
 	protected $ext_helper;
+
+	/** @var \phpbb\path_helper */
+	protected $path_helper;
 
 	/** @var string */
 	protected $root_path;
@@ -53,7 +68,13 @@ class portal_articles implements portal_articles_interface
 	protected $u_action;
 
 	/** @var array */
-	protected $errors;
+	protected $errors = [];
+
+	/** @var string */
+	protected $ext_root_path;
+
+	/** @var string */
+	protected $ext_web_path;
 
 	/** @var array */
 	protected $lang_data;
@@ -64,44 +85,61 @@ class portal_articles implements portal_articles_interface
 	/**
 	* Constructor
 	*
-	* @param \vinabb\web\controllers\cache\service_interface	$cache		Cache service
-	* @param ContainerInterface									$container	Container object
-	* @param \phpbb\language\language							$language	Language object
-	* @param \phpbb\log\log										$log		Log object
-	* @param \vinabb\web\operators\portal_article_interface		$operator	Article operators
-	* @param \phpbb\request\request								$request	Request object
-	* @param \phpbb\template\template							$template	Template object
-	* @param \phpbb\user										$user		User object
-	* @param \vinabb\web\controllers\helper_interface			$ext_helper	Extension helper
-	* @param string												$root_path	phpBB root path
-	* @param string												$php_ext	PHP file extension
+	* @param \vinabb\web\controllers\cache\service_interface	$cache			Cache service
+	* @param \phpbb\config\config								$config			Config object
+	* @param ContainerInterface									$container		Container object
+	* @param \phpbb\extension\manager							$ext_manager	Extension manager
+	* @param \phpbb\filesystem\filesystem_interface				$filesystem		Filesystem object
+	* @param \phpbb\language\language							$language		Language object
+	* @param \phpbb\log\log										$log			Log object
+	* @param \vinabb\web\operators\portal_article_interface		$operator		Article operators
+	* @param \phpbb\request\request								$request		Request object
+	* @param \phpbb\template\template							$template		Template object
+	* @param \phpbb\files\upload								$upload			Upload object
+	* @param \phpbb\user										$user			User object
+	* @param \vinabb\web\controllers\helper_interface			$ext_helper		Extension helper
+	* @param \phpbb\path_helper									$path_helper	Path helper
+	* @param string												$root_path		phpBB root path
+	* @param string												$php_ext		PHP file extension
 	*/
 	public function __construct(
 		\vinabb\web\controllers\cache\service_interface $cache,
+		\phpbb\config\config $config,
 		ContainerInterface $container,
+		\phpbb\extension\manager $ext_manager,
+		\phpbb\filesystem\filesystem_interface $filesystem,
 		\phpbb\language\language $language,
 		\phpbb\log\log $log,
 		\vinabb\web\operators\portal_article_interface $operator,
 		\phpbb\request\request $request,
 		\phpbb\template\template $template,
+		\phpbb\files\upload $upload,
 		\phpbb\user $user,
 		\vinabb\web\controllers\helper_interface $ext_helper,
+		\phpbb\path_helper $path_helper,
 		$root_path,
 		$php_ext
 	)
 	{
 		$this->cache = $cache;
+		$this->config = $config;
 		$this->container = $container;
+		$this->ext_manager = $ext_manager;
+		$this->filesystem = $filesystem;
 		$this->language = $language;
 		$this->log = $log;
 		$this->operator = $operator;
 		$this->request = $request;
 		$this->template = $template;
+		$this->upload = $upload;
 		$this->user = $user;
 		$this->ext_helper = $ext_helper;
+		$this->path_helper = $path_helper;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 
+		$this->ext_root_path = $this->ext_manager->get_extension_path('vinabb/web', true);
+		$this->ext_web_path = $this->path_helper->update_web_root_path($this->ext_root_path);
 		$this->lang_data = $this->cache->get_lang_data();
 		$this->cat_data = $this->cache->get_portal_cats();
 	}
@@ -252,7 +290,7 @@ class portal_articles implements portal_articles_interface
 			'user_id'			=> $this->user->data['user_id'],
 			'article_name'		=> $this->request->variable('article_name', '', true),
 			'article_lang'		=> $this->request->variable('article_lang', ''),
-			'article_img'		=> $this->request->variable('article_img', ''),
+			'article_img'		=> $this->upload_article_img('article_img'),
 			'article_desc'		=> $this->request->variable('article_desc', '', true),
 			'article_text'		=> $this->request->variable('article_text', '', true),
 			'text_bbcode'		=> $this->request->variable('text_bbcode', true),
@@ -356,6 +394,7 @@ class portal_articles implements portal_articles_interface
 	{
 		$this->template->assign_vars([
 			'ARTICLE_NAME'			=> $entity->get_name(),
+			'ARTICLE_IMG'			=> ($entity->get_img() != '') ? $this->ext_web_path . constants::DIR_ARTICLE_IMAGES . $entity->get_img() : '',
 			'ARTICLE_DESC'			=> $entity->get_desc(),
 			'ARTICLE_TEXT'			=> $entity->get_text_for_edit(),
 			'ARTICLE_TEXT_BBCODE'	=> $entity->text_bbcode_enabled(),
@@ -447,5 +486,76 @@ class portal_articles implements portal_articles_interface
 				'S_SELECTED'	=> $option->get_id() == $cat_id
 			]);
 		}
+	}
+
+	/**
+	* Check if we are able to upload a file
+	*
+	* @return bool
+	*/
+	protected function can_upload()
+	{
+		return (file_exists($this->ext_root_path . constants::DIR_ARTICLE_IMAGES) && $this->filesystem->is_writable($this->ext_root_path . constants::DIR_ARTICLE_IMAGES) && (ini_get('file_uploads') || strtolower(ini_get('file_uploads')) == 'on'));
+	}
+
+	/**
+	* Upload article image
+	*
+	* @return string Filename
+	*/
+	protected function upload_article_img($form_name)
+	{
+		if (!$this->can_upload())
+		{
+			return '';
+		}
+
+		$this->upload->set_error_prefix('ERROR_' . strtoupper($form_name) . '_')
+			->set_allowed_extensions(constants::FILE_EXTENSION_IMAGES)
+			->set_disallowed_content((isset($this->config['mime_triggers']) ? explode('|', $this->config['mime_triggers']) : false));
+
+		$upload_file = $this->request->file($form_name);
+
+		if (!empty($upload_file['name']))
+		{
+			$file = $this->upload->handle_upload('files.types.form', $form_name);
+		}
+		else
+		{
+			return '';
+		}
+
+		// If there was an error during upload, then abort operation
+		if (sizeof($file->error))
+		{
+			$file->remove();
+			$this->errors = array_merge($this->errors, $file->error);
+
+			return '';
+		}
+
+		// Set new destination
+		$destination = $this->ext_helper->remove_trailing_slash($this->ext_root_path . constants::DIR_ARTICLE_IMAGES);
+
+		// Move file and overwrite any existing image
+		if (!sizeof($this->errors))
+		{
+			$file->move_file($destination, true);
+		}
+
+		// If there was an error during move, then clean up leftovers
+		if (sizeof($file->error))
+		{
+			$this->errors = array_merge($this->errors, $file->error);
+		}
+
+		if (sizeof($this->errors))
+		{
+			$file->remove();
+
+			return '';
+		}
+
+		return $file->get('realname');
 	}
 }

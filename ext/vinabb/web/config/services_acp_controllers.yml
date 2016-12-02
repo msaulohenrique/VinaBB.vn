@@ -28,14 +28,19 @@ services:
         class: vinabb\web\controllers\acp\portal_articles
         arguments:
             - '@vinabb.web.cache'
+            - '@config'
             - '@service_container'
+            - '@ext.manager'
+            - '@filesystem'
             - '@language'
             - '@log'
             - '@vinabb.web.operators.portal_article'
             - '@request'
             - '@template'
+            - '@files.upload'
             - '@user'
             - '@vinabb.web.helper'
+            - '@path_helper'
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.acp.bb_categories:
