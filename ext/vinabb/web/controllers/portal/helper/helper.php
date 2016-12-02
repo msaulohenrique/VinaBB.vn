@@ -30,6 +30,9 @@ class helper implements helper_interface
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \phpbb\extension\manager */
+	protected $ext_manager;
+
 	/** @var \phpbb\language\language */
 	protected $language;
 
@@ -57,6 +60,9 @@ class helper implements helper_interface
 	/** @var string */
 	protected $root_path;
 
+	/** @var string */
+	protected $ext_root_path;
+
 	/** @var array */
 	protected $forum_data;
 
@@ -71,6 +77,7 @@ class helper implements helper_interface
 	* @param \phpbb\config\config								$config				Config object
 	* @param \phpbb\content_visibility							$content_visibility	Content visibility
 	* @param \phpbb\db\driver\driver_interface					$db					Database object
+	* @param \phpbb\extension\manager							$ext_manager		Extension manager
 	* @param \phpbb\language\language							$language			Language object
 	* @param \phpbb\notification\manager						$notification		Notification manager
 	* @param \vinabb\web\controllers\pagination					$pagination			Pagination object
@@ -87,6 +94,7 @@ class helper implements helper_interface
 		\phpbb\config\config $config,
 		\phpbb\content_visibility $content_visibility,
 		\phpbb\db\driver\driver_interface $db,
+		\phpbb\extension\manager $ext_manager,
 		\phpbb\language\language $language,
 		\phpbb\notification\manager $notification,
 		\vinabb\web\controllers\pagination $pagination,
@@ -103,6 +111,7 @@ class helper implements helper_interface
 		$this->config = $config;
 		$this->content_visibility = $content_visibility;
 		$this->db = $db;
+		$this->ext_manager = $ext_manager;
 		$this->language = $language;
 		$this->notification = $notification;
 		$this->pagination = $pagination;
@@ -113,6 +122,7 @@ class helper implements helper_interface
 		$this->ext_helper = $ext_helper;
 		$this->root_path = $root_path;
 
+		$this->ext_root_path = $this->ext_manager->get_extension_path('vinabb/web', true);
 		$this->forum_data = $this->cache->get_forum_data();
 		$this->portal_cats = $this->cache->get_portal_cats();
 	}

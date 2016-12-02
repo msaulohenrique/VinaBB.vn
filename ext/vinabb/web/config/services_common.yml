@@ -57,6 +57,7 @@ services:
             - '@config'
             - '@content.visibility'
             - '@dbal.conn'
+            - '@ext.manager'
             - '@language'
             - '@notification_manager'
             - '@vinabb.web.pagination'
