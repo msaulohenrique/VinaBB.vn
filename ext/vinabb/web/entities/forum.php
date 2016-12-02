@@ -8,13 +8,13 @@
 
 namespace vinabb\web\entities;
 
-use vinabb\web\entities\sub\forum_options;
+use vinabb\web\entities\sub\forum_data;
 use vinabb\web\includes\constants;
 
 /**
 * Entity for a single forum
 */
-class forum extends forum_options implements forum_interface
+class forum extends forum_data implements forum_interface
 {
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
@@ -45,13 +45,15 @@ class forum extends forum_options implements forum_interface
 	protected function prepare_data()
 	{
 		return [
-			'forum_id'					=> 'integer',
-			'parent_id'					=> 'integer',
-			'left_id'					=> 'integer',
-			'right_id'					=> 'integer',
-			'forum_parents'				=> 'string',
-			'forum_name'				=> 'string',
-			'forum_name_seo'			=> 'string',
+			'forum_id'			=> 'integer',
+			'parent_id'			=> 'integer',
+			'left_id'			=> 'integer',
+			'right_id'			=> 'integer',
+			'forum_parents'		=> 'string',
+			'forum_name'		=> 'string',
+			'forum_name_seo'	=> 'string',
+
+			// Entity: vinabb\web\entities\sub\forum_data
 			'forum_type'				=> 'integer',
 			'forum_status'				=> 'integer',
 			'forum_topics_per_page'		=> 'integer',
@@ -363,139 +365,5 @@ class forum extends forum_options implements forum_interface
 		$this->data['forum_name_seo'] = $text;
 
 		return $this;
-	}
-
-	/**
-	* Get the forum type
-	*
-	* @return int
-	*/
-	public function get_type()
-	{
-		return isset($this->data['forum_type']) ? (int) $this->data['forum_type'] : FORUM_CAT;
-	}
-
-	/**
-	* Set the forum type
-	*
-	* @param int				$value	Forum type
-	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\out_of_bounds
-	*/
-	public function set_type($value)
-	{
-		$value = (int) $value;
-
-		if (!in_array($value, [FORUM_CAT, FORUM_POST, FORUM_LINK]))
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('forum_type');
-		}
-
-		// Set the value on our data array
-		$this->data['forum_type'] = $value;
-
-		return $this;
-	}
-
-	/**
-	* Get the forum status
-	*
-	* @return int
-	*/
-	public function get_status()
-	{
-		return isset($this->data['forum_status']) ? (int) $this->data['forum_status'] : ITEM_UNLOCKED;
-	}
-
-	/**
-	* Set the forum status
-	*
-	* @param int				$value	Forum status
-	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\out_of_bounds
-	*/
-	public function set_status($value)
-	{
-		$value = (int) $value;
-
-		if (!in_array($value, [ITEM_UNLOCKED, ITEM_LOCKED]))
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('forum_status');
-		}
-
-		// Set the value on our data array
-		$this->data['forum_status'] = $value;
-
-		return $this;
-	}
-
-	/**
-	* Get the number of topics per page in this forum
-	*
-	* @return int
-	*/
-	public function get_topics_per_page()
-	{
-		return isset($this->data['forum_topics_per_page']) ? (int) $this->data['forum_topics_per_page'] : 0;
-	}
-
-	/**
-	* Get the number of approved topics
-	*
-	* @return int
-	*/
-	public function get_topics_approved()
-	{
-		return isset($this->data['forum_topics_approved']) ? (int) $this->data['forum_topics_approved'] : 0;
-	}
-
-	/**
-	* Get the number of disapproved topics
-	*
-	* @return int
-	*/
-	public function get_topics_unapproved()
-	{
-		return isset($this->data['forum_topics_unapproved']) ? (int) $this->data['forum_topics_unapproved'] : 0;
-	}
-
-	/**
-	* Get the number of soft-deleted topics
-	*
-	* @return int
-	*/
-	public function get_topics_softdeleted()
-	{
-		return isset($this->data['forum_topics_softdeleted']) ? (int) $this->data['forum_topics_softdeleted'] : 0;
-	}
-
-	/**
-	* Get the number of approved posts
-	*
-	* @return int
-	*/
-	public function get_posts_approved()
-	{
-		return isset($this->data['forum_posts_approved']) ? (int) $this->data['forum_posts_approved'] : 0;
-	}
-
-	/**
-	* Get the number of disapproved posts
-	*
-	* @return int
-	*/
-	public function get_posts_unapproved()
-	{
-		return isset($this->data['forum_posts_unapproved']) ? (int) $this->data['forum_posts_unapproved'] : 0;
-	}
-
-	/**
-	* Get the number of soft-deleted posts
-	*
-	* @return int
-	*/
-	public function get_posts_softdeleted()
-	{
-		return isset($this->data['forum_posts_softdeleted']) ? (int) $this->data['forum_posts_softdeleted'] : 0;
 	}
 }
