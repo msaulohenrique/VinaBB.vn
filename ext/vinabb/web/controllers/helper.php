@@ -477,6 +477,29 @@ class helper implements helper_interface
 	}
 
 	/**
+	* Remove trailing slash in destination path
+	*
+	* @param string $destination Destination path
+	* @return string
+	*/
+	public function remove_trailing_slash($destination)
+	{
+		if (substr($destination, -1, 1) == '/' || substr($destination, -1, 1) == '\\')
+		{
+			$destination = substr($destination, 0, -1);
+		}
+
+		$destination = str_replace(['../', '..\\', './', '.\\'], '', $destination);
+
+		if ($destination && ($destination[0] == '/' || $destination[0] == '\\'))
+		{
+			$destination = '';
+		}
+
+		return $destination;
+	}
+
+	/**
 	* List phpBB resource items with pagination
 	*
 	* @param int	$bb_type	phpBB resource type in constant value

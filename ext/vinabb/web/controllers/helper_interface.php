@@ -111,6 +111,14 @@ interface helper_interface
 	public function load_sceditor();
 
 	/**
+	* Remove trailing slash in destination path
+	*
+	* @param string $destination Destination path
+	* @return string
+	*/
+	public function remove_trailing_slash($destination);
+
+	/**
 	* List phpBB resource items with pagination
 	*
 	* @param int	$bb_type	phpBB resource type in constant value
