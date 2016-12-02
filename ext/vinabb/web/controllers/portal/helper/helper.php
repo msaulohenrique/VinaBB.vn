@@ -30,9 +30,6 @@ class helper implements helper_interface
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var \phpbb\extension\manager */
-	protected $ext_manager;
-
 	/** @var \phpbb\language\language */
 	protected $language;
 
@@ -57,17 +54,8 @@ class helper implements helper_interface
 	/** @var \vinabb\web\controllers\helper_interface */
 	protected $ext_helper;
 
-	/** @var \phpbb\path_helper */
-	protected $path_helper;
-
 	/** @var string */
 	protected $root_path;
-
-	/** @var string */
-	protected $ext_root_path;
-
-	/** @var string */
-	protected $ext_web_path;
 
 	/** @var array */
 	protected $forum_data;
@@ -78,22 +66,20 @@ class helper implements helper_interface
 	/**
 	* Constructor
 	*
-	* @param \phpbb\auth\auth $auth
-	* @param \vinabb\web\controllers\cache\service_interface $cache
-	* @param \phpbb\config\config $config
-	* @param \phpbb\content_visibility $content_visibility
-	* @param \phpbb\db\driver\driver_interface $db
-	* @param \phpbb\extension\manager $ext_manager
-	* @param \phpbb\language\language $language
-	* @param \phpbb\notification\manager $notification
-	* @param \vinabb\web\controllers\pagination $pagination
-	* @param \phpbb\request\request $request
-	* @param \phpbb\template\template $template
-	* @param \phpbb\user $user
-	* @param \phpbb\controller\helper $helper
-	* @param \vinabb\web\controllers\helper_interface $ext_helper
-	* @param \phpbb\path_helper $path_helper
-	* @param string $root_path
+	* @param \phpbb\auth\auth									$auth				Authentication object
+	* @param \vinabb\web\controllers\cache\service_interface	$cache				Cache service
+	* @param \phpbb\config\config								$config				Config object
+	* @param \phpbb\content_visibility							$content_visibility	Content visibility
+	* @param \phpbb\db\driver\driver_interface					$db					Database object
+	* @param \phpbb\language\language							$language			Language object
+	* @param \phpbb\notification\manager						$notification		Notification manager
+	* @param \vinabb\web\controllers\pagination					$pagination			Pagination object
+	* @param \phpbb\request\request								$request			Request object
+	* @param \phpbb\template\template							$template			Template object
+	* @param \phpbb\user										$user				User object
+	* @param \phpbb\controller\helper							$helper				Controller helper
+	* @param \vinabb\web\controllers\helper_interface			$ext_helper			Extension helper
+	* @param string												$root_path			phpBB root path
 	*/
 	public function __construct(
 		\phpbb\auth\auth $auth,
@@ -101,7 +87,6 @@ class helper implements helper_interface
 		\phpbb\config\config $config,
 		\phpbb\content_visibility $content_visibility,
 		\phpbb\db\driver\driver_interface $db,
-		\phpbb\extension\manager $ext_manager,
 		\phpbb\language\language $language,
 		\phpbb\notification\manager $notification,
 		\vinabb\web\controllers\pagination $pagination,
@@ -110,7 +95,6 @@ class helper implements helper_interface
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
 		\vinabb\web\controllers\helper_interface $ext_helper,
-		\phpbb\path_helper $path_helper,
 		$root_path
 	)
 	{
@@ -119,7 +103,6 @@ class helper implements helper_interface
 		$this->config = $config;
 		$this->content_visibility = $content_visibility;
 		$this->db = $db;
-		$this->ext_manager = $ext_manager;
 		$this->language = $language;
 		$this->notification = $notification;
 		$this->pagination = $pagination;
@@ -128,11 +111,8 @@ class helper implements helper_interface
 		$this->user = $user;
 		$this->helper = $helper;
 		$this->ext_helper = $ext_helper;
-		$this->path_helper = $path_helper;
 		$this->root_path = $root_path;
 
-		$this->ext_root_path = $this->ext_manager->get_extension_path('vinabb/web', true);
-		$this->ext_web_path = $this->path_helper->update_web_root_path($this->ext_root_path);
 		$this->forum_data = $this->cache->get_forum_data();
 		$this->portal_cats = $this->cache->get_portal_cats();
 	}
@@ -325,6 +305,7 @@ class helper implements helper_interface
 				'CATEGORY'	=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->portal_cats[$article_data['cat_id']]['name_vi'] : $this->portal_cats[$article_data['cat_id']]['name'],
 				'CAT_URL'	=> $this->helper->route('vinabb_web_portal_cat_route', ['varname' => $this->portal_cats[$article_data['cat_id']]['varname']]),
 				'NAME'		=> $article_data['name'],
+				'IMG'		=> $article_data['img'],
 				'DESC'		=> $article_data['desc'],
 				'TIME'		=> $this->user->format_date($article_data['time']),
 				'URL'		=> $this->helper->route('vinabb_web_portal_article_route', ['varname' => $this->portal_cats[$article_data['cat_id']]['varname'], 'article_id' => $article_data['id'], 'seo' => $article_data['name_seo'] . constants::REWRITE_URL_SEO]),

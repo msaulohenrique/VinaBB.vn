@@ -16,6 +16,7 @@ services:
         arguments:
             - '@vinabb.web.cache'
             - '@config'
+            - '@service_container'
             - '@dbal.conn'
             - '@language'
             - '@vinabb.web.pagination'
@@ -26,8 +27,6 @@ services:
             - '@vinabb.web.helper'
             - '%core.root_path%'
             - '%core.php_ext%'
-            - '%vinabb.web.tables.portal_articles%'
-            - '%vinabb.web.tables.portal_comments%'
     vinabb.web.bb:
         class: vinabb\web\controllers\bb\bb
         arguments:

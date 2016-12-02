@@ -57,7 +57,6 @@ services:
             - '@config'
             - '@content.visibility'
             - '@dbal.conn'
-            - '@ext.manager'
             - '@language'
             - '@notification_manager'
             - '@vinabb.web.pagination'
@@ -66,7 +65,6 @@ services:
             - '@user'
             - '@controller.helper'
             - '@vinabb.web.helper'
-            - '@path_helper'
             - '%core.root_path%'
     vinabb.web.helper.setting_tasks:
         class: vinabb\web\controllers\acp\helper\setting_tasks

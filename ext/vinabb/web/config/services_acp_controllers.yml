@@ -40,7 +40,6 @@ services:
             - '@files.upload'
             - '@user'
             - '@vinabb.web.helper'
-            - '@path_helper'
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.acp.bb_categories:

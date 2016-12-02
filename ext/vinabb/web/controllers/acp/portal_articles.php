@@ -55,9 +55,6 @@ class portal_articles implements portal_articles_interface
 	/** @var \vinabb\web\controllers\helper_interface */
 	protected $ext_helper;
 
-	/** @var \phpbb\path_helper */
-	protected $path_helper;
-
 	/** @var string */
 	protected $root_path;
 
@@ -75,9 +72,6 @@ class portal_articles implements portal_articles_interface
 
 	/** @var string */
 	protected $ext_root_path;
-
-	/** @var string */
-	protected $ext_web_path;
 
 	/** @var array */
 	protected $lang_data;
@@ -101,7 +95,6 @@ class portal_articles implements portal_articles_interface
 	* @param \phpbb\files\upload								$upload			Upload object
 	* @param \phpbb\user										$user			User object
 	* @param \vinabb\web\controllers\helper_interface			$ext_helper		Extension helper
-	* @param \phpbb\path_helper									$path_helper	Path helper
 	* @param string												$root_path		phpBB root path
 	* @param string												$php_ext		PHP file extension
 	*/
@@ -119,7 +112,6 @@ class portal_articles implements portal_articles_interface
 		\phpbb\files\upload $upload,
 		\phpbb\user $user,
 		\vinabb\web\controllers\helper_interface $ext_helper,
-		\phpbb\path_helper $path_helper,
 		$root_path,
 		$php_ext
 	)
@@ -137,12 +129,10 @@ class portal_articles implements portal_articles_interface
 		$this->upload = $upload;
 		$this->user = $user;
 		$this->ext_helper = $ext_helper;
-		$this->path_helper = $path_helper;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 
 		$this->ext_root_path = $this->ext_manager->get_extension_path('vinabb/web', true);
-		$this->ext_web_path = $this->path_helper->update_web_root_path($this->ext_root_path);
 		$this->lang_data = $this->cache->get_lang_data();
 		$this->cat_data = $this->cache->get_portal_cats();
 	}
@@ -259,9 +249,9 @@ class portal_articles implements portal_articles_interface
 			}
 
 			// Delete the old article image if uploaded a new one
-			if ($this->data['article_img'] != '' && $this->data['article_img'] != $entity->get_img())
+			if ($this->data['article_img'] != '' && $this->data['article_img'] != $entity->get_img(false, false))
 			{
-				$this->filesystem->remove($this->ext_root_path . constants::DIR_ARTICLE_IMAGES . $entity->get_img());
+				$this->filesystem->remove($entity->get_img(true));
 			}
 
 			// Map and set data to the entity
@@ -337,7 +327,7 @@ class portal_articles implements portal_articles_interface
 			'set_name'		=> $this->data['article_name'],
 			'set_name_seo'	=> $this->ext_helper->clean_url($this->data['article_name']),
 			'set_lang'		=> $this->data['article_lang'],
-			'set_img'		=> ($entity->get_id() && $this->data['article_img'] == '') ? $entity->get_img() : $this->data['article_img'],
+			'set_img'		=> ($entity->get_id() && $this->data['article_img'] == '') ? $entity->get_img(false, false) : $this->data['article_img'],
 			'set_desc'		=> $this->data['article_desc'],
 			'set_text'		=> $this->data['article_text'],
 			'set_time'		=> $this->data['article_time']
@@ -400,7 +390,7 @@ class portal_articles implements portal_articles_interface
 	{
 		$this->template->assign_vars([
 			'ARTICLE_NAME'			=> $entity->get_name(),
-			'ARTICLE_IMG'			=> ($entity->get_img() != '') ? $this->ext_web_path . constants::DIR_ARTICLE_IMAGES . $entity->get_img() : '',
+			'ARTICLE_IMG'			=> $entity->get_img(),
 			'ARTICLE_DESC'			=> $entity->get_desc(),
 			'ARTICLE_TEXT'			=> $entity->get_text_for_edit(),
 			'ARTICLE_TEXT_BBCODE'	=> $entity->text_bbcode_enabled(),

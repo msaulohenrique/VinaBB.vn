@@ -51,15 +51,15 @@ class portal implements portal_interface
 	/**
 	* Constructor
 	*
-	* @param \vinabb\web\controllers\cache\service_interface $cache
-	* @param \phpbb\config\config $config
-	* @param \phpbb\language\language $language
-	* @param \vinabb\web\controllers\pagination $pagination
-	* @param \phpbb\template\template $template
-	* @param \phpbb\user $user
-	* @param \phpbb\controller\helper $helper
-	* @param \vinabb\web\controllers\helper_interface $ext_helper
-	* @param \vinabb\web\controllers\portal\helper\helper_interface $portal_helper
+	* @param \vinabb\web\controllers\cache\service_interface		$cache			Cache service
+	* @param \phpbb\config\config									$config			Config object
+	* @param \phpbb\language\language								$language		Language object
+	* @param \vinabb\web\controllers\pagination						$pagination		Pagination object
+	* @param \phpbb\template\template								$template		Template object
+	* @param \phpbb\user											$user			User object
+	* @param \phpbb\controller\helper								$helper			Controller helper
+	* @param \vinabb\web\controllers\helper_interface				$ext_helper		Extension helper
+	* @param \vinabb\web\controllers\portal\helper\helper_interface	$portal_helper	Portal helper
 	*/
 	public function __construct(
 		\vinabb\web\controllers\cache\service_interface $cache,
@@ -206,6 +206,7 @@ class portal implements portal_interface
 				'CATEGORY'	=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->portal_cats[$row['cat_id']]['name_vi'] : $this->portal_cats[$row['cat_id']]['name'],
 				'CAT_URL'	=> $this->helper->route('vinabb_web_portal_cat_route', ['varname' => $this->portal_cats[$row['cat_id']]['varname']]),
 				'NAME'		=> $row['name'],
+				'IMG'		=> $row['img'],
 				'DESC'		=> $row['desc'],
 				'TIME'		=> $this->user->format_date($row['time']),
 				'URL'		=> $this->helper->route('vinabb_web_portal_article_route', ['varname' => $this->portal_cats[$row['cat_id']]['varname'], 'article_id' => $row['id'], 'seo' => $row['name_seo'] . constants::REWRITE_URL_SEO]),
