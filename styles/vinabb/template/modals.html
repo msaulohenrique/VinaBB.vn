@@ -1,0 +1,70 @@
+{# Login modal #}
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="{{ lang('CLOSE') }}"><span aria-hidden="true" class="fa fa-times-circle"></span></button>
+				<h3 class="modal-title">{{ lang('LOGIN') }}</h3>
+			</div>
+			<div class="modal-body">
+				<div class="modal-form">
+					<form method="post" action="{{ S_LOGIN_ACTION }}" role="form">
+						<div class="form-group">
+							<input type="text" name="username" class="form-control" placeholder="{{ lang('USERNAME') ~ lang('ELLIPSIS') }}">
+						</div>
+						<div class="form-group">
+							<input type="password" name="password" class="form-control" placeholder="{{ lang('PASSWORD') ~ lang('ELLIPSIS') }}">
+						</div>
+						<div class="clearfix">
+							{% if S_AUTOLOGIN_ENABLED %}
+							<div class="checkbox pull-{{ S_CONTENT_FLOW_BEGIN }}">
+								<label><input type="checkbox" name="autologin" checked> {{ lang('LOG_ME_IN') }}</label>
+							</div>
+							{% endif %}
+							<input type="submit" name="login" value="{{ lang('LOGIN') }}" class="btn btn-primary pull-{{ S_CONTENT_FLOW_END }}">
+						</div>
+						{{ S_LOGIN_REDIRECT }}
+					</form>
+					<hr>
+					<div class="text-center">
+						<p>{% if U_SEND_PASSWORD %}<a href="{{ U_SEND_PASSWORD }}">{{ lang('FORGOT_PASS') }}</a>{% endif %}{% if U_SEND_PASSWORD and S_REGISTER_ENABLED %} | {% endif %}{% if S_REGISTER_ENABLED %}<a href="{{ U_REGISTER }}">{{ lang('REGISTER') }}</a>{% endif %}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{# Map model #}
+{% if not S_SIMPLE_HEADER and MAP_API and MAP_LAT and MAP_LNG %}
+<div class="modal fade bs-example-modal-lg" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="mapModal">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="{{ lang('CLOSE') }}"><span aria-hidden="true" class="fa fa-times-circle"></span></button>
+				<h3 class="modal-title">{% if MAP_ADDRESS %}{{ MAP_ADDRESS }}{% if MAP_PHONE %} - {{ MAP_PHONE }}{% if MAP_PHONE_NAME %} ({{ MAP_PHONE_NAME }}){% endif %}{% endif %}{% else %}{{ lang('MAP') }}{% endif %}</h3>
+			</div>
+			<div class="modal-body">
+				<div id="markermap" style="width: 100%; height: 450px;"></div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+
+{# Debug modal #}
+{% if not S_SIMPLE_HEADER and S_FOUNDER and DEBUG_OUTPUT %}
+<div class="modal fade" id="debugModal" tabindex="-1" role="dialog" aria-labelledby="debugModal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="{{ lang('CLOSE') }}"><span aria-hidden="true" class="fa fa-times-circle"></span></button>
+				<h3 class="modal-title">{{ lang('DEBUG_INFO') }}</h3>
+			</div>
+			<div class="modal-body">
+				<p>{{ DEBUG_OUTPUT }}</p>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
