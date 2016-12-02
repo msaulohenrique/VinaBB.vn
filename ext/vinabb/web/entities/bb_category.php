@@ -322,7 +322,7 @@ class bb_category implements bb_category_interface
 		}
 
 		// Check invalid characters
-		if (!preg_match('#^[a-z0-9-]+$#', $text))
+		if (!preg_match(constants::REGEX_VARNAME, $text))
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['cat_varname', 'INVALID']);
 		}

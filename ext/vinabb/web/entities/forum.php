@@ -354,7 +354,7 @@ class forum extends forum_options implements forum_interface
 		$text = (string) $text;
 
 		// Check invalid characters
-		if (!preg_match('#^[a-z0-9-]+$#', $text))
+		if (!preg_match(constants::REGEX_SEO, $text))
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['forum_name_seo', 'INVALID']);
 		}

@@ -359,8 +359,10 @@ class portal_article extends article_text implements portal_article_interface
 	{
 		$text = (string) $text;
 
+		echo $text;
+
 		// Check invalid characters
-		if (!preg_match('#^[a-z0-9-]+$#', $text))
+		if (!preg_match(constants::REGEX_SEO, $text))
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['article_name_seo', 'INVALID']);
 		}

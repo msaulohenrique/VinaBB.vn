@@ -305,7 +305,7 @@ class bb_author extends author_social implements bb_author_interface
 		$text = strtolower($text);
 
 		// Check invalid characters
-		if (!preg_match('#^[a-z0-9-]+$#', $text))
+		if (!preg_match(constants::REGEX_SEO, $text))
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['author_name_seo', 'INVALID']);
 		}

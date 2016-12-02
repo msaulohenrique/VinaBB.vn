@@ -315,7 +315,7 @@ class page extends page_enable implements page_interface
 		}
 
 		// Check invalid characters
-		if (!preg_match('#^[a-z0-9-]+$#', $text))
+		if (!preg_match(constants::REGEX_VARNAME, $text))
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['page_varname', 'INVALID']);
 		}

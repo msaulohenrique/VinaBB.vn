@@ -389,7 +389,7 @@ class bb_item extends item_properties implements bb_item_interface
 		}
 
 		// Check invalid characters
-		$match = ($this->get_bb_type() === constants::BB_TYPE_EXT) ? '#^([a-z0-9-]+)\.([a-z0-9-]+)$#' : '#^[a-z0-9-]+$#';
+		$match = ($this->get_bb_type() === constants::BB_TYPE_EXT) ? constants::REGEX_VARNAME_EXT : constants::REGEX_VARNAME;
 
 		if (!preg_match($match, $text))
 		{

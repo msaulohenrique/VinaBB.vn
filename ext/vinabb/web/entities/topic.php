@@ -489,7 +489,7 @@ class topic extends topic_actions implements topic_interface
 		$text = (string) $text;
 
 		// Check invalid characters
-		if (!preg_match('#^[a-z0-9-]+$#', $text))
+		if (!preg_match(constants::REGEX_SEO, $text))
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['topic_title_seo', 'INVALID']);
 		}

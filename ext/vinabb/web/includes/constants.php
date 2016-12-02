@@ -126,6 +126,11 @@ class constants
 	const MAX_HEADLINE_NAME = 64;
 	const MAX_HEADLINE_DESC = 128;
 
+	// Regular expression match
+	const REGEX_SEO = '#^[a-z0-9-\.]+$#';
+	const REGEX_VARNAME = '#^[a-z0-9-]+$#';
+	const REGEX_VARNAME_EXT = '#^([a-z0-9-]+)\.([a-z0-9-]+)$#';
+
 	// Flag as new (in time: days, hours...)
 	const FLAG_DAY_NEW_ARTICLE = 3;
 	const FLAG_DAY_NEW_BB_ITEM = 1;
