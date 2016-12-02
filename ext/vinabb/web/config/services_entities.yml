@@ -93,7 +93,9 @@ services:
         shared: false
         arguments:
             - '@dbal.conn'
+            - '@ext.manager'
             - '@vinabb.web.helper.entity'
+            - '@path_helper'
             - '%vinabb.web.tables.portal_articles%'
             - '%vinabb.web.tables.portal_categories%'
     vinabb.web.entities.portal_comment:

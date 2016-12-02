@@ -19,8 +19,14 @@ class portal_article extends article_text implements portal_article_interface
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \phpbb\extension\manager */
+	protected $ext_manager;
+
 	/** @var \vinabb\web\entities\helper\helper_interface */
 	protected $entity_helper;
+
+	/** @var \phpbb\path_helper */
+	protected $path_helper;
 
 	/** @var string */
 	protected $table_name;
@@ -35,16 +41,30 @@ class portal_article extends article_text implements portal_article_interface
 	* Constructor
 	*
 	* @param \phpbb\db\driver\driver_interface				$db				Database object
+	* @param \phpbb\extension\manager						$ext_manager	Extension manager
 	* @param \vinabb\web\entities\helper\helper_interface	$entity_helper	Entity helper
+	* @param \phpbb\path_helper								$path_helper	Path helper
 	* @param string											$table_name		Table name
 	* @param string											$cat_table_name	Table name of categories
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \vinabb\web\entities\helper\helper_interface $entity_helper, $table_name, $cat_table_name)
+	public function __construct(
+		\phpbb\db\driver\driver_interface $db,
+		\phpbb\extension\manager $ext_manager,
+		\vinabb\web\entities\helper\helper_interface $entity_helper,
+		\phpbb\path_helper $path_helper,
+		$table_name,
+		$cat_table_name
+	)
 	{
 		$this->db = $db;
+		$this->ext_manager = $ext_manager;
 		$this->entity_helper = $entity_helper;
+		$this->path_helper = $path_helper;
 		$this->table_name = $table_name;
 		$this->cat_table_name = $cat_table_name;
+
+		$this->ext_root_path = $this->ext_manager->get_extension_path('vinabb/web', true);
+		$this->ext_web_path = $this->path_helper->update_web_root_path($this->ext_root_path);
 	}
 
 	/**
@@ -389,17 +409,21 @@ class portal_article extends article_text implements portal_article_interface
 	}
 
 	/**
-	* Get the article main image
+	* Get the article image
 	*
+	* @param bool	$real_path	True to return the path on filesystem, false to return the web access path
+	* @param bool	$full_path	True to return the path + filename, false to return only filename
 	* @return string
 	*/
-	public function get_img()
+	public function get_img($real_path = false, $full_path = true)
 	{
-		return isset($this->data['article_img']) ? (string) $this->data['article_img'] : '';
+		$path = $full_path ? ($real_path ? $this->ext_root_path : $this->ext_web_path) . constants::DIR_ARTICLE_IMAGES : '';
+
+		return !empty($this->data['article_img']) ? (string) $path . $this->data['article_img'] : '';
 	}
 
 	/**
-	* Set the article main image
+	* Set the article image
 	*
 	* @param string						$text	Article image
 	* @return portal_article_interface	$this	Object for chaining calls: load()->set()->save()

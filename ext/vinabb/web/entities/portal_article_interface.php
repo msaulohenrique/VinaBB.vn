@@ -144,14 +144,16 @@ interface portal_article_interface
 	public function set_lang($text);
 
 	/**
-	* Get the article main image
+	* Get the article image
 	*
+	* @param bool	$real_path	True to return the path on filesystem, false to return the web access path
+	* @param bool	$full_path	True to return the path + filename, false to return only filename
 	* @return string
 	*/
-	public function get_img();
+	public function get_img($real_path = false, $full_path = true);
 
 	/**
-	* Set the article main image
+	* Set the article image
 	*
 	* @param string						$text	Article image
 	* @return portal_article_interface	$this	Object for chaining calls: load()->set()->save()
