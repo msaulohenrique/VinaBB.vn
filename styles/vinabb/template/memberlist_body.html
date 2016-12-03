@@ -25,10 +25,18 @@
 	<div class="col-md-3 col-sm-6">
 		<div class="panel panel-default">
 			<div class="panel-body text-center">
+				{% if row.AVATAR_IMG %}
 				<span class="avatar avatar-lg{% if row.S_ONLINE %} avatar-online{% endif %}">
-					<a href="{{ row.U_VIEW_PROFILE }}"><img alt="{{ row.USERNAME }}" class="bg-light-dark" src="{{ row.AVATAR_IMG ?: T_THEME_PATH ~ '/images/no_avatar.png' }}"></a>
+					<a href="{{ row.U_VIEW_PROFILE }}"><img alt="{{ row.USERNAME }}" class="bg-light-dark" src="{{ row.AVATAR_IMG }}"></a>
 					{% if row.S_ONLINE %}<i></i>{% endif %}
 				</span>
+				{% else %}
+				<div class="avatar avatar-letter-lg{% if row.S_ONLINE %} avatar-online{% endif %} bg-{{ BG_COLOR ?: 'primary' }}">
+					<a href="{{ row.U_VIEW_PROFILE }}"><span class="initials">{{ row.USERNAME|slice(0, 2)|upper }}</span></a>
+					{% if row.S_ONLINE %}<i></i>{% endif %}
+				</div>
+				{% endif %}
+
 				<p class="lead margin-b-0 text-{{ BG_COLOR ?: 'info' }}">{{ row.USERNAME }}</p>
 				<p class="text-muted">{{ row.JOINED }}</p>
 				<p>

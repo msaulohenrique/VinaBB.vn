@@ -219,7 +219,7 @@ img.external-img {
 	img {
 		width: 100%;
 		max-width: 100%;
-		height: auto;
+		height: 100%;
 		border: 0 none;
 		border-radius: 1000px;
 	}
@@ -267,6 +267,65 @@ img.external-img {
 .avatar-xs {
 	width: 20px;
 	height: 20px;
+	i {
+		width: 7px;
+		height: 7px;
+	}
+}
+
+/* 2-letter avatar */
+@mixin avatar($size) {
+	width: $size;
+	height: $size;
+	background-color: $bg-primary;
+	text-align: center;
+	border-radius: 50%;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	.initials {
+		position: relative;
+		top: $size*0.25;
+		font-size: $size*0.5;
+		line-height: $size*0.5;
+		color: #fff;
+		font-family: "Courier New", monospace;
+		font-weight: bold;
+	}
+	i {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		border: 2px solid #fff;
+		border-radius: 100%;
+	}
+}
+
+.avatar-letter-lg {
+	@include avatar(100px);
+	i {
+		width: 20px;
+		height: 20px;
+	}
+}
+
+.avatar-letter-md {
+	@include avatar(50px);
+	i {
+		width: 12px;
+		height: 12px;
+	}
+}
+
+.avatar-letter-sm {
+	@include avatar(30px);
+	i {
+		width: 8px;
+		height: 8px;
+	}
+}
+
+.avatar-letter-xs {
+	@include avatar(20px);
 	i {
 		width: 7px;
 		height: 7px;
