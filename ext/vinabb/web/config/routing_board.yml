@@ -2,12 +2,11 @@ vinabb_web_board_forum_route:
     path: /forum/{seo}{forum_id}/{page}
     defaults:
         _controller: vinabb.web.board.forum:main
-        forum_id: 0
         seo: ''
         page: ''
     requirements:
-        forum_id: '\d*'
-        seo: '(|([a-z0-9-\.]*)(\.*))'
+        forum_id: '\d+'
+        seo: '(|([a-z0-9-]*)(\.*))'
         page: '(|((page-)(\d+)))'
 vinabb_web_board_topic_route:
     path: /f{forum_id}/topic/{seo}{topic_id}/{page}
