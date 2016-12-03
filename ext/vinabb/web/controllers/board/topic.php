@@ -1654,7 +1654,8 @@ class topic
 				'POST_AUTHOR'			=> ($poster_id != ANONYMOUS) ? $user_cache[$poster_id]['author_username'] : get_username_string('username', $poster_id, $row['username'], $row['user_colour'], $row['post_username']),
 				'U_POST_AUTHOR'			=> ($poster_id != ANONYMOUS) ? $user_cache[$poster_id]['author_profile'] : get_username_string('profile', $poster_id, $row['username'], $row['user_colour'], $row['post_username']),
 
-				'RANK_TITLE'		=> $user_cache[$poster_id]['rank_title'],
+				'RANK_TITLE_RAW'	=> $user_cache[$poster_id]['rank_title'],
+				'RANK_TITLE'		=> ($this->language->is_set(['RANK_TITLES', strtoupper($user_cache[$poster_id]['rank_title'])])) ? $this->language->lang(['RANK_TITLES', strtoupper($user_cache[$poster_id]['rank_title'])]) : $user_cache[$poster_id]['rank_title'],
 				'RANK_IMG'			=> $user_cache[$poster_id]['rank_image'],
 				'RANK_IMG_SRC'		=> $user_cache[$poster_id]['rank_image_src'],
 				'POSTER_JOINED'		=> $user_cache[$poster_id]['joined'],
