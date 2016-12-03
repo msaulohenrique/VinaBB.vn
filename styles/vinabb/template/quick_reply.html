@@ -1,0 +1,28 @@
+<form method="post" action="{{ U_QR_ACTION }}">
+
+<div class="row">
+	<div class="panel panel-default">
+		<div class="panel-body mail-compose">
+			<h3 class="font-300 text-primary"><i class="fa fa-bolt"></i> {{ lang('QUICKREPLY') }}</h3>
+
+			<hr class="clearfix">
+
+			<div class="form-group">
+				<label for="subject" class="col-sm-2 control-label">{{ lang('SUBJECT') ~ lang('COLON') }}</label>
+				<div class="col-sm-10"><input class="form-control" type="text" name="subject" id="subject" value="{{ SUBJECT }}"></div>
+			</div>
+
+			<br><br>
+			<textarea class="form-control" data-toggle="wysiwyg-editor" name="message" rows="10"></textarea>
+
+			<div class="mail-body text-center">
+				{{ S_FORM_TOKEN }}
+				{{ QR_HIDDEN_FIELDS }}
+				<input class="btn btn-primary" type="submit" name="post" value="{{ lang('SUBMIT') }}">
+				<input class="btn btn-default" type="submit" name="preview" value="{{ lang('FULL_EDITOR') }}">
+			</div>
+		</div>
+	</div>
+</div>
+
+</form>
