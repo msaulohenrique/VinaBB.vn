@@ -5,7 +5,7 @@ vinabb_web_board_forum_route:
         seo: ''
         page: ''
     requirements:
-        forum_id: '\d+'
+        forum_id: '\d*'
         seo: '(|([a-z0-9-]*)(\.*))'
         page: '(|((page-)(\d+)))'
 vinabb_web_board_topic_route:
