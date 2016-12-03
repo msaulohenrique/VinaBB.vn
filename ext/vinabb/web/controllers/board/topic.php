@@ -1873,6 +1873,9 @@ class topic
 
 			if ($s_quick_reply)
 			{
+				// Load the WYSIWYG editor
+				$this->ext_helper->load_sceditor();
+
 				$s_attach_sig = $this->config['allow_sig'] && $this->user->optionget('attachsig') && $this->auth->acl_get('f_sigs', $forum_id) && $this->auth->acl_get('u_sig');
 				$s_smilies = $this->config['allow_smilies'] && $this->user->optionget('smilies') && $this->auth->acl_get('f_smilies', $forum_id);
 				$s_bbcode = $this->config['allow_bbcode'] && $this->user->optionget('bbcode') && $this->auth->acl_get('f_bbcode', $forum_id);

@@ -1,22 +1,22 @@
 {% include 'overall_header.html' %}
 
-{% macro topic_buttons() %}
+{% set TOPIC_TOOLS %}
 <div class="row">
+	<div class="margin-b-20 pull-{{ S_CONTENT_FLOW_BEGIN }}">
 	{% if not S_IS_BOT and S_DISPLAY_REPLY_INFO %}
 		{% if S_IS_LOCKED %}
-			<a href="{{ U_POST_REPLY_TOPIC }}" class="btn btn-primary"><i class="fa fa-lock"></i> {{ lang('BUTTON_TOPIC_LOCKED') }}</a>
+			<a href="{{ U_POST_REPLY_TOPIC }}" class="btn btn-warning"><i class="fa fa-lock"></i> {{ lang('BUTTON_TOPIC_LOCKED') }}</a>
 		{% else %}
 			<a href="{{ U_POST_REPLY_TOPIC }}" class="btn btn-primary"><i class="fa fa-reply"></i> {{ lang('BUTTON_POST_REPLY') }}</a>
 		{% endif %}
 	{% endif %}
+	</div>
 
 	{% if pagination %}{% include 'pagination.html' %}{% endif %}
 </div>
-{% endmacro %}
+{% endset %}
 
-{% import _self as tpl %}
-
-{{ tpl.topic_buttons() }}
+{{ TOPIC_TOOLS }}
 
 {% for row in postrow %}
 
@@ -85,8 +85,8 @@
 </div>
 {% endfor %}
 
-<div class="row">
-	{% if pagination %}{% include 'pagination.html' %}{% endif %}
-</div>
+{% if S_QUICK_REPLY %}{% include 'quick_reply.html' %}{% endif %}
+
+{{ TOPIC_TOOLS }}
 
 {% include 'overall_footer.html' %}
