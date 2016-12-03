@@ -31,7 +31,7 @@
 					{% if row.S_ONLINE %}<i></i>{% endif %}
 				</span>
 				{% else %}
-				<div class="avatar avatar-letter-lg{% if row.S_ONLINE %} avatar-online{% endif %} bg-{{ BG_COLOR ?: 'primary' }}">
+				<div class="avatar avatar-letter-lg{% if row.S_ONLINE %} avatar-online{% endif %} bg-{{ BG_COLOR ?: 'info' }} opacity-80">
 					<a href="{{ row.U_VIEW_PROFILE }}"><span class="initials">{{ row.USERNAME|slice(0, 2)|upper }}</span></a>
 					{% if row.S_ONLINE %}<i></i>{% endif %}
 				</div>
