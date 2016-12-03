@@ -5,6 +5,20 @@
 </div>
 
 {% for row in postrow %}
+
+{% set BG_COLOR = '' %}
+{% if row.RANK_TITLE_RAW in ['FOUNDER', 'ADMINISTRATOR'] %}
+	{% set BG_COLOR = 'danger' %}
+{% elseif row.RANK_TITLE_RAW == 'DEVELOPER' %}
+	{% set BG_COLOR = 'primary' %}
+{% elseif row.RANK_TITLE_RAW == 'MANAGER' %}
+	{% set BG_COLOR = 'success' %}
+{% elseif row.RANK_TITLE_RAW == 'SUPPORTER' %}
+	{% set BG_COLOR = 'indigo' %}
+{% elseif row.RANK_TITLE_RAW in ['GLOBAL_MODERATOR', 'MODERATOR'] %}
+	{% set BG_COLOR = 'warning' %}
+{% endif %}
+
 <div class="row">
 	<div class="panel panel-{{ row.S_UNREAD_POST ? 'danger' : 'default'}}">
 		<div class="panel-body">
@@ -34,15 +48,19 @@
 
 				<div class="media-body padding-20">
 					<h4 class="text-danger font-300 margin-b-0">{{ row.POST_AUTHOR_FULL }}</h4>
+					{% if row.RANK_TITLE %}<small class="label label-{{ BG_COLOR ?: 'default' }}">{{ row.RANK_TITLE }}</small><br>{% endif %}
 					<small class="text-muted">{{ row.POST_DATE }}</small>
 				</div>
 			</div>
 
-			<p>{{ row.MESSAGE }}</p>
+			<p class="fontsize-15 text-justify">{{ row.MESSAGE }}</p>
+
 			<hr>
+
 			<div class="inbox-attachments margin-b-20">
 				<span>{{ row.SIGNATURE }}</span>
 			</div>
+
 			{% if row.S_UNREAD_POST %}
 			<div class="ribbon ribbon-badge ribbon-reverse ribbon-bottom ribbon-danger">
 				<span class="ribbon-inner">{{ lang('NEW') }}</span>
