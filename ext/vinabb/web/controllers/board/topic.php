@@ -1160,7 +1160,7 @@ class topic
 						'sig_bbcode_bitfield'	=> '',
 
 						'online'			=> false,
-						'avatar'			=> ($this->user->optionget('viewavatars')) ? phpbb_get_user_avatar($row) : '',
+						'avatar'			=> ($this->user->optionget('viewavatars')) ? (($row['user_avatar_type'] == 'avatar.driver.gravatar') ? $this->ext_helper->get_gravatar_url($row) : phpbb_get_user_avatar($row)) : '',
 						'rank_title'		=> '',
 						'rank_image'		=> '',
 						'rank_image_src'	=> '',
@@ -1213,7 +1213,7 @@ class topic
 						'viewonline'	=> $row['user_allow_viewonline'],
 						'allow_pm'		=> $row['user_allow_pm'],
 
-						'avatar'	=> ($this->user->optionget('viewavatars')) ? phpbb_get_user_avatar($row) : '',
+						'avatar'	=> ($this->user->optionget('viewavatars')) ? (($row['user_avatar_type'] == 'avatar.driver.gravatar') ? $this->ext_helper->get_gravatar_url($row) : phpbb_get_user_avatar($row)) : '',
 						'age'		=> '',
 
 						'rank_title'		=> '',
