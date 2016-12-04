@@ -708,3 +708,62 @@
 	border-top-color: transparent;
 	border-bottom-color: $bg-indigo;
 }
+
+.ribbon-teal .ribbon-inner {
+	background-color: $bg-teal;
+}
+
+.ribbon-teal.ribbon-bookmark .ribbon-inner:before {
+	border-color: $bg-teal;
+	border-right-color: transparent;
+}
+
+.ribbon-teal.ribbon-bookmark.ribbon-reverse .ribbon-inner:before {
+	border-right-color: $bg-teal;
+	border-left-color: transparent;
+}
+
+.ribbon-teal.ribbon-bookmark.ribbon-vertical .ribbon-inner:before {
+	border-right-color: $bg-teal;
+	border-bottom-color: transparent;
+}
+
+.ribbon-teal.ribbon-bookmark.ribbon-vertical.ribbon-reverse .ribbon-inner:before {
+	border-right-color: $bg-teal;
+	border-bottom-color: transparent;
+	border-left-color: $bg-teal;
+}
+
+.ribbon-teal.ribbon-corner .ribbon-inner {
+	background-color: transparent;
+}
+
+.ribbon-teal.ribbon-corner .ribbon-inner:before {
+	border-top-color: $bg-teal;
+	border-left-color: $bg-teal;
+}
+
+.ribbon-teal.ribbon-corner.ribbon-reverse .ribbon-inner:before {
+	border-right-color: $bg-teal;
+	border-left-color: transparent;
+}
+
+.ribbon-teal.ribbon-corner.ribbon-bottom .ribbon-inner:before {
+	border-top-color: transparent;
+	border-bottom-color: $bg-teal;
+}
+
+.ribbon-teal .ribbon-inner:after {
+	border-top-color: $bg-teal;
+	border-right-color: $bg-teal;
+}
+
+.ribbon-teal.ribbon-reverse .ribbon-inner:after {
+	border-right-color: transparent;
+	border-left-color: $bg-teal;
+}
+
+.ribbon-teal.ribbon-bottom .ribbon-inner:after {
+	border-top-color: transparent;
+	border-bottom-color: $bg-teal;
+}
