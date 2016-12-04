@@ -252,18 +252,6 @@ $(document).ready(function()
 		radioClass: 'iradio_flat-blue'
 	});
 
-	// Left nav scroll
-	$('.nano').nanoScroller();
-
-	// Left menu collapse
-	$('.left-nav-toggle a').on('click',
-		function(event)
-		{
-			event.preventDefault();
-			$('body').toggleClass('nav-toggle');
-		}
-	);
-
 	// Right panel collapse
 	$('.right-sidebar-toggle').on('click',
 		function(event)
@@ -273,9 +261,6 @@ $(document).ready(function()
 			$('.right-sidebar-toggle i').toggleClass('fa-chevron-circle-right');
 		}
 	);
-
-	// Menu
-	$('#menu').metisMenu();
 
 	// Slim scroll
 	$('.scrollDiv').slimScroll({
