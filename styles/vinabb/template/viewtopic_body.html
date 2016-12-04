@@ -24,7 +24,7 @@
 {% if row.RANK_TITLE_RAW in ['FOUNDER', 'ADMINISTRATOR'] %}
 	{% set BG_COLOR = 'danger' %}
 {% elseif row.RANK_TITLE_RAW == 'DEVELOPER' %}
-	{% set BG_COLOR = 'primary' %}
+	{% set BG_COLOR = 'teal' %}
 {% elseif row.RANK_TITLE_RAW == 'MANAGER' %}
 	{% set BG_COLOR = 'success' %}
 {% elseif row.RANK_TITLE_RAW == 'SUPPORTER' %}
@@ -49,25 +49,25 @@
 
 			<div class="media margin-b-20">
 				{% if row.POSTER_AVATAR %}
-				<div class="avatar avatar-lg{% if row.S_ONLINE and not row.S_POST_HIDDEN %} avatar-online{% endif %} pull-left padding-0">
+				<div class="avatar avatar-lg{% if row.S_ONLINE and not row.S_POST_HIDDEN %} avatar-online{% endif %} pull-{{ S_CONTENT_FLOW_BEGIN }} padding-0">
 					<a href="{{ row.U_POST_AUTHOR }}"><img alt="{{ row.POST_AUTHOR }}" class="bg-light-dark" src="{{ row.POSTER_AVATAR }}"></a>
-					{% if row.S_ONLINE and not row.S_POST_HIDDEN %}<i></i>{% endif %}
+					{% if row.S_ONLINE and not row.S_POST_HIDDEN %}<i data-tooltip="true" data-placement="left" title="{{ lang('ONLINE') }}"></i>{% endif %}
 				</div>
 				{% else %}
-				<div class="avatar avatar-letter-lg{% if row.S_ONLINE and not row.S_POST_HIDDEN %} avatar-online{% endif %} pull-left padding-0">
+				<div class="avatar avatar-letter-lg{% if row.S_ONLINE and not row.S_POST_HIDDEN %} avatar-online{% endif %} bg-{{ BG_COLOR ?: 'primary' }} pull-{{ S_CONTENT_FLOW_BEGIN }} padding-0">
 					<a href="{{ row.U_POST_AUTHOR }}"><span class="initials">{{ row.POST_AUTHOR|slice(0, 2)|upper }}</span></a>
-					{% if row.S_ONLINE and not row.S_POST_HIDDEN %}<i></i>{% endif %}
+					{% if row.S_ONLINE and not row.S_POST_HIDDEN %}<i data-tooltip="true" data-placement="left" title="{{ lang('ONLINE') }}"></i>{% endif %}
 				</div>
 				{% endif %}
 
 				<div class="media-body padding-20">
-					<h4 class="text-danger font-300 margin-b-0">{{ row.POST_AUTHOR_FULL }}</h4>
+					<h4 class="text-danger font-400 margin-b-0">{{ row.POST_AUTHOR_FULL }}</h4>
 					{% if row.RANK_TITLE %}<small class="label label-{{ BG_COLOR ?: 'default' }}">{{ row.RANK_TITLE }}</small><br>{% endif %}
 					<small class="text-muted">{{ row.POST_DATE }}</small>
 				</div>
 			</div>
 
-			<p class="fontsize-15 text-justify">{{ row.MESSAGE }}</p>
+			<div class="fontsize-15 text-justify"><p>{{ row.MESSAGE }}</p></div>
 
 			<hr>
 
