@@ -25,3 +25,17 @@ Source code on VinaBB.vn without private bits.
   * Copy `style.min.css` to `styles/vinabb/theme/css/`.
 * Install the style "VinaBB".
 * Have done 😊
+
+## Patch minified JS files (When update a newer version)
+* `highlight.min.js`
+  * Find `template_from_string`, add to range `lang`.
+    * `{{ lang('ABC') }}`
+  * Find `number_format`, add to range `e`.
+    * `{{ ABC|e('js') }}`
+  * Find `verbatim`, add to range `EVENT`.
+    * `{% EVENT abc %}`
+* `jquery.sceditor.bbcode.min.js`
+  * Find and remove `&&"en"!==c.locale`.
+    * Allow to override the English translation.
+  * Find `src:d.url||d,`, in-line add after `width:16,height:16,`.
+    * Set emoticon width/height to 16x16 pixels.
