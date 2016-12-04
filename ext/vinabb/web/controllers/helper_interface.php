@@ -119,6 +119,15 @@ interface helper_interface
 	public function remove_trailing_slash($destination);
 
 	/**
+	* Build gravatar URL for output on page
+	*
+	* @param array $row User data or group data that has been cleaned with
+	*        \phpbb\avatar\manager::clean_row
+	* @return string Gravatar URL
+	*/
+	public function get_gravatar_url($row);
+
+	/**
 	* List phpBB resource items with pagination
 	*
 	* @param int	$bb_type	phpBB resource type in constant value

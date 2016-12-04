@@ -43,6 +43,9 @@ class common implements EventSubscriberInterface
 	/** @var \vinabb\web\events\helper\helper_interface */
 	protected $event_helper;
 
+	/** @var \vinabb\web\controllers\helper_interface */
+	protected $ext_helper;
+
 	/** @var \phpbb\path_helper */
 	protected $path_helper;
 
@@ -67,6 +70,7 @@ class common implements EventSubscriberInterface
 	* @param \phpbb\user $user
 	* @param \phpbb\controller\helper $helper
 	* @param \vinabb\web\events\helper\helper_interface $event_helper
+	* @param \vinabb\web\controllers\helper_interface $ext_helper
 	* @param \phpbb\path_helper $path_helper
 	* @param string $php_ext
 	*/
@@ -80,6 +84,7 @@ class common implements EventSubscriberInterface
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
 		\vinabb\web\events\helper\helper_interface $event_helper,
+		\vinabb\web\controllers\helper_interface $ext_helper,
 		\phpbb\path_helper $path_helper,
 		$php_ext
 	)
@@ -93,6 +98,7 @@ class common implements EventSubscriberInterface
 		$this->user = $user;
 		$this->helper = $helper;
 		$this->event_helper = $event_helper;
+		$this->ext_helper = $ext_helper;
 		$this->path_helper = $path_helper;
 		$this->php_ext = $php_ext;
 
@@ -266,7 +272,7 @@ class common implements EventSubscriberInterface
 		// If Gravatar, only return the attribute src="..."
 		if ($data['user_avatar_type'] == 'avatar.driver.gravatar')
 		{
-			$template_data['AVATAR_IMG'] = $this->get_gravatar_url($data);
+			$template_data['AVATAR_IMG'] = $this->ext_helper->get_gravatar_url($data);
 		}
 
 		// Translate the rank title RANK_TITLE with the original value RANK_TITLE_RAW
@@ -305,24 +311,5 @@ class common implements EventSubscriberInterface
 		$online_users = $event['online_users'];
 
 		$this->template->assign_var('TOTAL_ONLINE_USERS', $online_users['total_online']);
-	}
-
-	/**
-	* Build gravatar URL for output on page
-	*
-	* @param array $row User data or group data that has been cleaned with
-	*        \phpbb\avatar\manager::clean_row
-	* @return string Gravatar URL
-	*/
-	protected function get_gravatar_url($row)
-	{
-		$url =  '//secure.gravatar.com/avatar/' . md5(strtolower(trim($row['user_avatar'])));
-
-		if ($row['user_avatar_width'] || $row['user_avatar_height'])
-		{
-			$url .= '?s=' . max($row['user_avatar_width'], $row['user_avatar_height']);
-		}
-
-		return $url;
 	}
 }

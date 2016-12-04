@@ -11,6 +11,7 @@ services:
             - '@user'
             - '@controller.helper'
             - '@vinabb.web.helper.event'
+            - '@vinabb.web.helper'
             - '@path_helper'
             - '%core.php_ext%'
         tags:

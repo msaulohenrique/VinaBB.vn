@@ -500,6 +500,25 @@ class helper implements helper_interface
 	}
 
 	/**
+	* Build gravatar URL for output on page
+	*
+	* @param array $row User data or group data that has been cleaned with
+	*        \phpbb\avatar\manager::clean_row
+	* @return string Gravatar URL
+	*/
+	public function get_gravatar_url($row)
+	{
+		$url =  '//secure.gravatar.com/avatar/' . md5(strtolower(trim($row['user_avatar'])));
+
+		if ($row['user_avatar_width'] || $row['user_avatar_height'])
+		{
+			$url .= '?s=' . max($row['user_avatar_width'], $row['user_avatar_height']);
+		}
+
+		return $url;
+	}
+
+	/**
 	* List phpBB resource items with pagination
 	*
 	* @param int	$bb_type	phpBB resource type in constant value
