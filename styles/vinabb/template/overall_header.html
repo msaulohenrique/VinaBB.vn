@@ -5,6 +5,13 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
+	{# For sharing via Google+ #}
+	{% if S_PORTAL_ARTICLE %}
+	<meta property="og:title" content="{{ ARTICLE_NAME }}">
+	<meta property="og:image" content="{{ ARTICLE_IMG }}">
+	<meta property="og:description" content="{{ ARTICLE_DESC }}">
+	{% endif %}
+
 	<title>{{ PAGE_TITLE }}</title>
 
 	<link rel="apple-touch-icon" href="{{ T_THEME_PATH }}/images/apple-touch-icon.png">

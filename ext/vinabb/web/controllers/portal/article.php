@@ -144,11 +144,17 @@ class article implements article_interface
 				$this->ext_helper->set_breadcrumb($this->language->lang('PORTAL_ARTICLE'));
 
 				$this->template->assign_vars([
-					'ARTICLE_NAME'	=> $entity->get_name(),
-					'ARTICLE_IMG'	=> $entity->get_img(),
-					'ARTICLE_DESC'	=> $entity->get_desc(),
-					'ARTICLE_TEXT'	=> $entity->get_text_for_display(),
-					'ARTICLE_TIME'	=> $this->user->format_date($entity->get_time())
+					'ARTICLE_NAME'			=> $entity->get_name(),
+					'ARTICLE_NAME_SHARE'	=> html_entity_decode($entity->get_name()),
+					'ARTICLE_IMG'			=> $entity->get_img(),
+					'ARTICLE_DESC'			=> $entity->get_desc(),
+					'ARTICLE_DESC_SHARE'	=> html_entity_decode($entity->get_desc()),
+					'ARTICLE_TEXT'			=> $entity->get_text_for_display(),
+					'ARTICLE_TIME'			=> $this->user->format_date($entity->get_time()),
+
+					'ARTICLE_SHARE_URL'	=> generate_board_url(true) . $this->helper->route('vinabb_web_portal_article_route', ['varname' => $cat_varname, 'seo' => $entity->get_name_seo() . constants::REWRITE_URL_SEO, 'article_id' => $article_id]),
+
+					'S_PORTAL_ARTICLE'	=> true
 				]);
 			}
 		}
