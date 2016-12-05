@@ -272,5 +272,8 @@ $(document).ready(function()
 
 	// Tooltip and popover
 	$('[data-tooltip="true"]').tooltip();
-	$('[data-popover="true"]').popover();
+	$('[data-popover="true"]').popover({
+		trigger: 'hover',
+		html: true
+	});
 });
