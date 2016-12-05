@@ -2,40 +2,52 @@
 
 <div class="panel panel-default">
 	<div class="panel-body">
-		<div class="pull-right">
-			<button type="button" class="btn btn-default btn-sm">
-				<em class="fa fa-print"></em>
+		<div class="pull-{{ S_CONTENT_FLOW_END }}">
+			<button type="button" onclick="javascript: window.print();" data-tooltip="true" data-placement="left" title="{{ lang('PRINT') }}" class="btn btn-border btn-primary btn-sm">
+				<i class="fa fa-print"></i>
 			</button>
 		</div>
 		<h3 class="font-300">{{ ARTICLE_NAME }}</h3>
+
 		<hr class="clearfix">
+
 		{% if ARTICLE_IMG %}
 		<img src="{{ ARTICLE_IMG }}" alt="{{ ARTICLE_NAME }}" class="img-responsive center-block">
 		{% endif %}
+
 		<div class="media margin-b-20">
-			<a class="pull-left" href="#"> <img class="media-object img-circle" src="{{ T_THEME_PATH }}/images/no_avatar.png" width="40" alt=""> </a>
+			<a class="pull-{{ S_CONTENT_FLOW_BEGIN }}" href="{{ U_AUTHOR }}"><img class="media-object img-circle" src="{{ T_THEME_PATH }}/images/no_avatar.png" width="40" alt="{{ AUTHOR_USERNAME }}"></a>
 			<div class="media-body">
-				<span class=" pull-right">
-					<a href="https://www.facebook.com/sharer/sharer.php?u={{ ARTICLE_SHARE_URL|url_encode }}&title={{ ARTICLE_NAME_SHARE|url_encode }}&description={{ ARTICLE_DESC_SHARE|url_encode }}&picture={{ ARTICLE_IMG|url_encode }}" target="_blank" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false;" class="btn btn-facebook"><i class="fa fa-facebook"></i> {{ lang('FACEBOOK') }}</a>
-					<a href="https://twitter.com/share?url={{ ARTICLE_SHARE_URL|url_encode }}&text={{ ARTICLE_NAME_SHARE|url_encode }}" target="_blank" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false;" class="btn btn-twitter"><i class="fa fa-twitter"></i> {{ lang('TWITTER') }}</a>
-					<a href="https://plus.google.com/share?url={{ ARTICLE_SHARE_URL|url_encode }}" target="_blank" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false;" class="btn btn-googleplus"><i class="fa fa-google-plus"></i> {{ lang('GOOGLEPLUS') }}</a>
+				<span class="pull-{{ S_CONTENT_FLOW_END }}">
+					<a href="https://www.facebook.com/sharer/sharer.php?u={{ ARTICLE_SHARE_URL|url_encode }}&title={{ ARTICLE_NAME_SHARE|url_encode }}&description={{ ARTICLE_DESC_SHARE|url_encode }}&picture={{ ARTICLE_IMG|url_encode }}" target="_blank" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false;" data-tooltip="true" data-placement="left" title="{{ lang('SHARE_ON', lang('FACEBOOK')) }}" class="btn btn-facebook"><i class="fa fa-facebook"></i></a>
+					<a href="https://twitter.com/share?url={{ ARTICLE_SHARE_URL|url_encode }}&text={{ ARTICLE_NAME_SHARE|url_encode }}" target="_blank" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false;" data-tooltip="true" data-placement="left" title="{{ lang('SHARE_ON', lang('TWITTER')) }}" class="btn btn-twitter"><i class="fa fa-twitter"></i></a>
+					<a href="https://plus.google.com/share?url={{ ARTICLE_SHARE_URL|url_encode }}" target="_blank" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false;" data-tooltip="true" data-placement="left" title="{{ lang('SHARE_ON', lang('GOOGLEPLUS')) }}" class="btn btn-googleplus"><i class="fa fa-google-plus"></i></a>
 				</span>
-				<h4 class="text-danger font-300 margin-b-0">John Doe</h4>
+				<h4 class="font-400 margin-b-0">{{ AUTHOR }}</h4>
 				<small class="text-muted">{{ ARTICLE_TIME }}</small>
 			</div>
 		</div>
 
-		<blockquote>{{ ARTICLE_DESC }}</blockquote>
-		<p class="fontsize-15 text-justify">{{ ARTICLE_TEXT }}</p>
+		<div class="fontsize-15 text-justify">
+			<blockquote>{{ ARTICLE_DESC }}</blockquote>
+			<p>{{ ARTICLE_TEXT }}</p>
+		</div>
 
 		<hr>
 
-		<div class="inbox-attachments margin-b-20">
-			<span>2 Attachments - </span>
-			<a href="#">Download All Attachments</a>
-			<a href="#">Download All Images</a>
+		<div class="margin-b-20 text-{{ S_CONTENT_FLOW_END }}">
+			<span>{{ SITENAME }}</span>
 		</div>
 	</div>
+</div>
+
+{# Only for printer #}
+<div class="printer">
+	<h1>{{ ARTICLE_NAME }}</h1>
+	<p>{{ ARTICLE_SHARE_URL }}</p>
+
+	<p><strong><em>{{ ARTICLE_DESC }}</em></strong></p>
+	<p>{{ ARTICLE_TEXT }}</p>
 </div>
 
 {% include 'overall_footer.html' %}
