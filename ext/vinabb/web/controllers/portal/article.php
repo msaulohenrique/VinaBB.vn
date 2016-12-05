@@ -143,6 +143,9 @@ class article implements article_interface
 				$this->ext_helper->set_breadcrumb($category_name, $this->helper->route('vinabb_web_portal_cat_route', ['varname' => $cat_varname]));
 				$this->ext_helper->set_breadcrumb($this->language->lang('PORTAL_ARTICLE'));
 
+				// Author info
+				$this->get_author_info($entity->get_user_id());
+
 				$this->template->assign_vars([
 					'ARTICLE_NAME'			=> $entity->get_name(),
 					'ARTICLE_NAME_SHARE'	=> html_entity_decode($entity->get_name()),
@@ -160,5 +163,20 @@ class article implements article_interface
 		}
 
 		return $this->helper->render('portal_article.html', $page_title);
+	}
+
+	/**
+	* Generate template variables for the article author
+	*
+	* @param int $user_id User ID
+	*/
+	protected function get_author_info($user_id)
+	{
+		$this->template->assign_vars([
+			'AUTHOR'			=> $this->ext_helper->get_username_string($user_id),
+			'AUTHOR_USERNAME'	=> $this->ext_helper->get_username_string($user_id, 'username'),
+
+			'U_AUTHOR'	=> $this->ext_helper->get_username_string($user_id, 'profile')
+		]);
 	}
 }
