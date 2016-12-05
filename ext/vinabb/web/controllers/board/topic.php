@@ -1151,9 +1151,10 @@ class topic
 				if ($poster_id == ANONYMOUS)
 				{
 					$user_cache_data = [
-						'user_type'	=> USER_IGNORE,
-						'joined'	=> '',
-						'posts'		=> '',
+						'user_type'		=> USER_IGNORE,
+						'joined'		=> '',
+						'last_active'	=> '',
+						'posts'			=> '',
 
 						'sig'					=> '',
 						'sig_bbcode_uid'		=> '',
@@ -1202,9 +1203,10 @@ class topic
 						'user_type'				=> $row['user_type'],
 						'user_inactive_reason'	=> $row['user_inactive_reason'],
 
-						'joined'	=> $this->user->format_date($row['user_regdate']),
-						'posts'		=> $row['user_posts'],
-						'warnings'	=> (isset($row['user_warnings'])) ? $row['user_warnings'] : 0,
+						'joined'		=> $this->user->format_date($row['user_regdate']),
+						'last_active'	=> $this->user->format_date($row['user_lastvisit']),
+						'posts'			=> $row['user_posts'],
+						'warnings'		=> (isset($row['user_warnings'])) ? $row['user_warnings'] : 0,
 
 						'sig'					=> $user_sig,
 						'sig_bbcode_uid'		=> (!empty($row['user_sig_bbcode_uid'])) ? $row['user_sig_bbcode_uid'] : '',
@@ -1293,6 +1295,7 @@ class topic
 
 			while ($row = $this->db->sql_fetchrow($result))
 			{
+				$user_cache[$row['session_user_id']]['last_active'] = $this->user->format_date($row['online_time']);
 				$user_cache[$row['session_user_id']]['online'] = (time() - $update_time < $row['online_time'] && (($row['viewonline']) || $this->auth->acl_get('u_viewonline'))) ? true : false;
 			}
 			$this->db->sql_freeresult($result);
@@ -1654,16 +1657,17 @@ class topic
 				'POST_AUTHOR'			=> ($poster_id != ANONYMOUS) ? $user_cache[$poster_id]['author_username'] : get_username_string('username', $poster_id, $row['username'], $row['user_colour'], $row['post_username']),
 				'U_POST_AUTHOR'			=> ($poster_id != ANONYMOUS) ? $user_cache[$poster_id]['author_profile'] : get_username_string('profile', $poster_id, $row['username'], $row['user_colour'], $row['post_username']),
 
-				'RANK_TITLE_RAW'	=> $user_cache[$poster_id]['rank_title'],
-				'RANK_TITLE'		=> ($this->language->is_set(['RANK_TITLES', strtoupper($user_cache[$poster_id]['rank_title'])])) ? $this->language->lang(['RANK_TITLES', strtoupper($user_cache[$poster_id]['rank_title'])]) : $user_cache[$poster_id]['rank_title'],
-				'RANK_IMG'			=> $user_cache[$poster_id]['rank_image'],
-				'RANK_IMG_SRC'		=> $user_cache[$poster_id]['rank_image_src'],
-				'POSTER_JOINED'		=> $user_cache[$poster_id]['joined'],
-				'POSTER_POSTS'		=> $user_cache[$poster_id]['posts'],
-				'POSTER_AVATAR'		=> $user_cache[$poster_id]['avatar'],
-				'POSTER_WARNINGS'	=> $this->auth->acl_get('m_warn') ? $user_cache[$poster_id]['warnings'] : '',
-				'POSTER_AGE'		=> $user_cache[$poster_id]['age'],
-				'CONTACT_USER'		=> $user_cache[$poster_id]['contact_user'],
+				'RANK_TITLE_RAW'		=> $user_cache[$poster_id]['rank_title'],
+				'RANK_TITLE'			=> ($this->language->is_set(['RANK_TITLES', strtoupper($user_cache[$poster_id]['rank_title'])])) ? $this->language->lang(['RANK_TITLES', strtoupper($user_cache[$poster_id]['rank_title'])]) : $user_cache[$poster_id]['rank_title'],
+				'RANK_IMG'				=> $user_cache[$poster_id]['rank_image'],
+				'RANK_IMG_SRC'			=> $user_cache[$poster_id]['rank_image_src'],
+				'POSTER_JOINED'			=> $user_cache[$poster_id]['joined'],
+				'POSTER_LAST_ACTIVE'	=> $user_cache[$poster_id]['last_active'],
+				'POSTER_POSTS'			=> $user_cache[$poster_id]['posts'],
+				'POSTER_AVATAR'			=> $user_cache[$poster_id]['avatar'],
+				'POSTER_WARNINGS'		=> $this->auth->acl_get('m_warn') ? $user_cache[$poster_id]['warnings'] : '',
+				'POSTER_AGE'			=> $user_cache[$poster_id]['age'],
+				'CONTACT_USER'			=> $user_cache[$poster_id]['contact_user'],
 
 				'POST_DATE'			=> $this->user->format_date($row['post_time'], false, ($view == 'print') ? true : false),
 				'POST_SUBJECT'		=> $row['post_subject'],
@@ -1675,12 +1679,10 @@ class topic
 				'DELETE_REASON'		=> $row['post_delete_reason'],
 				'BUMPED_MESSAGE'	=> $l_bumped_by,
 
-				'MINI_POST_IMG'			=> ($post_unread) ? $this->user->img('icon_post_target_unread', 'UNREAD_POST') : $this->user->img('icon_post_target', 'POST'),
 				'POST_ICON_IMG'			=> ($topic_data['enable_icons'] && !empty($row['icon_id'])) ? $icons[$row['icon_id']]['img'] : '',
 				'POST_ICON_IMG_WIDTH'	=> ($topic_data['enable_icons'] && !empty($row['icon_id'])) ? $icons[$row['icon_id']]['width'] : '',
 				'POST_ICON_IMG_HEIGHT'	=> ($topic_data['enable_icons'] && !empty($row['icon_id'])) ? $icons[$row['icon_id']]['height'] : '',
 				'POST_ICON_IMG_ALT' 	=> ($topic_data['enable_icons'] && !empty($row['icon_id'])) ? $icons[$row['icon_id']]['alt'] : '',
-				'ONLINE_IMG'			=> ($poster_id == ANONYMOUS || !$this->config['load_onlinetrack']) ? '' : (($user_cache[$poster_id]['online']) ? $this->user->img('icon_user_online', 'ONLINE') : $this->user->img('icon_user_offline', 'OFFLINE')),
 				'S_ONLINE'				=> ($poster_id == ANONYMOUS || !$this->config['load_onlinetrack']) ? false : (($user_cache[$poster_id]['online']) ? true : false),
 
 				'U_EDIT'			=> ($edit_allowed) ? append_sid("{$this->root_path}posting.{$this->php_ext}", "mode=edit&amp;f=$forum_id&amp;p={$row['post_id']}") : '',
