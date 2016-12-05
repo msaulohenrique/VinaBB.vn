@@ -231,6 +231,26 @@ img.external-img {
 	display:  none;
 }
 
+/* Media */
+.poster-info {
+	.media-body {
+		width: auto;
+	}
+}
+
+/* Popover */
+.popover{
+	max-width: 100%;
+}
+
+.popover-title {
+	color: #777;
+}
+
+.popover-content {
+	color: #777;
+}
+
 /* Avatar */
 .avatar{
 	position: relative;
