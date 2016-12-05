@@ -21,6 +21,9 @@ class user extends user_data implements user_interface
 	/** @var \vinabb\web\entities\helper\helper_interface */
 	protected $entity_helper;
 
+	/** @var \phpbb\language\language */
+	protected $language;
+
 	/** @var array */
 	protected $data;
 
@@ -29,11 +32,13 @@ class user extends user_data implements user_interface
 	*
 	* @param \phpbb\db\driver\driver_interface				$db				Database object
 	* @param \vinabb\web\entities\helper\helper_interface	$entity_helper	Entity helper
+	* @param \phpbb\language\language						$language		Language object
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \vinabb\web\entities\helper\helper_interface $entity_helper)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \vinabb\web\entities\helper\helper_interface $entity_helper, \phpbb\language\language $language)
 	{
 		$this->db = $db;
 		$this->entity_helper = $entity_helper;
+		$this->language = $language;
 	}
 
 	/**
@@ -298,7 +303,7 @@ class user extends user_data implements user_interface
 	*/
 	public function get_username()
 	{
-		return isset($this->data['username']) ? (string) $this->data['username'] : '';
+		return ($this->get_id() == ANONYMOUS) ? $this->language->lang('GUEST') : (isset($this->data['username']) ? (string) $this->data['username'] : '');
 	}
 
 	/**
