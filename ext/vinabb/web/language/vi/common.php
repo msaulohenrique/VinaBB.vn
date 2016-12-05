@@ -224,6 +224,7 @@ $lang = array_merge($lang, [
 	'LANG_SWITCH'				=> '%1$s » %2$s',
 	'LANG_VERSION'				=> 'Phiên bản gói ngôn ngữ',
 	'LANGUAGE'					=> 'Ngôn ngữ',
+	'LAST_ACTIVE'				=> 'Truy cập lần cuối',
 	'LATEST_ACP_STYLES'			=> 'Giao diện quản trị mới',
 	'LATEST_EXTS'				=> 'Gói mở rộng mới',
 	'LATEST_IVN'				=> 'Gói Việt hóa',
@@ -296,6 +297,7 @@ $lang = array_merge($lang, [
 	'PORTAL_ARTICLE'			=> 'Bài viết',
 	'POWERED_BY'				=> 'Sử dụng phần mềm <a href="https://www.phpbb.com/" data-tooltip="true" title="&copy; phpBB Limited">phpBB</a> <i class="fa fa-heart animate-pulse text-danger"></i>',
 	'PRICE'						=> 'Giá',
+	'PRINT'						=> 'In',
 
 	'RANK_TITLES'	=> [
 		'ADMINISTRATOR'		=> 'Quản trị viên',
@@ -315,6 +317,8 @@ $lang = array_merge($lang, [
 	'SELECT_OS'				=> 'Chọn hệ điều hành',
 	'SELECT_PHPBB_VERSION'	=> 'Chọn phiên bản phpBB',
 	'SELECT_VERSION'		=> 'Chọn phiên bản',
+	'SHARE'					=> 'Chia sẻ',
+	'SHARE_ON'				=> 'Chia sẻ trên %s',
 	'STYLE_DETAILS'			=> 'Thông tin giao diện',
 	'STYLE_NAME'			=> 'Tên giao diện',
 	'STYLE_VERSION'			=> 'Phiên bản giao diện',

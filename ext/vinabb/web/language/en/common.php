@@ -224,6 +224,7 @@ $lang = array_merge($lang, [
 	'LANG_SWITCH'				=> '%1$s » %2$s',
 	'LANG_VERSION'				=> 'Language package version',
 	'LANGUAGE'					=> 'Language',
+	'LAST_ACTIVE'				=> 'Last active',
 	'LATEST_ACP_STYLES'			=> 'New ACP styles',
 	'LATEST_EXTS'				=> 'New extensions',
 	'LATEST_IVN'				=> 'Vietnamese',
@@ -296,6 +297,7 @@ $lang = array_merge($lang, [
 	'PORTAL_ARTICLE'			=> 'Article',
 	'POWERED_BY'				=> 'Powered by <a href="https://www.phpbb.com/" data-tooltip="true" title="Forum software &copy; phpBB Limited">phpBB</a> with <i class="fa fa-heart animate-pulse text-danger"></i>',
 	'PRICE'						=> 'Price',
+	'PRINT'						=> 'Print',
 
 	'RANK_TITLES'	=> [
 		'ADMINISTRATOR'		=> 'Administrator',
@@ -315,6 +317,8 @@ $lang = array_merge($lang, [
 	'SELECT_OS'				=> 'Select an OS',
 	'SELECT_PHPBB_VERSION'	=> 'Select a phpBB version',
 	'SELECT_VERSION'		=> 'Select a version',
+	'SHARE'					=> 'Share',
+	'SHARE_ON'				=> 'Share on %s',
 	'STYLE_DETAILS'			=> 'Style information',
 	'STYLE_NAME'			=> 'Style name',
 	'STYLE_VERSION'			=> 'Style version',
