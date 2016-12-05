@@ -23,6 +23,7 @@ services:
         arguments:
             - '@dbal.conn'
             - '@vinabb.web.helper.entity'
+            - '@language'
     vinabb.web.entities.forum:
         class: vinabb\web\entities\forum
         shared: false
