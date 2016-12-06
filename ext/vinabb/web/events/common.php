@@ -175,7 +175,7 @@ class common implements EventSubscriberInterface
 		$this->template->assign_vars([
 			'S_VIETNAMESE'	=> $this->user->lang_name == constants::LANG_VIETNAMESE,
 
-			'T_JS_LANG_PATH'	=> "{$this->ext_web_path}language/{$this->user->lang_name}/js",
+			'T_LANG_PATH'	=> "{$this->ext_web_path}language/{$this->user->lang_name}",
 
 			'U_MCP'				=> ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? $this->helper->route('vinabb_web_mcp_route', [], true, $this->user->session_id) : '',
 			'U_CONTACT_PM'		=> ($this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm') && $this->config['vinabb_web_manager_user_id']) ? $this->helper->route('vinabb_web_ucp_route', ['id' => 'pm', 'mode' => 'compose', 'u' => $this->config['vinabb_web_manager_user_id']]) : '',
