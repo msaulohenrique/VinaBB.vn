@@ -18,6 +18,7 @@ Source code on VinaBB.vn without private bits.
   * Copy all files from `styles/vinabb/theme/contrib/scss/*.scss` to the directory `scss` of Float.
   * Open `style.scss`, add at the end:
 ```css
+@import '_plugins.scss';
 @import '_ribbon.scss';
 @import '_custom.scss';
 ```
