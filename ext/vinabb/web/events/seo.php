@@ -59,13 +59,20 @@ class seo implements EventSubscriberInterface
 	*/
 	public function submit_post_modify_sql_data($event)
 	{
-		// Adjust topic SEO title based on topic title
-		if (in_array($event['post_mode'], ['post', 'edit_topic', 'edit_first_post']))
+		// Adjust SEO titles based on the original topic titles, post subjects
+		$sql_data = $event['sql_data'];
+
+		if (in_array($event['post_mode'], ['post', 'edit_topic', 'edit', 'edit_first_post', 'edit_last_post', 'reply', 'quote']))
 		{
-			$sql_data = $event['sql_data'];
-			$sql_data[TOPICS_TABLE]['sql']['topic_title_seo'] = $this->ext_helper->clean_url($sql_data[TOPICS_TABLE]['sql']['topic_title']);
-			$event['sql_data'] = $sql_data;
+			if (in_array($event['post_mode'], ['post', 'edit_topic', 'edit_first_post']))
+			{
+				$sql_data[TOPICS_TABLE]['sql']['topic_title_seo'] = $this->ext_helper->clean_url($sql_data[TOPICS_TABLE]['sql']['topic_title']);
+			}
+
+			$sql_data[POSTS_TABLE]['sql']['post_subject_seo'] = $this->ext_helper->clean_url($sql_data[POSTS_TABLE]['sql']['post_subject']);
 		}
+
+		$event['sql_data'] = $sql_data;
 	}
 
 	/**
