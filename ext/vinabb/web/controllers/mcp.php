@@ -180,6 +180,7 @@ class mcp
 
 			if (!$allow_user)
 			{
+				send_status_line(403, 'Forbidden');
 				trigger_error('NOT_AUTHORISED');
 			}
 		}
@@ -187,6 +188,7 @@ class mcp
 		// If the user cannot read the forum he tries to access then we won't allow mcp access either
 		if ($forum_id && !$this->auth->acl_get('f_read', $forum_id))
 		{
+			send_status_line(403, 'Forbidden');
 			trigger_error('NOT_AUTHORISED');
 		}
 

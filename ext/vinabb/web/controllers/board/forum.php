@@ -188,6 +188,7 @@ class forum implements forum_interface
 		{
 			if ($this->user->data['user_id'] != ANONYMOUS)
 			{
+				send_status_line(403, 'Forbidden');
 				trigger_error('SORRY_AUTH_READ');
 			}
 

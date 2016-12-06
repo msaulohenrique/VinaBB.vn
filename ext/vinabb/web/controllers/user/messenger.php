@@ -96,6 +96,7 @@ class messenger implements messenger_interface
 
 		if (!$this->auth->acl_get('u_sendim'))
 		{
+			send_status_line(403, 'Forbidden');
 			trigger_error('NOT_AUTHORISED');
 		}
 

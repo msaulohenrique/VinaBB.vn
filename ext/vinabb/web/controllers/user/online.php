@@ -131,6 +131,7 @@ class online implements online_interface
 		{
 			if ($this->user->data['user_id'] != ANONYMOUS)
 			{
+				send_status_line(403, 'Forbidden');
 				trigger_error('NO_VIEW_USERS');
 			}
 
@@ -395,7 +396,6 @@ class online implements online_interface
 	{
 		switch ($this->db->get_sql_layer())
 		{
-			case 'sqlite':
 			case 'sqlite3':
 				$sql = 'SELECT COUNT(session_ip) AS num_guests
 					FROM (

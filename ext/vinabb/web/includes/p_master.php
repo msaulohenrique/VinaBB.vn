@@ -13,7 +13,7 @@ class p_master extends \p_master
 	/**
 	* Build navigation structure
 	*
-	* Copied from phpBB 3.2.0-RC1 with 2 changes:
+	* Copied from phpBB 3.2.0-RC2 with 2 changes:
 	*	$u_title = append_sid($u_title);
 	*
 	* 2 times:

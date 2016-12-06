@@ -107,6 +107,7 @@ class post
 
 			if (!$this->auth->acl_gets('f_list', 'f_read', $entity->get_forum_id()))
 			{
+				send_status_line(403, 'Forbidden');
 				trigger_error('SORRY_AUTH_READ');
 			}
 
