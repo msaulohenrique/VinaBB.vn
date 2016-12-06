@@ -238,20 +238,6 @@ $(document).ready(function()
 		});
 	}
 
-	// Close tooltip when clicking into the notification box
-	$('#iconNotification').on('click',
-		function()
-		{
-			$('#iconNotification').tooltip('hide');
-		}
-	);
-
-	// iCheck
-	$('input').iCheck({
-		checkboxClass: 'icheckbox_flat-blue',
-		radioClass: 'iradio_flat-blue'
-	});
-
 	// Right panel collapse
 	$('.right-sidebar-toggle').on('click',
 		function(event)
@@ -262,7 +248,28 @@ $(document).ready(function()
 		}
 	);
 
-	// Slim scroll
+	// Tooltip and popover
+	$('[data-tooltip="true"]').tooltip();
+	$('[data-popover="true"]').popover({
+		trigger: 'hover',
+		html: true
+	});
+
+	// Close tooltip when clicking into the notification box
+	$('#iconNotification').on('click',
+		function()
+		{
+			$('#iconNotification').tooltip('hide');
+		}
+	);
+
+	// Bootstrap MaxLength
+	$('input[maxlength]').maxlength({
+		placement: 'bottom-left',
+		utf8: true
+	});
+
+	// Slim Scroll
 	$('.scrollDiv').slimScroll({
 		color: '#eee',
 		size: '5px',
@@ -270,10 +277,9 @@ $(document).ready(function()
 		alwaysVisible: false
 	});
 
-	// Tooltip and popover
-	$('[data-tooltip="true"]').tooltip();
-	$('[data-popover="true"]').popover({
-		trigger: 'hover',
-		html: true
+	// iCheck
+	$('input').iCheck({
+		checkboxClass: 'icheckbox_flat-blue',
+		radioClass: 'iradio_flat-blue'
 	});
 });
