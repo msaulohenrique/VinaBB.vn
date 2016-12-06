@@ -10,6 +10,10 @@
 /* global $sceditor_smilies */
 /* global $sceditor_hidden_smilies */
 /* global $sceditor_smilies_desc */
+/* global vex */
+/* global $l_yes */
+/* global $l_no */
+/* global $l_confirm_logout */
 
 $(document).ready(function()
 {
@@ -268,6 +272,28 @@ $(document).ready(function()
 		placement: 'bottom-left',
 		utf8: true
 	});
+
+	// Vex
+	vex.defaultOptions.className = 'vex-theme-top';
+	vex.dialog.buttons.YES.text = $l_yes;
+	vex.dialog.buttons.NO.text = $l_no;
+
+	// Logout confirm
+	$('#linkLogout').on('click',
+		function()
+		{
+			vex.dialog.confirm({
+				message: $l_confirm_logout,
+				callback: function(value)
+				{
+					if (value)
+					{
+						window.location.href = $('#linkLogout').attr('data-href');
+					}
+				}
+			})
+		}
+	);
 
 	// Slim Scroll
 	$('.scrollDiv').slimScroll({

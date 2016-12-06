@@ -76,7 +76,10 @@
 			$sceditor_lang = '{{ S_USER_LANG }}',
 			$sceditor_smilies = {% if SCEDITOR_SMILIES %}{{ SCEDITOR_SMILIES }}{% else %}{}{% endif %},
 			$sceditor_hidden_smilies = {% if SCEDITOR_HIDDEN_SMILIES %}{{ SCEDITOR_HIDDEN_SMILIES }}{% else %}{}{% endif %},
-			$sceditor_smilies_desc = {% if SCEDITOR_SMILIES_DESC %}{{ SCEDITOR_SMILIES_DESC }}{% else %}{}{% endif %};
+			$sceditor_smilies_desc = {% if SCEDITOR_SMILIES_DESC %}{{ SCEDITOR_SMILIES_DESC }}{% else %}{}{% endif %},
+			$l_yes = "{{ lang('YES')|e('js') }}",
+			$l_no = "{{ lang('NO')|e('js') }}",
+			$l_confirm_logout = "{{ lang('CONFIRM_LOGOUT')|e('js') }}";
 	</script>
 
 	{# JS files #}
@@ -85,6 +88,7 @@
 	<script src="{{ T_THEME_PATH }}/js/jasny-bootstrap.min.js?v={{ T_ASSETS_VERSION }}"></script>
 	<script src="{{ T_THEME_PATH }}/js/pace.min.js?v={{ T_ASSETS_VERSION }}"></script>
 	<script src="{{ T_THEME_PATH }}/js/bootstrap-maxlength.min.js?v={{ T_ASSETS_VERSION }}"></script>
+	<script src="{{ T_THEME_PATH }}/js/vex.combined.min.js?v={{ T_ASSETS_VERSION }}"></script>
 	<script src="{{ T_THEME_PATH }}/js/jquery.slimscroll.min.js?v={{ T_ASSETS_VERSION }}"></script>
 	<script src="{{ T_THEME_PATH }}/js/icheck.min.js?v={{ T_ASSETS_VERSION }}"></script>
 	{% if not S_SIMPLE_HEADER and MAP_API and MAP_LAT and MAP_LNG %}
