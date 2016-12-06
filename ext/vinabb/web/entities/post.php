@@ -356,23 +356,23 @@ class post extends post_options implements post_interface
 	}
 
 	/**
-	* Get the poster username
+	* Get the guest poster username
 	*
 	* @return string
 	*/
-	public function get_post_username()
+	public function get_username()
 	{
 		return isset($this->data['post_username']) ? (string) $this->data['post_username'] : '';
 	}
 
 	/**
-	 * Set the poster username
+	 * Set the guest poster username
 	 *
 	 * @param string			$text	Username
 	 * @return post_interface	$this	Object for chaining calls: load()->set()->save()
 	 * @throws \vinabb\web\exceptions\unexpected_value
 	 */
-	public function set_post_username($text)
+	public function set_username($text)
 	{
 		$text = (string) $text;
 
