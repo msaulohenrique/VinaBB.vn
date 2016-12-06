@@ -36,7 +36,8 @@ Source code on VinaBB.vn without private bits.
   * Find `verbatim`, add to range `EVENT`.
     * `{% EVENT abc %}`
 * `jquery.sceditor.bbcode.min.js`
-  * Find and remove `&&"en"!==c.locale`.
-    * Allow to override the English translation.
-  * Find `src:d.url||d,`, in-line add after `width:16,height:16,`.
-    * Set emoticon width/height to 16x16 pixels.
+  * Allow to override the English translation.
+    * Find and remove `&&"en"!==c.locale`.
+  * Set emoticon width/height to 16x16 pixels.
+    * Find `data-sceditor-emoticon="{key}"`, in-line add after ` width="16" height="16"`.
+    * Find `src:d.url||d,`, in-line add after `width:16,height:16,`.
