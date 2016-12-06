@@ -1,4 +1,256 @@
-/*! SCEditor | (C) 2011-2013, Sam Clarke | sceditor.com/license */
+/**
+* PACE 0.7.7
+*
+* Original: ./themes/white/pace-theme-flash.css
+*/
+.pace {
+	-webkit-pointer-events: none;
+	pointer-events: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+
+.pace-inactive {
+	display: none;
+}
+
+.pace .pace-progress {
+	background: #ffffff;
+	position: fixed;
+	z-index: 2000;
+	top: 0;
+	left: 0;
+	height: 2px;
+}
+
+.pace .pace-progress-inner {
+	display: block;
+	position: absolute;
+	right: 0px;
+	width: 100px;
+	height: 100%;
+	box-shadow: 0 0 10px #ffffff, 0 0 5px #ffffff;
+	opacity: 1.0;
+	-webkit-transform: rotate(3deg) translate(0px, -4px);
+	-moz-transform: rotate(3deg) translate(0px, -4px);
+	-ms-transform: rotate(3deg) translate(0px, -4px);
+	-o-transform: rotate(3deg) translate(0px, -4px);
+	transform: rotate(3deg) translate(0px, -4px);
+}
+
+.pace .pace-activity {
+	display: block;
+	position: fixed;
+	z-index: 2000;
+	top: 15px;
+	right: 15px;
+	width: 14px;
+	height: 14px;
+	border: solid 2px transparent;
+	border-top-color: #ffffff;
+	border-left-color: #ffffff;
+	border-radius: 10px;
+	-webkit-animation: pace-spinner 400ms linear infinite;
+	-moz-animation: pace-spinner 400ms linear infinite;
+	-ms-animation: pace-spinner 400ms linear infinite;
+	-o-animation: pace-spinner 400ms linear infinite;
+	animation: pace-spinner 400ms linear infinite;
+}
+
+@-webkit-keyframes pace-spinner {
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+@-moz-keyframes pace-spinner {
+	0% {
+		-moz-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-moz-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+@-o-keyframes pace-spinner {
+	0% {
+		-o-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-o-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+@-ms-keyframes pace-spinner {
+	0% {
+		-ms-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-ms-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes pace-spinner {
+	0% {
+		transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+/**
+* iCheck 1.0.2
+*
+* Original: ./skins/flat/blue.css
+* Modified: Path of images
+*/
+.icheckbox_flat-blue, .iradio_flat-blue {
+	display: inline-block;
+	*display: inline;
+	vertical-align: middle;
+	margin: 0;
+	padding: 0;
+	width: 20px;
+	height: 20px;
+	background: url('../images/icheck/blue.png') no-repeat;
+	border: none;
+	cursor: pointer;
+}
+
+.icheckbox_flat-blue {
+	background-position: 0 0;
+	.checked {
+		background-position: -22px 0;
+		.disabled {
+			background-position: -66px 0;
+		}
+	}
+	.disabled {
+		background-position: -44px 0;
+		cursor: default;
+	}
+}
+
+.iradio_flat-blue {
+	background-position: -88px 0;
+	.checked {
+		background-position: -110px 0;
+		.disabled {
+			background-position: -154px 0;
+		}
+	}
+	.disabled {
+		background-position: -132px 0;
+		cursor: default;
+	}
+}
+
+// HiDPI support
+@media (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi) {
+	.icheckbox_flat-blue, .iradio_flat-blue {
+		background-image: url('../images/icheck/blue@2x.png');
+		-webkit-background-size: 176px 22px;
+		background-size: 176px 22px;
+	}
+}
+
+/**
+* Highlight.js 9.8.0
+*
+* Original: ./styles/github-gist.css
+*/
+
+/**
+* GitHub Gist Theme
+* Author: Louis Barranqueiro - https://github.com/LouisBarranqueiro
+*/
+.hljs {
+	display: block;
+	background: white;
+	padding: 0.5em;
+	color: #333333;
+	overflow-x: auto;
+}
+
+.hljs-comment,
+.hljs-meta {
+	color: #969896;
+}
+
+.hljs-string,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-strong,
+.hljs-emphasis,
+.hljs-quote {
+	color: #df5000;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-type {
+	color: #a71d5d;
+}
+
+.hljs-literal,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-attribute {
+	color: #0086b3;
+}
+
+.hljs-section,
+.hljs-name {
+	color: #63a35c;
+}
+
+.hljs-tag {
+	color: #333333;
+}
+
+.hljs-title,
+.hljs-attr,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo {
+	color: #795da3;
+}
+
+.hljs-addition {
+	color: #55a532;
+	background-color: #eaffea;
+}
+
+.hljs-deletion {
+	color: #bd2c00;
+	background-color: #ffecec;
+}
+
+.hljs-link {
+	text-decoration: underline;
+}
+
+/**
+* SCEditor 1.5.1
+*
+* (Modified)
+*/
 html.sceditor-maximized {
 	overflow: hidden;
 }
@@ -170,7 +422,6 @@ div.sceditor-grip:after {
 .sceditor-container div,
 div.sceditor-dropdown,
 div.sceditor-dropdown div {
-	/*padding: 0;*/
 	margin: 0;
 	z-index: 3;
 }
@@ -514,7 +765,6 @@ div.sceditor-group:last-child {
 }
 
 .sceditor-button.active {
-	/*background: rgba(0, 0, 0, 0.15);*/
 	background-color: #03b4ff;
 }
 
