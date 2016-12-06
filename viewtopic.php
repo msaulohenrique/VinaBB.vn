@@ -29,6 +29,8 @@ if ($phpbb_extension_manager->is_enabled('vinabb/web'))
 	if ($post_id)
 	{
 		$route_name = 'vinabb_web_board_post_route';
+		$url_params['forum_id'] = $forum_id ? $forum_id : $constants::REWRITE_URL_FORUM_ZERO;
+		$url_params['topic_id'] = $topic_id;
 		$url_params['post_id'] = $post_id;
 	}
 	else
