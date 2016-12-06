@@ -372,7 +372,8 @@ class helper implements helper_interface
 			foreach ($rows as $row)
 			{
 				$this->template->assign_block_vars($block_name, [
-					'TITLE'	=> truncate_string($row['topic_title'], 48, 255, false, $this->language->lang('ELLIPSIS'))
+					'TITLE'	=> truncate_string($row['topic_title'], 48, 255, false, $this->language->lang('ELLIPSIS')),
+					'URL'	=> $this->helper->route('vinabb_web_board_topic_route', ['forum_id' => $row['forum_id'], 'topic_id' => $row['topic_id'], 'seo' => $row['topic_title_seo'] . constants::REWRITE_URL_SEO])
 				]);
 			}
 		}
@@ -432,7 +433,7 @@ class helper implements helper_interface
 
 		$sql_ary = [
 			'SELECT'	=> 'f.forum_id, f.forum_name,
-							t.topic_id, t.topic_title, t.topic_time,
+							t.topic_id, t.topic_title, t.topic_title_seo, t.topic_time,
 							p.post_id, p.post_time',
 			'FROM'		=> [
 				TOPICS_TABLE	=> 't',
@@ -471,7 +472,8 @@ class helper implements helper_interface
 			foreach ($rows as $row)
 			{
 				$this->template->assign_block_vars($block_name, [
-					'SUBJECT'	=> truncate_string($row['post_subject'], 48, 255, false, $this->language->lang('ELLIPSIS'))
+					'SUBJECT'	=> truncate_string($row['post_subject'], 48, 255, false, $this->language->lang('ELLIPSIS')),
+					'URL'		=> $this->helper->route('vinabb_web_board_post_route', ['forum_id' => $row['forum_id'], 'topic_id' => $row['topic_id'], 'post_id' => $row['post_id'], 'seo' => $row['post_subject_seo'] . constants::REWRITE_URL_SEO])
 				]);
 			}
 		}
@@ -519,7 +521,7 @@ class helper implements helper_interface
 		// Get the actual data
 		$sql_ary = [
 			'SELECT'	=>	'f.forum_id, f.forum_name,
-							p.post_id, p.topic_id, p.post_time, p.post_subject,
+							p.post_id, p.topic_id, p.post_time, p.post_subject, p.post_subject_seo,
 							u.username, u.user_id',
 			'FROM'		=> [
 				USERS_TABLE		=> 'u',

@@ -317,7 +317,7 @@
 									<h4>{{ lang('LATEST_TOPICS') }}</h4>
 								</li>
 								{% for topic in latest_topics %}
-								<li><a href="#"><span>{{ topic.TITLE }}</span></a></li>
+								<li><a href="{{ topic.URL }}"><span>{{ topic.TITLE }}</span></a></li>
 								{% endfor %}
 							</ul>
 						</div>
@@ -327,7 +327,7 @@
 									<h4>{{ lang('LATEST_POSTS') }}</h4>
 								</li>
 								{% for post in latest_posts %}
-								<li><a href="#"><span>{{ post.SUBJECT }}</span></a></li>
+								<li><a href="{{ post.URL }}"><span>{{ post.SUBJECT }}</span></a></li>
 								{% endfor %}
 							</ul>
 						</div>
