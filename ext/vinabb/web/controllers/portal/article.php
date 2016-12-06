@@ -156,7 +156,7 @@ class article implements article_interface
 					'ARTICLE_TEXT'			=> $entity->get_text_for_display(),
 					'ARTICLE_TIME'			=> $this->user->format_date($entity->get_time()),
 
-					'ARTICLE_SHARE_URL'	=> generate_board_url(true) . $this->helper->route('vinabb_web_portal_article_route', ['varname' => $cat_varname, 'seo' => $entity->get_name_seo() . constants::REWRITE_URL_SEO, 'article_id' => $article_id]),
+					'ARTICLE_SHARE_URL'	=> generate_board_url(true) . htmlspecialchars_decode($this->helper->route('vinabb_web_portal_article_route', ['varname' => $cat_varname, 'seo' => $entity->get_name_seo() . constants::REWRITE_URL_SEO, 'article_id' => $article_id])),
 					'U_PRINT'			=> $this->helper->route('vinabb_web_portal_article_print_route', ['varname' => $cat_varname, 'seo' => $entity->get_name_seo() . constants::REWRITE_URL_SEO, 'article_id' => $article_id]),
 
 					'S_PORTAL_ARTICLE'	=> true
