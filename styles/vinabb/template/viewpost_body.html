@@ -1,0 +1,62 @@
+{% include 'overall_header.html' %}
+
+<div class="row">
+	<div class="panel panel-{{ row.S_UNREAD_POST ? 'danger' : 'default'}}">
+		<div class="panel-body">
+			<div class="pull-{{ S_CONTENT_FLOW_END }}">
+				{% if row.U_EDIT %}<a href="{{ row.U_EDIT }}" data-tooltip="true" data-placement="left" title="{{ lang('EDIT_POST') }}" class="btn btn-primary btn-border btn-rounded btn-sm"><i class="fa fa-pencil"></i></a>{% endif %}
+				{% if row.U_DELETE %}<a href="{{ row.U_DELETE }}" data-tooltip="true" data-placement="left" title="{{ lang('DELETE_POST') }}" class="btn btn-danger btn-border btn-rounded btn-sm"><i class="fa fa-trash-o"></i></a>{% endif %}
+				{% if row.U_REPORT %}<a href="{{ row.U_REPORT }}" data-tooltip="true" data-placement="left" title="{{ lang('REPORT_POST') }}" class="btn btn-primary btn-border btn-rounded btn-sm"><i class="fa fa-bullhorn"></i></a>{% endif %}
+				{% if row.U_WARN %}<a href="{{ row.U_WARN }}" data-tooltip="true" data-placement="left" title="{{ lang('WARN_USER') }}" class="btn btn-warning btn-border btn-rounded btn-sm"><i class="fa fa-gavel"></i></a>{% endif %}
+				{% if row.U_INFO %}<a href="{{ row.U_INFO }}" data-tooltip="true" data-placement="left" title="{{ lang('INFORMATION') }}" class="btn btn-primary btn-border btn-rounded btn-sm"><i class="fa fa-paw"></i></a>{% endif %}
+				{% if row.U_QUOTE %}<a href="{{ row.U_QUOTE }}" data-tooltip="true" data-placement="left" title="{{ lang('REPLY_WITH_QUOTE') }}" class="btn btn-primary btn-border btn-rounded btn-sm"><i class="fa fa-quote-right"></i></a>{% endif %}
+			</div>
+			<h3 class="font-300 text-{{ row.S_UNREAD_POST ? 'danger' : 'primary'}}">{{ POST_SUBJECT }}</h3>
+			<hr class="clearfix">
+
+			<div class="poster-info media margin-b-20">
+				{% if row.POSTER_AVATAR %}
+				<div class="avatar avatar-lg{% if row.S_ONLINE and not row.S_POST_HIDDEN %} avatar-online{% endif %} pull-{{ S_CONTENT_FLOW_BEGIN }} padding-0">
+					<a href="{{ row.U_POST_AUTHOR }}"><img alt="{{ row.POST_AUTHOR }}" class="bg-light-dark" src="{{ row.POSTER_AVATAR }}"></a>
+					{% if row.S_ONLINE and not row.S_POST_HIDDEN %}<i data-tooltip="true" data-placement="left" title="{{ lang('ONLINE') }}"></i>{% endif %}
+				</div>
+				{% else %}
+				<div class="avatar avatar-letter-lg{% if row.S_ONLINE and not row.S_POST_HIDDEN %} avatar-online{% endif %} bg-{{ BG_COLOR ?: 'primary' }} pull-{{ S_CONTENT_FLOW_BEGIN }} padding-0">
+					<a href="{{ row.U_POST_AUTHOR }}"><span class="initials">{{ row.POST_AUTHOR|slice(0, 2)|upper }}</span></a>
+					{% if row.S_ONLINE and not row.S_POST_HIDDEN %}<i data-tooltip="true" data-placement="left" title="{{ lang('ONLINE') }}"></i>{% endif %}
+				</div>
+				{% endif %}
+
+				{% set POSTER_INFO %}
+				<strong>{{ lang('JOINED') ~ lang('COLON') }}</strong> {{ row.POSTER_JOINED }}<br>
+				<strong>{{ lang('LAST_ACTIVE') ~ lang('COLON') }}</strong> {{ row.POSTER_LAST_ACTIVE }}<br>
+				<strong>{{ lang('POSTS') ~ lang('COLON') }}</strong> {{ row.POSTER_POSTS }}
+				{% endset %}
+
+				<div class="media-body padding-20">
+					<h4 class="text-danger font-400 margin-b-0" data-popover="true" data-placement="right" title="{{ row.POST_AUTHOR }}" data-content="{{ POSTER_INFO }}">{{ row.POST_AUTHOR_FULL }}</h4>
+					{% if row.RANK_TITLE %}<small class="label label-{{ BG_COLOR ?: 'default' }}">{{ row.RANK_TITLE }}</small><br>{% endif %}
+					<small class="text-muted">{{ row.POST_DATE }}</small>
+				</div>
+			</div>
+
+			<div class="fontsize-15 text-justify">
+				<p>{{ POST_TEXT }}</p>
+			</div>
+
+			<hr>
+
+			<div class="inbox-attachments margin-b-20">
+				<span>{{ row.SIGNATURE }}</span>
+			</div>
+
+			{% if row.S_UNREAD_POST %}
+			<div class="ribbon ribbon-badge ribbon-reverse ribbon-bottom ribbon-danger">
+				<span class="ribbon-inner">{{ lang('NEW') }}</span>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+{% include 'overall_footer.html' %}
