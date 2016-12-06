@@ -15,3 +15,12 @@ vinabb_web_portal_article_route:
         varname: '[a-z0-9-]+'
         article_id: '\d+'
         seo: '(|([a-z0-9-\.]*)(\.*))'
+vinabb_web_portal_article_print_route:
+    path: /{varname}/{seo}{article_id}/print
+    defaults:
+        _controller: vinabb.web.portal.article:print_page
+        seo: ''
+    requirements:
+        varname: '[a-z0-9-]+'
+        article_id: '\d+'
+        seo: '(|([a-z0-9-\.]*)(\.*))'

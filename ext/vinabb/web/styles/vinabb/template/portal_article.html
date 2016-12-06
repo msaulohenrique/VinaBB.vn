@@ -3,9 +3,7 @@
 <div class="panel panel-default">
 	<div class="panel-body">
 		<div class="pull-{{ S_CONTENT_FLOW_END }}">
-			<button type="button" onclick="javascript: window.print();" data-tooltip="true" data-placement="left" title="{{ lang('PRINT') }}" class="btn btn-border btn-primary btn-sm">
-				<i class="fa fa-print"></i>
-			</button>
+			<button type="button" id="btnPrint" data-tooltip="true" data-placement="left" title="{{ lang('PRINT') }}" class="btn btn-border btn-primary btn-sm"><i class="fa fa-print"></i></button>
 		</div>
 		<h3 class="font-300">{{ ARTICLE_NAME }}</h3>
 
@@ -41,13 +39,16 @@
 	</div>
 </div>
 
-{# Only for printer #}
-<div class="printer">
-	<h1>{{ ARTICLE_NAME }}</h1>
-	<p>{{ ARTICLE_SHARE_URL }}</p>
-
-	<p><strong><em>{{ ARTICLE_DESC }}</em></strong></p>
-	<p>{{ ARTICLE_TEXT }}</p>
-</div>
-
 {% include 'overall_footer.html' %}
+
+<script>
+	$('#btnPrint').on('click',
+		function()
+		{
+			$('<iframe>')
+				.hide()
+				.attr('src', '{{ U_PRINT }}')
+				.appendTo('body');
+		}
+	);
+</script>

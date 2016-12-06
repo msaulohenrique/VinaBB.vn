@@ -16,8 +16,17 @@ interface article_interface
 	/**
 	* View details an article
 	*
-	* @param $article_id Article ID
+	* @param int	$article_id	Article ID
+	* @param bool	$print		Print mode
 	* @return \Symfony\Component\HttpFoundation\Response
 	*/
-	public function article($article_id);
+	public function article($article_id, $print = false);
+
+	/**
+	* Print the article
+	*
+	* @param int $article_id Article ID
+	* @return \Symfony\Component\HttpFoundation\Response
+	*/
+	public function print_page($article_id);
 }

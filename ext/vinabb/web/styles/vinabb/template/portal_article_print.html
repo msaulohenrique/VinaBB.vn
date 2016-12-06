@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html dir="{{ S_CONTENT_DIRECTION }}" lang="{{ S_USER_LANG }}">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>{{ PAGE_TITLE }}</title>
+</head>
+
+<body>
+	<h1>{{ ARTICLE_NAME }}</h1>
+	<p>{{ ARTICLE_TIME }}</p>
+	<p>{{ ARTICLE_SHARE_URL }}</p>
+
+	<hr>
+
+	<p><strong><em>{{ ARTICLE_DESC }}</em></strong></p>
+	<p>{{ ARTICLE_TEXT }}</p>
+
+	<script src="{{ T_THEME_PATH }}/js/jquery.min.js?v={{ T_ASSETS_VERSION }}"></script>
+	<script>
+		$(document).ready(function()
+		{
+			window.print();
+		});
+	</script>
+</body>
+</html>

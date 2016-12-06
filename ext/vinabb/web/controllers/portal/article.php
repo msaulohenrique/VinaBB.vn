@@ -111,10 +111,11 @@ class article implements article_interface
 	/**
 	* View details an article
 	*
-	* @param $article_id Article ID
+	* @param int	$article_id	Article ID
+	* @param bool	$print		Print mode
 	* @return \Symfony\Component\HttpFoundation\Response
 	*/
-	public function article($article_id)
+	public function article($article_id, $print = false)
 	{
 		$page_title = $this->language->lang('VINABB');
 
@@ -156,13 +157,25 @@ class article implements article_interface
 					'ARTICLE_TIME'			=> $this->user->format_date($entity->get_time()),
 
 					'ARTICLE_SHARE_URL'	=> generate_board_url(true) . $this->helper->route('vinabb_web_portal_article_route', ['varname' => $cat_varname, 'seo' => $entity->get_name_seo() . constants::REWRITE_URL_SEO, 'article_id' => $article_id]),
+					'U_PRINT'			=> $this->helper->route('vinabb_web_portal_article_print_route', ['varname' => $cat_varname, 'seo' => $entity->get_name_seo() . constants::REWRITE_URL_SEO, 'article_id' => $article_id]),
 
 					'S_PORTAL_ARTICLE'	=> true
 				]);
 			}
 		}
 
-		return $this->helper->render('portal_article.html', $page_title);
+		return $this->helper->render($print ? 'portal_article_print.html' : 'portal_article.html', $page_title);
+	}
+
+	/**
+	* Print the article
+	*
+	* @param int $article_id Article ID
+	* @return \Symfony\Component\HttpFoundation\Response
+	*/
+	public function print_page($article_id)
+	{
+		return $this->article($article_id, true);
 	}
 
 	/**
