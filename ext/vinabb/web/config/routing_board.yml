@@ -17,6 +17,17 @@ vinabb_web_board_topic_route:
         page: ''
     requirements:
         forum_id: '(x|\d+)'
-        topic_id: '\d*'
+        topic_id: '\d+'
         seo: '(|([a-z0-9-\.]*)\.)'
         page: '(|((page-)(\d+)))'
+vinabb_web_board_post_route:
+    path: /f{forum_id}/t{topic_id}/post/{seo}{post_id}
+    defaults:
+        _controller: vinabb.web.board.post:main
+        forum_id: 'x'
+        seo: ''
+    requirements:
+        forum_id: '(x|\d+)'
+        topic_id: '\d+'
+        post_id: '\d+'
+        seo: '(|([a-z0-9-\.]*)\.)'

@@ -187,3 +187,16 @@ services:
             - '@vinabb.web.helper'
             - '%core.root_path%'
             - '%core.php_ext%'
+    vinabb.web.board.post:
+        class: vinabb\web\controllers\board\post
+        arguments:
+            - '@auth'
+            - '@vinabb.web.cache'
+            - '@service_container'
+            - '@language'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '@vinabb.web.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
