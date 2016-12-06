@@ -47,6 +47,7 @@ $lang = array_merge($lang, [
 	'COMMENT'			=> 'Bình luận',
 	'COMMENTS'			=> 'Bình luận',
 	'COMMUNITY'			=> 'Cộng đồng',
+	'CONFIRM_LOGOUT'	=> 'Bạn chắc chắn muốn thoát?',
 	'COORDINATES'		=> 'Tọa độ',
 	'COUNTER_ACP_STYLE'	=> [
 		0	=> 'Không có giao diện nào',

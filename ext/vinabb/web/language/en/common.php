@@ -47,6 +47,7 @@ $lang = array_merge($lang, [
 	'COMMENT'			=> 'Comment',
 	'COMMENTS'			=> 'Comments',
 	'COMMUNITY'			=> 'Community',
+	'CONFIRM_LOGOUT'	=> 'Are you sure you want to logout?',
 	'COORDINATES'		=> 'Coordinates',
 	'COUNTER_ACP_STYLE'	=> [
 		0	=> 'No styles',
