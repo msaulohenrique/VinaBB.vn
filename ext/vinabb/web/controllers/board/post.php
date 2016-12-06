@@ -43,6 +43,9 @@ class post
 	/** @var string */
 	protected $php_ext;
 
+	/** @var array */
+	protected $forum_data;
+
 	/**
 	* Constructor
 	*
