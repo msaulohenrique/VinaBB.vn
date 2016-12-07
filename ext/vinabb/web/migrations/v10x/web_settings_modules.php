@@ -22,7 +22,7 @@ class web_settings_modules extends migration
 	*/
 	static public function depends_on()
 	{
-		return ['\vinabb\web\migrations\v10x\module_categories', '\vinabb\web\migrations\v10x\web_settings_categories'];
+		return ['\vinabb\web\migrations\v10x\web_settings_categories'];
 	}
 
 	/**

@@ -16,6 +16,16 @@ use phpbb\db\migration\migration;
 class module_categories extends migration
 {
 	/**
+	* List of required migrations
+	*
+	* @return array
+	*/
+	static public function depends_on()
+	{
+		return ['\phpbb\db\migration\data\v320\v320rc1'];
+	}
+
+	/**
 	* Update data
 	*
 	* @return array
