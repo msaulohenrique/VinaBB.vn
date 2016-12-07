@@ -143,13 +143,14 @@ class text_formatter implements EventSubscriberInterface
 	{
 		$configurator = $event['configurator'];
 
-		foreach ($configurator->MediaEmbed->defaultSites->getIds() as $site_id)
-		{
-			if (in_array($site_id, ['facebook', 'twitter', 'googleplus', 'youtube', 'flickr', 'instagram', 'gist']))
-			{
-				$configurator->MediaEmbed->add($site_id);
-			}
-		}
+		// Add social sites
+		$configurator->MediaEmbed->add('facebook');
+		$configurator->MediaEmbed->add('twitter');
+		$configurator->MediaEmbed->add('googleplus');
+		$configurator->MediaEmbed->add('youtube');
+		$configurator->MediaEmbed->add('flickr');
+		$configurator->MediaEmbed->add('instagram');
+		$configurator->MediaEmbed->add('gist');
 
 		// Add our site
 		$configurator->MediaEmbed->add('vinabb', [
