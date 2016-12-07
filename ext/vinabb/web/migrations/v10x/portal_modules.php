@@ -22,7 +22,7 @@ class portal_modules extends migration
 	*/
 	static public function depends_on()
 	{
-		return ['\vinabb\web\migrations\v10x\portal_categories'];
+		return ['\vinabb\web\migrations\v10x\module_categories', '\vinabb\web\migrations\v10x\portal_categories'];
 	}
 
 	/**

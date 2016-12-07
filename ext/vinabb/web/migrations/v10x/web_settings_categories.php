@@ -11,9 +11,9 @@ namespace vinabb\web\migrations\v10x;
 use phpbb\db\migration\migration;
 
 /**
-* Add ACP module for headlines
+* Add the ACP tab "VinaBB" and the first module category "VinaBB.vn Settings"
 */
-class headlines_module extends migration
+class web_settings_categories extends migration
 {
 	/**
 	* List of required migrations
@@ -22,7 +22,7 @@ class headlines_module extends migration
 	*/
 	static public function depends_on()
 	{
-		return ['\vinabb\web\migrations\v10x\module_categories', '\vinabb\web\migrations\v10x\portal_categories'];
+		return ['\vinabb\web\migrations\v10x\module_categories'];
 	}
 
 	/**
@@ -33,10 +33,7 @@ class headlines_module extends migration
 	public function update_data()
 	{
 		return [
-			['module.add', ['acp', 'ACP_CAT_PORTAL', [
-				'module_basename'	=> '\vinabb\web\acp\headlines_module',
-				'modes'				=> ['main']
-			]]]
+			['module.add', ['acp', 'ACP_CAT_VINABB', 'ACP_CAT_VINABB_SETTINGS']]
 		];
 	}
 }

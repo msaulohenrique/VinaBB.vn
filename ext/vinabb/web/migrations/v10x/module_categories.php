@@ -24,10 +24,7 @@ class module_categories extends migration
 	{
 		return [
 			// Root category
-			['module.add', ['acp', '', 'ACP_CAT_VINABB']],
-
-			// Sub-category
-			['module.add', ['acp', 'ACP_CAT_VINABB', 'ACP_CAT_VINABB_SETTINGS']]
+			['module.add', ['acp', 0, 'ACP_CAT_VINABB']],
 		];
 	}
 }

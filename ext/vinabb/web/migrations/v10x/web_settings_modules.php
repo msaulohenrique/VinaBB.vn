@@ -11,9 +11,9 @@ namespace vinabb\web\migrations\v10x;
 use phpbb\db\migration\migration;
 
 /**
-* Common ACP settings (Part 2)
+* Common ACP settings
 */
-class web_settings_p2 extends migration
+class web_settings_modules extends migration
 {
 	/**
 	* List of required migrations
@@ -22,7 +22,7 @@ class web_settings_p2 extends migration
 	*/
 	static public function depends_on()
 	{
-		return ['\vinabb\web\migrations\v10x\web_settings'];
+		return ['\vinabb\web\migrations\v10x\module_categories', '\vinabb\web\migrations\v10x\web_settings_categories'];
 	}
 
 	/**
@@ -35,7 +35,7 @@ class web_settings_p2 extends migration
 		return [
 			['module.add', ['acp', 'ACP_CAT_VINABB_SETTINGS', [
 				'module_basename'	=> '\vinabb\web\acp\settings_module',
-				'modes'				=> ['version', 'setup']
+				'modes'				=> ['main', 'version', 'setup']
 			]]]
 		];
 	}
