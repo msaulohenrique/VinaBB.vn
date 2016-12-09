@@ -36,10 +36,11 @@ $lang = array_merge($lang, [
 	'ERROR_HEADLINE_NAME_TOO_LONG'		=> 'The title is too long.',
 	'ERROR_HEADLINE_URL_EMPTY'			=> 'You must enter an URL.',
 
-	'HEADLINE_DESC'	=> 'Description',
-	'HEADLINE_IMG'	=> 'Headline image',
-	'HEADLINE_NAME'	=> 'Title',
-	'HEADLINE_URL'	=> 'Headline URL',
+	'HEADLINE_DESC'		=> 'Description',
+	'HEADLINE_DETAILS'	=> 'Headline details',
+	'HEADLINE_IMG'		=> 'Headline image',
+	'HEADLINE_NAME'		=> 'Title',
+	'HEADLINE_URL'		=> 'Headline URL',
 
 	'MESSAGE_HEADLINE_ADD'		=> 'The headline has been created.',
 	'MESSAGE_HEADLINE_DELETE'	=> 'The headline has been deleted.',

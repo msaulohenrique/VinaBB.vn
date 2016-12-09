@@ -36,10 +36,11 @@ $lang = array_merge($lang, [
 	'ERROR_HEADLINE_NAME_TOO_LONG'		=> 'Tiêu đề quá dài.',
 	'ERROR_HEADLINE_URL_EMPTY'			=> 'Chưa nhập liên kết.',
 
-	'HEADLINE_DESC'	=> 'Giới thiệu',
-	'HEADLINE_IMG'	=> 'Hình quảng cáo',
-	'HEADLINE_NAME'	=> 'Tiêu đề',
-	'HEADLINE_URL'	=> 'Liên kết',
+	'HEADLINE_DESC'		=> 'Giới thiệu',
+	'HEADLINE_DETAILS'	=> 'Dữ liệu quảng cáo',
+	'HEADLINE_IMG'		=> 'Hình quảng cáo',
+	'HEADLINE_NAME'		=> 'Tiêu đề',
+	'HEADLINE_URL'		=> 'Liên kết',
 
 	'MESSAGE_HEADLINE_ADD'		=> 'Đã tạo quảng cáo.',
 	'MESSAGE_HEADLINE_DELETE'	=> 'Đã xóa quảng cáo.',
