@@ -14,25 +14,26 @@ namespace vinabb\web\controllers\acp;
 interface headlines_interface
 {
 	/**
-	* Set form action URL
+	* Set form data
 	*
-	* @param string $u_action Form action
+	* @param array $data Form data
 	*/
-	public function set_form_action($u_action);
+	public function set_form_data($data);
+
+	/**
+	* Language selection
+	*/
+	public function select_lang();
 
 	/**
 	* Display headlines
-	*
-	* @param string $lang 2-letter language ISO code
 	*/
-	public function display_headlines($lang = '');
+	public function display_headlines();
 
 	/**
 	* Add a headline
-	*
-	* @param string $lang 2-letter language ISO code
 	*/
-	public function add_headline($lang = '');
+	public function add_headline();
 
 	/**
 	* Edit a headline
@@ -51,11 +52,10 @@ interface headlines_interface
 	/**
 	* Move a headline up/down
 	*
-	* @param string	$lang			2-letter language ISO code
 	* @param int	$headline_id	Headline ID
 	* @param string	$direction		The direction (up|down)
 	*/
-	public function move_headline($lang, $headline_id, $direction);
+	public function move_headline($headline_id, $direction);
 
 	/**
 	* Delete a headline

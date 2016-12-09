@@ -9,6 +9,7 @@
 namespace vinabb\web\controllers\acp;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use vinabb\web\includes\constants;
 
 /**
 * Controller for the headlines_module
@@ -20,6 +21,12 @@ class headlines implements headlines_interface
 
 	/** @var ContainerInterface */
 	protected $container;
+
+	/** @var \phpbb\extension\manager */
+	protected $ext_manager;
+
+	/** @var \phpbb\filesystem\filesystem_interface */
+	protected $filesystem;
 
 	/** @var \phpbb\language\language */
 	protected $language;
@@ -36,11 +43,17 @@ class headlines implements headlines_interface
 	/** @var \phpbb\template\template */
 	protected $template;
 
+	/** @var \phpbb\files\upload */
+	protected $upload;
+
 	/** @var \phpbb\user */
 	protected $user;
 
 	/** @var string */
 	protected $u_action;
+
+	/** @var string */
+	protected $headline_lang;
 
 	/** @var array */
 	protected $data;
@@ -48,69 +61,104 @@ class headlines implements headlines_interface
 	/** @var array */
 	protected $errors;
 
+	/** @var string */
+	protected $ext_root_path;
+
 	/** @var array */
 	protected $lang_data;
 
 	/**
 	* Constructor
 	*
-	* @param \vinabb\web\controllers\cache\service_interface	$cache		Cache service
-	* @param ContainerInterface									$container	Container object
-	* @param \phpbb\language\language							$language	Language object
-	* @param \phpbb\log\log										$log		Log object
-	* @param \vinabb\web\operators\headline_interface			$operator	Headline operators
-	* @param \phpbb\request\request								$request	Request object
-	* @param \phpbb\template\template							$template	Template object
-	* @param \phpbb\user										$user		User object
+	* @param \vinabb\web\controllers\cache\service_interface	$cache			Cache service
+	* @param ContainerInterface									$container		Container object
+	* @param \phpbb\extension\manager							$ext_manager	Extension manager
+	* @param \phpbb\filesystem\filesystem_interface				$filesystem		Filesystem object
+	* @param \phpbb\language\language							$language		Language object
+	* @param \phpbb\log\log										$log			Log object
+	* @param \vinabb\web\operators\headline_interface			$operator		Headline operators
+	* @param \phpbb\request\request								$request		Request object
+	* @param \phpbb\template\template							$template		Template object
+	* @param \phpbb\files\upload								$upload			Upload object
+	* @param \phpbb\user										$user			User object
 	*/
 	public function __construct(
 		\vinabb\web\controllers\cache\service_interface $cache,
 		ContainerInterface $container,
+		\phpbb\extension\manager $ext_manager,
+		\phpbb\filesystem\filesystem_interface $filesystem,
 		\phpbb\language\language $language,
 		\phpbb\log\log $log,
 		\vinabb\web\operators\headline_interface $operator,
 		\phpbb\request\request $request,
 		\phpbb\template\template $template,
+		\phpbb\files\upload $upload,
 		\phpbb\user $user
 	)
 	{
 		$this->cache = $cache;
 		$this->container = $container;
+		$this->ext_manager = $ext_manager;
+		$this->filesystem = $filesystem;
 		$this->language = $language;
 		$this->log = $log;
 		$this->operator = $operator;
 		$this->request = $request;
 		$this->template = $template;
+		$this->upload = $upload;
 		$this->user = $user;
 
+		$this->ext_root_path = $this->ext_manager->get_extension_path('vinabb/web', true);
 		$this->lang_data = $this->cache->get_lang_data();
 	}
 
 	/**
-	* Set form action URL
+	* Set form data
 	*
-	* @param string $u_action Form action
+	* @param array $data Form data
 	*/
-	public function set_form_action($u_action)
+	public function set_form_data($data)
 	{
-		$this->u_action = $u_action;
+		$this->u_action = $data['u_action'];
+		$this->headline_lang = $data['headline_lang'];
+	}
+
+	/**
+	* Language selection
+	*/
+	public function select_lang()
+	{
+		if (sizeof($this->lang_data) > 1)
+		{
+			foreach ($this->lang_data as $lang_iso => $lang_data)
+			{
+				$this->template->assign_block_vars('lang_options', [
+					'VALUE'	=> $lang_iso,
+					'NAME'	=> ($lang_data['english_name'] == $lang_data['local_name']) ? $lang_data['english_name'] : $lang_data['english_name'] . ' (' . $lang_data['local_name'] . ')'
+				]);
+			}
+
+			$this->template->assign_var('U_ACTION', $this->u_action);
+		}
+		// If there is only one available language, we do not need the selection list
+		else
+		{
+			$this->display_headlines(array_keys($this->lang_data)[0]);
+		}
 	}
 
 	/**
 	* Display headlines
-	*
-	* @param string $lang 2-letter language ISO code
 	*/
-	public function display_headlines($lang = '')
+	public function display_headlines()
 	{
 		// Grab all from database
-		$entities = $this->operator->get_headlines($lang);
+		$entities = $this->operator->get_headlines($this->headline_lang);
 
 		/** @var \vinabb\web\entities\headline_interface $entity */
 		foreach ($entities as $entity)
 		{
 			$this->template->assign_block_vars('headlines', [
-				'LANG'	=> $this->lang_data[$entity->get_lang()]['local_name'],
 				'NAME'	=> $entity->get_name(),
 				'DESC'	=> $entity->get_desc(),
 				'IMG'	=> $entity->get_img(),
@@ -124,16 +172,16 @@ class headlines implements headlines_interface
 		}
 
 		$this->template->assign_vars([
-			'U_ACTION'	=> "{$this->u_action}&action=add&lang={$lang}"
+			'LANG_NAME'	=> $this->lang_data[$this->headline_lang]['local_name'],
+
+			'U_ACTION'	=> "{$this->u_action}&action=add&lang={$this->headline_lang}"
 		]);
 	}
 
 	/**
 	* Add a headline
-	*
-	* @param string $lang 2-letter language ISO code
 	*/
-	public function add_headline($lang = '')
+	public function add_headline()
 	{
 		// Initiate an entity
 		/** @var \vinabb\web\entities\headline_interface */
@@ -145,8 +193,8 @@ class headlines implements headlines_interface
 		$this->template->assign_vars([
 			'S_ADD'		=> true,
 
-			'U_ACTION'	=> "{$this->u_action}&action=add&lang={$lang}",
-			'U_BACK'	=> "{$this->u_action}&lang={$lang}"
+			'U_ACTION'	=> "{$this->u_action}&action=add&lang={$this->headline_lang}",
+			'U_BACK'	=> "{$this->u_action}&lang={$this->headline_lang}"
 		]);
 	}
 
@@ -168,7 +216,7 @@ class headlines implements headlines_interface
 			'S_EDIT'	=> true,
 
 			'U_ACTION'	=> "{$this->u_action}&action=edit&id={$headline_id}",
-			'U_BACK'	=> "{$this->u_action}&lang={$entity->get_lang()}"
+			'U_BACK'	=> "{$this->u_action}&lang={$this->headline_lang}"
 		]);
 	}
 
@@ -209,6 +257,7 @@ class headlines implements headlines_interface
 		$this->data_to_tpl($entity);
 
 		$this->template->assign_vars([
+			'LANG_NAME'	=> $this->lang_data[$this->headline_lang]['local_name'],
 			'ERRORS'	=> sizeof($this->errors) ? implode('<br>', $this->errors) : ''
 		]);
 	}
@@ -219,11 +268,10 @@ class headlines implements headlines_interface
 	protected function request_data()
 	{
 		$this->data = [
-			'headline_lang'	=> $this->request->variable('headline_lang', ''),
-			'headline_name'	=> $this->request->variable('headline_name', '', true),
-			'headline_desc'	=> $this->request->variable('headline_desc', '', true),
-			'headline_img'	=> $this->request->variable('headline_img', ''),
-			'headline_url'	=> $this->request->variable('headline_url', '')
+			'headline_name'		=> $this->request->variable('headline_name', '', true),
+			'headline_desc'		=> $this->request->variable('headline_desc', '', true),
+			'headline_img'		=> $this->request->variable('headline_img', ''),
+			'headline_url'		=> $this->request->variable('headline_url', '')
 		];
 	}
 
@@ -235,11 +283,12 @@ class headlines implements headlines_interface
 	protected function map_set_data(\vinabb\web\entities\headline_interface $entity)
 	{
 		$map_fields = [
-			'set_lang'	=> $this->data['headline_lang'],
+			'set_lang'	=> $this->headline_lang,
 			'set_name'	=> $this->data['headline_name'],
 			'set_desc'	=> $this->data['headline_desc'],
 			'set_img'	=> $this->data['headline_img'],
-			'set_url'	=> $this->data['headline_url']
+			'set_url'	=> $this->data['headline_url'],
+			'set_order'	=> $this->headline_lang
 		];
 
 		// Set the mapped data in the entity
@@ -285,7 +334,7 @@ class headlines implements headlines_interface
 			$message = 'MESSAGE_HEADLINE_ADD';
 		}
 
-		$this->cache->clear_headlines($this->data['headline_lang']);
+		$this->cache->clear_headlines($this->headline_lang);
 
 		trigger_error($this->language->lang($message) . adm_back_link($this->u_action));
 	}
@@ -308,11 +357,10 @@ class headlines implements headlines_interface
 	/**
 	* Move a headline up/down
 	*
-	* @param string	$lang			2-letter language ISO code
 	* @param int	$headline_id	Headline ID
 	* @param string	$direction		The direction (up|down)
 	*/
-	public function move_headline($lang, $headline_id, $direction)
+	public function move_headline($headline_id, $direction)
 	{
 		// Check the valid link hash
 		if (!check_link_hash($this->request->variable('hash', ''), $direction . $headline_id))
@@ -322,14 +370,14 @@ class headlines implements headlines_interface
 
 		try
 		{
-			$this->operator->move_headline($lang, $headline_id, $direction);
+			$this->operator->move_headline($this->headline_lang, $headline_id, $direction);
 		}
 		catch (\vinabb\web\exceptions\base $e)
 		{
 			trigger_error($this->language->lang('ERROR_HEADLINE_MOVE', $e->get_message($this->language)) . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
-		$this->cache->clear_headlines($lang);
+		$this->cache->clear_headlines($this->headline_lang);
 
 		// If AJAX was used, show user a result message
 		if ($this->request->is_ajax())
@@ -359,7 +407,7 @@ class headlines implements headlines_interface
 		}
 
 		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_HEADLINE_DELETE', time(), [$entity->get_name()]);
-		$this->cache->clear_headlines($entity->get_lang());
+		$this->cache->clear_headlines($this->headline_lang);
 
 		// If AJAX was used, show user a result message
 		if ($this->request->is_ajax())
@@ -371,5 +419,79 @@ class headlines implements headlines_interface
 				'REFRESH_DATA'	=> ['time'	=> 3]
 			]);
 		}
+	}
+
+	/**
+	* Check if we are able to upload a file
+	*
+	* @return bool
+	*/
+	protected function can_upload()
+	{
+		return (file_exists($this->ext_root_path . constants::DIR_HE) && $this->filesystem->is_writable($this->ext_root_path . constants::DIR_ARTICLE_IMAGES) && (ini_get('file_uploads') || strtolower(ini_get('file_uploads')) == 'on'));
+	}
+
+	/**
+	 * Upload article image
+	 *
+	 * @return string Filename, empty if there are errors
+	 */
+	protected function upload_article_img($form_name)
+	{
+		if (!$this->can_upload())
+		{
+			return '';
+		}
+
+		$this->upload->set_error_prefix('ERROR_' . strtoupper($form_name) . '_')
+			->set_allowed_extensions(constants::FILE_EXTENSION_IMAGES)
+			->set_disallowed_content((isset($this->config['mime_triggers']) ? explode('|', $this->config['mime_triggers']) : false));
+
+		$upload_file = $this->request->file($form_name);
+
+		if (!empty($upload_file['name']))
+		{
+			$file = $this->upload->handle_upload('files.types.form', $form_name);
+		}
+		else
+		{
+			return '';
+		}
+
+		// Rename file
+		$file->clean_filename('avatar', date('Y-m-d-H-i-s_', time()), $this->user->data['user_id']);
+
+		// If there was an error during upload, then abort operation
+		if (sizeof($file->error))
+		{
+			$file->remove();
+			$this->errors = array_merge($this->errors, $file->error);
+
+			return '';
+		}
+
+		// Set new destination
+		$destination = $this->ext_helper->remove_trailing_slash($this->ext_root_path . constants::DIR_ARTICLE_IMAGES);
+
+		// Move file and overwrite any existing image
+		if (!sizeof($this->errors))
+		{
+			$file->move_file($destination, true);
+		}
+
+		// If there was an error during move, then clean up leftovers
+		if (sizeof($file->error))
+		{
+			$this->errors = array_merge($this->errors, $file->error);
+		}
+
+		if (sizeof($this->errors))
+		{
+			$file->remove();
+
+			return '';
+		}
+
+		return $file->get('realname');
 	}
 }

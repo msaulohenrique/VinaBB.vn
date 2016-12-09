@@ -50,14 +50,17 @@ class headlines_module
 		$this->page_title = $this->language->lang('ACP_HEADLINES');
 
 		// Language
-		$this->language->add_lang('acp_menus', 'vinabb/web');
+		$this->language->add_lang('acp_headlines', 'vinabb/web');
 
 		// Requests
 		$action = $this->request->variable('action', '');
 		$lang = $this->request->variable('lang', '');
 		$headline_id = $this->request->variable('id', 0);
 
-		$this->controller->set_form_action($this->u_action);
+		$this->controller->set_form_data([
+			'u_action'		=> $this->u_action,
+			'headline_lang'	=> $lang
+		]);
 
 		// Do actions via the controller
 		switch ($action)
@@ -102,6 +105,13 @@ class headlines_module
 		}
 
 		// Manage headlines
-		$this->controller->display_headlines($lang);
+		if (empty($lang))
+		{
+			$this->controller->select_lang();
+		}
+		else
+		{
+			$this->controller->display_headlines($lang);
+		}
 	}
 }
