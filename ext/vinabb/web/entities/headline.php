@@ -126,7 +126,7 @@ class headline implements headline_interface
 	*
 	* Will throw an exception if the entity was already inserted (call save() instead)
 	*
-	* @return headline_interface $this Object for chaining calls: load()->set()->save()
+	* @return headline_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function insert()
@@ -371,6 +371,40 @@ class headline implements headline_interface
 
 		// Set the value on our data array
 		$this->data['headline_url'] = $text;
+
+		return $this;
+	}
+
+	/**
+	* Get the headline sorting order
+	*
+	* @return int
+	*/
+	public function get_order()
+	{
+		return isset($this->data['headline_order']) ? (int) $this->data['headline_order'] : 0;
+	}
+
+	/**
+	* Set the headline sorting order
+	*
+	* @param string $lang 2-letter language ISO code
+	* @return headline_interface $this Object for chaining calls: load()->set()->save()
+	*/
+	public function set_order($lang)
+	{
+		if (!isset($this->data['headline_order']))
+		{
+			// Get new order
+			$sql = 'SELECT MAX(headline_order) as max_headline_order
+				FROM ' . $this->table_name . "
+				WHERE headline_lang = '" . $this->db->sql_escape($lang) . "'";
+			$result = $this->db->sql_query($sql);
+			$max_order = (int) $this->db->sql_fetchfield('max_headline_order');
+			$this->db->sql_freeresult($result);
+
+			$this->data['headline_order'] = $max_order + 1;
+		}
 
 		return $this;
 	}

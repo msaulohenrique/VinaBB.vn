@@ -142,4 +142,19 @@ interface headline_interface
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_url($text);
+
+	/**
+	* Get the headline sorting order
+	*
+	* @return int
+	*/
+	public function get_order();
+
+	/**
+	* Set the headline sorting order
+	*
+	* @param string $lang 2-letter language ISO code
+	* @return headline_interface $this Object for chaining calls: load()->set()->save()
+	*/
+	public function set_order($lang);
 }
