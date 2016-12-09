@@ -1,0 +1,38 @@
+{% include 'overall_header.html' %}
+
+<a href="{{ U_BACK }}" style="float: {{ S_CONTENT_FLOW_END }};">&laquo; {{ lang('BACK') }}</a>
+
+<h1>{{ PAGE_TITLE }}{{ LANG_NAME ? ' (' ~ LANG_NAME ~ ')' : '' }}</h1>
+<p>{{ lang('ACP_HEADLINES_EXPLAIN') }}</p>
+
+{% if ERRORS %}
+<div class="errorbox">
+	<h3>{{ lang('WARNING') }}</h3>
+	<p>{{ ERRORS }}</p>
+</div>
+{% endif %}
+
+<form id="acp_pages" method="post" action="{{ U_ACTION }}">
+	<fieldset>
+		<legend>{{ lang('HEADLINE_DETAILS') }}</legend>
+		<dl>
+			<dt><label for="headline_name">{{ lang('HEADLINE_NAME') ~ lang('COLON') }}</label></dt>
+			<dd><input class="text" type="text" name="headline_name" id="headline_name" value="{{ HEADLINE_NAME }}" maxlength="255"></dd>
+		</dl>
+		<dl>
+			<dt><label for="headline_desc">{{ lang('HEADLINE_DESC') ~ lang('COLON') }}</label></dt>
+			<dd><input class="text" type="text" name="headline_desc" id="headline_desc" value="{{ HEADLINE_DESC }}" maxlength="255"></dd>
+		</dl>
+		<dl>
+			<dt><label for="headline_url">{{ lang('HEADLINE_URL') ~ lang('COLON') }}</label></dt>
+			<dd><input class="text" type="url" name="headline_url" id="headline_url" value="{{ HEADLINE_URL }}" maxlength="255"></dd>
+		</dl>
+	</fieldset>
+	<fieldset class="submit-buttons">
+		<input class="button1" type="submit" name="submit" value="{{ lang('SUBMIT') }}">
+		<input class="button2" type="reset" name="reset" value="{{ lang('RESET') }}">
+		{{ S_FORM_TOKEN }}
+	</fieldset>
+</form>
+
+{% include 'overall_footer.html' %}

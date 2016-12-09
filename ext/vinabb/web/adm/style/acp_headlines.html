@@ -1,0 +1,80 @@
+{% include 'overall_header.html' %}
+
+<h1>{{ lang('ACP_HEADLINES') }}{{ LANG_NAME ? ' (' ~ LANG_NAME ~ ')' : '' }}</h1>
+<p>{{ lang('ACP_HEADLINES_EXPLAIN') }}</p>
+
+<form id="acp_headlines" method="post" action="{{ U_ACTION }}">
+	{% if lang_options %}
+	<fieldset>
+		<legend>{{ lang('LANGUAGE') }}</legend>
+		<dl>
+			<dt><label for="lang">{{ lang('LANGUAGE') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<select name="lang" id="lang">
+					{% for option in lang_options %}
+					<option value="{{ option.VALUE }}">{{ option.NAME }}</option>
+					{% endfor %}
+				</select>
+			</dd>
+		</dl>
+	</fieldset>
+	<fieldset class="submit-buttons">
+		<input class="button1" type="submit" name="submit" id="submit" value="{{ lang('GO') }}">
+	</fieldset>
+
+	{% else %}
+
+	<fieldset class="quick">
+		<input class="button2" type="submit" value="{{ lang('ADD_HEADLINE') }}">
+		<input type="hidden" name="action" value="add">
+	</fieldset>
+
+	<table class="table1 zebra-table">
+		<thead>
+			<tr>
+				<th>{{ lang('HEADLINE_NAME') }}</th>
+				<th>{{ lang('HEADLINE_DESC') }}</th>
+				<th>{{ lang('HEADLINE_IMG') }}</th>
+				<th>{{ lang('HEADLINE_URL') }}</th>
+				<th>{{ lang('ACTION') }}</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for headline in headlines %}
+			<tr>
+				<td>{{ headline.NAME }}</td>
+				<td>{{ headline.DESC }}</td>
+				<td>{{ headline.IMG }}</td>
+				<td>{{ headline.URL }}</td>
+				<td class="actions">
+					<span class="up-disabled" style="display:none;">{{ ICON_MOVE_UP_DISABLED }}</span>
+					<span class="up"><a href="{{ headline.U_MOVE_UP }}" data-ajax="row_up">{{ ICON_MOVE_UP }}</a></span>
+					<span class="down-disabled" style="display:none;">{{ ICON_MOVE_DOWN_DISABLED }}</span>
+					<span class="down"><a href="{{ headline.U_MOVE_DOWN }}" data-ajax="row_down">{{ ICON_MOVE_DOWN }}</a></span>
+					<a href="{{ headline.U_EDIT }}">{{ ICON_EDIT }}</a>
+					{% if headline.U_DELETE %}<a href="{{ headline.U_DELETE }}" data-ajax="row_delete">{{ ICON_DELETE }}</a>{% else %}{{ ICON_DELETE_DISABLED }}{% endif %}
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td colspan="5" style="text-align: center;">{{ lang('ACP_NO_ITEMS') }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% endif %}
+</form>
+
+{% include 'overall_footer.html' %}
+
+{% if lang_options %}
+<script>
+	$(document).ready(function()
+	{
+		$('#lang').change(function()
+		{
+			$('#submit').submit();
+		});
+	});
+</script>
+{% endif %}
