@@ -287,14 +287,16 @@ class portal_articles implements portal_articles_interface
 			'user_id'			=> $this->user->data['user_id'],
 			'article_name'		=> $this->request->variable('article_name', '', true),
 			'article_lang'		=> $this->request->variable('article_lang', ''),
-			'article_img'		=> $this->upload_article_img('article_img'),
 			'article_desc'		=> $this->request->variable('article_desc', '', true),
 			'article_text'		=> $this->request->variable('article_text', '', true),
 			'text_bbcode'		=> $this->request->variable('text_bbcode', true),
 			'text_urls'			=> $this->request->variable('text_urls', true),
 			'text_smilies'		=> $this->request->variable('text_smilies', true),
 			'article_enable'	=> $this->request->variable('article_enable', true),
-			'article_time'		=> null
+			'article_time'		=> null,
+
+			// Do not upload if we got any input errors above
+			'article_img'	=> $this->upload_article_img('article_img')
 		];
 	}
 
@@ -327,10 +329,12 @@ class portal_articles implements portal_articles_interface
 			'set_name'		=> $this->data['article_name'],
 			'set_name_seo'	=> $this->ext_helper->clean_url($this->data['article_name']),
 			'set_lang'		=> $this->data['article_lang'],
-			'set_img'		=> ($entity->get_id() && $this->data['article_img'] == '') ? $entity->get_img(false, false) : $this->data['article_img'],
 			'set_desc'		=> $this->data['article_desc'],
 			'set_text'		=> $this->data['article_text'],
-			'set_time'		=> $this->data['article_time']
+			'set_time'		=> $this->data['article_time'],
+
+			// Do not upload if we got any input errors above
+			'set_img'		=> ($entity->get_id() && $this->data['article_img'] == '') ? $entity->get_img(false, false) : $this->data['article_img']
 		];
 
 		// Set the mapped data in the entity
@@ -512,7 +516,7 @@ class portal_articles implements portal_articles_interface
 
 		$upload_file = $this->request->file($form_name);
 
-		if (!empty($upload_file['name']))
+		if (!sizeof($this->errors) && !empty($upload_file['name']))
 		{
 			$file = $this->upload->handle_upload('files.types.form', $form_name);
 		}
