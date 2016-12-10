@@ -360,7 +360,7 @@ class portal_articles implements portal_articles_interface
 	protected function upload_data(\vinabb\web\entities\portal_article_interface $entity)
 	{
 		// If there are not any input errors, then begin to upload file
-		if ($this->data['article_img']['name'] != '' && !sizeof($this->errors))
+		if ($this->can_upload() && $this->data['article_img']['name'] != '' && !sizeof($this->errors))
 		{
 			$entity->set_img($this->upload_article_img('article_img'));
 		}
@@ -517,11 +517,6 @@ class portal_articles implements portal_articles_interface
 	*/
 	protected function upload_article_img($form_name)
 	{
-		if (!$this->can_upload())
-		{
-			return '';
-		}
-
 		$this->upload->set_error_prefix('ERROR_' . strtoupper($form_name) . '_')
 			->set_allowed_extensions(constants::FILE_EXTENSION_IMAGES)
 			->set_disallowed_content((isset($this->config['mime_triggers']) ? explode('|', $this->config['mime_triggers']) : false));
