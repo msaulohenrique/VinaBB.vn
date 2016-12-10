@@ -257,6 +257,9 @@ class portal_articles implements portal_articles_interface
 			// Map and set data to the entity
 			$this->map_set_data($entity);
 
+			// Upload files
+			$this->upload_data($entity);
+
 			// Insert or update
 			if (!sizeof($this->errors))
 			{
@@ -287,16 +290,14 @@ class portal_articles implements portal_articles_interface
 			'user_id'			=> $this->user->data['user_id'],
 			'article_name'		=> $this->request->variable('article_name', '', true),
 			'article_lang'		=> $this->request->variable('article_lang', ''),
+			'article_img'		=> $this->request->file('article_img'),
 			'article_desc'		=> $this->request->variable('article_desc', '', true),
 			'article_text'		=> $this->request->variable('article_text', '', true),
 			'text_bbcode'		=> $this->request->variable('text_bbcode', true),
 			'text_urls'			=> $this->request->variable('text_urls', true),
 			'text_smilies'		=> $this->request->variable('text_smilies', true),
 			'article_enable'	=> $this->request->variable('article_enable', true),
-			'article_time'		=> null,
-
-			// Do not upload if we got any input errors above
-			'article_img'	=> $this->upload_article_img('article_img')
+			'article_time'		=> null
 		];
 	}
 
@@ -331,10 +332,7 @@ class portal_articles implements portal_articles_interface
 			'set_lang'		=> $this->data['article_lang'],
 			'set_desc'		=> $this->data['article_desc'],
 			'set_text'		=> $this->data['article_text'],
-			'set_time'		=> $this->data['article_time'],
-
-			// Do not upload if we got any input errors above
-			'set_img'		=> ($entity->get_id() && $this->data['article_img'] == '') ? $entity->get_img(false, false) : $this->data['article_img']
+			'set_time'		=> $this->data['article_time']
 		];
 
 		// Set the mapped data in the entity
@@ -352,6 +350,20 @@ class portal_articles implements portal_articles_interface
 		}
 
 		unset($map_fields);
+	}
+
+	/**
+	* Upload files and return their filenames to the form data
+	*
+	* @param \vinabb\web\entities\portal_article_interface $entity Article entity
+	*/
+	protected function upload_data(\vinabb\web\entities\portal_article_interface $entity)
+	{
+		// If there are not any input errors, then begin to upload file
+		if ($this->data['article_img']['name'] != '' && !sizeof($this->errors))
+		{
+			$entity->set_img($this->upload_article_img('article_img'));
+		}
 	}
 
 	/**
@@ -514,16 +526,7 @@ class portal_articles implements portal_articles_interface
 			->set_allowed_extensions(constants::FILE_EXTENSION_IMAGES)
 			->set_disallowed_content((isset($this->config['mime_triggers']) ? explode('|', $this->config['mime_triggers']) : false));
 
-		$upload_file = $this->request->file($form_name);
-
-		if (!sizeof($this->errors) && !empty($upload_file['name']))
-		{
-			$file = $this->upload->handle_upload('files.types.form', $form_name);
-		}
-		else
-		{
-			return '';
-		}
+		$file = $this->upload->handle_upload('files.types.form', $form_name);
 
 		// Rename file
 		$file->clean_filename('avatar', date('Y-m-d-H-i-s_', time()), $this->user->data['user_id']);
