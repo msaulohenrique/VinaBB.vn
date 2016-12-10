@@ -15,37 +15,37 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 */
 class bb_authors implements bb_authors_interface
 {
-	/** @var \vinabb\web\controllers\cache\service_interface */
+	/** @var \vinabb\web\controllers\cache\service_interface $cache */
 	protected $cache;
 
-	/** @var ContainerInterface */
+	/** @var ContainerInterface $container */
 	protected $container;
 
-	/** @var \phpbb\language\language */
+	/** @var \phpbb\language\language $language */
 	protected $language;
 
-	/** @var \phpbb\log\log */
+	/** @var \phpbb\log\log $log */
 	protected $log;
 
-	/** @var \vinabb\web\operators\bb_author_interface */
+	/** @var \vinabb\web\operators\bb_author_interface $operator */
 	protected $operator;
 
-	/** @var \phpbb\request\request */
+	/** @var \phpbb\request\request $request */
 	protected $request;
 
-	/** @var \phpbb\template\template */
+	/** @var \phpbb\template\template $template */
 	protected $template;
 
-	/** @var \phpbb\user */
+	/** @var \phpbb\user $user */
 	protected $user;
 
-	/** @var string */
+	/** @var string $u_action */
 	protected $u_action;
 
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
-	/** @var array */
+	/** @var array $errors */
 	protected $errors;
 
 	/**
@@ -123,7 +123,7 @@ class bb_authors implements bb_authors_interface
 	public function add_author()
 	{
 		// Initiate an entity
-		/** @var \vinabb\web\entities\bb_author_interface */
+		/** @var \vinabb\web\entities\bb_author_interface $entity */
 		$entity = $this->container->get('vinabb.web.entities.bb_author');
 
 		// Process the new entity
@@ -143,7 +143,7 @@ class bb_authors implements bb_authors_interface
 	public function edit_author($author_id)
 	{
 		// Initiate and load the entity
-		/** @var \vinabb\web\entities\bb_author_interface */
+		/** @var \vinabb\web\entities\bb_author_interface $entity */
 		$entity = $this->container->get('vinabb.web.entities.bb_author')->load($author_id);
 
 		// Process the edited entity
@@ -318,7 +318,7 @@ class bb_authors implements bb_authors_interface
 	*/
 	public function delete_author($author_id)
 	{
-		/** @var \vinabb\web\entities\bb_author_interface */
+		/** @var \vinabb\web\entities\bb_author_interface $entity */
 		$entity = $this->container->get('vinabb.web.entities.bb_author')->load($author_id);
 
 		try

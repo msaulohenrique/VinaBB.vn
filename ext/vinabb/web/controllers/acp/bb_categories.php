@@ -15,49 +15,49 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 */
 class bb_categories
 {
-	/** @var \vinabb\web\controllers\cache\service_interface */
+	/** @var \vinabb\web\controllers\cache\service_interface $cache */
 	protected $cache;
 
-	/** @var ContainerInterface */
+	/** @var ContainerInterface $container */
 	protected $container;
 
-	/** @var \vinabb\web\operators\bb_item_interface */
+	/** @var \vinabb\web\operators\bb_item_interface $item_operator */
 	protected $item_operator;
 
-	/** @var \phpbb\language\language */
+	/** @var \phpbb\language\language $language */
 	protected $language;
 
-	/** @var \phpbb\log\log */
+	/** @var \phpbb\log\log $log */
 	protected $log;
 
-	/** @var \vinabb\web\operators\bb_category_interface */
+	/** @var \vinabb\web\operators\bb_category_interface $operator */
 	protected $operator;
 
-	/** @var \phpbb\request\request */
+	/** @var \phpbb\request\request $request */
 	protected $request;
 
-	/** @var \phpbb\template\template */
+	/** @var \phpbb\template\template $template */
 	protected $template;
 
-	/** @var \phpbb\user */
+	/** @var \phpbb\user $user */
 	protected $user;
 
-	/** @var \vinabb\web\controllers\helper_interface */
+	/** @var \vinabb\web\controllers\helper_interface $ext_helper */
 	protected $ext_helper;
 
-	/** @var string */
+	/** @var string $u_action */
 	protected $u_action;
 
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
-	/** @var array */
+	/** @var array $errors */
 	protected $errors;
 
-	/** @var int */
+	/** @var int $bb_type */
 	protected $bb_type;
 
-	/** @var string */
+	/** @var string $lang_key */
 	protected $lang_key;
 
 	/**
@@ -166,7 +166,7 @@ class bb_categories
 	public function add_cat()
 	{
 		// Initiate an entity
-		/** @var \vinabb\web\entities\bb_category_interface */
+		/** @var \vinabb\web\entities\bb_category_interface $entity */
 		$entity = $this->container->get('vinabb.web.entities.bb_category');
 
 		// Process the new entity
@@ -186,7 +186,7 @@ class bb_categories
 	public function edit_cat($cat_id)
 	{
 		// Initiate and load the entity
-		/** @var \vinabb\web\entities\bb_category_interface */
+		/** @var \vinabb\web\entities\bb_category_interface $entity */
 		$entity = $this->container->get('vinabb.web.entities.bb_category')->load($cat_id);
 
 		// Process the edited entity
@@ -384,7 +384,7 @@ class bb_categories
 			trigger_error($this->language->lang('ERROR_CAT_DELETE_IN_USE') . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
-		/** @var \vinabb\web\entities\bb_category_interface */
+		/** @var \vinabb\web\entities\bb_category_interface $entity */
 		$entity = $this->container->get('vinabb.web.entities.bb_category')->load($cat_id);
 
 		try

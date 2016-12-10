@@ -13,40 +13,40 @@ namespace vinabb\web\controllers\acp;
 */
 class settings extends \vinabb\web\controllers\acp\helper\setting_helper implements settings_interface
 {
-	/** @var \phpbb\auth\auth */
+	/** @var \phpbb\auth\auth $auth */
 	protected $auth;
 
-	/** @var \vinabb\web\controllers\cache\service_interface */
+	/** @var \vinabb\web\controllers\cache\service_interface $cache */
 	protected $cache;
 
-	/** @var \phpbb\config\config */
+	/** @var \phpbb\config\config $config */
 	protected $config;
 
-	/** @var \phpbb\config\db_text */
+	/** @var \phpbb\config\db_text $config_text */
 	protected $config_text;
 
-	/** @var \phpbb\language\language */
+	/** @var \phpbb\language\language $language */
 	protected $language;
 
-	/** @var \phpbb\log\log */
+	/** @var \phpbb\log\log $log */
 	protected $log;
 
-	/** @var \phpbb\request\request */
+	/** @var \phpbb\request\request $request */
 	protected $request;
 
-	/** @var \phpbb\template\template */
+	/** @var \phpbb\template\template $template */
 	protected $template;
 
-	/** @var \phpbb\user */
+	/** @var \phpbb\user $user */
 	protected $user;
 
-	/** @var \vinabb\web\controllers\acp\helper\setting_tasks_interface */
+	/** @var \vinabb\web\controllers\acp\helper\setting_tasks_interface $task_helper */
 	protected $task_helper;
 
-	/** @var string */
+	/** @var string $u_action */
 	protected $u_action;
 
-	/** @var array List of errors to be triggered, neither data updated or tasks executed */
+	/** @var array $errors List of errors to be triggered, neither data updated or tasks executed */
 	protected $errors;
 
 	/**

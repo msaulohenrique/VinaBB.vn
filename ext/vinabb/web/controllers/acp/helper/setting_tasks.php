@@ -15,29 +15,29 @@ use vinabb\web\includes\constants;
 */
 class setting_tasks implements setting_tasks_interface
 {
-	/** @var \vinabb\web\controllers\cache\service_interface */
+	/** @var \vinabb\web\controllers\cache\service_interface $cache */
 	protected $cache;
 
-	/** @var \phpbb\config\config */
+	/** @var \phpbb\config\config $config */
 	protected $config;
 
-	/** @var \phpbb\db\driver\driver_interface */
+	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
 
-	/** @var \phpbb\language\language */
+	/** @var \phpbb\language\language $language */
 	protected $language;
 
-	/** @var \phpbb\log\log */
+	/** @var \phpbb\log\log $log */
 	protected $log;
 
-	/** @var \phpbb\request\request */
+	/** @var \phpbb\request\request $request */
 	protected $request;
 
-	/** @var \phpbb\user */
+	/** @var \phpbb\user $user */
 	protected $user;
 
-	/** @var array */
-	protected $lang_data = [];
+	/** @var array $lang_data */
+	protected $lang_data;
 
 	/**
 	* Constructor

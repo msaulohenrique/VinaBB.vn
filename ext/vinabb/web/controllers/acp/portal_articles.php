@@ -16,67 +16,67 @@ use vinabb\web\includes\constants;
 */
 class portal_articles implements portal_articles_interface
 {
-	/** @var \vinabb\web\controllers\cache\service_interface */
+	/** @var \vinabb\web\controllers\cache\service_interface $cache */
 	protected $cache;
 
-	/** @var \phpbb\config\config */
+	/** @var \phpbb\config\config $config */
 	protected $config;
 
-	/** @var ContainerInterface */
+	/** @var ContainerInterface $container */
 	protected $container;
 
-	/** @var \phpbb\extension\manager */
+	/** @var \phpbb\extension\manager $ext_manager */
 	protected $ext_manager;
 
-	/** @var \phpbb\filesystem\filesystem_interface */
+	/** @var \phpbb\filesystem\filesystem_interface $filesystem */
 	protected $filesystem;
 
-	/** @var \phpbb\language\language */
+	/** @var \phpbb\language\language $language */
 	protected $language;
 
-	/** @var \phpbb\log\log */
+	/** @var \phpbb\log\log $log */
 	protected $log;
 
-	/** @var \vinabb\web\operators\portal_article_interface */
+	/** @var \vinabb\web\operators\portal_article_interface $operator */
 	protected $operator;
 
-	/** @var \phpbb\request\request */
+	/** @var \phpbb\request\request $request */
 	protected $request;
 
-	/** @var \phpbb\template\template */
+	/** @var \phpbb\template\template $template */
 	protected $template;
 
-	/** @var \phpbb\files\upload */
+	/** @var \phpbb\files\upload $upload */
 	protected $upload;
 
-	/** @var \phpbb\user */
+	/** @var \phpbb\user $user */
 	protected $user;
 
-	/** @var \vinabb\web\controllers\helper_interface */
+	/** @var \vinabb\web\controllers\helper_interface $ext_helper */
 	protected $ext_helper;
 
-	/** @var string */
+	/** @var string $root_path */
 	protected $root_path;
 
-	/** @var string */
+	/** @var string $php_ext */
 	protected $php_ext;
 
-	/** @var string */
+	/** @var string $u_action */
 	protected $u_action;
 
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
-	/** @var array */
+	/** @var array $errors Use [] because it will be merged to other arrays */
 	protected $errors = [];
 
-	/** @var string */
+	/** @var string $ext_root_path */
 	protected $ext_root_path;
 
-	/** @var array */
+	/** @var array $lang_data */
 	protected $lang_data;
 
-	/** @var array */
+	/** @var array $cat_data */
 	protected $cat_data;
 
 	/**
@@ -155,7 +155,7 @@ class portal_articles implements portal_articles_interface
 		// Grab all from database
 		$entities = $this->operator->get_articles();
 
-		/* @var \vinabb\web\entities\portal_article_interface $entity */
+		/** @var \vinabb\web\entities\portal_article_interface $entity */
 		foreach ($entities as $entity)
 		{
 			$this->template->assign_block_vars('articles', [
@@ -181,7 +181,7 @@ class portal_articles implements portal_articles_interface
 	public function add_article()
 	{
 		// Initiate an entity
-		/* @var \vinabb\web\entities\portal_article_interface */
+		/** @var \vinabb\web\entities\portal_article_interface $entity */
 		$entity = $this->container->get('vinabb.web.entities.portal_article');
 
 		// Process the new entity
@@ -204,7 +204,7 @@ class portal_articles implements portal_articles_interface
 	public function edit_article($article_id)
 	{
 		// Initiate and load the entity
-		/* @var \vinabb\web\entities\portal_article_interface */
+		/** @var \vinabb\web\entities\portal_article_interface $entity */
 		$entity = $this->container->get('vinabb.web.entities.portal_article')->load($article_id);
 
 		// Process the edited entity
@@ -432,7 +432,7 @@ class portal_articles implements portal_articles_interface
 	*/
 	public function delete_article($article_id)
 	{
-		/** @var \vinabb\web\entities\portal_article_interface */
+		/** @var \vinabb\web\entities\portal_article_interface $entity */
 		$entity = $this->container->get('vinabb.web.entities.portal_article')->load($article_id);
 
 		try

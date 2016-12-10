@@ -15,40 +15,40 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 */
 class menus implements menus_interface
 {
-	/** @var \vinabb\web\controllers\cache\service_interface */
+	/** @var \vinabb\web\controllers\cache\service_interface $cache */
 	protected $cache;
 
-	/** @var ContainerInterface */
+	/** @var ContainerInterface $container */
 	protected $container;
 
-	/** @var \phpbb\language\language */
+	/** @var \phpbb\language\language $language */
 	protected $language;
 
-	/** @var \phpbb\log\log */
+	/** @var \phpbb\log\log $log */
 	protected $log;
 
-	/** @var \vinabb\web\operators\menu_interface */
+	/** @var \vinabb\web\operators\menu_interface $operator */
 	protected $operator;
 
-	/** @var \phpbb\request\request */
+	/** @var \phpbb\request\request $request */
 	protected $request;
 
-	/** @var \phpbb\template\template */
+	/** @var \phpbb\template\template $template */
 	protected $template;
 
-	/** @var \phpbb\user */
+	/** @var \phpbb\user $user */
 	protected $user;
 
-	/** @var \vinabb\web\controllers\helper_interface */
+	/** @var \vinabb\web\controllers\helper_interface $ext_helper */
 	protected $ext_helper;
 
-	/** @var string */
+	/** @var string $u_action */
 	protected $u_action;
 
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
-	/** @var array */
+	/** @var array $errors */
 	protected $errors;
 
 	/**
@@ -169,7 +169,7 @@ class menus implements menus_interface
 	public function add_menu($parent_id = 0)
 	{
 		// Initiate an entity
-		/** @var \vinabb\web\entities\menu_interface */
+		/** @var \vinabb\web\entities\menu_interface $entity */
 		$entity = $this->container->get('vinabb.web.entities.menu');
 
 		// Process the new entity
@@ -194,7 +194,7 @@ class menus implements menus_interface
 	public function edit_menu($menu_id)
 	{
 		// Initiate and load the entity
-		/** @var \vinabb\web\entities\menu_interface */
+		/** @var \vinabb\web\entities\menu_interface $entity */
 		$entity = $this->container->get('vinabb.web.entities.menu')->load($menu_id);
 
 		// Process the edited entity
@@ -423,7 +423,7 @@ class menus implements menus_interface
 		}
 
 		// Initiate and load the entity for no AJAX request
-		/** @var \vinabb\web\entities\menu_interface */
+		/** @var \vinabb\web\entities\menu_interface $entity */
 		$entity = $this->container->get('vinabb.web.entities.menu')->load($menu_id);
 
 		// Reload the current page
@@ -437,7 +437,7 @@ class menus implements menus_interface
 	*/
 	public function delete_menu($menu_id)
 	{
-		/** @var \vinabb\web\entities\menu_interface */
+		/** @var \vinabb\web\entities\menu_interface $entity */
 		$entity = $this->container->get('vinabb.web.entities.menu')->load($menu_id);
 
 		try

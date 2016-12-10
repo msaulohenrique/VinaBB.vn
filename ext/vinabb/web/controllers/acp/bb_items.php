@@ -15,52 +15,52 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 */
 class bb_items implements bb_items_interface
 {
-	/** @var \vinabb\web\controllers\cache\service_interface */
+	/** @var \vinabb\web\controllers\cache\service_interface $cache */
 	protected $cache;
 
-	/** @var ContainerInterface */
+	/** @var ContainerInterface $container */
 	protected $container;
 
-	/** @var \phpbb\language\language */
+	/** @var \phpbb\language\language $language */
 	protected $language;
 
-	/** @var \phpbb\log\log */
+	/** @var \phpbb\log\log $log */
 	protected $log;
 
-	/** @var \vinabb\web\operators\bb_item_interface */
+	/** @var \vinabb\web\operators\bb_item_interface $operator */
 	protected $operator;
 
-	/** @var \phpbb\request\request */
+	/** @var \phpbb\request\request $request */
 	protected $request;
 
-	/** @var \phpbb\template\template */
+	/** @var \phpbb\template\template $template */
 	protected $template;
 
-	/** @var \phpbb\user */
+	/** @var \phpbb\user $user */
 	protected $user;
 
-	/** @var string */
+	/** @var string $root_path */
 	protected $root_path;
 
-	/** @var string */
+	/** @var string $php_ext */
 	protected $php_ext;
 
-	/** @var string */
+	/** @var string $u_action */
 	protected $u_action;
 
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
-	/** @var array */
+	/** @var array $errors */
 	protected $errors;
 
-	/** @var int */
+	/** @var int $bb_type */
 	protected $bb_type;
 
-	/** @var string */
+	/** @var string $lang_key */
 	protected $lang_key;
 
-	/** @var array */
+	/** @var array $cat_data */
 	protected $cat_data;
 
 	/**
@@ -166,7 +166,7 @@ class bb_items implements bb_items_interface
 	public function add_item()
 	{
 		// Initiate an entity
-		/** @var \vinabb\web\entities\bb_item_interface */
+		/** @var \vinabb\web\entities\bb_item_interface $entity */
 		$entity = $this->container->get('vinabb.web.entities.bb_item');
 
 		// Process the new entity
@@ -189,7 +189,7 @@ class bb_items implements bb_items_interface
 	public function edit_item($item_id)
 	{
 		// Initiate and load the entity
-		/** @var \vinabb\web\entities\bb_item_interface */
+		/** @var \vinabb\web\entities\bb_item_interface $entity */
 		$entity = $this->container->get('vinabb.web.entities.bb_item')->load($item_id);
 
 		// Process the edited entity
@@ -405,7 +405,7 @@ class bb_items implements bb_items_interface
 	*/
 	public function delete_item($item_id)
 	{
-		/** @var \vinabb\web\entities\bb_item_interface */
+		/** @var \vinabb\web\entities\bb_item_interface $entity */
 		$entity = $this->container->get('vinabb.web.entities.bb_item')->load($item_id);
 
 		try

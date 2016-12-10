@@ -15,40 +15,40 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 */
 class portal_categories implements portal_categories_interface
 {
-	/** @var \vinabb\web\controllers\cache\service_interface */
+	/** @var \vinabb\web\controllers\cache\service_interface $cache */
 	protected $cache;
 
-	/** @var ContainerInterface */
+	/** @var ContainerInterface $container */
 	protected $container;
 
-	/** @var \phpbb\language\language */
+	/** @var \phpbb\language\language $language */
 	protected $language;
 
-	/** @var \phpbb\log\log */
+	/** @var \phpbb\log\log $log */
 	protected $log;
 
-	/** @var \vinabb\web\operators\portal_category_interface */
+	/** @var \vinabb\web\operators\portal_category_interface $operator */
 	protected $operator;
 
-	/** @var \phpbb\request\request */
+	/** @var \phpbb\request\request $request */
 	protected $request;
 
-	/** @var \phpbb\template\template */
+	/** @var \phpbb\template\template $template */
 	protected $template;
 
-	/** @var \phpbb\user */
+	/** @var \phpbb\user $user */
 	protected $user;
 
-	/** @var \vinabb\web\controllers\helper_interface */
+	/** @var \vinabb\web\controllers\helper_interface $ext_helper */
 	protected $ext_helper;
 
-	/** @var string */
+	/** @var string $u_action */
 	protected $u_action;
 
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
-	/** @var array */
+	/** @var array $errors */
 	protected $errors;
 
 	/**
@@ -166,7 +166,7 @@ class portal_categories implements portal_categories_interface
 	public function add_cat($parent_id = 0)
 	{
 		// Initiate an entity
-		/** @var \vinabb\web\entities\portal_category_interface */
+		/** @var \vinabb\web\entities\portal_category_interface $entity */
 		$entity = $this->container->get('vinabb.web.entities.portal_category');
 
 		// Process the new entity
@@ -191,7 +191,7 @@ class portal_categories implements portal_categories_interface
 	public function edit_cat($cat_id)
 	{
 		// Initiate and load the entity
-		/** @var \vinabb\web\entities\portal_category_interface */
+		/** @var \vinabb\web\entities\portal_category_interface $entity */
 		$entity = $this->container->get('vinabb.web.entities.portal_category')->load($cat_id);
 
 		// Process the edited entity
@@ -390,7 +390,7 @@ class portal_categories implements portal_categories_interface
 		}
 
 		// Initiate and load the entity for no AJAX request
-		/** @var \vinabb\web\entities\portal_category_interface */
+		/** @var \vinabb\web\entities\portal_category_interface $entity */
 		$entity = $this->container->get('vinabb.web.entities.portal_category')->load($cat_id);
 
 		// Reload the current page
@@ -404,7 +404,7 @@ class portal_categories implements portal_categories_interface
 	*/
 	public function delete_cat($cat_id)
 	{
-		/** @var \vinabb\web\entities\portal_category_interface */
+		/** @var \vinabb\web\entities\portal_category_interface $entity */
 		$entity = $this->container->get('vinabb.web.entities.portal_category')->load($cat_id);
 
 		try

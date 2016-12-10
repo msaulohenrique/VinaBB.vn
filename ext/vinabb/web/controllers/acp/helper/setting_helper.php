@@ -15,40 +15,40 @@ use vinabb\web\includes\constants;
 */
 class setting_helper
 {
-	/** @var \vinabb\web\controllers\cache\service_interface */
+	/** @var \vinabb\web\controllers\cache\service_interface $cache */
 	protected $cache;
 
-	/** @var \phpbb\config\config */
+	/** @var \phpbb\config\config $config */
 	protected $config;
 
-	/** @var \phpbb\config\db_text */
+	/** @var \phpbb\config\db_text $config_text */
 	protected $config_text;
 
-	/** @var \phpbb\language\language */
+	/** @var \phpbb\language\language $language */
 	protected $language;
 
-	/** @var \phpbb\request\request */
+	/** @var \phpbb\request\request $request */
 	protected $request;
 
-	/** @var \phpbb\template\template */
+	/** @var \phpbb\template\template $template */
 	protected $template;
 
-	/** @var \phpbb\user */
+	/** @var \phpbb\user $user */
 	protected $user;
 
-	/** @var \vinabb\web\controllers\acp\helper\setting_tasks_interface */
+	/** @var \vinabb\web\controllers\acp\helper\setting_tasks_interface $task_helper */
 	protected $task_helper;
 
-	/** @var array List of config items which has data changed, ready to write */
+	/** @var array $data List of config items which has data changed, ready to write */
 	protected $data;
 
-	/** @var array List of methods need to be executed before saving config items */
+	/** @var array $tasks List of methods need to be executed before saving config items */
 	protected $tasks;
 
-	/** @var array List of errors to be triggered, neither data updated or tasks executed */
+	/** @var array $errors List of errors to be triggered, neither data updated or tasks executed */
 	protected $errors;
 
-	/** @var array */
+	/** @var array $config_text_data */
 	protected $config_text_data;
 
 	/**

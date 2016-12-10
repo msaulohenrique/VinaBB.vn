@@ -16,55 +16,55 @@ use vinabb\web\includes\constants;
 */
 class headlines implements headlines_interface
 {
-	/** @var \vinabb\web\controllers\cache\service_interface */
+	/** @var \vinabb\web\controllers\cache\service_interface $cache */
 	protected $cache;
 
-	/** @var ContainerInterface */
+	/** @var ContainerInterface $container */
 	protected $container;
 
-	/** @var \phpbb\extension\manager */
+	/** @var \phpbb\extension\manager $ext_manager */
 	protected $ext_manager;
 
-	/** @var \phpbb\filesystem\filesystem_interface */
+	/** @var \phpbb\filesystem\filesystem_interface $filesystem */
 	protected $filesystem;
 
-	/** @var \phpbb\language\language */
+	/** @var \phpbb\language\language $language */
 	protected $language;
 
-	/** @var \phpbb\log\log */
+	/** @var \phpbb\log\log $log */
 	protected $log;
 
-	/** @var \vinabb\web\operators\headline_interface */
+	/** @var \vinabb\web\operators\headline_interface $operator */
 	protected $operator;
 
-	/** @var \phpbb\request\request */
+	/** @var \phpbb\request\request $request */
 	protected $request;
 
-	/** @var \phpbb\template\template */
+	/** @var \phpbb\template\template $template */
 	protected $template;
 
-	/** @var \phpbb\files\upload */
+	/** @var \phpbb\files\upload $upload */
 	protected $upload;
 
-	/** @var \phpbb\user */
+	/** @var \phpbb\user $user */
 	protected $user;
 
-	/** @var string */
+	/** @var string $u_action */
 	protected $u_action;
 
-	/** @var string */
+	/** @var string $headline_lang */
 	protected $headline_lang;
 
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
-	/** @var array */
+	/** @var array $errors */
 	protected $errors;
 
-	/** @var string */
+	/** @var string $ext_root_path */
 	protected $ext_root_path;
 
-	/** @var array */
+	/** @var array $lang_data */
 	protected $lang_data;
 
 	/**
@@ -184,7 +184,7 @@ class headlines implements headlines_interface
 	public function add_headline()
 	{
 		// Initiate an entity
-		/** @var \vinabb\web\entities\headline_interface */
+		/** @var \vinabb\web\entities\headline_interface $entity */
 		$entity = $this->container->get('vinabb.web.entities.headline');
 
 		// Process the new entity
@@ -206,7 +206,7 @@ class headlines implements headlines_interface
 	public function edit_headline($headline_id)
 	{
 		// Initiate and load the entity
-		/** @var \vinabb\web\entities\headline_interface */
+		/** @var \vinabb\web\entities\headline_interface $entity */
 		$entity = $this->container->get('vinabb.web.entities.headline')->load($headline_id);
 
 		// Process the edited entity
@@ -394,7 +394,7 @@ class headlines implements headlines_interface
 	*/
 	public function delete_headline($headline_id)
 	{
-		/** @var \vinabb\web\entities\headline_interface */
+		/** @var \vinabb\web\entities\headline_interface $entity */
 		$entity = $this->container->get('vinabb.web.entities.headline')->load($headline_id);
 
 		try
