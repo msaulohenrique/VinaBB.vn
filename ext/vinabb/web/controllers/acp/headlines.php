@@ -58,8 +58,8 @@ class headlines implements headlines_interface
 	/** @var array $data */
 	protected $data;
 
-	/** @var array $errors */
-	protected $errors;
+	/** @var array $errors Use [] because it will be merged to other arrays */
+	protected $errors = [];
 
 	/** @var string $ext_root_path */
 	protected $ext_root_path;
@@ -246,6 +246,9 @@ class headlines implements headlines_interface
 			// Map and set data to the entity
 			$this->map_set_data($entity);
 
+			// Upload files
+			$this->upload_data($entity);
+
 			// Insert or update
 			if (!sizeof($this->errors))
 			{
@@ -270,7 +273,7 @@ class headlines implements headlines_interface
 		$this->data = [
 			'headline_name'		=> $this->request->variable('headline_name', '', true),
 			'headline_desc'		=> $this->request->variable('headline_desc', '', true),
-			'headline_img'		=> $this->request->variable('headline_img', ''),
+			'headline_img'		=> $this->request->file('headline_img'),
 			'headline_url'		=> $this->request->variable('headline_url', '')
 		];
 	}
@@ -286,7 +289,6 @@ class headlines implements headlines_interface
 			'set_lang'	=> $this->headline_lang,
 			'set_name'	=> $this->data['headline_name'],
 			'set_desc'	=> $this->data['headline_desc'],
-			'set_img'	=> $this->data['headline_img'],
 			'set_url'	=> $this->data['headline_url'],
 			'set_order'	=> $this->headline_lang
 		];
@@ -306,6 +308,20 @@ class headlines implements headlines_interface
 		}
 
 		unset($map_fields);
+	}
+
+	/**
+	* Upload files and return their filenames to the form data
+	*
+	* @param \vinabb\web\entities\headline_interface $entity Headline entity
+	*/
+	protected function upload_data(\vinabb\web\entities\headline_interface $entity)
+	{
+		// If there are not any input errors, then begin to upload file
+		if ($this->data['headline_img']['name'] != '' && !sizeof($this->errors))
+		{
+			$entity->set_img($this->upload_headline_img('headline_img'));
+		}
 	}
 
 	/**
@@ -428,15 +444,15 @@ class headlines implements headlines_interface
 	*/
 	protected function can_upload()
 	{
-		return (file_exists($this->ext_root_path . constants::DIR_HE) && $this->filesystem->is_writable($this->ext_root_path . constants::DIR_ARTICLE_IMAGES) && (ini_get('file_uploads') || strtolower(ini_get('file_uploads')) == 'on'));
+		return (file_exists($this->ext_root_path . constants::DIR_HEADLINE_IMAGES) && $this->filesystem->is_writable($this->ext_root_path . constants::DIR_HEADLINE_IMAGES) && (ini_get('file_uploads') || strtolower(ini_get('file_uploads')) == 'on'));
 	}
 
 	/**
-	 * Upload article image
-	 *
-	 * @return string Filename, empty if there are errors
-	 */
-	protected function upload_article_img($form_name)
+	* Upload article image
+	*
+	* @return string Filename, empty if there are errors
+	*/
+	protected function upload_headline_img($form_name)
 	{
 		if (!$this->can_upload())
 		{
@@ -447,19 +463,10 @@ class headlines implements headlines_interface
 			->set_allowed_extensions(constants::FILE_EXTENSION_IMAGES)
 			->set_disallowed_content((isset($this->config['mime_triggers']) ? explode('|', $this->config['mime_triggers']) : false));
 
-		$upload_file = $this->request->file($form_name);
-
-		if (!empty($upload_file['name']))
-		{
-			$file = $this->upload->handle_upload('files.types.form', $form_name);
-		}
-		else
-		{
-			return '';
-		}
+		$file = $this->upload->handle_upload('files.types.form', $form_name);
 
 		// Rename file
-		$file->clean_filename('avatar', date('Y-m-d-H-i-s_', time()), $this->user->data['user_id']);
+		$file->clean_filename('avatar', $this->headline_lang . '_');
 
 		// If there was an error during upload, then abort operation
 		if (sizeof($file->error))
@@ -471,7 +478,7 @@ class headlines implements headlines_interface
 		}
 
 		// Set new destination
-		$destination = $this->ext_helper->remove_trailing_slash($this->ext_root_path . constants::DIR_ARTICLE_IMAGES);
+		$destination = $this->ext_helper->remove_trailing_slash($this->ext_root_path . constants::DIR_HEADLINE_IMAGES);
 
 		// Move file and overwrite any existing image
 		if (!sizeof($this->errors))
