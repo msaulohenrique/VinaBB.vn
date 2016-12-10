@@ -184,11 +184,11 @@ class portal_articles implements portal_articles_interface
 		/* @var \vinabb\web\entities\portal_article_interface */
 		$entity = $this->container->get('vinabb.web.entities.portal_article');
 
-		// Build the category selection
-		$this->build_cat_options($entity, 0, 'add');
-
 		// Process the new entity
 		$this->add_edit_data($entity);
+
+		// Build the category selection
+		$this->build_cat_options($entity, $this->data['cat_id'], 'add');
 
 		$this->template->assign_vars([
 			'S_ADD'		=> true,
@@ -207,11 +207,11 @@ class portal_articles implements portal_articles_interface
 		/* @var \vinabb\web\entities\portal_article_interface */
 		$entity = $this->container->get('vinabb.web.entities.portal_article')->load($article_id);
 
-		// Build the category selection
-		$this->build_cat_options($entity);
-
 		// Process the edited entity
 		$this->add_edit_data($entity);
+
+		// Build the category selection
+		$this->build_cat_options($entity);
 
 		$this->template->assign_vars([
 			'S_EDIT'	=> true,
