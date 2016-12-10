@@ -19,6 +19,9 @@ class headlines implements headlines_interface
 	/** @var \vinabb\web\controllers\cache\service_interface $cache */
 	protected $cache;
 
+	/** @var \phpbb\config\config $config */
+	protected $config;
+
 	/** @var ContainerInterface $container */
 	protected $container;
 
@@ -49,6 +52,9 @@ class headlines implements headlines_interface
 	/** @var \phpbb\user $user */
 	protected $user;
 
+	/** @var \vinabb\web\controllers\helper_interface $ext_helper */
+	protected $ext_helper;
+
 	/** @var string $u_action */
 	protected $u_action;
 
@@ -71,6 +77,7 @@ class headlines implements headlines_interface
 	* Constructor
 	*
 	* @param \vinabb\web\controllers\cache\service_interface	$cache			Cache service
+	* @param \phpbb\config\config								$config			Config object
 	* @param ContainerInterface									$container		Container object
 	* @param \phpbb\extension\manager							$ext_manager	Extension manager
 	* @param \phpbb\filesystem\filesystem_interface				$filesystem		Filesystem object
@@ -81,9 +88,11 @@ class headlines implements headlines_interface
 	* @param \phpbb\template\template							$template		Template object
 	* @param \phpbb\files\upload								$upload			Upload object
 	* @param \phpbb\user										$user			User object
+	* @param \vinabb\web\controllers\helper_interface			$ext_helper		Extension helper
 	*/
 	public function __construct(
 		\vinabb\web\controllers\cache\service_interface $cache,
+		\phpbb\config\config $config,
 		ContainerInterface $container,
 		\phpbb\extension\manager $ext_manager,
 		\phpbb\filesystem\filesystem_interface $filesystem,
@@ -93,10 +102,12 @@ class headlines implements headlines_interface
 		\phpbb\request\request $request,
 		\phpbb\template\template $template,
 		\phpbb\files\upload $upload,
-		\phpbb\user $user
+		\phpbb\user $user,
+		\vinabb\web\controllers\helper_interface $ext_helper
 	)
 	{
 		$this->cache = $cache;
+		$this->config = $config;
 		$this->container = $container;
 		$this->ext_manager = $ext_manager;
 		$this->filesystem = $filesystem;
@@ -107,6 +118,7 @@ class headlines implements headlines_interface
 		$this->template = $template;
 		$this->upload = $upload;
 		$this->user = $user;
+		$this->ext_helper = $ext_helper;
 
 		$this->ext_root_path = $this->ext_manager->get_extension_path('vinabb/web', true);
 		$this->lang_data = $this->cache->get_lang_data();

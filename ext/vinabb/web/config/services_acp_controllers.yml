@@ -108,6 +108,7 @@ services:
         class: vinabb\web\controllers\acp\headlines
         arguments:
             - '@vinabb.web.cache'
+            - '@config'
             - '@service_container'
             - '@language'
             - '@log'
@@ -115,3 +116,4 @@ services:
             - '@request'
             - '@template'
             - '@user'
+            - '@vinabb.web.helper'
