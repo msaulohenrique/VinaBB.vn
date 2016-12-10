@@ -169,11 +169,11 @@ class portal_categories implements portal_categories_interface
 		/** @var \vinabb\web\entities\portal_category_interface */
 		$entity = $this->container->get('vinabb.web.entities.portal_category');
 
-		// Build the parent selection
-		$this->build_parent_options($entity, $parent_id, 'add');
-
 		// Process the new entity
 		$this->add_edit_data($entity);
+
+		// Build the parent selection
+		$this->build_parent_options($entity, $parent_id, 'add');
 
 		$this->template->assign_vars([
 			'S_ADD'	=> true,
@@ -194,11 +194,11 @@ class portal_categories implements portal_categories_interface
 		/** @var \vinabb\web\entities\portal_category_interface */
 		$entity = $this->container->get('vinabb.web.entities.portal_category')->load($cat_id);
 
-		// Build the parent selection
-		$this->build_parent_options($entity);
-
 		// Process the edited entity
 		$this->add_edit_data($entity);
+
+		// Build the parent selection
+		$this->build_parent_options($entity);
 
 		$this->template->assign_vars([
 			'S_EDIT'	=> true,

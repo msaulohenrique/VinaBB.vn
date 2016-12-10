@@ -172,11 +172,11 @@ class menus implements menus_interface
 		/** @var \vinabb\web\entities\menu_interface */
 		$entity = $this->container->get('vinabb.web.entities.menu');
 
-		// Build the parent selection
-		$this->build_parent_options($entity, $parent_id, 'add');
-
 		// Process the new entity
 		$this->add_edit_data($entity);
+
+		// Build the parent selection
+		$this->build_parent_options($entity, $parent_id, 'add');
 
 		$this->template->assign_vars([
 			'S_ADD'	=> true,
@@ -197,11 +197,11 @@ class menus implements menus_interface
 		/** @var \vinabb\web\entities\menu_interface */
 		$entity = $this->container->get('vinabb.web.entities.menu')->load($menu_id);
 
-		// Build the parent selection
-		$this->build_parent_options($entity);
-
 		// Process the edited entity
 		$this->add_edit_data($entity);
+
+		// Build the parent selection
+		$this->build_parent_options($entity);
 
 		$this->template->assign_vars([
 			'S_EDIT'	=> true,
