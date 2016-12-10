@@ -8,6 +8,9 @@
 
 namespace vinabb\web\controllers\bb;
 
+/**
+* Interface for phpBB resource categories
+*/
 interface bb_interface
 {
 	/**

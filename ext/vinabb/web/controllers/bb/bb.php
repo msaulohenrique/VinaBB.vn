@@ -10,47 +10,50 @@ namespace vinabb\web\controllers\bb;
 
 use vinabb\web\includes\constants;
 
+/**
+* Controller for phpBB resource categories
+*/
 class bb implements bb_interface
 {
-	/** @var \vinabb\web\controllers\cache\service_interface */
+	/** @var \vinabb\web\controllers\cache\service_interface $cache */
 	protected $cache;
 
-	/** @var \phpbb\config\config */
+	/** @var \phpbb\config\config $config */
 	protected $config;
 
-	/** @var \phpbb\db\driver\driver_interface */
+	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
 
-	/** @var \phpbb\language\language */
+	/** @var \phpbb\language\language $language */
 	protected $language;
 
-	/** @var \phpbb\request\request */
+	/** @var \phpbb\request\request $request */
 	protected $request;
 
-	/** @var \phpbb\template\template */
+	/** @var \phpbb\template\template $template */
 	protected $template;
 
-	/** @var \phpbb\user */
+	/** @var \phpbb\user $user */
 	protected $user;
 
-	/** @var \phpbb\controller\helper */
+	/** @var \phpbb\controller\helper $helper */
 	protected $helper;
 
-	/** @var \vinabb\web\controllers\helper_interface */
+	/** @var \vinabb\web\controllers\helper_interface $ext_helper */
 	protected $ext_helper;
 
 	/**
 	* Constructor
 	*
-	* @param \vinabb\web\controllers\cache\service_interface $cache
-	* @param \phpbb\config\config $config
-	* @param \phpbb\db\driver\driver_interface $db
-	* @param \phpbb\language\language $language
-	* @param \phpbb\request\request $request
-	* @param \phpbb\template\template $template
-	* @param \phpbb\user $user
-	* @param \phpbb\controller\helper $helper
-	* @param \vinabb\web\controllers\helper_interface $ext_helper
+	* @param \vinabb\web\controllers\cache\service_interface	$cache		Cache service
+	* @param \phpbb\config\config								$config		Config object
+	* @param \phpbb\db\driver\driver_interface					$db			Database object
+	* @param \phpbb\language\language							$language	Language object
+	* @param \phpbb\request\request								$request	Request object
+	* @param \phpbb\template\template							$template	Template object
+	* @param \phpbb\user										$user		User object
+	* @param \phpbb\controller\helper							$helper		Controller helper
+	* @param \vinabb\web\controllers\helper_interface			$ext_helper	Extension helper
 	*/
 	public function __construct(
 		\vinabb\web\controllers\cache\service_interface $cache,
@@ -118,7 +121,7 @@ class bb implements bb_interface
 	* Convert BB types from URL varnames to standard varnames
 	* Example: For ACP styles, URL varname is 'acp-styles' but standard varname is 'acp_style'
 	*
-	* @param $varname phpBB resource type URL varname
+	* @param string $varname phpBB resource type URL varname
 	* @return string
 	*/
 	protected function convert_bb_type_varname($varname)
