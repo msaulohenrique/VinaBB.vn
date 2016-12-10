@@ -324,6 +324,12 @@ class bb_items implements bb_items_interface
 			}
 			catch (\vinabb\web\exceptions\base $e)
 			{
+				// Replace prefix 'item_' with language key prefix: ERROR_ITEM_ -> ERROR_BB_EXT_
+				if (substr($e->get_entity_name(), 0, 5) == 'item_')
+				{
+					$e->set_entity_name('BB_' . $this->lang_key . substr($e->get_entity_name(), 4));
+				}
+
 				$this->errors[] = $e->get_friendly_message($this->language);
 			}
 		}

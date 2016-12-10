@@ -83,6 +83,26 @@ class base extends \Exception
 	}
 
 	/**
+	* Get the entity name
+	*
+	* @return string
+	*/
+	public function get_entity_name()
+	{
+		return isset($this->message_full[0]) ? $this->message_full[0] : '';
+	}
+
+	/**
+	* Set the entity name
+	*
+	* @param string $text Entity name
+	*/
+	public function set_entity_name($text)
+	{
+		$this->message_full[0] = (string) $text;
+	}
+
+	/**
 	* Translate all portions of the message sent to the exception
 	*
 	* Goes through each element of the array and tries to translate them
