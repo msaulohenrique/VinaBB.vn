@@ -313,7 +313,7 @@ class bb_items implements bb_items_interface
 	{
 		$map_fields = [
 			'set_cat_id'	=> $this->data['cat_id'],
-			'set_author_id'	=> $this->data['page_name_vi'],
+			'set_author_id'	=> $this->data['author_id'],
 			'set_name'		=> $this->data['item_name'],
 			'set_varname'	=> $this->data['item_varname'],
 			'set_desc'		=> $this->data['item_desc'],
