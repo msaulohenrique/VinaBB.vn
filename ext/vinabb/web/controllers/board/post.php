@@ -11,39 +11,42 @@ namespace vinabb\web\controllers\board;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use vinabb\web\includes\constants;
 
-class post
+/**
+* Controller for the single post page
+*/
+class post implements post_interface
 {
-	/** @var \phpbb\auth\auth */
+	/** @var \phpbb\auth\auth $auth */
 	protected $auth;
 
-	/** @var \vinabb\web\controllers\cache\service_interface */
+	/** @var \vinabb\web\controllers\cache\service_interface $cache */
 	protected $cache;
 
-	/** @var ContainerInterface */
+	/** @var ContainerInterface $container */
 	protected $container;
 
-	/** @var \phpbb\language\language */
+	/** @var \phpbb\language\language $language */
 	protected $language;
 
-	/** @var \phpbb\template\template */
+	/** @var \phpbb\template\template $template */
 	protected $template;
 
-	/** @var \phpbb\user */
+	/** @var \phpbb\user $user */
 	protected $user;
 
-	/** @var \phpbb\controller\helper */
+	/** @var \phpbb\controller\helper $helper */
 	protected $helper;
 
-	/** @var \vinabb\web\controllers\helper_interface */
+	/** @var \vinabb\web\controllers\helper_interface $ext_helper */
 	protected $ext_helper;
 
-	/** @var string */
+	/** @var string $root_path */
 	protected $root_path;
 
-	/** @var string */
+	/** @var string $php_ext */
 	protected $php_ext;
 
-	/** @var array */
+	/** @var array $forum_data */
 	protected $forum_data;
 
 	/**
@@ -88,7 +91,7 @@ class post
 	}
 
 	/**
-	* Display a post
+	* Main method
 	*
 	* @param int $post_id Post ID
 	* @return \Symfony\Component\HttpFoundation\Response
@@ -101,7 +104,6 @@ class post
 		}
 		else
 		{
-			// Initiate and load the entity
 			/** @var \vinabb\web\entities\post_interface $entity */
 			$entity = $this->container->get('vinabb.web.entities.post')->load($post_id);
 

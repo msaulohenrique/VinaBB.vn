@@ -8,36 +8,39 @@
 
 namespace vinabb\web\controllers\board;
 
+/**
+* Controller for the board index page
+*/
 class board implements board_interface
 {
-	/** @var \phpbb\auth\auth */
+	/** @var \phpbb\auth\auth $auth */
 	protected $auth;
 
-	/** @var \phpbb\config\config */
+	/** @var \phpbb\config\config $config */
 	protected $config;
 
-	/** @var \phpbb\db\driver\driver_interface */
+	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
 
-	/** @var \phpbb\language\language */
+	/** @var \phpbb\language\language $language */
 	protected $language;
 
-	/** @var \phpbb\template\template */
+	/** @var \phpbb\template\template $template */
 	protected $template;
 
-	/** @var \phpbb\user */
+	/** @var \phpbb\user $user */
 	protected $user;
 
-	/** @var \phpbb\controller\helper */
+	/** @var \phpbb\controller\helper $helper */
 	protected $helper;
 
-	/** @var \vinabb\web\controllers\helper_interface */
+	/** @var \vinabb\web\controllers\helper_interface $ext_helper */
 	protected $ext_helper;
 
-	/** @var string */
+	/** @var string $root_path */
 	protected $root_path;
 
-	/** @var string */
+	/** @var string $php_ext */
 	protected $php_ext;
 
 	/**

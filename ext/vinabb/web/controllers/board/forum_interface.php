@@ -8,13 +8,16 @@
 
 namespace vinabb\web\controllers\board;
 
+/**
+* Interface for the forum page
+*/
 interface forum_interface
 {
 	/**
-	* Forum page
+	* Main method
 	*
-	* @param int $forum_id	Forum ID
-	* @param string $page	The page number
+	* @param int	$forum_id	Forum ID
+	* @param string $page		Page number
 	*/
 	public function main($forum_id, $page);
 }

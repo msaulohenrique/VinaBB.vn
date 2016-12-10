@@ -8,6 +8,9 @@
 
 namespace vinabb\web\controllers\board;
 
+/**
+* Interface for the board index page
+*/
 interface board_interface
 {
 	/**

@@ -10,71 +10,74 @@ namespace vinabb\web\controllers\board;
 
 use vinabb\web\includes\constants;
 
+/**
+* Controller for the forum page
+*/
 class forum implements forum_interface
 {
-	/** @var \phpbb\auth\auth */
+	/** @var \phpbb\auth\auth $auth */
 	protected $auth;
 
-	/** @var \phpbb\cache\service */
+	/** @var \phpbb\cache\service $cache */
 	protected $cache;
 
-	/** @var \phpbb\config\config */
+	/** @var \phpbb\config\config $config */
 	protected $config;
 
-	/** @var \phpbb\content_visibility */
+	/** @var \phpbb\content_visibility $content_visibility */
 	protected $content_visibility;
 
-	/** @var \phpbb\cron\manager */
+	/** @var \phpbb\cron\manager $cron */
 	protected $cron;
 
-	/** @var \phpbb\db\driver\driver_interface */
+	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
 
-	/** @var \phpbb\language\language */
+	/** @var \phpbb\language\language $language */
 	protected $language;
 
-	/** @var \vinabb\web\controllers\pagination */
+	/** @var \vinabb\web\controllers\pagination $pagination */
 	protected $pagination;
 
-	/** @var \phpbb\request\request */
+	/** @var \phpbb\request\request $request */
 	protected $request;
 
-	/** @var \phpbb\template\template */
+	/** @var \phpbb\template\template $template */
 	protected $template;
 
-	/** @var \phpbb\user */
+	/** @var \phpbb\user $user */
 	protected $user;
 
-	/** @var \phpbb\controller\helper */
+	/** @var \phpbb\controller\helper $helper */
 	protected $helper;
 
-	/** @var \vinabb\web\controllers\helper_interface */
+	/** @var \vinabb\web\controllers\helper_interface $ext_helper */
 	protected $ext_helper;
 
-	/** @var string */
+	/** @var string $root_path */
 	protected $root_path;
 
-	/** @var string */
+	/** @var string $php_ext */
 	protected $php_ext;
 
 	/**
 	* Constructor
 	*
-	* @param \phpbb\auth\auth $auth
-	* @param \phpbb\cache\service $cache
-	* @param \phpbb\config\config $config
-	* @param \phpbb\content_visibility $content_visibility
-	* @param \phpbb\cron\manager $cron
-	* @param \phpbb\db\driver\driver_interface $db
-	* @param \phpbb\language\language $language
-	* @param \vinabb\web\controllers\pagination $pagination
-	* @param \phpbb\request\request $request
-	* @param \phpbb\template\template $template
-	* @param \phpbb\user $user
-	* @param \phpbb\controller\helper $helper
-	* @param \vinabb\web\controllers\helper_interface $ext_helper
-	* @param string $root_path
-	* @param string $php_ext
+	* @param \phpbb\auth\auth							$auth				Authentication object
+	* @param \phpbb\cache\service						$cache				Cache service
+	* @param \phpbb\config\config						$config				Config object
+	* @param \phpbb\content_visibility					$content_visibility	Content visibility
+	* @param \phpbb\cron\manager						$cron				Cron manager
+	* @param \phpbb\db\driver\driver_interface			$db					Database object
+	* @param \phpbb\language\language					$language			Language object
+	* @param \vinabb\web\controllers\pagination			$pagination			Pagination object
+	* @param \phpbb\request\request						$request			Request object
+	* @param \phpbb\template\template					$template			Template object
+	* @param \phpbb\user								$user				User object
+	* @param \phpbb\controller\helper					$helper				Controller helper
+	* @param \vinabb\web\controllers\helper_interface	$ext_helper			Extension helper
+	* @param string										$root_path			phpBB root path
+	* @param string										$php_ext			PHP file extension
 	*/
 	public function __construct(
 		\phpbb\auth\auth $auth,
@@ -112,10 +115,10 @@ class forum implements forum_interface
 	}
 
 	/**
-	* Forum page
+	* Main method
 	*
-	* @param int $forum_id	Forum ID
-	* @param string $page	The page number
+	* @param int 	$forum_id	Forum ID
+	* @param string $page		Page number
 	*/
 	public function main($forum_id, $page)
 	{
