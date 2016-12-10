@@ -14,19 +14,11 @@ namespace vinabb\web\controllers\acp;
 interface bb_categories_interface
 {
 	/**
-	* Set form action URL
+	* Set form data
 	*
-	* @param string $u_action Form action
+	* @param array $data Form data
 	*/
-	public function set_form_action($u_action);
-
-	/**
-	* Set phpBB resource types
-	*
-	* @param int	$bb_type	phpBB resource type
-	* @param string	$mode		Module mode
-	*/
-	public function set_bb_type($bb_type, $mode);
+	public function set_form_data($data);
 
 	/**
 	* Display categories

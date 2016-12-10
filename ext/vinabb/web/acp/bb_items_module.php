@@ -64,8 +64,11 @@ class bb_items_module
 		$action = $this->request->variable('action', '');
 		$item_id = $this->request->variable('id', 0);
 
-		$this->controller->set_form_action($this->u_action);
-		$this->controller->set_bb_type($bb_type, $mode);
+		$this->controller->set_form_data([
+			'u_action'	=> $this->u_action,
+			'mode'		=> $mode,
+			'bb_type'	=> $bb_type
+		]);
 
 		// Do actions via the controller
 		switch ($action)

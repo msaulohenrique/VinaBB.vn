@@ -103,26 +103,16 @@ class bb_items implements bb_items_interface
 	}
 
 	/**
-	* Set form action URL
+	* Set form data
 	*
-	* @param string $u_action Form action
+	* @param array $data Form data
 	*/
-	public function set_form_action($u_action)
+	public function set_form_data($data)
 	{
-		$this->u_action = $u_action;
-	}
-
-	/**
-	* Set phpBB resource types
-	*
-	* @param int	$bb_type	phpBB resource type
-	* @param string	$mode		Module mode
-	*/
-	public function set_bb_type($bb_type, $mode)
-	{
-		$this->bb_type = $bb_type;
-		$this->lang_key = strtoupper($mode);
-		$this->cat_data = $this->cache->get_bb_cats($bb_type);
+		$this->u_action = $data['u_action'];
+		$this->bb_type = $data['bb_type'];
+		$this->lang_key = strtoupper($data['mode']);
+		$this->cat_data = $this->cache->get_bb_cats($data['bb_type']);
 	}
 
 	/**
