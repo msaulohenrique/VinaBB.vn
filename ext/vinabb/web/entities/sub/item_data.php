@@ -61,7 +61,7 @@ class item_data extends item_ext
 		$text = (string) $text;
 
 		// Checking for valid URL
-		if (filter_var($text, FILTER_VALIDATE_URL) === false)
+		if ($text != '' && filter_var($text, FILTER_VALIDATE_URL) === false)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['item_url', 'INVALID_URL']);
 		}
@@ -94,7 +94,7 @@ class item_data extends item_ext
 		$text = (string) $text;
 
 		// Checking for valid URL
-		if (filter_var($text, FILTER_VALIDATE_URL) === false)
+		if ($text != '' && filter_var($text, FILTER_VALIDATE_URL) === false)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['item_github', 'INVALID_URL']);
 		}
