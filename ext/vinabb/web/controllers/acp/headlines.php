@@ -155,7 +155,7 @@ class headlines implements headlines_interface
 		// If there is only one available language, we do not need the selection list
 		else
 		{
-			$this->display_headlines(array_keys($this->lang_data)[0]);
+			$this->display_headlines();
 		}
 	}
 
