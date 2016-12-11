@@ -47,7 +47,7 @@
 				<div class="col-xs-6">
 					{# Logo #}
 					<a href="{{ U_INDEX }}" data-tooltip="true" data-placement="bottom" title="{{ SITE_DESCRIPTION }}" class="admin-logo">
-						<h1><img src="{{ T_THEME_PATH }}/images/logo.png" alt="{{ SITENAME }}"></h1>
+						<img src="{{ T_THEME_PATH }}/images/logo.png" alt="{{ SITENAME }}">
 					</a>
 					{# Search form #}
 					<div class="search-form hidden-xs">
@@ -101,7 +101,7 @@
 						{% if S_REGISTERED_USER %}
 						<li class="dropdown avtar-dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<img src="{{ CURRENT_USER_AVATAR ?: T_THEME_PATH ~ '/images/no_avatar.png' }}" class="img-circle white-bg" width="30" alt="{{ CURRENT_USERNAME_SIMPLE }}">
+								<img src="{{ CURRENT_USER_AVATAR ?: T_THEME_PATH ~ '/images/no_avatar.png' }}" class="img-circle white-bg" width="30" alt="{{ S_USERNAME }}">
 							</a>
 							<ul class="dropdown-menu top-dropdown">
 								{% if U_ACP %}<li><a href="{{ U_ACP }}"><i class="icon-equalizer"></i> {{ lang('ACP_SHORT') }}</a></li>{% endif %}
