@@ -39,3 +39,11 @@ services:
             - '@user'
             - '@controller.helper'
             - '@vinabb.web.helper'
+    vinabb.web.bb.category:
+        class: vinabb\web\controllers\bb\category
+        arguments:
+            - '@vinabb.web.cache'
+            - '@language'
+            - '@user'
+            - '@controller.helper'
+            - '@vinabb.web.helper'
