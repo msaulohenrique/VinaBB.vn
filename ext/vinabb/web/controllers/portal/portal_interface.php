@@ -37,4 +37,18 @@ interface portal_interface
 	* @return \Symfony\Component\HttpFoundation\Response
 	*/
 	public function category($varname, $page);
+
+	/**
+	* List news articles with pagination
+	*
+	* @param string	$lang			2-letter language ISO code
+	* @param int	$cat_id			Category ID
+	* @param array	$articles		Array of articles
+	* @param int	$article_count	Number of articles
+	* @param int	$limit			Articles per page
+	* @param int	$offset			Position of the start
+	*
+	* @return int Position of the start
+	*/
+	public function list_articles($lang, $cat_id, &$articles, &$article_count, $limit = 0, $offset = 0);
 }

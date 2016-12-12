@@ -8,6 +8,7 @@
 
 namespace vinabb\web\controllers\portal;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use vinabb\web\includes\constants;
 
 /**
@@ -20,6 +21,9 @@ class portal implements portal_interface
 
 	/** @var \phpbb\config\config */
 	protected $config;
+
+	/** @var ContainerInterface $container */
+	protected $container;
 
 	/** @var \phpbb\language\language */
 	protected $language;
@@ -53,6 +57,7 @@ class portal implements portal_interface
 	*
 	* @param \vinabb\web\controllers\cache\service_interface		$cache			Cache service
 	* @param \phpbb\config\config									$config			Config object
+	* @param ContainerInterface										$container		Service container
 	* @param \phpbb\language\language								$language		Language object
 	* @param \vinabb\web\controllers\pagination						$pagination		Pagination object
 	* @param \phpbb\template\template								$template		Template object
@@ -64,6 +69,7 @@ class portal implements portal_interface
 	public function __construct(
 		\vinabb\web\controllers\cache\service_interface $cache,
 		\phpbb\config\config $config,
+		ContainerInterface $container,
 		\phpbb\language\language $language,
 		\vinabb\web\controllers\pagination $pagination,
 		\phpbb\template\template $template,
@@ -75,6 +81,7 @@ class portal implements portal_interface
 	{
 		$this->cache = $cache;
 		$this->config = $config;
+		$this->container = $container;
 		$this->language = $language;
 		$this->pagination = $pagination;
 		$this->template = $template;
@@ -201,7 +208,7 @@ class portal implements portal_interface
 		// Display articles
 		$articles = [];
 		$article_count = 0;
-		$start = $this->ext_helper->list_articles($this->user->lang_name, $current_cat_id, $articles, $article_count, constants::NUM_ARTICLES_ON_INDEX, $start);
+		$start = $this->list_articles($this->user->lang_name, $current_cat_id, $articles, $article_count, constants::NUM_ARTICLES_ON_INDEX, $start);
 
 		foreach ($articles as $row)
 		{
@@ -230,5 +237,50 @@ class portal implements portal_interface
 		}
 
 		return $this->helper->render('portal.html', ($current_category_name != '') ? $current_category_name : $this->language->lang('NEWS'), 200, true);
+	}
+
+	/**
+	* List news articles with pagination
+	*
+	* @param string	$lang			2-letter language ISO code
+	* @param int	$cat_id			Category ID
+	* @param array	$articles		Array of articles
+	* @param int	$article_count	Number of articles
+	* @param int	$limit			Articles per page
+	* @param int	$offset			Position of the start
+	*
+	* @return int Position of the start
+	*/
+	public function list_articles($lang, $cat_id, &$articles, &$article_count, $limit = 0, $offset = 0)
+	{
+		$operators = $this->container->get('vinabb.web.operators.portal_article');
+		$article_count = $operators->count_articles($lang, $cat_id);
+
+		if ($article_count == 0)
+		{
+			return 0;
+		}
+
+		if ($offset >= $article_count)
+		{
+			$offset = ($offset - $limit < 0) ? 0 : $offset - $limit;
+		}
+
+		/** @var \vinabb\web\entities\portal_article_interface $entity */
+		foreach ($operators->list_articles($lang, $cat_id, 'article_time DESC', $limit, $offset) as $entity)
+		{
+			$articles[] = [
+				'cat_id'		=> $entity->get_cat_id(),
+				'id'			=> $entity->get_id(),
+				'name'			=> $entity->get_name(),
+				'name_seo'		=> $entity->get_name_seo(),
+				'desc'			=> $entity->get_desc(),
+				'text'			=> $entity->get_text_for_display(),
+				'views'			=> $entity->get_views(),
+				'time'			=> $entity->get_time()
+			];
+		}
+
+		return $offset;
 	}
 }

@@ -4,6 +4,7 @@ services:
         arguments:
             - '@vinabb.web.cache'
             - '@config'
+            - '@service_container'
             - '@language'
             - '@vinabb.web.pagination'
             - '@template'
