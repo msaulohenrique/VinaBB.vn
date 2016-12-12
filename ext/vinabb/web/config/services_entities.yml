@@ -148,5 +148,7 @@ services:
         shared: false
         arguments:
             - '@dbal.conn'
+            - '@ext.manager'
             - '@vinabb.web.helper.entity'
+            - '@path_helper'
             - '%vinabb.web.tables.headlines%'
