@@ -13,53 +13,53 @@ use vinabb\web\includes\constants;
 
 class helper implements helper_interface
 {
-	/** @var \phpbb\auth\auth */
+	/** @var \phpbb\auth\auth $auth */
 	protected $auth;
 
-	/** @var \vinabb\web\controllers\cache\service_interface */
+	/** @var \vinabb\web\controllers\cache\service_interface $cache */
 	protected $cache;
 
-	/** @var \phpbb\config\config */
+	/** @var \phpbb\config\config $config */
 	protected $config;
 
-	/** @var ContainerInterface */
+	/** @var ContainerInterface $container */
 	protected $container;
 
-	/** @var \phpbb\db\driver\driver_interface */
+	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
 
-	/** @var \phpbb\file_downloader */
+	/** @var \phpbb\file_downloader $file_downloader */
 	protected $file_downloader;
 
-	/** @var \phpbb\language\language */
+	/** @var \phpbb\language\language $language */
 	protected $language;
 
-	/** @var \phpbb\template\template */
+	/** @var \phpbb\template\template $template */
 	protected $template;
 
-	/** @var \phpbb\user */
+	/** @var \phpbb\user $user */
 	protected $user;
 
-	/** @var \phpbb\controller\helper */
+	/** @var \phpbb\controller\helper $helper */
 	protected $helper;
 
-	/** @var \phpbb\group\helper */
+	/** @var \phpbb\group\helper $group_helper */
 	protected $group_helper;
 
 	/**
 	* Constructor
 	*
-	* @param \phpbb\auth\auth $auth
-	* @param \vinabb\web\controllers\cache\service_interface $cache
-	* @param \phpbb\config\config $config
-	* @param ContainerInterface $container
-	* @param \phpbb\db\driver\driver_interface $db
-	* @param \phpbb\file_downloader $file_downloader
-	* @param \phpbb\language\language $language
-	* @param \phpbb\template\template $template
-	* @param \phpbb\user $user
-	* @param \phpbb\controller\helper $helper
-	* @param \phpbb\group\helper $group_helper
+	* @param \phpbb\auth\auth									$auth				Authentication object
+	* @param \vinabb\web\controllers\cache\service_interface	$cache				Cache service
+	* @param \phpbb\config\config								$config				Config object
+	* @param ContainerInterface									$container			Service container
+	* @param \phpbb\db\driver\driver_interface					$db					Database object
+	* @param \phpbb\file_downloader								$file_downloader	File downloader
+	* @param \phpbb\language\language							$language			Language object
+	* @param \phpbb\template\template							$template			Template object
+	* @param \phpbb\user										$user				User object
+	* @param \phpbb\controller\helper							$helper				Controller helper
+	* @param \phpbb\group\helper								$group_helper		Group helper
 	*/
 	public function __construct(
 		\phpbb\auth\auth $auth,
@@ -562,93 +562,5 @@ class helper implements helper_interface
 		}
 
 		return $url;
-	}
-
-	/**
-	* List phpBB resource items with pagination
-	*
-	* @param int	$bb_type	phpBB resource type in constant value
-	* @param int	$cat_id		Category ID
-	* @param array	$items		Array of items
-	* @param int	$item_count	Number of items
-	* @param int	$limit		Items per page
-	* @param int	$offset		Position of the start
-	*
-	* @return int Position of the start
-	*/
-	public function list_bb_items($bb_type, $cat_id, &$items, &$item_count, $limit = 0, $offset = 0)
-	{
-		$operators = $this->container->get('vinabb.web.operators.bb_item');
-		$item_count = $operators->count_items($bb_type, $cat_id);
-
-		if ($item_count == 0)
-		{
-			return 0;
-		}
-
-		if ($offset >= $item_count)
-		{
-			$offset = ($offset - $limit < 0) ? 0 : $offset - $limit;
-		}
-
-		/** @var \vinabb\web\entities\bb_item_interface $entity */
-		foreach ($operators->list_items($bb_type, $cat_id, 'item_updated DESC', $limit, $offset) as $entity)
-		{
-			$items[] = [
-				'id'		=> $entity->get_id(),
-				'name'		=> $entity->get_name(),
-				'varname'	=> $entity->get_varname(),
-				'price'		=> $entity->get_price(),
-				'added'		=> $entity->get_added(),
-				'updated'	=> $entity->get_updated()
-			];
-		}
-
-		return $offset;
-	}
-
-	/**
-	* List news articles with pagination
-	*
-	* @param string	$lang			2-letter language ISO code
-	* @param int	$cat_id			Category ID
-	* @param array	$articles		Array of articles
-	* @param int	$article_count	Number of articles
-	* @param int	$limit			Articles per page
-	* @param int	$offset			Position of the start
-	*
-	* @return int Position of the start
-	*/
-	public function list_articles($lang, $cat_id, &$articles, &$article_count, $limit = 0, $offset = 0)
-	{
-		$operators = $this->container->get('vinabb.web.operators.portal_article');
-		$article_count = $operators->count_articles($lang, $cat_id);
-
-		if ($article_count == 0)
-		{
-			return 0;
-		}
-
-		if ($offset >= $article_count)
-		{
-			$offset = ($offset - $limit < 0) ? 0 : $offset - $limit;
-		}
-
-		/** @var \vinabb\web\entities\portal_article_interface $entity */
-		foreach ($operators->list_articles($lang, $cat_id, 'article_time DESC', $limit, $offset) as $entity)
-		{
-			$articles[] = [
-				'cat_id'		=> $entity->get_cat_id(),
-				'id'			=> $entity->get_id(),
-				'name'			=> $entity->get_name(),
-				'name_seo'		=> $entity->get_name_seo(),
-				'desc'			=> $entity->get_desc(),
-				'text'			=> $entity->get_text_for_display(),
-				'views'			=> $entity->get_views(),
-				'time'			=> $entity->get_time()
-			];
-		}
-
-		return $offset;
 	}
 }

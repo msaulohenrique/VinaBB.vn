@@ -144,32 +144,4 @@ interface helper_interface
 	* @return string Gravatar URL
 	*/
 	public function get_gravatar_url($row);
-
-	/**
-	* List phpBB resource items with pagination
-	*
-	* @param int	$bb_type	phpBB resource type in constant value
-	* @param int	$cat_id		Category ID
-	* @param array	$items		Array of items
-	* @param int	$item_count	Number of items
-	* @param int	$limit		Items per page
-	* @param int	$offset		Position of the start
-	*
-	* @return int Position of the start
-	*/
-	public function list_bb_items($bb_type, $cat_id, &$items, &$item_count, $limit = 0, $offset = 0);
-
-	/**
-	* List news articles with pagination
-	*
-	* @param string	$lang			2-letter language ISO code
-	* @param int	$cat_id			Category ID
-	* @param array	$articles		Array of articles
-	* @param int	$article_count	Number of articles
-	* @param int	$limit			Articles per page
-	* @param int	$offset			Position of the start
-	*
-	* @return int Position of the start
-	*/
-	public function list_articles($lang, $cat_id, &$articles, &$article_count, $limit = 0, $offset = 0);
 }
