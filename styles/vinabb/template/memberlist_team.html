@@ -1,0 +1,64 @@
+{% include 'overall_header.html' %}
+
+<div class="row">
+	<h2>{{ PAGE_TITLE }}</h2>
+
+	{% for team in group %}
+
+	{% set GROUP_BG_COLOR = '' %}
+	{% if team.GROUP_RANK_RAW in ['FOUNDER', 'ADMINISTRATOR'] %}
+		{% set GROUP_BG_COLOR = 'danger' %}
+	{% elseif team.GROUP_RANK_RAW == 'DEVELOPER' %}
+		{% set GROUP_BG_COLOR = 'teal' %}
+	{% elseif team.GROUP_RANK_RAW == 'MANAGER' %}
+		{% set GROUP_BG_COLOR = 'success' %}
+	{% elseif team.GROUP_RANK_RAW == 'SUPPORTER' %}
+		{% set GROUP_BG_COLOR = 'indigo' %}
+	{% elseif team.GROUP_RANK_RAW in ['GLOBAL_MODERATOR', 'MODERATOR'] %}
+		{% set GROUP_BG_COLOR = 'warning' %}
+	{% endif %}
+
+	<div class="panel panel-{{ GROUP_BG_COLOR }}">
+		<div class="panel-heading">{{ team.GROUP_NAME }}</div>
+		<div class="panel-body text-center">
+			{% for user in team.user %}
+
+			{% set USER_BG_COLOR = '' %}
+			{% if user.RANK_TITLE_RAW in ['FOUNDER', 'ADMINISTRATOR'] %}
+				{% set USER_BG_COLOR = 'danger' %}
+			{% elseif user.RANK_TITLE_RAW == 'DEVELOPER' %}
+				{% set USER_BG_COLOR = 'teal' %}
+			{% elseif user.RANK_TITLE_RAW == 'MANAGER' %}
+				{% set USER_BG_COLOR = 'success' %}
+			{% elseif user.RANK_TITLE_RAW == 'SUPPORTER' %}
+				{% set USER_BG_COLOR = 'indigo' %}
+			{% elseif user.RANK_TITLE_RAW in ['GLOBAL_MODERATOR', 'MODERATOR'] %}
+				{% set USER_BG_COLOR = 'warning' %}
+			{% endif %}
+
+			<div class="col-md-2 col-sm-3">
+				{% if user.AVATAR_IMG %}
+					<span class="avatar avatar-lg{% if user.S_ONLINE %} avatar-online{% endif %}">
+						<a href="{{ user.U_VIEW_PROFILE }}"><img alt="{{ user.USERNAME }}" class="bg-light-dark" src="{{ user.AVATAR_IMG }}"></a>
+						{% if user.S_ONLINE %}<i data-tooltip="true" data-placement="{{ S_LEFT }}" title="{{ lang('ONLINE') }}"></i>{% endif %}
+					</span>
+				{% else %}
+				<div class="avatar avatar-letter-lg{% if user.S_ONLINE %} avatar-online{% endif %} bg-{{ USER_BG_COLOR ?: 'primary' }} opacity-80">
+					<a href="{{ user.U_VIEW_PROFILE }}"><span class="initials">{{ user.USERNAME|slice(0, 2)|upper }}</span></a>
+					{% if user.S_ONLINE %}<i data-tooltip="true" data-placement="{{ S_LEFT }}" title="{{ lang('ONLINE') }}"></i>{% endif %}
+				</div>
+				{% endif %}
+
+				<p class="font-500">{{ user.USERNAME_FULL }}</p>
+			</div>
+
+			<div class="ribbon ribbon-clip ribbon-reverse ribbon-bottom ribbon-{{ GROUP_BG_COLOR }}">
+				<span class="ribbon-inner">{{ team.GROUP_RANK }}</span>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+	{% endfor %}
+</div>
+
+{% include 'overall_footer.html' %}
