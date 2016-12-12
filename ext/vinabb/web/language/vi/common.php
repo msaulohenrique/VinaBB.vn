@@ -181,7 +181,7 @@ $lang = array_merge($lang, [
 		<i class="icon-rocket padding-5"></i> 11/06/2007: Chính thức định cư trên Olympus, Sao Hỏa.<br>
 		<i class="icon-feed padding-5"></i> 11/06/2009: Mất liên lạc với Trái Đất. [ <a href="http://2007.vinabb.vn/">Phiên bản 2007</a> ]<br>
 		<i class="icon-graph padding-5"></i> 28/07/2016: Trôi dạt đến mặt trăng Rhea, Sao Thổ.<br>
-		<i class="icon-star padding-5"></i> 22/10/2016: Cuộc hành trình mới lại bắt đầu…
+		<i class="icon-star padding-5"></i> 12/12/2016: Cuộc hành trình mới lại bắt đầu…
 	',
 	'FOOTER_HISTORY_TITLE'	=> 'Chuyện tình VinaBB',
 	'FOOTER_MANAGER_ROLE'	=> 'Đơn vị chủ quản',

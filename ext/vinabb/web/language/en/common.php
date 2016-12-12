@@ -181,7 +181,7 @@ $lang = array_merge($lang, [
 		<i class="icon-rocket padding-5"></i> 11 Jun 2007: Set data on Olympus, Mars.<br>
 		<i class="icon-feed padding-5"></i> 11 Jun 2009: Lost connection to Earth. [ <a href="http://2007.vinabb.vn/">Time Machine</a> ]<br>
 		<i class="icon-graph padding-5"></i> 28 Jul 2016: Set new base on the Rhea moon, Saturn.<br>
-		<i class="icon-star padding-5"></i> 22 Oct 2016: The new adventure begins…
+		<i class="icon-star padding-5"></i> 12 Dec 2016: The new adventure begins…
 	',
 	'FOOTER_HISTORY_TITLE'	=> 'History',
 	'FOOTER_MANAGER_ROLE'	=> 'General Manager',
