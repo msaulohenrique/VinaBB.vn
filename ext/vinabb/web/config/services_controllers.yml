@@ -44,6 +44,7 @@ services:
         class: vinabb\web\controllers\bb\category
         arguments:
             - '@vinabb.web.cache'
+            - '@service_container'
             - '@language'
             - '@user'
             - '@controller.helper'
