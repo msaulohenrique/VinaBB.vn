@@ -1,37 +1,82 @@
 {% include 'overall_header.html' %}
 
+<form class="form-horizontal" id="postform" method="post" action="{{ S_POST_ACTION }}"{{ S_FORM_ENCTYPE }}>
+
 <div class="row">
 	<div class="panel panel-default">
 		<div class="panel-body mail-compose">
 			<div class="pull-right">
-				<button type="button" class="btn btn-default btn-sm">
-					<i class="fa fa-print"></i>
-				</button>
+				<button type="button" class="btn btn-default btn-sm"><i class="fa fa-street-view"></i></button>
 			</div>
 			<h3 class="font-300 text-primary">{{ lang('POST_A') }}</h3>
+
 			<hr class="clearfix">
-			<form class="form-horizontal" method="get">
-				<div class="form-group"><label class="col-sm-2 control-label">To:</label>
 
-					<div class="col-sm-10"><input type="text" class="form-control" value="john.doe@domain.com"></div>
+			<fieldset>
+				{% if S_POST_ACTION or S_PRIVMSGS or S_EDIT_DRAFT %}
+				<div class="form-group">
+					<label class="col-sm-2 control-label">{{ lang('SUBJECT') ~ lang('COLON') }}</label>
+					<div class="col-sm-10">
+						<input class="form-control" type="text" name="subject" id="subject" maxlength="{{ S_NEW_MESSAGE ? 120 : 124 }}" value="{{ DRAFT_SUBJECT ?: SUBJECT }}">
+					</div>
 				</div>
-				<div class="form-group"><label class="col-sm-2 control-label">Subject:</label>
+				{% endif %}
 
-					<div class="col-sm-10"><input type="text" class="form-control" value=""></div>
-				</div>
-				<div class="form-group"><label class="col-sm-2 control-label">Attachments:</label>
+				<textarea class="form-control" {% if S_UCP_ACTION and not S_PRIVMSGS and not S_EDIT_DRAFT %}name="signature" id="signature"{% else %}name="message" id="message"{% endif %} rows="15" data-toggle="wysiwyg-editor">{{ DRAFT_MESSAGE ?: MESSAGE }}{{ SIGNATURE }}</textarea>
+			</fieldset>
 
-					<div class="col-sm-10"><input type="file" class="form-control"></div>
+			<fieldset>
+				<div class="form-group">
+					{% if S_BBCODE_ALLOWED %}
+					<div class="col-md-6">
+						<label for="disable_bbcode"><input type="checkbox" name="disable_bbcode" id="disable_bbcode"{{ S_BBCODE_CHECKED }}> {{ lang('DISABLE_BBCODE') }}</label>
+					</div>
+					{% endif %}
+					{% if S_SMILIES_ALLOWED %}
+					<div class="col-md-6">
+						<label for="disable_smilies"><input type="checkbox" name="disable_smilies" id="disable_smilies"{{ S_SMILIES_CHECKED }}> {{ lang('DISABLE_SMILIES') }}</label>
+					</div>
+					{% endif %}
+					{% if S_LINKS_ALLOWED %}
+					<div class="col-md-6">
+						<label for="disable_magic_url"><input type="checkbox" name="disable_magic_url" id="disable_magic_url"{{ S_MAGIC_URL_CHECKED }}> {{ lang('DISABLE_MAGIC_URL') }}</label>
+					</div>
+					{% endif %}
+					{% if S_SIG_ALLOWED %}
+					<div class="col-md-6">
+						<label for="attach_sig"><input type="checkbox" name="attach_sig" id="attach_sig"{{ S_SIGNATURE_CHECKED }}> {{ lang('ATTACH_SIG') }}</label>
+					</div>
+					{% endif %}
+					{% if S_NOTIFY_ALLOWED %}
+					<div class="col-md-6">
+						<label for="notify"><input type="checkbox" name="notify" id="notify"{{ S_NOTIFY_CHECKED }}> {{ lang('NOTIFY_REPLY') }}</label>
+					</div>
+					{% endif %}
+					{% if S_LOCK_TOPIC_ALLOWED %}
+					<div class="col-md-6">
+						<label for="lock_topic"><input type="checkbox" name="lock_topic" id="lock_topic"{{ S_LOCK_TOPIC_CHECKED }}> {{ lang('LOCK_TOPIC') }}</label>
+					</div>
+					{% endif %}
+					{% if S_LOCK_POST_ALLOWED %}
+					<div class="col-md-6">
+						<label for="lock_post"><input type="checkbox" name="lock_post" id="lock_post"{{ S_LOCK_POST_CHECKED }}> {{ lang('LOCK_POST') }}</label>
+					</div>
+					{% endif %}
 				</div>
-			</form>
-			<textarea class="form-control" id="textarea" rows="10" data-toggle="wysiwyg-editor">{{ MESSAGE }}{{ DRAFT_MESSAGE }}</textarea>
-			<div class="mail-body text-right tooltip-demo">
-				<a href="mail-index.html" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Send"><i class="fa fa-reply"></i> Send</a>
-				<a href="mail-index.html" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="" data-original-title="Discard email"><i class="fa fa-times"></i> Discard</a>
-				<a href="mail-index.html" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="" data-original-title="Move to draft folder"><i class="fa fa-pencil"></i> Draft</a>
+			</fieldset>
+
+			<div class="text-center">
+				{{ S_HIDDEN_ADDRESS_FIELD }}
+				{{ S_HIDDEN_FIELDS }}
+				{% if S_HAS_DRAFTS %}<input class="btn btn-default" type="submit" accesskey="d" name="load" value="{{ lang('LOAD_DRAFT') }}" onclick="load_draft = true;">{% endif %}
+				{% if S_SAVE_ALLOWED %}<input class="btn btn-default" type="submit" accesskey="k" name="save" value="{{ lang('SAVE_DRAFT') }}">{% endif %}
+				<input class="btn btn-primary" type="submit" accesskey="s" name="post" value="{{ lang('SUBMIT') }}">
+				{{ S_FORM_TOKEN }}
 			</div>
 		</div>
 	</div>
 </div>
+
+</form>
 
 {% include 'overall_footer.html' %}
