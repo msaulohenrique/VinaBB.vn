@@ -325,6 +325,7 @@ $lang = array_merge($lang, [
 	'STYLE_NAME'			=> 'Style name',
 	'STYLE_VERSION'			=> 'Style version',
 
+	'TAGS'				=> 'Tags',
 	'TOGGLE'			=> 'Toggle',
 	'TOOL_DETAILS'		=> 'Tool information',
 	'TOOL_NAME'			=> 'Tool name',
