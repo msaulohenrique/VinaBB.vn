@@ -41,8 +41,8 @@
 						<img src="{{ T_THEME_PATH }}/images/bb_icons/{{ cat.ID }}.png" alt="" width="64" class="img-circle">
 						<div class="content">
 							<div class="comments-header margin-t-10">
-								<span><a href="{{ cat.URL }}"{% if cat.DESC %} data-toggle="tooltip" data-placement="right" title="{{ cat.DESC }}"{% endif %} class="btn btn-primary btn-icon"><i>{{ loop.index }}</i> {{ cat.NAME }}</a></span>
-								<ul class="list-inline pull-right">
+								<span><a href="{{ cat.URL }}"{% if cat.DESC %} data-toggle="tooltip" data-placement="{{ S_RIGHT }}" title="{{ cat.DESC }}"{% endif %} class="btn btn-primary btn-icon"><i>{{ loop.index }}</i> {{ cat.NAME }}</a></span>
+								<ul class="list-inline pull-{{ S_RIGHT }}">
 									<li><a data-tooltip="true" data-placement="bottom" title="{{ lang('BB_EXTS') }}"><i class="icon-paper-clip fa-2x"></i> 0</a></li>
 									<li><a data-tooltip="true" data-placement="bottom" title="{{ lang('LIKES') }}"><i class="icon-like fa-2x"></i> 0</a></li>
 									<li><a data-tooltip="true" data-placement="bottom" title="{{ lang('DOWNLOADS') }}"><i class="icon-arrow-down-circle fa-2x"></i> 0</a></li>
@@ -50,7 +50,7 @@
 							</div>
 							<div>
 								<span>Styles Demo 1.2.5 <small class="text-muted">{{ CURRENT_TIME }}</small></span>
-								<span class="label label-info pull-right">Standby</span>
+								<span class="label label-info pull-{{ S_RIGHT }}">Standby</span>
 							</div>
 						</div>
 					</li>

@@ -26,12 +26,12 @@
 				</div>
 
 				<!-- Left and right controls -->
-				<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-					<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+				<a class="{{ S_LEFT }} carousel-control" href="#myCarousel" role="button" data-slide="prev">
+					<span class="glyphicon glyphicon-chevron-{{ S_LEFT }}" aria-hidden="true"></span>
 					<span class="sr-only">{{ lang('PREVIOUS') }}</span>
 				</a>
-				<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+				<a class="{{ S_RIGHT }} carousel-control" href="#myCarousel" role="button" data-slide="next">
+					<span class="glyphicon glyphicon-chevron-{{ S_RIGHT }}" aria-hidden="true"></span>
 					<span class="sr-only">{{ lang('NEXT') }}</span>
 				</a>
 			</div>
@@ -114,7 +114,7 @@
 							<a href="{{ cat.URL }}">
 								<em class="{{ cat.ICON ?: 'fa fa-home' }}"></em>
 								<span>{{ cat.NAME }}</span>
-								<span class="label label-success pull-right">{{ lang('NEW') }}</span>
+								<span class="label label-success pull-{{ S_RIGHT }}">{{ lang('NEW') }}</span>
 							</a>
 						</li>
 						{% endfor %}
@@ -207,7 +207,7 @@
 								<li>
 									<a href="{{ item.URL }}">
 										<span>{{ item.NAME ~ ' ' ~ item.VERSION }}</span>
-										{% if item.NEW %}<span class="label label-success pull-right">{{ lang('NEW') }}</span>{% endif %}
+										{% if item.NEW %}<span class="label label-success pull-{{ S_RIGHT }}">{{ lang('NEW') }}</span>{% endif %}
 									</a>
 								</li>
 								{% endfor %}
@@ -222,7 +222,7 @@
 								<li>
 									<a href="{{ item.URL }}">
 										<span>{{ item.NAME ~ ' ' ~ item.VERSION }}</span>
-										{% if item.NEW %}<span class="label label-success pull-right">{{ lang('NEW') }}</span>{% endif %}
+										{% if item.NEW %}<span class="label label-success pull-{{ S_RIGHT }}">{{ lang('NEW') }}</span>{% endif %}
 									</a>
 								</li>
 								{% endfor %}
@@ -237,7 +237,7 @@
 								<li>
 									<a href="{{ item.URL }}">
 										<span>{{ item.NAME ~ ' ' ~ item.VERSION }}</span>
-										{% if item.NEW %}<span class="label label-success pull-right">{{ lang('NEW') }}</span>{% endif %}
+										{% if item.NEW %}<span class="label label-success pull-{{ S_RIGHT }}">{{ lang('NEW') }}</span>{% endif %}
 									</a>
 								</li>
 								{% endfor %}
@@ -252,7 +252,7 @@
 								<li>
 									<a href="{{ item.URL }}">
 										<span>{{ item.NAME ~ ' ' ~ item.VERSION }}</span>
-										{% if item.NEW %}<span class="label label-success pull-right">{{ lang('NEW') }}</span>{% endif %}
+										{% if item.NEW %}<span class="label label-success pull-{{ S_RIGHT }}">{{ lang('NEW') }}</span>{% endif %}
 									</a>
 								</li>
 								{% endfor %}
@@ -387,14 +387,14 @@
 				<h4>{{ lang('WEBSITE_FUND') }}</h4>
 				<div>
 					<span>{{ lang('LABEL_YEAR', DONATE_LAST_YEAR) }}</span>
-					<small class="pull-right">{{ lang('DONATE_DONE') }}</small>
+					<small class="pull-{{ S_RIGHT }}">{{ lang('DONATE_DONE') }}</small>
 				</div>
 				<div class="progress progress-mini">
 					<div style="width: 100%;" class="progress-bar"></div>
 				</div>
 				<div>
 					<span>{{ lang('LABEL_YEAR', DONATE_YEAR) }}</span>
-					<small class="pull-right">{{ DONATE_FUND|number_format }} {{ lang('VARIANT_DATE_SEPARATOR') }} {{ DONATE_YEAR_VALUE|number_format }} {{ DONATE_CURRENCY }}</small>
+					<small class="pull-{{ S_RIGHT }}">{{ DONATE_FUND|number_format }} {{ lang('VARIANT_DATE_SEPARATOR') }} {{ DONATE_YEAR_VALUE|number_format }} {{ DONATE_CURRENCY }}</small>
 				</div>
 				<div class="progress progress-mini">
 					<div style="width: {{ min(100, max(1, DONATE_PERCENT)) }}%;" data-toggle="tooltip" title="{{ lang('LABEL_PERCENT', min(100, DONATE_PERCENT)) }}" class="progress-bar progress-bar-danger"></div>
@@ -427,7 +427,7 @@
 				{% endif %}
 			</div>
 			<div class="panel-footer">
-				<span class="pull-right"><a href="{{ article.URL }}#comments" data-tooltip="true" data-placement="left" title="{{ lang('COMMENTS') }}"><i class="fa fa-comments-o"></i> {{ article.COMMENTS }}</a></span>
+				<span class="pull-{{ S_RIGHT }}"><a href="{{ article.URL }}#comments" data-tooltip="true" data-placement="{{ S_LEFT }}" title="{{ lang('COMMENTS') }}"><i class="fa fa-comments-o"></i> {{ article.COMMENTS }}</a></span>
 				<a href="{{ article.CAT_URL }}" class="btn btn-primary btn-xs"><i class="fa fa-tags"></i> {{ article.CATEGORY }}</a>
 			</div>
 		</div>

@@ -2,8 +2,8 @@
 
 <div class="panel panel-default">
 	<div class="panel-body">
-		<div class="pull-{{ S_CONTENT_FLOW_END }}">
-			<button type="button" id="btnPrint" data-tooltip="true" data-placement="left" title="{{ lang('PRINT') }}" class="btn btn-border btn-primary btn-sm"><i class="fa fa-print"></i></button>
+		<div class="pull-{{ S_RIGHT }}">
+			<button type="button" id="btnPrint" data-tooltip="true" data-placement="{{ S_LEFT }}" title="{{ lang('PRINT') }}" class="btn btn-border btn-primary btn-sm"><i class="fa fa-print"></i></button>
 		</div>
 		<h3 class="font-300">{{ ARTICLE_NAME }}</h3>
 
@@ -14,12 +14,12 @@
 		{% endif %}
 
 		<div class="media margin-b-20">
-			<a class="pull-{{ S_CONTENT_FLOW_BEGIN }}" href="{{ U_AUTHOR }}"><img class="media-object img-circle" src="{{ T_THEME_PATH }}/images/no_avatar.png" width="40" alt="{{ AUTHOR_USERNAME }}"></a>
+			<a class="pull-{{ S_LEFT }}" href="{{ U_AUTHOR }}"><img class="media-object img-circle" src="{{ T_THEME_PATH }}/images/no_avatar.png" width="40" alt="{{ AUTHOR_USERNAME }}"></a>
 			<div class="media-body">
-				<span class="pull-{{ S_CONTENT_FLOW_END }}">
-					<a href="https://www.facebook.com/sharer/sharer.php?u={{ ARTICLE_SHARE_URL|url_encode }}&title={{ ARTICLE_NAME_SHARE|url_encode }}&description={{ ARTICLE_DESC_SHARE|url_encode }}&picture={{ ARTICLE_IMG|url_encode }}" target="_blank" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false;" data-tooltip="true" data-placement="left" title="{{ lang('SHARE_ON', lang('FACEBOOK')) }}" class="btn btn-facebook"><i class="fa fa-facebook"></i></a>
-					<a href="https://twitter.com/share?url={{ ARTICLE_SHARE_URL|url_encode }}&text={{ ARTICLE_NAME_SHARE|url_encode }}" target="_blank" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false;" data-tooltip="true" data-placement="left" title="{{ lang('SHARE_ON', lang('TWITTER')) }}" class="btn btn-twitter"><i class="fa fa-twitter"></i></a>
-					<a href="https://plus.google.com/share?url={{ ARTICLE_SHARE_URL|url_encode }}" target="_blank" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false;" data-tooltip="true" data-placement="left" title="{{ lang('SHARE_ON', lang('GOOGLEPLUS')) }}" class="btn btn-googleplus"><i class="fa fa-google-plus"></i></a>
+				<span class="pull-{{ S_RIGHT }}">
+					<a href="https://www.facebook.com/sharer/sharer.php?u={{ ARTICLE_SHARE_URL|url_encode }}&title={{ ARTICLE_NAME_SHARE|url_encode }}&description={{ ARTICLE_DESC_SHARE|url_encode }}&picture={{ ARTICLE_IMG|url_encode }}" target="_blank" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false;" data-tooltip="true" data-placement="{{ S_LEFT }}" title="{{ lang('SHARE_ON', lang('FACEBOOK')) }}" class="btn btn-facebook"><i class="fa fa-facebook"></i></a>
+					<a href="https://twitter.com/share?url={{ ARTICLE_SHARE_URL|url_encode }}&text={{ ARTICLE_NAME_SHARE|url_encode }}" target="_blank" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false;" data-tooltip="true" data-placement="{{ S_LEFT }}" title="{{ lang('SHARE_ON', lang('TWITTER')) }}" class="btn btn-twitter"><i class="fa fa-twitter"></i></a>
+					<a href="https://plus.google.com/share?url={{ ARTICLE_SHARE_URL|url_encode }}" target="_blank" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false;" data-tooltip="true" data-placement="{{ S_LEFT }}" title="{{ lang('SHARE_ON', lang('GOOGLEPLUS')) }}" class="btn btn-googleplus"><i class="fa fa-google-plus"></i></a>
 				</span>
 				<h4 class="font-400 margin-b-0">{{ AUTHOR }}</h4>
 				<small class="text-muted">{{ ARTICLE_TIME }}</small>
@@ -33,7 +33,7 @@
 
 		<hr>
 
-		<div class="margin-b-20 text-{{ S_CONTENT_FLOW_END }}">
+		<div class="margin-b-20 text-{{ S_RIGHT }}">
 			<span>{{ SITENAME }}</span>
 		</div>
 	</div>

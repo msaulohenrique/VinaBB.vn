@@ -3,7 +3,7 @@
 		<div class="col-sm-9">
 			<ol class="breadcrumb">
 				{% if breadcrumb %}
-				<li><a href="{{ U_INDEX }}" data-tooltip="true" data-placement="{{ S_CONTENT_FLOW_END }}" title="{{ lang('HOME') }}"><i class="icon-home"></i></a></li>
+				<li><a href="{{ U_INDEX }}" data-tooltip="true" data-placement="{{ S_RIGHT }}" title="{{ lang('HOME') }}"><i class="icon-home"></i></a></li>
 				{% else %}
 				<li><a href="{{ U_INDEX }}"><i class="fa fa-home"></i> {{ lang('HOME') }}</a></li>
 				{% endif %}
@@ -17,8 +17,8 @@
 				{% endfor %}
 			</ol>
 		</div>
-		<div class="hidden-xs col-sm-3 text-{{ S_CONTENT_FLOW_END }}">
-			<span data-tooltip="true" data-placement="{{ S_CONTENT_FLOW_BEGIN }}" title="{{ S_TIMEZONE }}">{{ CURRENT_TIME }}</span>
+		<div class="hidden-xs col-sm-3 text-{{ S_RIGHT }}">
+			<span data-tooltip="true" data-placement="{{ S_RIGHT }}" title="{{ S_TIMEZONE }}">{{ CURRENT_TIME }}</span>
 		</div>
 	</div>
 </div>

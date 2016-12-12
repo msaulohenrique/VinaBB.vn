@@ -175,6 +175,8 @@ class common implements EventSubscriberInterface
 
 		$this->template->assign_vars([
 			'S_VIETNAMESE'	=> $this->user->lang_name == constants::LANG_VIETNAMESE,
+			'S_LEFT'		=> ($this->language->lang('DIRECTION') == 'ltr') ? 'left' : 'right',
+			'S_RIGHT'		=> ($this->language->lang('DIRECTION') == 'ltr') ? 'right' : 'left',
 
 			'T_LANG_PATH'	=> "{$this->ext_web_path}language/{$this->user->lang_name}",
 

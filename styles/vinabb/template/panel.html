@@ -16,7 +16,7 @@
 							</li>
 							<li>
 								<a href="#">
-									<span class="label label-primary pull-right">New</span>
+									<span class="label label-primary pull-{{ S_RIGHT }}">{{ lang('NEW') }}</span>
 									<h4>YII with material design</h4>
 									<p>It is a long established fact that a reader will be distracted.</p>
 
@@ -34,10 +34,10 @@
 							{% for user in 1..5 %}
 							<li class="clearfix">
 								<a href="#" class="media-box">
-										<span class="pull-right">
+										<span class="pull-{{ S_RIGHT }}">
 											<span class="circle circle-lg{% if user is even %} circle-success{% endif %}"></span>
 										</span>
-										<span class="pull-left">
+										<span class="pull-{{ S_LEFT }}">
 											<img src="{{ T_THEME_PATH }}/images/no_avatar.png" alt="user" class="media-box-object img-circle" width="50">
 										</span>
 										<span class="media-box-body">

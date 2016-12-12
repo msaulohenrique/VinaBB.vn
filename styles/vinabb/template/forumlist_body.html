@@ -24,7 +24,7 @@
 		{% elseif row.FORUM_ID == FORUM_ID_ENGLISH_DISCUSSION %}
 			{% set CAT_ICON = 'fa fa-comments' %}
 		{% else %}
-			{% set CAT_ICON = 'fa fa-chevron-circle-right' %}
+			{% set CAT_ICON = 'fa fa-chevron-circle-' ~ S_RIGHT %}
 		{% endif %}
 
 		{% if row.FORUM_ID == FORUM_ID_VIETNAMESE or row.FORUM_ID == FORUM_ID_ENGLISH %}
@@ -69,9 +69,9 @@
 								{% if row.subforum %}
 								<strong class="text-primary">{{ row.FORUM_NAME }}</strong>
 								{% else %}
-								<a href="{{ row.U_VIEWFORUM }}"{% if row.FORUM_DESC %} data-tooltip="true" data-placement="right" title="{{ row.FORUM_DESC }}"{% endif %} class="btn btn-{{ row.S_UNREAD_FORUM ? 'danger' : 'primary' }} btn-icon margin-b-5"><i>{{ FORUM_INDEX }}</i> {{ row.FORUM_NAME }}</a>
+								<a href="{{ row.U_VIEWFORUM }}"{% if row.FORUM_DESC %} data-tooltip="true" data-placement="{{ S_RIGHT }}" title="{{ row.FORUM_DESC }}"{% endif %} class="btn btn-{{ row.S_UNREAD_FORUM ? 'danger' : 'primary' }} btn-icon margin-b-5"><i>{{ FORUM_INDEX }}</i> {{ row.FORUM_NAME }}</a>
 								{% endif %}
-								{% if row.LAST_POST_TIME %}<small class="text-muted" data-tooltip="true" data-placement="right" title="{{ row.LAST_POST_SUBJECT }}">{{ row.LAST_POST_TIME }}</small>{% endif %}
+								{% if row.LAST_POST_TIME %}<small class="text-muted" data-tooltip="true" data-placement="{{ S_RIGHT }}" title="{{ row.LAST_POST_SUBJECT }}">{{ row.LAST_POST_TIME }}</small>{% endif %}
 							</div>
 							<div>
 								<span class="hidden-xs hidden-sm">
@@ -81,7 +81,7 @@
 										{row.L_MODERATOR_STR}{{ lang('COLON') }} {{ row.MODERATORS }}
 									{% endif %}
 								</span>
-								<ul class="list-inline pull-right">
+								<ul class="list-inline pull-{{ S_RIGHT }}">
 									<li><a data-tooltip="true" data-placement="bottom" title="{{ lang('TOPICS') }}"><i class="icon-notebook fa-2x"></i> {{ row.TOPICS }}</a></li>
 									<li><a data-tooltip="true" data-placement="bottom" title="{{ lang('POSTS') }}"><i class="icon-docs fa-2x"></i> {{ row.POSTS }}</a></li>
 								</ul>

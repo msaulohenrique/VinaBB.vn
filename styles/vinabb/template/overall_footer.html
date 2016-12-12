@@ -3,7 +3,7 @@
 				<div class="col-md-6">
 					<div class="panel">
 						<div class="panel-body">
-							<h4>{{ lang('FOOTER_RULE_TITLE') }} <i data-tooltip="true" data-placement="right" title="{{ lang('FOOTER_RULE_EXPLAIN') }}" class="fa fa-question-circle-o"></i></h4>
+							<h4>{{ lang('FOOTER_RULE_TITLE') }} <i data-tooltip="true" data-placement="{{ S_RIGHT }}" title="{{ lang('FOOTER_RULE_EXPLAIN') }}" class="fa fa-question-circle-o"></i></h4>
 							<ul>{{ lang('FOOTER_RULE_TEXT') }}</ul>
 							<h4>{{ lang('FOOTER_HISTORY_TITLE') }}</h4>
 							<p class="text-justify">{{ lang('FOOTER_HISTORY_TEXT') }}</p>
@@ -32,7 +32,7 @@
 					<div class="widget padding-0 white-bg">
 						<div class="bg-blue" style="height: 105px"></div>
 						<div class="thumb-over">
-							<img src="{{ T_THEME_PATH }}/images/nedka.png" alt="" width="100" class="img-circle">
+							<img src="{{ T_THEME_PATH }}/images/nedka.png" alt="{{ MANAGER_NAME ?: lang('ELLIPSIS') }}" width="100" class="img-circle">
 						</div>
 						<div class="padding-20 text-center">
 							<p class="lead font-500 margin-b-0">{{ MANAGER_NAME ?: lang('ELLIPSIS') }}</p>
@@ -48,8 +48,8 @@
 
 		<footer class="footer">
 			<div class="container">
-				<span class="pull-{{ S_CONTENT_FLOW_BEGIN }}"><i class="fa fa-code"></i> {% EVENT overall_footer_copyright_prepend %}{{ CREDIT_LINE }}{% EVENT overall_footer_copyright_append %}</span>
-				<span class="pull-{{ S_CONTENT_FLOW_END }} hidden-xs">
+				<span class="pull-{{ S_LEFT }}"><i class="fa fa-code"></i> {% EVENT overall_footer_copyright_prepend %}{{ CREDIT_LINE }}{% EVENT overall_footer_copyright_append %}</span>
+				<span class="pull-{{ S_RIGHT }} hidden-xs">
 					{% if FACEBOOK_URL %}<a href="{{ FACEBOOK_URL }}" target="_blank" data-tooltip="true" title="{{ lang('FACEBOOK') }}"><i class="fa fa-facebook-square fa-2x btn-icon-facebook media-middle"></i></a>{% endif %}
 					{% if TWITTER_URL %}<a href="{{ TWITTER_URL }}" target="_blank" data-tooltip="true" title="{{ lang('TWITTER') }}"><i class="fa fa-twitter-square fa-2x btn-icon-twitter media-middle"></i></a>{% endif %}
 					{% if GOOGLE_PLUS_URL %}<a href="{{ GOOGLE_PLUS_URL }}" target="_blank" data-tooltip="true" title="{{ lang('GOOGLEPLUS') }}"><i class="fa fa-google-plus-square fa-2x btn-icon-googleplus media-middle"></i></a>{% endif %}

@@ -1,10 +1,10 @@
-<ul class="pagination margin-t-0 pull-{{ S_CONTENT_FLOW_END }}">
+<ul class="pagination margin-t-0 pull-{{ S_RIGHT }}">
 	{% for page in pagination %}
 
 	{% if page.S_IS_PREV %}
-	<li class="footable-page-arrow"><a href="{{ page.PAGE_URL }}"><i class="fa fa-chevron-left"></i></a></li>
+	<li class="footable-page-arrow"><a href="{{ page.PAGE_URL }}"><i class="fa fa-chevron-{{ S_LEFT }}"></i></a></li>
 	{% elseif page.S_IS_NEXT %}
-	<li class="footable-page-arrow"><a href="{{ page.PAGE_URL }}"><i class="fa fa-chevron-right"></i></a></li>
+	<li class="footable-page-arrow"><a href="{{ page.PAGE_URL }}"><i class="fa fa-chevron-{{ S_RIGHT }}"></i></a></li>
 	{% elseif page.S_IS_CURRENT %}
 	<li class="footable-page active"><a>{{ page.PAGE_NUMBER }}</a></li>
 	{% elseif page.S_IS_ELLIPSIS %}

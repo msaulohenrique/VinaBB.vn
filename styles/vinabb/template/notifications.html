@@ -7,8 +7,8 @@
 	<ul class="dropdown-menu top-dropdown lg-dropdown notification-dropdown">
 		<li>
 			<div class="dropdown-header">
-				<a href="{{ U_NOTIFICATION_SETTINGS }}" class="pull-{{ S_CONTENT_FLOW_END }} text-muted" data-tooltip="true" data-placement="left" title="{{ lang('SETTINGS') }}"><i class="icon-settings"></i></a>
-				<a href="{{ U_VIEW_ALL_NOTIFICATIONS }}" data-tooltip="true" data-placement="right" title="{{ lang('SEE_ALL') }}">{{ lang('NOTIFICATIONS') }}</a>
+				<a href="{{ U_NOTIFICATION_SETTINGS }}" class="pull-{{ S_RIGHT }} text-muted" data-tooltip="true" data-placement="{{ S_LEFT }}" title="{{ lang('SETTINGS') }}"><i class="icon-settings"></i></a>
+				<a href="{{ U_VIEW_ALL_NOTIFICATIONS }}" data-tooltip="true" data-placement="{{ S_RIGHT }}" title="{{ lang('SEE_ALL') }}">{{ lang('NOTIFICATIONS') }}</a>
 			</div>
 			{% if notifications %}
 			<div class="scrollDiv">

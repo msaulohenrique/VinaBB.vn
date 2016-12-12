@@ -46,7 +46,7 @@
 						{% elseif forum.FORUM_ID == FORUM_ID_ENGLISH_DISCUSSION %}
 							{% set CAT_ICON = 'icon-bubble' %}
 						{% else %}
-							{% set CAT_ICON = 'icon-arrow-right-circle' %}
+							{% set CAT_ICON = 'icon-arrow-' ~ S_RIGHT ~ '-circle' %}
 						{% endif %}
 
 						{% if TREE_LEVEL > 1 and forum.PARENT_ID == 0 %}

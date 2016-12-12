@@ -28,12 +28,12 @@
 				{% if row.AVATAR_IMG %}
 				<span class="avatar avatar-lg{% if row.S_ONLINE %} avatar-online{% endif %}">
 					<a href="{{ row.U_VIEW_PROFILE }}"><img alt="{{ row.USERNAME }}" class="bg-light-dark" src="{{ row.AVATAR_IMG }}"></a>
-					{% if row.S_ONLINE %}<i data-tooltip="true" data-placement="left" title="{{ lang('ONLINE') }}"></i>{% endif %}
+					{% if row.S_ONLINE %}<i data-tooltip="true" data-placement="{{ S_LEFT }}" title="{{ lang('ONLINE') }}"></i>{% endif %}
 				</span>
 				{% else %}
 				<div class="avatar avatar-letter-lg{% if row.S_ONLINE %} avatar-online{% endif %} bg-{{ BG_COLOR ?: 'primary' }} opacity-80">
 					<a href="{{ row.U_VIEW_PROFILE }}"><span class="initials">{{ row.USERNAME|slice(0, 2)|upper }}</span></a>
-					{% if row.S_ONLINE %}<i data-tooltip="true" data-placement="left" title="{{ lang('ONLINE') }}"></i>{% endif %}
+					{% if row.S_ONLINE %}<i data-tooltip="true" data-placement="{{ S_LEFT }}" title="{{ lang('ONLINE') }}"></i>{% endif %}
 				</div>
 				{% endif %}
 
