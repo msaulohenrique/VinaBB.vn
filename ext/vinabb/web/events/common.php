@@ -120,6 +120,7 @@ class common implements EventSubscriberInterface
 			'core.get_avatar_after'						=> 'get_avatar_after',
 			'core.login_box_redirect'					=> 'login_box_redirect',
 			'core.display_forums_modify_template_vars'	=> 'display_forums_modify_template_vars',
+			'core.posting_modify_template_vars'			=> 'posting_modify_template_vars',
 			'core.memberlist_prepare_profile_data'		=> 'memberlist_prepare_profile_data',
 			'core.ucp_pm_view_messsage'					=> 'ucp_pm_view_messsage',
 			'core.obtain_users_online_string_sql'		=> 'obtain_users_online_string_sql'
@@ -254,6 +255,17 @@ class common implements EventSubscriberInterface
 		}
 
 		$event['subforums_row'] = $subforums;
+	}
+
+	/**
+	* core.posting_modify_template_vars
+	*
+	* @param array $event Data from the PHP event
+	*/
+	public function posting_modify_template_vars($event)
+	{
+		// Loading SCEditor
+		$this->ext_helper->load_sceditor();
 	}
 
 	/**
