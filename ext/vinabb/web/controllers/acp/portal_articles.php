@@ -438,6 +438,7 @@ class portal_articles implements portal_articles_interface
 		try
 		{
 			$this->operator->delete_article($article_id);
+			$this->filesystem->remove($entity->get_img(true));
 		}
 		catch (\vinabb\web\exceptions\base $e)
 		{
