@@ -46,6 +46,13 @@ interface helper_interface
 	public function get_portal_cats($block_name = 'portal_cats');
 
 	/**
+	* Get all of headlines
+	*
+	* @param string $block_name Twig loop name
+	*/
+	public function get_headlines($block_name = 'headlines');
+
+	/**
 	* Get latest articles on index page
 	*
 	* @param string $block_name Twig loop name

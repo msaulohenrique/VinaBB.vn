@@ -301,6 +301,24 @@ class helper implements helper_interface
 	}
 
 	/**
+	* Get all of headlines
+	*
+	* @param string $block_name Twig loop name
+	*/
+	public function get_headlines($block_name = 'headlines')
+	{
+		foreach ($this->cache->get_headlines($this->user->lang_name) as $row)
+		{
+			$this->template->assign_block_vars($block_name, [
+				'NAME'	=> $row['name'],
+				'DESC'	=> $row['desc'],
+				'IMG'	=> $row['img'],
+				'URL'	=> $row['url']
+			]);
+		}
+	}
+
+	/**
 	* Get latest articles on index page
 	*
 	* @param string $block_name Twig loop name
