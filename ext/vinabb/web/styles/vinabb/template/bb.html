@@ -14,8 +14,8 @@
 		{% if S_BB_STATS %}
 		<div role="tabpanel" class="tab-pane active" id="bb_stats">
 			<div class="widget white-bg">
-				<h5>Awesome</h5>
-				<p>You can easily put the profile settings form here!</p>
+				<h5>{{ lang('STATISTICS') }}</h5>
+				<p>Not enough data available, yet!</p>
 			</div>
 		</div>
 		{% else %}
@@ -43,9 +43,9 @@
 							<div class="comments-header margin-t-10">
 								<span><a href="{{ cat.URL }}"{% if cat.DESC %} data-toggle="tooltip" data-placement="right" title="{{ cat.DESC }}"{% endif %} class="btn btn-primary btn-icon"><i>{{ loop.index }}</i> {{ cat.NAME }}</a></span>
 								<ul class="list-inline pull-right">
-									<li><a data-toggle="tooltip" data-placement="bottom" title="{{ lang('BB_EXTS') }}"><i class="icon-paper-clip fa-2x"></i> 94</a></li>
-									<li><a data-toggle="tooltip" data-placement="bottom" title="{{ lang('LIKES') }}"><i class="icon-like fa-2x"></i> 94</a></li>
-									<li><a data-toggle="tooltip" data-placement="bottom" title="{{ lang('DOWNLOADS') }}"><i class="icon-arrow-down-circle fa-2x"></i> 145</a></li>
+									<li><a data-tooltip="true" data-placement="bottom" title="{{ lang('BB_EXTS') }}"><i class="icon-paper-clip fa-2x"></i> 0</a></li>
+									<li><a data-tooltip="true" data-placement="bottom" title="{{ lang('LIKES') }}"><i class="icon-like fa-2x"></i> 0</a></li>
+									<li><a data-tooltip="true" data-placement="bottom" title="{{ lang('DOWNLOADS') }}"><i class="icon-arrow-down-circle fa-2x"></i> 0</a></li>
 								</ul>
 							</div>
 							<div>
