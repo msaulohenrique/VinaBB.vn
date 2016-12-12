@@ -8,8 +8,6 @@
 
 namespace vinabb\web\controllers\bb;
 
-use vinabb\web\includes\constants;
-
 /**
 * Controller for phpBB resource categories
 */
@@ -86,9 +84,9 @@ class bb implements bb_interface
 	*/
 	public function index($type)
 	{
-		$type = $this->convert_bb_type_varname($type);
+		$type = $this->ext_helper->convert_bb_type_varnames($type);
 
-		if (!empty($type))
+		if ($type != '')
 		{
 			$this->template->assign_vars([
 				'S_BB_' . strtoupper($type) . 'S'	=> true
@@ -104,7 +102,7 @@ class bb implements bb_interface
 
 		// Breadcrumb
 		$this->ext_helper->set_breadcrumb($this->language->lang('BB'), $this->helper->route('vinabb_web_bb_route'));
-		$this->ext_helper->set_breadcrumb(!empty($type) ? $this->language->lang('BB_' . strtoupper($type) . 'S') : $this->language->lang('STATISTICS'));
+		$this->ext_helper->set_breadcrumb(($type != '') ? $this->language->lang('BB_' . strtoupper($type) . 'S') : $this->language->lang('STATISTICS'));
 
 		// Output
 		$this->template->assign_vars([
@@ -112,39 +110,8 @@ class bb implements bb_interface
 		]);
 
 		// Page title
-		$page_title = !empty($type) ? $this->language->lang('BB_' . strtoupper($type) . 'S') : $this->language->lang('BB');
+		$page_title = ($type != '') ? $this->language->lang('BB_' . strtoupper($type) . 'S') : $this->language->lang('BB');
 
 		return $this->helper->render('bb.html', $page_title);
-	}
-
-	/**
-	* Convert BB types from URL varnames to standard varnames
-	* Example: For ACP styles, URL varname is 'acp-styles' but standard varname is 'acp_style'
-	*
-	* @param string $varname phpBB resource type URL varname
-	* @return string
-	*/
-	protected function convert_bb_type_varname($varname)
-	{
-		switch ($varname)
-		{
-			case constants::BB_TYPE_VARNAME_EXT:
-			return 'ext';
-
-			case constants::BB_TYPE_VARNAME_STYLE:
-			return 'style';
-
-			case constants::BB_TYPE_VARNAME_ACP_STYLE:
-			return 'acp_style';
-
-			case constants::BB_TYPE_VARNAME_LANG:
-			return 'lang';
-
-			case constants::BB_TYPE_VARNAME_TOOL:
-			return 'tool';
-
-			default:
-			return '';
-		}
 	}
 }
