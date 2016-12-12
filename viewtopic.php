@@ -26,11 +26,11 @@ if ($phpbb_extension_manager->is_enabled('vinabb/web'))
 	$start = $request->variable('start', 0);
 
 	// Build new URL parameters
-	if ($post_id)
+	if (!$forum_id && !$topic_id && $post_id)
 	{
 		$route_name = 'vinabb_web_board_post_route';
-		$url_params['forum_id'] = $forum_id ? $forum_id : $constants::REWRITE_URL_FORUM_ZERO;
-		$url_params['topic_id'] = $topic_id;
+		$url_params['forum_id'] = $constants::REWRITE_URL_FORUM_ZERO;
+		$url_params['topic_id'] = 0;
 		$url_params['post_id'] = $post_id;
 	}
 	else
