@@ -108,6 +108,9 @@ class portal implements portal_interface
 		// News categories
 		$this->portal_helper->get_portal_cats();
 
+		// Headlines
+		$this->portal_helper->get_headlines();
+
 		// Latest articles
 		if ($index_page)
 		{
