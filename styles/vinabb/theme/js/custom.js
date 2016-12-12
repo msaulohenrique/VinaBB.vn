@@ -269,8 +269,7 @@ $(document).ready(function()
 
 	// Bootstrap MaxLength
 	$('input[maxlength]').maxlength({
-		placement: 'bottom-left',
-		utf8: true
+		placement: 'bottom-left'
 	});
 
 	// Vex
