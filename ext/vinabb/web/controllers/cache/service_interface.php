@@ -88,6 +88,30 @@ interface service_interface
 	public function clear_smilies();
 
 	/**
+	* Get cache from table: _ranks
+	*
+	* @return array
+	*/
+	public function get_ranks();
+
+	/**
+	* Clear cache from table: _ranks
+	*/
+	public function clear_ranks();
+
+	/**
+	* Get cache from table: _words
+	*
+	* @return array
+	*/
+	public function get_censor_words();
+
+	/**
+	* Clear cache from table: _words
+	*/
+	public function clear_censor_words();
+
+	/**
 	* Get cache from table: _bb_categories
 	*
 	* @param int $bb_type phpBB resource type
