@@ -61,7 +61,7 @@ $(document).ready(function()
 				dropdown: $sceditor_smilies,
 				hidden: $sceditor_hidden_smilies
 			},
-			emoticonsEnabled: true,
+			emoticonsCompat: true,
 			colors: '#fff, #afeeee, #56afd7, #b9f9b2, #fff68f, #fad7a0, #ffb6c1, #d7bde2,' +
 					'#aaa, #00ffff, #03a9f4, #48f548, #fdfd35, #ff7043, #f96ef9, #a569bd,' +
 					'#555, #00cde1, #047094, #9acd32, #f9ea3e, #b38b63, #f44336, #6c3483,' +
