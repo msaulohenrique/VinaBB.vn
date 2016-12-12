@@ -34,9 +34,8 @@
 			<tr>
 				<th>{{ lang('HEADLINE_NAME') }}</th>
 				<th>{{ lang('HEADLINE_DESC') }}</th>
-				<th>{{ lang('HEADLINE_IMG') }}</th>
 				<th>{{ lang('HEADLINE_URL') }}</th>
-				<th>{{ lang('ACTION') }}</th>
+				<th>{{ lang('ACTIONS') }}</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -44,7 +43,6 @@
 			<tr>
 				<td>{{ headline.NAME }}</td>
 				<td>{{ headline.DESC }}</td>
-				<td>{{ headline.IMG }}</td>
 				<td>{{ headline.URL }}</td>
 				<td class="actions">
 					<span class="up-disabled" style="display:none;">{{ ICON_MOVE_UP_DISABLED }}</span>
@@ -57,7 +55,7 @@
 			</tr>
 			{% else %}
 			<tr>
-				<td colspan="5" style="text-align: center;">{{ lang('ACP_NO_ITEMS') }}</td>
+				<td colspan="4" style="text-align: center;">{{ lang('ACP_NO_ITEMS') }}</td>
 			</tr>
 			{% endfor %}
 		</tbody>
