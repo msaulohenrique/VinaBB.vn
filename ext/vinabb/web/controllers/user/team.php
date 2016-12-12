@@ -318,6 +318,9 @@ class team implements team_interface
 			}
 		}
 
+		// Breadcrumb
+		$this->ext_helper->set_breadcrumb($this->language->lang('THE_TEAM'));
+
 		return $this->helper->render('memberlist_team.html', $this->language->lang('THE_TEAM'));
 	}
 }
