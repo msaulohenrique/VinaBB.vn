@@ -130,15 +130,15 @@ class helper implements helper_interface
 
 		foreach ($bb_types as $bb_type)
 		{
-			foreach ($this->cache->get_bb_cats($this->ext_helper->get_bb_type_constants($bb_type)) as $cat_id => $cat_data)
+			foreach ($this->cache->get_bb_cats($this->ext_helper->get_bb_type_constants($bb_type)) as $cat_varname => $cat_data)
 			{
 				$this->template->assign_block_vars($bb_type . '_cats', [
-					'ID'		=> $cat_id,
-					'NAME'		=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $cat_data['name_vi'] : $cat_data['name'],
-					'VARNAME'	=> $cat_data['varname'],
-					'DESC'		=> ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $cat_data['desc_vi'] : $cat_data['desc'],
+					'ID'		=> $cat_data['id'],
+					'NAME'		=> $cat_data[($this->user->lang_name == constants::LANG_VIETNAMESE) ? 'name_vi' : 'name'],
+					'VARNAME'	=> $cat_varname,
+					'DESC'		=> $cat_data[($this->user->lang_name == constants::LANG_VIETNAMESE) ? 'desc_vi' : 'desc'],
 					'ICON'		=> $cat_data['icon'],
-					'URL'		=> $this->helper->route('vinabb_web_bb_cat_route', ['type' => $this->ext_helper->get_bb_type_varnames($bb_type), 'cat' => $cat_data['varname']])
+					'URL'		=> $this->helper->route('vinabb_web_bb_cat_route', ['type' => $this->ext_helper->get_bb_type_varnames($bb_type), 'cat' => $cat_varname])
 				]);
 			}
 		}
