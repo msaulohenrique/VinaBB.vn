@@ -9,7 +9,7 @@ vinabb_web_bb_type_route:
 vinabb_web_bb_cat_route:
     path: /{type}/{cat}{slash}
     defaults:
-        _controller: vinabb.web.bb:category
+        _controller: vinabb.web.bb.category:main
         slash: ''
     requirements:
         type: '(extensions|styles|acp-styles|languages|tools)'
@@ -18,7 +18,7 @@ vinabb_web_bb_cat_route:
 vinabb_web_bb_item_route:
     path: /{type}/{cat}/{item}{slash}
     defaults:
-        _controller: vinabb.web.bb:item
+        _controller: vinabb.web.bb.item:main
         slash: ''
     requirements:
         type: '(extensions|styles|acp-styles|languages|tools)'
