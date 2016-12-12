@@ -37,6 +37,9 @@ class team implements team_interface
 	/** @var \phpbb\controller\helper */
 	protected $helper;
 
+	/** @var \vinabb\web\controllers\helper_interface $ext_helper */
+	protected $ext_helper;
+
 	/** @var \phpbb\group\helper */
 	protected $group_helper;
 
@@ -45,6 +48,9 @@ class team implements team_interface
 
 	/** @var string */
 	protected $php_ext;
+
+	/** @var array */
+	protected $rank_data;
 
 	/** @var array */
 	protected $forum_data;
@@ -60,6 +66,7 @@ class team implements team_interface
 	* @param \phpbb\template\template $template
 	* @param \phpbb\user $user
 	* @param \phpbb\controller\helper $helper
+	* @param \vinabb\web\controllers\helper_interface $ext_helper
 	* @param \phpbb\group\helper $group_helper
 	* @param string $root_path
 	* @param string $php_ext
@@ -73,6 +80,7 @@ class team implements team_interface
 		\phpbb\template\template $template,
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
+		\vinabb\web\controllers\helper_interface $ext_helper,
 		\phpbb\group\helper $group_helper,
 		$root_path,
 		$php_ext
@@ -86,10 +94,12 @@ class team implements team_interface
 		$this->template = $template;
 		$this->user = $user;
 		$this->helper = $helper;
+		$this->ext_helper = $ext_helper;
 		$this->group_helper = $group_helper;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 
+		$this->rank_data = $this->cache->get_ranks();
 		$this->forum_data = $this->cache->get_forum_data();
 	}
 
@@ -114,7 +124,7 @@ class team implements team_interface
 		$this->db->sql_freeresult($result);
 
 		$sql_ary = [
-			'SELECT'	=> 'g.group_id, g.group_name, g.group_colour, g.group_type, ug.user_id as ug_user_id, t.teampage_id',
+			'SELECT'	=> 'g.group_id, g.group_name, g.group_rank, g.group_colour, g.group_type, ug.user_id as ug_user_id, t.teampage_id',
 			'FROM'		=> [GROUPS_TABLE => 'g'],
 			'LEFT_JOIN'	=> [
 				[
@@ -156,7 +166,7 @@ class team implements team_interface
 		$this->db->sql_freeresult($result);
 
 		$sql_ary = [
-			'SELECT'	=> 'u.user_id, u.group_id as default_group, u.username, u.username_clean, u.user_colour, u.user_type, u.user_rank, u.user_posts, u.user_allow_pm, g.group_id',
+			'SELECT'	=> 'u.user_id, u.group_id as default_group, u.username, u.username_clean, u.user_colour, u.user_type, u.user_rank, u.user_posts, u.user_allow_pm, u.user_avatar_type, u.user_avatar, u.user_avatar_width, u.user_avatar_height, g.group_id',
 			'FROM'		=> [USER_GROUP_TABLE => 'ug'],
 			'LEFT_JOIN'	=> [
 				[
@@ -247,9 +257,11 @@ class team implements team_interface
 			{
 				// If the group does not have a parent category, we display the groupname as category
 				$this->template->assign_block_vars('group', [
-					'GROUP_NAME'	=> $group_data['group_name'],
-					'GROUP_COLOR'	=> $group_data['group_colour'],
-					'U_GROUP'		=> $group_data['u_group']
+					'GROUP_NAME'		=> $group_data['group_name'],
+					'GROUP_RANK_RAW'	=> ($group_data['group_rank']) ? $this->rank_data[$group_data['group_rank']]['title'] : '',
+					'GROUP_RANK'		=> ($group_data['group_rank']) ? (($this->language->is_set(['RANK_TITLES', strtoupper($this->rank_data[$group_data['group_rank']]['title'])])) ? $this->language->lang(['RANK_TITLES', strtoupper($this->rank_data[$group_data['group_rank']]['title'])]) : $this->rank_data[$group_data['group_rank']]['title']) : '',
+					'GROUP_COLOR'		=> $group_data['group_colour'],
+					'U_GROUP'			=> $group_data['u_group']
 				]);
 			}
 
@@ -268,20 +280,22 @@ class team implements team_interface
 							continue;
 						}
 
-						$user_rank_data = phpbb_get_user_rank($row, (($row['user_id'] == ANONYMOUS) ? false : $row['user_posts']));
+						$user_rank_data = ($row['user_rank']) ? $this->rank_data[$row['user_rank']] : phpbb_get_user_rank($row, (($row['user_id'] == ANONYMOUS) ? false : $row['user_posts']));
 
 						$template_vars = [
-							'USER_ID'		=> $row['user_id'],
-							'FORUMS'		=> $row['forums'],
-							'FORUM_OPTIONS'	=> isset($row['forums_options']),
-							'RANK_TITLE'	=> $user_rank_data['title'],
+							'USER_ID'			=> $row['user_id'],
+							'FORUMS'			=> $row['forums'],
+							'FORUM_OPTIONS'		=> isset($row['forums_options']),
+							'AVATAR_IMG'		=> ($this->user->optionget('viewavatars')) ? (($row['user_avatar_type'] == 'avatar.driver.gravatar') ? $this->ext_helper->get_gravatar_url($row) : phpbb_get_user_avatar($row)) : '',
+							'RANK_TITLE_RAW'	=> $user_rank_data['title'],
+							'RANK_TITLE'		=> ($this->language->is_set(['RANK_TITLES', strtoupper($user_rank_data['title'])])) ? $this->language->lang(['RANK_TITLES', strtoupper($user_rank_data['title'])]) : $user_rank_data['title'],
 
 							'GROUP_NAME'	=> $groups_ary[$row['default_group']]['group_name'],
 							'GROUP_COLOR'	=> $groups_ary[$row['default_group']]['group_colour'],
 							'U_GROUP'		=> $groups_ary[$row['default_group']]['u_group'],
 
-							'RANK_IMG'		=> $user_rank_data['img'],
-							'RANK_IMG_SRC'	=> $user_rank_data['img_src'],
+							//'RANK_IMG'		=> $user_rank_data['img'],
+							//'RANK_IMG_SRC'	=> $user_rank_data['img_src'],
 
 							'S_INACTIVE'	=> $row['user_type'] == USER_INACTIVE,
 

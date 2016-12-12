@@ -76,6 +76,7 @@ services:
             - '@template'
             - '@user'
             - '@controller.helper'
+            - '@vinabb.web.helper'
             - '@group_helper'
             - '%core.root_path%'
             - '%core.php_ext%'
