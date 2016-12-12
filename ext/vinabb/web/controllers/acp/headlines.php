@@ -176,10 +176,10 @@ class headlines implements headlines_interface
 				'IMG'	=> $entity->get_img(),
 				'URL'	=> $entity->get_url(),
 
-				'U_EDIT'		=> "{$this->u_action}&action=edit&id={$entity->get_id()}",
-				'U_MOVE_DOWN'	=> "{$this->u_action}&action=move_down&id={$entity->get_id()}&hash=" . generate_link_hash('down' . $entity->get_id()),
-				'U_MOVE_UP'		=> "{$this->u_action}&action=move_up&id={$entity->get_id()}&hash=" . generate_link_hash('up' . $entity->get_id()),
-				'U_DELETE'		=> "{$this->u_action}&action=delete&id={$entity->get_id()}"
+				'U_EDIT'		=> "{$this->u_action}&action=edit&lang={$this->headline_lang}&id={$entity->get_id()}",
+				'U_MOVE_DOWN'	=> "{$this->u_action}&action=move_down&lang={$this->headline_lang}&id={$entity->get_id()}&hash=" . generate_link_hash('down' . $entity->get_id()),
+				'U_MOVE_UP'		=> "{$this->u_action}&action=move_up&lang={$this->headline_lang}&id={$entity->get_id()}&hash=" . generate_link_hash('up' . $entity->get_id()),
+				'U_DELETE'		=> "{$this->u_action}&action=delete&lang={$this->headline_lang}&id={$entity->get_id()}"
 			]);
 		}
 
@@ -428,6 +428,7 @@ class headlines implements headlines_interface
 		try
 		{
 			$this->operator->delete_headline($headline_id);
+			$this->filesystem->remove($entity->get_img(true));
 		}
 		catch (\vinabb\web\exceptions\base $e)
 		{
@@ -473,7 +474,7 @@ class headlines implements headlines_interface
 		$file = $this->upload->handle_upload('files.types.form', $form_name);
 
 		// Rename file
-		$file->clean_filename('avatar', $this->headline_lang . '_');
+		$file->clean_filename('avatar', $this->headline_lang . '_' . pathinfo($file->get('uploadname'), PATHINFO_FILENAME));
 
 		// If there was an error during upload, then abort operation
 		if (sizeof($file->error))
