@@ -312,6 +312,7 @@ $lang = array_merge($lang, [
 	],
 	'RESOURCES'		=> 'Resources',
 
+	'SAVE'					=> 'Save',
 	'SELECT_CATEGORY'		=> 'Select a category',
 	'SELECT_ICON'			=> 'Select a icon',
 	'SELECT_LANGUAGE'		=> 'Select a language',
