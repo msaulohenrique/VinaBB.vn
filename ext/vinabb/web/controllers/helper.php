@@ -302,6 +302,37 @@ class helper implements helper_interface
 	}
 
 	/**
+	* Convert BB types from URL varnames to standard varnames
+	* Example: For ACP styles, URL varname is 'acp-styles' but standard varname is 'acp_style'
+	*
+	* @param string $varname phpBB resource type URL varname
+	* @return string
+	*/
+	public function convert_bb_type_varnames($varname)
+	{
+		switch ($varname)
+		{
+			case constants::BB_TYPE_VARNAME_EXT:
+				return 'ext';
+
+			case constants::BB_TYPE_VARNAME_STYLE:
+				return 'style';
+
+			case constants::BB_TYPE_VARNAME_ACP_STYLE:
+				return 'acp_style';
+
+			case constants::BB_TYPE_VARNAME_LANG:
+				return 'lang';
+
+			case constants::BB_TYPE_VARNAME_TOOL:
+				return 'tool';
+
+			default:
+				return '';
+		}
+	}
+
+	/**
 	* Get OS name from constants
 	*
 	* @param int $os_value OS constant value

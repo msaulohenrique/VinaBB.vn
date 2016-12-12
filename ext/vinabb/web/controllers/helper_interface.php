@@ -74,6 +74,15 @@ interface helper_interface
 	public function get_bb_type_varnames($bb_type);
 
 	/**
+	* Convert BB types from URL varnames to standard varnames
+	* Example: For ACP styles, URL varname is 'acp-styles' but standard varname is 'acp_style'
+	*
+	* @param string $varname phpBB resource type URL varname
+	* @return string
+	*/
+	public function convert_bb_type_varnames($varname);
+
+	/**
 	* Get OS name from constants
 	*
 	* @param int $os_value OS constant value
