@@ -9,7 +9,7 @@
 		<table class="table table-striped table-hover">
 			<thead>
 			<tr>
-				<th>First Name</th>
+				<th>{{ lang('NOTIFICATION_TYPE') }}</th>
 				{% for method in notification_methods %}
 				<th>{{ method.NAME }}</th>
 				{% endfor %}
