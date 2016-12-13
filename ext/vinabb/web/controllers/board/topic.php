@@ -698,11 +698,6 @@ class topic implements topic_interface
 
 		$this->pagination->generate_template_pagination('vinabb_web_board_topic_route', $pagination_params, 'pagination', $total_posts, $this->config['posts_per_page'], $start);
 
-		// Breadcrumb
-		$this->ext_helper->set_breadcrumb($this->language->lang('BOARD'), $this->helper->route('vinabb_web_board_route'));
-		$this->ext_helper->set_breadcrumb($topic_data['forum_name'], $this->helper->route('vinabb_web_board_forum_route', ['forum_id' => $forum_id, 'seo' => $topic_data['forum_name_seo'] . constants::REWRITE_URL_SEO]));
-		$this->ext_helper->set_breadcrumb($this->language->lang('TOPIC'));
-
 		// Send vars to template
 		$this->template->assign_vars(array(
 				'FORUM_ID' 		=> $forum_id,

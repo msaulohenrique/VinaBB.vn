@@ -4,19 +4,36 @@
 	<div class="row">
 		<div class="col-sm-9">
 			<ol class="breadcrumb">
-				{% if breadcrumb %}
+				{% if breadcrumb or navlinks %}
 				<li{{ MICRODATA }}><a href="{{ U_INDEX }}" itemprop="url" data-tooltip="true" data-placement="{{ S_RIGHT }}" title="{{ lang('HOME') }}"><i class="icon-home"></i><span itemprop="title" class="hidden">{{ lang('HOME') }}</span></a></li>
 				{% else %}
 				<li{{ MICRODATA }}><a href="{{ U_INDEX }}" itemprop="url"><i class="fa fa-home"></i> <span itemprop="title">{{ lang('HOME') }}</span></a></li>
 				{% endif %}
 
-				{% for item in breadcrumb %}
-				{% if item.URL and not loop.last %}
-				<li{{ MICRODATA }}><a href="{{ item.URL }}" itemprop="url"><span itemprop="title">{{ item.NAME }}</span></a></li>
+				{% if (S_VIEWFORUM or S_VIEWTOPIC) and navlinks %}
+					<li{{ MICRODATA }}><a href="{{ U_BOARD }}" itemprop="url"><span itemprop="title">{{ lang('BOARD')}}</span></a></li>
+
+					{% for item in navlinks %}
+					{% if S_VIEWFORUM %}
+						{% if item.U_VIEW_FORUM and not loop.last %}
+						<li{{ MICRODATA }}><a href="{{ item.U_VIEW_FORUM }}" itemprop="url"><span itemprop="title">{{ item.FORUM_NAME }}</span></a></li>
+						{% else %}
+						<li>{{ item.FORUM_NAME }}</li>
+						{% endif %}
+					{% else %}
+						<li{{ MICRODATA }}><a href="{{ item.U_VIEW_FORUM }}" itemprop="url"><span itemprop="title">{{ item.FORUM_NAME }}</span></a></li>
+						{% if loop.last %}<li>{{ lang('TOPIC') }}</li>{% endif %}
+					{% endif %}
+					{% endfor %}
 				{% else %}
-				<li>{{ item.NAME }}</li>
+					{% for item in breadcrumb %}
+					{% if item.URL and not loop.last %}
+					<li{{ MICRODATA }}><a href="{{ item.URL }}" itemprop="url"><span itemprop="title">{{ item.NAME }}</span></a></li>
+					{% else %}
+					<li>{{ item.NAME }}</li>
+					{% endif %}
+					{% endfor %}
 				{% endif %}
-				{% endfor %}
 			</ol>
 		</div>
 		<div class="hidden-xs col-sm-3 text-{{ S_RIGHT }}">

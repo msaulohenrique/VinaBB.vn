@@ -167,7 +167,6 @@ services:
             - '@template'
             - '@user'
             - '@controller.helper'
-            - '@vinabb.web.helper'
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.board.topic:

@@ -51,9 +51,6 @@ class forum implements forum_interface
 	/** @var \phpbb\controller\helper $helper */
 	protected $helper;
 
-	/** @var \vinabb\web\controllers\helper_interface $ext_helper */
-	protected $ext_helper;
-
 	/** @var string $root_path */
 	protected $root_path;
 
@@ -75,7 +72,6 @@ class forum implements forum_interface
 	* @param \phpbb\template\template					$template			Template object
 	* @param \phpbb\user								$user				User object
 	* @param \phpbb\controller\helper					$helper				Controller helper
-	* @param \vinabb\web\controllers\helper_interface	$ext_helper			Extension helper
 	* @param string										$root_path			phpBB root path
 	* @param string										$php_ext			PHP file extension
 	*/
@@ -92,7 +88,6 @@ class forum implements forum_interface
 		\phpbb\template\template $template,
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
-		\vinabb\web\controllers\helper_interface $ext_helper,
 		$root_path,
 		$php_ext
 	)
@@ -109,7 +104,6 @@ class forum implements forum_interface
 		$this->template = $template;
 		$this->user = $user;
 		$this->helper = $helper;
-		$this->ext_helper = $ext_helper;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 	}
@@ -472,10 +466,6 @@ class forum implements forum_interface
 		{
 			$forum_url_sort_params = array_merge($forum_url_sort_params, $u_sort_param_ary);
 		}
-
-		// Breadcrumb
-		$this->ext_helper->set_breadcrumb($this->language->lang('BOARD'), $this->helper->route('vinabb_web_board_route'));
-		$this->ext_helper->set_breadcrumb($forum_data['forum_name']);
 
 		// Output
 		$this->template->assign_vars([
