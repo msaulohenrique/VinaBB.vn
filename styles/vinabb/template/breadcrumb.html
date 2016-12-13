@@ -1,16 +1,18 @@
+{% set MICRODATA = ' itemscope itemtype="http://data-vocabulary.org/Breadcrumb"' %}
+
 <div class="page-header">
 	<div class="row">
 		<div class="col-sm-9">
 			<ol class="breadcrumb">
 				{% if breadcrumb %}
-				<li><a href="{{ U_INDEX }}" data-tooltip="true" data-placement="{{ S_RIGHT }}" title="{{ lang('HOME') }}"><i class="icon-home"></i></a></li>
+				<li{{ MICRODATA }}><a href="{{ U_INDEX }}" itemprop="url" data-tooltip="true" data-placement="{{ S_RIGHT }}" title="{{ lang('HOME') }}"><i class="icon-home"></i><span itemprop="title" class="hidden">{{ lang('HOME') }}</span></a></li>
 				{% else %}
-				<li><a href="{{ U_INDEX }}"><i class="fa fa-home"></i> {{ lang('HOME') }}</a></li>
+				<li{{ MICRODATA }}><a href="{{ U_INDEX }}" itemprop="url"><i class="fa fa-home"></i> <span itemprop="title">{{ lang('HOME') }}</span></a></li>
 				{% endif %}
 
 				{% for item in breadcrumb %}
 				{% if item.URL and not loop.last %}
-				<li><a href="{{ item.URL }}">{{ item.NAME }}</a></li>
+				<li{{ MICRODATA }}><a href="{{ item.URL }}" itemprop="url"><span itemprop="title">{{ item.NAME }}</span></a></li>
 				{% else %}
 				<li>{{ item.NAME }}</li>
 				{% endif %}
@@ -18,7 +20,7 @@
 			</ol>
 		</div>
 		<div class="hidden-xs col-sm-3 text-{{ S_RIGHT }}">
-			<span data-tooltip="true" data-placement="{{ S_RIGHT }}" title="{{ S_TIMEZONE }}">{{ CURRENT_TIME }}</span>
+			<span data-tooltip="true" data-placement="{{ S_LEFT }}" title="{{ S_TIMEZONE }}">{{ CURRENT_TIME }}</span>
 		</div>
 	</div>
 </div>
