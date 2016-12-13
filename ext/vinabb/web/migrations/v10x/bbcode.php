@@ -34,17 +34,24 @@ class bbcode extends migration
 	*/
 	public function update_data()
 	{
-		return [['custom', [[&$this, 'update_bbcode_tags']]]];
+		return [['custom', [[&$this, 'add_bbcode_tags']]]];
 	}
 
 	/**
 	* Add new BBCode tags for SCEditor
 	*/
-	public function update_bbcode_tags()
+	public function add_bbcode_tags()
 	{
 		$this->update_or_insert();
+		$this->update_bbcode_tags();
+		$this->insert_bbcode_tags();
+	}
 
-		// Update existing BBCode tags with new data
+	/**
+	* Update existing BBCode tags with new data
+	*/
+	protected function update_bbcode_tags()
+	{
 		if (sizeof($this->update_data))
 		{
 			foreach ($this->update_data as $bbcode_id => $data)
@@ -55,8 +62,13 @@ class bbcode extends migration
 				$this->db->sql_query($sql);
 			}
 		}
+	}
 
-		// Insert new BBCode tags
+	/**
+	* Insert new BBCode tags
+	*/
+	protected function insert_bbcode_tags()
+	{
 		if (sizeof($this->insert_data))
 		{
 			$sql_ary = [];
