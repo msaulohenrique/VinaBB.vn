@@ -33,7 +33,7 @@
 	{% set BG_COLOR = 'warning' %}
 {% endif %}
 
-<div class="row">
+<div class="row" id="p{{ row.POST_ID }}">
 	<div class="panel panel-{{ row.S_UNREAD_POST ? 'danger' : 'default'}}">
 		<div class="panel-body">
 			<div class="pull-{{ S_RIGHT }}">
@@ -45,6 +45,7 @@
 				{% if row.U_QUOTE %}<a href="{{ row.U_QUOTE }}" data-tooltip="true" data-placement="{{ S_LEFT }}" title="{{ lang('REPLY_WITH_QUOTE') }}" class="btn btn-primary btn-border btn-rounded btn-sm"><i class="fa fa-quote-{{ S_RIGHT }}"></i></a>{% endif %}
 			</div>
 			<h3 class="font-300 text-{{ row.S_UNREAD_POST ? 'danger' : 'primary'}}">{{ row.POST_SUBJECT }}</h3>
+
 			<hr class="clearfix">
 
 			<div class="poster-info media margin-b-20">
