@@ -4,6 +4,7 @@
 	{% include 'forumlist_body.html' %}
 {% endif %}
 
+{% if S_IS_POSTABLE %}
 <div class="row">
 	<div class="col-sm-2 mailbox-sidenav">
 		<div class="clearfix margin-b-10">
@@ -84,5 +85,6 @@
 		{% endif %}
 	</div>
 </div>
+{% endif %}
 
 {% include 'overall_footer.html' %}
