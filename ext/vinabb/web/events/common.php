@@ -200,7 +200,14 @@ class common implements EventSubscriberInterface
 		// Rewrite all profile URLs with our new route
 		if ($event['user_id'])
 		{
-			$url = $this->helper->route('vinabb_web_user_profile_route', ['username' => $event['username']]);
+			if ($event['username'] != '')
+			{
+				$url = $this->helper->route('vinabb_web_user_profile_route', ['username' => $event['username']]);
+			}
+			else
+			{
+				$url = $this->helper->route('vinabb_web_user_profile_id_route', ['user_id' => $event['user_id']]);
+			}
 
 			if ($event['mode'] == 'profile')
 			{
