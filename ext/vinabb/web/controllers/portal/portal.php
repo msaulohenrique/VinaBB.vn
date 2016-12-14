@@ -274,6 +274,7 @@ class portal implements portal_interface
 				'id'			=> $entity->get_id(),
 				'name'			=> $entity->get_name(),
 				'name_seo'		=> $entity->get_name_seo(),
+				'img'			=> $entity->get_img(),
 				'desc'			=> $entity->get_desc(),
 				'text'			=> $entity->get_text_for_display(),
 				'views'			=> $entity->get_views(),
