@@ -44,6 +44,7 @@ $lang = array_merge($lang, [
 
 	'CATEGORY'			=> 'Danh mục',
 	'CLOSE'				=> 'Đóng',
+	'CODE'				=> 'Mã',
 	'COMMENT'			=> 'Bình luận',
 	'COMMENTS'			=> 'Bình luận',
 	'COMMUNITY'			=> 'Cộng đồng',

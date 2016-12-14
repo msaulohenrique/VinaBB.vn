@@ -44,6 +44,7 @@ $lang = array_merge($lang, [
 
 	'CATEGORY'			=> 'Category',
 	'CLOSE'				=> 'Close',
+	'CODE'				=> 'Code',
 	'COMMENT'			=> 'Comment',
 	'COMMENTS'			=> 'Comments',
 	'COMMUNITY'			=> 'Community',
