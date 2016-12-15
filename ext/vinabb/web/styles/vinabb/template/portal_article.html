@@ -2,9 +2,11 @@
 
 <div class="panel panel-default">
 	<div class="panel-body">
+		{% if not S_IS_BOT %}
 		<div class="pull-{{ S_RIGHT }}">
 			<button type="button" id="btnPrint" data-tooltip="true" data-placement="{{ S_LEFT }}" title="{{ lang('PRINT') }}" class="btn btn-border btn-primary btn-sm"><i class="fa fa-print"></i></button>
 		</div>
+		{% endif %}
 		<h3 class="font-300 text-primary">{{ ARTICLE_NAME }}</h3>
 
 		<hr class="clearfix">
@@ -41,6 +43,7 @@
 
 {% include 'overall_footer.html' %}
 
+{% if not S_IS_BOT %}
 <script>
 	$('#btnPrint').on('click',
 		function()
@@ -52,3 +55,4 @@
 		}
 	);
 </script>
+{% endif %}
