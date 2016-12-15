@@ -24,17 +24,11 @@ class headline implements headline_interface
 	/** @var \vinabb\web\entities\helper\helper_interface */
 	protected $entity_helper;
 
-	/** @var \phpbb\path_helper */
-	protected $path_helper;
-
 	/** @var string */
 	protected $table_name;
 
 	/** @var string */
 	protected $ext_root_path;
-
-	/** @var string */
-	protected $ext_web_path;
 
 	/** @var array */
 	protected $data;
@@ -45,25 +39,21 @@ class headline implements headline_interface
 	* @param \phpbb\db\driver\driver_interface				$db				Database object
 	* @param \phpbb\extension\manager						$ext_manager	Extension manager
 	* @param \vinabb\web\entities\helper\helper_interface	$entity_helper	Entity helper
-	* @param \phpbb\path_helper								$path_helper	Path helper
 	* @param string											$table_name		Table name
 	*/
 	public function __construct(
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\extension\manager $ext_manager,
 		\vinabb\web\entities\helper\helper_interface $entity_helper,
-		\phpbb\path_helper $path_helper,
 		$table_name
 	)
 	{
 		$this->db = $db;
 		$this->ext_manager = $ext_manager;
 		$this->entity_helper = $entity_helper;
-		$this->path_helper = $path_helper;
 		$this->table_name = $table_name;
 
 		$this->ext_root_path = $this->ext_manager->get_extension_path('vinabb/web', true);
-		$this->ext_web_path = $this->path_helper->update_web_root_path($this->ext_root_path);
 	}
 
 	/**
@@ -337,7 +327,7 @@ class headline implements headline_interface
 	*/
 	public function get_img($real_path = false, $full_path = true)
 	{
-		$path = $full_path ? ($real_path ? $this->ext_root_path : $this->ext_web_path) . constants::DIR_HEADLINE_IMAGES : '';
+		$path = $full_path ? ($real_path ? $this->ext_root_path : generate_board_url() . '/ext/vinabb/web/') . constants::DIR_HEADLINE_IMAGES : '';
 
 		return !empty($this->data['headline_img']) ? (string) $path . $this->data['headline_img'] : '';
 	}
