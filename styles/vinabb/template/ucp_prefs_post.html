@@ -1,0 +1,40 @@
+{% include 'ucp_header.html' %}
+
+<form id="ucp" method="post" action="{{ S_UCP_ACTION }}"{{ S_FORM_ENCTYPE }}>
+	<fieldset>
+		<div class="form-group">
+			<label class="col-md-3 control-label" for="bbcode1">{{ lang('DEFAULT_BBCODE') ~ lang('COLON') }}</label>
+			<div class="col-md-3">
+				<label for="bbcode1"><input type="radio" name="bbcode" id="bbcode1" value="1"{% if S_BBCODE %} checked{% endif %}> {{ lang('YES') }}</label>
+				<label for="bbcode0"><input type="radio" name="bbcode" id="bbcode0" value="0"{% if not S_BBCODE %} checked{% endif %}> {{ lang('NO') }}</label>
+			</div>
+			<label class="col-md-3 control-label" for="smilies1">{{ lang('DEFAULT_SMILIES') ~ lang('COLON') }}</label>
+			<div class="col-md-3">
+				<label for="smilies1"><input type="radio" name="smilies" id="smilies1" value="1"{% if S_SMILIES %} checked{% endif %}> {{ lang('YES') }}</label>
+				<label for="smilies0"><input type="radio" name="smilies" id="smilies0" value="0"{% if not S_SMILIES %} checked{% endif %}> {{ lang('NO') }}</label>
+			</div>
+		</div>
+	</fieldset>
+	<fieldset>
+		<div class="form-group">
+			<label class="col-md-3 control-label" for="sig1">{{ lang('DEFAULT_ADD_SIG') ~ lang('COLON') }}</label>
+			<div class="col-md-3">
+				<label for="sig1"><input type="radio" name="sig" id="sig1" value="1"{% if S_SIG %} checked{% endif %}> {{ lang('YES') }}</label>
+				<label for="sig0"><input type="radio" name="sig" id="sig0" value="0"{% if not S_SIG %} checked{% endif %}> {{ lang('NO') }}</label>
+			</div>
+			<label class="col-md-3 control-label" for="notify1">{{ lang('DEFAULT_NOTIFY') ~ lang('COLON') }}</label>
+			<div class="col-md-3">
+				<label for="notify1"><input type="radio" name="notify" id="notify1" value="1"{% if S_NOTIFY %} checked{% endif %}> {{ lang('YES') }}</label>
+				<label for="notify0"><input type="radio" name="notify" id="notify0" value="0"{% if not S_NOTIFY %} checked{% endif %}> {{ lang('NO') }}</label>
+			</div>
+		</div>
+	</fieldset>
+
+	<div class="form-group text-center">
+		{{ S_HIDDEN_FIELDS }}
+		<input type="submit" name="submit" value="{{ lang('SAVE') }}" class="btn btn-primary">
+		{{ S_FORM_TOKEN }}
+	</div>
+</form>
+
+{% include 'ucp_footer.html' %}
