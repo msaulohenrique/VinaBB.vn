@@ -45,6 +45,7 @@ $lang = array_merge($lang, [
 	'CATEGORY'			=> 'Category',
 	'CLOSE'				=> 'Close',
 	'CODE'				=> 'Code',
+	'CODECLIMATE'		=> 'CodeClimate',
 	'COMMENT'			=> 'Comment',
 	'COMMENTS'			=> 'Comments',
 	'COMMUNITY'			=> 'Community',
@@ -208,6 +209,7 @@ $lang = array_merge($lang, [
 	'GITHUB'				=> 'GitHub',
 	'GITHUB_PROFILE'		=> 'GitHub',
 
+	'INSIGHT'					=> 'SensioLabs Insight',
 	'ITEM_EXT_ACP_STYLE'		=> 'ACP style changes',
 	'ITEM_EXT_DB_DATA'			=> 'Database data changes',
 	'ITEM_EXT_DB_SCHEMA'		=> 'Database schema changes',
@@ -314,6 +316,7 @@ $lang = array_merge($lang, [
 	'RESOURCES'		=> 'Resources',
 
 	'SAVE'					=> 'Save',
+	'SCRUTINIZER'			=> 'Scrutinizer',
 	'SELECT_CATEGORY'		=> 'Select a category',
 	'SELECT_ICON'			=> 'Select a icon',
 	'SELECT_LANGUAGE'		=> 'Select a language',
@@ -337,6 +340,7 @@ $lang = array_merge($lang, [
 	'TOTAL_LANGS'		=> 'Total language packages',
 	'TOTAL_STYLES'		=> 'Total styles',
 	'TOTAL_TOOLS'		=> 'Total tools',
+	'TRAVIS'			=> 'Travis',
 
 	'UNKNOWN'			=> 'Unknown',
 	'UPLOAD_NEW_IMAGE'	=> 'Upload new image',

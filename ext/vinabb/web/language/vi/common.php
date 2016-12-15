@@ -45,6 +45,7 @@ $lang = array_merge($lang, [
 	'CATEGORY'			=> 'Danh mục',
 	'CLOSE'				=> 'Đóng',
 	'CODE'				=> 'Mã',
+	'CODECLIMATE'		=> 'CodeClimate',
 	'COMMENT'			=> 'Bình luận',
 	'COMMENTS'			=> 'Bình luận',
 	'COMMUNITY'			=> 'Cộng đồng',
@@ -208,6 +209,7 @@ $lang = array_merge($lang, [
 	'GITHUB'				=> 'GitHub',
 	'GITHUB_PROFILE'		=> 'GitHub',
 
+	'INSIGHT'					=> 'SensioLabs Insight',
 	'ITEM_EXT_ACP_STYLE'		=> 'Thay đổi giao diện quản trị',
 	'ITEM_EXT_DB_DATA'			=> 'Thay đổi dữ liệu',
 	'ITEM_EXT_DB_SCHEMA'		=> 'Thay đổi cấu trúc dữ liệu',
@@ -314,6 +316,7 @@ $lang = array_merge($lang, [
 	'RESOURCES'		=> 'Tài nguyên',
 
 	'SAVE'					=> 'Lưu',
+	'SCRUTINIZER'			=> 'Scrutinizer',
 	'SELECT_CATEGORY'		=> 'Chọn danh mục',
 	'SELECT_ICON'			=> 'Chọn biểu tượng',
 	'SELECT_LANGUAGE'		=> 'Chọn ngôn ngữ',
@@ -337,6 +340,7 @@ $lang = array_merge($lang, [
 	'TOTAL_LANGS'		=> 'Số gói ngôn ngữ',
 	'TOTAL_STYLES'		=> 'Số giao diện',
 	'TOTAL_TOOLS'		=> 'Số công cụ',
+	'TRAVIS'			=> 'Travis CI',
 
 	'UNKNOWN'			=> 'Không biết',
 	'UPLOAD_NEW_IMAGE'	=> 'Tải hình mới lên',
