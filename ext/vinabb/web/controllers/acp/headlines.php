@@ -332,6 +332,12 @@ class headlines implements headlines_interface
 		// If there are not any input errors, then begin to upload file
 		if ($this->can_upload() && $this->data['headline_img']['name'] != '' && !sizeof($this->errors))
 		{
+			// Delete the old file if uploaded a new one
+			if ($this->data['headline_img']['name'] != $entity->get_img(true, false))
+			{
+				$this->filesystem->remove($entity->get_img(true));
+			}
+
 			$entity->set_img($this->upload_headline_img('headline_img'));
 		}
 	}
