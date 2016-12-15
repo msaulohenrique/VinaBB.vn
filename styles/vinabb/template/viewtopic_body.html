@@ -12,6 +12,19 @@
 	{% endif %}
 	</div>
 
+	{% if not S_IS_BOT and (U_WATCH_TOPIC or U_BOOKMARK_TOPIC or U_BUMP_TOPIC or U_EMAIL_TOPIC or U_PRINT_TOPIC or S_DISPLAY_TOPIC_TOOLS) %}
+	<div class="btn-group margin-l-5">
+		<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">{{ lang('TOPIC_TOOLS') }} <span class="caret"></span></button>
+		<ul class="dropdown-menu" role="menu">
+			{% if U_WATCH_TOPIC %}<li><a href="{{ U_WATCH_TOPIC }}"><i class="fa fa-fw {{ S_WATCHING_TOPIC ? 'fa-check-square-o' : 'fa-square-o' }}" aria-hidden="true"></i> {{ S_WATCH_TOPIC_TITLE }}</a></li>{% endif %}
+			{% if U_BOOKMARK_TOPIC %}<li><a href="{{ U_BOOKMARK_TOPIC }}"><i class="fa fa-fw fa-bookmark-o" aria-hidden="true"></i> {{ S_BOOKMARK_TOPIC }}</a></li>{% endif %}
+			{% if U_BUMP_TOPIC %}<li><a href="{{ U_BUMP_TOPIC }}"><i class="fa fa-fw fa-level-up" aria-hidden="true"></i> {{ lang('BUMP_TOPIC') }}</a></li>{% endif %}
+			{% if U_EMAIL_TOPIC %}<li><a href="{{ U_EMAIL_TOPIC }}"><i class="fa fa-fw fa-envelope-o" aria-hidden="true"></i> {{ lang('EMAIL_TOPIC') }}</a></li>{% endif %}
+			{% if U_PRINT_TOPIC %}<li><a href="{{ U_PRINT_TOPIC }}"><i class="fa fa-fw fa-print" aria-hidden="true"></i> {{ lang('PRINT_TOPIC') }}</a></li>{% endif %}
+		</ul>
+	</div>
+	{% endif %}
+
 	{% if pagination %}{% include 'pagination.html' %}{% endif %}
 </div>
 {% endset %}
