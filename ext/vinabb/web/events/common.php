@@ -123,7 +123,7 @@ class common implements EventSubscriberInterface
 			'core.posting_modify_template_vars'			=> 'posting_modify_template_vars',
 			'core.memberlist_prepare_profile_data'		=> 'memberlist_prepare_profile_data',
 			'core.ucp_pm_view_messsage'					=> 'ucp_pm_view_messsage',
-			'core.obtain_users_online_string_sql'		=> 'obtain_users_online_string_sql'
+			'core.obtain_users_online_string_modify'	=> 'obtain_users_online_string_modify'
 		];
 	}
 
@@ -326,7 +326,7 @@ class common implements EventSubscriberInterface
 	*
 	* @param array $event Data from the PHP event
 	*/
-	public function obtain_users_online_string_sql($event)
+	public function obtain_users_online_string_modify($event)
 	{
 		// Get total online users (only number)
 		$online_users = $event['online_users'];
