@@ -1,5 +1,5 @@
 <div class="tabs">
-	<ul class="list-inline tabs-nav" role="tablist">
+	<ul class="list-inline tabs-nav" id="catList" role="tablist">
 		{% for row in forumrow if row.S_IS_CAT %}
 
 		{# Category icon #}
@@ -33,7 +33,7 @@
 			{% set S_FORUM_LANG = loop.first %}
 		{% endif %}
 
-		<li role="presentation"{% if S_FORUM_LANG %} class="active"{% endif %}><a href="#cat_{{ row.FORUM_ID }}" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="{{ S_FORUM_LANG ? 'true' : 'false' }}"><i class="{{ CAT_ICON }}"></i> {{ row.FORUM_NAME }}</a></li>
+		<li role="presentation"{% if S_FORUM_LANG %} class="active"{% endif %}><a href="#cat_{{ row.FORUM_ID }}" aria-controls="catList" role="tab" data-toggle="tab" aria-expanded="{{ S_FORUM_LANG ? 'true' : 'false' }}"><i class="{{ CAT_ICON }}"></i> {{ row.FORUM_NAME }}</a></li>
 		{% endfor %}
 	</ul>
 
