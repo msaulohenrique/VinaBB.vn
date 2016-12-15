@@ -38,7 +38,7 @@
 				<ul class="comments-list list-unstyled clearfix">
 					{% for cat in CAT_LIST %}
 					<li class="clearfix">
-						<img src="{{ T_THEME_PATH }}/images/bb_icons/{{ cat.ID }}.png" alt="" width="64" class="img-circle">
+						<img src="{{ T_THEME_PATH }}/images/bb_icons/{{ cat.ID }}.png" alt="{{ cat.NAME }}" width="64" class="img-circle">
 						<div class="content">
 							<div class="comments-header margin-t-10">
 								<span><a href="{{ cat.URL }}"{% if cat.DESC %} data-toggle="tooltip" data-placement="{{ S_RIGHT }}" title="{{ cat.DESC }}"{% endif %} class="btn btn-primary btn-icon"><i>{{ loop.index }}</i> {{ cat.NAME }}</a></span>

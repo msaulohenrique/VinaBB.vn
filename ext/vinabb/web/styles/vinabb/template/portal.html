@@ -519,16 +519,16 @@
 					{% endif %}
 					<br>
 					{% if LATEST_VINABB_TRAVIS_IMG_URL and LATEST_VINABB_TRAVIS_URL %}
-					<a href="{{ LATEST_VINABB_TRAVIS_URL }}" target="_blank"><img src="{{ LATEST_VINABB_TRAVIS_IMG_URL }}" class="external-img"></a>
+					<a href="{{ LATEST_VINABB_TRAVIS_URL }}" target="_blank"><img src="{{ LATEST_VINABB_TRAVIS_IMG_URL }}" alt="{{ lang('TRAVIS') }}" class="external-img"></a>
 					{% endif %}
 					{% if LATEST_VINABB_SCRUTINIZER_IMG_URL and LATEST_VINABB_SCRUTINIZER_URL %}
-					<a href="{{ LATEST_VINABB_SCRUTINIZER_URL }}" target="_blank"><img src="{{ LATEST_VINABB_SCRUTINIZER_IMG_URL }}" class="external-img"></a>
+					<a href="{{ LATEST_VINABB_SCRUTINIZER_URL }}" target="_blank"><img src="{{ LATEST_VINABB_SCRUTINIZER_IMG_URL }}" alt="{{ lang('SCRUTINIZER') }}" class="external-img"></a>
 					{% endif %}
 					{% if LATEST_VINABB_CODECLIMATE_IMG_URL and LATEST_VINABB_CODECLIMATE_URL %}
-					<a href="{{ LATEST_VINABB_CODECLIMATE_URL }}" target="_blank"><img src="{{ LATEST_VINABB_CODECLIMATE_IMG_URL }}" class="external-img"></a>
+					<a href="{{ LATEST_VINABB_CODECLIMATE_URL }}" target="_blank"><img src="{{ LATEST_VINABB_CODECLIMATE_IMG_URL }}" alt="{{ lang('CODECLIMATE') }}" class="external-img"></a>
 					{% endif %}
 					{% if LATEST_VINABB_INSIGHT_IMG_URL and LATEST_VINABB_INSIGHT_URL %}
-					<a href="{{ LATEST_VINABB_INSIGHT_URL }}" target="_blank"><img src="{{ LATEST_VINABB_INSIGHT_IMG_URL }}" class="external-img"></a>
+					<a href="{{ LATEST_VINABB_INSIGHT_URL }}" target="_blank"><img src="{{ LATEST_VINABB_INSIGHT_IMG_URL }}" alt="{{ lang('INSIGHT') }}" class="external-img"></a>
 					{% endif %}
 				</div>
 				{% if LATEST_VINABB_GITHUB_DOWNLOAD_URL %}
