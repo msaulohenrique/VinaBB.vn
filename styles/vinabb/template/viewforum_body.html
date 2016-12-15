@@ -50,11 +50,11 @@
 					<em class="fa fa-mail-forward"></em>
 				</button>
 			</div>#}
-			<div class="btn-group pull-{{ S_RIGHT }}">
-				<button type="button" class="btn btn-default btn-sm">
-					<i class="fa fa-bookmark"></i>
-				</button>
+			{% if U_WATCH_FORUM_LINK and not S_IS_BOT %}
+			<div class="pull-{{ S_RIGHT }}">
+				<a href="{{ U_WATCH_FORUM_LINK }}" data-tooltip="true" data-placement="{{ S_LEFT }}" title="{{ S_WATCH_FORUM_TITLE }}" class="btn btn-default btn-sm"><i class="fa {{ S_WATCHING_FORUM ? 'fa-check-square-o' : 'fa-square-o' }}"></i></a>
 			</div>
+			{% endif %}
 		</div>
 
 		{% if topicrow %}
@@ -63,8 +63,20 @@
 				<div class="table-responsive margin-t-10">
 					<table class="table table-hover table-maillist">
 						{% for row in topicrow %}
+
+						{% set TOPIC_ICON = 'fa-file-text-o' %}
+						{% if row.S_TOPIC_LOCKED %}
+							{% set TOPIC_ICON = 'fa-lock' %}
+						{% elseif row.S_TOPIC_MOVED %}
+							{% set TOPIC_ICON = 'fa-paper-plane-o' %}
+						{% elseif row.S_POST_GLOBAL or row.S_POST_ANNOUNCE %}
+							{% set TOPIC_ICON = 'fa-calendar-o' %}
+						{% elseif row.S_POST_STICKY %}
+							{% set TOPIC_ICON = 'fa-star' %}
+						{% endif %}
+
 						<tr>
-							<td><i class="fa fa-file-text-o {{ (row.S_UNREAD_TOPIC and not S_IS_BOT) ? 'text-danger animate-pulse' : 'text-primary' }}"></i></td>
+							<td><i class="fa {{ TOPIC_ICON }} {{ (row.S_UNREAD_TOPIC and not S_IS_BOT) ? 'text-danger animate-pulse' : 'text-primary' }}"></i></td>
 							<td><strong data-tooltip="true" data-placement="{{ S_LEFT }}" title="{{ lang('POSTED') ~ lang('COLON') ~ ' ' ~ row.FIRST_POST_TIME }}">{{ row.TOPIC_AUTHOR_FULL }}</strong><span class="label label-success pull-{{ S_RIGHT }}">3.2.x</span></td>
 							<td><a href="{{ row.U_VIEW_TOPIC }}">{{ row.TOPIC_TITLE }}</a></td>
 							<td><small data-tooltip="true" data-placement="{{ S_LEFT }}" title="{{ lang('VIEWS') }}"><i class="fa fa-eye"></i> {{ row.VIEWS }}</small></td>
