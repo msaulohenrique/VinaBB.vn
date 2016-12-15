@@ -248,12 +248,6 @@ class portal_articles implements portal_articles_interface
 				$this->errors[] = $this->language->lang('FORM_INVALID');
 			}
 
-			// Delete the old article image if uploaded a new one
-			if ($this->data['article_img'] != '' && $this->data['article_img'] != $entity->get_img(false, false))
-			{
-				$this->filesystem->remove($entity->get_img(true));
-			}
-
 			// Map and set data to the entity
 			$this->map_set_data($entity);
 
@@ -362,6 +356,12 @@ class portal_articles implements portal_articles_interface
 		// If there are not any input errors, then begin to upload file
 		if ($this->can_upload() && $this->data['article_img']['name'] != '' && !sizeof($this->errors))
 		{
+			// Delete the old file if uploaded a new one
+			if ($this->data['article_img']['name'] != '' && $this->data['article_img']['name'] != $entity->get_img(true, false))
+			{
+				$this->filesystem->remove($entity->get_img(true));
+			}
+
 			$entity->set_img($this->upload_article_img('article_img'));
 		}
 	}
