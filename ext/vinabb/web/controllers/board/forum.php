@@ -254,6 +254,7 @@ class forum implements forum_interface
 		]);
 
 		$this->template->assign_vars([
+			'S_VIEWFORUM'	=> true,
 			'U_VIEW_FORUM'	=> $this->helper->route('vinabb_web_board_forum_route', ($start == 0) ? ['forum_id' => $forum_id] : ['forum_id' => $forum_id, 'seo' => $forum_data['forum_name_seo'] . constants::REWRITE_URL_SEO, 'page' => constants::REWRITE_URL_PAGE . $this->pagination->get_on_page($this->config['topics_per_page'], $start)])
 		]);
 
