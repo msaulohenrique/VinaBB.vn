@@ -106,7 +106,7 @@ class seo implements EventSubscriberInterface
 					$sql = 'UPDATE ' . FORUMS_TABLE . "
 						SET forum_name_seo = '" . $forum_data[$row['parent_id']]['name_seo'] . constants::REWRITE_URL_FORUM_CAT . $row['forum_name_seo'] . "'
 						WHERE forum_id = " . $row['forum_id'];
-					$this->sql_query($sql);
+					$this->db->sql_query($sql);
 				}
 
 				$forum_data_sql['forum_name_seo'] = $forum_data[$forum_data_sql['parent_id']]['name_seo'] . constants::REWRITE_URL_FORUM_CAT . $forum_data_sql['forum_name_seo'];
