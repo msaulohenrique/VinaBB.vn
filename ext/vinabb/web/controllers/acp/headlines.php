@@ -227,7 +227,7 @@ class headlines implements headlines_interface
 		$this->template->assign_vars([
 			'S_EDIT'	=> true,
 
-			'U_ACTION'	=> "{$this->u_action}&action=edit&id={$headline_id}",
+			'U_ACTION'	=> "{$this->u_action}&action=edit&lang={$this->headline_lang}&id={$headline_id}",
 			'U_BACK'	=> "{$this->u_action}&lang={$this->headline_lang}"
 		]);
 	}
