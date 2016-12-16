@@ -53,18 +53,18 @@
 			<dt><label for="item_desc">{{ lang('ENGLISH') ~ lang('COLON') }}</label></dt>
 			<dd><textarea name="item_desc" id="item_desc" cols="40" rows="10">{{ ITEM_DESC }}</textarea></dd>
 			<dd>
-				<label><input type="checkbox" class="radio" name="disable_bbcode"{% if BBCODE_DISABLED %} checked{% endif %}> {{ lang('DISABLE_BBCODE') }}</label>
-				<label><input type="checkbox" class="radio" name="disable_urls"{% if URLS_DISABLED %} checked{% endif %}> {{ lang('DISABLE_MAGIC_URL') }}</label>
-				<label><input type="checkbox" class="radio" name="disable_smilies"{% if SMILIES_DISABLED %} checked{% endif %}> {{ lang('DISABLE_SMILIES') }}</label>
+				<label><input type="checkbox" class="radio" name="desc_bbcode"{% if ITEM_DESC_BBCODE %} checked{% endif %}> {{ lang('PARSE_BBCODE') }}</label>
+				<label><input type="checkbox" class="radio" name="desc_smilies"{% if ITEM_DESC_SMILIES %} checked{% endif %}> {{ lang('PARSE_SMILIES') }}</label>
+				<label><input type="checkbox" class="radio" name="desc_urls"{% if ITEM_DESC_URLS %} checked{% endif %}> {{ lang('PARSE_URLS') }}</label>
 			</dd>
 		</dl>
 		<dl>
 			<dt><label for="item_desc_vi">{{ lang('VIETNAMESE') ~ lang('COLON') }}</label></dt>
 			<dd><textarea name="item_desc_vi" id="item_desc_vi" cols="40" rows="10">{{ ITEM_DESC_VI }}</textarea></dd>
 			<dd>
-				<label><input type="checkbox" class="radio" name="disable_bbcode_vi"{% if BBCODE_VI_DISABLED %} checked{% endif %}> {{ lang('DISABLE_BBCODE') }}</label>
-				<label><input type="checkbox" class="radio" name="disable_urls_vi"{% if URLS_VI_DISABLED %} checked{% endif %}> {{ lang('DISABLE_MAGIC_URL') }}</label>
-				<label><input type="checkbox" class="radio" name="disable_smilies_vi"{% if SMILIES_VI_DISABLED %} checked{% endif %}> {{ lang('DISABLE_SMILIES') }}</label>
+				<label><input type="checkbox" class="radio" name="desc_vi_bbcode"{% if ITEM_DESC_VI_BBCODE %} checked{% endif %}> {{ lang('PARSE_BBCODE') }}</label>
+				<label><input type="checkbox" class="radio" name="desc_vi_smilies"{% if ITEM_DESC_VI_SMILIES %} checked{% endif %}> {{ lang('PARSE_SMILIES') }}</label>
+				<label><input type="checkbox" class="radio" name="desc_vi_urls"{% if ITEM_DESC_VI_URLS %} checked{% endif %}> {{ lang('PARSE_URLS') }}</label>
 			</dd>
 		</dl>
 	</fieldset>

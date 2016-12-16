@@ -376,14 +376,20 @@ class bb_items implements bb_items_interface
 	protected function data_to_tpl(\vinabb\web\entities\bb_item_interface $entity)
 	{
 		$this->template->assign_vars([
-			'ITEM_NAME'		=> $entity->get_name(),
-			'ITEM_VARNAME'	=> $entity->get_varname(),
-			'ITEM_DESC'		=> $entity->get_desc_for_edit(),
-			'ITEM_DESC_VI'	=> $entity->get_desc_vi_for_edit(),
-			'ITEM_PRICE'	=> $entity->get_price(),
-			'ITEM_URL'		=> $entity->get_url(),
-			'ITEM_GITHUB'	=> $entity->get_github(),
-			'ITEM_ENABLE'	=> $entity->get_enable(),
+			'ITEM_NAME'				=> $entity->get_name(),
+			'ITEM_VARNAME'			=> $entity->get_varname(),
+			'ITEM_DESC'				=> $entity->get_desc_for_edit(),
+			'ITEM_DESC_BBCODE'		=> $entity->desc_bbcode_enabled(),
+			'ITEM_DESC_URLS'		=> $entity->desc_urls_enabled(),
+			'ITEM_DESC_SMILIES'		=> $entity->desc_smilies_enabled(),
+			'ITEM_DESC_VI'			=> $entity->get_desc_vi_for_edit(),
+			'ITEM_DESC_VI_BBCODE'	=> $entity->desc_vi_bbcode_enabled(),
+			'ITEM_DESC_VI_URLS'		=> $entity->desc_vi_urls_enabled(),
+			'ITEM_DESC_VI_SMILIES'	=> $entity->desc_vi_smilies_enabled(),
+			'ITEM_PRICE'			=> $entity->get_price(),
+			'ITEM_URL'				=> $entity->get_url(),
+			'ITEM_GITHUB'			=> $entity->get_github(),
+			'ITEM_ENABLE'			=> $entity->get_enable(),
 
 			// These template variables used for the BBCode editor
 			'S_BBCODE_ALLOWED'	=> true,
