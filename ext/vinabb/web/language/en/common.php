@@ -175,6 +175,7 @@ $lang = array_merge($lang, [
 	'EXT_NAME'					=> 'Extension name',
 	'EXT_VERSION'				=> 'Extension version',
 
+	'FIRST_NAME'			=> 'First name',
 	'FOOTER_FLAG_TEXT'		=> 'VinaBB - The Vietnamese phpBB Community since 2006',
 	'FOOTER_FLAG_TITLE'		=> 'Code in Viet Nam',
 	'FOOTER_HISTORY_TEXT'	=> '
@@ -208,6 +209,7 @@ $lang = array_merge($lang, [
 	'GENDER_MALE'			=> 'Male',
 	'GITHUB'				=> 'GitHub',
 	'GITHUB_PROFILE'		=> 'GitHub',
+	'GOOGLE'				=> 'Google',
 
 	'INSIGHT'					=> 'SensioLabs Insight',
 	'ITEM_EXT_ACP_STYLE'		=> 'ACP style changes',
@@ -229,6 +231,7 @@ $lang = array_merge($lang, [
 	'LANG_VERSION'				=> 'Language package version',
 	'LANGUAGE'					=> 'Language',
 	'LAST_ACTIVE'				=> 'Last active',
+	'LAST_NAME'					=> 'Last name',
 	'LATEST_ACP_STYLES'			=> 'New ACP styles',
 	'LATEST_EXTS'				=> 'New extensions',
 	'LATEST_IVN'				=> 'Vietnamese',
@@ -313,6 +316,7 @@ $lang = array_merge($lang, [
 		'MODERATOR'			=> 'Moderator',
 		'SUPPORTER'			=> 'Support Team'
 	],
+	'REAL_NAME'		=> 'Real name',
 	'RESOURCES'		=> 'Resources',
 
 	'SAVE'					=> 'Save',

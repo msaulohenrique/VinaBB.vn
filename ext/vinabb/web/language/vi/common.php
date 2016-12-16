@@ -175,6 +175,7 @@ $lang = array_merge($lang, [
 	'EXT_NAME'					=> 'Tên gói mở rộng',
 	'EXT_VERSION'				=> 'Phiên bản gói mở rộng',
 
+	'FIRST_NAME'			=> 'Tên',
 	'FOOTER_FLAG_TEXT'		=> 'Cống hiến hết mình vì Tổ Quốc Việt Nam Xã Hội Chủ Nghĩa',
 	'FOOTER_FLAG_TITLE'		=> 'Code in Viet Nam',
 	'FOOTER_HISTORY_TEXT'	=> '
@@ -208,6 +209,7 @@ $lang = array_merge($lang, [
 	'GENDER_MALE'			=> 'Nam',
 	'GITHUB'				=> 'GitHub',
 	'GITHUB_PROFILE'		=> 'GitHub',
+	'GOOGLE'				=> 'Google',
 
 	'INSIGHT'					=> 'SensioLabs Insight',
 	'ITEM_EXT_ACP_STYLE'		=> 'Thay đổi giao diện quản trị',
@@ -229,6 +231,7 @@ $lang = array_merge($lang, [
 	'LANG_VERSION'				=> 'Phiên bản gói ngôn ngữ',
 	'LANGUAGE'					=> 'Ngôn ngữ',
 	'LAST_ACTIVE'				=> 'Truy cập lần cuối',
+	'LAST_NAME'					=> 'Họ',
 	'LATEST_ACP_STYLES'			=> 'Giao diện quản trị mới',
 	'LATEST_EXTS'				=> 'Gói mở rộng mới',
 	'LATEST_IVN'				=> 'Gói Việt hóa',
@@ -313,6 +316,7 @@ $lang = array_merge($lang, [
 		'MODERATOR'			=> 'Điều hành viên',
 		'SUPPORTER'			=> 'Nhóm hỗ trợ'
 	],
+	'REAL_NAME'		=> 'Tên thật',
 	'RESOURCES'		=> 'Tài nguyên',
 
 	'SAVE'					=> 'Lưu',
