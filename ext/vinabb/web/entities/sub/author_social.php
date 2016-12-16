@@ -17,24 +17,34 @@ class author_social
 	protected $data;
 
 	/**
-	* Get the author's phpBB.com user ID
+	* Get the author's phpBB.com username
 	*
-	* @return int
+	* @return string
 	*/
 	public function get_phpbb()
 	{
-		return isset($this->data['author_phpbb']) ? (int) $this->data['author_phpbb'] : 0;
+		return isset($this->data['author_phpbb']) ? (string) $this->data['author_phpbb'] : '';
 	}
 
 	/**
-	* Set the author's phpBB.com user ID
+	* Set the author's phpBB.com username
 	*
-	* @param int			$value	phpBB.com user ID
+	* @param string			$text	phpBB.com username
 	* @return author_social	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
-	public function set_phpbb($value)
+	public function set_phpbb($text)
 	{
-		$this->data['author_phpbb'] = (int) $value;
+		$text = (string) $text;
+
+		// Check invalid characters
+		if (!preg_match('#^[\w_]+$#', $text))
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['author_phpbb', 'INVALID']);
+		}
+
+		// Set the value on our data array
+		$this->data['author_phpbb'] = $text;
 
 		return $this;
 	}

@@ -209,7 +209,7 @@ class bb_authors implements bb_authors_interface
 			'author_lastname'		=> $this->request->variable('author_lastname', '', true),
 			'author_www'			=> $this->request->variable('author_www', ''),
 			'author_email'			=> $this->request->variable('author_email', ''),
-			'author_phpbb'			=> $this->request->variable('author_phpbb', 0),
+			'author_phpbb'			=> $this->request->variable('author_phpbb', ''),
 			'author_github'			=> $this->request->variable('author_github', ''),
 			'author_facebook'		=> $this->request->variable('author_facebook', ''),
 			'author_twitter'		=> $this->request->variable('author_twitter', ''),

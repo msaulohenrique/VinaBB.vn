@@ -204,19 +204,20 @@ interface bb_author_interface
 	public function set_email($text);
 
 	/**
-	* Get the author's phpBB.com user ID
+	* Get the author's phpBB.com username
 	*
-	* @return int
+	* @return string
 	*/
 	public function get_phpbb();
 
 	/**
-	* Set the author's phpBB.com user ID
+	* Set the author's phpBB.com username
 	*
-	* @param int					$value	phpBB.com user ID
+	* @param string					$text	phpBB.com username
 	* @return bb_author_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
-	public function set_phpbb($value);
+	public function set_phpbb($text);
 
 	/**
 	* Get the author's social page: GitHub

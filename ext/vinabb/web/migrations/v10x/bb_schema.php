@@ -153,7 +153,7 @@ class bb_schema extends migration
 				'author_group'			=> ['UINT', 0],
 				'author_www'			=> ['VCHAR_UNI', 0],
 				'author_email'			=> ['VCHAR_UNI', 0],
-				'author_phpbb'			=> ['ULINT', 0],
+				'author_phpbb'			=> ['VCHAR', ''],
 				'author_github'			=> ['VCHAR', ''],
 				'author_facebook'		=> ['VCHAR', ''],
 				'author_twitter'		=> ['VCHAR', ''],
