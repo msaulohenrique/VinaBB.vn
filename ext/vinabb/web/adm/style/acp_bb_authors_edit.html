@@ -1,0 +1,69 @@
+{% include 'overall_header.html' %}
+
+<a href="{{ U_BACK }}" style="float: {{ S_CONTENT_FLOW_END }};">&laquo; {{ lang('BACK') }}</a>
+
+<h1>{{ PAGE_TITLE }}</h1>
+<p>{{ PAGE_TITLE_EXPLAIN }}</p>
+
+{% if ERRORS %}
+<div class="errorbox">
+	<h3>{{ lang('WARNING') }}</h3>
+	<p>{{ ERRORS }}</p>
+</div>
+{% endif %}
+
+<form id="acp_bb_authors" method="post" action="{{ U_ACTION }}">
+	<fieldset>
+		<legend>{{ lang('AUTHOR_DETAILS') }}</legend>
+		<dl>
+			<dt><label for="author_name">{{ lang('AUTHOR_NAME') ~ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="author_name" id="author_name" value="{{ AUTHOR_NAME }}" maxlength="255"></dd>
+		</dl>
+		<dl>
+			<dt><label for="author_firstname">{{ lang('REAL_NAME') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<input type="text" name="author_firstname" id="author_firstname" value="{{ AUTHOR_FIRSTNAME }}" maxlength="255" placeholder="{{ lang('FIRST_NAME') ~ lang('COLON') }}">
+				<input type="text" name="author_lastname" id="author_lastname" value="{{ AUTHOR_LASTNAME }}" maxlength="255" placeholder="{{ lang('LAST_NAME') ~ lang('COLON') }}">
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="author_www">{{ lang('WEBSITE') ~ lang('COLON') }}</label></dt>
+			<dd><input class="text medium" type="url" name="author_www" id="author_www" value="{{ AUTHOR_WWW }}" maxlength="255"></dd>
+		</dl>
+		<dl>
+			<dt><label for="author_email">{{ lang('EMAIL') ~ lang('COLON') }}</label></dt>
+			<dd><input class="text medium" type="email" name="author_email" id="author_email" value="{{ AUTHOR_EMAIL }}" maxlength="255"></dd>
+		</dl>
+		<dl>
+			<dt><label for="author_github">{{ lang('GITHUB') ~ lang('COLON') }}</label></dt>
+			<dd><input class="text medium" type="url" name="author_github" id="author_github" value="{{ AUTHOR_GITHUB }}" maxlength="255"></dd>
+		</dl>
+		<dl>
+			<dt><label for="author_facebook">{{ lang('FACEBOOK') ~ lang('COLON') }}</label></dt>
+			<dd><input class="text medium" type="url" name="author_facebook" id="author_facebook" value="{{ AUTHOR_FACEBOOK }}" maxlength="255"></dd>
+		</dl>
+		<dl>
+			<dt><label for="author_twitter">{{ lang('TWITTER') ~ lang('COLON') }}</label></dt>
+			<dd><input class="text medium" type="url" name="author_twitter" id="author_twitter" value="{{ AUTHOR_TWITTER }}" maxlength="255"></dd>
+		</dl>
+		<dl>
+			<dt><label for="author_google">{{ lang('GOOGLE') ~ lang('COLON') }}</label></dt>
+			<dd><input class="text medium" type="url" name="author_google" id="author_google" value="{{ AUTHOR_GOOGLE }}" maxlength="255"></dd>
+		</dl>
+		<dl>
+			<dt><label for="author_google_plus">{{ lang('GOOGLEPLUS') ~ lang('COLON') }}</label></dt>
+			<dd><input class="text medium" type="url" name="author_google_plus" id="author_google_plus" value="{{ AUTHOR_GOOGLE_PLUS }}" maxlength="255"></dd>
+		</dl>
+		<dl>
+			<dt><label for="author_skype">{{ lang('SKYPE') ~ lang('COLON') }}</label></dt>
+			<dd><input class="text medium" type="url" name="author_skype" id="author_skype" value="{{ AUTHOR_SKYPE }}" maxlength="255"></dd>
+		</dl>
+	</fieldset>
+	<fieldset class="submit-buttons">
+		<input class="button1" type="submit" name="submit" value="{{ lang('SUBMIT') }}">
+		<input class="button2" type="reset" name="reset" value="{{ lang('RESET') }}">
+		{{ S_FORM_TOKEN }}
+	</fieldset>
+</form>
+
+{% include 'overall_footer.html' %}

@@ -1,0 +1,43 @@
+{% include 'overall_header.html' %}
+
+<h1>{{ PAGE_TITLE }}</h1>
+<p>{{ PAGE_TITLE_EXPLAIN }}</p>
+
+<form id="acp_bb_authors" method="post" action="{{ U_ACTION }}">
+	<fieldset class="quick">
+		<input class="button2" type="submit" value="{{ lang('ADD_AUTHOR') }}">
+		<input type="hidden" name="action" value="add">
+	</fieldset>
+</form>
+
+<table class="table1 zebra-table">
+	<thead>
+	<tr>
+		<th>{{ lang('CAT_NAME') }}</th>
+		<th>{{ lang('CAT_NAME') ~ ' (' ~ lang('VIETNAMESE') ~ ')' }}</th>
+		<th>{{ lang('CAT_VARNAME') }}</th>
+		<th>{{ TOTAL_ITEMS_LANG }}</th>
+		<th>{{ lang('ACTIONS') }}</th>
+	</tr>
+	</thead>
+	<tbody>
+	{% for cat in cats %}
+	<tr>
+		<td style="text-align: center;">{{ cat.NAME }}</td>
+		<td style="text-align: center;">{{ cat.NAME_VI }}</td>
+		<td style="text-align: center;">{{ cat.VARNAME }}</td>
+		<td style="text-align: center;">{{ cat.ITEMS }}</td>
+		<td class="actions">
+			<a href="{{ cat.U_EDIT }}">{{ ICON_EDIT }}</a>
+			{% if cat.U_DELETE %}<a href="{{ cat.U_DELETE }}" data-ajax="row_delete">{{ ICON_DELETE }}</a>{% else %}{{ ICON_DELETE_DISABLED }}{% endif %}
+		</td>
+	</tr>
+	{% else %}
+	<tr class="row3">
+		<td colspan="5">{{ lang('ACP_NO_ITEMS') }}</td>
+	</tr>
+	{% endfor %}
+	</tbody>
+</table>
+
+{% include 'overall_footer.html' %}
