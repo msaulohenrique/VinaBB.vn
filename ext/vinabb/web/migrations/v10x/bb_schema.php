@@ -95,6 +95,7 @@ class bb_schema extends migration
 				'item_lang_iso'				=> ['VCHAR:30', ''],
 				'item_tool_os'				=> ['USINT', 0],
 				'item_price'				=> ['ULINT', 0],
+				'item_price_diff'			=> ['BOOL', 0],
 				'item_url'					=> ['VCHAR', ''],
 				'item_github'				=> ['VCHAR', ''],
 				'item_enable'				=> ['BOOL', 1],
@@ -124,10 +125,11 @@ class bb_schema extends migration
 				'phpbb_version'		=> ['VCHAR', ''],
 				'item_version'		=> ['VCHAR', ''],
 				'item_file'			=> ['VCHAR', ''],
+				'item_price'		=> ['ULINT', 0],
 				'item_downloads'	=> ['ULINT', 0]
 			],
 			'KEYS' => [
-				'i_id'	=> ['INDEX', 'item_id'],
+				'i_id'	=> ['INDEX', 'item_id']
 			]
 		];
 	}
