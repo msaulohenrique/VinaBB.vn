@@ -119,7 +119,12 @@ class bb_schema extends migration
 	{
 		return [
 			'COLUMNS' => [
-				'item_id'	=> ['UINT', 0],
+				'item_id'			=> ['UINT', 0],
+				'phpbb_branch'		=> ['VCHAR', ''],
+				'phpbb_version'		=> ['VCHAR', ''],
+				'item_version'		=> ['VCHAR', ''],
+				'item_file'			=> ['VCHAR', ''],
+				'item_downloads'	=> ['ULINT', 0]
 			],
 			'KEYS' => [
 				'i_id'	=> ['INDEX', 'item_id'],
@@ -171,14 +176,16 @@ class bb_schema extends migration
 		return [
 			'COLUMNS' => [
 				'user_id'		=> ['ULINT', 0],
-				'item_id'		=> ['UINT', 0],
 				'author_id'		=> ['UINT', 0],
+				'item_id'		=> ['UINT', 0],
+				'phpbb_branch'	=> ['VCHAR', ''],
+				'item_version'	=> ['VCHAR', ''],
 				'rate_value'	=> ['USINT', 0]
 			],
 			'KEYS' => [
 				'u_id'	=> ['INDEX', 'user_id'],
-				'i_id'	=> ['INDEX', 'item_id'],
-				'a_id'	=> ['INDEX', 'author_id']
+				'a_id'	=> ['INDEX', 'author_id'],
+				'i_id'	=> ['INDEX', 'item_id']
 			]
 		];
 	}
