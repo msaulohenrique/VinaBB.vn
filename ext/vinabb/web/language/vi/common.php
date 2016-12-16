@@ -52,37 +52,37 @@ $lang = array_merge($lang, [
 	'CONFIRM_LOGOUT'	=> 'Bạn chắc chắn muốn thoát?',
 	'COORDINATES'		=> 'Tọa độ',
 	'COUNTER_ACP_STYLE'	=> [
-		0	=> 'Không có giao diện nào',
+		0	=> '0 giao diện',
 		1	=> '%d giao diện',
 		2	=> '%d giao diện'
 	],
 	'COUNTER_ARTICLE'	=> [
-		0	=> 'Không có bài viết nào',
+		0	=> '0 bài viết',
 		1	=> '%d bài viết',
 		2	=> '%d bài viết'
 	],
 	'COUNTER_COMMENT'	=> [
-		0	=> 'Không có bình luận nào',
+		0	=> '0 bình luận',
 		1	=> '%d bình luận',
 		2	=> '%d bình luận'
 	],
 	'COUNTER_EXT'		=> [
-		0	=> 'Không có gói mở rộng nào',
+		0	=> '0 gói mở rộng',
 		1	=> '%d gói mở rộng',
 		2	=> '%d gói mở rộng'
 	],
 	'COUNTER_LANG'		=> [
-		0	=> 'Không có gói ngôn ngữ nào',
+		0	=> '0 gói ngôn ngữ',
 		1	=> '%d gói ngôn ngữ',
 		2	=> '%d gói ngôn ngữ'
 	],
 	'COUNTER_STYLE'		=> [
-		0	=> 'Không có giao diện nào',
+		0	=> '0 giao diện',
 		1	=> '%d giao diện',
 		2	=> '%d giao diện'
 	],
 	'COUNTER_TOOL'		=> [
-		0	=> 'Không có công cụ nào',
+		0	=> '0 công cụ',
 		1	=> '%d công cụ',
 		2	=> '%d công cụ'
 	],
@@ -204,12 +204,7 @@ $lang = array_merge($lang, [
 	'G_MANAGEMENT_TEAM'		=> 'Nhóm quản lý',
 	'G_MODERATOR_TEAM'		=> 'Điều hành viên',
 	'G_SUPPORT_TEAM'		=> 'Nhóm hỗ trợ',
-	'GENDER'				=> 'Giới tính',
-	'GENDER_FEMALE'			=> 'Nữ',
-	'GENDER_MALE'			=> 'Nam',
 	'GITHUB'				=> 'GitHub',
-	'GITHUB_PROFILE'		=> 'GitHub',
-	'GOOGLE'				=> 'Google',
 
 	'INSIGHT'					=> 'SensioLabs Insight',
 	'ITEM_EXT_ACP_STYLE'		=> 'Thay đổi giao diện quản trị',

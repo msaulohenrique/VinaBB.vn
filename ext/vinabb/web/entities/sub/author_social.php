@@ -139,39 +139,6 @@ class author_social
 	}
 
 	/**
-	* Get the author's social page: Google (YouTube, Gmail...)
-	*
-	* @return string
-	*/
-	public function get_google()
-	{
-		return isset($this->data['author_google']) ? (string) $this->data['author_google'] : '';
-	}
-
-	/**
-	* Set the author's social page: Google (YouTube, Gmail...)
-	*
-	* @param string			$text	Google username
-	* @return author_social	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\unexpected_value
-	*/
-	public function set_google($text)
-	{
-		$text = (string) $text;
-
-		// Check invalid characters
-		if (!preg_match('#^[\w]+$#', $text))
-		{
-			throw new \vinabb\web\exceptions\unexpected_value(['author_google', 'INVALID']);
-		}
-
-		// Set the value on our data array
-		$this->data['author_google'] = $text;
-
-		return $this;
-	}
-
-	/**
 	* Get the author's social page: Google+
 	*
 	* @return string

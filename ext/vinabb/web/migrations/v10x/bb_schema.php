@@ -157,7 +157,6 @@ class bb_schema extends migration
 				'author_github'			=> ['VCHAR', ''],
 				'author_facebook'		=> ['VCHAR', ''],
 				'author_twitter'		=> ['VCHAR', ''],
-				'author_google'			=> ['VCHAR', ''],
 				'author_google_plus'	=> ['VCHAR', ''],
 				'author_skype'			=> ['VCHAR', '']
 			],

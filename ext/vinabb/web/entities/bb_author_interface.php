@@ -267,22 +267,6 @@ interface bb_author_interface
 	public function set_twitter($text);
 
 	/**
-	* Get the author's social page: Google (YouTube, Gmail...)
-	*
-	* @return string
-	*/
-	public function get_google();
-
-	/**
-	* Set the author's social page: Google (YouTube, Gmail...)
-	*
-	* @param string					$text	Google username
-	* @return bb_author_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\unexpected_value
-	*/
-	public function set_google($text);
-
-	/**
 	* Get the author's social page: Google+
 	*
 	* @return string

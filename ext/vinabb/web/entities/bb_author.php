@@ -66,7 +66,6 @@ class bb_author extends author_social implements bb_author_interface
 			'author_github'			=> 'string',
 			'author_facebook'		=> 'string',
 			'author_twitter'		=> 'string',
-			'author_google'			=> 'string',
 			'author_google_plus'	=> 'string',
 			'author_skype'			=> 'string'
 		];

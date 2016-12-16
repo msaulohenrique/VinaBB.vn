@@ -204,12 +204,7 @@ $lang = array_merge($lang, [
 	'G_MANAGEMENT_TEAM'		=> 'Managers',
 	'G_MODERATOR_TEAM'		=> 'Moderators',
 	'G_SUPPORT_TEAM'		=> 'Supporters',
-	'GENDER'				=> 'Gender',
-	'GENDER_FEMALE'			=> 'Female',
-	'GENDER_MALE'			=> 'Male',
 	'GITHUB'				=> 'GitHub',
-	'GITHUB_PROFILE'		=> 'GitHub',
-	'GOOGLE'				=> 'Google',
 
 	'INSIGHT'					=> 'SensioLabs Insight',
 	'ITEM_EXT_ACP_STYLE'		=> 'ACP style changes',

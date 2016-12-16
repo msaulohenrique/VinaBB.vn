@@ -213,7 +213,6 @@ class bb_authors implements bb_authors_interface
 			'author_github'			=> $this->request->variable('author_github', ''),
 			'author_facebook'		=> $this->request->variable('author_facebook', ''),
 			'author_twitter'		=> $this->request->variable('author_twitter', ''),
-			'author_google'			=> $this->request->variable('author_google', ''),
 			'author_google_plus'	=> $this->request->variable('author_google_plus', ''),
 			'author_skype'			=> $this->request->variable('author_skype', '')
 		];
@@ -237,7 +236,6 @@ class bb_authors implements bb_authors_interface
 			'set_github'		=> $this->data['author_github'],
 			'set_facebook'		=> $this->data['author_facebook'],
 			'set_twitter'		=> $this->data['author_twitter'],
-			'set_google'		=> $this->data['author_google'],
 			'set_google_plus'	=> $this->data['author_google_plus'],
 			'set_skype'			=> $this->data['author_skype']
 		];
@@ -305,7 +303,6 @@ class bb_authors implements bb_authors_interface
 			'AUTHOR_GITHUB'			=> $entity->get_github(),
 			'AUTHOR_FACEBOOK'		=> $entity->get_facebook(),
 			'AUTHOR_TWITTER'		=> $entity->get_twitter(),
-			'AUTHOR_GOOGLE'			=> $entity->get_google(),
 			'AUTHOR_GOOGLE_PLUS'	=> $entity->get_google_plus(),
 			'AUTHOR_SKYPE'			=> $entity->get_skype()
 		]);
