@@ -181,6 +181,11 @@
 	}
 }
 
+/* Modify Bootstrap to change border of code blocks */
+pre {
+	border: 1px dashed #ccc;
+}
+
 /* Modify Bootstrap do not align external images */
 img.external-img {
 	vertical-align: inherit;
