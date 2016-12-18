@@ -40,7 +40,8 @@
 				<p class="lead margin-b-0 text-{{ BG_COLOR ?: 'info' }}">{{ row.USERNAME }}</p>
 				<p class="text-muted">{{ row.JOINED }}</p>
 				<p>
-					<a href="{{ row.U_PM }}" data-tooltip="true" data-placement="bottom" title="{{ lang('PM') }}"><i class="fa fa-envelope-o fa-2x text-primary"></i></a>
+					{% if row.U_PM %}<a href="{{ row.U_PM }}" data-tooltip="true" data-placement="bottom" title="{{ lang('PM') }}"><i class="fa fa-comment-o fa-2x text-primary"></i></a>{% endif %}
+					{% if row.U_EMAIL %}<a href="{{ row.U_EMAIL }}" data-tooltip="true" data-placement="bottom" title="{{ lang('SEND_EMAIL') }}"><i class="fa fa-envelope-o fa-2x text-primary"></i></a>{% endif %}
 					{% if row.custom_fields %}
 						{% for cpf in row.custom_fields %}
 							{% if cpf.PROFILE_FIELD_IDENT == 'phpbb_website' %}
