@@ -1047,6 +1047,7 @@ body.vex-open {
 * Highlight.js 9.8.0
 *
 * Original: ./styles/github-gist.css
+* Modified: Remove 'background: white' of the class .hljs
 */
 
 /**
@@ -1055,7 +1056,6 @@ body.vex-open {
 */
 .hljs {
 	display: block;
-	background: white;
 	padding: 0.5em;
 	color: #333333;
 	overflow-x: auto;
