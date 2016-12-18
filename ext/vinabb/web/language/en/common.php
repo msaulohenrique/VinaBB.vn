@@ -42,52 +42,57 @@ $lang = array_merge($lang, [
 	'BBCODE_C_HELP'		=> 'Insert code: [code]block code[/code] or `inline code`',
 	'BOARD'				=> 'Board',
 
-	'CATEGORY'			=> 'Category',
-	'CLOSE'				=> 'Close',
-	'CODE'				=> 'Code',
-	'CODECLIMATE'		=> 'CodeClimate',
-	'COMMENT'			=> 'Comment',
-	'COMMENTS'			=> 'Comments',
-	'COMMUNITY'			=> 'Community',
-	'CONFIRM_LOGOUT'	=> 'Are you sure you want to logout?',
-	'COORDINATES'		=> 'Coordinates',
-	'COUNTER_ACP_STYLE'	=> [
+	'CATEGORY'				=> 'Category',
+	'CLOSE'					=> 'Close',
+	'CODE'					=> 'Code',
+	'CODECLIMATE'			=> 'CodeClimate',
+	'COMMENT'				=> 'Comment',
+	'COMMENTS'				=> 'Comments',
+	'COMMUNITY'				=> 'Community',
+	'CONFIRM_LOGOUT'		=> 'Are you sure you want to logout?',
+	'COORDINATES'			=> 'Coordinates',
+	'COPY'					=> 'Copy',
+	'COPY_ERROR_APPEND'		=> 'C to copy',
+	'COPY_ERROR_PREPEND'	=> 'Press',
+	'COPY_EXPLAIN'			=> 'Copy to clipboard',
+	'COPY_SUCCESS'			=> 'Copied!',
+	'COUNTER_ACP_STYLE'		=> [
 		0	=> 'No styles',
 		1	=> '%d style',
 		2	=> '%d styles'
 	],
-	'COUNTER_ARTICLE'	=> [
+	'COUNTER_ARTICLE'		=> [
 		0	=> 'No articles',
 		1	=> '%d article',
 		2	=> '%d articles'
 	],
-	'COUNTER_COMMENT'	=> [
+	'COUNTER_COMMENT'		=> [
 		0	=> 'No comments',
 		1	=> '%d comment',
 		2	=> '%d comments'
 	],
-	'COUNTER_EXT'		=> [
+	'COUNTER_EXT'			=> [
 		0	=> 'No extensions',
 		1	=> '%d extension',
 		2	=> '%d extensions'
 	],
-	'COUNTER_LANG'		=> [
+	'COUNTER_LANG'			=> [
 		0	=> 'No language packages',
 		1	=> '%d language package',
 		2	=> '%d language packages'
 	],
-	'COUNTER_STYLE'		=> [
+	'COUNTER_STYLE'			=> [
 		0	=> 'No styles',
 		1	=> '%d style',
 		2	=> '%d styles'
 	],
-	'COUNTER_TOOL'		=> [
+	'COUNTER_TOOL'			=> [
 		0	=> 'No tools',
 		1	=> '%d tool',
 		2	=> '%d tools'
 	],
-	'CURRENCY'			=> 'Currency',
-	'CURRENT_IMAGE'		=> 'Current image',
+	'CURRENCY'				=> 'Currency',
+	'CURRENT_IMAGE'			=> 'Current image',
 
 	'DEBUG'				=> 'Debug',
 	'DEBUG_INFO'		=> 'Debug information',

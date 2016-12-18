@@ -42,52 +42,57 @@ $lang = array_merge($lang, [
 	'BBCODE_C_HELP'		=> 'Chèn mã: [code]đoạn mã[/code] hay `mã một dòng`',
 	'BOARD'				=> 'Diễn đàn',
 
-	'CATEGORY'			=> 'Danh mục',
-	'CLOSE'				=> 'Đóng',
-	'CODE'				=> 'Mã',
-	'CODECLIMATE'		=> 'CodeClimate',
-	'COMMENT'			=> 'Bình luận',
-	'COMMENTS'			=> 'Bình luận',
-	'COMMUNITY'			=> 'Cộng đồng',
-	'CONFIRM_LOGOUT'	=> 'Bạn chắc chắn muốn thoát?',
-	'COORDINATES'		=> 'Tọa độ',
-	'COUNTER_ACP_STYLE'	=> [
+	'CATEGORY'				=> 'Danh mục',
+	'CLOSE'					=> 'Đóng',
+	'CODE'					=> 'Mã',
+	'CODECLIMATE'			=> 'CodeClimate',
+	'COMMENT'				=> 'Bình luận',
+	'COMMENTS'				=> 'Bình luận',
+	'COMMUNITY'				=> 'Cộng đồng',
+	'CONFIRM_LOGOUT'		=> 'Bạn chắc chắn muốn thoát?',
+	'COORDINATES'			=> 'Tọa độ',
+	'COPY'					=> 'Chép',
+	'COPY_ERROR_APPEND'		=> 'C để sao chép',
+	'COPY_ERROR_PREPEND'	=> 'Bấm',
+	'COPY_EXPLAIN'			=> 'Sao chép vào bộ nhớ',
+	'COPY_SUCCESS'			=> 'Đã sao chép!',
+	'COUNTER_ACP_STYLE'		=> [
 		0	=> '0 giao diện',
 		1	=> '%d giao diện',
 		2	=> '%d giao diện'
 	],
-	'COUNTER_ARTICLE'	=> [
+	'COUNTER_ARTICLE'		=> [
 		0	=> '0 bài viết',
 		1	=> '%d bài viết',
 		2	=> '%d bài viết'
 	],
-	'COUNTER_COMMENT'	=> [
+	'COUNTER_COMMENT'		=> [
 		0	=> '0 bình luận',
 		1	=> '%d bình luận',
 		2	=> '%d bình luận'
 	],
-	'COUNTER_EXT'		=> [
+	'COUNTER_EXT'			=> [
 		0	=> '0 gói mở rộng',
 		1	=> '%d gói mở rộng',
 		2	=> '%d gói mở rộng'
 	],
-	'COUNTER_LANG'		=> [
+	'COUNTER_LANG'			=> [
 		0	=> '0 gói ngôn ngữ',
 		1	=> '%d gói ngôn ngữ',
 		2	=> '%d gói ngôn ngữ'
 	],
-	'COUNTER_STYLE'		=> [
+	'COUNTER_STYLE'			=> [
 		0	=> '0 giao diện',
 		1	=> '%d giao diện',
 		2	=> '%d giao diện'
 	],
-	'COUNTER_TOOL'		=> [
+	'COUNTER_TOOL'			=> [
 		0	=> '0 công cụ',
 		1	=> '%d công cụ',
 		2	=> '%d công cụ'
 	],
-	'CURRENCY'			=> 'Tiền tệ',
-	'CURRENT_IMAGE'		=> 'Hình hiện tại',
+	'CURRENCY'				=> 'Tiền tệ',
+	'CURRENT_IMAGE'			=> 'Hình hiện tại',
 
 	'DEBUG'				=> 'Dò lỗi',
 	'DEBUG_INFO'		=> 'Thông số đánh giá',

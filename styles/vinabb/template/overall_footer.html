@@ -71,8 +71,12 @@
 			$t_smilies_path = '{{ T_SMILIES_PATH }}',
 			$map_lat = {{ MAP_LAT }},
 			$map_lng = {{ MAP_LNG }},
-			$load_highlight = {% if not S_SIMPLE_HEADER and (S_IN_POSTING or S_COMPOSE_PM or S_LOAD_HIGHLIGHT) %}true{% else %}false{% endif %},
-			$load_sceditor = {% if S_WYSIWYG_EDITOR %}true{% else %}false{% endif %},
+			$load_highlight = {% if not S_SIMPLE_HEADER and S_LOAD_HIGHLIGHT %}true{% else %}false{% endif %},
+			$l_copy_explain = "{{ lang('COPY_EXPLAIN')|e('js') }}",
+			$l_copy_success = "{{ lang('COPY_SUCCESS')|e('js') }}",
+			$l_copy_error_prepend = "{{ lang('COPY_ERROR_PREPEND')|e('js') }}",
+			$l_copy_error_append = "{{ lang('COPY_ERROR_APPEND')|e('js') }}",
+			$load_sceditor = {% if not S_SIMPLE_HEADER and S_WYSIWYG_EDITOR %}true{% else %}false{% endif %},
 			$sceditor_lang = '{{ S_USER_LANG }}',
 			$sceditor_smilies = {% if SCEDITOR_SMILIES %}{{ SCEDITOR_SMILIES }}{% else %}{}{% endif %},
 			$sceditor_hidden_smilies = {% if SCEDITOR_HIDDEN_SMILIES %}{{ SCEDITOR_HIDDEN_SMILIES }}{% else %}{}{% endif %},
@@ -95,7 +99,7 @@
 	<script src="https://maps.google.com/maps/api/js?key={{ MAP_API }}"></script>
 	<script src="{{ T_THEME_PATH }}/js/gmaps.min.js?v={{ T_ASSETS_VERSION }}"></script>
 	{% endif %}
-	{% if not S_SIMPLE_HEADER and (S_IN_POSTING or S_COMPOSE_PM or S_LOAD_HIGHLIGHT) %}
+	{% if not S_SIMPLE_HEADER and S_LOAD_HIGHLIGHT %}
 	<script src="{{ T_THEME_PATH }}/js/highlight.min.js?v={{ T_ASSETS_VERSION }}"></script>
 	<script src="{{ T_THEME_PATH }}/js/clipboard.min.js?v={{ T_ASSETS_VERSION }}"></script>
 	{% endif %}

@@ -5,6 +5,10 @@
 /* global $map_lat */
 /* global $map_lng */
 /* global $load_highlight */
+/* global $l_copy_explain */
+/* global $l_copy_success */
+/* global $l_copy_error_prepend */
+/* global $l_copy_error_append */
 /* global $load_sceditor */
 /* global $sceditor_lang */
 /* global $sceditor_smilies */
@@ -45,6 +49,40 @@ $(document).ready(function()
 				hljs.highlightBlock(block);
 			}
 		);
+
+		// Clipboard.js
+		var clipboard = new Clipboard('.btn-clipboard',
+		{
+			target: function(trigger)
+			{
+				return trigger.parentNode.nextElementSibling;
+			}
+		});
+
+		clipboard.on('success', function(event)
+		{
+			$(event.trigger)
+				.attr('data-original-title', $l_copy_success)
+				.tooltip('fixTitle')
+				.tooltip('show')
+				.attr('data-original-title', $l_copy_explain)
+				.tooltip('fixTitle');
+
+			event.clearSelection();
+		});
+
+		clipboard.on('error', function(event)
+		{
+			var modifierKey = /Mac/i.test(navigator.userAgent) ? '\u2318+' : 'Ctrl+';
+			var fallbackMsg = $l_copy_error_prepend + ' ' + modifierKey + $l_copy_error_append;
+
+			$(event.trigger)
+				.attr('data-original-title', fallbackMsg)
+				.tooltip('fixTitle')
+				.tooltip('show')
+				.attr('data-original-title', $l_copy_explain)
+				.tooltip('fixTitle');
+		});
 	}
 
 	// SCEditor
