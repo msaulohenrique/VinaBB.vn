@@ -12,17 +12,19 @@
 		<hr class="clearfix">
 
 		{% if ARTICLE_IMG %}
-		<img src="{{ ARTICLE_IMG }}" alt="{{ ARTICLE_NAME }}" class="img-responsive center-block">
+		<img id="article_img" src="{{ ARTICLE_IMG }}" alt="{{ ARTICLE_NAME }}" class="img-responsive center-block">
 		{% endif %}
 
 		<div class="media margin-b-20">
 			<a class="pull-{{ S_LEFT }}" href="{{ U_AUTHOR }}"><img class="media-object img-circle" src="{{ T_THEME_PATH }}/images/no_avatar.png" width="40" alt="{{ AUTHOR_USERNAME }}"></a>
 			<div class="media-body">
+				{% if not S_IS_BOT %}
 				<span class="pull-{{ S_RIGHT }}">
-					<a href="https://www.facebook.com/sharer/sharer.php?u={{ ARTICLE_SHARE_URL|url_encode }}&title={{ ARTICLE_NAME_SHARE|url_encode }}&description={{ ARTICLE_DESC_SHARE|url_encode }}&picture={{ ARTICLE_IMG|url_encode }}" target="_blank" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false;" data-tooltip="true" title="{{ lang('SHARE_ON', lang('FACEBOOK')) }}" class="btn btn-facebook"><i class="fa fa-facebook"></i></a>
-					<a href="https://twitter.com/share?url={{ ARTICLE_SHARE_URL|url_encode }}&text={{ ARTICLE_NAME_SHARE|url_encode }}" target="_blank" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false;" data-tooltip="true" title="{{ lang('SHARE_ON', lang('TWITTER')) }}" class="btn btn-twitter"><i class="fa fa-twitter"></i></a>
-					<a href="https://plus.google.com/share?url={{ ARTICLE_SHARE_URL|url_encode }}" target="_blank" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false;" data-tooltip="true" title="{{ lang('SHARE_ON', lang('GOOGLEPLUS')) }}" class="btn btn-googleplus"><i class="fa fa-google-plus"></i></a>
+					<a id="shareFacebook" href="https://www.facebook.com/sharer/sharer.php?u={{ ARTICLE_SHARE_URL|url_encode }}&title={{ ARTICLE_NAME_SHARE|url_encode }}&description={{ ARTICLE_DESC_SHARE|url_encode }}" target="_blank" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false;" data-tooltip="true" title="{{ lang('SHARE_ON', lang('FACEBOOK')) }}" class="btn btn-facebook"><i class="fa fa-facebook"></i></a>
+					<a id="shareTwitter" href="https://twitter.com/share?url={{ ARTICLE_SHARE_URL|url_encode }}&text={{ ARTICLE_NAME_SHARE|url_encode }}" target="_blank" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false;" data-tooltip="true" title="{{ lang('SHARE_ON', lang('TWITTER')) }}" class="btn btn-twitter"><i class="fa fa-twitter"></i></a>
+					<a id="shareGooglePlus" href="https://plus.google.com/share?url={{ ARTICLE_SHARE_URL|url_encode }}" target="_blank" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=400'); return false;" data-tooltip="true" title="{{ lang('SHARE_ON', lang('GOOGLEPLUS')) }}" class="btn btn-googleplus"><i class="fa fa-google-plus"></i></a>
 				</span>
+				{% endif %}
 				<h4 class="font-400 margin-b-0">{{ AUTHOR }}</h4>
 				<small class="text-muted">{{ ARTICLE_TIME }}</small>
 			</div>
@@ -45,6 +47,10 @@
 
 {% if not S_IS_BOT %}
 <script>
+	// Get the absolute path for the attribute 'src' of the article image and set to Facebook sharing URL
+	$('#shareFacebook').attr('href', $('#shareFacebook').attr('href') + '&picture=' + $('#article_img')[0].src);
+
+	// Print action
 	$('#btnPrint').on('click',
 		function()
 		{
