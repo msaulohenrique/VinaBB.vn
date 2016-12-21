@@ -181,6 +181,13 @@
 	}
 }
 
+/* Set the fixed height for code blocks */
+.codebox {
+	code {
+		max-height: 250px;
+	}
+}
+
 /* Modify Bootstrap to change border of code blocks */
 pre {
 	border: 1px dashed #ccc;
@@ -283,7 +290,7 @@ img.external-img {
 }
 
 /* Popover */
-.popover{
+.popover {
 	max-width: 100%;
 }
 
@@ -296,7 +303,7 @@ img.external-img {
 }
 
 /* Avatar */
-.avatar{
+.avatar {
 	position: relative;
 	display: inline-block;
 	width: 40px;
@@ -321,16 +328,22 @@ img.external-img {
 	}
 }
 
-.avatar-online i{
-	background-color: $bg-success;
+.avatar-online {
+	i {
+		background-color: $bg-success;
+	}
 }
 
-.avatar-off i{
-	background-color: $bg-default;
+.avatar-off {
+	i {
+		background-color: $bg-default;
+	}
 }
 
-.avatar-busy i{
-	background-color: $bg-danger;
+.avatar-busy {
+	i {
+		background-color: $bg-danger;
+	}
 }
 
 .avatar-lg {
