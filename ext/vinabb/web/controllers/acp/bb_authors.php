@@ -294,6 +294,7 @@ class bb_authors implements bb_authors_interface
 	protected function data_to_tpl(\vinabb\web\entities\bb_author_interface $entity)
 	{
 		$this->template->assign_vars([
+			'USER_ID'				=> $entity->get_user_id(),
 			'AUTHOR_NAME'			=> $entity->get_name(),
 			'AUTHOR_FIRSTNAME'		=> $entity->get_firstname(),
 			'AUTHOR_LASTNAME'		=> $entity->get_lastname(),
