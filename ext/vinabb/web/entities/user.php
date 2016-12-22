@@ -15,16 +15,13 @@ use vinabb\web\entities\sub\user_data;
 */
 class user extends user_data implements user_interface
 {
-	/** @var \phpbb\db\driver\driver_interface */
+	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
 
-	/** @var \vinabb\web\entities\helper\helper_interface */
+	/** @var \vinabb\web\entities\helper\helper_interface $entity_helper */
 	protected $entity_helper;
 
-	/** @var \phpbb\language\language */
-	protected $language;
-
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
 	/**
@@ -32,13 +29,11 @@ class user extends user_data implements user_interface
 	*
 	* @param \phpbb\db\driver\driver_interface				$db				Database object
 	* @param \vinabb\web\entities\helper\helper_interface	$entity_helper	Entity helper
-	* @param \phpbb\language\language						$language		Language object
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \vinabb\web\entities\helper\helper_interface $entity_helper, \phpbb\language\language $language)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \vinabb\web\entities\helper\helper_interface $entity_helper)
 	{
 		$this->db = $db;
 		$this->entity_helper = $entity_helper;
-		$this->language = $language;
 	}
 
 	/**
@@ -303,7 +298,7 @@ class user extends user_data implements user_interface
 	*/
 	public function get_username()
 	{
-		return ($this->get_id() == ANONYMOUS) ? $this->language->lang('GUEST') : (isset($this->data['username']) ? (string) $this->data['username'] : '');
+		return isset($this->data['username']) ? (string) $this->data['username'] : '';
 	}
 
 	/**
