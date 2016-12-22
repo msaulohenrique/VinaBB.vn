@@ -98,7 +98,7 @@ class helper implements helper_interface
 		return [
 			// Rhea
 			'3.2'	=> [
-				'3.2.0'		=> ['name' => '3.2.0', 'date' => '2016-12-31']
+				'3.2.0'		=> ['name' => '3.2.0', 'date' => '2017-01-08']
 			],
 			// Ascraeus
 			'3.1'	=> [
