@@ -87,13 +87,6 @@ class bb_items_module
 			// Return to stop execution of this script
 			return;
 
-			case 'version':
-				$this->tpl_name = 'acp_bb_items_version';
-				$this->page_title = $this->language->lang('VERSION_BB_' . $lang_key);
-				$this->controller->version_item($item_id);
-			// Return to stop execution of this script
-			return;
-
 			case 'delete':
 				if (confirm_box(true))
 				{
