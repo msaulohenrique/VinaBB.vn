@@ -72,6 +72,15 @@ interface bb_item_interface
 	public function get_bb_type();
 
 	/**
+	* Set the phpBB resource type
+	*
+	* @param int				$bb_type	phpBB resource type
+	* @return bb_item_interface	$this		Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_bb_type($bb_type);
+
+	/**
 	* Get the category ID
 	*
 	* @return int
