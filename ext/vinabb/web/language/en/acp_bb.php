@@ -116,11 +116,6 @@ $lang = array_merge($lang, [
 	'ERROR_CAT_VARNAME_TOO_LONG'			=> 'The category varname is too long.',
 	'EXT_VARNAME'							=> 'Package name',
 
-	'ITEM_EXT_DETAILS'		=> 'Extension properties',
-	'ITEM_LANG_DETAILS'		=> 'Language package properties',
-	'ITEM_STYLE_DETAILS'	=> 'Style properties',
-	'ITEM_TOOL_DETAILS'		=> 'Tool properties',
-
 	'LANG_VARNAME'	=> 'Varname',
 
 	'MANAGE_VERSIONS'				=> 'Manage versions',

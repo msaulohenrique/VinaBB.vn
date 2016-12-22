@@ -116,11 +116,6 @@ $lang = array_merge($lang, [
 	'ERROR_CAT_VARNAME_TOO_LONG'			=> 'Tên biến danh mục quá dài.',
 	'EXT_VARNAME'							=> 'Tên định danh',
 
-	'ITEM_EXT_DETAILS'		=> 'Thuộc tính gói mở rộng',
-	'ITEM_LANG_DETAILS'		=> 'Thuộc tính gói ngôn ngữ',
-	'ITEM_STYLE_DETAILS'	=> 'Thuộc tính giao diện',
-	'ITEM_TOOL_DETAILS'		=> 'Thuộc tính công cụ',
-
 	'LANG_VARNAME'	=> 'Tên biến',
 
 	'MANAGE_VERSIONS'				=> 'Quản lý phiên bản',
