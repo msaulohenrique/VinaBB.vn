@@ -23,7 +23,6 @@ services:
         arguments:
             - '@dbal.conn'
             - '@vinabb.web.helper.entity'
-            - '@language'
     vinabb.web.entities.forum:
         class: vinabb\web\entities\forum
         shared: false
@@ -123,6 +122,12 @@ services:
             - '%vinabb.web.tables.bb_items%'
             - '%vinabb.web.tables.bb_categories%'
             - '%vinabb.web.tables.bb_authors%'
+    vinabb.web.entities.bb_item_version:
+        class: vinabb\web\entities\bb_item_version
+        shared: false
+        arguments:
+            - '@dbal.conn'
+            - '%vinabb.web.tables.bb_item_versions%'
     vinabb.web.entities.bb_author:
         class: vinabb\web\entities\bb_author
         shared: false
