@@ -9,6 +9,7 @@
 namespace vinabb\web\controllers\acp;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use vinabb\web\includes\constants;
 
 /**
 * Controller for the bb_items_module
@@ -18,8 +19,17 @@ class bb_items implements bb_items_interface
 	/** @var \vinabb\web\controllers\cache\service_interface $cache */
 	protected $cache;
 
+	/** @var \phpbb\config\config $config */
+	protected $config;
+
 	/** @var ContainerInterface $container */
 	protected $container;
+
+	/** @var \phpbb\extension\manager $ext_manager */
+	protected $ext_manager;
+
+	/** @var \phpbb\filesystem\filesystem_interface $filesystem */
+	protected $filesystem;
 
 	/** @var \phpbb\language\language $language */
 	protected $language;
@@ -35,6 +45,9 @@ class bb_items implements bb_items_interface
 
 	/** @var \phpbb\template\template $template */
 	protected $template;
+
+	/** @var \phpbb\files\upload $upload */
+	protected $upload;
 
 	/** @var \phpbb\user $user */
 	protected $user;
@@ -54,8 +67,11 @@ class bb_items implements bb_items_interface
 	/** @var array $data */
 	protected $data;
 
-	/** @var array $errors */
-	protected $errors;
+	/** @var array $errors Use [] because it will be merged to other arrays */
+	protected $errors = [];
+
+	/** @var string $ext_root_path */
+	protected $ext_root_path;
 
 	/** @var int $bb_type */
 	protected $bb_type;
@@ -72,26 +88,34 @@ class bb_items implements bb_items_interface
 	/**
 	* Constructor
 	*
-	* @param \vinabb\web\controllers\cache\service_interface	$cache		Cache service
-	* @param ContainerInterface									$container	Container object
-	* @param \phpbb\language\language							$language	Language object
-	* @param \phpbb\log\log										$log		Log object
-	* @param \vinabb\web\operators\bb_item_interface			$operator	BB item operators
-	* @param \phpbb\request\request								$request	Request object
-	* @param \phpbb\template\template							$template	Template object
-	* @param \phpbb\user										$user		User object
-	* @param \vinabb\web\controllers\helper_interface			$ext_helper	Extension helper
-	* @param string												$root_path	phpBB root path
-	* @param string												$php_ext	PHP file extension
+	* @param \vinabb\web\controllers\cache\service_interface	$cache			Cache service
+	* @param \phpbb\config\config								$config			Config object
+	* @param ContainerInterface									$container		Container object
+	* @param \phpbb\extension\manager							$ext_manager	Extension manager
+	* @param \phpbb\filesystem\filesystem_interface				$filesystem		Filesystem object
+	* @param \phpbb\language\language							$language		Language object
+	* @param \phpbb\log\log										$log			Log object
+	* @param \vinabb\web\operators\bb_item_interface			$operator		BB item operators
+	* @param \phpbb\request\request								$request		Request object
+	* @param \phpbb\template\template							$template		Template object
+	* @param \phpbb\files\upload								$upload			Upload object
+	* @param \phpbb\user										$user			User object
+	* @param \vinabb\web\controllers\helper_interface			$ext_helper		Extension helper
+	* @param string												$root_path		phpBB root path
+	* @param string												$php_ext		PHP file extension
 	*/
 	public function __construct(
 		\vinabb\web\controllers\cache\service_interface $cache,
+		\phpbb\config\config $config,
 		ContainerInterface $container,
+		\phpbb\extension\manager $ext_manager,
+		\phpbb\filesystem\filesystem_interface $filesystem,
 		\phpbb\language\language $language,
 		\phpbb\log\log $log,
 		\vinabb\web\operators\bb_item_interface $operator,
 		\phpbb\request\request $request,
 		\phpbb\template\template $template,
+		\phpbb\files\upload $upload,
 		\phpbb\user $user,
 		\vinabb\web\controllers\helper_interface $ext_helper,
 		$root_path,
@@ -99,16 +123,22 @@ class bb_items implements bb_items_interface
 	)
 	{
 		$this->cache = $cache;
+		$this->config = $config;
 		$this->container = $container;
+		$this->ext_manager = $ext_manager;
+		$this->filesystem = $filesystem;
 		$this->language = $language;
 		$this->log = $log;
 		$this->operator = $operator;
 		$this->request = $request;
 		$this->template = $template;
+		$this->upload = $upload;
 		$this->user = $user;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 		$this->ext_helper = $ext_helper;
+
+		$this->ext_root_path = $this->ext_manager->get_extension_path('vinabb/web', true);
 	}
 
 	/**
@@ -374,6 +404,26 @@ class bb_items implements bb_items_interface
 	}
 
 	/**
+	* Upload files and return their filenames to the form data
+	*
+	* @param \vinabb\web\entities\bb_item_interface $entity BB item entity
+	*/
+	protected function upload_data(\vinabb\web\entities\bb_item_interface $entity)
+	{
+		// If there are not any input errors, then begin to upload file
+		if ($this->can_upload() && $this->data['article_img']['name'] != '' && !sizeof($this->errors))
+		{
+			// Delete the old file if uploaded a new one
+			if ($this->data['article_img']['name'] != '' && $this->data['article_img']['name'] != $entity->get_img(true, false))
+			{
+				$this->filesystem->remove($entity->get_img(true));
+			}
+
+			$entity->set_img($this->upload_article_img('article_img'));
+		}
+	}
+
+	/**
 	* Insert or update data, then log actions and clear cache if needed
 	*
 	* @param \vinabb\web\entities\bb_item_interface $entity BB item entity
@@ -457,7 +507,6 @@ class bb_items implements bb_items_interface
 				'NAME'	=> $branch
 			]);
 		}
-
 
 		$this->template->assign_vars([
 			'U_ACTION'	=> "{$this->u_action}&action=version&id={$item_id}"
@@ -547,5 +596,65 @@ class bb_items implements bb_items_interface
 				'S_SELECTED'	=> $option->get_id() == $author_id
 			]);
 		}
+	}
+
+	/**
+	* Check if we are able to upload a file
+	*
+	* @return bool
+	*/
+	protected function can_upload()
+	{
+		return (file_exists($this->ext_root_path . constants::DIR_BB_FILES) && $this->filesystem->is_writable($this->ext_root_path . constants::DIR_BB_FILES) && (ini_get('file_uploads') || strtolower(ini_get('file_uploads')) == 'on'));
+	}
+
+	/**
+	* Upload article image
+	*
+	* @return string Filename, empty if there are errors
+	*/
+	protected function upload_article_img($form_name)
+	{
+		$this->upload->set_error_prefix('ERROR_' . strtoupper($form_name) . '_')
+			->set_allowed_extensions(constants::FILE_EXTENSION_BB_FILES)
+			->set_disallowed_content((isset($this->config['mime_triggers']) ? explode('|', $this->config['mime_triggers']) : false));
+
+		$file = $this->upload->handle_upload('files.types.form', $form_name);
+
+		// Rename file
+		$file->clean_filename('avatar', date('Y-m-d-H-i-s_', time()), $this->user->data['user_id']);
+
+		// If there was an error during upload, then abort operation
+		if (sizeof($file->error))
+		{
+			$file->remove();
+			$this->errors = array_merge($this->errors, $file->error);
+
+			return '';
+		}
+
+		// Set new destination
+		$destination = $this->ext_helper->remove_trailing_slash($this->ext_root_path . constants::DIR_BB_FILES);
+
+		// Move file and overwrite any existing image
+		if (!sizeof($this->errors))
+		{
+			$file->move_file($destination, true);
+		}
+
+		// If there was an error during move, then clean up leftovers
+		if (sizeof($file->error))
+		{
+			$this->errors = array_merge($this->errors, $file->error);
+		}
+
+		if (sizeof($this->errors))
+		{
+			$file->remove();
+
+			return '';
+		}
+
+		return $file->get('realname');
 	}
 }

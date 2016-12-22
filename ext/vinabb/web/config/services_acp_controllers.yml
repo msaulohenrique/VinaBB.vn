@@ -59,12 +59,16 @@ services:
         class: vinabb\web\controllers\acp\bb_items
         arguments:
             - '@vinabb.web.cache'
+            - '@config'
             - '@service_container'
+            - '@ext.manager'
+            - '@filesystem'
             - '@language'
             - '@log'
             - '@vinabb.web.operators.bb_item'
             - '@request'
             - '@template'
+            - '@files.upload'
             - '@user'
             - '@vinabb.web.helper'
             - '%core.root_path%'
