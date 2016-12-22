@@ -15,10 +15,10 @@ use vinabb\web\includes\constants;
 */
 class language implements language_interface
 {
-	/** @var \phpbb\db\driver\driver_interface */
+	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
 
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
 	/**

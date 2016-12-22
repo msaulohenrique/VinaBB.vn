@@ -13,7 +13,7 @@ namespace vinabb\web\entities\sub;
 */
 class item_data extends item_ext
 {
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
 	/**

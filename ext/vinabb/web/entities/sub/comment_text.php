@@ -15,13 +15,13 @@ use vinabb\web\entities\abs\bbcode_content;
 */
 class comment_text extends bbcode_content
 {
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
-	/** @var bool */
+	/** @var bool $ignore_max_post_chars */
 	protected $ignore_max_post_chars = false;
 
-	/** @var string */
+	/** @var string $prefix */
 	protected $prefix = 'comment_text';
 
 	/**

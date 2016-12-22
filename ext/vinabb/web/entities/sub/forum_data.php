@@ -13,7 +13,7 @@ namespace vinabb\web\entities\sub;
 */
 class forum_data extends forum_options
 {
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
 	/**

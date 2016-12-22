@@ -15,13 +15,13 @@ use vinabb\web\entities\abs\bbcode_content;
 */
 class article_text extends bbcode_content
 {
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
-	/** @var bool */
+	/** @var bool $ignore_max_post_chars */
 	protected $ignore_max_post_chars = true;
 
-	/** @var string */
+	/** @var string $prefix */
 	protected $prefix = 'article_text';
 
 	/**

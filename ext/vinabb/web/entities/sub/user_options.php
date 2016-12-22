@@ -13,7 +13,7 @@ namespace vinabb\web\entities\sub;
 */
 class user_options extends user_reg
 {
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
 	/**

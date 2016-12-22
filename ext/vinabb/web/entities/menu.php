@@ -16,13 +16,13 @@ use vinabb\web\includes\constants;
 */
 class menu extends menu_enable implements menu_interface
 {
-	/** @var \phpbb\db\driver\driver_interface */
+	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
 
-	/** @var string */
+	/** @var string $table_name */
 	protected $table_name;
 
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
 	/**

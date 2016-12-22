@@ -16,13 +16,13 @@ use vinabb\web\includes\constants;
 */
 class forum extends forum_data implements forum_interface
 {
-	/** @var \phpbb\db\driver\driver_interface */
+	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
 
-	/** @var \vinabb\web\entities\helper\helper_interface */
+	/** @var \vinabb\web\entities\helper\helper_interface $entity_helper */
 	protected $entity_helper;
 
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
 	/**

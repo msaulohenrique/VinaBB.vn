@@ -15,10 +15,10 @@ use vinabb\web\includes\constants;
 */
 class user_profile extends user_sig
 {
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
-	/** @var \vinabb\web\entities\helper\helper_interface */
+	/** @var \vinabb\web\entities\helper\helper_interface $entity_helper */
 	protected $entity_helper;
 
 	/**

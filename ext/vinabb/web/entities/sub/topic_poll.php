@@ -15,7 +15,7 @@ use vinabb\web\includes\constants;
 */
 class topic_poll
 {
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
 	/**

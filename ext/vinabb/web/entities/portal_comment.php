@@ -16,19 +16,19 @@ use vinabb\web\includes\constants;
 */
 class portal_comment extends comment_text implements portal_comment_interface
 {
-	/** @var \phpbb\db\driver\driver_interface */
+	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
 
-	/** @var \vinabb\web\entities\helper\helper_interface */
+	/** @var \vinabb\web\entities\helper\helper_interface $entity_helper */
 	protected $entity_helper;
 
-	/** @var string */
+	/** @var string $table_name */
 	protected $table_name;
 
-	/** @var string */
+	/** @var string $article_table_name */
 	protected $article_table_name;
 
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
 	/**

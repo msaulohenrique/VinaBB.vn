@@ -15,7 +15,7 @@ use vinabb\web\includes\constants;
 */
 class forum_options extends forum_last_post
 {
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
 	/**

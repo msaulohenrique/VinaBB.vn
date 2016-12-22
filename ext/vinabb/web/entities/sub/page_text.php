@@ -15,16 +15,16 @@ use vinabb\web\entities\abs\bbcode_content;
 */
 class page_text extends bbcode_content
 {
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
-	/** @var bool */
+	/** @var bool $ignore_max_post_chars */
 	protected $ignore_max_post_chars = true;
 
-	/** @var string */
+	/** @var string $text_prefix */
 	protected $text_prefix = 'page_text';
 
-	/** @var string */
+	/** @var string $text_vi_prefix */
 	protected $text_vi_prefix = 'page_text_vi';
 
 	/**

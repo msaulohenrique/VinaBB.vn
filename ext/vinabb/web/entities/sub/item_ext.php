@@ -15,13 +15,13 @@ use vinabb\web\includes\constants;
 */
 class item_ext extends item_style
 {
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
-	/** @var \vinabb\web\entities\helper\helper_interface */
+	/** @var \vinabb\web\entities\helper\helper_interface $entity_helper */
 	protected $entity_helper;
 
-	/** @var int */
+	/** @var int $bb_type */
 	protected $bb_type;
 
 	/**

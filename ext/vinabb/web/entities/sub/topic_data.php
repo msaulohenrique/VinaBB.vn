@@ -13,7 +13,7 @@ namespace vinabb\web\entities\sub;
 */
 class topic_data extends topic_actions
 {
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
 	/**

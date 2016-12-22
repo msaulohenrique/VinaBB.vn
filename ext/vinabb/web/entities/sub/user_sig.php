@@ -16,23 +16,24 @@ class user_sig
 	/**
 	* Data for this abstract entity
 	*
-	* @var array
 	*	...
 	*		user_sig
 	*		user_sig_bbcode_uid
 	*		user_sig_bbcode_bitfield
 	*		user_options
 	*	...
+	*
+	* @var array $data
 	*/
 	protected $data;
 
-	/** @var \phpbb\user */
+	/** @var \phpbb\user $user */
 	protected $user;
 
 	/**
 	* Constructor
 	*
-	* @param \phpbb\user $user
+	* @param \phpbb\user $user User object
 	*/
 	public function __construct(\phpbb\user $user)
 	{

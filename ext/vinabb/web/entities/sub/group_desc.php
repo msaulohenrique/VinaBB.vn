@@ -15,13 +15,13 @@ use vinabb\web\entities\abs\bbcode_content;
 */
 class group_desc extends bbcode_content
 {
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
-	/** @var bool */
+	/** @var bool $ignore_max_post_chars */
 	protected $ignore_max_post_chars = false;
 
-	/** @var string */
+	/** @var string $desc_prefix */
 	protected $desc_prefix = 'group_desc';
 
 	/**

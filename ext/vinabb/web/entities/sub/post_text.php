@@ -16,7 +16,6 @@ class post_text
 	/**
 	* Data for this abstract entity
 	*
-	* @var array
 	*	...
 	*		post_text
 	*		bbcode_uid
@@ -25,6 +24,8 @@ class post_text
 	*		enable_smilies
 	*		enable_magic_url
 	*	...
+	*
+	* @var array $data
 	*/
 	protected $data;
 

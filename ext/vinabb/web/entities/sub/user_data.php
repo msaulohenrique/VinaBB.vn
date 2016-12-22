@@ -13,10 +13,10 @@ namespace vinabb\web\entities\sub;
 */
 class user_data extends user_logtime
 {
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
-	/** @var \phpbb\config\config */
+	/** @var \phpbb\config\config $config */
 	protected $config;
 
 	/**

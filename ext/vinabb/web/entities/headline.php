@@ -15,22 +15,22 @@ use vinabb\web\includes\constants;
 */
 class headline implements headline_interface
 {
-	/** @var \phpbb\db\driver\driver_interface */
+	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
 
-	/** @var \phpbb\extension\manager */
+	/** @var \phpbb\extension\manager $ext_manager */
 	protected $ext_manager;
 
-	/** @var \vinabb\web\entities\helper\helper_interface */
+	/** @var \vinabb\web\entities\helper\helper_interface $entity_helper */
 	protected $entity_helper;
 
-	/** @var string */
+	/** @var string $table_name */
 	protected $table_name;
 
-	/** @var string */
+	/** @var string $ext_root_path */
 	protected $ext_root_path;
 
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
 	/**

@@ -13,7 +13,7 @@ namespace vinabb\web\entities\sub;
 */
 class author_social
 {
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
 	/**

@@ -16,20 +16,21 @@ abstract class bbcode_content
 	/**
 	* Data for this abstract entity
 	*
-	* @var array
 	*	...
 	*		{prefix}
 	*		{prefix}_uid
 	*		{prefix}_bitfield
 	*		{prefix}_options
 	*	...
+	*
+	* @var array $data
 	*/
 	protected $data;
 
-	/** @var bool */
+	/** @var bool $ignore_max_post_chars */
 	protected $ignore_max_post_chars = true;
 
-	/** @var \phpbb\config\config */
+	/** @var \phpbb\config\config $config */
 	protected $config;
 
 	/**

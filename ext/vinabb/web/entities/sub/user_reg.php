@@ -13,7 +13,7 @@ namespace vinabb\web\entities\sub;
 */
 class user_reg extends user_profile
 {
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
 	/**

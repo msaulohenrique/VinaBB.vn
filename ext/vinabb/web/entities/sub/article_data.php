@@ -15,7 +15,7 @@ use vinabb\web\includes\constants;
 */
 class article_data extends article_text
 {
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
 	/**

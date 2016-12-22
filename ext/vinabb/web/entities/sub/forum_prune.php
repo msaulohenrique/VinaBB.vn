@@ -13,7 +13,7 @@ namespace vinabb\web\entities\sub;
 */
 class forum_prune extends forum_desc_rules
 {
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
 	/**

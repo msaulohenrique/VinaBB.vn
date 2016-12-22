@@ -15,16 +15,16 @@ use vinabb\web\entities\abs\bbcode_content;
 */
 class forum_desc_rules extends bbcode_content
 {
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
-	/** @var bool */
+	/** @var bool $ignore_max_post_chars */
 	protected $ignore_max_post_chars = false;
 
-	/** @var string */
+	/** @var string $desc_prefix */
 	protected $desc_prefix = 'forum_desc';
 
-	/** @var string */
+	/** @var string $rules_prefix */
 	protected $rules_prefix = 'forum_rules';
 
 	/**

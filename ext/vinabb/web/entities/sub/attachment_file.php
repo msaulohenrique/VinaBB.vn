@@ -15,7 +15,7 @@ use vinabb\web\includes\constants;
 */
 class attachment_file
 {
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
 	/**

@@ -13,16 +13,16 @@ namespace vinabb\web\entities\sub;
 */
 class page_enable extends page_text
 {
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
-	/** @var \phpbb\user */
+	/** @var \phpbb\user $user */
 	protected $user;
 
 	/**
 	* Constructor
 	*
-	* @param \phpbb\user $user
+	* @param \phpbb\user $user User object
 	*/
 	public function __construct(\phpbb\user $user)
 	{

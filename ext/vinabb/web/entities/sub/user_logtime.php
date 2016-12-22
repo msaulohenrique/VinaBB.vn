@@ -13,7 +13,7 @@ namespace vinabb\web\entities\sub;
 */
 class user_logtime extends user_options
 {
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
 	/**

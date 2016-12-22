@@ -13,7 +13,7 @@ namespace vinabb\web\entities\sub;
 */
 class post_options extends post_actions
 {
-	/** @var array */
+	/** @var array $data */
 	protected $data;
 
 	/**
