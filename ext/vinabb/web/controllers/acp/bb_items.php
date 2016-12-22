@@ -165,6 +165,9 @@ class bb_items implements bb_items_interface
 		// Build the category selection
 		$this->build_cat_options($entity, $this->data['cat_id'], 'add');
 
+		// Build the author selection
+		$this->build_author_options($entity, $this->data['author_id'], 'add');
+
 		$this->template->assign_vars([
 			'S_ADD'		=> true,
 			'U_ACTION'	=> "{$this->u_action}&action=add"
@@ -187,6 +190,9 @@ class bb_items implements bb_items_interface
 
 		// Build the category selection
 		$this->build_cat_options($entity);
+
+		// Build the author selection
+		$this->build_author_options($entity);
 
 		$this->template->assign_vars([
 			'S_EDIT'	=> true,
@@ -446,7 +452,7 @@ class bb_items implements bb_items_interface
 		$options = $this->container->get('vinabb.web.operators.bb_category')->get_cats($this->bb_type);
 		$cat_id = ($mode == 'edit') ? $entity->get_cat_id() : $cat_id;
 
-		/** @var \vinabb\web\entities\portal_category_interface $option */
+		/** @var \vinabb\web\entities\bb_category_interface $option */
 		foreach ($options as $option)
 		{
 			$this->template->assign_block_vars('cat_options', [
@@ -455,6 +461,32 @@ class bb_items implements bb_items_interface
 				'NAME_VI'	=> $option->get_name_vi(),
 
 				'S_SELECTED'	=> $option->get_id() == $cat_id
+			]);
+		}
+	}
+
+	/**
+	* Generate options of available categories
+	*
+	* @param \vinabb\web\entities\bb_item_interface	$entity 	BB item entity
+	* @param int									$author_id	Author ID
+	* @param string									$mode		Add or edit mode?
+	*/
+	protected function build_author_options($entity, $author_id = 0, $mode = 'edit')
+	{
+		$options = $this->container->get('vinabb.web.operators.bb_author')->get_authors();
+		$author_id = ($mode == 'edit') ? $entity->get_author_id() : $author_id;
+
+		/** @var \vinabb\web\entities\bb_author_interface $option */
+		foreach ($options as $option)
+		{
+			$this->template->assign_block_vars('author_options', [
+				'ID'		=> $option->get_id(),
+				'NAME'		=> $option->get_name(),
+				'FIRSTNAME'	=> $option->get_firstname(),
+				'LASTNAME'	=> $option->get_lastname(),
+
+				'S_SELECTED'	=> $option->get_id() == $author_id
 			]);
 		}
 	}
