@@ -130,6 +130,8 @@ class constants
 	const REGEX_SEO = '#^[a-z0-9-\.]+$#';
 	const REGEX_VARNAME = '#^[a-z0-9-]+$#';
 	const REGEX_VARNAME_EXT = '#^([a-z0-9-]+)\.([a-z0-9-]+)$#';
+	const REGEX_VERSION = '#^\d+(\.\d){1,3}$#';
+	const REGEX_VERSION_FULL = '#^\d+(\.\d){1,3}(\-(((?:A|B|RC|PL)\d+)|DEV))?$#';
 
 	// Flag as new (in time: days, hours...)
 	const FLAG_DAY_NEW_ARTICLE = 3;
