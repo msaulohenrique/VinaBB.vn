@@ -13,19 +13,19 @@ namespace vinabb\web\acp;
 */
 class settings_module
 {
-	/** @var \vinabb\web\controllers\acp\settings_interface */
+	/** @var \vinabb\web\controllers\acp\settings_interface $controller */
 	protected $controller;
 
-	/** @var \phpbb\language\language */
+	/** @var \phpbb\language\language $language */
 	protected $language;
 
-	/** @var string */
+	/** @var string $tpl_name */
 	public $tpl_name;
 
-	/** @var string */
+	/** @var string $page_title */
 	public $page_title;
 
-	/** @var string */
+	/** @var string $u_action */
 	public $u_action;
 
 	/**

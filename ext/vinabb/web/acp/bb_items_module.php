@@ -13,25 +13,25 @@ namespace vinabb\web\acp;
 */
 class bb_items_module
 {
-	/** @var \vinabb\web\controllers\acp\bb_items_interface */
+	/** @var \vinabb\web\controllers\acp\bb_items_interface $controller */
 	protected $controller;
 
-	/** @var \phpbb\language\language */
+	/** @var \phpbb\language\language $language */
 	protected $language;
 
-	/** @var \phpbb\request\request */
+	/** @var \phpbb\request\request $request */
 	protected $request;
 
-	/** @var \vinabb\web\controllers\helper_interface */
+	/** @var \vinabb\web\controllers\helper_interface $ext_helper */
 	protected $ext_helper;
 
-	/** @var string */
+	/** @var string $tpl_name */
 	public $tpl_name;
 
-	/** @var string */
+	/** @var string $page_title */
 	public $page_title;
 
-	/** @var string */
+	/** @var string $u_action */
 	public $u_action;
 
 	/**
