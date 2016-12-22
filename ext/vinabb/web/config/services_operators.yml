@@ -114,6 +114,12 @@ services:
             - '@service_container'
             - '@dbal.conn'
             - '%vinabb.web.tables.bb_items%'
+    vinabb.web.operators.bb_item_version:
+        class: vinabb\web\operators\bb_item_version
+        arguments:
+            - '@service_container'
+            - '@dbal.conn'
+            - '%vinabb.web.tables.bb_item_versions%'
     vinabb.web.operators.bb_author:
         class: vinabb\web\operators\bb_author
         arguments:
