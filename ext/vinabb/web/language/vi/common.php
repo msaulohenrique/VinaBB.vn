@@ -29,6 +29,7 @@ $lang = array_merge($lang, [
 	'ACP_STYLE_VERSION'			=> 'Phiên bản giao diện',
 	'ALL_TIMES'					=> 'Múi giờ %1$s',
 	'ANALYTICS'					=> 'Phân tích',
+	'AUTHOR_NAME'				=> 'Tên người phát triển',
 
 	'BB'				=> 'Thư viện',
 	'BB_ACP_STYLES'		=> 'Giao diện quản trị',
@@ -39,7 +40,6 @@ $lang = array_merge($lang, [
 	'BB_STYLES'			=> 'Giao diện',
 	'BB_SUBSCRIBERS'	=> 'Người theo dõi',
 	'BB_TOOLS'			=> 'Công cụ',
-	'BBCODE_C_HELP'		=> 'Chèn mã: [code]đoạn mã[/code] hay `mã một dòng`',
 	'BOARD'				=> 'Diễn đàn',
 
 	'CATEGORY'				=> 'Danh mục',

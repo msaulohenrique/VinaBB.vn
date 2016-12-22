@@ -29,6 +29,7 @@ $lang = array_merge($lang, [
 	'ACP_STYLE_VERSION'			=> 'Style version',
 	'ALL_TIMES'					=> 'All times are %1$s',
 	'ANALYTICS'					=> 'Analytics',
+	'AUTHOR_NAME'				=> 'Developer name',
 
 	'BB'				=> 'Resources',
 	'BB_ACP_STYLES'		=> 'ACP styles',
@@ -39,7 +40,6 @@ $lang = array_merge($lang, [
 	'BB_STYLES'			=> 'Styles',
 	'BB_SUBSCRIBERS'	=> 'Subscribers',
 	'BB_TOOLS'			=> 'Tools',
-	'BBCODE_C_HELP'		=> 'Insert code: [code]block code[/code] or `inline code`',
 	'BOARD'				=> 'Board',
 
 	'CATEGORY'				=> 'Category',
