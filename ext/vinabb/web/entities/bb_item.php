@@ -235,7 +235,7 @@ class bb_item extends item_data implements bb_item_interface
 	*/
 	public function get_id()
 	{
-		return isset($this->data['article_id']) ? (int) $this->data['article_id'] : 0;
+		return isset($this->data['item_id']) ? (int) $this->data['item_id'] : 0;
 	}
 
 	/**
