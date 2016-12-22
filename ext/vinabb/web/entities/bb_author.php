@@ -439,7 +439,7 @@ class bb_author extends author_social implements bb_author_interface
 		$text = strtolower($text);
 
 		// Checking for valid URL
-		if (filter_var($text, FILTER_VALIDATE_URL) === false)
+		if ($text != '' && filter_var($text, FILTER_VALIDATE_URL) === false)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['author_www', 'INVALID_URL']);
 		}
@@ -470,7 +470,7 @@ class bb_author extends author_social implements bb_author_interface
 		$text = strtolower($text);
 
 		// Checking for valid email address
-		if (filter_var($text, FILTER_VALIDATE_EMAIL) === false)
+		if ($text != '' && filter_var($text, FILTER_VALIDATE_EMAIL) === false)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['author_email', 'INVALID_EMAIL']);
 		}

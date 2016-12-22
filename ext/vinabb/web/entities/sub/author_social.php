@@ -38,7 +38,7 @@ class author_social
 		$text = (string) $text;
 
 		// Check invalid characters
-		if (!preg_match('#^[\w_]+$#', $text))
+		if (!preg_match('#^([\w_]+)?$#', $text))
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['author_phpbb', 'INVALID']);
 		}
@@ -71,7 +71,7 @@ class author_social
 		$text = (string) $text;
 
 		// Check invalid characters
-		if (!preg_match('#^[\w_]+$#', $text))
+		if (!preg_match('#^([\w_]+)?$#', $text))
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['author_github', 'INVALID']);
 		}
@@ -104,7 +104,7 @@ class author_social
 		$text = (string) $text;
 
 		// Check invalid characters
-		if (!preg_match('#^[\w.]+$#', $text))
+		if (!preg_match('#^([\w.]+)?$#', $text))
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['author_facebook', 'INVALID']);
 		}
@@ -137,7 +137,7 @@ class author_social
 		$text = (string) $text;
 
 		// Check invalid characters
-		if (!preg_match('#^[\w_]+$#', $text))
+		if (!preg_match('#^([\w_]+)?$#', $text))
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['author_twitter', 'INVALID']);
 		}
@@ -170,7 +170,7 @@ class author_social
 		$text = (string) $text;
 
 		// Check invalid characters
-		if (!preg_match('#^[\w]+$#', $text))
+		if (!preg_match('#^([\w]+)?$#', $text))
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['author_google_plus', 'INVALID']);
 		}
@@ -203,7 +203,7 @@ class author_social
 		$text = (string) $text;
 
 		// Check invalid characters
-		if (!preg_match('#^[a-zA-Z][\w\.,\-_]+$#', $text))
+		if (!preg_match('#^([a-zA-Z][\w\.,\-_]+)?$#', $text))
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['author_skype', 'INVALID']);
 		}
