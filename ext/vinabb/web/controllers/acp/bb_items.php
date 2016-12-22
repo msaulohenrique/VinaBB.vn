@@ -511,6 +511,8 @@ class bb_items implements bb_items_interface
 		}
 
 		$this->template->assign_vars([
+			'ITEM_VERSION_LANG'	=> $this->language->lang($this->lang_key . '_VERSION'),
+
 			'U_ACTION'	=> "{$this->u_action}&action=version&id={$item_id}"
 		]);
 	}
@@ -615,7 +617,7 @@ class bb_items implements bb_items_interface
 	*
 	* @return string Filename, empty if there are errors
 	*/
-	protected function upload_article_img($form_name)
+	protected function upload_item_file($form_name)
 	{
 		$this->upload->set_error_prefix('ERROR_' . strtoupper($form_name) . '_')
 			->set_allowed_extensions(constants::FILE_EXTENSION_BB_FILES)

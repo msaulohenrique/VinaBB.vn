@@ -15,10 +15,22 @@
 <form id="acp_bb_items" method="post" action="{{ U_ACTION }}">
 	{% for branch in branches %}
 	<fieldset>
-		<legend>{{ branch.NAME }}</legend>
+		<legend>{{ lang('PHPBB_VERSION_X', branch.NAME) }}</legend>
 		<dl>
-			<dt style="width: 150px;"><label for="item_file_{{ branch.NAME }}">{{ lang('UPLOAD_NEW_FILE') ~ lang('COLON') }}</label></dt>
-			<dd style="margin-{{ S_CONTENT_FLOW_BEGIN }}: 150px;"><input class="inputbox autowidth" type="file" name="item_file_{{ branch.NAME }}" id="item_file_{{ branch.NAME }}"></dd>
+			<dt><label for="item_version_{{ branch.NAME }}">{{ ITEM_VERSION_LANG ~ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="item_version_{{ branch.NAME }}" id="item_version_{{ branch.NAME }}" value="{{ branch.VERSION }}" maxlength="255"></dd>
+		</dl>
+		<dl>
+			<dt><label for="phpbb_version_{{ branch.NAME }}">{{ lang('PHPBB_VERSION') ~ lang('COLON') }}</label></dt>
+			<dd><input type="text" name="phpbb_version_{{ branch.NAME }}" id="phpbb_version_{{ branch.NAME }}" value="{{ branch.PHPBB_VERSION }}" maxlength="255"></dd>
+		</dl>
+		<dl>
+			<dt><label for="item_file_{{ branch.NAME }}">{{ lang('UPLOAD_NEW_FILE') ~ lang('COLON') }}</label></dt>
+			<dd><input class="inputbox autowidth" type="file" name="item_file_{{ branch.NAME }}" id="item_file_{{ branch.NAME }}"></dd>
+		</dl>
+		<dl>
+			<dt><label for="item_price_{{ branch.NAME }}">{{ lang('PRICE') ~ lang('COLON') }}</label></dt>
+			<dd><input type="number" name="item_price_{{ branch.NAME }}" id="item_price_{{ branch.NAME }}" min="0" value="{{ branch.PRICE }}" maxlength="255"></dd>
 		</dl>
 	</fieldset>
 	{% endfor %}
