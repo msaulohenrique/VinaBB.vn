@@ -347,6 +347,7 @@ $lang = array_merge($lang, [
 	'TRAVIS'			=> 'Travis',
 
 	'UNKNOWN'			=> 'Unknown',
+	'UPLOAD_NEW_FILE'	=> 'Upload new file',
 	'UPLOAD_NEW_IMAGE'	=> 'Upload new image',
 	'USER_ID'			=> 'User ID',
 

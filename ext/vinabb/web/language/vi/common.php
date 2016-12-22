@@ -347,6 +347,7 @@ $lang = array_merge($lang, [
 	'TRAVIS'			=> 'Travis CI',
 
 	'UNKNOWN'			=> 'Không biết',
+	'UPLOAD_NEW_FILE'	=> 'Tải tập tin mới lên',
 	'UPLOAD_NEW_IMAGE'	=> 'Tải hình mới lên',
 	'USER_ID'			=> 'ID tài khoản',
 

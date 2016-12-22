@@ -123,6 +123,7 @@ $lang = array_merge($lang, [
 
 	'LANG_VARNAME'	=> 'Varname',
 
+	'MANAGE_VERSIONS'				=> 'Manage versions',
 	'MESSAGE_AUTHOR_ADD'			=> 'The developer has been added.',
 	'MESSAGE_AUTHOR_DELETE'			=> 'The developer has been removed.',
 	'MESSAGE_AUTHOR_EDIT'			=> 'The developer information has been edited.',
@@ -147,5 +148,11 @@ $lang = array_merge($lang, [
 
 	'STYLE_VARNAME'	=> 'Varname',
 
-	'TOOL_VARNAME'	=> 'Varname'
+	'TOOL_VARNAME'	=> 'Varname',
+
+	'VERSION_BB_ACP_STYLE'	=> 'Manage style versions',
+	'VERSION_BB_EXT'		=> 'Manage extension versions',
+	'VERSION_BB_LANG'		=> 'Manage language package versions',
+	'VERSION_BB_STYLE'		=> 'Manage style versions',
+	'VERSION_BB_TOOL'		=> 'Manage tool versions'
 ]);

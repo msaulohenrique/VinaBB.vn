@@ -123,6 +123,7 @@ $lang = array_merge($lang, [
 
 	'LANG_VARNAME'	=> 'Tên biến',
 
+	'MANAGE_VERSIONS'				=> 'Quản lý phiên bản',
 	'MESSAGE_AUTHOR_ADD'			=> 'Đã thêm người phát triển.',
 	'MESSAGE_AUTHOR_DELETE'			=> 'Đã gỡ bỏ người phát triển.',
 	'MESSAGE_AUTHOR_EDIT'			=> 'Đã sửa thông tin người phát triển.',
@@ -147,5 +148,11 @@ $lang = array_merge($lang, [
 
 	'STYLE_VARNAME'	=> 'Tên biến',
 
-	'TOOL_VARNAME'	=> 'Tên biến'
+	'TOOL_VARNAME'	=> 'Tên biến',
+
+	'VERSION_BB_ACP_STYLE'	=> 'Quản lý phiên bản giao diện',
+	'VERSION_BB_EXT'		=> 'Quản lý phiên bản gói mở rộng',
+	'VERSION_BB_LANG'		=> 'Quản lý phiên bản gói ngôn ngữ',
+	'VERSION_BB_STYLE'		=> 'Quản lý phiên bản giao diện',
+	'VERSION_BB_TOOL'		=> 'Quản lý phiên bản công cụ'
 ]);
