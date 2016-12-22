@@ -127,7 +127,7 @@ class bb_items implements bb_items_interface
 		foreach ($entities as $entity)
 		{
 			$this->template->assign_block_vars('items', [
-				'CATEGORY'	=> $this->cat_data[$entity->get_cat_id()]['name'],
+				'CATEGORY'	=> $this->cat_data[$this->get_cat_varname_by_id($entity->get_cat_id())]['name'],
 				'NAME'		=> $entity->get_name(),
 				'VARNAME'	=> $entity->get_varname(),
 				'PRICE'		=> $entity->get_price(),
@@ -148,6 +148,25 @@ class bb_items implements bb_items_interface
 
 			'U_ACTION'	=> "{$this->u_action}&action=add"
 		]);
+	}
+
+	/**
+	* Get the category varname from cat ID
+	*
+	* @param int $cat_id Category ID
+	* @return string
+	*/
+	protected function get_cat_varname_by_id($cat_id)
+	{
+		if (!isset($this->cat_varnames))
+		{
+			foreach ($this->cat_data as $varname => $cat_data)
+			{
+				$this->cat_varnames[$cat_data['id']] = $varname;
+			}
+		}
+
+		return isset($this->cat_varnames[$cat_id]) ? $this->cat_varnames[$cat_id] : '';
 	}
 
 	/**
