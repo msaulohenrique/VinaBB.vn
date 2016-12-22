@@ -15,16 +15,16 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 */
 class headline implements headline_interface
 {
-	/** @var ContainerInterface */
+	/** @var ContainerInterface $container */
 	protected $container;
 
-	/** @var \phpbb\db\driver\driver_interface */
+	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
 
-	/** @var \phpbb\lock\db */
+	/** @var \phpbb\lock\db $lock */
 	protected $lock;
 
-	/** @var string */
+	/** @var string $table_name */
 	protected $table_name;
 
 	/**

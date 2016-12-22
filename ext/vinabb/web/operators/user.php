@@ -15,16 +15,16 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 */
 class user implements user_interface
 {
-	/** @var \phpbb\auth\auth */
+	/** @var \phpbb\auth\auth $auth */
 	protected $auth;
 
-	/** @var ContainerInterface */
+	/** @var ContainerInterface $container */
 	protected $container;
 
-	/** @var \phpbb\db\driver\driver_interface */
+	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
 
-	/** @var array */
+	/** @var array $user_types */
 	private $user_types;
 
 	/**

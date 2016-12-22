@@ -15,13 +15,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 */
 class page implements page_interface
 {
-	/** @var ContainerInterface */
+	/** @var ContainerInterface $container */
 	protected $container;
 
-	/** @var \phpbb\db\driver\driver_interface */
+	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
 
-	/** @var string */
+	/** @var string $table_name */
 	protected $table_name;
 
 	/**

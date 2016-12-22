@@ -15,10 +15,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 */
 class team implements team_interface
 {
-	/** @var ContainerInterface */
+	/** @var ContainerInterface $container */
 	protected $container;
 
-	/** @var \phpbb\db\driver\driver_interface */
+	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
 
 	/**

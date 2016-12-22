@@ -15,10 +15,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 */
 class portal_category implements portal_category_interface
 {
-	/** @var ContainerInterface */
+	/** @var ContainerInterface $container */
 	protected $container;
 
-	/** @var \vinabb\web\operators\nestedset_portal_categories */
+	/** @var \vinabb\web\operators\nestedset_portal_categories $nestedset */
 	protected $nestedset;
 
 	/**

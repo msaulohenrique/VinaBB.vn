@@ -15,10 +15,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 */
 class menu implements menu_interface
 {
-	/** @var ContainerInterface */
+	/** @var ContainerInterface $container */
 	protected $container;
 
-	/** @var \vinabb\web\operators\nestedset_menus */
+	/** @var \vinabb\web\operators\nestedset_menus $nestedset */
 	protected $nestedset;
 
 	/**
