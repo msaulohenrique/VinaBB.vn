@@ -221,12 +221,8 @@ class bb_author extends author_social implements bb_author_interface
 	{
 		$id = (int) $id;
 
-		// This is a required field
-		if (!$id)
-		{
-			throw new \vinabb\web\exceptions\unexpected_value(['user_id', 'EMPTY']);
-		}
-		else if (!$this->entity_helper->check_user_id($id))
+		// Check existing user
+		if ($id && !$this->entity_helper->check_user_id($id))
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['user_id', 'NOT_EXISTS']);
 		}
