@@ -39,6 +39,9 @@ class bb_items implements bb_items_interface
 	/** @var \phpbb\user $user */
 	protected $user;
 
+	/** @var \vinabb\web\controllers\helper_interface $ext_helper */
+	protected $ext_helper;
+
 	/** @var string $root_path */
 	protected $root_path;
 
@@ -63,6 +66,9 @@ class bb_items implements bb_items_interface
 	/** @var array $cat_data */
 	protected $cat_data;
 
+	/** @var array $cat_varnames */
+	protected $cat_varnames;
+
 	/**
 	* Constructor
 	*
@@ -74,6 +80,7 @@ class bb_items implements bb_items_interface
 	* @param \phpbb\request\request								$request	Request object
 	* @param \phpbb\template\template							$template	Template object
 	* @param \phpbb\user										$user		User object
+	* @param \vinabb\web\controllers\helper_interface			$ext_helper	Extension helper
 	* @param string												$root_path	phpBB root path
 	* @param string												$php_ext	PHP file extension
 	*/
@@ -86,6 +93,7 @@ class bb_items implements bb_items_interface
 		\phpbb\request\request $request,
 		\phpbb\template\template $template,
 		\phpbb\user $user,
+		\vinabb\web\controllers\helper_interface $ext_helper,
 		$root_path,
 		$php_ext
 	)
@@ -100,6 +108,7 @@ class bb_items implements bb_items_interface
 		$this->user = $user;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
+		$this->ext_helper = $ext_helper;
 	}
 
 	/**
@@ -138,6 +147,7 @@ class bb_items implements bb_items_interface
 				'UPDATED'	=> $this->user->format_date($entity->get_updated()),
 
 				'U_EDIT'	=> "{$this->u_action}&action=edit&id={$entity->get_id()}",
+				'U_VERSION'	=> "{$this->u_action}&action=version&id={$entity->get_id()}",
 				'U_DELETE'	=> "{$this->u_action}&action=delete&id={$entity->get_id()}"
 			]);
 		}
@@ -327,6 +337,7 @@ class bb_items implements bb_items_interface
 	protected function map_set_data(\vinabb\web\entities\bb_item_interface $entity)
 	{
 		$map_fields = [
+			'set_bb_type'	=> $this->bb_type,
 			'set_cat_id'	=> $this->data['cat_id'],
 			'set_author_id'	=> $this->data['author_id'],
 			'set_name'		=> $this->data['item_name'],
@@ -376,7 +387,7 @@ class bb_items implements bb_items_interface
 
 			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_{$this->lang_key}_EDIT", time(), [$entity->get_name()]);
 
-			$message = "MESSAGE_{$this->lang_key}_EDIT";
+			$message = "MESSAGE_BB_{$this->lang_key}_EDIT";
 		}
 		else
 		{
@@ -385,7 +396,7 @@ class bb_items implements bb_items_interface
 
 			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_{$this->lang_key}_ADD", time(), [$entity->get_name()]);
 
-			$message = "MESSAGE_{$this->lang_key}_ADD";
+			$message = "MESSAGE_BB_{$this->lang_key}_ADD";
 		}
 
 		$this->cache->clear_new_bb_items($this->bb_type);
@@ -422,6 +433,34 @@ class bb_items implements bb_items_interface
 			'S_BBCODE_IMG'		=> true,
 			'S_BBCODE_FLASH'	=> true,
 			'S_LINKS_ALLOWED'	=> true
+		]);
+	}
+
+	/**
+	* Version an item
+	*
+	* @param int $item_id Item ID
+	*/
+	public function version_item($item_id)
+	{
+		/** @var \vinabb\web\entities\bb_item_interface $entity */
+		$entity = $this->container->get('vinabb.web.entities.bb_item')->load($item_id);
+
+		/** @var \vinabb\web\operators\bb_item_version_interface $versions */
+		$versions = $this->container->get('vinabb.web.operators.bb_item_version')->get_versions($item_id);
+
+		$branches = array_keys($this->ext_helper->get_phpbb_versions());
+
+		foreach ($branches as $branch)
+		{
+			$this->template->assign_block_vars('branches', [
+				'NAME'	=> $branch
+			]);
+		}
+
+
+		$this->template->assign_vars([
+			'U_ACTION'	=> "{$this->u_action}&action=version&id={$item_id}"
 		]);
 	}
 

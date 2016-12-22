@@ -23,7 +23,6 @@
 		<th>{{ ITEM_NAME_LANG }}</th>
 		<th>{{ lang('CATEGORY') }}</th>
 		<th>{{ lang('VERSION') }}</th>
-		<th>{{ lang('PHPBB_VERSION') }}</th>
 		<th>{{ lang('ACTIONS') }}</th>
 	</tr>
 	</thead>
@@ -32,8 +31,7 @@
 	<tr>
 		<td style="text-align: center;">{{ item.NAME }}</td>
 		<td style="text-align: center;">{{ item.CATEGORY }}</td>
-		<td style="text-align: center;">{{ item.VERSION }}</td>
-		<td style="text-align: center;">{{ item.PHPBB_VERSION }}</td>
+		<td style="text-align: center;"><a href="{{ item.U_VERSION }}">{{ lang('VERSION') }}</a></td>
 		<td class="actions">
 			<a href="{{ item.U_EDIT }}">{{ ICON_EDIT }}</a>
 			<a href="{{ item.U_DELETE }}" data-ajax="row_delete">{{ ICON_DELETE }}</a>
@@ -41,7 +39,7 @@
 	</tr>
 	{% else %}
 	<tr class="row3">
-		<td colspan="5">{{ lang('ACP_NO_ITEMS') }}</td>
+		<td colspan="4">{{ lang('ACP_NO_ITEMS') }}</td>
 	</tr>
 	{% endfor %}
 	</tbody>

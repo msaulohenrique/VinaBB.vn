@@ -45,6 +45,13 @@ interface bb_items_interface
 	public function add_edit_data(\vinabb\web\entities\bb_item_interface $entity);
 
 	/**
+	* Version an item
+	*
+	* @param int $item_id Item ID
+	*/
+	public function version_item($item_id);
+
+	/**
 	* Delete an item
 	*
 	* @param int $item_id Item ID

@@ -66,6 +66,7 @@ services:
             - '@request'
             - '@template'
             - '@user'
+            - '@vinabb.web.helper'
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.acp.bb_authors:
