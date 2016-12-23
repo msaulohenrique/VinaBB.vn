@@ -46,6 +46,9 @@ class bb_items implements bb_items_interface
 	/** @var string $root_path */
 	protected $root_path;
 
+	/** @var string $admin_path */
+	protected $admin_path;
+
 	/** @var string $php_ext */
 	protected $php_ext;
 
@@ -83,6 +86,7 @@ class bb_items implements bb_items_interface
 	* @param \phpbb\user										$user			User object
 	* @param \vinabb\web\controllers\helper_interface			$ext_helper		Extension helper
 	* @param string												$root_path		phpBB root path
+	* @param string												$admin_path		ACP root path
 	* @param string												$php_ext		PHP file extension
 	*/
 	public function __construct(
@@ -96,6 +100,7 @@ class bb_items implements bb_items_interface
 		\phpbb\user $user,
 		\vinabb\web\controllers\helper_interface $ext_helper,
 		$root_path,
+		$admin_path,
 		$php_ext
 	)
 	{
@@ -107,9 +112,10 @@ class bb_items implements bb_items_interface
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
-		$this->root_path = $root_path;
-		$this->php_ext = $php_ext;
 		$this->ext_helper = $ext_helper;
+		$this->root_path = $root_path;
+		$this->admin_path = $admin_path;
+		$this->php_ext = $php_ext;
 	}
 
 	/**
@@ -147,8 +153,8 @@ class bb_items implements bb_items_interface
 				'ADDED'		=> $this->user->format_date($entity->get_added()),
 				'UPDATED'	=> $this->user->format_date($entity->get_updated()),
 
+				'U_VERSION'	=> append_sid("{$this->admin_path}index.{$this->php_ext}", "i=-vinabb-web-acp-bb_item_versions_module&mode=main&id={$entity->get_id()}"),
 				'U_EDIT'	=> "{$this->u_action}&action=edit&id={$entity->get_id()}",
-				'U_VERSION'	=> "{$this->u_action}&action=version&id={$entity->get_id()}",
 				'U_DELETE'	=> "{$this->u_action}&action=delete&id={$entity->get_id()}"
 			]);
 		}
@@ -500,7 +506,7 @@ class bb_items implements bb_items_interface
 	* @param int									$cat_id	Category ID
 	* @param string									$mode	Add or edit mode?
 	*/
-	protected function build_cat_options($entity, $cat_id = 0, $mode = 'edit')
+	protected function build_cat_options(\vinabb\web\entities\bb_item_interface $entity, $cat_id = 0, $mode = 'edit')
 	{
 		$options = $this->container->get('vinabb.web.operators.bb_category')->get_cats($this->bb_type);
 		$cat_id = ($mode == 'edit') ? $entity->get_cat_id() : $cat_id;
@@ -525,7 +531,7 @@ class bb_items implements bb_items_interface
 	* @param int									$author_id	Author ID
 	* @param string									$mode		Add or edit mode?
 	*/
-	protected function build_author_options($entity, $author_id = 0, $mode = 'edit')
+	protected function build_author_options(\vinabb\web\entities\bb_item_interface $entity, $author_id = 0, $mode = 'edit')
 	{
 		$options = $this->container->get('vinabb.web.operators.bb_author')->get_authors();
 		$author_id = ($mode == 'edit') ? $entity->get_author_id() : $author_id;

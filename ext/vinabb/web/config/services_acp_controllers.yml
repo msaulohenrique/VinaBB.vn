@@ -68,7 +68,19 @@ services:
             - '@user'
             - '@vinabb.web.helper'
             - '%core.root_path%'
+            - '%core.adm_relative_path%'
             - '%core.php_ext%'
+    vinabb.web.acp.bb_item_versions:
+        class: vinabb\web\controllers\acp\bb_item_versions
+        arguments:
+            - '@service_container'
+            - '@language'
+            - '@log'
+            - '@vinabb.web.operators.bb_item'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@vinabb.web.helper'
     vinabb.web.acp.bb_authors:
         class: vinabb\web\controllers\acp\bb_authors
         arguments:
