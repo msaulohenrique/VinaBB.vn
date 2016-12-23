@@ -58,6 +58,7 @@ class bb_item_versions_module
 		// Requests
 		$action = $this->request->variable('action', '');
 		$item_id = $this->request->variable('id', 0);
+		$branch = $this->request->variable('branch', '');
 
 		$this->controller->set_form_data([
 			'u_action'	=> $this->u_action,
@@ -78,14 +79,14 @@ class bb_item_versions_module
 			case 'edit':
 				$this->tpl_name = 'acp_bb_item_versions_edit';
 				$this->page_title = $this->language->lang('EDIT_VERSION');
-				$this->controller->edit_version($item_id);
+				$this->controller->edit_version($item_id, $branch);
 			// Return to stop execution of this script
 			return;
 
 			case 'delete':
 				if (confirm_box(true))
 				{
-					$this->controller->delete_version($item_id);
+					$this->controller->delete_version($item_id, $branch);
 				}
 				else
 				{
