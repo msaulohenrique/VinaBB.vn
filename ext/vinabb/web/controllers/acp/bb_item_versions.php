@@ -58,6 +58,9 @@ class bb_item_versions implements bb_item_versions_interface
 	/** @var int $item_id */
 	protected $item_id;
 
+	/** @var string $item_name */
+	protected $item_name;
+
 	/** @var array $data */
 	protected $data;
 
@@ -127,6 +130,10 @@ class bb_item_versions implements bb_item_versions_interface
 		$this->u_action = $data['u_action'] . "&id={$data['item_id']}";
 		$this->lang_key = strtoupper($data['mode']);
 		$this->item_id = $data['item_id'];
+
+		/** @var \vinabb\web\entities\bb_item_interface $item */
+		$item = $this->container->get('vinabb.web.entities.bb_item')->load($data['item_id']);
+		$this->item_name = $item->get_name();
 	}
 
 	/**
@@ -152,6 +159,7 @@ class bb_item_versions implements bb_item_versions_interface
 
 		$this->template->assign_vars([
 			'PAGE_TITLE_EXPLAIN'	=> $this->language->lang('ACP_BB_' . $this->lang_key . '_VERSIONS_EXPLAIN'),
+			'ITEM_NAME'				=> $this->item_name,
 			'ITEM_VERSION_LANG'		=> $this->language->lang($this->lang_key . '_VERSION'),
 
 			'U_ACTION'	=> "{$this->u_action}&action=add"
@@ -245,6 +253,7 @@ class bb_item_versions implements bb_item_versions_interface
 		$this->template->assign_vars([
 			'ERRORS'				=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
 			'PAGE_TITLE_EXPLAIN'	=> $this->language->lang('ACP_BB_' . $this->lang_key . '_VERSIONS_EXPLAIN'),
+			'ITEM_NAME'				=> $this->item_name,
 			'ITEM_VERSION_LANG'		=> $this->language->lang($this->lang_key . '_VERSION'),
 
 			'U_BACK'	=> $this->u_action
@@ -336,18 +345,18 @@ class bb_item_versions implements bb_item_versions_interface
 			// Save the edited entity to the database
 			$entity->save();
 
-			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_{$this->lang_key}_EDIT", time(), [$entity->get_version()]);
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_BB_{$this->lang_key}_VERSION_EDIT", time(), [$this->item_name . ' ' . $entity->get_version()]);
 
-			$message = "MESSAGE_BB_{$this->lang_key}_EDIT";
+			$message = 'MESSAGE_VERSION_EDIT';
 		}
 		else
 		{
 			// Add the new entity to the database
 			$entity = $this->operator->add_version($entity, $this->item_id, $this->data['phpbb_branch']);
 
-			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_{$this->lang_key}_ADD", time(), [$entity->get_version()]);
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_BB_{$this->lang_key}_VERSION_ADD", time(), [$this->item_name . ' ' . $entity->get_version()]);
 
-			$message = "MESSAGE_BB_{$this->lang_key}_ADD";
+			$message = 'MESSAGE_VERSION_ADD';
 		}
 
 		trigger_error($this->language->lang($message) . adm_back_link($this->u_action));
@@ -387,7 +396,7 @@ class bb_item_versions implements bb_item_versions_interface
 			trigger_error($this->language->lang("ERROR_{$this->lang_key}_DELETE", $e->get_message($this->language)) . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
-		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_{$this->lang_key}_DELETE", time(), [$entity->get_version()]);
+		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_BB_{$this->lang_key}_VERSION_DELETE", time(), [$this->item_name . ' ' . $entity->get_version()]);
 
 		// If AJAX was used, show user a result message
 		if ($this->request->is_ajax())
@@ -395,7 +404,7 @@ class bb_item_versions implements bb_item_versions_interface
 			$json_response = new \phpbb\json_response;
 			$json_response->send([
 				'MESSAGE_TITLE'	=> $this->language->lang('INFORMATION'),
-				'MESSAGE_TEXT'	=> $this->language->lang("MESSAGE_{$this->lang_key}_DELETE"),
+				'MESSAGE_TEXT'	=> $this->language->lang('MESSAGE_VERSION_DELETE'),
 				'REFRESH_DATA'	=> ['time'	=> 3]
 			]);
 		}
@@ -450,7 +459,7 @@ class bb_item_versions implements bb_item_versions_interface
 		$file = $this->upload->handle_upload('files.types.form', $form_name);
 
 		// Rename file
-		$file->clean_filename('avatar', date('Y-m-d-H-i-s_', time()), $this->user->data['user_id']);
+		$file->clean_filename('avatar', str_replace(' ', '', $this->item_name) . '_', $this->data['item_version']);
 
 		// If there was an error during upload, then abort operation
 		if (sizeof($file->error))
