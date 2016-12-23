@@ -44,7 +44,7 @@ class bb_item_versions_module
 	{
 		global $phpbb_container;
 
-		$this->controller = $phpbb_container->get('vinabb.web.acp.bb_items');
+		$this->controller = $phpbb_container->get('vinabb.web.acp.bb_item_versions');
 		$this->language = $phpbb_container->get('language');
 		$this->request = $phpbb_container->get('request');
 		$this->ext_helper = $phpbb_container->get('vinabb.web.helper');
@@ -55,7 +55,7 @@ class bb_item_versions_module
 
 		// ACP template file
 		$this->tpl_name = 'acp_bb_item_versions';
-		$this->page_title = $this->language->lang('ACP_BB_' . $lang_key . 'S');
+		$this->page_title = $this->language->lang('ACP_BB_' . $lang_key . '_VERSIONS');
 
 		// Language
 		$this->language->add_lang('acp_bb', 'vinabb/web');
@@ -76,14 +76,14 @@ class bb_item_versions_module
 		{
 			case 'add':
 				$this->tpl_name = 'acp_bb_item_versions_edit';
-				$this->page_title = $this->language->lang('ADD_BB_' . $lang_key);
+				$this->page_title = $this->language->lang('ADD_VERSION');
 				$this->controller->add_version();
 			// Return to stop execution of this script
 			return;
 
 			case 'edit':
 				$this->tpl_name = 'acp_bb_item_versions_edit';
-				$this->page_title = $this->language->lang('EDIT_BB_' . $lang_key);
+				$this->page_title = $this->language->lang('EDIT_VERSION');
 				$this->controller->edit_version($item_id);
 			// Return to stop execution of this script
 			return;
@@ -95,7 +95,7 @@ class bb_item_versions_module
 				}
 				else
 				{
-					confirm_box(false, $this->language->lang('CONFIRM_DELETE_BB_' . $lang_key), build_hidden_fields([
+					confirm_box(false, $this->language->lang('CONFIRM_DELETE_VERSION'), build_hidden_fields([
 						'i'			=> $id,
 						'mode'		=> $mode,
 						'action'	=> $action,
