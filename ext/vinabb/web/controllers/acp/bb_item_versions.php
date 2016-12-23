@@ -339,7 +339,7 @@ class bb_item_versions implements bb_item_versions_interface
 		else
 		{
 			// Add the new entity to the database
-			$entity = $this->operator->add_item($entity, $this->bb_type);
+			$entity = $this->operator->add_version($entity, $this->item_id, $this->data['phpbb_branch']);
 
 			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_{$this->lang_key}_ADD", time(), [$entity->get_name()]);
 
