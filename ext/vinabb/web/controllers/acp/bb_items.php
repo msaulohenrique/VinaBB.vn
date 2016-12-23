@@ -400,7 +400,7 @@ class bb_items implements bb_items_interface
 			// Save the edited entity to the database
 			$entity->save();
 
-			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_{$this->lang_key}_EDIT", time(), [$entity->get_name()]);
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_BB_{$this->lang_key}_EDIT", time(), [$entity->get_name()]);
 
 			$message = "MESSAGE_BB_{$this->lang_key}_EDIT";
 		}
@@ -409,7 +409,7 @@ class bb_items implements bb_items_interface
 			// Add the new entity to the database
 			$entity = $this->operator->add_item($entity, $this->bb_type);
 
-			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_{$this->lang_key}_ADD", time(), [$entity->get_name()]);
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_BB_{$this->lang_key}_ADD", time(), [$entity->get_name()]);
 
 			$message = "MESSAGE_BB_{$this->lang_key}_ADD";
 		}
@@ -470,7 +470,7 @@ class bb_items implements bb_items_interface
 			trigger_error($this->language->lang("ERROR_{$this->lang_key}_DELETE", $e->get_message($this->language)) . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
-		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_{$this->lang_key}_DELETE", time(), [$entity->get_name()]);
+		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_BB_{$this->lang_key}_DELETE", time(), [$entity->get_name()]);
 		$this->cache->clear_new_bb_items($this->bb_type);
 
 		// If AJAX was used, show user a result message
@@ -479,7 +479,7 @@ class bb_items implements bb_items_interface
 			$json_response = new \phpbb\json_response;
 			$json_response->send([
 				'MESSAGE_TITLE'	=> $this->language->lang('INFORMATION'),
-				'MESSAGE_TEXT'	=> $this->language->lang("MESSAGE_{$this->lang_key}_DELETE"),
+				'MESSAGE_TEXT'	=> $this->language->lang("MESSAGE_BB_{$this->lang_key}_DELETE"),
 				'REFRESH_DATA'	=> ['time'	=> 3]
 			]);
 		}
