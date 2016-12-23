@@ -11,6 +11,7 @@
 			<dt><label for="lang">{{ lang('LANGUAGE') ~ lang('COLON') }}</label></dt>
 			<dd>
 				<select name="lang" id="lang">
+					<option value="" selected>{{ lang('SELECT_LANGUAGE') }}</option>
 					{% for option in lang_options %}
 					<option value="{{ option.VALUE }}">{{ option.NAME }}</option>
 					{% endfor %}
@@ -69,9 +70,9 @@
 <script>
 	$(document).ready(function()
 	{
-		$('#lang').change(function()
+		$('#lang').on('change', function()
 		{
-			$('#submit').submit();
+			$('#submit').click();
 		});
 	});
 </script>

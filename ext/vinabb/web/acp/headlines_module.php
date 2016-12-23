@@ -105,7 +105,7 @@ class headlines_module
 		}
 
 		// Manage headlines
-		if (empty($lang))
+		if ($lang == '')
 		{
 			$this->controller->select_lang();
 		}
