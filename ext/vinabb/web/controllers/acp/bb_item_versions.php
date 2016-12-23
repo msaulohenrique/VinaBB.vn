@@ -383,7 +383,7 @@ class bb_item_versions implements bb_item_versions_interface
 	* @param int	$item_id		Item ID
 	* @param string	$phpbb_branch	phpBB branch
 	*/
-	public function delete_item($item_id, $phpbb_branch)
+	public function delete_version($item_id, $phpbb_branch)
 	{
 		/** @var \vinabb\web\entities\bb_item_version_interface $entity */
 		$entity = $this->container->get('vinabb.web.entities.bb_item_version')->load($item_id, $phpbb_branch);

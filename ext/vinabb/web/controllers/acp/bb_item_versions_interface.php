@@ -51,5 +51,5 @@ interface bb_item_versions_interface
 	* @param int	$item_id		Item ID
 	* @param string	$phpbb_branch	phpBB branch
 	*/
-	public function delete_item($item_id, $phpbb_branch);
+	public function delete_version($item_id, $phpbb_branch);
 }
