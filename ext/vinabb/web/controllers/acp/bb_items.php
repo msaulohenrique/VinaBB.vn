@@ -389,26 +389,6 @@ class bb_items implements bb_items_interface
 	}
 
 	/**
-	* Upload files and return their filenames to the form data
-	*
-	* @param \vinabb\web\entities\bb_item_interface $entity BB item entity
-	*/
-	protected function upload_data(\vinabb\web\entities\bb_item_interface $entity)
-	{
-		// If there are not any input errors, then begin to upload file
-		if ($this->can_upload() && $this->data['article_img']['name'] != '' && !sizeof($this->errors))
-		{
-			// Delete the old file if uploaded a new one
-			if ($this->data['article_img']['name'] != '' && $this->data['article_img']['name'] != $entity->get_img(true, false))
-			{
-				$this->filesystem->remove($entity->get_img(true));
-			}
-
-			$entity->set_img($this->upload_article_img('article_img'));
-		}
-	}
-
-	/**
 	* Insert or update data, then log actions and clear cache if needed
 	*
 	* @param \vinabb\web\entities\bb_item_interface $entity BB item entity
