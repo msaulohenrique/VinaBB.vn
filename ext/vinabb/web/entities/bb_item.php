@@ -249,21 +249,6 @@ class bb_item extends item_data implements bb_item_interface
 	}
 
 	/**
-	* Set the phpBB resource type
-	*
-	* @param int				$bb_type	phpBB resource type
-	* @return bb_item_interface	$this		Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\unexpected_value
-	*/
-	public function set_bb_type($bb_type)
-	{
-		// Set the value on our data array
-		$this->data['bb_type'] = (int) $bb_type;
-
-		return $this;
-	}
-
-	/**
 	* Get the category ID
 	*
 	* @return int

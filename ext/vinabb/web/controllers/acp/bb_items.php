@@ -305,6 +305,7 @@ class bb_items implements bb_items_interface
 	protected function request_data()
 	{
 		$this->data = [
+			'bb_type'			=> $this->bb_type,
 			'cat_id'			=> $this->request->variable('cat_id', 0),
 			'author_id'			=> $this->request->variable('author_id', 0),
 			'item_name'			=> $this->request->variable('item_name', '', true),
@@ -352,7 +353,6 @@ class bb_items implements bb_items_interface
 	protected function map_set_data(\vinabb\web\entities\bb_item_interface $entity)
 	{
 		$map_fields = [
-			'set_bb_type'	=> $this->bb_type,
 			'set_cat_id'	=> $this->data['cat_id'],
 			'set_author_id'	=> $this->data['author_id'],
 			'set_name'		=> $this->data['item_name'],
