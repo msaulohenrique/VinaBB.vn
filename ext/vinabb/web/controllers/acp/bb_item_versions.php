@@ -274,7 +274,7 @@ class bb_item_versions implements bb_item_versions_interface
 	{
 		$map_fields = [
 			'set_phpbb_version'	=> $this->data['phpbb_version'],
-			'set_version'	=> $this->data['item_version']
+			'set_version'		=> $this->data['item_version']
 		];
 
 		// Set the mapped data in the entity
@@ -332,7 +332,7 @@ class bb_item_versions implements bb_item_versions_interface
 			// Save the edited entity to the database
 			$entity->save();
 
-			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_{$this->lang_key}_EDIT", time(), [$entity->get_name()]);
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_{$this->lang_key}_EDIT", time(), [$entity->get_version()]);
 
 			$message = "MESSAGE_BB_{$this->lang_key}_EDIT";
 		}
@@ -341,7 +341,7 @@ class bb_item_versions implements bb_item_versions_interface
 			// Add the new entity to the database
 			$entity = $this->operator->add_version($entity, $this->item_id, $this->data['phpbb_branch']);
 
-			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_{$this->lang_key}_ADD", time(), [$entity->get_name()]);
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_{$this->lang_key}_ADD", time(), [$entity->get_version()]);
 
 			$message = "MESSAGE_BB_{$this->lang_key}_ADD";
 		}
@@ -383,7 +383,7 @@ class bb_item_versions implements bb_item_versions_interface
 			trigger_error($this->language->lang("ERROR_{$this->lang_key}_DELETE", $e->get_message($this->language)) . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
-		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_{$this->lang_key}_DELETE", time(), [$entity->get_name()]);
+		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_{$this->lang_key}_DELETE", time(), [$entity->get_version()]);
 
 		// If AJAX was used, show user a result message
 		if ($this->request->is_ajax())
