@@ -144,7 +144,8 @@ class bb_categories
 		}
 
 		$this->template->assign_vars([
-			'TOTAL_ITEMS_LANG'	=> $this->language->lang('TOTAL_' . $this->lang_key . 'S'),
+			'PAGE_TITLE_EXPLAIN'	=> $this->language->lang('ACP_BB_' . $this->lang_key . '_CATS'),
+			'TOTAL_ITEMS_LANG'		=> $this->language->lang('TOTAL_' . $this->lang_key . 'S'),
 
 			'U_ACTION'	=> "{$this->u_action}&action=add"
 		]);
@@ -225,7 +226,9 @@ class bb_categories
 		$this->data_to_tpl($entity);
 
 		$this->template->assign_vars([
-			'ERRORS'	=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
+			'ERRORS'				=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
+			'PAGE_TITLE_EXPLAIN'	=> $this->language->lang('ACP_BB_' . $this->lang_key . '_CATS'),
+
 			'U_BACK'	=> $this->u_action
 		]);
 	}

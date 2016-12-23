@@ -126,8 +126,8 @@ class bb_item_versions
 		}
 
 		$this->template->assign_vars([
-			'ADD_ITEM_LANG'		=> $this->language->lang('ADD_BB_' . $this->lang_key),
-			'ITEM_VERSION_LANG'	=> $this->language->lang($this->lang_key . '_VERSION'),
+			'PAGE_TITLE_EXPLAIN'	=> $this->language->lang('ACP_BB_' . $this->lang_key . '_VERSIONS_EXPLAIN'),
+			'ITEM_VERSION_LANG'		=> $this->language->lang($this->lang_key . '_VERSION'),
 
 			'U_ACTION'	=> "{$this->u_action}&action=add&id={$this->item_id}"
 		]);
@@ -215,8 +215,9 @@ class bb_item_versions
 		$this->data_to_tpl($entity);
 
 		$this->template->assign_vars([
-			'ERRORS'			=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
-			'ITEM_VERSION_LANG'	=> $this->language->lang($this->lang_key . '_VERSION'),
+			'ERRORS'				=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
+			'PAGE_TITLE_EXPLAIN'	=> $this->language->lang('ACP_BB_' . $this->lang_key . '_VERSIONS_EXPLAIN'),
+			'ITEM_VERSION_LANG'		=> $this->language->lang($this->lang_key . '_VERSION'),
 
 			'U_BACK'	=> $this->u_action
 		]);

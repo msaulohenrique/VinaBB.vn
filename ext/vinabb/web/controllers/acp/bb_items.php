@@ -160,8 +160,9 @@ class bb_items implements bb_items_interface
 		}
 
 		$this->template->assign_vars([
-			'ADD_ITEM_LANG'		=> $this->language->lang('ADD_BB_' . $this->lang_key),
-			'ITEM_NAME_LANG'	=> $this->language->lang($this->lang_key . '_NAME'),
+			'PAGE_TITLE_EXPLAIN'	=> $this->language->lang('ACP_BB_' . $this->lang_key . 'S_EXPLAIN'),
+			'ADD_ITEM_LANG'			=> $this->language->lang('ADD_BB_' . $this->lang_key),
+			'ITEM_NAME_LANG'		=> $this->language->lang($this->lang_key . '_NAME'),
 
 			'U_ACTION'	=> "{$this->u_action}&action=add"
 		]);
@@ -279,11 +280,12 @@ class bb_items implements bb_items_interface
 		$this->data_to_tpl($entity);
 
 		$this->template->assign_vars([
-			'ERRORS'			=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
-			'ITEM_DETAILS_LANG'	=> $this->language->lang($this->lang_key . '_DETAILS'),
-			'ITEM_NAME_LANG'	=> $this->language->lang($this->lang_key . '_NAME'),
-			'ITEM_VARNAME_LANG'	=> $this->language->lang($this->lang_key . '_VARNAME'),
-			'AUTHOR_LANG'		=> $this->language->lang(($this->bb_type == constants::BB_TYPE_STYLE || $this->bb_type == constants::BB_TYPE_ACP_STYLE) ? 'DESIGNER' : 'DEVELOPER'),
+			'ERRORS'				=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
+			'PAGE_TITLE_EXPLAIN'	=> $this->language->lang('ACP_BB_' . $this->lang_key . 'S_EXPLAIN'),
+			'ITEM_DETAILS_LANG'		=> $this->language->lang($this->lang_key . '_DETAILS'),
+			'ITEM_NAME_LANG'		=> $this->language->lang($this->lang_key . '_NAME'),
+			'ITEM_VARNAME_LANG'		=> $this->language->lang($this->lang_key . '_VARNAME'),
+			'AUTHOR_LANG'			=> $this->language->lang(($this->bb_type == constants::BB_TYPE_STYLE || $this->bb_type == constants::BB_TYPE_ACP_STYLE) ? 'DESIGNER' : 'DEVELOPER'),
 
 			'U_BACK'	=> $this->u_action
 		]);
