@@ -67,9 +67,6 @@ class bb_item_versions implements bb_item_versions_interface
 	/** @var string $ext_root_path */
 	protected $ext_root_path;
 
-	/** @var int $bb_type */
-	protected $bb_type;
-
 	/** @var string $lang_key */
 	protected $lang_key;
 
@@ -127,8 +124,7 @@ class bb_item_versions implements bb_item_versions_interface
 	*/
 	public function set_form_data($data)
 	{
-		$this->u_action = $data['u_action'];
-		$this->bb_type = $data['bb_type'];
+		$this->u_action = $data['u_action'] . "&id={$data['item_id']}";
 		$this->lang_key = strtoupper($data['mode']);
 		$this->item_id = $data['item_id'];
 	}
@@ -149,8 +145,8 @@ class bb_item_versions implements bb_item_versions_interface
 				'ITEM_VERSION'	=> $entity->get_version(),
 				'PRICE'			=> $entity->get_price(),
 
-				'U_EDIT'	=> "{$this->u_action}&action=edit&id={$entity->get_id()}&branch={$entity->get_phpbb_branch()}",
-				'U_DELETE'	=> "{$this->u_action}&action=delete&id={$entity->get_id()}&branch={$entity->get_phpbb_branch()}"
+				'U_EDIT'	=> "{$this->u_action}&action=edit&branch={$entity->get_phpbb_branch()}",
+				'U_DELETE'	=> "{$this->u_action}&action=delete&branch={$entity->get_phpbb_branch()}"
 			]);
 		}
 
@@ -158,7 +154,7 @@ class bb_item_versions implements bb_item_versions_interface
 			'PAGE_TITLE_EXPLAIN'	=> $this->language->lang('ACP_BB_' . $this->lang_key . '_VERSIONS_EXPLAIN'),
 			'ITEM_VERSION_LANG'		=> $this->language->lang($this->lang_key . '_VERSION'),
 
-			'U_ACTION'	=> "{$this->u_action}&action=add&id={$this->item_id}"
+			'U_ACTION'	=> "{$this->u_action}&action=add"
 		]);
 	}
 
@@ -179,7 +175,7 @@ class bb_item_versions implements bb_item_versions_interface
 
 		$this->template->assign_vars([
 			'S_ADD'		=> true,
-			'U_ACTION'	=> "{$this->u_action}&action=add&id={$this->item_id}"
+			'U_ACTION'	=> "{$this->u_action}&action=add"
 		]);
 	}
 
@@ -203,7 +199,7 @@ class bb_item_versions implements bb_item_versions_interface
 
 		$this->template->assign_vars([
 			'S_EDIT'	=> true,
-			'U_ACTION'	=> "{$this->u_action}&action=edit&id={$item_id}&branch={$phpbb_branch}"
+			'U_ACTION'	=> "{$this->u_action}&action=edit&branch={$phpbb_branch}"
 		]);
 	}
 
@@ -232,6 +228,9 @@ class bb_item_versions implements bb_item_versions_interface
 
 			// Map and set data to the entity
 			$this->map_set_data($entity);
+
+			// Upload files
+			$this->upload_data($entity);
 
 			// Insert or update
 			if (!sizeof($this->errors))
@@ -307,6 +306,11 @@ class bb_item_versions implements bb_item_versions_interface
 	*/
 	protected function upload_data(\vinabb\web\entities\bb_item_version_interface $entity)
 	{
+		if ($this->data['item_file']['name'] == '')
+		{
+			$this->errors[] = $this->language->lang('ERROR_ITEM_FILE_EMPTY');
+		}
+
 		// If there are not any input errors, then begin to upload file
 		if ($this->can_upload() && $this->data['item_file']['name'] != '' && !sizeof($this->errors))
 		{
