@@ -28,7 +28,7 @@ $lang = array_merge($lang, [
 	'ADD_BB_STYLE'		=> 'Thêm giao diện mới',
 	'ADD_BB_TOOL'		=> 'Thêm công cụ mới',
 	'ADD_CAT'			=> 'Tạo danh mục mới',
-	'ADD_VERSION'		=> 'Thêm nhánh phiên bản mới',
+	'ADD_VERSION'		=> 'Tạo nhánh phiên bản mới',
 	'AUTHOR_DETAILS'	=> 'Dữ liệu người phát triển',
 
 	'CAT_DESC'						=> 'Giới thiệu',
@@ -132,6 +132,7 @@ $lang = array_merge($lang, [
 	'ERROR_CAT_VARNAME_EMPTY'				=> 'Chưa nhập tên biến danh mục.',
 	'ERROR_CAT_VARNAME_INVALID'				=> 'Tên biến danh mục không hợp lệ.',
 	'ERROR_CAT_VARNAME_TOO_LONG'			=> 'Tên biến danh mục quá dài.',
+	'ERROR_ITEM_FILE_DISALLOWED_EXTENSION'	=> 'Loại tập tin “%s” không thể dùng làm tập tin phát hành.',
 	'ERROR_ITEM_FILE_EMPTY'					=> 'Chưa tải lên tập tin phát hành.',
 	'ERROR_PHPBB_VERSION_INVALID'			=> 'Phiên bản phpBB không hợp lệ.',
 	'EXT_VARNAME'							=> 'Tên định danh',
@@ -162,6 +163,9 @@ $lang = array_merge($lang, [
 	'MESSAGE_CAT_ADD'				=> 'Đã tạo danh mục.',
 	'MESSAGE_CAT_DELETE'			=> 'Đã xóa danh mục.',
 	'MESSAGE_CAT_EDIT'				=> 'Đã sửa danh mục.',
+	'MESSAGE_VERSION_ADD'			=> 'Đã tạo nhánh phiên bản.',
+	'MESSAGE_VERSION_DELETE'		=> 'Đã xóa nhánh phiên bản.',
+	'MESSAGE_VERSION_EDIT'			=> 'Đã sửa nhánh phiên bản.',
 
 	'STYLE_VARNAME'	=> 'Tên biến',
 

@@ -132,6 +132,7 @@ $lang = array_merge($lang, [
 	'ERROR_CAT_VARNAME_EMPTY'				=> 'You must enter a category varname.',
 	'ERROR_CAT_VARNAME_INVALID'				=> 'The category varname is invalid.',
 	'ERROR_CAT_VARNAME_TOO_LONG'			=> 'The category varname is too long.',
+	'ERROR_ITEM_FILE_DISALLOWED_EXTENSION'	=> 'The release’s file extension “%s” is not allowed.',
 	'ERROR_ITEM_FILE_EMPTY'					=> 'You must upload a release file.',
 	'ERROR_PHPBB_VERSION_INVALID'			=> 'The phpBB version is invalid.',
 	'EXT_VARNAME'							=> 'Package name',
@@ -162,6 +163,9 @@ $lang = array_merge($lang, [
 	'MESSAGE_CAT_ADD'				=> 'The category has been created.',
 	'MESSAGE_CAT_DELETE'			=> 'The category has been deleted.',
 	'MESSAGE_CAT_EDIT'				=> 'The category has been edited.',
+	'MESSAGE_VERSION_ADD'			=> 'The branch version has been created.',
+	'MESSAGE_VERSION_DELETE'		=> 'The branch version has been deleted.',
+	'MESSAGE_VERSION_EDIT'			=> 'The branch version has been edited.',
 
 	'STYLE_VARNAME'	=> 'Varname',
 
