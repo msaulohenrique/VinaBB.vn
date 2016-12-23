@@ -150,7 +150,15 @@ class bb_item_version implements bb_item_version_interface
 	public function insert($id, $branch)
 	{
 		// The entity already exists
-		if (!empty($this->data['item_id']) || $this->data['phpbb_branch'] != '')
+		$sql = 'SELECT 1
+			FROM ' . $this->table_name . '
+			WHERE item_id = ' . (int) $id . "
+				AND phpbb_branch = '" . $this->db->sql_escape($branch) . "'";
+		$result = $this->db->sql_query_limit($sql, 1);
+		$row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+
+		if ($row !== false)
 		{
 			throw new \vinabb\web\exceptions\out_of_bounds('item_id/phpbb_branch');
 		}
