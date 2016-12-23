@@ -28,6 +28,7 @@ $lang = array_merge($lang, [
 	'ADD_BB_STYLE'		=> 'Thêm giao diện mới',
 	'ADD_BB_TOOL'		=> 'Thêm công cụ mới',
 	'ADD_CAT'			=> 'Tạo danh mục mới',
+	'ADD_VERSION'		=> 'Thêm nhánh phiên bản mới',
 	'AUTHOR_DETAILS'	=> 'Dữ liệu người phát triển',
 
 	'CAT_DESC'						=> 'Giới thiệu',
@@ -42,6 +43,7 @@ $lang = array_merge($lang, [
 	'CONFIRM_DELETE_BB_STYLE'		=> 'Bạn chắc chắn muốn gỡ bỏ giao diện này?',
 	'CONFIRM_DELETE_BB_TOOL'		=> 'Bạn chắc chắn muốn gỡ bỏ công cụ này?',
 	'CONFIRM_DELETE_CAT'			=> 'Bạn chắc chắn muốn xóa danh mục này?',
+	'CONFIRM_DELETE_VERSION'		=> 'Bạn chắc chắn muốn xóa nhánh phiên bản này?',
 
 	'EDIT_AUTHOR'							=> 'Sửa người phát triển',
 	'EDIT_BB_ACP_STYLE'						=> 'Sửa giao diện',
@@ -50,6 +52,7 @@ $lang = array_merge($lang, [
 	'EDIT_BB_STYLE'							=> 'Sửa giao diện',
 	'EDIT_BB_TOOL'							=> 'Sửa công cụ',
 	'EDIT_CAT'								=> 'Sửa danh mục',
+	'EDIT_VERSION'							=> 'Sửa nhánh phiên bản',
 	'ERROR_AUTHOR_DELETE'					=> 'Không thể xóa người phát triển này. Lỗi: %s',
 	'ERROR_AUTHOR_EMAIL_INVALID_EMAIL'		=> 'Hộp thư người phát triển không hợp lệ.',
 	'ERROR_AUTHOR_FACEBOOK_INVALID'			=> 'Tên tài khoản Facebook không hợp lệ.',
@@ -116,6 +119,8 @@ $lang = array_merge($lang, [
 	'ERROR_CAT_VARNAME_TOO_LONG'			=> 'Tên biến danh mục quá dài.',
 	'EXT_VARNAME'							=> 'Tên định danh',
 
+	'ITEM_FILE'	=> 'Tập tin tải về',
+
 	'LANG_VARNAME'	=> 'Tên biến',
 
 	'MANAGE_VERSIONS'				=> 'Quản lý phiên bản',
@@ -149,5 +154,6 @@ $lang = array_merge($lang, [
 	'VERSION_BB_EXT'		=> 'Quản lý phiên bản gói mở rộng',
 	'VERSION_BB_LANG'		=> 'Quản lý phiên bản gói ngôn ngữ',
 	'VERSION_BB_STYLE'		=> 'Quản lý phiên bản giao diện',
-	'VERSION_BB_TOOL'		=> 'Quản lý phiên bản công cụ'
+	'VERSION_BB_TOOL'		=> 'Quản lý phiên bản công cụ',
+	'VERSION_DETAILS'		=> 'Dữ liệu nhánh phiên bản'
 ]);

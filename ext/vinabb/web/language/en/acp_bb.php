@@ -20,15 +20,16 @@ if (empty($lang) || !is_array($lang))
 */
 
 $lang = array_merge($lang, [
-	'ACP_STYLE_VARNAME'	=> 'Varname',
-	'ADD_AUTHOR'		=> 'Add new developer',
-	'ADD_BB_ACP_STYLE'	=> 'Add new style',
-	'ADD_BB_EXT'		=> 'Add new extension',
-	'ADD_BB_LANG'		=> 'Add new language package',
-	'ADD_BB_STYLE'		=> 'Add new style',
-	'ADD_BB_TOOL'		=> 'Add new tool',
-	'ADD_CAT'			=> 'Create new category',
-	'AUTHOR_DETAILS'	=> 'Author details',
+	'ACP_STYLE_VARNAME'			=> 'Varname',
+	'ADD_AUTHOR'				=> 'Add new developer',
+	'ADD_BB_ACP_STYLE'			=> 'Add new style',
+	'ADD_BB_EXT'				=> 'Add new extension',
+	'ADD_BB_LANG'				=> 'Add new language package',
+	'ADD_BB_STYLE'				=> 'Add new style',
+	'ADD_BB_TOOL'				=> 'Add new tool',
+	'ADD_CAT'					=> 'Create new category',
+	'ADD_VERSION'				=> 'Create new branch version',
+	'AUTHOR_DETAILS'			=> 'Author details',
 
 	'CAT_DESC'						=> 'Description',
 	'CAT_DETAILS'					=> 'Category details',
@@ -42,6 +43,7 @@ $lang = array_merge($lang, [
 	'CONFIRM_DELETE_BB_STYLE'		=> 'Are you sure you want to remove this style?',
 	'CONFIRM_DELETE_BB_TOOL'		=> 'Are you sure you want to remove this tool?',
 	'CONFIRM_DELETE_CAT'			=> 'Are you sure you want to delete this category?',
+	'CONFIRM_DELETE_VERSION'		=> 'Are you sure you want to delete this branch version?',
 
 	'EDIT_AUTHOR'							=> 'Edit developer',
 	'EDIT_BB_ACP_STYLE'						=> 'Edit style',
@@ -50,6 +52,7 @@ $lang = array_merge($lang, [
 	'EDIT_BB_STYLE'							=> 'Edit style',
 	'EDIT_BB_TOOL'							=> 'Edit tool',
 	'EDIT_CAT'								=> 'Edit category',
+	'EDIT_VERSION'							=> 'Edit branch version',
 	'ERROR_AUTHOR_DELETE'					=> 'Could not delete this developer. Error: %s',
 	'ERROR_AUTHOR_EMAIL_INVALID_EMAIL'		=> 'The developer email is invalid.',
 	'ERROR_AUTHOR_FACEBOOK_INVALID'			=> 'The Facebook account name is invalid.',
@@ -116,6 +119,8 @@ $lang = array_merge($lang, [
 	'ERROR_CAT_VARNAME_TOO_LONG'			=> 'The category varname is too long.',
 	'EXT_VARNAME'							=> 'Package name',
 
+	'ITEM_FILE'	=> 'Downloadable file',
+
 	'LANG_VARNAME'	=> 'Varname',
 
 	'MANAGE_VERSIONS'				=> 'Manage versions',
@@ -149,5 +154,6 @@ $lang = array_merge($lang, [
 	'VERSION_BB_EXT'		=> 'Manage extension versions',
 	'VERSION_BB_LANG'		=> 'Manage language package versions',
 	'VERSION_BB_STYLE'		=> 'Manage style versions',
-	'VERSION_BB_TOOL'		=> 'Manage tool versions'
+	'VERSION_BB_TOOL'		=> 'Manage tool versions',
+	'VERSION_DETAILS'		=> 'Branch details'
 ]);
