@@ -1,0 +1,41 @@
+{% include 'overall_header.html' %}
+
+<h1>{{ PAGE_TITLE }}</h1>
+<p>{{ PAGE_TITLE_EXPLAIN }}</p>
+
+<form id="acp_bb_item_versions" method="post" action="{{ U_ACTION }}">
+	<fieldset class="quick">
+		<input class="button2" type="submit" value="{{ lang('ADD_VERSION') }}">
+		<input type="hidden" name="action" value="add">
+	</fieldset>
+</form>
+
+<table class="table1 zebra-table">
+	<thead>
+	<tr>
+		<th>{{ ITEM_VERSION_LANG }}</th>
+		<th>{{ lang('PHPBB_VERSION') }}</th>
+		<th>{{ lang('PRICE') }}</th>
+		<th>{{ lang('ACTIONS') }}</th>
+	</tr>
+	</thead>
+	<tbody>
+	{% for version in versions %}
+	<tr>
+		<td style="text-align: center;">{{ version.VERSION }}</td>
+		<td style="text-align: center;">{{ version.PHPBB_VERSION }}</td>
+		<td style="text-align: center;">{{ version.PRICE }}</a></td>
+		<td class="actions">
+			<a href="{{ version.U_EDIT }}">{{ ICON_EDIT }}</a>
+			<a href="{{ version.U_DELETE }}" data-ajax="row_delete">{{ ICON_DELETE }}</a>
+		</td>
+	</tr>
+	{% else %}
+	<tr class="row3">
+		<td colspan="4">{{ lang('ACP_NO_ITEMS') }}</td>
+	</tr>
+	{% endfor %}
+	</tbody>
+</table>
+
+{% include 'overall_footer.html' %}

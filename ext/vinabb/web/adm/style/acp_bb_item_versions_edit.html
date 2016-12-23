@@ -1,0 +1,58 @@
+{% include 'overall_header.html' %}
+
+<a href="{{ U_BACK }}" style="float: {{ S_CONTENT_FLOW_END }};">&laquo; {{ lang('BACK') }}</a>
+
+<h1>{{ PAGE_TITLE }}</h1>
+<p>{{ PAGE_TITLE_EXPLAIN }}</p>
+
+{% if ERRORS %}
+<div class="errorbox">
+	<h3>{{ lang('WARNING') }}</h3>
+	<p>{{ ERRORS }}</p>
+</div>
+{% endif %}
+
+<form id="acp_bb_item_versions" method="post" action="{{ U_ACTION }}">
+	<fieldset>
+		<legend>{{ lang('VERSION_DETAILS') }}</legend>
+		<dl>
+			<dt><label for="item_version">{{ ITEM_VERSION_LANG ~ lang('COLON') }}</label></dt>
+			<dd><input class="text" type="text" name="item_version" id="item_version" value="{{ ITEM_VERSION }}" maxlength="255"></dd>
+		</dl>
+		<dl>
+			<dt><label for="phpbb_version">{{ lang('PHPBB_VERSION') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<select name="phpbb_version" id="phpbb_version">
+					<option value="0">{{ lang('NONE') }}</option>
+					{% for version in phpbb_versions %}
+					<option value="{{ version.ID }}"{% if version.S_SELECTED %} selected{% endif %}>{{ version.NAME }}</option>
+					{% endfor %}
+				</select>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="item_price">{{ lang('PRICE') ~ lang('COLON') }}</label></dt>
+			<dd><input type="number" name="item_price" id="item_price" min="0" value="{{ ITEM_PRICE }}"></dd>
+		</dl>
+	</fieldset>
+	<fieldset>
+		<legend>{{ lang('ITEM_FILE') }}</legend>
+		{% if ITEM_FILE %}
+		<dl>
+			<dt style="width: 150px;">{{ lang('CURRENT_FILE') ~ lang('COLON') }}</dt>
+			<dd style="margin-{{ S_CONTENT_FLOW_BEGIN }}: 150px;">{{ ITEM_FILE }}</dd>
+		</dl>
+		{% endif %}
+		<dl>
+			<dt style="width: 150px;"><label for="item_file">{{ lang('UPLOAD_NEW_FILE') ~ lang('COLON') }}</label></dt>
+			<dd style="margin-{{ S_CONTENT_FLOW_BEGIN }}: 150px;"><input class="inputbox autowidth" type="file" name="item_file" id="item_file"></dd>
+		</dl>
+	</fieldset>
+	<fieldset class="submit-buttons">
+		<input class="button1" type="submit" name="submit" value="{{ lang('SUBMIT') }}">
+		<input class="button2" type="reset" name="reset" value="{{ lang('RESET') }}">
+		{{ S_FORM_TOKEN }}
+	</fieldset>
+</form>
+
+{% include 'overall_footer.html' %}
