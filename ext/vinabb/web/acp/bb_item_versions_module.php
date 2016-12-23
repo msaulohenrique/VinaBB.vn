@@ -22,9 +22,6 @@ class bb_item_versions_module
 	/** @var \phpbb\request\request $request */
 	protected $request;
 
-	/** @var \vinabb\web\controllers\helper_interface $ext_helper */
-	protected $ext_helper;
-
 	/** @var string $tpl_name */
 	public $tpl_name;
 
@@ -47,10 +44,8 @@ class bb_item_versions_module
 		$this->controller = $phpbb_container->get('vinabb.web.acp.bb_item_versions');
 		$this->language = $phpbb_container->get('language');
 		$this->request = $phpbb_container->get('request');
-		$this->ext_helper = $phpbb_container->get('vinabb.web.helper');
 
 		// phpBB resource types
-		$bb_type = $this->ext_helper->get_bb_type_constants($mode);
 		$lang_key = strtoupper($mode);
 
 		// ACP template file
@@ -67,7 +62,6 @@ class bb_item_versions_module
 		$this->controller->set_form_data([
 			'u_action'	=> $this->u_action,
 			'mode'		=> $mode,
-			'bb_type'	=> $bb_type,
 			'item_id'	=> $item_id
 		]);
 
