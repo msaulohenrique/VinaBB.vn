@@ -266,8 +266,11 @@ class bb_item_versions implements bb_item_versions_interface
 	*/
 	protected function request_data()
 	{
+		$phpbb_version = $this->request->variable('phpbb_version', '');
+
 		$this->data = [
-			'phpbb_version'	=> $this->request->variable('phpbb_version', ''),
+			'phpbb_branch'	=> substr($phpbb_version, 0, strrpos($phpbb_version, '.')),
+			'phpbb_version'	=> $phpbb_version,
 			'item_version'	=> $this->request->variable('item_version', ''),
 			'item_file'		=> $this->request->file('item_file'),
 			'item_price'	=> $this->request->variable('item_price', 0)
