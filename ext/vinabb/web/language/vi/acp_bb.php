@@ -134,7 +134,9 @@ $lang = array_merge($lang, [
 	'ERROR_CAT_VARNAME_TOO_LONG'			=> 'Tên biến danh mục quá dài.',
 	'ERROR_ITEM_FILE_DISALLOWED_EXTENSION'	=> 'Loại tập tin “%s” không thể dùng làm tập tin phát hành.',
 	'ERROR_ITEM_FILE_EMPTY'					=> 'Chưa tải lên tập tin phát hành.',
-	'ERROR_PHPBB_VERSION_INVALID'			=> 'Phiên bản phpBB không hợp lệ.',
+	'ERROR_PHPBB_VERSION_EMPTY'				=> 'Chưa chọn phiên bản phpBB tối thiểu.',
+	'ERROR_PHPBB_VERSION_INVALID'			=> 'Phiên bản phpBB tối thiểu không hợp lệ.',
+	'ERROR_PHPBB_VERSION_TOO_LONG'			=> 'Phiên bản phpBB tối thiểu quá dài.',
 	'EXT_VARNAME'							=> 'Tên định danh',
 
 	'ITEM_FILE'	=> 'Tập tin tải về',

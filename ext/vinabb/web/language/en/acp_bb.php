@@ -134,7 +134,9 @@ $lang = array_merge($lang, [
 	'ERROR_CAT_VARNAME_TOO_LONG'			=> 'The category varname is too long.',
 	'ERROR_ITEM_FILE_DISALLOWED_EXTENSION'	=> 'The release’s file extension “%s” is not allowed.',
 	'ERROR_ITEM_FILE_EMPTY'					=> 'You must upload a release file.',
-	'ERROR_PHPBB_VERSION_INVALID'			=> 'The phpBB version is invalid.',
+	'ERROR_PHPBB_VERSION_EMPTY'				=> 'You must select a minimum phpBB version.',
+	'ERROR_PHPBB_VERSION_INVALID'			=> 'The minimum phpBB version is invalid.',
+	'ERROR_PHPBB_VERSION_TOO_LONG'			=> 'The minimum phpBB version is too long.',
 	'EXT_VARNAME'							=> 'Package name',
 
 	'ITEM_FILE'	=> 'Release file',
