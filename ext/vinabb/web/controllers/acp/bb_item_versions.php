@@ -14,10 +14,19 @@ use vinabb\web\includes\constants;
 /**
 * Controller for the bb_item_versions_module
 */
-class bb_item_versions
+class bb_item_versions implements bb_item_versions_interface
 {
+	/** @var \phpbb\config\config $config */
+	protected $config;
+
 	/** @var ContainerInterface $container */
 	protected $container;
+
+	/** @var \phpbb\extension\manager $ext_manager */
+	protected $ext_manager;
+
+	/** @var \phpbb\filesystem\filesystem_interface $filesystem */
+	protected $filesystem;
 
 	/** @var \phpbb\language\language $language */
 	protected $language;
@@ -33,6 +42,9 @@ class bb_item_versions
 
 	/** @var \phpbb\template\template $template */
 	protected $template;
+
+	/** @var \phpbb\files\upload $upload */
+	protected $upload;
 
 	/** @var \phpbb\user $user */
 	protected $user;
@@ -52,6 +64,9 @@ class bb_item_versions
 	/** @var array $errors Use [] because it will be merged to other arrays */
 	protected $errors = [];
 
+	/** @var string $ext_root_path */
+	protected $ext_root_path;
+
 	/** @var int $bb_type */
 	protected $bb_type;
 
@@ -61,34 +76,48 @@ class bb_item_versions
 	/**
 	* Constructor
 	*
+	* @param \phpbb\config\config								$config			Config object
 	* @param ContainerInterface									$container		Container object
+	* @param \phpbb\extension\manager							$ext_manager	Extension manager
+	* @param \phpbb\filesystem\filesystem_interface				$filesystem		Filesystem object
 	* @param \phpbb\language\language							$language		Language object
 	* @param \phpbb\log\log										$log			Log object
 	* @param \vinabb\web\operators\bb_item_version_interface	$operator		BB item version operators
 	* @param \phpbb\request\request								$request		Request object
 	* @param \phpbb\template\template							$template		Template object
+	* @param \phpbb\files\upload								$upload			Upload object
 	* @param \phpbb\user										$user			User object
 	* @param \vinabb\web\controllers\helper_interface			$ext_helper		Extension helper
 	*/
 	public function __construct(
+		\phpbb\config\config $config,
 		ContainerInterface $container,
+		\phpbb\extension\manager $ext_manager,
+		\phpbb\filesystem\filesystem_interface $filesystem,
 		\phpbb\language\language $language,
 		\phpbb\log\log $log,
 		\vinabb\web\operators\bb_item_version_interface $operator,
 		\phpbb\request\request $request,
 		\phpbb\template\template $template,
+		\phpbb\files\upload $upload,
 		\phpbb\user $user,
 		\vinabb\web\controllers\helper_interface $ext_helper
 	)
 	{
+		$this->config = $config;
 		$this->container = $container;
+		$this->ext_manager = $ext_manager;
+		$this->filesystem = $filesystem;
 		$this->language = $language;
 		$this->log = $log;
 		$this->operator = $operator;
 		$this->request = $request;
 		$this->template = $template;
+		$this->upload = $upload;
 		$this->user = $user;
 		$this->ext_helper = $ext_helper;
+
+		$this->ext_root_path = $this->ext_manager->get_extension_path('vinabb/web', true);
 	}
 
 	/**
@@ -274,7 +303,7 @@ class bb_item_versions
 	/**
 	* Upload files and return their filenames to the form data
 	*
-	* @param \vinabb\web\entities\bb_item_interface $entity BB item entity
+	* @param \vinabb\web\entities\bb_item_version_interface $entity BB item version entity
 	*/
 	protected function upload_data(\vinabb\web\entities\bb_item_version_interface $entity)
 	{
@@ -377,10 +406,8 @@ class bb_item_versions
 	*/
 	protected function build_phpbb_options(\vinabb\web\entities\bb_item_version_interface $entity, $phpbb_version = '', $mode = 'edit')
 	{
-		$options = $this->container->get('vinabb.web.operators.bb_category')->get_cats($this->bb_type);
 		$phpbb_version = ($mode == 'edit') ? $entity->get_phpbb_version() : $phpbb_version;
 
-		/** @var \vinabb\web\entities\bb_category_interface $option */
 		foreach ($this->ext_helper->get_phpbb_versions() as $branch => $branch_data)
 		{
 			foreach ($branch_data as $version => $version_data)
@@ -393,5 +420,65 @@ class bb_item_versions
 				]);
 			}
 		}
+	}
+
+	/**
+	* Check if we are able to upload a file
+	*
+	* @return bool
+	*/
+	protected function can_upload()
+	{
+		return (file_exists($this->ext_root_path . constants::DIR_BB_FILES) && $this->filesystem->is_writable($this->ext_root_path . constants::DIR_BB_FILES) && (ini_get('file_uploads') || strtolower(ini_get('file_uploads')) == 'on'));
+	}
+
+	/**
+	* Upload item file
+	*
+	* @return string Filename, empty if there are errors
+	*/
+	protected function upload_item_file($form_name)
+	{
+		$this->upload->set_error_prefix('ERROR_' . strtoupper($form_name) . '_')
+			->set_allowed_extensions(constants::FILE_EXTENSION_BB_FILES)
+			->set_disallowed_content((isset($this->config['mime_triggers']) ? explode('|', $this->config['mime_triggers']) : false));
+
+		$file = $this->upload->handle_upload('files.types.form', $form_name);
+
+		// Rename file
+		$file->clean_filename('avatar', date('Y-m-d-H-i-s_', time()), $this->user->data['user_id']);
+
+		// If there was an error during upload, then abort operation
+		if (sizeof($file->error))
+		{
+			$file->remove();
+			$this->errors = array_merge($this->errors, $file->error);
+
+			return '';
+		}
+
+		// Set new destination
+		$destination = $this->ext_helper->remove_trailing_slash($this->ext_root_path . constants::DIR_BB_FILES);
+
+		// Move file and overwrite any existing image
+		if (!sizeof($this->errors))
+		{
+			$file->move_file($destination, true);
+		}
+
+		// If there was an error during move, then clean up leftovers
+		if (sizeof($file->error))
+		{
+			$this->errors = array_merge($this->errors, $file->error);
+		}
+
+		if (sizeof($this->errors))
+		{
+			$file->remove();
+
+			return '';
+		}
+
+		return $file->get('realname');
 	}
 }

@@ -73,12 +73,16 @@ services:
     vinabb.web.acp.bb_item_versions:
         class: vinabb\web\controllers\acp\bb_item_versions
         arguments:
+            - '@config'
             - '@service_container'
+            - '@ext.manager'
+            - '@filesystem'
             - '@language'
             - '@log'
-            - '@vinabb.web.operators.bb_item'
+            - '@vinabb.web.operators.bb_item_version'
             - '@request'
             - '@template'
+            - '@files.upload'
             - '@user'
             - '@vinabb.web.helper'
     vinabb.web.acp.bb_authors:
