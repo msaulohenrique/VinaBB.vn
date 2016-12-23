@@ -127,6 +127,8 @@ services:
         shared: false
         arguments:
             - '@dbal.conn'
+            - '@ext.manager'
+            - '@path_helper'
             - '%vinabb.web.tables.bb_item_versions%'
     vinabb.web.entities.bb_author:
         class: vinabb\web\entities\bb_author

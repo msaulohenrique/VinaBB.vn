@@ -18,8 +18,20 @@ class bb_item_version implements bb_item_version_interface
 	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
 
+	/** @var \phpbb\extension\manager $ext_manager */
+	protected $ext_manager;
+
+	/** @var \phpbb\path_helper $path_helper */
+	protected $path_helper;
+
 	/** @var string $table_name */
 	protected $table_name;
+
+	/** @var string $ext_root_path */
+	protected $ext_root_path;
+
+	/** @var string $ext_web_path */
+	protected $ext_web_path;
 
 	/** @var array $data */
 	protected $data;
@@ -27,13 +39,20 @@ class bb_item_version implements bb_item_version_interface
 	/**
 	* Constructor
 	*
-	* @param \phpbb\db\driver\driver_interface	$db			Database object
-	* @param string								$table_name	Table name
+	* @param \phpbb\db\driver\driver_interface	$db				Database object
+	* @param \phpbb\extension\manager			$ext_manager	Extension manager
+	* @param \phpbb\path_helper					$path_helper	Path helper
+	* @param string								$table_name		Table name
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, $table_name)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\extension\manager $ext_manager, \phpbb\path_helper $path_helper, $table_name)
 	{
 		$this->db = $db;
+		$this->ext_manager = $ext_manager;
+		$this->path_helper = $path_helper;
 		$this->table_name = $table_name;
+
+		$this->ext_root_path = $this->ext_manager->get_extension_path('vinabb/web', true);
+		$this->ext_web_path = $this->path_helper->update_web_root_path($this->ext_root_path);
 	}
 
 	/**
