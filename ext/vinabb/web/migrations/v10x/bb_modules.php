@@ -42,6 +42,10 @@ class bb_modules extends migration
 				'modes'				=> ['ext', 'style', 'acp_style', 'lang', 'tool']
 			]]],
 			['module.add', ['acp', 'ACP_CAT_BB', [
+				'module_basename'	=> '\vinabb\web\acp\bb_item_versions_module',
+				'modes'				=> ['ext', 'style', 'acp_style', 'lang', 'tool']
+			]]],
+			['module.add', ['acp', 'ACP_CAT_BB', [
 				'module_basename'	=> '\vinabb\web\acp\bb_authors_module',
 				'modes'				=> ['main']
 			]]]
