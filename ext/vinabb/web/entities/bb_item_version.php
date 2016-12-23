@@ -251,7 +251,7 @@ class bb_item_version implements bb_item_version_interface
 		}
 
 		// Check invalid version numbers
-		if (!preg_match(constants::REGEX_VERSION_FULL, $text))
+		if (!preg_match(constants::REGEX_VERSION, $text))
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['phpbb_version', 'INVALID']);
 		}
