@@ -13,6 +13,11 @@ namespace vinabb\web\acp;
 */
 class settings_info
 {
+	/**
+	* Get module info
+	*
+	* @return array
+	*/
 	public function module()
 	{
 		return [
