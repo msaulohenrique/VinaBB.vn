@@ -471,7 +471,7 @@ class menus implements menus_interface
 	* @param int									$parent_id	Parent ID
 	* @param string									$mode		Add or edit mode?
 	*/
-	protected function build_parent_options($entity, $parent_id = 0, $mode = 'edit')
+	protected function build_parent_options(\vinabb\web\entities\menu_interface $entity, $parent_id = 0, $mode = 'edit')
 	{
 		$options = $this->operator->get_menus();
 		$parent_id = ($mode == 'edit') ? $entity->get_parent_id() : $parent_id;

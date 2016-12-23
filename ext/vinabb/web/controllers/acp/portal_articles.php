@@ -467,7 +467,7 @@ class portal_articles implements portal_articles_interface
 	* @param int											$cat_id	Category ID
 	* @param string											$mode	Add or edit mode?
 	*/
-	protected function build_cat_options($entity, $cat_id = 0, $mode = 'edit')
+	protected function build_cat_options(\vinabb\web\entities\portal_article_interface $entity, $cat_id = 0, $mode = 'edit')
 	{
 		$options = $this->container->get('vinabb.web.operators.portal_category')->get_cats();
 		$cat_id = ($mode == 'edit') ? $entity->get_cat_id() : $cat_id;
