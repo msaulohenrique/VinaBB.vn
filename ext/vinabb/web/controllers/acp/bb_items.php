@@ -52,6 +52,9 @@ class bb_items implements bb_items_interface
 	/** @var string $php_ext */
 	protected $php_ext;
 
+	/** @var string $mode */
+	protected $mode;
+
 	/** @var string $u_action */
 	protected $u_action;
 
@@ -125,6 +128,7 @@ class bb_items implements bb_items_interface
 	*/
 	public function set_form_data($data)
 	{
+		$this->mode = $data['mode'];
 		$this->u_action = $data['u_action'];
 		$this->bb_type = $data['bb_type'];
 		$this->lang_key = strtoupper($data['mode']);
@@ -153,7 +157,7 @@ class bb_items implements bb_items_interface
 				'ADDED'		=> $this->user->format_date($entity->get_added()),
 				'UPDATED'	=> $this->user->format_date($entity->get_updated()),
 
-				'U_VERSION'	=> append_sid("{$this->admin_path}index.{$this->php_ext}", "i=-vinabb-web-acp-bb_item_versions_module&mode=main&id={$entity->get_id()}"),
+				'U_VERSION'	=> append_sid("index.{$this->php_ext}", "i=-vinabb-web-acp-bb_item_versions_module&mode={$this->mode}&id={$entity->get_id()}"),
 				'U_EDIT'	=> "{$this->u_action}&action=edit&id={$entity->get_id()}",
 				'U_DELETE'	=> "{$this->u_action}&action=delete&id={$entity->get_id()}"
 			]);
