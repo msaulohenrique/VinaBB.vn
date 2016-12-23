@@ -294,8 +294,8 @@ class team implements team_interface
 							'GROUP_COLOR'	=> $groups_ary[$row['default_group']]['group_colour'],
 							'U_GROUP'		=> $groups_ary[$row['default_group']]['u_group'],
 
-							//'RANK_IMG'		=> $user_rank_data['img'],
-							//'RANK_IMG_SRC'	=> $user_rank_data['img_src'],
+							'RANK_IMG'		=> $user_rank_data['img'],
+							'RANK_IMG_SRC'	=> $user_rank_data['img_src'],
 
 							'S_INACTIVE'	=> $row['user_type'] == USER_INACTIVE,
 
