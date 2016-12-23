@@ -17,13 +17,13 @@
 		<legend>{{ lang('VERSION_DETAILS') }}</legend>
 		<dl>
 			<dt><label for="item_version">{{ ITEM_VERSION_LANG ~ lang('COLON') }}</label></dt>
-			<dd><input class="text" type="text" name="item_version" id="item_version" value="{{ ITEM_VERSION }}" maxlength="255"></dd>
+			<dd><input class="text" type="text" name="item_version" id="item_version" value="{{ ITEM_VERSION }}" maxlength="{{ MAX_VERSION_NUMBER }}"></dd>
 		</dl>
 		<dl>
 			<dt><label for="phpbb_version">{{ lang('PHPBB_VERSION') ~ lang('COLON') }}</label></dt>
 			<dd>
 				<select name="phpbb_version" id="phpbb_version">
-					<option value="0">{{ lang('NONE') }}</option>
+					<option value="">{{ lang('SELECT_PHPBB_VERSION') }}</option>
 					{% for version in phpbb_versions %}
 					<option value="{{ version.ID }}"{% if version.S_SELECTED %} selected{% endif %}>{{ version.NAME }}</option>
 					{% endfor %}

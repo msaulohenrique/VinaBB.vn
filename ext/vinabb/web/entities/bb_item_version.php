@@ -245,7 +245,7 @@ class bb_item_version implements bb_item_version_interface
 		}
 
 		// Check the max length
-		if (utf8_strlen($text) > constants::MAX_CONFIG_NAME)
+		if (utf8_strlen($text) > constants::MAX_VERSION_NUMBER)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['phpbb_version', 'TOO_LONG']);
 		}
@@ -290,7 +290,7 @@ class bb_item_version implements bb_item_version_interface
 		}
 
 		// Check the max length
-		if (utf8_strlen($text) > constants::MAX_CONFIG_NAME)
+		if (utf8_strlen($text) > constants::MAX_VERSION_NUMBER)
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['item_version', 'TOO_LONG']);
 		}

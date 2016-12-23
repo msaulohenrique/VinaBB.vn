@@ -110,6 +110,7 @@ class constants
 
 	// Maximum length
 	const MAX_CONFIG_NAME = 255;
+	const MAX_VERSION_NUMBER = 20;
 	const MAX_PORTAL_CAT_NAME = 32;
 	const MAX_PORTAL_CAT_VARNAME = 16;
 	const MAX_PORTAL_ARTICLE_NAME = 64;

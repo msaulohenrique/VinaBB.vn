@@ -121,9 +121,9 @@ class bb_schema extends migration
 		return [
 			'COLUMNS' => [
 				'item_id'			=> ['UINT', 0],
-				'phpbb_branch'		=> ['VCHAR', ''],
-				'phpbb_version'		=> ['VCHAR', ''],
-				'item_version'		=> ['VCHAR', ''],
+				'phpbb_branch'		=> ['VCHAR:20', ''],
+				'phpbb_version'		=> ['VCHAR:20', ''],
+				'item_version'		=> ['VCHAR:20', ''],
 				'item_file'			=> ['VCHAR', ''],
 				'item_price'		=> ['ULINT', 0],
 				'item_downloads'	=> ['ULINT', 0]

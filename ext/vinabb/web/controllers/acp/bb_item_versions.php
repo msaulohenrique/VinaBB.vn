@@ -252,6 +252,7 @@ class bb_item_versions implements bb_item_versions_interface
 
 		$this->template->assign_vars([
 			'ERRORS'				=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
+			'MAX_VERSION_NUMBER'	=> constants::MAX_VERSION_NUMBER,
 			'PAGE_TITLE_EXPLAIN'	=> $this->language->lang('ACP_BB_' . $this->lang_key . '_VERSIONS_EXPLAIN'),
 			'ITEM_NAME'				=> $this->item_name,
 			'ITEM_VERSION_LANG'		=> $this->language->lang($this->lang_key . '_VERSION'),
