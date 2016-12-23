@@ -13,7 +13,7 @@ use phpbb\db\migration\migration;
 /**
 * Add ACP modules for phpBB Resource
 */
-class bb_modules extends migration
+class bb_modules_p2 extends migration
 {
 	/**
 	* List of required migrations
@@ -22,7 +22,7 @@ class bb_modules extends migration
 	*/
 	static public function depends_on()
 	{
-		return ['\vinabb\web\migrations\v10x\bb_categories'];
+		return ['\vinabb\web\migrations\v10x\bb_modules'];
 	}
 
 	/**
@@ -34,16 +34,8 @@ class bb_modules extends migration
 	{
 		return [
 			['module.add', ['acp', 'ACP_CAT_BB', [
-				'module_basename'	=> '\vinabb\web\acp\bb_categories_module',
-				'modes' 			=> ['ext', 'style', 'acp_style', 'lang', 'tool']
-			]]],
-			['module.add', ['acp', 'ACP_CAT_BB', [
-				'module_basename'	=> '\vinabb\web\acp\bb_items_module',
+				'module_basename'	=> '\vinabb\web\acp\bb_item_versions_module',
 				'modes'				=> ['ext', 'style', 'acp_style', 'lang', 'tool']
-			]]],
-			['module.add', ['acp', 'ACP_CAT_BB', [
-				'module_basename'	=> '\vinabb\web\acp\bb_authors_module',
-				'modes'				=> ['main']
 			]]]
 		];
 	}
