@@ -291,11 +291,15 @@ class bb_item_version implements bb_item_version_interface
 	/**
 	* Get the item's downloadable file
 	*
+	* @param bool	$real_path	True to return the path on filesystem, false to return the web access path
+	* @param bool	$full_path	True to return the path + filename, false to return only filename
 	* @return string
 	*/
-	public function get_file()
+	public function get_file($real_path = false, $full_path = true)
 	{
-		return isset($this->data['item_file']) ? (string) $this->data['item_file'] : '';
+		$path = $full_path ? ($real_path ? $this->ext_root_path : $this->ext_web_path) . constants::DIR_BB_FILES : '';
+
+		return !empty($this->data['item_file']) ? (string) $path . $this->data['item_file'] : '';
 	}
 
 	/**

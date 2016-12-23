@@ -108,9 +108,11 @@ interface bb_item_version_interface
 	/**
 	* Get the item's downloadable file
 	*
+	* @param bool	$real_path	True to return the path on filesystem, false to return the web access path
+	* @param bool	$full_path	True to return the path + filename, false to return only filename
 	* @return string
 	*/
-	public function get_file();
+	public function get_file($real_path = false, $full_path = true);
 
 	/**
 	* Set the item's downloadable file
