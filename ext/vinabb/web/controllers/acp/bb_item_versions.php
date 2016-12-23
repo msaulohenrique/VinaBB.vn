@@ -192,7 +192,7 @@ class bb_item_versions implements bb_item_versions_interface
 	public function edit_version($item_id, $phpbb_branch)
 	{
 		// Initiate and load the entity
-		/** @var \vinabb\web\entities\bb_item_interface $entity */
+		/** @var \vinabb\web\entities\bb_item_version_interface $entity */
 		$entity = $this->container->get('vinabb.web.entities.bb_item_version')->load($item_id, $phpbb_branch);
 
 		// Process the edited entity
