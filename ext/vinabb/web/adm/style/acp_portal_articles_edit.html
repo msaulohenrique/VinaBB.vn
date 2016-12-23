@@ -25,7 +25,7 @@
 		<legend>{{ lang('ARTICLE_DETAILS') }}</legend>
 		<dl>
 			<dt><label for="article_name">{{ lang('ARTICLE_NAME') ~ lang('COLON') }}</label></dt>
-			<dd><input type="text" name="article_name" id="article_name" value="{{ ARTICLE_NAME }}" size="40" maxlength="255"></dd>
+			<dd><input class="text medium" type="text" name="article_name" id="article_name" value="{{ ARTICLE_NAME }}" maxlength="255"></dd>
 		</dl>
 		<dl>
 			<dt><label for="cat_id">{{ lang('CATEGORY') ~ lang('COLON') }}</label></dt>
@@ -58,7 +58,7 @@
 		{% if ARTICLE_IMG %}
 		<dl>
 			<dt style="width: 120px;">{{ lang('CURRENT_IMAGE') ~ lang('COLON') }}</dt>
-			<dd style="margin-{{ S_CONTENT_FLOW_BEGIN }}: 120px;"><img src="{{ ARTICLE_IMG }}"></dd>
+			<dd style="margin-{{ S_CONTENT_FLOW_BEGIN }}: 120px;"><img src="{{ ARTICLE_IMG }}" alt="{{ lang('IMAGE') }}"></dd>
 		</dl>
 		{% endif %}
 		<dl>
