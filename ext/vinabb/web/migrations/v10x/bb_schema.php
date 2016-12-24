@@ -128,9 +128,7 @@ class bb_schema extends migration
 				'item_price'		=> ['ULINT', 0],
 				'item_downloads'	=> ['ULINT', 0]
 			],
-			'KEYS' => [
-				'i_id'	=> ['INDEX', 'item_id']
-			]
+			'PRIMARY_KEY' => ['item_id', 'phpbb_branch']
 		];
 	}
 
