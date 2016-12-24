@@ -92,6 +92,7 @@ $lang = array_merge($lang, [
 		2	=> '%d công cụ'
 	],
 	'CURRENCY'				=> 'Tiền tệ',
+	'CURRENT_FILE'			=> 'Tập tin hiện tại',
 	'CURRENT_IMAGE'			=> 'Hình hiện tại',
 
 	'DEBUG'				=> 'Dò lỗi',

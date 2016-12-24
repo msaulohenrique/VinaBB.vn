@@ -92,6 +92,7 @@ $lang = array_merge($lang, [
 		2	=> '%d tools'
 	],
 	'CURRENCY'				=> 'Currency',
+	'CURRENT_FILE'			=> 'Current file',
 	'CURRENT_IMAGE'			=> 'Current image',
 
 	'DEBUG'				=> 'Debug',
