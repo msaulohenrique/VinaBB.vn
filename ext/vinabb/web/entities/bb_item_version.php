@@ -370,6 +370,21 @@ class bb_item_version implements bb_item_version_interface
 	}
 
 	/**
+	* Set the item price
+	*
+	* @param string						$value	Item price
+	* @return bb_item_version_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_price($value)
+	{
+		// Set the value on our data array
+		$this->data['item_price'] = (int) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get the number of downloads
 	*
 	* @return int

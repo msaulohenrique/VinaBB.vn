@@ -298,7 +298,8 @@ class bb_item_versions implements bb_item_versions_interface
 	{
 		$map_fields = [
 			'set_phpbb_version'	=> $this->data['phpbb_version'],
-			'set_version'		=> $this->data['item_version']
+			'set_version'		=> $this->data['item_version'],
+			'set_price'			=> $this->data['item_price']
 		];
 
 		// Set the mapped data in the entity
