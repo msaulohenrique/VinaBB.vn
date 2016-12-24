@@ -52,6 +52,9 @@ class bb_item_versions implements bb_item_versions_interface
 	/** @var \vinabb\web\controllers\helper_interface $ext_helper */
 	protected $ext_helper;
 
+	/** @var string $mode */
+	protected $mode;
+
 	/** @var string $u_action */
 	protected $u_action;
 
@@ -69,6 +72,9 @@ class bb_item_versions implements bb_item_versions_interface
 
 	/** @var string $ext_root_path */
 	protected $ext_root_path;
+
+	/** @var string $upload_dir_path */
+	protected $upload_dir_path;
 
 	/** @var string $lang_key */
 	protected $lang_key;
@@ -127,6 +133,7 @@ class bb_item_versions implements bb_item_versions_interface
 	*/
 	public function set_form_data($data)
 	{
+		$this->mode = $data['mode'];
 		$this->u_action = $data['u_action'] . "&id={$data['item_id']}";
 		$this->lang_key = strtoupper($data['mode']);
 		$this->item_id = $data['item_id'];
@@ -134,6 +141,8 @@ class bb_item_versions implements bb_item_versions_interface
 		/** @var \vinabb\web\entities\bb_item_interface $item */
 		$item = $this->container->get('vinabb.web.entities.bb_item')->load($data['item_id']);
 		$this->item_name = $item->get_name();
+
+		$this->upload_dir_path = $this->ext_root_path . constants::DIR_BB_FILES . $data['mode'] . 's/';
 	}
 
 	/**
@@ -328,9 +337,9 @@ class bb_item_versions implements bb_item_versions_interface
 		if ($this->can_upload() && $this->data['item_file']['name'] != '' && !sizeof($this->errors))
 		{
 			// Delete the old file if uploaded a new one
-			if ($this->data['item_file']['name'] != '' && $this->data['item_file']['name'] != $entity->get_file(true, false))
+			if ($this->data['item_file']['name'] != '' && $this->data['item_file']['name'] != $entity->get_file($this->mode, true, false))
 			{
-				$this->filesystem->remove($entity->get_file(true));
+				$this->filesystem->remove($entity->get_file($this->mode, true));
 			}
 
 			$entity->set_file($this->upload_item_file('item_file'));
@@ -446,7 +455,7 @@ class bb_item_versions implements bb_item_versions_interface
 	*/
 	protected function can_upload()
 	{
-		return (file_exists($this->ext_root_path . constants::DIR_BB_FILES) && $this->filesystem->is_writable($this->ext_root_path . constants::DIR_BB_FILES) && (ini_get('file_uploads') || strtolower(ini_get('file_uploads')) == 'on'));
+		return (file_exists($this->upload_dir_path) && $this->filesystem->is_writable($this->upload_dir_path) && (ini_get('file_uploads') || strtolower(ini_get('file_uploads')) == 'on'));
 	}
 
 	/**
@@ -475,7 +484,7 @@ class bb_item_versions implements bb_item_versions_interface
 		}
 
 		// Set new destination
-		$destination = $this->ext_helper->remove_trailing_slash($this->ext_root_path . constants::DIR_BB_FILES);
+		$destination = $this->ext_helper->remove_trailing_slash($this->upload_dir_path);
 
 		// Move file and overwrite any existing image
 		if (!sizeof($this->errors))
