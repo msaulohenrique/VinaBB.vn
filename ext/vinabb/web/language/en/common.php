@@ -297,6 +297,7 @@ $lang = array_merge($lang, [
 	'PAYPAL'					=> 'PayPal',
 	'PHONE'						=> 'Phone',
 	'PHP_VERSION_X'				=> 'PHP %s',
+	'PHPBB_BRANCH'				=> 'phpBB branch',
 	'PHPBB_COM'					=> 'phpBB.com',
 	'PHPBB_IVN_EXPLAIN'			=> 'Vietnamese language package for phpBB.',
 	'PHPBB_IVN_VERSION_X'		=> 'phpBB iVN %s',
