@@ -158,7 +158,9 @@ class bb_item_versions implements bb_item_versions_interface
 		{
 			$this->template->assign_block_vars('versions', [
 				'PHPBB_VERSION'	=> $entity->get_phpbb_version(),
-				'ITEM_VERSION'	=> $entity->get_version(),
+				'VERSION'		=> $entity->get_version(),
+				'FILE'			=> $entity->get_file($this->mode, true, true),
+				'FILENAME'		=> $entity->get_file($this->mode, true, false),
 				'PRICE'			=> $entity->get_price(),
 
 				'U_EDIT'	=> "{$this->u_action}&action=edit&branch={$entity->get_phpbb_branch()}",
@@ -385,6 +387,8 @@ class bb_item_versions implements bb_item_versions_interface
 		$this->template->assign_vars([
 			'PHPBB_VERSION'	=> $entity->get_phpbb_version(),
 			'ITEM_VERSION'	=> $entity->get_version(),
+			'ITEM_FILE'		=> $entity->get_file($this->mode, true, true),
+			'ITEM_FILENAME'	=> $entity->get_file($this->mode, true, false),
 			'ITEM_PRICE'	=> $entity->get_price()
 		]);
 	}
