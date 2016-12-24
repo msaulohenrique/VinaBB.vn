@@ -24,8 +24,12 @@
 			<dd>
 				<select name="phpbb_version" id="phpbb_version">
 					<option value="">{{ lang('SELECT_PHPBB_VERSION') }}</option>
-					{% for version in phpbb_versions %}
-					<option value="{{ version.ID }}"{% if version.S_SELECTED %} selected{% endif %}>{{ version.NAME }}</option>
+					{% for branch in branches %}
+					<optgroup label="{{ branch.NAME }}">
+						{% for version in branch.versions %}
+						<option value="{{ version.ID }}"{% if version.S_SELECTED %} selected{% endif %}>{{ version.NAME }}</option>
+						{% endfor %}
+					</optgroup>
 					{% endfor %}
 				</select>
 			</dd>

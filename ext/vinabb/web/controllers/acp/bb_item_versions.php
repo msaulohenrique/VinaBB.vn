@@ -157,6 +157,7 @@ class bb_item_versions implements bb_item_versions_interface
 		foreach ($entities as $entity)
 		{
 			$this->template->assign_block_vars('versions', [
+				'PHPBB_BRANCH'	=> $entity->get_phpbb_branch(),
 				'PHPBB_VERSION'	=> $entity->get_phpbb_version(),
 				'VERSION'		=> $entity->get_version(),
 				'FILE'			=> $entity->get_file($this->mode, true, true),
@@ -438,16 +439,38 @@ class bb_item_versions implements bb_item_versions_interface
 	{
 		$phpbb_version = ($mode == 'edit') ? $entity->get_phpbb_version() : $phpbb_version;
 
+		// Get existing branch versions
+		$existing_branches = [];
+		$branch_versions = $this->operator->get_versions($this->item_id);
+
+		/** @var \vinabb\web\entities\bb_item_version_interface $branch_version */
+		foreach ($branch_versions as $branch_version)
+		{
+			$existing_branches[] = $branch_version->get_phpbb_branch();
+		}
+
+		if ($mode == 'edit')
+		{
+			unset($existing_branches[array_search($entity->get_phpbb_branch(), $existing_branches)]);
+		}
+
 		foreach ($this->ext_helper->get_phpbb_versions() as $branch => $branch_data)
 		{
-			foreach ($branch_data as $version => $version_data)
+			if (!in_array($branch, $existing_branches))
 			{
-				$this->template->assign_block_vars('phpbb_versions', [
-					'ID'		=> $version,
-					'NAME'		=> $version_data['name'],
-
-					'S_SELECTED'	=> $version == $phpbb_version
+				$this->template->assign_block_vars('branches', [
+					'NAME'	=> $branch
 				]);
+
+				foreach ($branch_data as $version => $version_data)
+				{
+					$this->template->assign_block_vars('branches.versions', [
+						'ID'	=> $version,
+						'NAME'	=> $version_data['name'],
+
+						'S_SELECTED'	=> $version == $phpbb_version
+					]);
+				}
 			}
 		}
 	}
