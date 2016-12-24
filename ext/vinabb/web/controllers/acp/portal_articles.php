@@ -73,6 +73,9 @@ class portal_articles implements portal_articles_interface
 	/** @var string $ext_root_path */
 	protected $ext_root_path;
 
+	/** @var string $upload_dir_path */
+	protected $upload_dir_path;
+
 	/** @var array $lang_data */
 	protected $lang_data;
 
@@ -133,6 +136,7 @@ class portal_articles implements portal_articles_interface
 		$this->php_ext = $php_ext;
 
 		$this->ext_root_path = $this->ext_manager->get_extension_path('vinabb/web', true);
+		$this->upload_dir_path = $this->ext_root_path . constants::DIR_ARTICLE_IMAGES;
 		$this->lang_data = $this->cache->get_lang_data();
 		$this->cat_data = $this->cache->get_portal_cats();
 	}
@@ -508,7 +512,7 @@ class portal_articles implements portal_articles_interface
 	*/
 	protected function can_upload()
 	{
-		return (file_exists($this->ext_root_path . constants::DIR_ARTICLE_IMAGES) && $this->filesystem->is_writable($this->ext_root_path . constants::DIR_ARTICLE_IMAGES) && (ini_get('file_uploads') || strtolower(ini_get('file_uploads')) == 'on'));
+		return (file_exists($this->upload_dir_path) && $this->filesystem->is_writable($this->upload_dir_path) && (ini_get('file_uploads') || strtolower(ini_get('file_uploads')) == 'on'));
 	}
 
 	/**
@@ -537,7 +541,7 @@ class portal_articles implements portal_articles_interface
 		}
 
 		// Set new destination
-		$destination = $this->ext_helper->remove_trailing_slash($this->ext_root_path . constants::DIR_ARTICLE_IMAGES);
+		$destination = $this->ext_helper->remove_trailing_slash($this->upload_dir_path);
 
 		// Move file and overwrite any existing image
 		if (!sizeof($this->errors))

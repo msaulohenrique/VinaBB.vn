@@ -70,6 +70,9 @@ class headlines implements headlines_interface
 	/** @var string $ext_root_path */
 	protected $ext_root_path;
 
+	/** @var string $upload_dir_path */
+	protected $upload_dir_path;
+
 	/** @var array $lang_data */
 	protected $lang_data;
 
@@ -121,6 +124,7 @@ class headlines implements headlines_interface
 		$this->ext_helper = $ext_helper;
 
 		$this->ext_root_path = $this->ext_manager->get_extension_path('vinabb/web', true);
+		$this->upload_dir_path = $this->ext_root_path . constants::DIR_HEADLINE_IMAGES;
 		$this->lang_data = $this->cache->get_lang_data();
 	}
 
@@ -463,7 +467,7 @@ class headlines implements headlines_interface
 	*/
 	protected function can_upload()
 	{
-		return (file_exists($this->ext_root_path . constants::DIR_HEADLINE_IMAGES) && $this->filesystem->is_writable($this->ext_root_path . constants::DIR_HEADLINE_IMAGES) && (ini_get('file_uploads') || strtolower(ini_get('file_uploads')) == 'on'));
+		return (file_exists($this->upload_dir_path) && $this->filesystem->is_writable($this->upload_dir_path) && (ini_get('file_uploads') || strtolower(ini_get('file_uploads')) == 'on'));
 	}
 
 	/**
@@ -492,7 +496,7 @@ class headlines implements headlines_interface
 		}
 
 		// Set new destination
-		$destination = $this->ext_helper->remove_trailing_slash($this->ext_root_path . constants::DIR_HEADLINE_IMAGES);
+		$destination = $this->ext_helper->remove_trailing_slash($this->upload_dir_path);
 
 		// Move file and overwrite any existing image
 		if (!sizeof($this->errors))
