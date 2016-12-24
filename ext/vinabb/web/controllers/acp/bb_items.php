@@ -284,6 +284,7 @@ class bb_items implements bb_items_interface
 		$this->data_to_tpl($entity);
 
 		$this->template->assign_vars([
+			'MODE'					=> $this->mode,
 			'ERRORS'				=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
 			'PAGE_TITLE_EXPLAIN'	=> $this->language->lang('ACP_BB_' . $this->lang_key . 'S_EXPLAIN'),
 			'ITEM_DETAILS_LANG'		=> $this->language->lang($this->lang_key . '_DETAILS'),
