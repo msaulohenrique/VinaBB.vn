@@ -249,60 +249,57 @@ class helper implements helper_interface
 	*/
 	public function get_bb_type_constants($bb_type)
 	{
-		switch ($bb_type)
-		{
-			case 'ext':
-				return constants::BB_TYPE_EXT;
+		$data = [
+			'ext'		=> constants::BB_TYPE_EXT,
+			'style'		=> constants::BB_TYPE_STYLE,
+			'acp_style'	=> constants::BB_TYPE_ACP_STYLE,
+			'lang'		=> constants::BB_TYPE_LANG,
+			'tool'		=> constants::BB_TYPE_TOOL
+		];
 
-			case 'style':
-				return constants::BB_TYPE_STYLE;
+		return isset($data[$bb_type]) ? $data[$bb_type] : 0;
+	}
 
-			case 'acp_style':
-				return constants::BB_TYPE_ACP_STYLE;
+	/**
+	* Convert BB type from constant value to string
+	*
+	* @param int $bb_type phpBB resource type constant value
+	* @return string
+	*/
+	public function convert_bb_type_constants($bb_type)
+	{
+		$data = [
+			constants::BB_TYPE_EXT			=> 'ext',
+			constants::BB_TYPE_STYLE		=> 'style',
+			constants::BB_TYPE_ACP_STYLE	=> 'acp_style',
+			constants::BB_TYPE_LANG			=> 'lang',
+			constants::BB_TYPE_TOOL			=> 'tool'
+		];
 
-			case 'lang':
-				return constants::BB_TYPE_LANG;
-
-			case 'tool':
-				return constants::BB_TYPE_TOOL;
-
-			default:
-				return 0;
-		}
+		return isset($data[$bb_type]) ? $data[$bb_type] : '';
 	}
 
 	/**
 	* Convert BB type from string to URL varnames
 	*
-	* @param string $bb_type phpBB resource type (ext|style|acp_style|lang|tool)
+	* @param string $bb_mode phpBB resource mode (ext|style|acp_style|lang|tool)
 	* @return string
 	*/
-	public function get_bb_type_varnames($bb_type)
+	public function get_bb_type_varnames($bb_mode)
 	{
-		switch ($bb_type)
-		{
-			case 'ext':
-				return constants::BB_TYPE_VARNAME_EXT;
+		$data = [
+			'ext'		=> constants::BB_TYPE_VARNAME_EXT,
+			'style'		=> constants::BB_TYPE_VARNAME_STYLE,
+			'acp_style'	=> constants::BB_TYPE_VARNAME_ACP_STYLE,
+			'lang'		=> constants::BB_TYPE_VARNAME_LANG,
+			'tool'		=> constants::BB_TYPE_VARNAME_TOOL
+		];
 
-			case 'style':
-				return constants::BB_TYPE_VARNAME_STYLE;
-
-			case 'acp_style':
-				return constants::BB_TYPE_VARNAME_ACP_STYLE;
-
-			case 'lang':
-				return constants::BB_TYPE_VARNAME_LANG;
-
-			case 'tool':
-				return constants::BB_TYPE_VARNAME_TOOL;
-
-			default:
-				return '';
-		}
+		return isset($data[$bb_mode]) ? $data[$bb_mode] : '';
 	}
 
 	/**
-	* Convert BB types from URL varnames to standard varnames
+	* Convert BB types from URL varnames to mode names
 	* Example: For ACP styles, URL varname is 'acp-styles' but standard varname is 'acp_style'
 	*
 	* @param string $varname phpBB resource type URL varname
@@ -310,26 +307,15 @@ class helper implements helper_interface
 	*/
 	public function convert_bb_type_varnames($varname)
 	{
-		switch ($varname)
-		{
-			case constants::BB_TYPE_VARNAME_EXT:
-				return 'ext';
+		$data = [
+			constants::BB_TYPE_VARNAME_EXT			=> 'ext',
+			constants::BB_TYPE_VARNAME_STYLE		=> 'style',
+			constants::BB_TYPE_VARNAME_ACP_STYLE	=> 'acp_style',
+			constants::BB_TYPE_VARNAME_LANG			=> 'lang',
+			constants::BB_TYPE_VARNAME_TOOL			=> 'tool'
+		];
 
-			case constants::BB_TYPE_VARNAME_STYLE:
-				return 'style';
-
-			case constants::BB_TYPE_VARNAME_ACP_STYLE:
-				return 'acp_style';
-
-			case constants::BB_TYPE_VARNAME_LANG:
-				return 'lang';
-
-			case constants::BB_TYPE_VARNAME_TOOL:
-				return 'tool';
-
-			default:
-				return '';
-		}
+		return isset($data[$varname]) ? $data[$varname] : '';
 	}
 
 	/**
@@ -341,33 +327,17 @@ class helper implements helper_interface
 	*/
 	public function get_os_name($os_value)
 	{
-		switch ($os_value)
-		{
-			case constants::OS_WIN:
-				return constants::OS_NAME_WIN;
+		$data = [
+			constants::OS_WIN		=> constants::OS_NAME_WIN,
+			constants::OS_MAC		=> constants::OS_NAME_MAC,
+			constants::OS_LINUX		=> constants::OS_NAME_LINUX,
+			constants::OS_BSD		=> constants::OS_NAME_BSD,
+			constants::OS_ANDROID	=> constants::OS_NAME_ANDROID,
+			constants::OS_IOS		=> constants::OS_NAME_IOS,
+			constants::OS_WP		=> constants::OS_NAME_WP
+		];
 
-			case constants::OS_MAC:
-				return constants::OS_NAME_MAC;
-
-			case constants::OS_LINUX:
-				return constants::OS_NAME_LINUX;
-
-			case constants::OS_BSD:
-				return constants::OS_NAME_BSD;
-
-			case constants::OS_ANDROID:
-				return constants::OS_NAME_ANDROID;
-
-			case constants::OS_IOS:
-				return constants::OS_NAME_IOS;
-
-			case constants::OS_WP:
-				return constants::OS_NAME_WP;
-
-			case constants::OS_ALL:
-			default:
-				return '';
-		}
+		return isset($data[$os_value]) ? $data[$os_value] : '';
 	}
 
 	/**

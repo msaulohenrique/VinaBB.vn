@@ -66,15 +66,23 @@ interface helper_interface
 	public function get_bb_type_constants($bb_type);
 
 	/**
-	* Convert BB type from string to URL varnames
+	* Convert BB type from constant value to string
 	*
-	* @param string $bb_type phpBB resource type (ext|style|acp_style|lang|tool)
+	* @param int $bb_type phpBB resource type constant value
 	* @return string
 	*/
-	public function get_bb_type_varnames($bb_type);
+	public function convert_bb_type_constants($bb_type);
 
 	/**
-	* Convert BB types from URL varnames to standard varnames
+	* Convert BB type from string to URL varnames
+	*
+	* @param string $bb_mode phpBB resource mode (ext|style|acp_style|lang|tool)
+	* @return string
+	*/
+	public function get_bb_type_varnames($bb_mode);
+
+	/**
+	* Convert BB types from URL varnames to mode names
 	* Example: For ACP styles, URL varname is 'acp-styles' but standard varname is 'acp_style'
 	*
 	* @param string $varname phpBB resource type URL varname
