@@ -165,11 +165,27 @@ interface forum_interface
 	public function get_topics_per_page();
 
 	/**
+	* Set the number of topics per page in this forum
+	*
+	* @param int				$value	Number of topics per page
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_topics_per_page($value);
+
+	/**
 	* Get the number of approved topics
 	*
 	* @return int
 	*/
 	public function get_topics_approved();
+
+	/**
+	* Set the number of approved topics
+	*
+	* @param int				$value	Number of approved topics
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_topics_approved($value);
 
 	/**
 	* Get the number of disapproved topics
@@ -179,11 +195,27 @@ interface forum_interface
 	public function get_topics_unapproved();
 
 	/**
+	* Set he number of disapproved topics
+	*
+	* @param int				$value	Number of disapproved topics
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_topics_unapproved($value);
+
+	/**
 	* Get the number of soft-deleted topics
 	*
 	* @return int
 	*/
 	public function get_topics_softdeleted();
+
+	/**
+	* Set the number of soft-deleted topics
+	*
+	* @param int				$value	Number of soft-deleted topics
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_topics_softdeleted($value);
 
 	/**
 	* Get the number of approved posts
@@ -193,6 +225,14 @@ interface forum_interface
 	public function get_posts_approved();
 
 	/**
+	* Set the number of approved posts
+	*
+	* @param int				$value	Number of approved posts
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_posts_approved($value);
+
+	/**
 	* Get the number of disapproved posts
 	*
 	* @return int
@@ -200,11 +240,27 @@ interface forum_interface
 	public function get_posts_unapproved();
 
 	/**
+	* Set the number of disapproved posts
+	*
+	* @param int				$value	Number of disapproved posts
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_posts_unapproved($value);
+
+	/**
 	* Get the number of soft-deleted posts
 	*
 	* @return int
 	*/
 	public function get_posts_softdeleted();
+
+	/**
+	* Set the number of soft-deleted posts
+	*
+	* @param int				$value	Number of soft-deleted posts
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_posts_softdeleted($value);
 
 	/**
 	* Get the forum redirect link
@@ -216,8 +272,8 @@ interface forum_interface
 	/**
 	* Set the forum redirect link
 	*
-	* @param string			$text	URL
-	* @return forum_options	$this	Object for chaining calls: load()->set()->save()
+	* @param string				$text	URL
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_forum_link($text);
@@ -232,8 +288,8 @@ interface forum_interface
 	/**
 	* Set the forum password
 	*
-	* @param string			$text	Forum password
-	* @return forum_options	$this	Object for chaining calls: load()->set()->save()
+	* @param string				$text	Forum password
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_forum_password($text);
@@ -246,6 +302,15 @@ interface forum_interface
 	public function get_forum_style();
 
 	/**
+	* Set the forum style
+	*
+	* @param string				$id		Style ID
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_forum_style($id);
+
+	/**
 	* Get the forum image
 	*
 	* @return string
@@ -255,8 +320,8 @@ interface forum_interface
 	/**
 	* Set the forum image
 	*
-	* @param string			$text	Image URL
-	* @return forum_options	$this	Object for chaining calls: load()->set()->save()
+	* @param string				$text	Image URL
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_forum_image($text);
@@ -269,11 +334,27 @@ interface forum_interface
 	public function get_forum_flags();
 
 	/**
+	* Set forum flags
+	*
+	* @param int				$value	Forum flags
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_forum_flags($value);
+
+	/**
 	* Get forum options
 	*
 	* @return int
 	*/
 	public function get_forum_options();
+
+	/**
+	* Set forum options
+	*
+	* @param int				$value	Forum options
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_forum_options($value);
 
 	/**
 	* Get the forum setting: Display on the board page
@@ -283,11 +364,27 @@ interface forum_interface
 	public function get_display_on_index();
 
 	/**
+	* Set the forum setting: Display on the board page
+	*
+	* @param int				$value	true: enable; false: disable
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_display_on_index($value);
+
+	/**
 	* Get the forum setting: Enable creating search indexes
 	*
 	* @return bool
 	*/
 	public function get_enable_indexing();
+
+	/**
+	* Set the forum setting: Enable creating search indexes
+	*
+	* @param bool				$value	true: enable; false: disable
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_indexing($value);
 
 	/**
 	* Get the forum setting: Enable topic/post icons
@@ -297,11 +394,27 @@ interface forum_interface
 	public function get_enable_icons();
 
 	/**
+	* Set the forum setting: Enable topic/post icons
+	*
+	* @param bool				$value	true: enable; false: disable
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_icons($value);
+
+	/**
 	* Get the forum setting: Display list of subforums
 	*
 	* @return bool
 	*/
 	public function get_display_subforum_list();
+
+	/**
+	* Set the forum setting: Display list of subforums
+	*
+	* @param bool				$value	true: enable; false: disable
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_display_subforum_list($value);
 
 	/**
 	* Get the last post ID
@@ -391,18 +504,42 @@ interface forum_interface
 	public function get_last_post_time();
 
 	/**
-	* Is the auto-pruning enable?
+	* Set the forum's last post time
+	*
+	* @param int				$value	UNIX timestamp
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_last_post_time($value);
+
+	/**
+	* Get the forum setting: Auto-pruning
 	*
 	* @return bool
 	*/
 	public function get_enable_prune();
 
 	/**
-	* Is the auto-pruning shadow topics enable?
+	* Set the forum setting: Auto-pruning
+	*
+	* @param bool				$value	true: enable; false: disable
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_prune($value);
+
+	/**
+	* Get the forum setting: Auto-pruning shadow topics
 	*
 	* @return bool
 	*/
 	public function get_enable_shadow_prune();
+
+	/**
+	* Set the forum setting: Auto-pruning shadow topics
+	*
+	* @param bool				$value	true: enable; false: disable
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_shadow_prune($value);
 
 	/**
 	* Get number of age-days after the topics will be removed
@@ -412,11 +549,27 @@ interface forum_interface
 	public function get_prune_days();
 
 	/**
+	* Set number of age-days after the topics will be removed
+	*
+	* @param int				$value	Number of days
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_prune_days($value);
+
+	/**
 	* Get number of days between pruning times
 	*
 	* @return int
 	*/
 	public function get_prune_freq();
+
+	/**
+	* Set number of days between pruning times
+	*
+	* @param int				$value	Number of days
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_prune_freq($value);
 
 	/**
 	* Get the beginning time of next pruning
@@ -426,11 +579,27 @@ interface forum_interface
 	public function get_prune_next();
 
 	/**
+	* Set the beginning time of next pruning
+	*
+	* @param int				$value	UNIX timestamp
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_prune_next($value);
+
+	/**
 	* Get number of age-days since the last view, then the topics will be removed
 	*
 	* @return int
 	*/
 	public function get_prune_viewed();
+
+	/**
+	* Set number of age-days since the last view, then the topics will be removed
+	*
+	* @param int				$value	Number of days
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_prune_viewed($value);
 
 	/**
 	* Get number of age-days after the shadow topics will be removed
@@ -440,6 +609,14 @@ interface forum_interface
 	public function get_prune_shadow_days();
 
 	/**
+	* Set number of age-days after the shadow topics will be removed
+	*
+	* @param int				$value	Number of days
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_prune_shadow_days($value);
+
+	/**
 	* Get number of days between pruning times of shadow topics
 	*
 	* @return int
@@ -447,11 +624,27 @@ interface forum_interface
 	public function get_prune_shadow_freq();
 
 	/**
+	* Set number of days between pruning times of shadow topics
+	*
+	* @param int				$value	Number of days
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_prune_shadow_freq($value);
+
+	/**
 	* Get the beginning time of next pruning shadow topics
 	*
 	* @return int
 	*/
 	public function get_prune_shadow_next();
+
+	/**
+	* Set the beginning time of next pruning shadow topics
+	*
+	* @param int				$value	UNIX timestamp
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_prune_shadow_next($value);
 
 	/**
 	* Get forum description for edit
