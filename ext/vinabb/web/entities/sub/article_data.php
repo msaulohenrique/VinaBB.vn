@@ -68,6 +68,20 @@ class article_data extends article_text
 	}
 
 	/**
+	* Set article display setting
+	*
+	* @param bool			$value	true: enable; false: disable
+	* @return article_data	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable($value)
+	{
+		// Set the value on our data array
+		$this->data['article_enable'] = (bool) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get the article views
 	*
 	* @return int
@@ -94,10 +108,8 @@ class article_data extends article_text
 	*/
 	public function set_time()
 	{
-		if (!isset($this->data['article_time']))
-		{
-			$this->data['article_time'] = time();
-		}
+		// Set the value on our data array
+		$this->data['article_time'] = time();
 
 		return $this;
 	}

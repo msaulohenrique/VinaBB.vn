@@ -255,6 +255,14 @@ interface portal_article_interface
 	public function get_enable();
 
 	/**
+	* Set article display setting
+	*
+	* @param bool						$value	true: enable; false: disable
+	* @return portal_article_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable($value);
+
+	/**
 	* Get the article views
 	*
 	* @return int
