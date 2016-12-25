@@ -217,4 +217,18 @@ class forum_last_post extends forum_prune
 	{
 		return isset($this->data['forum_last_post_time']) ? (int) $this->data['forum_last_post_time'] : 0;
 	}
+
+	/**
+	* Set the forum's last post time
+	*
+	* @param int				$value	UNIX timestamp
+	* @return forum_last_post	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_last_post_time($value)
+	{
+		// Set the value on our data array
+		$this->data['forum_last_post_time'] = (int) $value;
+
+		return $this;
+	}
 }
