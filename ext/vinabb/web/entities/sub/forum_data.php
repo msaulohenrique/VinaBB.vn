@@ -91,6 +91,20 @@ class forum_data extends forum_options
 	}
 
 	/**
+	* Set the number of topics per page in this forum
+	*
+	* @param int			$value	Number of topics per page
+	* @return forum_data	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_topics_per_page($value)
+	{
+		// Set the value on our data array
+		$this->data['forum_topics_per_page'] = (int) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get the number of approved topics
 	*
 	* @return int
@@ -98,6 +112,20 @@ class forum_data extends forum_options
 	public function get_topics_approved()
 	{
 		return isset($this->data['forum_topics_approved']) ? (int) $this->data['forum_topics_approved'] : 0;
+	}
+
+	/**
+	* Set the number of approved topics
+	*
+	* @param int			$value	Number of approved topics
+	* @return forum_data	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_topics_approved($value)
+	{
+		// Set the value on our data array
+		$this->data['forum_topics_approved'] = (int) $value;
+
+		return $this;
 	}
 
 	/**
@@ -111,6 +139,20 @@ class forum_data extends forum_options
 	}
 
 	/**
+	* Set he number of disapproved topics
+	*
+	* @param int			$value	Number of disapproved topics
+	* @return forum_data	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_topics_unapproved($value)
+	{
+		// Set the value on our data array
+		$this->data['forum_topics_unapproved'] = (int) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get the number of soft-deleted topics
 	*
 	* @return int
@@ -118,6 +160,20 @@ class forum_data extends forum_options
 	public function get_topics_softdeleted()
 	{
 		return isset($this->data['forum_topics_softdeleted']) ? (int) $this->data['forum_topics_softdeleted'] : 0;
+	}
+
+	/**
+	* Set the number of soft-deleted topics
+	*
+	* @param int			$value	Number of soft-deleted topics
+	* @return forum_data	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_topics_softdeleted($value)
+	{
+		// Set the value on our data array
+		$this->data['forum_topics_softdeleted'] = (int) $value;
+
+		return $this;
 	}
 
 	/**
@@ -131,6 +187,20 @@ class forum_data extends forum_options
 	}
 
 	/**
+	* Set the number of approved posts
+	*
+	* @param int			$value	Number of approved posts
+	* @return forum_data	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_posts_approved($value)
+	{
+		// Set the value on our data array
+		$this->data['forum_posts_approved'] = (int) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get the number of disapproved posts
 	*
 	* @return int
@@ -141,6 +211,20 @@ class forum_data extends forum_options
 	}
 
 	/**
+	* Set the number of disapproved posts
+	*
+	* @param int			$value	Number of disapproved posts
+	* @return forum_data	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_posts_unapproved($value)
+	{
+		// Set the value on our data array
+		$this->data['forum_posts_unapproved'] = (int) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get the number of soft-deleted posts
 	*
 	* @return int
@@ -148,5 +232,19 @@ class forum_data extends forum_options
 	public function get_posts_softdeleted()
 	{
 		return isset($this->data['forum_posts_softdeleted']) ? (int) $this->data['forum_posts_softdeleted'] : 0;
+	}
+
+	/**
+	* Set the number of soft-deleted posts
+	*
+	* @param int			$value	Number of soft-deleted posts
+	* @return forum_data	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_posts_softdeleted($value)
+	{
+		// Set the value on our data array
+		$this->data['forum_posts_softdeleted'] = (int) $value;
+
+		return $this;
 	}
 }
