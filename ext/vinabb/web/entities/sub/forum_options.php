@@ -18,6 +18,19 @@ class forum_options extends forum_last_post
 	/** @var array $data */
 	protected $data;
 
+	/** @var \vinabb\web\entities\helper\helper_interface $entity_helper */
+	protected $entity_helper;
+
+	/**
+	* Constructor
+	*
+	* @param \vinabb\web\entities\helper\helper_interface $entity_helper Entity helper
+	*/
+	public function __construct(\vinabb\web\entities\helper\helper_interface $entity_helper)
+	{
+		$this->entity_helper = $entity_helper;
+	}
+
 	/**
 	* Get the forum redirect link
 	*
@@ -102,6 +115,29 @@ class forum_options extends forum_last_post
 	}
 
 	/**
+	* Set the forum style
+	*
+	* @param string			$id		Style ID
+	* @return forum_options	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_forum_style($id)
+	{
+		$id = (int) $id;
+
+		// Check existing style
+		if ($id && !$this->entity_helper->check_style_id($id))
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['forum_style', 'NOT_EXISTS']);
+		}
+
+		// Set the value on our data array
+		$this->data['forum_style'] = $id;
+
+		return $this;
+	}
+
+	/**
 	* Get the forum image
 	*
 	* @return string
@@ -145,6 +181,20 @@ class forum_options extends forum_last_post
 	}
 
 	/**
+	* Set forum flags
+	*
+	* @param int			$value	Forum flags
+	* @return forum_options	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_forum_flags($value)
+	{
+		// Set the value on our data array
+		$this->data['forum_flags'] = (int) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get forum options
 	*
 	* @return int
@@ -152,6 +202,20 @@ class forum_options extends forum_last_post
 	public function get_forum_options()
 	{
 		return isset($this->data['forum_options']) ? (int) $this->data['forum_options'] : 0;
+	}
+
+	/**
+	* Set forum options
+	*
+	* @param int			$value	Forum options
+	* @return forum_options	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_forum_options($value)
+	{
+		// Set the value on our data array
+		$this->data['forum_options'] = (int) $value;
+
+		return $this;
 	}
 
 	/**
@@ -165,6 +229,20 @@ class forum_options extends forum_last_post
 	}
 
 	/**
+	* Set the forum setting: Display on the board page
+	*
+	* @param int			$value	true: enable; false: disable
+	* @return forum_options	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_display_on_index($value)
+	{
+		// Set the value on our data array
+		$this->data['display_on_index'] = (bool) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get the forum setting: Enable creating search indexes
 	*
 	* @return bool
@@ -172,6 +250,20 @@ class forum_options extends forum_last_post
 	public function get_enable_indexing()
 	{
 		return isset($this->data['enable_indexing']) ? (bool) $this->data['enable_indexing'] : true;
+	}
+
+	/**
+	* Set the forum setting: Enable creating search indexes
+	*
+	* @param bool			$value	true: enable; false: disable
+	* @return forum_options	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_indexing($value)
+	{
+		// Set the value on our data array
+		$this->data['enable_indexing'] = (bool) $value;
+
+		return $this;
 	}
 
 	/**
@@ -185,6 +277,20 @@ class forum_options extends forum_last_post
 	}
 
 	/**
+	* Set the forum setting: Enable topic/post icons
+	*
+	* @param bool			$value	true: enable; false: disable
+	* @return forum_options	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_icons($value)
+	{
+		// Set the value on our data array
+		$this->data['enable_icons'] = (bool) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get the forum setting: Display list of subforums
 	*
 	* @return bool
@@ -192,5 +298,19 @@ class forum_options extends forum_last_post
 	public function get_display_subforum_list()
 	{
 		return isset($this->data['display_subforum_list']) ? (bool) $this->data['display_subforum_list'] : true;
+	}
+
+	/**
+	* Set the forum setting: Display list of subforums
+	*
+	* @param bool			$value	true: enable; false: disable
+	* @return forum_options	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_display_subforum_list($value)
+	{
+		// Set the value on our data array
+		$this->data['display_subforum_list'] = (bool) $value;
+
+		return $this;
 	}
 }
