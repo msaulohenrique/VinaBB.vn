@@ -190,11 +190,27 @@ interface group_interface
 	public function get_avatar_width();
 
 	/**
+	* Set the group avatar width
+	*
+	* @param int				$value	Avatar width
+	* @return group_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_avatar_width($value);
+
+	/**
 	* Get the group avatar height
 	*
 	* @return int
 	*/
 	public function get_avatar_height();
+
+	/**
+	* Set he group avatar height
+	*
+	* @param int				$value	Avatar height
+	* @return group_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_avatar_height($value);
 
 	/**
 	* Get the group rank

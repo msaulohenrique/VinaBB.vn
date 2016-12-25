@@ -107,6 +107,20 @@ class group_profile extends group_desc
 	}
 
 	/**
+	* Set the group avatar width
+	*
+	* @param int			$value	Avatar width
+	* @return group_profile	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_avatar_width($value)
+	{
+		// Set the value on our data array
+		$this->data['group_avatar_width'] = (int) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get the group avatar height
 	*
 	* @return int
@@ -114,6 +128,20 @@ class group_profile extends group_desc
 	public function get_avatar_height()
 	{
 		return isset($this->data['group_avatar_height']) ? (int) $this->data['group_avatar_height'] : 0;
+	}
+
+	/**
+	* Set he group avatar height
+	*
+	* @param int			$value	Avatar height
+	* @return group_profile	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_avatar_height($value)
+	{
+		// Set the value on our data array
+		$this->data['group_avatar_height'] = (int) $value;
+
+		return $this;
 	}
 
 	/**
