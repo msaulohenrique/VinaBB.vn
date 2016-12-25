@@ -211,6 +211,14 @@ interface attachment_interface
 	public function get_filesize();
 
 	/**
+	* Set attachment's filesize
+	*
+	* @param int					$value	Filesize
+	* @return attachment_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_filesize($value);
+
+	/**
 	* Get attachment's uploaded time
 	*
 	* @return int
@@ -218,9 +226,25 @@ interface attachment_interface
 	public function get_filetime();
 
 	/**
+	* Set attachment's uploaded time
+	*
+	* @param int					$value	Uploaded time
+	* @return attachment_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_filetime($value);
+
+	/**
 	* The attachment has a thumbnail?
 	*
 	* @return bool
 	*/
 	public function get_thumbnail();
+
+	/**
+	* Set attachment's MIME type
+	*
+	* @param bool					$value	true: yes; false: no
+	* @return attachment_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_thumbnail($value);
 }

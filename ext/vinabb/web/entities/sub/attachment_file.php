@@ -161,6 +161,20 @@ class attachment_file
 	}
 
 	/**
+	* Set attachment's filesize
+	*
+	* @param int				$value	Filesize
+	* @return attachment_file	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_filesize($value)
+	{
+		// Set the value on our data array
+		$this->data['filesize'] = (int) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get attachment's uploaded time
 	*
 	* @return int
@@ -171,6 +185,20 @@ class attachment_file
 	}
 
 	/**
+	* Set attachment's uploaded time
+	*
+	* @param int				$value	Uploaded time
+	* @return attachment_file	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_filetime($value)
+	{
+		// Set the value on our data array
+		$this->data['filetime'] = (int) $value;
+
+		return $this;
+	}
+
+	/**
 	* The attachment has a thumbnail?
 	*
 	* @return bool
@@ -178,5 +206,19 @@ class attachment_file
 	public function get_thumbnail()
 	{
 		return isset($this->data['thumbnail']) ? (bool) $this->data['thumbnail'] : false;
+	}
+
+	/**
+	* Set attachment's MIME type
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return attachment_file	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_thumbnail($value)
+	{
+		// Set the value on our data array
+		$this->data['thumbnail'] = (bool) $value;
+
+		return $this;
 	}
 }
