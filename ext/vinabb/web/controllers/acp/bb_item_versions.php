@@ -368,6 +368,7 @@ class bb_item_versions implements bb_item_versions_interface
 			// Add the new entity to the database
 			$entity = $this->operator->add_version($entity, $this->item_id, $this->data['phpbb_branch']);
 
+			$this->config->increment('vinabb_web_bb_' . $this->mode . 's_filesize', filesize($entity->get_file($this->mode, true)), false);
 			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_BB_{$this->lang_key}_VERSION_ADD", time(), [$this->item_name . ' ' . $entity->get_version()]);
 
 			$message = 'MESSAGE_VERSION_ADD';
@@ -411,6 +412,7 @@ class bb_item_versions implements bb_item_versions_interface
 			trigger_error($this->language->lang("ERROR_{$this->lang_key}_DELETE", $e->get_message($this->language)) . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
+		$this->config->increment('vinabb_web_bb_' . $this->mode . 's_filesize', -1 * filesize($entity->get_file($this->mode, true)), false);
 		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_BB_{$this->lang_key}_VERSION_DELETE", time(), [$this->item_name . ' ' . $entity->get_version()]);
 
 		// If AJAX was used, show user a result message
