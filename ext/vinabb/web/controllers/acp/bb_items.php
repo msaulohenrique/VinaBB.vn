@@ -369,6 +369,7 @@ class bb_items implements bb_items_interface
 			'set_price'		=> $this->data['item_price'],
 			'set_url'		=> $this->data['item_url'],
 			'set_github'	=> $this->data['item_github'],
+			'set_enable'	=> $this->data['item_enable'],
 			'set_added'		=> null
 		];
 
