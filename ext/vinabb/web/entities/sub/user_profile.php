@@ -107,6 +107,20 @@ class user_profile extends user_sig
 	}
 
 	/**
+	* Set the user avatar width
+	*
+	* @param int			$value	Avatar width
+	* @return user_profile	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_avatar_width($value)
+	{
+		// Set the value on our data array
+		$this->data['user_avatar_width'] = (int) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get the user avatar height
 	*
 	* @return int
@@ -114,6 +128,20 @@ class user_profile extends user_sig
 	public function get_avatar_height()
 	{
 		return isset($this->data['user_avatar_height']) ? (int) $this->data['user_avatar_height'] : 0;
+	}
+
+	/**
+	* Set the user avatar height
+	*
+	* @param int			$value	Avatar height
+	* @return user_profile	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_avatar_height($value)
+	{
+		// Set the value on our data array
+		$this->data['user_avatar_height'] = (int) $value;
+
+		return $this;
 	}
 
 	/**
