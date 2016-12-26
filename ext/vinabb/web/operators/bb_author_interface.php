@@ -16,26 +16,29 @@ interface bb_author_interface
 	/**
 	* Get number of authors
 	*
+	* @param string $mode 'group', 'author' or empty for both
 	* @return int
 	*/
-	public function count_authors();
+	public function count_authors($mode = '');
 
 	/**
 	* Get all authors
 	*
+	* @param string $mode 'group', 'author' or empty for both
 	* @return array
 	*/
-	public function get_authors();
+	public function get_authors($mode = '');
 
 	/**
 	* Get authors in range for pagination
 	*
+	* @param string	$mode			'group', 'author' or empty for both
 	* @param string	$order_field	Sort by this field
 	* @param int	$limit			Number of items
 	* @param int	$offset			Position of the start
 	* @return array
 	*/
-	public function list_authors($order_field = 'author_name', $limit = 0, $offset = 0);
+	public function list_authors($mode = '', $order_field = 'author_name', $limit = 0, $offset = 0);
 
 	/**
 	* Add an author

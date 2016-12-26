@@ -39,6 +39,29 @@
 			<dd><input class="text medium" type="email" name="author_email" id="author_email" value="{{ AUTHOR_EMAIL }}" maxlength="255"></dd>
 		</dl>
 		<dl>
+			<dt><label for="author_is_group">{{ lang('AUTHOR_IS_GROUP') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="author_is_group" id="author_is_group" value="1" onclick="phpbb.toggleDisplay('group_options', -1)"{% if AUTHOR_IS_GROUP %} checked{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="author_is_group" value="0" onclick="phpbb.toggleDisplay('group_options', 1)"{% if not AUTHOR_IS_GROUP %} checked{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<div id="group_options"{% if AUTHOR_IS_GROUP %} style="display: none;"{% endif %}>
+			<dl>
+				<dt><label for="author_group">{{ lang('GROUP') ~ lang('COLON') }}</label></dt>
+				<dd>
+					<select name="author_group" id="author_group">
+						<option value="0">{{ lang('NONE') }}</option>
+						{% for option in group_options %}
+						<option value="{{ option.ID }}"{% if option.S_SELECTED %} selected{% endif %}>{{ option.NAME }}</option>
+						{% endfor %}
+					</select>
+				</dd>
+			</dl>
+		</div>
+		</fieldset>
+		<fieldset>
+			<legend>{{ lang('SOCIAL_ACCOUNTS') }}</legend>
+		<dl>
 			<dt><label for="author_phpbb">{{ lang('PHPBB_COM') ~ lang('COLON') }}</label></dt>
 			<dd><input class="text" type="text" name="author_phpbb" id="author_phpbb" value="{{ AUTHOR_PHPBB }}" maxlength="255"></dd>
 		</dl>

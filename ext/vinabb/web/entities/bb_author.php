@@ -401,6 +401,12 @@ class bb_author extends author_social implements bb_author_interface
 	{
 		$id = (int) $id;
 
+		// This field is only for authors who are not a group
+		if ($this->get_is_group())
+		{
+			$id = 0;
+		}
+
 		// Check existing group
 		if ($id && !$this->entity_helper->check_bb_author_id($id))
 		{

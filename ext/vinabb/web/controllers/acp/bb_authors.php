@@ -106,6 +106,8 @@ class bb_authors implements bb_authors_interface
 				'NAME'		=> $entity->get_name(),
 				'FIRSTNAME'	=> $entity->get_firstname(),
 				'LASTNAME'	=> $entity->get_lastname(),
+				'IS_GROUP'	=> $entity->get_is_group(),
+				'GROUP'		=> $entity->get_group(),
 
 				'U_EDIT'	=> "{$this->u_action}&action=edit&id={$entity->get_id()}",
 				'U_DELETE'	=> "{$this->u_action}&action=delete&id={$entity->get_id()}"
@@ -129,6 +131,9 @@ class bb_authors implements bb_authors_interface
 		// Process the new entity
 		$this->add_edit_data($entity);
 
+		// Build the group selection
+		$this->build_group_options($entity, $this->data['author_group'], 'add');
+
 		$this->template->assign_vars([
 			'S_ADD'		=> true,
 			'U_ACTION'	=> "{$this->u_action}&action=add"
@@ -148,6 +153,9 @@ class bb_authors implements bb_authors_interface
 
 		// Process the edited entity
 		$this->add_edit_data($entity);
+
+		// Build the group selection
+		$this->build_group_options($entity);
 
 		$this->template->assign_vars([
 			'S_EDIT'	=> true,
@@ -207,6 +215,8 @@ class bb_authors implements bb_authors_interface
 			'author_name'			=> $this->request->variable('author_name', '', true),
 			'author_firstname'		=> $this->request->variable('author_firstname', '', true),
 			'author_lastname'		=> $this->request->variable('author_lastname', '', true),
+			'author_is_group'		=> $this->request->variable('author_is_group', false),
+			'author_group'			=> $this->request->variable('author_group', 0),
 			'author_www'			=> $this->request->variable('author_www', ''),
 			'author_email'			=> $this->request->variable('author_email', ''),
 			'author_phpbb'			=> $this->request->variable('author_phpbb', ''),
@@ -231,6 +241,8 @@ class bb_authors implements bb_authors_interface
 			'set_name_seo'		=> $this->data['author_name'],
 			'set_firstname'		=> $this->data['author_firstname'],
 			'set_lastname'		=> $this->data['author_lastname'],
+			'set_is_group'		=> $this->data['author_is_group'],
+			'set_group'			=> $this->data['author_group'],
 			'set_www'			=> $this->data['author_www'],
 			'set_email'			=> $this->data['author_email'],
 			'set_github'		=> $this->data['author_github'],
@@ -298,6 +310,7 @@ class bb_authors implements bb_authors_interface
 			'AUTHOR_NAME'			=> $entity->get_name(),
 			'AUTHOR_FIRSTNAME'		=> $entity->get_firstname(),
 			'AUTHOR_LASTNAME'		=> $entity->get_lastname(),
+			'AUTHOR_IS_GROUP'		=> $entity->get_is_group(),
 			'AUTHOR_WWW'			=> $entity->get_www(),
 			'AUTHOR_EMAIL'			=> $entity->get_email(),
 			'AUTHOR_PHPBB'			=> $entity->get_phpbb(),
@@ -338,6 +351,30 @@ class bb_authors implements bb_authors_interface
 				'MESSAGE_TITLE'	=> $this->language->lang('INFORMATION'),
 				'MESSAGE_TEXT'	=> $this->language->lang('MESSAGE_AUTHOR_DELETE'),
 				'REFRESH_DATA'	=> ['time'	=> 3]
+			]);
+		}
+	}
+
+	/**
+	* Generate options of available groups
+	*
+	* @param \vinabb\web\entities\bb_author_interface	$entity		BB author entity
+	* @param int										$current_id	Selected author group ID
+	* @param string										$mode		Add or edit mode?
+	*/
+	protected function build_group_options(\vinabb\web\entities\bb_author_interface $entity, $current_id = 0, $mode = 'edit')
+	{
+		$options = $this->container->get('vinabb.web.operators.bb_author')->get_authors('group');
+		$current_id = ($mode == 'edit') ? $entity->get_group() : $current_id;
+
+		/** @var \vinabb\web\entities\bb_author_interface $option */
+		foreach ($options as $option)
+		{
+			$this->template->assign_block_vars('group_options', [
+				'ID'		=> $option->get_id(),
+				'NAME'		=> $option->get_name(),
+
+				'S_SELECTED'	=> $option->get_id() == $current_id
 			]);
 		}
 	}

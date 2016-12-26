@@ -39,14 +39,39 @@ class bb_author implements bb_author_interface
 	}
 
 	/**
+	* Build SQL WHERE for queries
+	*
+	* @param string $mode 'group', 'author' or empty for both
+	* @return string
+	*/
+	protected function build_sql_where($mode)
+	{
+		switch ($mode)
+		{
+			case 'group':
+			return 'WHERE author_is_group = 1';
+
+			case 'author':
+			return 'WHERE author_is_group = 0';
+
+			default:
+			return '';
+		}
+	}
+
+	/**
 	* Get number of authors
 	*
+	* @param string $mode 'group', 'author' or empty for both
 	* @return int
 	*/
-	public function count_authors()
+	public function count_authors($mode = '')
 	{
+		$sql_where = $this->build_sql_where($mode);
+
 		$sql = 'SELECT COUNT(author_id) AS counter
-			FROM ' . $this->table_name;
+			FROM ' . $this->table_name . "
+			$sql_where";
 		$result = $this->db->sql_query($sql);
 		$counter = (int) $this->db->sql_fetchfield('counter');
 		$this->db->sql_freeresult($result);
@@ -57,14 +82,17 @@ class bb_author implements bb_author_interface
 	/**
 	* Get all authors
 	*
+	* @param string $mode 'group', 'author' or empty for both
 	* @return array
 	*/
-	public function get_authors()
+	public function get_authors($mode = '')
 	{
 		$entities = [];
+		$sql_where = $this->build_sql_where($mode);
 
 		$sql = 'SELECT *
-			FROM ' . $this->table_name;
+			FROM ' . $this->table_name . "
+			$sql_where";
 		$result = $this->db->sql_query($sql);
 
 		while ($row = $this->db->sql_fetchrow($result))
@@ -79,17 +107,20 @@ class bb_author implements bb_author_interface
 	/**
 	* Get authors in range for pagination
 	*
+	* @param string	$mode			'group', 'author' or empty for both
 	* @param string	$order_field	Sort by this field
 	* @param int	$limit			Number of items
 	* @param int	$offset			Position of the start
 	* @return array
 	*/
-	public function list_authors($order_field = 'author_name', $limit = 0, $offset = 0)
+	public function list_authors($mode = '', $order_field = 'author_name', $limit = 0, $offset = 0)
 	{
 		$entities = [];
+		$sql_where = $this->build_sql_where($mode);
 
 		$sql = 'SELECT *
 			FROM ' . $this->table_name . "
+			$sql_where
 			ORDER BY $order_field";
 		$result = $this->db->sql_query_limit($sql, $limit, $offset);
 
