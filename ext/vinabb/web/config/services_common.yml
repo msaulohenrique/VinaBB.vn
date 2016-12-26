@@ -60,7 +60,6 @@ services:
             - '@ext.manager'
             - '@language'
             - '@notification_manager'
-            - '@vinabb.web.pagination'
             - '@request'
             - '@template'
             - '@user'
