@@ -59,6 +59,7 @@ services:
         class: vinabb\web\controllers\acp\bb_items
         arguments:
             - '@vinabb.web.cache'
+            - '@config'
             - '@service_container'
             - '@language'
             - '@log'

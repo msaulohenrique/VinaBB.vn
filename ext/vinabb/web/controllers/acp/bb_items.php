@@ -19,6 +19,9 @@ class bb_items implements bb_items_interface
 	/** @var \vinabb\web\controllers\cache\service_interface $cache */
 	protected $cache;
 
+	/** @var \phpbb\config\config $config */
+	protected $config;
+
 	/** @var ContainerInterface $container */
 	protected $container;
 
@@ -80,6 +83,7 @@ class bb_items implements bb_items_interface
 	* Constructor
 	*
 	* @param \vinabb\web\controllers\cache\service_interface	$cache			Cache service
+	* @param \phpbb\config\config								$config			Config object
 	* @param ContainerInterface									$container		Container object
 	* @param \phpbb\language\language							$language		Language object
 	* @param \phpbb\log\log										$log			Log object
@@ -94,6 +98,7 @@ class bb_items implements bb_items_interface
 	*/
 	public function __construct(
 		\vinabb\web\controllers\cache\service_interface $cache,
+		\phpbb\config\config $config,
 		ContainerInterface $container,
 		\phpbb\language\language $language,
 		\phpbb\log\log $log,
@@ -108,6 +113,7 @@ class bb_items implements bb_items_interface
 	)
 	{
 		$this->cache = $cache;
+		$this->config = $config;
 		$this->container = $container;
 		$this->language = $language;
 		$this->log = $log;
@@ -410,6 +416,7 @@ class bb_items implements bb_items_interface
 			// Add the new entity to the database
 			$entity = $this->operator->add_item($entity, $this->bb_type);
 
+			$this->config->increment('vinabb_web_total_bb_' . $this->mode . 's', 1, false);
 			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_BB_{$this->lang_key}_ADD", time(), [$entity->get_name()]);
 
 			$message = "MESSAGE_BB_{$this->lang_key}_ADD";
@@ -471,6 +478,7 @@ class bb_items implements bb_items_interface
 			trigger_error($this->language->lang("ERROR_{$this->lang_key}_DELETE", $e->get_message($this->language)) . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
+		$this->config->increment('vinabb_web_total_bb_' . $this->mode . 's', -1, false);
 		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_BB_{$this->lang_key}_DELETE", time(), [$entity->get_name()]);
 		$this->cache->clear_new_bb_items($this->bb_type);
 
