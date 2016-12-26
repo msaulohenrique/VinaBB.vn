@@ -87,11 +87,29 @@ interface user_interface
 	public function get_username();
 
 	/**
+	* Set the username
+	*
+	* @param string				$text	Username
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_username($text);
+
+	/**
 	* Get the clean username for searching
 	*
 	* @return string
 	*/
 	public function get_username_clean();
+
+	/**
+	* Set the clean username for searching
+	*
+	* @param string				$text	Clean username
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_username_clean($text);
 
 	/**
 	* Get the user type
@@ -117,11 +135,29 @@ interface user_interface
 	public function get_email();
 
 	/**
+	* Set the user email
+	*
+	* @param string				$text	Email
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_email($text);
+
+	/**
 	* Get the user's hashed password
 	*
 	* @return string
 	*/
 	public function get_password();
+
+	/**
+	* Set the user's hashed password
+	*
+	* @param string				$text	Password hash
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_password($text);
 
 	/**
 	* Get the user birthday
@@ -131,11 +167,28 @@ interface user_interface
 	public function get_birthday();
 
 	/**
+	* Set the user birthday
+	*
+	* @param string				$text	Birthday
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_birthday($text);
+
+	/**
 	* The user has just newly registered?
 	*
 	* @return bool
 	*/
 	public function get_new();
+
+	/**
+	* Set the user has just newly registered or not
+	*
+	* @param bool				$text	true: yes; false: no
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_new($text);
 
 	/**
 	* Get the user language

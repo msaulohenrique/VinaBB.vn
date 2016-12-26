@@ -9,6 +9,7 @@
 namespace vinabb\web\entities;
 
 use vinabb\web\entities\sub\user_data;
+use vinabb\web\includes\constants;
 
 /**
 * Entity for a single user
@@ -302,6 +303,29 @@ class user extends user_data implements user_interface
 	}
 
 	/**
+	* Set the username
+	*
+	* @param string				$text	Username
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_username($text)
+	{
+		$text = (string) $text;
+
+		// Check the max length
+		if (utf8_strlen($text) > constants::MAX_CONFIG_NAME)
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['username', 'TOO_LONG']);
+		}
+
+		// Set the value on our data array
+		$this->data['username'] = $text;
+
+		return $this;
+	}
+
+	/**
 	* Get the clean username for searching
 	*
 	* @return string
@@ -309,6 +333,29 @@ class user extends user_data implements user_interface
 	public function get_username_clean()
 	{
 		return isset($this->data['username_clean']) ? (string) $this->data['username_clean'] : '';
+	}
+
+	/**
+	* Set the clean username for searching
+	*
+	* @param string				$text	Clean username
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_username_clean($text)
+	{
+		$text = (string) $text;
+
+		// Check the max length
+		if (utf8_strlen($text) > constants::MAX_CONFIG_NAME)
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['username_clean', 'TOO_LONG']);
+		}
+
+		// Set the value on our data array
+		$this->data['username_clean'] = $text;
+
+		return $this;
 	}
 
 	/**
@@ -354,6 +401,29 @@ class user extends user_data implements user_interface
 	}
 
 	/**
+	* Set the user email
+	*
+	* @param string				$text	Email
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_email($text)
+	{
+		$text = (string) $text;
+
+		// Check the max length
+		if (utf8_strlen($text) > 100)
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['user_email', 'TOO_LONG']);
+		}
+
+		// Set the value on our data array
+		$this->data['user_email'] = $text;
+
+		return $this;
+	}
+
+	/**
 	* Get the user's hashed password
 	*
 	* @return string
@@ -361,6 +431,29 @@ class user extends user_data implements user_interface
 	public function get_password()
 	{
 		return isset($this->data['user_password']) ? (string) $this->data['user_password'] : '';
+	}
+
+	/**
+	* Set the user's hashed password
+	*
+	* @param string				$text	Password hash
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_password($text)
+	{
+		$text = (string) $text;
+
+		// Check the max length
+		if (utf8_strlen($text) > constants::MAX_CONFIG_NAME)
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['user_password', 'TOO_LONG']);
+		}
+
+		// Set the value on our data array
+		$this->data['user_password'] = $text;
+
+		return $this;
 	}
 
 	/**
@@ -374,6 +467,29 @@ class user extends user_data implements user_interface
 	}
 
 	/**
+	* Set the user birthday
+	*
+	* @param string				$text	Birthday
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_birthday($text)
+	{
+		$text = (string) $text;
+
+		// Check the max length
+		if (utf8_strlen($text) > 10)
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['user_birthday', 'TOO_LONG']);
+		}
+
+		// Set the value on our data array
+		$this->data['user_birthday'] = $text;
+
+		return $this;
+	}
+
+	/**
 	* The user has just newly registered?
 	*
 	* @return bool
@@ -381,5 +497,19 @@ class user extends user_data implements user_interface
 	public function get_new()
 	{
 		return isset($this->data['user_new']) ? (bool) $this->data['user_new'] : true;
+	}
+
+	/**
+	* Set the user has just newly registered or not
+	*
+	* @param bool				$text	true: yes; false: no
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_new($text)
+	{
+		// Set the value on our data array
+		$this->data['user_new'] = (bool) $text;
+
+		return $this;
 	}
 }
