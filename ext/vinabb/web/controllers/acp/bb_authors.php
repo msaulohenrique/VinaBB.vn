@@ -18,6 +18,9 @@ class bb_authors implements bb_authors_interface
 	/** @var \vinabb\web\controllers\cache\service_interface $cache */
 	protected $cache;
 
+	/** @var \phpbb\config\config $config */
+	protected $config;
+
 	/** @var ContainerInterface $container */
 	protected $container;
 
@@ -55,6 +58,7 @@ class bb_authors implements bb_authors_interface
 	* Constructor
 	*
 	* @param \vinabb\web\controllers\cache\service_interface	$cache		Cache service
+	* @param \phpbb\config\config								$config			Config object
 	* @param ContainerInterface									$container	Container object
 	* @param \phpbb\language\language							$language	Language object
 	* @param \phpbb\log\log										$log		Log object
@@ -65,6 +69,7 @@ class bb_authors implements bb_authors_interface
 	*/
 	public function __construct(
 		\vinabb\web\controllers\cache\service_interface $cache,
+		\phpbb\config\config $config,
 		ContainerInterface $container,
 		\phpbb\language\language $language,
 		\phpbb\log\log $log,
@@ -75,6 +80,7 @@ class bb_authors implements bb_authors_interface
 	)
 	{
 		$this->cache = $cache;
+		$this->config = $config;
 		$this->container = $container;
 		$this->language = $language;
 		$this->log = $log;
@@ -309,6 +315,7 @@ class bb_authors implements bb_authors_interface
 			// Add the new entity to the database
 			$entity = $this->operator->add_author($entity);
 
+			$this->config->increment('vinabb_web_total_bb_authors', 1, false);
 			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_BB_AUTHOR_ADD', time(), [$entity->get_name()]);
 
 			$message = 'MESSAGE_AUTHOR_ADD';
@@ -360,6 +367,7 @@ class bb_authors implements bb_authors_interface
 			trigger_error($this->language->lang('ERROR_AUTHOR_DELETE', $e->get_message($this->language)) . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
+		$this->config->increment('vinabb_web_total_bb_authors', -1, false);
 		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_BB_AUTHOR_DELETE', time(), [$entity->get_name()]);
 
 		// If AJAX was used, show user a result message

@@ -89,6 +89,7 @@ services:
         class: vinabb\web\controllers\acp\bb_authors
         arguments:
             - '@vinabb.web.cache'
+            - '@config'
             - '@service_container'
             - '@language'
             - '@log'
