@@ -138,6 +138,7 @@ $lang = array_merge($lang, [
 	'ERROR_PHPBB_VERSION_EMPTY'				=> 'You must select a minimum phpBB version.',
 	'ERROR_PHPBB_VERSION_INVALID'			=> 'The minimum phpBB version is invalid.',
 	'ERROR_PHPBB_VERSION_TOO_LONG'			=> 'The minimum phpBB version is too long.',
+	'ERROR_VERSION_DELETE'					=> 'Could not delete this branch version. Error: %s',
 	'EXT_VARNAME'							=> 'Package name',
 
 	'ITEM_ACP_STYLE_DETAILS'	=> 'Style properties',

@@ -138,6 +138,7 @@ $lang = array_merge($lang, [
 	'ERROR_PHPBB_VERSION_EMPTY'				=> 'Chưa chọn phiên bản phpBB tối thiểu.',
 	'ERROR_PHPBB_VERSION_INVALID'			=> 'Phiên bản phpBB tối thiểu không hợp lệ.',
 	'ERROR_PHPBB_VERSION_TOO_LONG'			=> 'Phiên bản phpBB tối thiểu quá dài.',
+	'ERROR_VERSION_DELETE'					=> 'Không thể xóa nhánh phiên bản này. Lỗi: %s',
 	'EXT_VARNAME'							=> 'Tên định danh',
 
 	'ITEM_ACP_STYLE_DETAILS'	=> 'Thuộc tính giao diện',

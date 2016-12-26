@@ -410,7 +410,7 @@ class bb_item_versions implements bb_item_versions_interface
 		}
 		catch (\vinabb\web\exceptions\base $e)
 		{
-			trigger_error($this->language->lang("ERROR_{$this->lang_key}_DELETE", $e->get_message($this->language)) . adm_back_link($this->u_action), E_USER_WARNING);
+			trigger_error($this->language->lang('ERROR_VERSION_DELETE', $e->get_message($this->language)) . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
 		$this->config->increment('vinabb_web_bb_' . $this->mode . 's_filesize', -1 * filesize($entity->get_file($this->mode, true)), false);
