@@ -177,11 +177,27 @@ interface user_interface
 	public function get_timezone();
 
 	/**
+	* Set the user timezone
+	*
+	* @param string				$text	UNIX timezone
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_timezone($text);
+
+	/**
 	* Get the user date format
 	*
 	* @return string
 	*/
 	public function get_dateformat();
+
+	/**
+	* Set the user date format
+	*
+	* @param string				$text	PHP date format
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_dateformat($text);
 
 	/**
 	* Get the user's posts
@@ -191,11 +207,27 @@ interface user_interface
 	public function get_posts();
 
 	/**
+	* Set the user's posts
+	*
+	* @param int				$value	Number of posts
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_posts($value);
+
+	/**
 	* Get the user's new PMs
 	*
 	* @return int
 	*/
 	public function get_new_privmsg();
+
+	/**
+	* Set the user new PMs
+	*
+	* @param int				$value	Number of new PMs
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_new_privmsg($value);
 
 	/**
 	* Get the user's unread PMs
@@ -205,11 +237,27 @@ interface user_interface
 	public function get_unread_privmsg();
 
 	/**
+	* Set the user's unread PMs
+	*
+	* @param int				$value	Number of unread PMs
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_unread_privmsg($value);
+
+	/**
 	* Get the user's warnings
 	*
 	* @return int
 	*/
 	public function get_warnings();
+
+	/**
+	* Set the user's warnings
+	*
+	* @param int				$value	Number of warnings
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_warnings($value);
 
 	/**
 	* Get the user's PM rules
@@ -219,11 +267,27 @@ interface user_interface
 	public function get_message_rules();
 
 	/**
+	* Set the user's PM rules
+	*
+	* @param int				$value	Number of PM rules
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_message_rules($value);
+
+	/**
 	* Get the last page user visited
 	*
 	* @return string
 	*/
 	public function get_lastpage();
+
+	/**
+	* Set the last page user visited
+	*
+	* @param string				$text	Last page
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_lastpage($text);
 
 	/**
 	* Get the user's joined date
@@ -233,11 +297,27 @@ interface user_interface
 	public function get_regdate();
 
 	/**
+	* Set the user's joined date
+	*
+	* @param int				$value	UNIX timestamp
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_regdate($value);
+
+	/**
 	* Get the last time user visited
 	*
 	* @return int
 	*/
 	public function get_lastvisit();
+
+	/**
+	* Set the last time user visited
+	*
+	* @param int				$value	UNIX timestamp
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_lastvisit($value);
 
 	/**
 	* Get the last time user marked
@@ -247,11 +327,27 @@ interface user_interface
 	public function get_lastmark();
 
 	/**
+	* Set the last time user marked
+	*
+	* @param int				$value	UNIX timestamp
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_lastmark($value);
+
+	/**
 	* Get the last time user searched
 	*
 	* @return int
 	*/
 	public function get_last_search();
+
+	/**
+	* Set the last time user searched
+	*
+	* @param int				$value	UNIX timestamp
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_last_search($value);
 
 	/**
 	* Get the last time user posted
@@ -261,11 +357,27 @@ interface user_interface
 	public function get_lastpost_time();
 
 	/**
+	* Set the last time user posted
+	*
+	* @param int				$value	UNIX timestamp
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_lastpost_time($value);
+
+	/**
 	* Get the last time user sent PMs
 	*
 	* @return int
 	*/
 	public function get_last_privmsg();
+
+	/**
+	* Set the last time user sent PMs
+	*
+	* @param int				$value	UNIX timestamp
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_last_privmsg($value);
 
 	/**
 	* Get the last time user got warnings
@@ -275,11 +387,27 @@ interface user_interface
 	public function get_last_warning();
 
 	/**
+	* Set the last time user got warnings
+	*
+	* @param int				$value	UNIX timestamp
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_last_warning($value);
+
+	/**
 	* Get the last time user changed password
 	*
 	* @return int
 	*/
 	public function get_passchg();
+
+	/**
+	* Set the last time user changed password
+	*
+	* @param int				$value	UNIX timestamp
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_passchg($value);
 
 	/**
 	* Get the last time user got email sent from board
@@ -289,11 +417,27 @@ interface user_interface
 	public function get_emailtime();
 
 	/**
+	* Set the last time user got email sent from board
+	*
+	* @param int				$value	UNIX timestamp
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_emailtime($value);
+
+	/**
 	* Get the last time user got reminds
 	*
 	* @return int
 	*/
 	public function get_reminded_time();
+
+	/**
+	* Set the last time user got reminds
+	*
+	* @param int				$value	UNIX timestamp
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_reminded_time($value);
 
 	/**
 	* Get the last time user to be inactived
@@ -303,11 +447,27 @@ interface user_interface
 	public function get_inactive_time();
 
 	/**
+	* Set the last time user to be inactived
+	*
+	* @param int				$value	UNIX timestamp
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_inactive_time($value);
+
+	/**
 	* Get user's Jabber account
 	*
 	* @return string
 	*/
 	public function get_jabber();
+
+	/**
+	* Set user's Jabber account
+	*
+	* @param string				$text	Jabber username
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_jabber($text);
 
 	/**
 	* Get the user option: Notify when have new replies
@@ -317,11 +477,27 @@ interface user_interface
 	public function get_notify();
 
 	/**
+	* Set the user option: Notify when have new replies
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_notify($value);
+
+	/**
 	* Get the user option: Notify when have new PMs
 	*
 	* @return bool
 	*/
 	public function get_notify_pm();
+
+	/**
+	* Set the user option: Notify when have new PMs
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_notify_pm($value);
 
 	/**
 	* Get the user option: Notification method
@@ -347,11 +523,27 @@ interface user_interface
 	public function get_allow_pm();
 
 	/**
+	* Set the user option: Receive PMs from other users
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_allow_pm($value);
+
+	/**
 	* Get the user option: Show online status
 	*
 	* @return bool
 	*/
 	public function get_allow_viewonline();
+
+	/**
+	* Set the user option: Show online status
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_allow_viewonline($value);
 
 	/**
 	* Get the user option: Receive emails from other users
@@ -361,11 +553,27 @@ interface user_interface
 	public function get_allow_viewemail();
 
 	/**
+	* Set the user option: Receive emails from other users
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_allow_viewemail($value);
+
+	/**
 	* Get the user option: Receive emails from administrators
 	*
 	* @return bool
 	*/
 	public function get_allow_massemail();
+
+	/**
+	* Set the user option: Receive emails from administrators
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_allow_massemail($value);
 
 	/**
 	* Get the user option: Action if a PM folder is full
@@ -391,11 +599,28 @@ interface user_interface
 	public function get_topic_show_days();
 
 	/**
-	* Get the user option: Sorting order of topics
+	* Set the user option: Display topics from x days
+	*
+	* @param int				$value	Number of days
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_topic_show_days($value);
+
+	/**
+	* Get the user option: Sorting field of topics
 	*
 	* @return string
 	*/
 	public function get_topic_sortby_type();
+
+	/**
+	* Set the user option: Sorting field of topics
+	*
+	* @param string				$text	Jabber
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_topic_sortby_type($text);
 
 	/**
 	* Get the user option: Sorting direction of topics
@@ -405,6 +630,15 @@ interface user_interface
 	public function get_topic_sortby_dir();
 
 	/**
+	* Set the user option: Sorting direction of topics
+	*
+	* @param string				$text	Direction key
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_topic_sortby_dir($text);
+
+	/**
 	* Get the user option: Display posts from x days
 	*
 	* @return int
@@ -412,11 +646,28 @@ interface user_interface
 	public function get_post_show_days();
 
 	/**
-	* Get the user option: Sorting order of posts
+	* Set the user option: Display posts from x days
+	*
+	* @param int				$value	Number of days
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_post_show_days($value);
+
+	/**
+	* Get the user option: Sorting field of posts
 	*
 	* @return string
 	*/
 	public function get_post_sortby_type();
+
+	/**
+	* Set the user option: Sorting field of posts
+	*
+	* @param string				$text	Field key
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_post_sortby_type($text);
 
 	/**
 	* Get the user option: Sorting direction of posts
@@ -426,11 +677,29 @@ interface user_interface
 	public function get_post_sortby_dir();
 
 	/**
+	* Set the user option: Sorting direction of posts
+	*
+	* @param string				$text	Direction key
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_post_sortby_dir($text);
+
+	/**
 	* Get user's registered IP
 	*
 	* @return string
 	*/
 	public function get_ip();
+
+	/**
+	* Set user's registered IP
+	*
+	* @param string				$text	User IP
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_ip($text);
 
 	/**
 	* Get user's email hash
@@ -440,11 +709,27 @@ interface user_interface
 	public function get_email_hash();
 
 	/**
+	* Set user's email hash
+	*
+	* @param int				$value	Email hash
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_email_hash($value);
+
+	/**
 	* Get user's form hash
 	*
 	* @return string
 	*/
 	public function get_form_salt();
+
+	/**
+	* Set user's form hash
+	*
+	* @param string				$text	Form hash
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_form_salt($text);
 
 	/**
 	* Get user permissions
@@ -454,11 +739,28 @@ interface user_interface
 	public function get_permissions();
 
 	/**
+	* Set user permissions
+	*
+	* @param string				$text	Permissions
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_permissions($text);
+
+	/**
 	* User has switched permissions to who?
 	*
-	* @return string
+	* @return int
 	*/
 	public function get_perm_from();
+
+	/**
+	* Set whom the user has switched permissions to
+	*
+	* @param int				$id		User ID
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_perm_from($id);
 
 	/**
 	* Get user's activation key
@@ -468,11 +770,27 @@ interface user_interface
 	public function get_actkey();
 
 	/**
+	* Set user's activation key
+	*
+	* @param string				$text	Activation key
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_actkey($text);
+
+	/**
 	* Get user's last confirm key
 	*
 	* @return string
 	*/
 	public function get_last_confirm_key();
+
+	/**
+	* Set user's last confirm key
+	*
+	* @param string				$text	Confirm key
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_last_confirm_key($text);
 
 	/**
 	* Get number of failed logins
@@ -482,6 +800,14 @@ interface user_interface
 	public function get_login_attempts();
 
 	/**
+	* Set number of failed logins
+	*
+	* @param int				$value	Number of failed logins
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_login_attempts($value);
+
+	/**
 	* Get user's new reset password
 	*
 	* @return string
@@ -489,11 +815,27 @@ interface user_interface
 	public function get_newpasswd();
 
 	/**
+	* Set user's new reset password
+	*
+	* @param string				$text	New password
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_newpasswd($text);
+
+	/**
 	* Get number of reminders
 	*
 	* @return int
 	*/
 	public function get_reminded();
+
+	/**
+	* Set number of reminders
+	*
+	* @param int				$value	Email
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_reminded($value);
 
 	/**
 	* Get the inactive reason
@@ -551,11 +893,27 @@ interface user_interface
 	public function get_avatar_width();
 
 	/**
+	* Set the user avatar width
+	*
+	* @param int				$value	Avatar width
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_avatar_width($value);
+
+	/**
 	* Get the user avatar height
 	*
 	* @return int
 	*/
 	public function get_avatar_height();
+
+	/**
+	* Set the user avatar height
+	*
+	* @param int				$value	Avatar height
+	* @return user_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_avatar_height($value);
 
 	/**
 	* Get the user rank
