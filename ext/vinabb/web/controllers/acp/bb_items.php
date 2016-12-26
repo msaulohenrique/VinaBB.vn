@@ -312,23 +312,28 @@ class bb_items implements bb_items_interface
 	protected function request_data()
 	{
 		$this->data = [
-			'cat_id'			=> $this->request->variable('cat_id', 0),
-			'author_id'			=> $this->request->variable('author_id', 0),
-			'item_name'			=> $this->request->variable('item_name', '', true),
-			'item_varname'		=> $this->request->variable('item_varname', ''),
-			'item_desc'			=> $this->request->variable('item_desc', '', true),
-			'desc_bbcode'		=> $this->request->variable('desc_bbcode', true),
-			'desc_urls'			=> $this->request->variable('desc_urls', true),
-			'desc_smilies'		=> $this->request->variable('desc_smilies', true),
-			'item_desc_vi'		=> $this->request->variable('item_desc_vi', '', true),
-			'desc_vi_bbcode'	=> $this->request->variable('desc_vi_bbcode', true),
-			'desc_vi_urls'		=> $this->request->variable('desc_vi_urls', true),
-			'desc_vi_smilies'	=> $this->request->variable('desc_vi_smilies', true),
-			'item_price'		=> $this->request->variable('item_price', 0),
-			'item_url'			=> $this->request->variable('item_url', ''),
-			'item_github'		=> $this->request->variable('item_github', ''),
-			'item_enable'		=> $this->request->variable('item_enable', true),
-			'item_updated'		=> time()
+			'cat_id'				=> $this->request->variable('cat_id', 0),
+			'author_id'				=> $this->request->variable('author_id', 0),
+			'item_name'				=> $this->request->variable('item_name', '', true),
+			'item_varname'			=> $this->request->variable('item_varname', ''),
+			'item_desc'				=> $this->request->variable('item_desc', '', true),
+			'desc_bbcode'			=> $this->request->variable('desc_bbcode', true),
+			'desc_urls'				=> $this->request->variable('desc_urls', true),
+			'desc_smilies'			=> $this->request->variable('desc_smilies', true),
+			'item_desc_vi'			=> $this->request->variable('item_desc_vi', '', true),
+			'desc_vi_bbcode'		=> $this->request->variable('desc_vi_bbcode', true),
+			'desc_vi_urls'			=> $this->request->variable('desc_vi_urls', true),
+			'desc_vi_smilies'		=> $this->request->variable('desc_vi_smilies', true),
+			'item_ext_style'		=> $this->request->variable('item_ext_style', false),
+			'item_ext_acp_style'	=> $this->request->variable('item_ext_acp_style', false),
+			'item_ext_lang'			=> $this->request->variable('item_ext_lang', false),
+			'item_ext_db_schema'	=> $this->request->variable('item_ext_db_schema', false),
+			'item_ext_db_data'		=> $this->request->variable('item_ext_db_data', false),
+			'item_price'			=> $this->request->variable('item_price', 0),
+			'item_url'				=> $this->request->variable('item_url', ''),
+			'item_github'			=> $this->request->variable('item_github', ''),
+			'item_enable'			=> $this->request->variable('item_enable', true),
+			'item_updated'			=> time()
 		];
 	}
 
@@ -359,18 +364,23 @@ class bb_items implements bb_items_interface
 	protected function map_set_data(\vinabb\web\entities\bb_item_interface $entity)
 	{
 		$map_fields = [
-			'set_bb_type'	=> $this->bb_type,
-			'set_cat_id'	=> $this->data['cat_id'],
-			'set_author_id'	=> $this->data['author_id'],
-			'set_name'		=> $this->data['item_name'],
-			'set_varname'	=> $this->data['item_varname'],
-			'set_desc'		=> $this->data['item_desc'],
-			'set_desc_vi'	=> $this->data['item_desc_vi'],
-			'set_price'		=> $this->data['item_price'],
-			'set_url'		=> $this->data['item_url'],
-			'set_github'	=> $this->data['item_github'],
-			'set_enable'	=> $this->data['item_enable'],
-			'set_added'		=> null
+			'set_bb_type'		=> $this->bb_type,
+			'set_cat_id'		=> $this->data['cat_id'],
+			'set_author_id'		=> $this->data['author_id'],
+			'set_name'			=> $this->data['item_name'],
+			'set_varname'		=> $this->data['item_varname'],
+			'set_desc'			=> $this->data['item_desc'],
+			'set_desc_vi'		=> $this->data['item_desc_vi'],
+			'set_ext_style'		=> $this->data['item_ext_style'],
+			'set_ext_acp_style'	=> $this->data['item_ext_acp_style'],
+			'set_ext_lang'		=> $this->data['item_ext_lang'],
+			'set_ext_db_schema'	=> $this->data['item_ext_db_schema'],
+			'set_ext_db_data'	=> $this->data['item_ext_db_data'],
+			'set_price'			=> $this->data['item_price'],
+			'set_url'			=> $this->data['item_url'],
+			'set_github'		=> $this->data['item_github'],
+			'set_enable'		=> $this->data['item_enable'],
+			'set_added'			=> null
 		];
 
 		// Set the mapped data in the entity
@@ -446,6 +456,11 @@ class bb_items implements bb_items_interface
 			'ITEM_DESC_VI_BBCODE'	=> $entity->desc_vi_bbcode_enabled(),
 			'ITEM_DESC_VI_URLS'		=> $entity->desc_vi_urls_enabled(),
 			'ITEM_DESC_VI_SMILIES'	=> $entity->desc_vi_smilies_enabled(),
+			'ITEM_EXT_STYLE'		=> $entity->get_ext_style(),
+			'ITEM_EXT_ACP_STYLE'	=> $entity->get_ext_acp_style(),
+			'ITEM_EXT_LANG'			=> $entity->get_ext_lang(),
+			'ITEM_EXT_DB_SCHEMA'	=> $entity->get_ext_db_schema(),
+			'ITEM_EXT_DB_DATA'		=> $entity->get_ext_db_data(),
 			'ITEM_PRICE'			=> $entity->get_price(),
 			'ITEM_URL'				=> $entity->get_url(),
 			'ITEM_GITHUB'			=> $entity->get_github(),
