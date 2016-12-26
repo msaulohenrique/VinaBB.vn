@@ -114,6 +114,20 @@ class user_data extends user_logtime
 	}
 
 	/**
+	* Set the user timezone
+	*
+	* @param string		$text	UNIX timezone
+	* @return user_data	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_timezone($text)
+	{
+		// Set the value on our data array
+		$this->data['user_timezone'] = (string) $text;
+
+		return $this;
+	}
+
+	/**
 	* Get the user date format
 	*
 	* @return string
@@ -121,6 +135,20 @@ class user_data extends user_logtime
 	public function get_dateformat()
 	{
 		return (string) (isset($this->data['user_dateformat']) ? $this->data['user_dateformat'] : $this->config['default_dateformat']);
+	}
+
+	/**
+	* Set the user date format
+	*
+	* @param string		$text	PHP date format
+	* @return user_data	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_dateformat($text)
+	{
+		// Set the value on our data array
+		$this->data['user_dateformat'] = (string) $text;
+
+		return $this;
 	}
 
 	/**
@@ -134,6 +162,20 @@ class user_data extends user_logtime
 	}
 
 	/**
+	* Set the user's posts
+	*
+	* @param int		$value	Number of posts
+	* @return user_data	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_posts($value)
+	{
+		// Set the value on our data array
+		$this->data['user_posts'] = (int) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get the user's new PMs
 	*
 	* @return int
@@ -141,6 +183,20 @@ class user_data extends user_logtime
 	public function get_new_privmsg()
 	{
 		return isset($this->data['user_new_privmsg']) ? (int) $this->data['user_new_privmsg'] : 0;
+	}
+
+	/**
+	* Set the user new PMs
+	*
+	* @param int		$value	Number of new PMs
+	* @return user_data	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_new_privmsg($value)
+	{
+		// Set the value on our data array
+		$this->data['user_new_privmsg'] = (int) $value;
+
+		return $this;
 	}
 
 	/**
@@ -154,6 +210,20 @@ class user_data extends user_logtime
 	}
 
 	/**
+	* Set the user's unread PMs
+	*
+	* @param int		$value	Number of unread PMs
+	* @return user_data	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_unread_privmsg($value)
+	{
+		// Set the value on our data array
+		$this->data['user_unread_privmsg'] = (int) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get the user's warnings
 	*
 	* @return int
@@ -164,6 +234,20 @@ class user_data extends user_logtime
 	}
 
 	/**
+	* Set the user's warnings
+	*
+	* @param int		$value	Number of warnings
+	* @return user_data	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_warnings($value)
+	{
+		// Set the value on our data array
+		$this->data['user_warnings'] = (int) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get the user's PM rules
 	*
 	* @return int
@@ -171,5 +255,19 @@ class user_data extends user_logtime
 	public function get_message_rules()
 	{
 		return isset($this->data['user_message_rules']) ? (int) $this->data['user_message_rules'] : 0;
+	}
+
+	/**
+	* Set the user's PM rules
+	*
+	* @param int		$value	Number of PM rules
+	* @return user_data	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_message_rules($value)
+	{
+		// Set the value on our data array
+		$this->data['user_message_rules'] = (int) $value;
+
+		return $this;
 	}
 }
