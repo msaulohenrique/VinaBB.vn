@@ -259,11 +259,11 @@ class profile
 			$module->list_modules('ucp');
 			$module->list_modules('mcp');
 
-			$user_notes_enabled = ($module->loaded('mcp_notes', 'user_notes')) ? true : false;
-			$warn_user_enabled = ($module->loaded('mcp_warn', 'warn_user')) ? true : false;
-			$zebra_enabled = ($module->loaded('ucp_zebra')) ? true : false;
-			$friends_enabled = ($module->loaded('ucp_zebra', 'friends')) ? true : false;
-			$foes_enabled = ($module->loaded('ucp_zebra', 'foes')) ? true : false;
+			$user_notes_enabled = $module->loaded('mcp_notes', 'user_notes');
+			$warn_user_enabled = $module->loaded('mcp_warn', 'warn_user');
+			$zebra_enabled = $module->loaded('ucp_zebra');
+			$friends_enabled = $module->loaded('ucp_zebra', 'friends');
+			$foes_enabled = $module->loaded('ucp_zebra', 'foes');
 
 			unset($module);
 		}
@@ -304,11 +304,7 @@ class profile
 			'SIGNATURE'		=> $member['user_sig'],
 			'POSTS_IN_QUEUE'=> $member['posts_in_queue'],
 
-			'PM_IMG'		=> $this->user->img('icon_contact_pm', $this->language->lang('SEND_PRIVATE_MESSAGE')),
 			'L_SEND_EMAIL_USER'	=> $this->language->lang('SEND_EMAIL_USER', $member['username']),
-			'EMAIL_IMG'		=> $this->user->img('icon_contact_email', $this->language->lang('EMAIL')),
-			'JABBER_IMG'	=> $this->user->img('icon_contact_jabber', $this->language->lang('JABBER')),
-			'SEARCH_IMG'	=> $this->user->img('icon_user_search', $this->language->lang('SEARCH')),
 
 			'S_PROFILE_ACTION'	=> append_sid("{$this->root_path}memberlist.{$this->php_ext}", 'mode=group'),
 			'S_GROUP_OPTIONS'	=> $group_options,
@@ -348,33 +344,7 @@ class profile
 		// Inactive reason/account?
 		if ($member['user_type'] == USER_INACTIVE)
 		{
-			$this->language->add_lang('acp/common');
-
-			$inactive_reason = $this->language->lang('INACTIVE_REASON_UNKNOWN');
-
-			switch ($member['user_inactive_reason'])
-			{
-				case INACTIVE_REGISTER:
-					$inactive_reason = $this->language->lang('INACTIVE_REASON_REGISTER');
-				break;
-
-				case INACTIVE_PROFILE:
-					$inactive_reason = $this->language->lang('INACTIVE_REASON_PROFILE');
-				break;
-
-				case INACTIVE_MANUAL:
-					$inactive_reason = $this->language->lang('INACTIVE_REASON_MANUAL');
-				break;
-
-				case INACTIVE_REMIND:
-					$inactive_reason = $this->language->lang('INACTIVE_REASON_REMIND');
-				break;
-			}
-
-			$this->template->assign_vars([
-				'S_USER_INACTIVE'		=> true,
-				'USER_INACTIVE_REASON'	=> $inactive_reason
-			]);
+			$this->display_inactive_reason($member['user_inactive_reason']);
 		}
 
 		return $this->helper->render('memberlist_view.html', $this->language->lang('VIEWING_PROFILE', $member['username']));
@@ -401,5 +371,38 @@ class profile
 		}
 
 		return $this->main($username);
+	}
+
+	/**
+	* Get the inactive reason in language string by reason ID
+	*
+	* @param int $reason Reason ID
+	* @return string
+	*/
+	public function get_inactive_reason($reason)
+	{
+		$data = [
+			INACTIVE_REGISTER	=> $this->language->lang('INACTIVE_REASON_REGISTER'),
+			INACTIVE_PROFILE	=> $this->language->lang('INACTIVE_REASON_PROFILE'),
+			INACTIVE_MANUAL		=> $this->language->lang('INACTIVE_REASON_MANUAL'),
+			INACTIVE_REMIND		=> $this->language->lang('INACTIVE_REASON_REMIND'),
+		];
+
+		return isset($data[$reason]) ? $data[$reason] : $this->language->lang('INACTIVE_REASON_UNKNOWN');
+	}
+
+	/**
+	* Output inactive reason to template
+	*
+	* @param int $reason Reason ID
+	*/
+	public function display_inactive_reason($reason)
+	{
+		$this->language->add_lang('acp/common');
+
+		$this->template->assign_vars([
+			'S_USER_INACTIVE'		=> true,
+			'USER_INACTIVE_REASON'	=> $this->get_inactive_reason($reason)
+		]);
 	}
 }
