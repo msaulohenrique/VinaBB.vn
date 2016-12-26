@@ -272,13 +272,22 @@ class pages implements pages_interface
 	protected function map_set_data(\vinabb\web\entities\page_interface $entity)
 	{
 		$map_fields = [
-			'set_name'		=> $this->data['page_name'],
-			'set_name_vi'	=> $this->data['page_name_vi'],
-			'set_varname'	=> $this->data['page_varname'],
-			'set_desc'		=> $this->data['page_desc'],
-			'set_desc_vi'	=> $this->data['page_desc_vi'],
-			'set_text'		=> $this->data['page_text'],
-			'set_text_vi'	=> $this->data['page_text_vi']
+			'set_name'				=> $this->data['page_name'],
+			'set_name_vi'			=> $this->data['page_name_vi'],
+			'set_varname'			=> $this->data['page_varname'],
+			'set_desc'				=> $this->data['page_desc'],
+			'set_desc_vi'			=> $this->data['page_desc_vi'],
+			'set_text'				=> $this->data['page_text'],
+			'set_text_vi'			=> $this->data['page_text_vi'],
+			'set_enable'			=> $this->data['page_enable'],
+			'set_enable_guest'		=> $this->data['page_enable_guest'],
+			'set_enable_bot'		=> $this->data['page_enable_bot'],
+			'set_enable_new_user'	=> $this->data['page_enable_new_user'],
+			'set_enable_user'		=> $this->data['page_enable_user'],
+			'set_enable_mod'		=> $this->data['page_enable_mod'],
+			'set_enable_global_mod'	=> $this->data['page_enable_global_mod'],
+			'set_enable_admin'		=> $this->data['page_enable_admin'],
+			'set_enable_founder'	=> $this->data['page_enable_founder']
 		];
 
 		// Set the mapped data in the entity
