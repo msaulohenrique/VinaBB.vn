@@ -58,6 +58,7 @@ services:
     vinabb.web.acp.bb_items:
         class: vinabb\web\controllers\acp\bb_items
         arguments:
+            - '@vinabb.web.acp.bb_item_versions'
             - '@vinabb.web.cache'
             - '@config'
             - '@service_container'

@@ -16,6 +16,9 @@ use vinabb\web\includes\constants;
 */
 class bb_items implements bb_items_interface
 {
+	/** @var \vinabb\web\controllers\acp\bb_item_versions_interface */
+	protected $bb_item_version;
+
 	/** @var \vinabb\web\controllers\cache\service_interface $cache */
 	protected $cache;
 
@@ -82,21 +85,23 @@ class bb_items implements bb_items_interface
 	/**
 	* Constructor
 	*
-	* @param \vinabb\web\controllers\cache\service_interface	$cache			Cache service
-	* @param \phpbb\config\config								$config			Config object
-	* @param ContainerInterface									$container		Container object
-	* @param \phpbb\language\language							$language		Language object
-	* @param \phpbb\log\log										$log			Log object
-	* @param \vinabb\web\operators\bb_item_interface			$operator		BB item operators
-	* @param \phpbb\request\request								$request		Request object
-	* @param \phpbb\template\template							$template		Template object
-	* @param \phpbb\user										$user			User object
-	* @param \vinabb\web\controllers\helper_interface			$ext_helper		Extension helper
-	* @param string												$root_path		phpBB root path
-	* @param string												$admin_path		ACP root path
-	* @param string												$php_ext		PHP file extension
+	* @param \vinabb\web\controllers\acp\bb_item_versions_interface	$bb_item_version	BB item version ACP controller
+	* @param \vinabb\web\controllers\cache\service_interface		$cache				Cache service
+	* @param \phpbb\config\config									$config				Config object
+	* @param ContainerInterface										$container			Container object
+	* @param \phpbb\language\language								$language			Language object
+	* @param \phpbb\log\log											$log				Log object
+	* @param \vinabb\web\operators\bb_item_interface				$operator			BB item operators
+	* @param \phpbb\request\request									$request			Request object
+	* @param \phpbb\template\template								$template			Template object
+	* @param \phpbb\user											$user				User object
+	* @param \vinabb\web\controllers\helper_interface				$ext_helper			Extension helper
+	* @param string													$root_path			phpBB root path
+	* @param string													$admin_path			ACP root path
+	* @param string													$php_ext			PHP file extension
 	*/
 	public function __construct(
+		\vinabb\web\controllers\acp\bb_item_versions_interface $bb_item_version,
 		\vinabb\web\controllers\cache\service_interface $cache,
 		\phpbb\config\config $config,
 		ContainerInterface $container,
@@ -112,6 +117,7 @@ class bb_items implements bb_items_interface
 		$php_ext
 	)
 	{
+		$this->bb_item_version = $bb_item_version;
 		$this->cache = $cache;
 		$this->config = $config;
 		$this->container = $container;
@@ -509,6 +515,9 @@ class bb_items implements bb_items_interface
 		try
 		{
 			$this->operator->delete_item($item_id);
+
+			// Delete all versions from this item
+			$this->delete_item_versions($item_id);
 		}
 		catch (\vinabb\web\exceptions\base $e)
 		{
@@ -528,6 +537,22 @@ class bb_items implements bb_items_interface
 				'MESSAGE_TEXT'	=> $this->language->lang("MESSAGE_BB_{$this->lang_key}_DELETE"),
 				'REFRESH_DATA'	=> ['time'	=> 3]
 			]);
+		}
+	}
+
+	/**
+	* Delete all versions from an item
+	*
+	* @param int $item_id Item ID
+	*/
+	protected function delete_item_versions($item_id)
+	{
+		$versions = $this->container->get('vinabb.web.operators.bb_item_version')->get_versions($item_id);
+
+		/** @var \vinabb\web\entities\bb_item_version_interface $version */
+		foreach ($versions as $version)
+		{
+			$this->bb_item_version->delete_version($version->get_id(), $version->get_phpbb_branch());
 		}
 	}
 
