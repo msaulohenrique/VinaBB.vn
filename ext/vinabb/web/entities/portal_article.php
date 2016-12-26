@@ -435,10 +435,20 @@ class portal_article extends article_data implements portal_article_interface
 	*
 	* @param string						$text	Article image
 	* @return portal_article_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_img($text)
 	{
-		$this->data['article_img'] = (string) $text;
+		$text = (string) $text;
+
+		// Check the max length
+		if (utf8_strlen($text) > constants::MAX_CONFIG_NAME)
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['article_img', 'TOO_LONG']);
+		}
+
+		// Set the value on our data array
+		$this->data['article_img'] = $text;
 
 		return $this;
 	}

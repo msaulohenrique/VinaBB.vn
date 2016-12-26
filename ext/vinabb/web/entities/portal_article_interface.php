@@ -157,6 +157,7 @@ interface portal_article_interface
 	*
 	* @param string						$text	Article image
 	* @return portal_article_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_img($text);
 
