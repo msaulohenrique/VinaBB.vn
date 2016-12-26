@@ -226,6 +226,20 @@ class rank implements rank_interface
 	}
 
 	/**
+	* Set the rank's minimum posts
+	*
+	* @param string				$value	Number of posts
+	* @return rank_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_min($value)
+	{
+		// Set the value on our data array
+		$this->data['rank_min'] = (int) $value;
+
+		return $this;
+	}
+
+	/**
 	* The rank is special?
 	*
 	* @return bool
@@ -233,6 +247,20 @@ class rank implements rank_interface
 	public function get_special()
 	{
 		return isset($this->data['rank_special']) ? (bool) $this->data['rank_special'] : false;
+	}
+
+	/**
+	* Set the rank is special or not
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return rank_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_special($value)
+	{
+		// Set the value on our data array
+		$this->data['rank_special'] = (bool) $value;
+
+		return $this;
 	}
 
 	/**

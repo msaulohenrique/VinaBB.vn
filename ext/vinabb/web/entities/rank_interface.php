@@ -87,11 +87,27 @@ interface rank_interface
 	public function get_min();
 
 	/**
+	* Set the rank's minimum posts
+	*
+	* @param string				$value	Number of posts
+	* @return rank_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_min($value);
+
+	/**
 	* The rank is special?
 	*
 	* @return bool
 	*/
 	public function get_special();
+
+	/**
+	* Set the rank is special or not
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return rank_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_special($value);
 
 	/**
 	* Get the rank image
