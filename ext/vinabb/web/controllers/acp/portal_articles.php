@@ -467,14 +467,14 @@ class portal_articles implements portal_articles_interface
 	/**
 	* Generate options of available categories
 	*
-	* @param \vinabb\web\entities\portal_article_interface	$entity	Article entity
-	* @param int											$cat_id	Category ID
-	* @param string											$mode	Add or edit mode?
+	* @param \vinabb\web\entities\portal_article_interface	$entity		Article entity
+	* @param int											$current_id	Selected category ID
+	* @param string											$mode		Add or edit mode?
 	*/
-	protected function build_cat_options(\vinabb\web\entities\portal_article_interface $entity, $cat_id = 0, $mode = 'edit')
+	protected function build_cat_options(\vinabb\web\entities\portal_article_interface $entity, $current_id = 0, $mode = 'edit')
 	{
 		$options = $this->container->get('vinabb.web.operators.portal_category')->get_cats();
-		$cat_id = ($mode == 'edit') ? $entity->get_cat_id() : $cat_id;
+		$current_id = ($mode == 'edit') ? $entity->get_cat_id() : $current_id;
 
 		$padding = '';
 		$padding_store = [];
@@ -500,7 +500,7 @@ class portal_articles implements portal_articles_interface
 				'NAME'		=> $padding . $option->get_name(),
 				'NAME_VI'	=> $padding . $option->get_name_vi(),
 
-				'S_SELECTED'	=> $option->get_id() == $cat_id
+				'S_SELECTED'	=> $option->get_id() == $current_id
 			]);
 		}
 	}

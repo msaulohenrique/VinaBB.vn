@@ -489,14 +489,14 @@ class bb_items implements bb_items_interface
 	/**
 	* Generate options of available categories
 	*
-	* @param \vinabb\web\entities\bb_item_interface	$entity BB item entity
-	* @param int									$cat_id	Category ID
-	* @param string									$mode	Add or edit mode?
+	* @param \vinabb\web\entities\bb_item_interface	$entity 	BB item entity
+	* @param int									$current_id	Selected category ID
+	* @param string									$mode		Add or edit mode?
 	*/
-	protected function build_cat_options(\vinabb\web\entities\bb_item_interface $entity, $cat_id = 0, $mode = 'edit')
+	protected function build_cat_options(\vinabb\web\entities\bb_item_interface $entity, $current_id = 0, $mode = 'edit')
 	{
 		$options = $this->container->get('vinabb.web.operators.bb_category')->get_cats($this->bb_type);
-		$cat_id = ($mode == 'edit') ? $entity->get_cat_id() : $cat_id;
+		$current_id = ($mode == 'edit') ? $entity->get_cat_id() : $current_id;
 
 		/** @var \vinabb\web\entities\bb_category_interface $option */
 		foreach ($options as $option)
@@ -506,7 +506,7 @@ class bb_items implements bb_items_interface
 				'NAME'		=> $option->get_name(),
 				'NAME_VI'	=> $option->get_name_vi(),
 
-				'S_SELECTED'	=> $option->get_id() == $cat_id
+				'S_SELECTED'	=> $option->get_id() == $current_id
 			]);
 		}
 	}
@@ -515,13 +515,13 @@ class bb_items implements bb_items_interface
 	* Generate options of available categories
 	*
 	* @param \vinabb\web\entities\bb_item_interface	$entity 	BB item entity
-	* @param int									$author_id	Author ID
+	* @param int									$current_id	Selected author ID
 	* @param string									$mode		Add or edit mode?
 	*/
-	protected function build_author_options(\vinabb\web\entities\bb_item_interface $entity, $author_id = 0, $mode = 'edit')
+	protected function build_author_options(\vinabb\web\entities\bb_item_interface $entity, $current_id = 0, $mode = 'edit')
 	{
 		$options = $this->container->get('vinabb.web.operators.bb_author')->get_authors();
-		$author_id = ($mode == 'edit') ? $entity->get_author_id() : $author_id;
+		$current_id = ($mode == 'edit') ? $entity->get_author_id() : $current_id;
 
 		/** @var \vinabb\web\entities\bb_author_interface $option */
 		foreach ($options as $option)
@@ -532,7 +532,7 @@ class bb_items implements bb_items_interface
 				'FIRSTNAME'	=> $option->get_firstname(),
 				'LASTNAME'	=> $option->get_lastname(),
 
-				'S_SELECTED'	=> $option->get_id() == $author_id
+				'S_SELECTED'	=> $option->get_id() == $current_id
 			]);
 		}
 	}

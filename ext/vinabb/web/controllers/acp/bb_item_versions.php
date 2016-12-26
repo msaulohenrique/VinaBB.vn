@@ -428,13 +428,13 @@ class bb_item_versions implements bb_item_versions_interface
 	/**
 	* Generate options of available phpBB versions
 	*
-	* @param \vinabb\web\entities\bb_item_version_interface	$entity			BB item entity
-	* @param string											$phpbb_version	phpBB version
-	* @param string											$mode			Add or edit mode?
+	* @param \vinabb\web\entities\bb_item_version_interface	$entity				BB item entity
+	* @param string											$current_version	Selected phpBB version
+	* @param string											$mode				Add or edit mode?
 	*/
-	protected function build_phpbb_options(\vinabb\web\entities\bb_item_version_interface $entity, $phpbb_version = '', $mode = 'edit')
+	protected function build_phpbb_options(\vinabb\web\entities\bb_item_version_interface $entity, $current_version = '', $mode = 'edit')
 	{
-		$phpbb_version = ($mode == 'edit') ? $entity->get_phpbb_version() : $phpbb_version;
+		$current_version = ($mode == 'edit') ? $entity->get_phpbb_version() : $current_version;
 
 		// Get existing branch versions
 		$existing_branches = [];
@@ -465,7 +465,7 @@ class bb_item_versions implements bb_item_versions_interface
 						'ID'	=> $version,
 						'NAME'	=> $version_data['name'],
 
-						'S_SELECTED'	=> $version == $phpbb_version
+						'S_SELECTED'	=> $version == $current_version
 					]);
 				}
 			}
