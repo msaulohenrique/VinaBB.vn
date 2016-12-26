@@ -238,11 +238,27 @@ interface topic_interface
 	public function get_posts_approved();
 
 	/**
+	* Set the number of approved posts
+	*
+	* @param int				$value	Number of posts
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_posts_approved($value);
+
+	/**
 	* Get the number of disapproved posts
 	*
 	* @return int
 	*/
 	public function get_posts_unapproved();
+
+	/**
+	* Set the number of disapproved posts
+	*
+	* @param int				$value	Number of posts
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_posts_unapproved($value);
 
 	/**
 	* Get the number of soft-deleted posts
@@ -252,11 +268,27 @@ interface topic_interface
 	public function get_posts_softdeleted();
 
 	/**
+	* Set the number of soft-deleted posts
+	*
+	* @param int				$value	Number of posts
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_posts_softdeleted($value);
+
+	/**
 	* Get the topic time
 	*
 	* @return int
 	*/
 	public function get_time();
+
+	/**
+	* Set the topic time
+	*
+	* @param int				$value	UNIX timestamp
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_time($value);
 
 	/**
 	* Get the topic time limit
@@ -266,11 +298,27 @@ interface topic_interface
 	public function get_time_limit();
 
 	/**
+	* Set the topic time limit
+	*
+	* @param int				$value	UNIX timestamp
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_time_limit($value);
+
+	/**
 	* Get the topic visibility
 	*
 	* @return int
 	*/
 	public function get_visibility();
+
+	/**
+	* Set the topic visibility
+	*
+	* @param int				$value	Visibility value
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_visibility($value);
 
 	/**
 	* Does the topic have attachments?
@@ -280,11 +328,27 @@ interface topic_interface
 	public function get_attachment();
 
 	/**
+	* Set the topic have or have not attachments
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_attachment($value);
+
+	/**
 	* Does the topic have open reports?
 	*
 	* @return bool
 	*/
 	public function get_reported();
+
+	/**
+	* Set the topic have or have not open reports
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_reported($value);
 
 	/**
 	* Get the old topic ID after moving and leaving shadow
@@ -310,6 +374,14 @@ interface topic_interface
 	public function get_bumped();
 
 	/**
+	* Set the time of bumping topic up
+	*
+	* @param int				$value	UNIX timestamp
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_bumped($value);
+
+	/**
 	* Get the user bumped topic up
 	*
 	* @return int
@@ -331,6 +403,14 @@ interface topic_interface
 	* @return int
 	*/
 	public function get_delete_time();
+
+	/**
+	* Set the time of deleting topic
+	*
+	* @param int				$value	UNIX timestamp
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_delete_time($value);
 
 	/**
 	* Get the deleted reason
@@ -452,11 +532,27 @@ interface topic_interface
 	public function get_last_post_time();
 
 	/**
+	* Set the topic's last post time
+	*
+	* @param int				$value	UNIX timestamp
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_last_post_time($value);
+
+	/**
 	* Get the topic's last view time
 	*
 	* @return int
 	*/
 	public function get_last_view_time();
+
+	/**
+	* Set the topic's last view time
+	*
+	* @param int				$value	UNIX timestamp
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_last_view_time($value);
 
 	/**
 	* Get the poll title
@@ -482,11 +578,27 @@ interface topic_interface
 	public function get_poll_start();
 
 	/**
+	* Set the poll's staring time
+	*
+	* @param int				$value	UNIX timestamp
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_poll_start($value);
+
+	/**
 	* Get the poll's ending time
 	*
 	* @return int
 	*/
 	public function get_poll_length();
+
+	/**
+	* Set the poll's ending time
+	*
+	* @param int				$value	UNIX timestamp
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_poll_length($value);
 
 	/**
 	* Get the maximum options of poll
@@ -496,6 +608,14 @@ interface topic_interface
 	public function get_poll_max_options();
 
 	/**
+	* Set the maximum options of poll
+	*
+	* @param int				$value	Number of options
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_poll_max_options($value);
+
+	/**
 	* Get the poll's last voting time
 	*
 	* @return int
@@ -503,9 +623,25 @@ interface topic_interface
 	public function get_poll_last_vote();
 
 	/**
+	* Set the poll's last voting time
+	*
+	* @param int				$value	UNIX timestamp
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_poll_last_vote($value);
+
+	/**
 	* Does the poll allow to change voted options?
 	*
 	* @return bool
 	*/
 	public function get_poll_vote_change();
+
+	/**
+	* Set the poll option: Allow to change voted options?
+	*
+	* @param int				$value	true: allow; false: disallow
+	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_poll_vote_change($value);
 }
