@@ -29,11 +29,12 @@ class item_data extends item_ext
 	/**
 	* Set the item price
 	*
-	* @param int			$value	Item price
+	* @param int		$value	Item price
 	* @return item_data	$this	Object for chaining calls: load()->set()->save()
 	*/
 	public function set_price($value)
 	{
+		// Set the value on our data array
 		$this->data['item_price'] = (int) $value;
 
 		return $this;
@@ -116,6 +117,20 @@ class item_data extends item_ext
 	}
 
 	/**
+	* Set item display setting in template
+	*
+	* @param bool		$value	true: enable; false: disable
+	* @return item_data	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable($value)
+	{
+		// Set the value on our data array
+		$this->data['item_enable'] = (bool) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get the time of adding item
 	*
 	* @return int
@@ -132,10 +147,8 @@ class item_data extends item_ext
 	*/
 	public function set_added()
 	{
-		if (!isset($this->data['item_added']))
-		{
-			$this->data['item_added'] = time();
-		}
+		// Set the value on our data array
+		$this->data['item_added'] = time();
 
 		return $this;
 	}
@@ -148,5 +161,18 @@ class item_data extends item_ext
 	public function get_updated()
 	{
 		return isset($this->data['item_updated']) ? (int) $this->data['item_updated'] : 0;
+	}
+
+	/**
+	* Set the last updated time of item
+	*
+	* @return item_data $this Object for chaining calls: load()->set()->save()
+	*/
+	public function set_updated()
+	{
+		// Set the value on our data array
+		$this->data['item_updated'] = time();
+
+		return $this;
 	}
 }
