@@ -385,7 +385,7 @@ class profile
 			INACTIVE_REGISTER	=> $this->language->lang('INACTIVE_REASON_REGISTER'),
 			INACTIVE_PROFILE	=> $this->language->lang('INACTIVE_REASON_PROFILE'),
 			INACTIVE_MANUAL		=> $this->language->lang('INACTIVE_REASON_MANUAL'),
-			INACTIVE_REMIND		=> $this->language->lang('INACTIVE_REASON_REMIND'),
+			INACTIVE_REMIND		=> $this->language->lang('INACTIVE_REASON_REMIND')
 		];
 
 		return isset($data[$reason]) ? $data[$reason] : $this->language->lang('INACTIVE_REASON_UNKNOWN');
