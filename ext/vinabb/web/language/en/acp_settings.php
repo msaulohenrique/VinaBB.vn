@@ -94,8 +94,5 @@ $lang = array_merge($lang, [
 	'MESSAGE_SETUP_SETTINGS_UPDATE'		=> 'The once settings have been updated.',
 	'MESSAGE_VERSION_SETTINGS_UPDATE'	=> 'The version settings have been updated.',
 
-	'SELECT_LANGUAGE'	=> 'Select a language',
-	'SOCIAL_LINKS'		=> 'Social links',
-
 	'TWITTER_URL'	=> 'Twitter'
 ]);

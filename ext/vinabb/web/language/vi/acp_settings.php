@@ -94,8 +94,5 @@ $lang = array_merge($lang, [
 	'MESSAGE_SETUP_SETTINGS_UPDATE'		=> 'Đã cập nhật thiết lập một lần.',
 	'MESSAGE_VERSION_SETTINGS_UPDATE'	=> 'Đã cập nhật thiết lập phiên bản.',
 
-	'SELECT_LANGUAGE'	=> 'Chọn ngôn ngữ',
-	'SOCIAL_LINKS'		=> 'Liên kết mạng xã hội',
-
 	'TWITTER_URL'	=> 'Twitter'
 ]);

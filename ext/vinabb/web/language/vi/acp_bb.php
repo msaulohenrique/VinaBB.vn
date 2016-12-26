@@ -30,6 +30,7 @@ $lang = array_merge($lang, [
 	'ADD_CAT'			=> 'Tạo danh mục mới',
 	'ADD_VERSION'		=> 'Tạo nhánh phiên bản mới',
 	'AUTHOR_DETAILS'	=> 'Dữ liệu người phát triển',
+	'AUTHOR_IS_GROUP'	=> 'Là một nhóm',
 
 	'CAT_DESC'						=> 'Giới thiệu',
 	'CAT_DETAILS'					=> 'Dữ liệu danh mục',
