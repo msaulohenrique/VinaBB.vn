@@ -197,11 +197,27 @@ interface post_interface
 	public function get_visibility();
 
 	/**
+	* Set the post visibility
+	*
+	* @param int				$value	Visibility value
+	* @return post_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_visibility($value);
+
+	/**
 	* Does the post have attachments?
 	*
 	* @return bool
 	*/
 	public function get_attachment();
+
+	/**
+	* Set the post have or have not attachments
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return post_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_attachment($value);
 
 	/**
 	* Does the post have open reports?
@@ -211,6 +227,14 @@ interface post_interface
 	public function get_reported();
 
 	/**
+	* Set the post have or have not open reports
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return post_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_reported($value);
+
+	/**
 	* Get the post option: Attach signature
 	*
 	* @return bool
@@ -218,11 +242,27 @@ interface post_interface
 	public function get_enable_sig();
 
 	/**
+	* Set the post option: Attach signature
+	*
+	* @param bool				$value	true: enable; false: disable
+	* @return post_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_sig($value);
+
+	/**
 	* Get the post option: Count the number of user posts
 	*
 	* @return bool
 	*/
 	public function get_postcount();
+
+	/**
+	* Set the post option: Count the number of user posts
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return post_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_postcount($value);
 
 	/**
 	* Get the post checksum
@@ -234,8 +274,8 @@ interface post_interface
 	/**
 	* Set the post checksum
 	*
-	* @param string			$text	Checksum
-	* @return post_actions	$this	Object for chaining calls: load()->set()->save()
+	* @param string				$text	Checksum
+	* @return post_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_checksum($text);
@@ -246,6 +286,14 @@ interface post_interface
 	* @return int
 	*/
 	public function get_edit_time();
+
+	/**
+	* Set the time of editing post
+	*
+	* @param int				$value	UNIX timestamp
+	* @return post_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_edit_time($value);
 
 	/**
 	* Get the edited reason
@@ -287,6 +335,14 @@ interface post_interface
 	public function get_edit_count();
 
 	/**
+	* Set number of times of editing post
+	*
+	* @param int				$value	Number of times
+	* @return post_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_edit_count($value);
+
+	/**
 	* Is the post locked?
 	*
 	* @return bool
@@ -294,11 +350,27 @@ interface post_interface
 	public function get_edit_locked();
 
 	/**
+	* Set the post locked or unlocked
+	*
+	* @param bool				$value	true: locked; false: unlocked
+	* @return post_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_edit_locked($value);
+
+	/**
 	* Get the time of deleting post
 	*
 	* @return int
 	*/
 	public function get_delete_time();
+
+	/**
+	* Set the time of deleting post
+	*
+	* @param int				$value	UNIX timestamp
+	* @return post_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_delete_time($value);
 
 	/**
 	* Get the deleted reason
