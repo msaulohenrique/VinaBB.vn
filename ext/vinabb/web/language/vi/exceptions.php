@@ -34,6 +34,7 @@ $lang = array_merge($lang, [
 	'EXCEPTION_INVALID'				=> 'This field contains invalid characters.',
 	'EXCEPTION_INVALID_ARGUMENT'	=> 'Invalid argument specified for “%1$s”. Reason: %2$s',
 	'EXCEPTION_INVALID_EMAIL'		=> 'This field is not a valid email.',
+	'EXCEPTION_INVALID_IP'			=> 'This field is not a valid IP address.',
 	'EXCEPTION_INVALID_URL'			=> 'This field is not a valid URL.',
 	'EXCEPTION_NOT_AUTH'			=> 'The user are not authorized to perform this action. Reason: “%s”.',
 	'EXCEPTION_NOT_EXISTS'			=> 'This field does not exist.',
