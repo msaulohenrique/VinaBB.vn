@@ -406,6 +406,7 @@ class bb_item_versions implements bb_item_versions_interface
 		try
 		{
 			$this->operator->delete_version($item_id, $phpbb_branch);
+			$this->filesystem->remove($entity->get_file($this->mode, true));
 		}
 		catch (\vinabb\web\exceptions\base $e)
 		{
