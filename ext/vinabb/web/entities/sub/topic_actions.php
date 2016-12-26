@@ -42,6 +42,20 @@ class topic_actions extends topic_last_post
 	}
 
 	/**
+	* Set the topic visibility
+	*
+	* @param int			$value	Visibility value
+	* @return topic_actions	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_visibility($value)
+	{
+		// Set the value on our data array
+		$this->data['topic_visibility'] = (int) $value;
+
+		return $this;
+	}
+
+	/**
 	* Does the topic have attachments?
 	*
 	* @return bool
@@ -52,6 +66,20 @@ class topic_actions extends topic_last_post
 	}
 
 	/**
+	* Set the topic have or have not attachments
+	*
+	* @param bool			$value	true: yes; false: no
+	* @return topic_actions	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_attachment($value)
+	{
+		// Set the value on our data array
+		$this->data['topic_attachment'] = (bool) $value;
+
+		return $this;
+	}
+
+	/**
 	* Does the topic have open reports?
 	*
 	* @return bool
@@ -59,6 +87,20 @@ class topic_actions extends topic_last_post
 	public function get_reported()
 	{
 		return isset($this->data['topic_reported']) ? (bool) $this->data['topic_reported'] : false;
+	}
+
+	/**
+	* Set the topic have or have not open reports
+	*
+	* @param bool			$value	true: yes; false: no
+	* @return topic_actions	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_reported($value)
+	{
+		// Set the value on our data array
+		$this->data['topic_reported'] = (bool) $value;
+
+		return $this;
 	}
 
 	/**
@@ -74,8 +116,8 @@ class topic_actions extends topic_last_post
 	/**
 	* Set the old topic ID after moving and leaving shadow
 	*
-	* @param int				$id		Topic ID
-	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @param int			$id		Topic ID
+	* @return topic_actions	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_moved_id($id)
@@ -105,6 +147,20 @@ class topic_actions extends topic_last_post
 	}
 
 	/**
+	* Set the time of bumping topic up
+	*
+	* @param int			$value	UNIX timestamp
+	* @return topic_actions	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_bumped($value)
+	{
+		// Set the value on our data array
+		$this->data['topic_bumped'] = (int) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get the user bumped topic up
 	*
 	* @return int
@@ -117,8 +173,8 @@ class topic_actions extends topic_last_post
 	/**
 	* Set the user bumped topic up
 	*
-	* @param int				$id		User ID
-	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @param int			$id		User ID
+	* @return topic_actions	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_bumper($id)
@@ -148,6 +204,20 @@ class topic_actions extends topic_last_post
 	}
 
 	/**
+	* Set the time of deleting topic
+	*
+	* @param int			$value	UNIX timestamp
+	* @return topic_actions	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_delete_time($value)
+	{
+		// Set the value on our data array
+		$this->data['topic_delete_time'] = (int) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get the deleted reason
 	*
 	* @return string
@@ -160,8 +230,8 @@ class topic_actions extends topic_last_post
 	/**
 	* Set the deleted reason
 	*
-	* @param string				$text	Reason
-	* @return topic_last_post	$this	Object for chaining calls: load()->set()->save()
+	* @param string			$text	Reason
+	* @return topic_actions	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_delete_reason($text)
@@ -193,8 +263,8 @@ class topic_actions extends topic_last_post
 	/**
 	* Set the user deleted topic
 	*
-	* @param int				$id		User ID
-	* @return topic_interface	$this	Object for chaining calls: load()->set()->save()
+	* @param int			$id		User ID
+	* @return topic_actions	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_delete_user($id)
