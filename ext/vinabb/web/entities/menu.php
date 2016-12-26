@@ -353,10 +353,20 @@ class menu extends menu_enable implements menu_interface
 	*
 	* @param string				$text	Menu icon
 	* @return menu_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_icon($text)
 	{
-		$this->data['menu_icon'] = (string) $text;
+		$text = (string) $text;
+
+		// Check the max length
+		if (utf8_strlen($text) > constants::MAX_CONFIG_NAME)
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['menu_icon', 'TOO_LONG']);
+		}
+
+		// Set the value on our data array
+		$this->data['menu_icon'] = $text;
 
 		return $this;
 	}
@@ -376,10 +386,20 @@ class menu extends menu_enable implements menu_interface
 	*
 	* @param string				$text	Menu data
 	* @return menu_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_data($text)
 	{
-		$this->data['menu_data'] = (string) $text;
+		$text = (string) $text;
+
+		// Check the max length
+		if (utf8_strlen($text) > constants::MAX_CONFIG_NAME)
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['menu_data', 'TOO_LONG']);
+		}
+
+		// Set the value on our data array
+		$this->data['menu_data'] = $text;
 
 		return $this;
 	}
@@ -392,5 +412,18 @@ class menu extends menu_enable implements menu_interface
 	public function get_target()
 	{
 		return isset($this->data['menu_target']) ? (bool) $this->data['menu_target'] : false;
+	}
+
+	/**
+	* Set menu open target setting
+	*
+	* @param bool				$value	true: Open in new window/tab; false: no
+	* @return menu_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_target($value)
+	{
+		$this->data['menu_target'] = (bool) $value;
+
+		return $this;
 	}
 }

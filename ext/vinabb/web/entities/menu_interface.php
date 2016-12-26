@@ -144,6 +144,7 @@ interface menu_interface
 	*
 	* @param string				$text	Menu icon
 	* @return menu_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_icon($text);
 
@@ -159,6 +160,7 @@ interface menu_interface
 	*
 	* @param string				$text	Menu data
 	* @return menu_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_data($text);
 
@@ -168,6 +170,14 @@ interface menu_interface
 	* @return bool
 	*/
 	public function get_target();
+
+	/**
+	* Set menu open target setting
+	*
+	* @param bool				$value	true: Open in new window/tab; false: no
+	* @return menu_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_target($value);
 
 	/**
 	* Get menu display setting for guests
