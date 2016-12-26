@@ -493,6 +493,9 @@ class bb_items implements bb_items_interface
 			'ITEM_GITHUB'				=> $entity->get_github(),
 			'ITEM_ENABLE'				=> $entity->get_enable(),
 
+			'LANG_OPTIONS'	=> ($this->bb_type == constants::BB_TYPE_LANG) ? $this->ext_helper->build_lang_list($entity->get_lang_iso()) : '',
+			'OS_OPTIONS'	=> ($this->bb_type == constants::BB_TYPE_TOOL) ? $this->ext_helper->build_os_list($entity->get_tool_os()) : '',
+
 			// These template variables used for the BBCode editor
 			'S_BBCODE_ALLOWED'	=> true,
 			'S_SMILIES_ALLOWED'	=> true,
