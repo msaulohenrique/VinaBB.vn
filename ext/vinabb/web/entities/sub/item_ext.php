@@ -48,7 +48,7 @@ class item_ext extends item_style
 	/**
 	* Set the extension property: Style Changes
 	*
-	* @param bool		$value	Config value
+	* @param bool		$value	true: yes; false: no
 	* @return item_ext	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
@@ -81,7 +81,7 @@ class item_ext extends item_style
 	/**
 	* Set the extension property: ACP Style Changes
 	*
-	* @param bool		$value	Config value
+	* @param bool		$value	true: yes; false: no
 	* @return item_ext	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
@@ -114,7 +114,7 @@ class item_ext extends item_style
 	/**
 	* Set the extension property: Language Changes
 	*
-	* @param bool		$value	Config value
+	* @param bool		$value	true: yes; false: no
 	* @return item_ext	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
@@ -147,7 +147,7 @@ class item_ext extends item_style
 	/**
 	* Set the extension property: Schema Changes
 	*
-	* @param bool		$value	Config value
+	* @param bool		$value	true: yes; false: no
 	* @return item_ext	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
@@ -180,7 +180,7 @@ class item_ext extends item_style
 	/**
 	* Set the extension property: Data Changes
 	*
-	* @param bool		$value	Config value
+	* @param bool		$value	true: yes; false: no
 	* @return item_ext	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
