@@ -152,27 +152,4 @@ class item_data extends item_ext
 
 		return $this;
 	}
-
-	/**
-	* Get the last updated time of item
-	*
-	* @return int
-	*/
-	public function get_updated()
-	{
-		return isset($this->data['item_updated']) ? (int) $this->data['item_updated'] : 0;
-	}
-
-	/**
-	* Set the last updated time of item
-	*
-	* @return item_data $this Object for chaining calls: load()->set()->save()
-	*/
-	public function set_updated()
-	{
-		// Set the value on our data array
-		$this->data['item_updated'] = time();
-
-		return $this;
-	}
 }

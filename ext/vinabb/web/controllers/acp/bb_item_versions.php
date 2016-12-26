@@ -283,7 +283,8 @@ class bb_item_versions implements bb_item_versions_interface
 			'phpbb_branch'	=> substr($phpbb_version, 0, strrpos($phpbb_version, '.')),
 			'phpbb_version'	=> $phpbb_version,
 			'item_version'	=> $this->request->variable('item_version', ''),
-			'item_file'		=> $this->request->file('item_file')
+			'item_file'		=> $this->request->file('item_file'),
+			'item_updated'	=> time()
 		];
 	}
 
@@ -296,7 +297,8 @@ class bb_item_versions implements bb_item_versions_interface
 	{
 		$map_fields = [
 			'set_phpbb_version'	=> $this->data['phpbb_version'],
-			'set_version'		=> $this->data['item_version']
+			'set_version'		=> $this->data['item_version'],
+			'set_updated'		=> $this->data['item_updated']
 		];
 
 		// Set the mapped data in the entity

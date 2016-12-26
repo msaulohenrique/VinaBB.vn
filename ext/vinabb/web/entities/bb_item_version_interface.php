@@ -130,4 +130,18 @@ interface bb_item_version_interface
 	* @return int
 	*/
 	public function get_downloads();
+
+	/**
+	* Get the last updated time
+	*
+	* @return int
+	*/
+	public function get_updated();
+
+	/**
+	* Set the last updated time
+	*
+	* @return bb_item_version_interface $this Object for chaining calls: load()->set()->save()
+	*/
+	public function set_updated();
 }

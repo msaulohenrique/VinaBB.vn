@@ -552,18 +552,4 @@ interface bb_item_interface
 	* @return bb_item_interface $this Object for chaining calls: load()->set()->save()
 	*/
 	public function set_added();
-
-	/**
-	* Get the last updated time of item
-	*
-	* @return int
-	*/
-	public function get_updated();
-
-	/**
-	* Set the last updated time of item
-	*
-	* @return bb_item_interface $this Object for chaining calls: load()->set()->save()
-	*/
-	public function set_updated();
 }

@@ -368,4 +368,27 @@ class bb_item_version implements bb_item_version_interface
 	{
 		return isset($this->data['item_downloads']) ? (int) $this->data['item_downloads'] : 0;
 	}
+
+	/**
+	* Get the last updated time
+	*
+	* @return int
+	*/
+	public function get_updated()
+	{
+		return isset($this->data['item_updated']) ? (int) $this->data['item_updated'] : 0;
+	}
+
+	/**
+	* Set the last updated time
+	*
+	* @return bb_item_version_interface $this Object for chaining calls: load()->set()->save()
+	*/
+	public function set_updated()
+	{
+		// Set the value on our data array
+		$this->data['item_updated'] = time();
+
+		return $this;
+	}
 }

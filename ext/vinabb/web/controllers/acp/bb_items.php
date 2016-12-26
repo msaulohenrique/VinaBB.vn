@@ -345,8 +345,7 @@ class bb_items implements bb_items_interface
 			'item_price'				=> $this->request->variable('item_price', 0),
 			'item_url'					=> $this->request->variable('item_url', ''),
 			'item_github'				=> $this->request->variable('item_github', ''),
-			'item_enable'				=> $this->request->variable('item_enable', true),
-			'item_updated'				=> time()
+			'item_enable'				=> $this->request->variable('item_enable', true)
 		];
 	}
 
