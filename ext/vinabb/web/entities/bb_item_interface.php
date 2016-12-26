@@ -295,7 +295,7 @@ interface bb_item_interface
 	/**
 	* Set the extension property: Style Changes
 	*
-	* @param bool				$value	Config value
+	* @param bool				$value	true: yes; false: no
 	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
@@ -311,7 +311,7 @@ interface bb_item_interface
 	/**
 	* Set the extension property: ACP Style Changes
 	*
-	* @param bool				$value	Config value
+	* @param bool				$value	true: yes; false: no
 	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
@@ -327,7 +327,7 @@ interface bb_item_interface
 	/**
 	* Set the extension property: Language Changes
 	*
-	* @param bool				$value	Config value
+	* @param bool				$value	true: yes; false: no
 	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
@@ -343,7 +343,7 @@ interface bb_item_interface
 	/**
 	* Set the extension property: Schema Changes
 	*
-	* @param bool				$value	Config value
+	* @param bool				$value	true: yes; false: no
 	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
@@ -359,7 +359,7 @@ interface bb_item_interface
 	/**
 	* Set the extension property: Data Changes
 	*
-	* @param bool				$value	Config value
+	* @param bool				$value	true: yes; false: no
 	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
@@ -375,7 +375,7 @@ interface bb_item_interface
 	/**
 	* Set the style property: Number of Presets
 	*
-	* @param int				$value	Config value
+	* @param int				$value	Number of presets
 	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
@@ -391,7 +391,7 @@ interface bb_item_interface
 	/**
 	* Set the style property: All Presets in One Style
 	*
-	* @param bool				$value	Config value
+	* @param bool				$value	true: yes; false: no
 	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
@@ -407,7 +407,7 @@ interface bb_item_interface
 	/**
 	* Set the style property: Source Files
 	*
-	* @param bool				$value	Config value
+	* @param bool				$value	true: yes; false: no
 	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
@@ -423,7 +423,7 @@ interface bb_item_interface
 	/**
 	* Set the style property: Responsive Support
 	*
-	* @param bool				$value	Config value
+	* @param bool				$value	true: yes; false: no
 	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
@@ -439,7 +439,7 @@ interface bb_item_interface
 	/**
 	* Set the style property: Bootstrap Support
 	*
-	* @param bool				$value	Config value
+	* @param bool				$value	true: yes; false: no
 	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
@@ -532,6 +532,14 @@ interface bb_item_interface
 	public function get_enable();
 
 	/**
+	* Set item display setting in template
+	*
+	* @param bool				$value	true: enable; false: disable
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable($value);
+
+	/**
 	* Get the time of adding item
 	*
 	* @return int
@@ -551,4 +559,11 @@ interface bb_item_interface
 	* @return int
 	*/
 	public function get_updated();
+
+	/**
+	* Set the last updated time of item
+	*
+	* @return bb_item_interface $this Object for chaining calls: load()->set()->save()
+	*/
+	public function set_updated();
 }
