@@ -87,6 +87,14 @@ interface poll_option_interface
 	public function get_text();
 
 	/**
+	* Set the poll option text
+	*
+	* @param string					$text	Poll option text
+	* @return poll_option_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_text($text);
+
+	/**
 	* Get poll option's votes
 	*
 	* @return int

@@ -222,6 +222,20 @@ class poll_option implements poll_option_interface
 	}
 
 	/**
+	* Set the poll option text
+	*
+	* @param string					$text	Poll option text
+	* @return poll_option_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_text($text)
+	{
+		// Set the value on our data array
+		$this->data['poll_option_text'] = (string) $text;
+
+		return $this;
+	}
+
+	/**
 	* Get poll option's votes
 	*
 	* @return int
