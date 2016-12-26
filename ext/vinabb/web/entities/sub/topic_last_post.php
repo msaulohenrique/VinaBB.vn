@@ -219,6 +219,20 @@ class topic_last_post extends topic_poll
 	}
 
 	/**
+	* Set the topic's last post time
+	*
+	* @param int				$value	UNIX timestamp
+	* @return topic_last_post	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_last_post_time($value)
+	{
+		// Set the value on our data array
+		$this->data['topic_last_post_time'] = (int) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get the topic's last view time
 	*
 	* @return int
@@ -226,5 +240,19 @@ class topic_last_post extends topic_poll
 	public function get_last_view_time()
 	{
 		return isset($this->data['topic_last_view_time']) ? (int) $this->data['topic_last_view_time'] : 0;
+	}
+
+	/**
+	* Set the topic's last view time
+	*
+	* @param int				$value	UNIX timestamp
+	* @return topic_last_post	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_last_view_time($value)
+	{
+		// Set the value on our data array
+		$this->data['topic_last_view_time'] = (int) $value;
+
+		return $this;
 	}
 }
