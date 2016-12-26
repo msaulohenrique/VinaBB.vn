@@ -168,7 +168,7 @@ class portal_articles implements portal_articles_interface
 				'LANG'		=> $this->lang_data[$entity->get_lang()]['local_name'],
 				'ENABLE'	=> $entity->get_enable(),
 				'VIEWS'		=> $entity->get_views(),
-				'TIME'		=> $this->user->date_format($entity->get_time()),
+				'TIME'		=> $this->user->format_date($entity->get_time()),
 
 				'U_EDIT'	=> "{$this->u_action}&action=edit&id={$entity->get_id()}",
 				'U_DELETE'	=> "{$this->u_action}&action=delete&id={$entity->get_id()}"
