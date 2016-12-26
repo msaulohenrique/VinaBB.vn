@@ -125,22 +125,6 @@ interface bb_item_version_interface
 	public function set_file($text);
 
 	/**
-	* Get the item price
-	*
-	* @return int
-	*/
-	public function get_price();
-
-	/**
-	* Set the item price
-	*
-	* @param string						$value	Item price
-	* @return bb_item_version_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\unexpected_value
-	*/
-	public function set_price($value);
-
-	/**
 	* Get the number of downloads
 	*
 	* @return int

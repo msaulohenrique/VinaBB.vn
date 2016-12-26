@@ -162,7 +162,6 @@ class bb_item_versions implements bb_item_versions_interface
 				'VERSION'		=> $entity->get_version(),
 				'FILE'			=> $entity->get_file($this->mode, true, true),
 				'FILENAME'		=> $entity->get_file($this->mode, true, false),
-				'PRICE'			=> $entity->get_price(),
 
 				'U_EDIT'	=> "{$this->u_action}&action=edit&branch={$entity->get_phpbb_branch()}",
 				'U_DELETE'	=> "{$this->u_action}&action=delete&branch={$entity->get_phpbb_branch()}"
@@ -284,8 +283,7 @@ class bb_item_versions implements bb_item_versions_interface
 			'phpbb_branch'	=> substr($phpbb_version, 0, strrpos($phpbb_version, '.')),
 			'phpbb_version'	=> $phpbb_version,
 			'item_version'	=> $this->request->variable('item_version', ''),
-			'item_file'		=> $this->request->file('item_file'),
-			'item_price'	=> $this->request->variable('item_price', 0)
+			'item_file'		=> $this->request->file('item_file')
 		];
 	}
 
@@ -298,8 +296,7 @@ class bb_item_versions implements bb_item_versions_interface
 	{
 		$map_fields = [
 			'set_phpbb_version'	=> $this->data['phpbb_version'],
-			'set_version'		=> $this->data['item_version'],
-			'set_price'			=> $this->data['item_price']
+			'set_version'		=> $this->data['item_version']
 		];
 
 		// Set the mapped data in the entity
@@ -390,8 +387,7 @@ class bb_item_versions implements bb_item_versions_interface
 			'PHPBB_VERSION'	=> $entity->get_phpbb_version(),
 			'ITEM_VERSION'	=> $entity->get_version(),
 			'ITEM_FILE'		=> $entity->get_file($this->mode, true, true),
-			'ITEM_FILENAME'	=> $entity->get_file($this->mode, true, false),
-			'ITEM_PRICE'	=> $entity->get_price()
+			'ITEM_FILENAME'	=> $entity->get_file($this->mode, true, false)
 		]);
 	}
 

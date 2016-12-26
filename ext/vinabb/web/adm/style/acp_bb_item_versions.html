@@ -17,7 +17,6 @@
 		<th>{{ lang('PHPBB_BRANCH') }}</th>
 		<th>{{ lang('PHPBB_VERSION') }}</th>
 		<th>{{ lang('ITEM_FILE') }}</th>
-		<th>{{ lang('PRICE') }}</th>
 		<th>{{ lang('ACTIONS') }}</th>
 	</tr>
 	</thead>
@@ -28,7 +27,6 @@
 		<td style="text-align: center;">{{ version.PHPBB_BRANCH }}</td>
 		<td style="text-align: center;">{{ version.PHPBB_VERSION }}</td>
 		<td style="text-align: center;"><a href="{{ version.FILE }}">{{ version.FILENAME }}</a></td>
-		<td style="text-align: center;">{{ version.PRICE }}</a></td>
 		<td class="actions">
 			<a href="{{ version.U_EDIT }}">{{ ICON_EDIT }}</a>
 			<a href="{{ version.U_DELETE }}" data-ajax="row_delete">{{ ICON_DELETE }}</a>
@@ -36,7 +34,7 @@
 	</tr>
 	{% else %}
 	<tr class="row3">
-		<td colspan="6">{{ lang('ACP_NO_ITEMS') }}</td>
+		<td colspan="5">{{ lang('ACP_NO_ITEMS') }}</td>
 	</tr>
 	{% endfor %}
 	</tbody>
