@@ -321,10 +321,8 @@ class portal_comment extends comment_text implements portal_comment_interface
 	*/
 	public function set_time()
 	{
-		if (!isset($this->data['comment_time']))
-		{
-			$this->data['comment_time'] = time();
-		}
+		// Set the value on our data array
+		$this->data['comment_time'] = time();
 
 		return $this;
 	}
