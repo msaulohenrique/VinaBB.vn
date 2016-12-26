@@ -8,13 +8,13 @@
 
 namespace vinabb\web\entities;
 
-use vinabb\web\entities\sub\post_options;
+use vinabb\web\entities\sub\post_poster;
 use vinabb\web\includes\constants;
 
 /**
 * Entity for a single post
 */
-class post extends post_options implements post_interface
+class post extends post_poster implements post_interface
 {
 	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
@@ -49,12 +49,14 @@ class post extends post_options implements post_interface
 			'forum_id'			=> 'integer',
 			'topic_id'			=> 'integer',
 			'icon_id'			=> 'integer',
-			'poster_id'			=> 'integer',
-			'poster_ip'			=> 'string',
-			'post_username'		=> 'string',
 			'post_subject'		=> 'string',
 			'post_subject_seo'	=> 'string',
-			'post_time'			=> 'integer',
+
+			// Entity: vinabb\web\entities\sub\post_poster
+			'poster_id'		=> 'integer',
+			'poster_ip'		=> 'string',
+			'post_username'	=> 'string',
+			'post_time'		=> 'integer',
 
 			// Entity: vinabb\web\entities\sub\post_options
 			'post_visibility'	=> 'integer',
@@ -313,109 +315,6 @@ class post extends post_options implements post_interface
 	}
 
 	/**
-	* Get the poster ID
-	*
-	* @return int
-	*/
-	public function get_poster_id()
-	{
-		return isset($this->data['poster_id']) ? (int) $this->data['poster_id'] : 0;
-	}
-
-	/**
-	* Set the poster ID
-	*
-	* @param int				$id		User ID
-	* @return post_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\unexpected_value
-	*/
-	public function set_poster_id($id)
-	{
-		$id = (int) $id;
-
-		// Check existing user
-		if ($id && !$this->entity_helper->check_user_id($id))
-		{
-			throw new \vinabb\web\exceptions\unexpected_value(['poster_id', 'NOT_EXISTS']);
-		}
-
-		// Set the value on our data array
-		$this->data['poster_id'] = $id;
-
-		return $this;
-	}
-
-	/**
-	* Get the poster IP
-	*
-	* @return string
-	*/
-	public function get_poster_ip()
-	{
-		return isset($this->data['poster_ip']) ? (string) $this->data['poster_ip'] : '';
-	}
-
-	/**
-	* Set the poster IP
-	*
-	* @param string		$text	User IP
-	* @return user_reg	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\unexpected_value
-	*/
-	public function set_poster_ip($text)
-	{
-		$text = (string) $text;
-
-		// Checking for valid IP address
-		if ($text != '' && filter_var($text, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === false && filter_var($text, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === false)
-		{
-			throw new \vinabb\web\exceptions\unexpected_value(['poster_ip', 'INVALID_IP']);
-		}
-
-		// Set the value on our data array
-		$this->data['poster_ip'] = $text;
-
-		return $this;
-	}
-
-	/**
-	* Get the guest poster username
-	*
-	* @return string
-	*/
-	public function get_username()
-	{
-		return isset($this->data['post_username']) ? (string) $this->data['post_username'] : '';
-	}
-
-	/**
-	 * Set the guest poster username
-	 *
-	 * @param string			$text	Username
-	 * @return post_interface	$this	Object for chaining calls: load()->set()->save()
-	 * @throws \vinabb\web\exceptions\unexpected_value
-	 */
-	public function set_username($text)
-	{
-		$text = (string) $text;
-
-		// This is a required field
-		if ($text == '')
-		{
-			throw new \vinabb\web\exceptions\unexpected_value(['post_username', 'EMPTY']);
-		}
-		else if (!$this->entity_helper->check_username($text, $this->get_poster_id()))
-		{
-			throw new \vinabb\web\exceptions\unexpected_value(['post_username', 'NOT_EXISTS']);
-		}
-
-		// Set the value on our data array
-		$this->data['post_username'] = $text;
-
-		return $this;
-	}
-
-	/**
 	* Get the post subject
 	*
 	* @return string
@@ -483,29 +382,6 @@ class post extends post_options implements post_interface
 
 		// Set the value on our data array
 		$this->data['post_subject_seo'] = $text;
-
-		return $this;
-	}
-
-	/**
-	* Get the post time
-	*
-	* @return int
-	*/
-	public function get_time()
-	{
-		return isset($this->data['post_time']) ? (int) $this->data['post_time'] : 0;
-	}
-
-	/**
-	* Set the post time
-	*
-	* @return post_interface $this Object for chaining calls: load()->set()->save()
-	*/
-	public function set_time()
-	{
-		// Set the value on our data array
-		$this->data['post_time'] = time();
 
 		return $this;
 	}

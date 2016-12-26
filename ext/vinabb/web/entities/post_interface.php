@@ -112,6 +112,38 @@ interface post_interface
 	public function set_icon_id($id);
 
 	/**
+	* Get the post subject
+	*
+	* @return string
+	*/
+	public function get_subject();
+
+	/**
+	* Set the post subject
+	*
+	* @param string				$text	Post subject
+	* @return post_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_subject($text);
+
+	/**
+	* Get the SEO post subject
+	*
+	* @return string
+	*/
+	public function get_subject_seo();
+
+	/**
+	* Set the SEO post subject
+	*
+	* @param string				$text	SEO post subject
+	* @return post_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_subject_seo($text);
+
+	/**
 	* Get the poster ID
 	*
 	* @return int
@@ -158,38 +190,6 @@ interface post_interface
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_username($text);
-
-	/**
-	* Get the post subject
-	*
-	* @return string
-	*/
-	public function get_subject();
-
-	/**
-	* Set the post subject
-	*
-	* @param string				$text	Post subject
-	* @return post_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\unexpected_value
-	*/
-	public function set_subject($text);
-
-	/**
-	* Get the SEO post subject
-	*
-	* @return string
-	*/
-	public function get_subject_seo();
-
-	/**
-	* Set the SEO post subject
-	*
-	* @param string				$text	SEO post subject
-	* @return post_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\unexpected_value
-	*/
-	public function set_subject_seo($text);
 
 	/**
 	* Get the post time
