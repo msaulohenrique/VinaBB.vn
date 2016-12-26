@@ -316,6 +316,20 @@ class smiley implements smiley_interface
 	}
 
 	/**
+	* Set the smiley width
+	*
+	* @param int				$value	Smiley width
+	* @return smiley_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_width($value)
+	{
+		// Set the value on our data array
+		$this->data['smiley_width'] = (int) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get the smiley height
 	*
 	* @return int
@@ -326,6 +340,20 @@ class smiley implements smiley_interface
 	}
 
 	/**
+	* Set the smiley height
+	*
+	* @param int				$value	Smiley height
+	* @return smiley_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_height($value)
+	{
+		// Set the value on our data array
+		$this->data['smiley_height'] = (int) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get display setting on posting page
 	*
 	* @return bool
@@ -333,5 +361,19 @@ class smiley implements smiley_interface
 	public function get_display_on_posting()
 	{
 		return isset($this->data['display_on_posting']) ? (bool) $this->data['display_on_posting'] : true;
+	}
+
+	/**
+	* Set display setting on posting page
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return smiley_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_display_on_posting($value)
+	{
+		// Set the value on our data array
+		$this->data['display_on_posting'] = (bool) $value;
+
+		return $this;
 	}
 }

@@ -119,6 +119,14 @@ interface smiley_interface
 	public function get_width();
 
 	/**
+	* Set the smiley width
+	*
+	* @param int				$value	Smiley width
+	* @return smiley_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_width($value);
+
+	/**
 	* Get the smiley height
 	*
 	* @return int
@@ -126,9 +134,25 @@ interface smiley_interface
 	public function get_height();
 
 	/**
+	* Set the smiley height
+	*
+	* @param int				$value	Smiley height
+	* @return smiley_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_height($value);
+
+	/**
 	* Get display setting on posting page
 	*
 	* @return bool
 	*/
 	public function get_display_on_posting();
+
+	/**
+	* Set display setting on posting page
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return smiley_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_display_on_posting($value);
 }
