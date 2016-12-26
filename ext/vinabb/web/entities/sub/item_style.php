@@ -36,16 +36,6 @@ class item_style extends item_lang_tool
 	}
 
 	/**
-	* Get the extension property: Style Changes
-	*
-	* @return bool
-	*/
-	public function get_ext_style()
-	{
-		return ($this->bb_type === constants::BB_TYPE_EXT && isset($this->data['item_ext_style'])) ? (bool) $this->data['item_ext_style'] : false;
-	}
-
-	/**
 	* Get the style property: Number of Presets
 	*
 	* @return int
@@ -58,7 +48,7 @@ class item_style extends item_lang_tool
 	/**
 	* Set the style property: Number of Presets
 	*
-	* @param int			$value	Config value
+	* @param int			$value	Number of presets
 	* @return item_style	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
@@ -91,7 +81,7 @@ class item_style extends item_lang_tool
 	/**
 	* Set the style property: All Presets in One Style
 	*
-	* @param bool			$value	Config value
+	* @param bool			$value	true: yes; false: no
 	* @return item_style	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
@@ -124,7 +114,7 @@ class item_style extends item_lang_tool
 	/**
 	* Set the style property: Source Files
 	*
-	* @param bool			$value	Config value
+	* @param bool			$value	true: yes; false: no
 	* @return item_style	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
@@ -157,7 +147,7 @@ class item_style extends item_lang_tool
 	/**
 	* Set the style property: Responsive Support
 	*
-	* @param bool			$value	Config value
+	* @param bool			$value	true: yes; false: no
 	* @return item_style	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
@@ -190,7 +180,7 @@ class item_style extends item_lang_tool
 	/**
 	* Set the style property: Bootstrap Support
 	*
-	* @param bool			$value	Config value
+	* @param bool			$value	true: yes; false: no
 	* @return item_style	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
