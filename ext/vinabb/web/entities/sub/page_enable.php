@@ -40,6 +40,20 @@ class page_enable extends page_text
 	}
 
 	/**
+	* Set page display setting in template
+	*
+	* @param bool			$value	true: enable; false: disable
+	* @return page_enable	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable($value)
+	{
+		// Set the value on our data array
+		$this->data['page_enable'] = (bool) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get page display setting for guests
 	*
 	* @return bool
@@ -47,6 +61,20 @@ class page_enable extends page_text
 	public function get_enable_guest()
 	{
 		return isset($this->data['page_enable_guest']) ? (bool) $this->data['page_enable_guest'] : true;
+	}
+
+	/**
+	* Set page display setting for guests
+	*
+	* @param bool			$value	true: enable; false: disable
+	* @return page_enable	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_guest($value)
+	{
+		// Set the value on our data array
+		$this->data['page_enable_guest'] = (bool) $value;
+
+		return $this;
 	}
 
 	/**
@@ -60,6 +88,20 @@ class page_enable extends page_text
 	}
 
 	/**
+	* Set page display setting for bots
+	*
+	* @param bool			$value	true: enable; false: disable
+	* @return page_enable	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_bot($value)
+	{
+		// Set the value on our data array
+		$this->data['page_enable_bot'] = (bool) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get page display setting for newly registered users
 	*
 	* @return bool
@@ -67,6 +109,20 @@ class page_enable extends page_text
 	public function get_enable_new_user()
 	{
 		return isset($this->data['page_enable_new_user']) ? (bool) $this->data['page_enable_new_user'] : true;
+	}
+
+	/**
+	* Set page display setting for newly registered users
+	*
+	* @param bool			$value	true: enable; false: disable
+	* @return page_enable	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_new_user($value)
+	{
+		// Set the value on our data array
+		$this->data['page_enable_new_user'] = (bool) $value;
+
+		return $this;
 	}
 
 	/**
@@ -80,6 +136,20 @@ class page_enable extends page_text
 	}
 
 	/**
+	* Set page display setting for registered users
+	*
+	* @param bool			$value	true: enable; false: disable
+	* @return page_enable	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_user($value)
+	{
+		// Set the value on our data array
+		$this->data['page_enable_user'] = (bool) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get page display setting for moderators
 	*
 	* @return bool
@@ -87,6 +157,20 @@ class page_enable extends page_text
 	public function get_enable_mod()
 	{
 		return isset($this->data['page_enable_mod']) ? (bool) $this->data['page_enable_mod'] : true;
+	}
+
+	/**
+	* Set page display setting for moderators
+	*
+	* @param bool			$value	true: enable; false: disable
+	* @return page_enable	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_mod($value)
+	{
+		// Set the value on our data array
+		$this->data['page_enable_mod'] = (bool) $value;
+
+		return $this;
 	}
 
 	/**
@@ -100,6 +184,20 @@ class page_enable extends page_text
 	}
 
 	/**
+	* Set page display setting for global moderators
+	*
+	* @param bool			$value	true: enable; false: disable
+	* @return page_enable	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_global_mod($value)
+	{
+		// Set the value on our data array
+		$this->data['page_enable_global_mod'] = (bool) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get page display setting for administrators
 	*
 	* @return bool
@@ -107,6 +205,20 @@ class page_enable extends page_text
 	public function get_enable_admin()
 	{
 		return isset($this->data['page_enable_admin']) ? (bool) $this->data['page_enable_admin'] : true;
+	}
+
+	/**
+	* Set page display setting for administrators
+	*
+	* @param bool			$value	true: enable; false: disable
+	* @return page_enable	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_admin($value)
+	{
+		// Set the value on our data array
+		$this->data['page_enable_admin'] = (bool) $value;
+
+		return $this;
 	}
 
 	/**
@@ -122,7 +234,7 @@ class page_enable extends page_text
 	/**
 	* Set page display setting for founders
 	*
-	* @param bool			$value	Config value
+	* @param bool			$value	true: enable; false: disable
 	* @return page_enable	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\not_auth
 	*/

@@ -291,11 +291,27 @@ interface page_interface
 	public function get_enable();
 
 	/**
+	* Set page display setting in template
+	*
+	* @param bool				$value	true: enable; false: disable
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable($value);
+
+	/**
 	* Get page display setting for guests
 	*
 	* @return bool
 	*/
 	public function get_enable_guest();
+
+	/**
+	* Set page display setting for guests
+	*
+	* @param bool				$value	true: enable; false: disable
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_guest($value);
 
 	/**
 	* Get page display setting for bots
@@ -305,11 +321,27 @@ interface page_interface
 	public function get_enable_bot();
 
 	/**
+	* Set page display setting for bots
+	*
+	* @param bool				$value	true: enable; false: disable
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_bot($value);
+
+	/**
 	* Get page display setting for newly registered users
 	*
 	* @return bool
 	*/
 	public function get_enable_new_user();
+
+	/**
+	* Set page display setting for newly registered users
+	*
+	* @param bool				$value	true: enable; false: disable
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_new_user($value);
 
 	/**
 	* Get page display setting for registered users
@@ -319,11 +351,27 @@ interface page_interface
 	public function get_enable_user();
 
 	/**
+	* Set page display setting for registered users
+	*
+	* @param bool				$value	true: enable; false: disable
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_user($value);
+
+	/**
 	* Get page display setting for moderators
 	*
 	* @return bool
 	*/
 	public function get_enable_mod();
+
+	/**
+	* Set page display setting for moderators
+	*
+	* @param bool				$value	true: enable; false: disable
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_mod($value);
 
 	/**
 	* Get page display setting for global moderators
@@ -333,11 +381,27 @@ interface page_interface
 	public function get_enable_global_mod();
 
 	/**
+	* Set page display setting for global moderators
+	*
+	* @param bool				$value	true: enable; false: disable
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_global_mod($value);
+
+	/**
 	* Get page display setting for administrators
 	*
 	* @return bool
 	*/
 	public function get_enable_admin();
+
+	/**
+	* Set page display setting for administrators
+	*
+	* @param bool				$value	true: enable; false: disable
+	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_admin($value);
 
 	/**
 	* Get page display setting for founders
@@ -349,7 +413,7 @@ interface page_interface
 	/**
 	* Set page display setting for founders
 	*
-	* @param bool				$value	Config value
+	* @param bool				$value	true: enable; false: disable
 	* @return page_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\not_auth
 	*/
