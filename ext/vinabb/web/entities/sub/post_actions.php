@@ -42,6 +42,20 @@ class post_actions extends post_text
 	}
 
 	/**
+	* Set the time of editing post
+	*
+	* @param int			$value	UNIX timestamp
+	* @return post_actions	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_edit_time($value)
+	{
+		// Set the value on our data array
+		$this->data['post_edit_time'] = (int) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get the edited reason
 	*
 	* @return string
@@ -118,13 +132,41 @@ class post_actions extends post_text
 	}
 
 	/**
+	* Set number of times of editing post
+	*
+	* @param int			$value	Number of times
+	* @return post_actions	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_edit_count($value)
+	{
+		// Set the value on our data array
+		$this->data['post_edit_count'] = (int) $value;
+
+		return $this;
+	}
+
+	/**
 	* Is the post locked?
 	*
 	* @return bool
 	*/
 	public function get_edit_locked()
 	{
-		return isset($this->data['post_edit_locked']) ? (int) $this->data['post_edit_locked'] : false;
+		return isset($this->data['post_edit_locked']) ? (bool) $this->data['post_edit_locked'] : false;
+	}
+
+	/**
+	* Set the post locked or unlocked
+	*
+	* @param bool			$value	true: locked; false: unlocked
+	* @return post_actions	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_edit_locked($value)
+	{
+		// Set the value on our data array
+		$this->data['post_edit_locked'] = (bool) $value;
+
+		return $this;
 	}
 
 	/**
@@ -135,6 +177,20 @@ class post_actions extends post_text
 	public function get_delete_time()
 	{
 		return isset($this->data['post_delete_time']) ? (int) $this->data['post_delete_time'] : 0;
+	}
+
+	/**
+	* Set the time of deleting post
+	*
+	* @param int			$value	UNIX timestamp
+	* @return post_actions	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_delete_time($value)
+	{
+		// Set the value on our data array
+		$this->data['post_delete_time'] = (int) $value;
+
+		return $this;
 	}
 
 	/**
