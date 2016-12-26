@@ -336,6 +336,29 @@ class draft implements draft_interface
 	}
 
 	/**
+	* Set the draft content
+	*
+	* @param string				$text	Draft content
+	* @return draft_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_message($text)
+	{
+		$text = (string) $text;
+
+		// This is a required field
+		if ($text == '')
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['draft_message', 'EMPTY']);
+		}
+
+		// Set the value on our data array
+		$this->data['draft_message'] = $text;
+
+		return $this;
+	}
+
+	/**
 	* Get the saving time
 	*
 	* @return int
@@ -343,5 +366,18 @@ class draft implements draft_interface
 	public function get_save_time()
 	{
 		return isset($this->data['save_time']) ? (int) $this->data['save_time'] : 0;
+	}
+
+	/**
+	* Set the saving time
+	*
+	* @return draft_interface $this Object for chaining calls: load()->set()->save()
+	*/
+	public function set_save_time()
+	{
+		// Set the value on our data array
+		$this->data['save_time'] = time();
+
+		return $this;
 	}
 }

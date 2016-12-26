@@ -135,9 +135,25 @@ interface draft_interface
 	public function get_message();
 
 	/**
+	* Set the draft content
+	*
+	* @param string				$text	Draft content
+	* @return draft_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_message($text);
+
+	/**
 	* Get the saving time
 	*
 	* @return int
 	*/
 	public function get_save_time();
+
+	/**
+	* Set the saving time
+	*
+	* @return draft_interface $this Object for chaining calls: load()->set()->save()
+	*/
+	public function set_save_time();
 }
