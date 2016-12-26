@@ -303,6 +303,20 @@ class attachment extends attachment_file implements attachment_interface
 	}
 
 	/**
+	* Set the attachment is or is not within a PM
+	*
+	* @param bool					$value	true: PM; false: post
+	* @return attachment_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_in_message($value)
+	{
+		// Set the value on our data array
+		$this->data['in_message'] = (bool) $value;
+
+		return $this;
+	}
+
+	/**
 	* The attachment is not assigned to any posts or PMs?
 	*
 	* @return bool
@@ -310,6 +324,20 @@ class attachment extends attachment_file implements attachment_interface
 	public function get_is_orphan()
 	{
 		return isset($this->data['is_orphan']) ? (bool) $this->data['is_orphan'] : true;
+	}
+
+	/**
+	* Set the attachment is or is not orphan
+	*
+	* @param bool					$value	true: not using; false: in using
+	* @return attachment_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_is_orphan($value)
+	{
+		// Set the value on our data array
+		$this->data['is_orphan'] = (bool) $value;
+
+		return $this;
 	}
 
 	/**
@@ -330,5 +358,19 @@ class attachment extends attachment_file implements attachment_interface
 	public function get_comment()
 	{
 		return isset($this->data['attach_comment']) ? (string) $this->data['attach_comment'] : '';
+	}
+
+	/**
+	* Set the attachment comment
+	*
+	* @param string					$text	Attachment comment
+	* @return attachment_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_comment($text)
+	{
+		// Set the value on our data array
+		$this->data['attach_comment'] = (string) $text;
+
+		return $this;
 	}
 }

@@ -119,11 +119,27 @@ interface attachment_interface
 	public function get_in_message();
 
 	/**
+	* Set the attachment is or is not within a PM
+	*
+	* @param bool					$value	true: PM; false: post
+	* @return attachment_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_in_message($value);
+
+	/**
 	* The attachment is not assigned to any posts or PMs?
 	*
 	* @return bool
 	*/
 	public function get_is_orphan();
+
+	/**
+	* Set the attachment is or is not orphan
+	*
+	* @param bool					$value	true: not using; false: in using
+	* @return attachment_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_is_orphan($value);
 
 	/**
 	* Get number of downloads
@@ -138,6 +154,14 @@ interface attachment_interface
 	* @return string
 	*/
 	public function get_comment();
+
+	/**
+	* Set the attachment comment
+	*
+	* @param string					$text	Attachment comment
+	* @return attachment_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_comment($text);
 
 	/**
 	* Get attachment's filename on server
