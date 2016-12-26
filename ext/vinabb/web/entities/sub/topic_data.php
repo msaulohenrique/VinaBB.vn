@@ -101,6 +101,20 @@ class topic_data extends topic_actions
 	}
 
 	/**
+	* Set the number of approved posts
+	*
+	* @param int			$value	Number of posts
+	* @return topic_data	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_posts_approved($value)
+	{
+		// Set the value on our data array
+		$this->data['topic_posts_approved'] = (int) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get the number of disapproved posts
 	*
 	* @return int
@@ -108,6 +122,20 @@ class topic_data extends topic_actions
 	public function get_posts_unapproved()
 	{
 		return isset($this->data['topic_posts_unapproved']) ? (int) $this->data['topic_posts_unapproved'] : 0;
+	}
+
+	/**
+	* Set the number of disapproved posts
+	*
+	* @param int			$value	Number of posts
+	* @return topic_data	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_posts_unapproved($value)
+	{
+		// Set the value on our data array
+		$this->data['topic_posts_unapproved'] = (int) $value;
+
+		return $this;
 	}
 
 	/**
@@ -121,6 +149,20 @@ class topic_data extends topic_actions
 	}
 
 	/**
+	* Set the number of soft-deleted posts
+	*
+	* @param int			$value	Number of posts
+	* @return topic_data	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_posts_softdeleted($value)
+	{
+		// Set the value on our data array
+		$this->data['topic_posts_softdeleted'] = (int) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get the topic time
 	*
 	* @return int
@@ -131,6 +173,20 @@ class topic_data extends topic_actions
 	}
 
 	/**
+	* Set the topic time
+	*
+	* @param int			$value	UNIX timestamp
+	* @return topic_data	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_time($value)
+	{
+		// Set the value on our data array
+		$this->data['topic_time'] = (int) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get the topic time limit
 	*
 	* @return int
@@ -138,5 +194,19 @@ class topic_data extends topic_actions
 	public function get_time_limit()
 	{
 		return isset($this->data['topic_time_limit']) ? (int) $this->data['topic_time_limit'] : 0;
+	}
+
+	/**
+	* Set the topic time limit
+	*
+	* @param int			$value	UNIX timestamp
+	* @return topic_data	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_time_limit($value)
+	{
+		// Set the value on our data array
+		$this->data['topic_time_limit'] = (int) $value;
+
+		return $this;
 	}
 }
