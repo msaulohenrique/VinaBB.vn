@@ -40,6 +40,20 @@ class menu_enable
 	}
 
 	/**
+	* Set menu display setting for guests
+	*
+	* @param bool			$value	true: enable; false: disable
+	* @return menu_enable	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_guest($value)
+	{
+		// Set the value on our data array
+		$this->data['menu_enable_guest'] = (bool) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get menu display setting for bots
 	*
 	* @return bool
@@ -47,6 +61,20 @@ class menu_enable
 	public function get_enable_bot()
 	{
 		return isset($this->data['menu_enable_bot']) ? (bool) $this->data['menu_enable_bot'] : true;
+	}
+
+	/**
+	* Set menu display setting for bots
+	*
+	* @param bool			$value	true: enable; false: disable
+	* @return menu_enable	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_bot($value)
+	{
+		// Set the value on our data array
+		$this->data['menu_enable_bot'] = (bool) $value;
+
+		return $this;
 	}
 
 	/**
@@ -60,6 +88,20 @@ class menu_enable
 	}
 
 	/**
+	* Set menu display setting for newly registered users
+	*
+	* @param bool			$value	true: enable; false: disable
+	* @return menu_enable	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_new_user($value)
+	{
+		// Set the value on our data array
+		$this->data['menu_enable_new_user'] = (bool) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get menu display setting for registered users
 	*
 	* @return bool
@@ -67,6 +109,20 @@ class menu_enable
 	public function get_enable_user()
 	{
 		return isset($this->data['menu_enable_user']) ? (bool) $this->data['menu_enable_user'] : true;
+	}
+
+	/**
+	* Set menu display setting for registered users
+	*
+	* @param bool			$value	true: enable; false: disable
+	* @return menu_enable	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_user($value)
+	{
+		// Set the value on our data array
+		$this->data['menu_enable_user'] = (bool) $value;
+
+		return $this;
 	}
 
 	/**
@@ -80,6 +136,20 @@ class menu_enable
 	}
 
 	/**
+	* Set menu display setting for moderators
+	*
+	* @param bool			$value	true: enable; false: disable
+	* @return menu_enable	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_mod($value)
+	{
+		// Set the value on our data array
+		$this->data['menu_enable_mod'] = (bool) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get menu display setting for global moderators
 	*
 	* @return bool
@@ -90,6 +160,20 @@ class menu_enable
 	}
 
 	/**
+	* Set menu display setting for global moderators
+	*
+	* @param bool			$value	true: enable; false: disable
+	* @return menu_enable	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_global_mod($value)
+	{
+		// Set the value on our data array
+		$this->data['menu_enable_global_mod'] = (bool) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get menu display setting for administrators
 	*
 	* @return bool
@@ -97,6 +181,20 @@ class menu_enable
 	public function get_enable_admin()
 	{
 		return isset($this->data['menu_enable_admin']) ? (bool) $this->data['menu_enable_admin'] : true;
+	}
+
+	/**
+	* Set menu display setting for administrators
+	*
+	* @param bool			$value	true: enable; false: disable
+	* @return menu_enable	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_enable_admin($value)
+	{
+		// Set the value on our data array
+		$this->data['menu_enable_admin'] = (bool) $value;
+
+		return $this;
 	}
 
 	/**
@@ -112,7 +210,7 @@ class menu_enable
 	/**
 	* Set menu display setting for founders
 	*
-	* @param bool			$value	Config value
+	* @param bool			$value	true: enable; false: disable
 	* @return menu_enable	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\not_auth
 	*/
