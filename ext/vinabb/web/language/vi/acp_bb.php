@@ -140,7 +140,12 @@ $lang = array_merge($lang, [
 	'ERROR_PHPBB_VERSION_TOO_LONG'			=> 'Phiên bản phpBB tối thiểu quá dài.',
 	'EXT_VARNAME'							=> 'Tên định danh',
 
-	'ITEM_FILE'	=> 'Tập tin tải về',
+	'ITEM_ACP_STYLE_DETAILS'	=> 'Thuộc tính giao diện',
+	'ITEM_EXT_DETAILS'			=> 'Thuộc tính gói mở rộng',
+	'ITEM_FILE'					=> 'Tập tin tải về',
+	'ITEM_LANG_DETAILS'			=> 'Thuộc tính gói ngôn ngữ',
+	'ITEM_STYLE_DETAILS'		=> 'Thuộc tính giao diện',
+	'ITEM_TOOL_DETAILS'			=> 'Thuộc tính công cụ',
 
 	'LANG_VARNAME'	=> 'Tên biến',
 

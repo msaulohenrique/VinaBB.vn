@@ -140,7 +140,12 @@ $lang = array_merge($lang, [
 	'ERROR_PHPBB_VERSION_TOO_LONG'			=> 'The minimum phpBB version is too long.',
 	'EXT_VARNAME'							=> 'Package name',
 
-	'ITEM_FILE'	=> 'Release file',
+	'ITEM_ACP_STYLE_DETAILS'	=> 'Style properties',
+	'ITEM_EXT_DETAILS'			=> 'Extension properties',
+	'ITEM_FILE'					=> 'Release file',
+	'ITEM_LANG_DETAILS'			=> 'Language package properties',
+	'ITEM_STYLE_DETAILS'		=> 'Style properties',
+	'ITEM_TOOL_DETAILS'			=> 'Tool properties',
 
 	'LANG_VARNAME'	=> 'Varname',
 
