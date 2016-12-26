@@ -135,6 +135,15 @@ interface post_interface
 	public function get_poster_ip();
 
 	/**
+	* Set the poster IP
+	*
+	* @param string				$text	User IP
+	* @return post_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_poster_ip($text);
+
+	/**
 	* Get the guest poster username
 	*
 	* @return string
@@ -188,6 +197,13 @@ interface post_interface
 	* @return int
 	*/
 	public function get_time();
+
+	/**
+	* Set the post time
+	*
+	* @return post_interface $this Object for chaining calls: load()->set()->save()
+	*/
+	public function set_time();
 
 	/**
 	* Get the post visibility

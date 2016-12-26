@@ -356,6 +356,29 @@ class post extends post_options implements post_interface
 	}
 
 	/**
+	* Set the poster IP
+	*
+	* @param string		$text	User IP
+	* @return user_reg	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_poster_ip($text)
+	{
+		$text = (string) $text;
+
+		// Checking for valid IP address
+		if ($text != '' && filter_var($text, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === false && filter_var($text, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === false)
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['poster_ip', 'INVALID_IP']);
+		}
+
+		// Set the value on our data array
+		$this->data['poster_ip'] = $text;
+
+		return $this;
+	}
+
+	/**
 	* Get the guest poster username
 	*
 	* @return string
@@ -472,5 +495,18 @@ class post extends post_options implements post_interface
 	public function get_time()
 	{
 		return isset($this->data['post_time']) ? (int) $this->data['post_time'] : 0;
+	}
+
+	/**
+	* Set the post time
+	*
+	* @return post_interface $this Object for chaining calls: load()->set()->save()
+	*/
+	public function set_time()
+	{
+		// Set the value on our data array
+		$this->data['post_time'] = time();
+
+		return $this;
 	}
 }
