@@ -70,7 +70,8 @@ class portal_article implements portal_article_interface
 		$entities = [];
 
 		$sql = 'SELECT *
-			FROM ' . $this->table_name;
+			FROM ' . $this->table_name . '
+			ORDER BY article_time DESC';
 		$result = $this->db->sql_query($sql);
 
 		while ($row = $this->db->sql_fetchrow($result))
