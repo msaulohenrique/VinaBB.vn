@@ -391,6 +391,7 @@ class portal_articles implements portal_articles_interface
 			// Add the new entity to the database
 			$entity = $this->operator->add_article($entity);
 
+			$this->config->increment('vinabb_web_total_articles', 1, false);
 			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_ARTICLE_ADD', time(), [$entity->get_name()]);
 
 			$message = 'MESSAGE_ARTICLE_ADD';
@@ -449,6 +450,7 @@ class portal_articles implements portal_articles_interface
 			trigger_error($this->language->lang('ERROR_ARTICLE_DELETE', $e->get_message($this->language)) . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
+		$this->config->increment('vinabb_web_total_articles', -1, false);
 		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_ARTICLE_DELETE', time(), [$entity->get_name()]);
 		$this->cache->clear_index_articles($entity->get_lang());
 
