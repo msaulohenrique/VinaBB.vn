@@ -228,6 +228,20 @@ class post_icon implements post_icon_interface
 	}
 
 	/**
+	* Set the icon width
+	*
+	* @param int					$value	Icon width
+	* @return post_icon_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_width($value)
+	{
+		// Set the value on our data array
+		$this->data['icons_width'] = (int) $value;
+
+		return $this;
+	}
+
+	/**
 	* Get the icon height
 	*
 	* @return int
@@ -235,6 +249,20 @@ class post_icon implements post_icon_interface
 	public function get_height()
 	{
 		return isset($this->data['icons_height']) ? (int) $this->data['icons_height'] : 0;
+	}
+
+	/**
+	* Set the icon height
+	*
+	* @param int					$value	Icon height
+	* @return post_icon_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_height($value)
+	{
+		// Set the value on our data array
+		$this->data['icons_height'] = (int) $value;
+
+		return $this;
 	}
 
 	/**
@@ -284,5 +312,19 @@ class post_icon implements post_icon_interface
 	public function get_display_on_posting()
 	{
 		return isset($this->data['display_on_posting']) ? (bool) $this->data['display_on_posting'] : true;
+	}
+
+	/**
+	* Set display setting on posting page
+	*
+	* @param bool					$value	true: yes; false: no
+	* @return post_icon_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_display_on_posting($value)
+	{
+		// Set the value on our data array
+		$this->data['display_on_posting'] = (bool) $value;
+
+		return $this;
 	}
 }

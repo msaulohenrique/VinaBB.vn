@@ -87,11 +87,27 @@ interface post_icon_interface
 	public function get_width();
 
 	/**
+	* Set the icon width
+	*
+	* @param int					$value	Icon width
+	* @return post_icon_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_width($value);
+
+	/**
 	* Get the icon height
 	*
 	* @return int
 	*/
 	public function get_height();
+
+	/**
+	* Set the icon height
+	*
+	* @param int					$value	Icon height
+	* @return post_icon_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_height($value);
 
 	/**
 	* Get the icon hover text
@@ -115,4 +131,12 @@ interface post_icon_interface
 	* @return bool
 	*/
 	public function get_display_on_posting();
+
+	/**
+	* Set display setting on posting page
+	*
+	* @param bool					$value	true: yes; false: no
+	* @return post_icon_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_display_on_posting($value);
 }
