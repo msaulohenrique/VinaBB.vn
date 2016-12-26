@@ -206,14 +206,33 @@ class helper implements helper_interface
 	*/
 	public function build_lang_list($selected_lang)
 	{
-		$lang_switch_options = '<option value=""' . (($selected_lang == '') ? ' selected' : '') . '>' . $this->language->lang('SELECT_LANGUAGE') . '</option>';
+		$lang_options = '<option value=""' . (($selected_lang == '') ? ' selected' : '') . '>' . $this->language->lang('SELECT_LANGUAGE') . '</option>';
 
 		foreach ($this->cache->get_lang_data() as $lang_iso => $data)
 		{
-			$lang_switch_options .= '<option value="' . $lang_iso . '"' . (($selected_lang == $lang_iso) ? ' selected' : '') . '>' . $data['english_name'] . ' (' . $data['local_name'] . ')</option>';
+			$lang_options .= '<option value="' . $lang_iso . '"' . (($selected_lang == $lang_iso) ? ' selected' : '') . '>' . $data['english_name'] . ' (' . $data['local_name'] . ')</option>';
 		}
 
-		return $lang_switch_options;
+		return $lang_options;
+	}
+
+	/**
+	* Generate the OS selection drop-down
+	*
+	* @param int $selected_os OS constant value
+	* @return string HTML code
+	*/
+	public function build_os_list($selected_os)
+	{
+		$os_list = [constants::OS_WIN, constants::OS_MAC, constants::OS_LINUX, constants::OS_BSD, constants::OS_ANDROID, constants::OS_IOS, constants::OS_WP];
+		$os_options = '<option value=""' . ((!$selected_os) ? ' selected' : '') . '>' . $this->language->lang('SELECT_OS') . '</option>';
+
+		foreach ($os_list as $os_value)
+		{
+			$os_options .= '<option value="' . $os_value . '"' . (($selected_os == $os_value) ? ' selected' : '') . '>' . $this->get_os_name($os_value) . '</option>';
+		}
+
+		return $os_options;
 	}
 
 	/**

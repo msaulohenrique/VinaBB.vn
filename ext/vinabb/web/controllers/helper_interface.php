@@ -41,6 +41,14 @@ interface helper_interface
 	public function build_lang_list($selected_lang);
 
 	/**
+	* Generate the OS selection drop-down
+	*
+	* @param int $selected_os OS constant value
+	* @return string HTML code
+	*/
+	public function build_os_list($selected_os);
+
+	/**
 	* Create clean URLs from titles. It works with many languages
 	*
 	* @author hello@weblap.ro
