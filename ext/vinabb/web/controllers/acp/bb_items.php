@@ -402,6 +402,12 @@ class bb_items implements bb_items_interface
 			'set_added'				=> null
 		];
 
+		// Do not change the adding time
+		if ($entity->get_id())
+		{
+			unset($map_fields[set_added]);
+		}
+
 		// Set the mapped data in the entity
 		foreach ($map_fields as $entity_function => $item_data)
 		{
