@@ -199,7 +199,7 @@ class user_profile extends user_sig
 		$text = (string) $text;
 
 		// Check invalid characters
-		if (!preg_match('/([a-f0-9]{3}){1,2}\b/i', $text))
+		if (!preg_match(constants::REGEX_HEX_COLOR, $text))
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['user_colour', 'INVALID']);
 		}

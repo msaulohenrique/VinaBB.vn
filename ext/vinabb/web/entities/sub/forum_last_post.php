@@ -164,7 +164,7 @@ class forum_last_post extends forum_prune
 		$text = (string) $text;
 
 		// Check invalid characters
-		if (!preg_match('/([a-f0-9]{3}){1,2}\b/i', $text))
+		if (!preg_match(constants::REGEX_HEX_COLOR, $text))
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['forum_last_poster_colour', 'INVALID']);
 		}

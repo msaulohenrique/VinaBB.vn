@@ -133,6 +133,7 @@ class constants
 	const REGEX_VARNAME_EXT = '#^([a-z0-9-]+)\.([a-z0-9-]+)$#';
 	const REGEX_VERSION = '#^\d+(\.\d+){2}$#';
 	const REGEX_VERSION_FULL = '#^\d+(\.\d+){2}(\-(((?:A|B|RC|PL)\d+)|DEV))?$#';
+	const REGEX_HEX_COLOR = '/([a-f0-9]{3}){1,2}\b/i';
 
 	// Flag as new (in time: days, hours...)
 	const FLAG_DAY_NEW_ARTICLE = 3;
