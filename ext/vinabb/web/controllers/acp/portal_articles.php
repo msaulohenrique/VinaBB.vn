@@ -332,8 +332,14 @@ class portal_articles implements portal_articles_interface
 			'set_desc'		=> $this->data['article_desc'],
 			'set_text'		=> $this->data['article_text'],
 			'set_enable'	=> $this->data['article_enable'],
-			'set_time'		=> $this->data['article_time']
+			'set_time'		=> null
 		];
+
+		// Change the post time or not?
+		if ($entity->get_id() && !$this->request->is_set_post('revision'))
+		{
+			unset($map_fields['set_time']);
+		}
 
 		// Set the mapped data in the entity
 		foreach ($map_fields as $entity_function => $article_data)
