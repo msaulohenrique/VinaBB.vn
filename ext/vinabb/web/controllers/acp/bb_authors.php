@@ -48,6 +48,9 @@ class bb_authors implements bb_authors_interface
 	/** @var array $errors */
 	protected $errors;
 
+	/** @var array $group_names */
+	protected $group_names;
+
 	/**
 	* Constructor
 	*
@@ -96,6 +99,8 @@ class bb_authors implements bb_authors_interface
 	*/
 	public function display_authors()
 	{
+		$this->get_group_names();
+
 		// Grab all from database
 		$entities = $this->operator->get_authors();
 
@@ -107,7 +112,7 @@ class bb_authors implements bb_authors_interface
 				'FIRSTNAME'	=> $entity->get_firstname(),
 				'LASTNAME'	=> $entity->get_lastname(),
 				'IS_GROUP'	=> $entity->get_is_group(),
-				'GROUP'		=> $entity->get_group(),
+				'GROUP'		=> isset($this->group_names[$entity->get_group()]) ? $this->group_names[$entity->get_group()] : '',
 
 				'U_EDIT'	=> "{$this->u_action}&action=edit&id={$entity->get_id()}",
 				'U_DELETE'	=> "{$this->u_action}&action=delete&id={$entity->get_id()}"
@@ -117,6 +122,20 @@ class bb_authors implements bb_authors_interface
 		$this->template->assign_vars([
 			'U_ACTION'	=> "{$this->u_action}&action=add"
 		]);
+	}
+
+	/**
+	* Generate list of group names
+	*/
+	protected function get_group_names()
+	{
+		$entities = $this->operator->get_authors('group');
+
+		/** @var \vinabb\web\entities\bb_author_interface $entity */
+		foreach ($entities as $entity)
+		{
+			$this->group_names[$entity->get_id()] = $entity->get_name();
+		}
 	}
 
 	/**

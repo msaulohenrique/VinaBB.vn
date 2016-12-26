@@ -15,6 +15,8 @@
 	<tr>
 		<th>{{ lang('AUTHOR_NAME') }}</th>
 		<th>{{ lang('REAL_NAME') }}</th>
+		<th>{{ lang('AUTHOR_IS_GROUP') }}</th>
+		<th>{{ lang('GROUP') }}</th>
 		<th>{{ lang('ACTIONS') }}</th>
 	</tr>
 	</thead>
@@ -23,6 +25,8 @@
 	<tr>
 		<td style="text-align: center;">{{ author.NAME }}</td>
 		<td style="text-align: center;">{{ author.FIRSTNAME ~ ' ' ~ author.LASTNAME }}</td>
+		<td style="text-align: center;">{{ author.IS_GROUP ? lang('YES') : lang('NO') }}</td>
+		<td style="text-align: center;">{{ author.GROUP }}</td>
 		<td class="actions">
 			<a href="{{ author.U_EDIT }}">{{ ICON_EDIT }}</a>
 			{% if author.U_DELETE %}<a href="{{ author.U_DELETE }}" data-ajax="row_delete">{{ ICON_DELETE }}</a>{% else %}{{ ICON_DELETE_DISABLED }}{% endif %}
@@ -30,7 +34,7 @@
 	</tr>
 	{% else %}
 	<tr class="row3">
-		<td colspan="3">{{ lang('ACP_NO_ITEMS') }}</td>
+		<td colspan="5">{{ lang('ACP_NO_ITEMS') }}</td>
 	</tr>
 	{% endfor %}
 	</tbody>
