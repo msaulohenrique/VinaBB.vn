@@ -103,11 +103,27 @@ interface group_interface
 	public function get_founder_manage();
 
 	/**
+	* Set only founders can manage the group or not
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return group_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_founder_manage($value);
+
+	/**
 	* Exclude group leader from group permissions
 	*
 	* @return bool
 	*/
 	public function get_skip_auth();
+
+	/**
+	* Set exclude group leader from group permissions or not
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return group_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_skip_auth($value);
 
 	/**
 	* Display group in the legend?
@@ -117,11 +133,27 @@ interface group_interface
 	public function get_display();
 
 	/**
+	* Set display group in the legend or not
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return group_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_display($value);
+
+	/**
 	* Group can receive PMs?
 	*
 	* @return bool
 	*/
 	public function get_receive_pm();
+
+	/**
+	* Set the group can receive PMs or not
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return group_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_receive_pm($value);
 
 	/**
 	* Get the maximum characters in signature
@@ -131,11 +163,28 @@ interface group_interface
 	public function get_sig_chars();
 
 	/**
+	* Set the maximum characters in signature
+	*
+	* @param int				Number of characters
+	* @return group_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_sig_chars($value);
+
+	/**
 	* Get the maximum PMs per folder
 	*
 	* @return int
 	*/
 	public function get_message_limit();
+
+	/**
+	* Set the maximum PMs per folder
+	*
+	* @param int				Number of PMs
+	* @return group_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_message_limit($value);
+
 	/**
 	* Get the order in group legend
 	*
@@ -144,11 +193,27 @@ interface group_interface
 	public function get_legend();
 
 	/**
+	* Set the order in group legend
+	*
+	* @param int				Order value
+	* @return group_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_legend($value);
+
+	/**
 	* Get the maximum recipients per PM
 	*
 	* @return int
 	*/
 	public function get_max_recipients();
+
+	/**
+	* Set the maximum recipients per PM
+	*
+	* @param int				Number of recipients
+	* @return group_interface	$this	Object for chaining calls: load()->set()->save()
+	*/
+	public function set_max_recipients($value);
 
 	/**
 	* Get the group avatar image

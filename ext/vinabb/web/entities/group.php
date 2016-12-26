@@ -8,13 +8,13 @@
 
 namespace vinabb\web\entities;
 
-use vinabb\web\entities\sub\group_profile;
+use vinabb\web\entities\sub\group_settings;
 use vinabb\web\includes\constants;
 
 /**
 * Entity for a single group
 */
-class group extends group_profile implements group_interface
+class group extends group_settings implements group_interface
 {
 	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
@@ -45,9 +45,11 @@ class group extends group_profile implements group_interface
 	protected function prepare_data()
 	{
 		return [
-			'group_id'				=> 'integer',
-			'group_name'			=> 'string',
-			'forum_type'			=> 'integer',
+			'group_id'		=> 'integer',
+			'group_name'	=> 'string',
+			'forum_type'	=> 'integer',
+
+			// Entity: vinabb\web\entities\sub\group_settings
 			'group_founder_manage'	=> 'bool',
 			'group_skip_auth'		=> 'bool',
 			'group_display'			=> 'bool',
@@ -271,85 +273,5 @@ class group extends group_profile implements group_interface
 		$this->data['group_type'] = $value;
 
 		return $this;
-	}
-
-	/**
-	* Only founders can manage the group?
-	*
-	* @return bool
-	*/
-	public function get_founder_manage()
-	{
-		return isset($this->data['group_founder_manage']) ? (bool) $this->data['group_founder_manage'] : false;
-	}
-
-	/**
-	* Exclude group leader from group permissions
-	*
-	* @return bool
-	*/
-	public function get_skip_auth()
-	{
-		return isset($this->data['group_skip_auth']) ? (bool) $this->data['group_skip_auth'] : false;
-	}
-
-	/**
-	* Display group in the legend?
-	*
-	* @return bool
-	*/
-	public function get_display()
-	{
-		return isset($this->data['group_display']) ? (bool) $this->data['group_display'] : false;
-	}
-
-	/**
-	* Group can receive PMs?
-	*
-	* @return bool
-	*/
-	public function get_receive_pm()
-	{
-		return isset($this->data['group_receive_pm']) ? (bool) $this->data['group_receive_pm'] : false;
-	}
-
-	/**
-	* Get the maximum characters in signature
-	*
-	* @return int
-	*/
-	public function get_sig_chars()
-	{
-		return isset($this->data['group_sig_chars']) ? (int) $this->data['group_sig_chars'] : 0;
-	}
-
-	/**
-	* Get the maximum PMs per folder
-	*
-	* @return int
-	*/
-	public function get_message_limit()
-	{
-		return isset($this->data['group_message_limit']) ? (int) $this->data['group_message_limit'] : 0;
-	}
-
-	/**
-	* Get the order in group legend
-	*
-	* @return int
-	*/
-	public function get_legend()
-	{
-		return isset($this->data['group_legend']) ? (int) $this->data['group_legend'] : 0;
-	}
-
-	/**
-	* Get the maximum recipients per PM
-	*
-	* @return int
-	*/
-	public function get_max_recipients()
-	{
-		return isset($this->data['group_max_recipients']) ? (int) $this->data['group_max_recipients'] : 0;
 	}
 }
