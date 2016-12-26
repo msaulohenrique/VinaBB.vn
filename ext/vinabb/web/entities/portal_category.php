@@ -346,7 +346,7 @@ class portal_category implements portal_category_interface
 	/**
 	* Set the category varname
 	*
-	* @param int						$text	Category varname
+	* @param string						$text	Category varname
 	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
@@ -397,12 +397,22 @@ class portal_category implements portal_category_interface
 	/**
 	* Set the category icon
 	*
-	* @param int						$text	Category icon
+	* @param string						$text	Category icon
 	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_icon($text)
 	{
-		$this->data['cat_icon'] = (string) $text;
+		$text = (string) $text;
+
+		// Check the max length
+		if (utf8_strlen($text) > constants::MAX_CONFIG_NAME)
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['cat_icon', 'TOO_LONG']);
+		}
+
+		// Set the value on our data array
+		$this->data['cat_icon'] = $text;
 
 		return $this;
 	}

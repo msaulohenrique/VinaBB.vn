@@ -135,7 +135,7 @@ interface portal_category_interface
 	/**
 	* Set the category varname
 	*
-	* @param int						$text	Category varname
+	* @param string						$text	Category varname
 	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
@@ -151,8 +151,9 @@ interface portal_category_interface
 	/**
 	* Set the category icon
 	*
-	* @param int						$text	Category icon
+	* @param string						$text	Category icon
 	* @return portal_category_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_icon($text);
 }
