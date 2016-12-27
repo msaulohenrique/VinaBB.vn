@@ -59,6 +59,13 @@ interface portal_article_interface
 	public function add_article(\vinabb\web\entities\portal_article_interface $entity);
 
 	/**
+	* Update the view counter
+	*
+	* @param int $id Article ID
+	*/
+	public function increase_views($id);
+
+	/**
 	* Delete an article
 	*
 	* @param int $id Article ID

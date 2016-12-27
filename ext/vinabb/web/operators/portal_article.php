@@ -145,6 +145,19 @@ class portal_article implements portal_article_interface
 	}
 
 	/**
+	* Update the view counter
+	*
+	* @param int $id Article ID
+	*/
+	public function increase_views($id)
+	{
+		$sql = 'UPDATE ' . $this->table_name . '
+			SET article_views = article_views + 1
+			WHERE article_id = ' . (int) $id;
+		$this->db->sql_query($sql);
+	}
+
+	/**
 	* Delete an article
 	*
 	* @param int $id Article ID

@@ -125,7 +125,6 @@ class article implements article_interface
 		}
 		else
 		{
-			// Initiate and load the entity
 			/** @var \vinabb\web\entities\portal_article_interface $entity */
 			$entity = $this->container->get('vinabb.web.entities.portal_article')->load($article_id);
 
@@ -138,6 +137,12 @@ class article implements article_interface
 				$page_title = $entity->get_name();
 				$category_name = $this->portal_cats[$entity->get_cat_id()][($this->user->lang_name == constants::LANG_VIETNAMESE) ? 'name_vi' : 'name'];
 				$cat_varname = $this->portal_cats[$entity->get_cat_id()]['varname'];
+
+				// Update the view counter
+				if (generate_board_url() . str_replace("app.{$this->php_ext}", '', $this->user->data['session_page']) != $this->helper->get_current_url() || isset($this->user->data['session_created']))
+				{
+					$this->container->get('vinabb.web.operators.portal_article')->increase_views($article_id);
+				}
 
 				// Breadcrumb
 				$this->ext_helper->set_breadcrumb($this->language->lang('NEWS'), $this->helper->route('vinabb_web_portal_route'));
