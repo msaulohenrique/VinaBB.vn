@@ -392,7 +392,7 @@ class bb_authors implements bb_authors_interface
 	*/
 	protected function build_group_options(\vinabb\web\entities\bb_author_interface $entity, $current_id = 0, $mode = 'edit')
 	{
-		$options = $this->container->get('vinabb.web.operators.bb_author')->get_authors('group');
+		$options = $this->operator->get_authors('group');
 		$current_id = ($mode == 'edit') ? $entity->get_group() : $current_id;
 
 		/** @var \vinabb\web\entities\bb_author_interface $option */
