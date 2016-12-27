@@ -40,6 +40,12 @@ class bb_categories_module
 	/** @var string $u_action */
 	public $u_action;
 
+	/** @var string $action */
+	private $action;
+
+	/** @var int $cat_id */
+	private $cat_id;
+
 	/**
 	* Main method of the module
 	*
@@ -65,9 +71,10 @@ class bb_categories_module
 		$this->language->add_lang('acp_bb', 'vinabb/web');
 
 		// Requests
-		$action = $this->request->variable('action', '');
-		$cat_id = $this->request->variable('id', 0);
+		$this->action = $this->request->variable('action', 'display');
+		$this->cat_id = $this->request->variable('id', 0);
 
+		// Form data
 		$this->controller->set_form_data([
 			'u_action'	=> $this->u_action,
 			'mode'		=> $mode,
@@ -75,53 +82,69 @@ class bb_categories_module
 		]);
 
 		// Do actions via the controller
-		$this->do_actions($action, $cat_id);
+		$this->{'action_' . $this->action}();
 	}
 
 	/**
-	* Actions on the module
-	*
-	* @param string	$action	Action name
-	* @param int	$cat_id	Category ID
+	* Module action: Display (Default)
 	*/
-	protected function do_actions($action, $cat_id)
+	private function action_display()
 	{
-		switch ($action)
+		$this->controller->display_cats();
+	}
+
+	/**
+	* Module action: Add
+	*/
+	private function action_add()
+	{
+		$this->tpl_name = 'acp_bb_categories_edit';
+		$this->page_title = $this->language->lang('ADD_CAT');
+		$this->controller->add_cat();
+	}
+
+	/**
+	* Module action: Edit
+	*/
+	private function action_edit()
+	{
+		$this->tpl_name = 'acp_bb_categories_edit';
+		$this->page_title = $this->language->lang('EDIT_CAT');
+		$this->controller->edit_cat($this->cat_id);
+	}
+
+	/**
+	* Module action: Move Down
+	*/
+	private function action_move_down()
+	{
+		$this->controller->move_cat($this->cat_id, 'down');
+		$this->action_display();
+	}
+
+	/**
+	* Module action: Move Up
+	*/
+	private function action_move_up()
+	{
+		$this->controller->move_cat($this->cat_id, 'up');
+		$this->action_display();
+	}
+
+	/**
+	* Module action: Delete
+	*/
+	private function action_delete()
+	{
+		if (confirm_box(true))
 		{
-			case 'add':
-				$this->tpl_name = 'acp_bb_categories_edit';
-				$this->page_title = $this->language->lang('ADD_CAT');
-				$this->controller->add_cat();
-			// Return to stop execution of this script
-			return;
-
-			case 'edit':
-				$this->tpl_name = 'acp_bb_categories_edit';
-				$this->page_title = $this->language->lang('EDIT_CAT');
-				$this->controller->edit_cat($cat_id);
-			// Return to stop execution of this script
-			return;
-
-			case 'move_down':
-				$this->controller->move_cat($cat_id, 'down');
-			break;
-
-			case 'move_up':
-				$this->controller->move_cat($cat_id, 'up');
-			break;
-
-			case 'delete':
-				if (confirm_box(true))
-				{
-					$this->controller->delete_cat($cat_id);
-				}
-				else
-				{
-					confirm_box(false, $this->language->lang('CONFIRM_DELETE_CAT'));
-				}
-			break;
+			$this->controller->delete_cat($this->cat_id);
+		}
+		else
+		{
+			confirm_box(false, $this->language->lang('CONFIRM_DELETE_CAT'));
 		}
 
-		$this->controller->display_cats();
+		$this->action_display();
 	}
 }
