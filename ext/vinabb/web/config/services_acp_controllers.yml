@@ -94,6 +94,7 @@ services:
             - '@vinabb.web.cache'
             - '@config'
             - '@service_container'
+            - '@vinabb.web.operators.bb_item'
             - '@language'
             - '@log'
             - '@vinabb.web.operators.bb_author'
