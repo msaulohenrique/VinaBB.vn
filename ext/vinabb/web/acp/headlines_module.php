@@ -37,6 +37,15 @@ class headlines_module
 	/** @var string $u_action */
 	public $u_action;
 
+	/** @var string $action */
+	private $action;
+
+	/** @var string $lang */
+	private $lang;
+
+	/** @var int $headline_id */
+	private $headline_id;
+
 	/**
 	* Main method of the module
 	*
@@ -61,72 +70,88 @@ class headlines_module
 		$this->language->add_lang('acp_headlines', 'vinabb/web');
 
 		// Requests
-		$action = $this->request->variable('action', '');
-		$lang = $this->request->variable('lang', '');
-		$headline_id = $this->request->variable('id', 0);
+		$this->action = $this->request->variable('action', 'display');
+		$this->lang = $this->request->variable('lang', '');
+		$this->headline_id = $this->request->variable('id', 0);
 
+		// Form data
 		$this->controller->set_form_data([
 			'u_action'		=> $this->u_action,
-			'headline_lang'	=> $lang
+			'headline_lang'	=> $this->lang
 		]);
 
 		// Do actions via the controller
-		$this->do_actions($action, $lang, $headline_id);
+		$this->{'action_' . $this->action}();
 	}
 
 	/**
-	* Actions on the module
-	*
-	* @param string	$action			Action name
-	* @param string	$lang			2-letter language ISO code
-	* @param int	$headline_id	Headline ID
+	* Module action: Display (Default)
 	*/
-	protected function do_actions($action, $lang, $headline_id)
+	private function action_display()
 	{
-		switch ($action)
-		{
-			case 'add':
-				$this->tpl_name = 'acp_headlines_edit';
-				$this->page_title = $this->language->lang('ADD_HEADLINE');
-				$this->controller->add_headline($lang);
-			// Return to stop execution of this script
-			return;
-
-			case 'edit':
-				$this->tpl_name = 'acp_headlines_edit';
-				$this->page_title = $this->language->lang('EDIT_HEADLINE');
-				$this->controller->edit_headline($headline_id);
-			// Return to stop execution of this script
-			return;
-
-			case 'move_down':
-				$this->controller->move_headline($lang, $headline_id, 'down');
-			break;
-
-			case 'move_up':
-				$this->controller->move_headline($lang, $headline_id, 'up');
-			break;
-
-			case 'delete':
-				if (confirm_box(true))
-				{
-					$this->controller->delete_headline($headline_id);
-				}
-				else
-				{
-					confirm_box(false, $this->language->lang('CONFIRM_DELETE_HEADLINE'));
-				}
-			break;
-		}
-
 		// Select a language before doing something
-		if ($lang == '')
+		if ($this->lang == '')
 		{
 			$this->controller->select_lang();
 		}
 		else
 		{
-			$this->controller->display_headlines($lang);
+			$this->controller->display_headlines($this->lang);
 		}
+	}
+
+	/**
+	* Module action: Add
+	*/
+	private function action_add()
+	{
+		$this->tpl_name = 'acp_headlines_edit';
+		$this->page_title = $this->language->lang('ADD_HEADLINE');
+		$this->controller->add_headline($this->lang);
+	}
+
+	/**
+	* Module action: Edit
+	*/
+	private function action_edit()
+	{
+		$this->tpl_name = 'acp_headlines_edit';
+		$this->page_title = $this->language->lang('EDIT_HEADLINE');
+		$this->controller->edit_headline($this->headline_id);
+	}
+
+	/**
+	* Module action: Move Down
+	*/
+	private function action_move_down()
+	{
+		$this->controller->move_headline($this->lang, $this->headline_id, 'down');
+		$this->action_display();
+	}
+
+	/**
+	* Module action: Move Up
+	*/
+	private function action_move_up()
+	{
+		$this->controller->move_headline($this->lang, $this->headline_id, 'up');
+		$this->action_display();
+	}
+
+	/**
+	* Module action: Delete
+	*/
+	private function action_delete()
+	{
+		if (confirm_box(true))
+		{
+			$this->controller->delete_headline($this->headline_id);
+		}
+		else
+		{
+			confirm_box(false, $this->language->lang('CONFIRM_DELETE_HEADLINE'));
+		}
+
+		$this->action_display();
 	}
 }
