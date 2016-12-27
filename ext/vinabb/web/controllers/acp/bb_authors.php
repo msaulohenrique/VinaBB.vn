@@ -58,7 +58,7 @@ class bb_authors implements bb_authors_interface
 	* Constructor
 	*
 	* @param \vinabb\web\controllers\cache\service_interface	$cache		Cache service
-	* @param \phpbb\config\config								$config			Config object
+	* @param \phpbb\config\config								$config		Config object
 	* @param ContainerInterface									$container	Container object
 	* @param \phpbb\language\language							$language	Language object
 	* @param \phpbb\log\log										$log		Log object
