@@ -513,8 +513,6 @@ class bb_items implements bb_items_interface
 			'ITEM_STYLE_SOURCE'			=> $entity->get_style_source(),
 			'ITEM_STYLE_RESPONSIVE'		=> $entity->get_style_responsive(),
 			'ITEM_STYLE_BOOTSTRAP'		=> $entity->get_style_bootstrap(),
-			'ITEM_LANG_ISO'				=> $entity->get_lang_iso(),
-			'ITEM_TOOL_OS'				=> $entity->get_tool_os(),
 			'ITEM_PRICE'				=> $entity->get_price(),
 			'ITEM_URL'					=> $entity->get_url(),
 			'ITEM_GITHUB'				=> $entity->get_github(),
