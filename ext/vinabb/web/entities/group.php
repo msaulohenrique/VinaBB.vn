@@ -47,7 +47,7 @@ class group extends group_settings implements group_interface
 		return [
 			'group_id'		=> 'integer',
 			'group_name'	=> 'string',
-			'forum_type'	=> 'integer',
+			'group_type'	=> 'integer',
 
 			// Entity: vinabb\web\entities\sub\group_settings
 			'group_founder_manage'	=> 'bool',
