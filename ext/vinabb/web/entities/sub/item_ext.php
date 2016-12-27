@@ -21,9 +21,6 @@ class item_ext extends item_style
 	/** @var \vinabb\web\entities\helper\helper_interface $entity_helper */
 	protected $entity_helper;
 
-	/** @var int $bb_type */
-	protected $bb_type;
-
 	/**
 	* Constructor
 	*
@@ -32,7 +29,6 @@ class item_ext extends item_style
 	public function __construct(\vinabb\web\entities\helper\helper_interface $entity_helper)
 	{
 		$this->entity_helper = $entity_helper;
-		$this->bb_type = isset($this->data['bb_type']) ? $this->data['bb_type'] : 0;
 	}
 
 	/**
@@ -42,7 +38,7 @@ class item_ext extends item_style
 	*/
 	public function get_ext_style()
 	{
-		return ($this->bb_type === constants::BB_TYPE_EXT && isset($this->data['item_ext_style'])) ? (bool) $this->data['item_ext_style'] : false;
+		return ($this->get_bb_type() === constants::BB_TYPE_EXT && isset($this->data['item_ext_style'])) ? (bool) $this->data['item_ext_style'] : false;
 	}
 
 	/**
@@ -57,9 +53,9 @@ class item_ext extends item_style
 		$value = (bool) $value;
 
 		// This is a field only for extensions
-		if ($this->bb_type !== constants::BB_TYPE_EXT)
+		if ($this->get_bb_type() !== constants::BB_TYPE_EXT)
 		{
-			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
+			throw new \vinabb\web\exceptions\out_of_bounds('bb_typeff');
 		}
 
 		// Set the value on our data array
@@ -75,7 +71,7 @@ class item_ext extends item_style
 	*/
 	public function get_ext_acp_style()
 	{
-		return ($this->bb_type === constants::BB_TYPE_EXT && isset($this->data['item_ext_acp_style'])) ? (bool) $this->data['item_ext_acp_style'] : false;
+		return ($this->get_bb_type() === constants::BB_TYPE_EXT && isset($this->data['item_ext_acp_style'])) ? (bool) $this->data['item_ext_acp_style'] : false;
 	}
 
 	/**
@@ -90,7 +86,7 @@ class item_ext extends item_style
 		$value = (bool) $value;
 
 		// This is a field only for extensions
-		if ($this->bb_type !== constants::BB_TYPE_EXT)
+		if ($this->get_bb_type() !== constants::BB_TYPE_EXT)
 		{
 			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
 		}
@@ -108,7 +104,7 @@ class item_ext extends item_style
 	*/
 	public function get_ext_lang()
 	{
-		return ($this->bb_type === constants::BB_TYPE_EXT && isset($this->data['item_ext_lang'])) ? (bool) $this->data['item_ext_lang'] : false;
+		return ($this->get_bb_type() === constants::BB_TYPE_EXT && isset($this->data['item_ext_lang'])) ? (bool) $this->data['item_ext_lang'] : false;
 	}
 
 	/**
@@ -123,7 +119,7 @@ class item_ext extends item_style
 		$value = (bool) $value;
 
 		// This is a field only for extensions
-		if ($this->bb_type !== constants::BB_TYPE_EXT)
+		if ($this->get_bb_type() !== constants::BB_TYPE_EXT)
 		{
 			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
 		}
@@ -141,7 +137,7 @@ class item_ext extends item_style
 	*/
 	public function get_ext_db_schema()
 	{
-		return ($this->bb_type === constants::BB_TYPE_EXT && isset($this->data['item_ext_db_schema'])) ? (bool) $this->data['item_ext_db_schema'] : false;
+		return ($this->get_bb_type() === constants::BB_TYPE_EXT && isset($this->data['item_ext_db_schema'])) ? (bool) $this->data['item_ext_db_schema'] : false;
 	}
 
 	/**
@@ -156,7 +152,7 @@ class item_ext extends item_style
 		$value = (bool) $value;
 
 		// This is a field only for extensions
-		if ($this->bb_type !== constants::BB_TYPE_EXT)
+		if ($this->get_bb_type() !== constants::BB_TYPE_EXT)
 		{
 			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
 		}
@@ -174,7 +170,7 @@ class item_ext extends item_style
 	*/
 	public function get_ext_db_data()
 	{
-		return ($this->bb_type === constants::BB_TYPE_EXT && isset($this->data['item_ext_db_data'])) ? (bool) $this->data['item_ext_db_data'] : false;
+		return ($this->get_bb_type() === constants::BB_TYPE_EXT && isset($this->data['item_ext_db_data'])) ? (bool) $this->data['item_ext_db_data'] : false;
 	}
 
 	/**
@@ -189,7 +185,7 @@ class item_ext extends item_style
 		$value = (bool) $value;
 
 		// This is a field only for extensions
-		if ($this->bb_type !== constants::BB_TYPE_EXT)
+		if ($this->get_bb_type() !== constants::BB_TYPE_EXT)
 		{
 			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
 		}

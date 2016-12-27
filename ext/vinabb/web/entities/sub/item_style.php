@@ -21,9 +21,6 @@ class item_style extends item_lang_tool
 	/** @var \vinabb\web\entities\helper\helper_interface $entity_helper */
 	protected $entity_helper;
 
-	/** @var int $bb_type */
-	protected $bb_type;
-
 	/**
 	* Constructor
 	*
@@ -32,7 +29,6 @@ class item_style extends item_lang_tool
 	public function __construct(\vinabb\web\entities\helper\helper_interface $entity_helper)
 	{
 		$this->entity_helper = $entity_helper;
-		$this->bb_type = isset($this->data['bb_type']) ? $this->data['bb_type'] : 0;
 	}
 
 	/**
@@ -42,7 +38,7 @@ class item_style extends item_lang_tool
 	*/
 	public function get_style_presets()
 	{
-		return (($this->bb_type === constants::BB_TYPE_STYLE || $this->bb_type === constants::BB_TYPE_ACP_STYLE) && isset($this->data['item_style_presets'])) ? (int) $this->data['item_style_presets'] : 0;
+		return (($this->get_bb_type() === constants::BB_TYPE_STYLE || $this->get_bb_type() === constants::BB_TYPE_ACP_STYLE) && isset($this->data['item_style_presets'])) ? (int) $this->data['item_style_presets'] : 0;
 	}
 
 	/**
@@ -57,7 +53,7 @@ class item_style extends item_lang_tool
 		$value = (int) $value;
 
 		// This is a field only for styles
-		if ($this->bb_type !== constants::BB_TYPE_STYLE && $this->bb_type !== constants::BB_TYPE_ACP_STYLE)
+		if ($this->get_bb_type() !== constants::BB_TYPE_STYLE && $this->get_bb_type() !== constants::BB_TYPE_ACP_STYLE)
 		{
 			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
 		}
@@ -75,7 +71,7 @@ class item_style extends item_lang_tool
 	*/
 	public function get_style_presets_aio()
 	{
-		return (($this->bb_type === constants::BB_TYPE_STYLE || $this->bb_type === constants::BB_TYPE_ACP_STYLE) && isset($this->data['item_style_presets_aio'])) ? (bool) $this->data['item_style_presets_aio'] : false;
+		return (($this->get_bb_type() === constants::BB_TYPE_STYLE || $this->get_bb_type() === constants::BB_TYPE_ACP_STYLE) && isset($this->data['item_style_presets_aio'])) ? (bool) $this->data['item_style_presets_aio'] : false;
 	}
 
 	/**
@@ -90,7 +86,7 @@ class item_style extends item_lang_tool
 		$value = (bool) $value;
 
 		// This is a field only for styles
-		if ($this->bb_type !== constants::BB_TYPE_STYLE && $this->bb_type !== constants::BB_TYPE_ACP_STYLE)
+		if ($this->get_bb_type() !== constants::BB_TYPE_STYLE && $this->get_bb_type() !== constants::BB_TYPE_ACP_STYLE)
 		{
 			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
 		}
@@ -108,7 +104,7 @@ class item_style extends item_lang_tool
 	*/
 	public function get_style_source()
 	{
-		return (($this->bb_type === constants::BB_TYPE_STYLE || $this->bb_type === constants::BB_TYPE_ACP_STYLE) && isset($this->data['item_style_source'])) ? (bool) $this->data['item_style_source'] : false;
+		return (($this->get_bb_type() === constants::BB_TYPE_STYLE || $this->get_bb_type() === constants::BB_TYPE_ACP_STYLE) && isset($this->data['item_style_source'])) ? (bool) $this->data['item_style_source'] : false;
 	}
 
 	/**
@@ -123,7 +119,7 @@ class item_style extends item_lang_tool
 		$value = (bool) $value;
 
 		// This is a field only for styles
-		if ($this->bb_type !== constants::BB_TYPE_STYLE && $this->bb_type !== constants::BB_TYPE_ACP_STYLE)
+		if ($this->get_bb_type() !== constants::BB_TYPE_STYLE && $this->get_bb_type() !== constants::BB_TYPE_ACP_STYLE)
 		{
 			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
 		}
@@ -141,7 +137,7 @@ class item_style extends item_lang_tool
 	*/
 	public function get_style_responsive()
 	{
-		return (($this->bb_type === constants::BB_TYPE_STYLE || $this->bb_type === constants::BB_TYPE_ACP_STYLE) && isset($this->data['item_style_responsive'])) ? (bool) $this->data['item_style_responsive'] : false;
+		return (($this->get_bb_type() === constants::BB_TYPE_STYLE || $this->get_bb_type() === constants::BB_TYPE_ACP_STYLE) && isset($this->data['item_style_responsive'])) ? (bool) $this->data['item_style_responsive'] : false;
 	}
 
 	/**
@@ -156,7 +152,7 @@ class item_style extends item_lang_tool
 		$value = (bool) $value;
 
 		// This is a field only for styles
-		if ($this->bb_type !== constants::BB_TYPE_STYLE && $this->bb_type !== constants::BB_TYPE_ACP_STYLE)
+		if ($this->get_bb_type() !== constants::BB_TYPE_STYLE && $this->get_bb_type() !== constants::BB_TYPE_ACP_STYLE)
 		{
 			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
 		}
@@ -174,7 +170,7 @@ class item_style extends item_lang_tool
 	*/
 	public function get_style_bootstrap()
 	{
-		return (($this->bb_type === constants::BB_TYPE_STYLE || $this->bb_type === constants::BB_TYPE_ACP_STYLE) && isset($this->data['item_style_bootstrap'])) ? (bool) $this->data['item_style_bootstrap'] : false;
+		return (($this->get_bb_type() === constants::BB_TYPE_STYLE || $this->get_bb_type() === constants::BB_TYPE_ACP_STYLE) && isset($this->data['item_style_bootstrap'])) ? (bool) $this->data['item_style_bootstrap'] : false;
 	}
 
 	/**
@@ -189,7 +185,7 @@ class item_style extends item_lang_tool
 		$value = (bool) $value;
 
 		// This is a field only for styles
-		if ($this->bb_type !== constants::BB_TYPE_STYLE && $this->bb_type !== constants::BB_TYPE_ACP_STYLE)
+		if ($this->get_bb_type() !== constants::BB_TYPE_STYLE && $this->get_bb_type() !== constants::BB_TYPE_ACP_STYLE)
 		{
 			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
 		}
