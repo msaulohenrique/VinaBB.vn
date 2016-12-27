@@ -255,10 +255,10 @@ class helper implements helper_interface
 	/**
 	* Convert BB type from string to constant value
 	*
-	* @param string $bb_type phpBB resource type (ext|style|acp_style|lang|tool)
+	* @param string $bb_mode phpBB resource mode (ext|style|acp_style|lang|tool)
 	* @return int
 	*/
-	public function get_bb_type_constants($bb_type)
+	public function get_bb_type_constants($bb_mode)
 	{
 		$data = [
 			'ext'		=> constants::BB_TYPE_EXT,
@@ -268,26 +268,7 @@ class helper implements helper_interface
 			'tool'		=> constants::BB_TYPE_TOOL
 		];
 
-		return isset($data[$bb_type]) ? $data[$bb_type] : 0;
-	}
-
-	/**
-	* Convert BB type from constant value to string
-	*
-	* @param int $bb_type phpBB resource type constant value
-	* @return string
-	*/
-	public function convert_bb_type_constants($bb_type)
-	{
-		$data = [
-			constants::BB_TYPE_EXT			=> 'ext',
-			constants::BB_TYPE_STYLE		=> 'style',
-			constants::BB_TYPE_ACP_STYLE	=> 'acp_style',
-			constants::BB_TYPE_LANG			=> 'lang',
-			constants::BB_TYPE_TOOL			=> 'tool'
-		];
-
-		return isset($data[$bb_type]) ? $data[$bb_type] : '';
+		return isset($data[$bb_mode]) ? $data[$bb_mode] : 0;
 	}
 
 	/**
