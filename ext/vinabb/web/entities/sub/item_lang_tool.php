@@ -38,7 +38,7 @@ class item_lang_tool extends item_desc
 	*/
 	public function get_lang_iso()
 	{
-		return (($this->get_bb_type() === constants::BB_TYPE_LANG) && isset($this->data['item_lang_iso'])) ? (string) $this->data['item_lang_iso'] : '';
+		return isset($this->data['item_lang_iso']) ? (string) $this->data['item_lang_iso'] : '';
 	}
 
 	/**
@@ -53,7 +53,7 @@ class item_lang_tool extends item_desc
 		$text = (string) $text;
 
 		// This is a field only for language packages
-		if ($this->get_bb_type() !== constants::BB_TYPE_LANG)
+		if ($this->data['bb_type'] !== constants::BB_TYPE_LANG)
 		{
 			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
 		}
@@ -81,7 +81,7 @@ class item_lang_tool extends item_desc
 	*/
 	public function get_tool_os()
 	{
-		return (($this->get_bb_type() === constants::BB_TYPE_TOOL) && isset($this->data['item_tool_os'])) ? (int) $this->data['item_tool_os'] : constants::OS_ALL;
+		return isset($this->data['item_tool_os']) ? (int) $this->data['item_tool_os'] : constants::OS_ALL;
 	}
 
 	/**
@@ -96,7 +96,7 @@ class item_lang_tool extends item_desc
 		$value = (int) $value;
 
 		// This is a field only for tools
-		if ($this->get_bb_type() !== constants::BB_TYPE_TOOL)
+		if ($this->data['bb_type'] !== constants::BB_TYPE_TOOL)
 		{
 			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
 		}
