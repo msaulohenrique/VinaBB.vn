@@ -37,6 +37,12 @@ class portal_articles_module
 	/** @var string $u_action */
 	public $u_action;
 
+	/** @var string $action */
+	private $action;
+
+	/** @var int $article_id */
+	private $article_id;
+
 	/**
 	* Main method of the module
 	*
@@ -61,51 +67,58 @@ class portal_articles_module
 		$this->language->add_lang('acp_portal', 'vinabb/web');
 
 		// Requests
-		$action = $this->request->variable('action', '');
-		$article_id = $this->request->variable('id', 0);
+		$this->action = $this->request->variable('action', 'display');
+		$this->article_id = $this->request->variable('id', 0);
 
+		// Form data
 		$this->controller->set_form_action($this->u_action);
 
 		// Do actions via the controller
-		$this->do_actions($action, $article_id);
+		$this->{'action_' . $this->action}();
 	}
 
 	/**
-	* Actions on the module
-	*
-	* @param string	$action		Action name
-	* @param int	$article_id	Article ID
+	* Module action: Display (Default)
 	*/
-	protected function do_actions($action, $article_id)
+	private function action_display()
 	{
-		switch ($action)
+		$this->controller->display_articles();
+	}
+
+	/**
+	* Module action: Add
+	*/
+	private function action_add()
+	{
+		$this->tpl_name = 'acp_portal_articles_edit';
+		$this->page_title = $this->language->lang('ADD_ARTICLE');
+		$this->controller->add_article();
+	}
+
+	/**
+	* Module action: Edit
+	*/
+	private function action_edit()
+	{
+		$this->tpl_name = 'acp_portal_articles_edit';
+		$this->page_title = $this->language->lang('EDIT_ARTICLE');
+		$this->controller->edit_article($this->article_id);
+	}
+
+	/**
+	* Module action: Delete
+	*/
+	private function action_delete()
+	{
+		if (confirm_box(true))
 		{
-			case 'add':
-				$this->tpl_name = 'acp_portal_articles_edit';
-				$this->page_title = $this->language->lang('ADD_ARTICLE');
-				$this->controller->add_article();
-			// Return to stop execution of this script
-			return;
-
-			case 'edit':
-				$this->tpl_name = 'acp_portal_articles_edit';
-				$this->page_title = $this->language->lang('EDIT_ARTICLE');
-				$this->controller->edit_article($article_id);
-			// Return to stop execution of this script
-			return;
-
-			case 'delete':
-				if (confirm_box(true))
-				{
-					$this->controller->delete_article($article_id);
-				}
-				else
-				{
-					confirm_box(false, $this->language->lang('CONFIRM_DELETE_ARTICLE'));
-				}
-			break;
+			$this->controller->delete_article($this->article_id);
+		}
+		else
+		{
+			confirm_box(false, $this->language->lang('CONFIRM_DELETE_ARTICLE'));
 		}
 
-		$this->controller->display_articles();
+		$this->action_display();
 	}
 }
