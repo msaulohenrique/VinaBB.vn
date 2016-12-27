@@ -62,6 +62,7 @@ $lang = array_merge($lang, [
 	'ERROR_AUTHOR_GROUP_NOT_EXISTS'			=> 'The developer group does not exist.',
 	'ERROR_AUTHOR_ID_EMPTY'					=> 'You must select a developer.',
 	'ERROR_AUTHOR_ID_NOT_EXISTS'			=> 'The developer does not exist.',
+	'ERROR_AUTHOR_NAME_DUPLICATE'			=> 'The developer name “%s” already exists.',
 	'ERROR_AUTHOR_NAME_EMPTY'				=> 'You must enter a developer name.',
 	'ERROR_AUTHOR_NAME_SEO_INVALID'			=> 'The developer SEO name is invalid.',
 	'ERROR_AUTHOR_NAME_TOO_LONG'			=> 'The developer name is too long.',

@@ -62,6 +62,7 @@ $lang = array_merge($lang, [
 	'ERROR_AUTHOR_GROUP_NOT_EXISTS'			=> 'Nhóm phát triển không tồn tại.',
 	'ERROR_AUTHOR_ID_EMPTY'					=> 'Chưa chọn người phát triển.',
 	'ERROR_AUTHOR_ID_NOT_EXISTS'			=> 'Người phát triển không tồn tại.',
+	'ERROR_AUTHOR_NAME_DUPLICATE'			=> 'Tên người phát triển “%s” bị trùng.',
 	'ERROR_AUTHOR_NAME_EMPTY'				=> 'Chưa nhập tên người phát triển.',
 	'ERROR_AUTHOR_NAME_SEO_INVALID'			=> 'Chuỗi SEO tên người phát triển không hợp lệ.',
 	'ERROR_AUTHOR_NAME_TOO_LONG'			=> 'Tên người phát triển quá dài.',
