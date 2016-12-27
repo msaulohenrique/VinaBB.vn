@@ -20,7 +20,6 @@ services:
     vinabb.web.helper:
         class: vinabb\web\controllers\helper
         arguments:
-            - '@auth'
             - '@vinabb.web.cache'
             - '@config'
             - '@service_container'

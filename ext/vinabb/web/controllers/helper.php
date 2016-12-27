@@ -13,9 +13,6 @@ use vinabb\web\includes\constants;
 
 class helper implements helper_interface
 {
-	/** @var \phpbb\auth\auth $auth */
-	protected $auth;
-
 	/** @var \vinabb\web\controllers\cache\service_interface $cache */
 	protected $cache;
 
@@ -49,7 +46,6 @@ class helper implements helper_interface
 	/**
 	* Constructor
 	*
-	* @param \phpbb\auth\auth									$auth				Authentication object
 	* @param \vinabb\web\controllers\cache\service_interface	$cache				Cache service
 	* @param \phpbb\config\config								$config				Config object
 	* @param ContainerInterface									$container			Service container
@@ -62,7 +58,6 @@ class helper implements helper_interface
 	* @param \phpbb\group\helper								$group_helper		Group helper
 	*/
 	public function __construct(
-		\phpbb\auth\auth $auth,
 		\vinabb\web\controllers\cache\service_interface $cache,
 		\phpbb\config\config $config,
 		ContainerInterface $container,
@@ -75,7 +70,6 @@ class helper implements helper_interface
 		\phpbb\group\helper $group_helper
 	)
 	{
-		$this->auth = $auth;
 		$this->cache = $cache;
 		$this->config = $config;
 		$this->container = $container;
