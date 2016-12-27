@@ -37,6 +37,15 @@ class bb_item_versions_module
 	/** @var string $u_action */
 	public $u_action;
 
+	/** @var string $action */
+	private $action;
+
+	/** @var int $item_id */
+	private $item_id;
+
+	/** @var string $branch */
+	private $branch;
+
 	/**
 	* Main method of the module
 	*
@@ -61,57 +70,63 @@ class bb_item_versions_module
 		$this->language->add_lang('acp_bb', 'vinabb/web');
 
 		// Requests
-		$action = $this->request->variable('action', '');
-		$item_id = $this->request->variable('id', 0);
-		$branch = $this->request->variable('branch', '');
+		$this->action = $this->request->variable('action', 'display');
+		$this->item_id = $this->request->variable('id', 0);
+		$this->branch = $this->request->variable('branch', '');
 
+		// Form data
 		$this->controller->set_form_data([
 			'u_action'	=> $this->u_action,
 			'mode'		=> $mode,
-			'item_id'	=> $item_id
+			'item_id'	=> $this->item_id
 		]);
 
 		// Do actions via the controller
-		$this->do_actions($action, $item_id, $branch);
+		$this->{'action_' . $this->action}();
 	}
 
 	/**
-	* Actions on the module
-	*
-	* @param string	$action		Action name
-	* @param int	$item_id	Item ID
-	* @param string	$branch		phpBB branch
+	* Module action: Display (Default)
 	*/
-	protected function do_actions($action, $item_id, $branch)
+	private function action_display()
 	{
-		switch ($action)
+		$this->controller->display_versions();
+	}
+
+	/**
+	* Module action: Add
+	*/
+	private function action_add()
+	{
+		$this->tpl_name = 'acp_bb_item_versions_edit';
+		$this->page_title = $this->language->lang('ADD_VERSION');
+		$this->controller->add_version();
+	}
+
+	/**
+	* Module action: Edit
+	*/
+	private function action_edit()
+	{
+		$this->tpl_name = 'acp_bb_item_versions_edit';
+		$this->page_title = $this->language->lang('EDIT_VERSION');
+		$this->controller->edit_version($this->item_id, $this->branch);
+	}
+
+	/**
+	* Module action: Delete
+	*/
+	private function action_delete()
+	{
+		if (confirm_box(true))
 		{
-			case 'add':
-				$this->tpl_name = 'acp_bb_item_versions_edit';
-				$this->page_title = $this->language->lang('ADD_VERSION');
-				$this->controller->add_version();
-			// Return to stop execution of this script
-			return;
-
-			case 'edit':
-				$this->tpl_name = 'acp_bb_item_versions_edit';
-				$this->page_title = $this->language->lang('EDIT_VERSION');
-				$this->controller->edit_version($item_id, $branch);
-			// Return to stop execution of this script
-			return;
-
-			case 'delete':
-				if (confirm_box(true))
-				{
-					$this->controller->delete_version($item_id, $branch);
-				}
-				else
-				{
-					confirm_box(false, $this->language->lang('CONFIRM_DELETE_VERSION'));
-				}
-			break;
+			$this->controller->delete_version($this->item_id, $this->branch);
+		}
+		else
+		{
+			confirm_box(false, $this->language->lang('CONFIRM_DELETE_VERSION'));
 		}
 
-		$this->controller->display_versions();
+		$this->action_display();
 	}
 }
