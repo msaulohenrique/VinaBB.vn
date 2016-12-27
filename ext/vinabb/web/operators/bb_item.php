@@ -43,16 +43,18 @@ class bb_item implements bb_item_interface
 	*
 	* @param int	$bb_type	phpBB resource type
 	* @param int	$cat_id		Category ID
+	* @param int	$author_id	Author ID
 	* @return int
 	*/
-	public function count_items($bb_type, $cat_id = 0)
+	public function count_items($bb_type, $cat_id = 0, $author_id = 0)
 	{
-		$sql_and = $cat_id ? "AND cat_id = $cat_id" : '';
+		$sql_where = $bb_type ? 'WHERE bb_type = ' . (int) $bb_type : 'WHERE bb_type <> 0';
+		$sql_where .= $cat_id ? ' AND cat_id = ' . (int) $cat_id : '';
+		$sql_where .= $author_id ? ' AND author_id = ' . (int) $author_id : '';
 
 		$sql = 'SELECT COUNT(item_id) AS counter
-			FROM ' . $this->table_name . '
-			WHERE bb_type = ' . (int) $bb_type . "
-				$sql_and";
+			FROM ' . $this->table_name . "
+			$sql_where";
 		$result = $this->db->sql_query($sql);
 		$counter = (int) $this->db->sql_fetchfield('counter');
 		$this->db->sql_freeresult($result);
@@ -87,21 +89,19 @@ class bb_item implements bb_item_interface
 	/**
 	* Get item counter data by author
 	*
-	* @param int $author_id Author ID
 	* @return array
 	*/
-	public function get_count_data_by_author($author_id = 0)
+	public function get_count_data_by_author()
 	{
-		$sql = 'SELECT bb_type, COUNT(item_id) AS counter
+		$sql = 'SELECT author_id, COUNT(item_id) AS counter
 			FROM ' . $this->table_name . '
-			WHERE author_id = ' . (int) $author_id . '
-			GROUP BY bb_type';
+			GROUP BY author_id';
 		$result = $this->db->sql_query($sql);
 
 		$counter = [];
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$counter[$row['bb_type']] = $row['counter'];
+			$counter[$row['author_id']] = $row['counter'];
 		}
 		$this->db->sql_freeresult($result);
 
