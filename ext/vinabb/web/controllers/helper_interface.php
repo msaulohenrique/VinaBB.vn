@@ -136,15 +136,6 @@ interface helper_interface
 	public function remove_trailing_slash($destination);
 
 	/**
-	* Call the core function get_username_string() with only $user_id
-	*
-	* @param int	$user_id	User ID
-	* @param string	$mode		Output mode
-	* @return string
-	*/
-	public function get_username_string($user_id, $mode = 'full');
-
-	/**
 	* Build gravatar URL for output on page
 	*
 	* @param array $row User data or group data that has been cleaned with
