@@ -40,6 +40,12 @@ class bb_items_module
 	/** @var string $u_action */
 	public $u_action;
 
+	/** @var string $action */
+	private $action;
+
+	/** @var int $item_id */
+	private $item_id;
+
 	/**
 	* Main method of the module
 	*
@@ -65,9 +71,10 @@ class bb_items_module
 		$this->language->add_lang('acp_bb', 'vinabb/web');
 
 		// Requests
-		$action = $this->request->variable('action', '');
-		$item_id = $this->request->variable('id', 0);
+		$this->action = $this->request->variable('action', 'display');
+		$this->item_id = $this->request->variable('id', 0);
 
+		// Form data
 		$this->controller->set_form_data([
 			'u_action'	=> $this->u_action,
 			'mode'		=> $mode,
@@ -75,45 +82,51 @@ class bb_items_module
 		]);
 
 		// Do actions via the controller
-		$this->do_actions($action, $item_id);
+		$this->{'action_' . $this->action}();
 	}
 
 	/**
-	* Actions on the module
-	*
-	* @param string	$action		Action name
-	* @param int	$item_id	Item ID
+	* Module action: Display (Default)
 	*/
-	protected function do_actions($action, $item_id)
+	private function action_display()
 	{
-		switch ($action)
+		$this->controller->display_items();
+	}
+
+	/**
+	* Module action: Add
+	*/
+	private function action_add()
+	{
+		$this->tpl_name = 'acp_bb_items_edit';
+		$this->page_title = $this->language->lang('ADD_BB_' . strtoupper($this->mode));
+		$this->controller->add_item();
+	}
+
+	/**
+	* Module action: Edit
+	*/
+	private function action_edit()
+	{
+		$this->tpl_name = 'acp_bb_items_edit';
+		$this->page_title = $this->language->lang('EDIT_BB_' . strtoupper($this->mode));
+		$this->controller->edit_item($this->item_id);
+	}
+
+	/**
+	* Module action: Delete
+	*/
+	private function action_delete()
+	{
+		if (confirm_box(true))
 		{
-			case 'add':
-				$this->tpl_name = 'acp_bb_items_edit';
-				$this->page_title = $this->language->lang('ADD_BB_' . strtoupper($this->mode));
-				$this->controller->add_item();
-			// Return to stop execution of this script
-			return;
-
-			case 'edit':
-				$this->tpl_name = 'acp_bb_items_edit';
-				$this->page_title = $this->language->lang('EDIT_BB_' . strtoupper($this->mode));
-				$this->controller->edit_item($item_id);
-			// Return to stop execution of this script
-			return;
-
-			case 'delete':
-				if (confirm_box(true))
-				{
-					$this->controller->delete_item($item_id);
-				}
-				else
-				{
-					confirm_box(false, $this->language->lang('CONFIRM_DELETE_BB_' . strtoupper($this->mode)));
-				}
-			break;
+			$this->controller->delete_item($this->item_id);
+		}
+		else
+		{
+			confirm_box(false, $this->language->lang('CONFIRM_DELETE_BB_' . strtoupper($this->mode)));
 		}
 
-		$this->controller->display_items();
+		$this->action_display();
 	}
 }
