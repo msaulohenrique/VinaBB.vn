@@ -15,6 +15,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 */
 class portal_categories implements portal_categories_interface
 {
+	/** @var \vinabb\web\operators\portal_article_interface $item_operator */
+	protected $article_operator;
+
 	/** @var \vinabb\web\controllers\cache\service_interface $cache */
 	protected $cache;
 
@@ -54,17 +57,19 @@ class portal_categories implements portal_categories_interface
 	/**
 	* Constructor
 	*
-	* @param \vinabb\web\controllers\cache\service_interface	$cache		Cache service
-	* @param ContainerInterface									$container	Container object
-	* @param \phpbb\language\language							$language	Language object
-	* @param \phpbb\log\log										$log		Log object
-	* @param \vinabb\web\operators\portal_category_interface	$operator	Portal category operators
-	* @param \phpbb\request\request								$request	Request object
-	* @param \phpbb\template\template							$template	Template object
-	* @param \phpbb\user										$user		User object
-	* @param \vinabb\web\controllers\helper_interface			$ext_helper	Extension helper
+	* @param \vinabb\web\operators\portal_article_interface		$article_operator	Portal article operators
+	* @param \vinabb\web\controllers\cache\service_interface	$cache				Cache service
+	* @param ContainerInterface									$container			Container object
+	* @param \phpbb\language\language							$language			Language object
+	* @param \phpbb\log\log										$log				Log object
+	* @param \vinabb\web\operators\portal_category_interface	$operator			Portal category operators
+	* @param \phpbb\request\request								$request			Request object
+	* @param \phpbb\template\template							$template			Template object
+	* @param \phpbb\user										$user				User object
+	* @param \vinabb\web\controllers\helper_interface			$ext_helper			Extension helper
 	*/
 	public function __construct(
+		\vinabb\web\operators\portal_article_interface $article_operator,
 		\vinabb\web\controllers\cache\service_interface $cache,
 		ContainerInterface $container,
 		\phpbb\language\language $language,
@@ -76,6 +81,7 @@ class portal_categories implements portal_categories_interface
 		\vinabb\web\controllers\helper_interface $ext_helper
 	)
 	{
+		$this->article_operator = $article_operator;
 		$this->cache = $cache;
 		$this->container = $container;
 		$this->language = $language;
@@ -104,6 +110,9 @@ class portal_categories implements portal_categories_interface
 	*/
 	public function display_cats($parent_id = 0)
 	{
+		// Article counter
+		$article_count = $this->article_operator->get_count_data_by_cat();
+
 		// Grab all from database
 		$entities = $this->operator->get_cats($parent_id);
 
@@ -119,18 +128,21 @@ class portal_categories implements portal_categories_interface
 				continue;
 			}
 
+			$articles = isset($article_count[$entity->get_id()]) ? $article_count[$entity->get_id()] : 0;
+
 			$this->template->assign_block_vars('cats', [
 				'URL'		=> "{$this->u_action}&parent_id={$entity->get_id()}",
 				'NAME'		=> $entity->get_name(),
 				'NAME_VI'	=> $entity->get_name_vi(),
 				'VARNAME'	=> $entity->get_varname(),
+				'ARTICLES'	=> $articles,
 
 				'S_IS_CAT'	=> $entity->get_right_id() - $entity->get_left_id() > 1,
 
 				'U_EDIT'		=> "{$this->u_action}&action=edit&id={$entity->get_id()}",
 				'U_MOVE_DOWN'	=> "{$this->u_action}&action=move_down&id={$entity->get_id()}&hash=" . generate_link_hash('down' . $entity->get_id()),
 				'U_MOVE_UP'		=> "{$this->u_action}&action=move_up&id={$entity->get_id()}&hash=" . generate_link_hash('up' . $entity->get_id()),
-				'U_DELETE'		=> "{$this->u_action}&action=delete&id={$entity->get_id()}"
+				'U_DELETE'		=> $articles ? '' : "{$this->u_action}&action=delete&id={$entity->get_id()}"
 			]);
 
 			// Store the current right_id value

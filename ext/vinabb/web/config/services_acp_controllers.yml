@@ -15,6 +15,7 @@ services:
     vinabb.web.acp.portal_categories:
         class: vinabb\web\controllers\acp\portal_categories
         arguments:
+            - '@vinabb.web.operators.portal_article'
             - '@vinabb.web.cache'
             - '@service_container'
             - '@language'
