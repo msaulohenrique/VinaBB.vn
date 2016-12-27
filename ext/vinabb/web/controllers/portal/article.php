@@ -168,11 +168,22 @@ class article implements article_interface
 	*/
 	protected function get_author_info($user_id)
 	{
-		$this->template->assign_vars([
-			'AUTHOR'			=> $this->ext_helper->get_username_string($user_id),
-			'AUTHOR_USERNAME'	=> $this->ext_helper->get_username_string($user_id, 'username'),
+		/** @var \vinabb\web\entities\user_interface $entity */
+		$entity = $this->container->get('vinabb.web.entities.user')->load($user_id);
 
-			'U_AUTHOR'	=> $this->ext_helper->get_username_string($user_id, 'profile')
+		$avatar_row = [
+			'user_avatar'			=> $entity->get_avatar(),
+			'user_avatar_type'		=> $entity->get_avatar_type(),
+			'user_avatar_width'		=> $entity->get_avatar_width(),
+			'user_avatar_height'	=> $entity->get_avatar_height()
+		];
+
+		$this->template->assign_vars([
+			'AUTHOR'			=> get_username_string('full', $user_id, $entity->get_username(), $entity->get_colour()),
+			'AUTHOR_USERNAME'	=> $entity->get_username(),
+			'AUTHOR_AVATAR'		=> ($avatar_row['user_avatar_type'] == 'avatar.driver.gravatar') ? $this->ext_helper->get_gravatar_url($avatar_row) : phpbb_get_user_avatar($avatar_row),
+
+			'U_AUTHOR'	=> get_username_string('profile', $user_id, $entity->get_username(), $entity->get_colour()),
 		]);
 	}
 }
