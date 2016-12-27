@@ -55,6 +55,7 @@ $lang = array_merge($lang, [
 	'EDIT_CAT'								=> 'Edit category',
 	'EDIT_VERSION'							=> 'Edit branch version',
 	'ERROR_AUTHOR_DELETE'					=> 'Could not delete this developer. Error: %s',
+	'ERROR_AUTHOR_DELETE_IN_USE'			=> 'Could not delete this developer who is still in use.',
 	'ERROR_AUTHOR_EMAIL_INVALID_EMAIL'		=> 'The developer email is invalid.',
 	'ERROR_AUTHOR_FACEBOOK_INVALID'			=> 'The Facebook account name is invalid.',
 	'ERROR_AUTHOR_GITHUB_INVALID'			=> 'The GitHub account name is invalid.',

@@ -55,6 +55,7 @@ $lang = array_merge($lang, [
 	'EDIT_CAT'								=> 'Sửa danh mục',
 	'EDIT_VERSION'							=> 'Sửa nhánh phiên bản',
 	'ERROR_AUTHOR_DELETE'					=> 'Không thể xóa người phát triển này. Lỗi: %s',
+	'ERROR_AUTHOR_DELETE_IN_USE'			=> 'Không thể xóa người phát triển đang được dùng.',
 	'ERROR_AUTHOR_EMAIL_INVALID_EMAIL'		=> 'Hộp thư người phát triển không hợp lệ.',
 	'ERROR_AUTHOR_FACEBOOK_INVALID'			=> 'Tên tài khoản Facebook không hợp lệ.',
 	'ERROR_AUTHOR_GITHUB_INVALID'			=> 'Tên tài khoản GitHub không hợp lệ.',

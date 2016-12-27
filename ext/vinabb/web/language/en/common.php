@@ -346,6 +346,7 @@ $lang = array_merge($lang, [
 	'TOOL_VERSION'		=> 'Tool version',
 	'TOTAL_ACP_STYLES'	=> 'Total styles',
 	'TOTAL_ARTICLES'	=> 'Total articles',
+	'TOTAL_BB_ITEMS'	=> 'Total resources',
 	'TOTAL_EXTS'		=> 'Total extensions',
 	'TOTAL_LANGS'		=> 'Total language packages',
 	'TOTAL_STYLES'		=> 'Total styles',

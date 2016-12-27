@@ -346,6 +346,7 @@ $lang = array_merge($lang, [
 	'TOOL_VERSION'		=> 'Phiên bản công cụ',
 	'TOTAL_ACP_STYLES'	=> 'Số giao diện',
 	'TOTAL_ARTICLES'	=> 'Số bài viết',
+	'TOTAL_BB_ITEMS'	=> 'Số tài nguyên',
 	'TOTAL_EXTS'		=> 'Số gói mở rộng',
 	'TOTAL_LANGS'		=> 'Số gói ngôn ngữ',
 	'TOTAL_STYLES'		=> 'Số giao diện',
