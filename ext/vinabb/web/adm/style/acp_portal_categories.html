@@ -1,7 +1,7 @@
 {% include 'overall_header.html' %}
 
-<h1>{{ lang('ACP_PORTAL_CATS') }}</h1>
-<p>{{ lang('ACP_PORTAL_CATS_EXPLAIN') }}</p>
+<h1>{{ ACP_PORTAL_CATS }}</h1>
+<p>{{ ACP_PORTAL_CATS_EXPLAIN }}</p>
 
 <form id="acp_portal_categories" method="post" action="{{ U_ACTION }}">
 	<fieldset class="quick">
@@ -22,31 +22,35 @@
 {% endif %}
 
 {% if cats %}
-<table class="table1 forums">
-	<colgroup><col class="row1" /><col class="row1" /><col class="row2" /></colgroup>
+<table class="table1 zebra-table">
 	<thead>
 	<tr>
-		<th colspan="2">{L_ACP_BOARDRULES}</th>
-		<th>{L_ACTION}</th>
+		<th>{{ lang('CAT_NAME') }}</th>
+		<th>{{ lang('CAT_NAME') ~ ' (' ~ lang('VIETNAMESE') ~ ')' }}</th>
+		<th>{{ lang('CAT_VARNAME') }}</th>
+		<th>{{ lang('TOTAL_ARTICLES') }}</th>
+		<th>{{ lang('ACTIONS') }}</th>
 	</tr>
 	</thead>
 	<tbody>
 	{% for cat in cats %}
 	<tr>
-		<td class="folder">
-			{% if cat.S_IS_CAT %}<img src="images/icon_subfolder.gif" alt="{{ lang('CAT_PARENT') }}" />{% else %}<img src="images/icon_folder.gif" alt="{{ lang('CATEGORY') }}">{% endif %}
-		</td>
-		<td class="forum-desc">
-			<strong><a href="{{ cat.URL }}">{{ cat.NAME }}</a></strong>
-		</td>
+		<td style="text-align: center;"><a href="{{ cat.URL }}">{{ cat.NAME }}</a></td>
+		<td style="text-align: center;">{{ cat.NAME_VI }}</td>
+		<td style="text-align: center;">{{ cat.VARNAME }}</td>
+		<td style="text-align: center;">{{ cat.S_IS_CAT ? lang('ELLIPSIS') : cat.ARTICLES }}</td>
 		<td class="actions">
-			<span class="up-disabled" style="display: none;">{{ ICON_MOVE_UP_DISABLED }}</span>
+			<span class="up-disabled" style="display:none;">{{ ICON_MOVE_UP_DISABLED }}</span>
 			<span class="up"><a href="{{ cat.U_MOVE_UP }}" data-ajax="row_up">{{ ICON_MOVE_UP }}</a></span>
-			<span class="down-disabled" style="display: none;">{{ ICON_MOVE_DOWN_DISABLED }}</span>
+			<span class="down-disabled" style="display:none;">{{ ICON_MOVE_DOWN_DISABLED }}</span>
 			<span class="down"><a href="{{ cat.U_MOVE_DOWN }}" data-ajax="row_down">{{ ICON_MOVE_DOWN }}</a></span>
 			<a href="{{ cat.U_EDIT }}">{{ ICON_EDIT }}</a>
-			<a href="{{ cat.U_DELETE }}" data-ajax="row_delete">{{ ICON_DELETE }}</a>
+			{% if cat.U_DELETE %}<a href="{{ cat.U_DELETE }}" data-ajax="row_delete">{{ ICON_DELETE }}</a>{% else %}{{ ICON_DELETE_DISABLED }}{% endif %}
 		</td>
+	</tr>
+	{% else %}
+	<tr class="row3">
+		<td colspan="5">{{ lang('ACP_NO_ITEMS') }}</td>
 	</tr>
 	{% endfor %}
 	</tbody>
