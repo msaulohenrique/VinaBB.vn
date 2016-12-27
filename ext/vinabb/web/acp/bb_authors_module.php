@@ -43,7 +43,7 @@ class bb_authors_module
 	/** @var string $action */
 	private $action;
 
-	/** @var string $author_id */
+	/** @var int $author_id */
 	private $author_id;
 
 	/**
