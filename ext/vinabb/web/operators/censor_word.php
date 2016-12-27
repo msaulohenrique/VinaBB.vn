@@ -78,7 +78,6 @@ class censor_word implements censor_word_interface
 	*
 	* @param int $id Word ID
 	* @return bool True if row was deleted, false otherwise
-	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function delete_word($id)
 	{

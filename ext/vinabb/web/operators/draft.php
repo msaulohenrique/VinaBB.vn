@@ -87,7 +87,6 @@ class draft implements draft_interface
 	*
 	* @param int $id Draft ID
 	* @return bool True if row was deleted, false otherwise
-	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function delete_draft($id)
 	{
