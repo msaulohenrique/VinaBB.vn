@@ -139,7 +139,9 @@ class article implements article_interface
 				$cat_varname = $this->portal_cats[$entity->get_cat_id()]['varname'];
 
 				// Update the view counter
-				if (generate_board_url() . str_replace("app.{$this->php_ext}", '', $this->user->data['session_page']) != $this->helper->get_current_url() || isset($this->user->data['session_created']))
+				$session_page = ($this->config['enable_mod_rewrite']) ? str_replace("app.{$this->php_ext}/", '', $this->user->data['session_page']) : $this->user->data['session_page'];
+
+				if (generate_board_url() . '/' . $session_page != $this->helper->get_current_url() || isset($this->user->data['session_created']))
 				{
 					$this->container->get('vinabb.web.operators.portal_article')->increase_views($article_id);
 				}
