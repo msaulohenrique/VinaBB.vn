@@ -37,6 +37,12 @@ class portal_comments_module
 	/** @var string $u_action */
 	public $u_action;
 
+	/** @var string $action */
+	private $action;
+
+	/** @var int $comment_id */
+	private $comment_id;
+
 	/**
 	* Main method of the module
 	*
@@ -61,44 +67,48 @@ class portal_comments_module
 		$this->language->add_lang('acp_portal', 'vinabb/web');
 
 		// Requests
-		$action = $this->request->variable('action', '');
-		$comment_id = $this->request->variable('id', 0);
+		$this->action = $this->request->variable('action', 'display');
+		$this->comment_id = $this->request->variable('id', 0);
 
+		// Form data
 		$this->controller->set_form_action($this->u_action);
 
 		// Do actions via the controller
-		$this->do_actions($action, $comment_id);
+		$this->{'action_' . $this->action}();
 	}
 
 	/**
-	* Actions on the module
-	*
-	* @param string	$action		Action name
-	* @param int	$comment_id	Comment ID
+	* Module action: Display (Default)
 	*/
-	protected function do_actions($action, $comment_id)
+	private function action_display()
 	{
-		switch ($action)
-		{
-			case 'edit':
-				$this->tpl_name = 'acp_portal_comments_edit';
-				$this->page_title = $this->language->lang('EDIT_COMMENT');
-				$this->controller->edit_comment($comment_id);
-			// Return to stop execution of this script
-			return;
+		$this->controller->display_comments();
+	}
 
-			case 'delete':
-				if (confirm_box(true))
-				{
-					$this->controller->delete_comment($comment_id);
-				}
-				else
-				{
-					confirm_box(false, $this->language->lang('CONFIRM_DELETE_COMMENT'));
-				}
-			break;
+	/**
+	* Module action: Edit
+	*/
+	private function action_edit()
+	{
+		$this->tpl_name = 'acp_portal_comments_edit';
+		$this->page_title = $this->language->lang('EDIT_COMMENT');
+		$this->controller->edit_comment($this->comment_id);
+	}
+
+	/**
+	* Module action: Delete
+	*/
+	private function action_delete()
+	{
+		if (confirm_box(true))
+		{
+			$this->controller->delete_comment($this->comment_id);
+		}
+		else
+		{
+			confirm_box(false, $this->language->lang('CONFIRM_DELETE_COMMENT'));
 		}
 
-		$this->controller->display_comments();
+		$this->action_display();
 	}
 }
