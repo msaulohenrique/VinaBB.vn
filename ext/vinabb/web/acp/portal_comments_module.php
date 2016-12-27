@@ -22,6 +22,12 @@ class portal_comments_module
 	/** @var \phpbb\request\request $request */
 	protected $request;
 
+	/** @var string $module */
+	protected $module;
+
+	/** @var string $mode */
+	protected $mode;
+
 	/** @var string $tpl_name */
 	public $tpl_name;
 
@@ -44,6 +50,8 @@ class portal_comments_module
 		$this->controller = $phpbb_container->get('vinabb.web.acp.portal_comments');
 		$this->language = $phpbb_container->get('language');
 		$this->request = $phpbb_container->get('request');
+		$this->module = $id;
+		$this->mode = $mode;
 
 		// ACP template file
 		$this->tpl_name = 'acp_portal_comments';
@@ -59,6 +67,17 @@ class portal_comments_module
 		$this->controller->set_form_action($this->u_action);
 
 		// Do actions via the controller
+		$this->do_actions($action, $comment_id);
+	}
+
+	/**
+	* Actions on the module
+	*
+	* @param string	$action		Action name
+	* @param int	$comment_id	Comment ID
+	*/
+	protected function do_actions($action, $comment_id)
+	{
 		switch ($action)
 		{
 			case 'edit':
@@ -75,17 +94,11 @@ class portal_comments_module
 				}
 				else
 				{
-					confirm_box(false, $this->language->lang('CONFIRM_DELETE_COMMENT'), build_hidden_fields([
-						'i'			=> $id,
-						'mode'		=> $mode,
-						'action'	=> $action,
-						'id'		=> $comment_id
-					]));
+					confirm_box(false, $this->language->lang('CONFIRM_DELETE_COMMENT'));
 				}
 			break;
 		}
 
-		// Manage comments
 		$this->controller->display_comments();
 	}
 }

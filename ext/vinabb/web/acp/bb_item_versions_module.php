@@ -22,6 +22,12 @@ class bb_item_versions_module
 	/** @var \phpbb\request\request $request */
 	protected $request;
 
+	/** @var string $module */
+	protected $module;
+
+	/** @var string $mode */
+	protected $mode;
+
 	/** @var string $tpl_name */
 	public $tpl_name;
 
@@ -44,13 +50,12 @@ class bb_item_versions_module
 		$this->controller = $phpbb_container->get('vinabb.web.acp.bb_item_versions');
 		$this->language = $phpbb_container->get('language');
 		$this->request = $phpbb_container->get('request');
-
-		// phpBB resource types
-		$lang_key = strtoupper($mode);
+		$this->module = $id;
+		$this->mode = $mode;
 
 		// ACP template file
 		$this->tpl_name = 'acp_bb_item_versions';
-		$this->page_title = $this->language->lang('ACP_BB_' . $lang_key . '_VERSIONS');
+		$this->page_title = $this->language->lang('ACP_BB_' . strtoupper($mode) . '_VERSIONS');
 
 		// Language
 		$this->language->add_lang('acp_bb', 'vinabb/web');
@@ -67,6 +72,18 @@ class bb_item_versions_module
 		]);
 
 		// Do actions via the controller
+		$this->do_actions($action, $item_id, $branch);
+	}
+
+	/**
+	* Actions on the module
+	*
+	* @param string	$action		Action name
+	* @param int	$item_id	Item ID
+	* @param string	$branch		phpBB branch
+	*/
+	protected function do_actions($action, $item_id, $branch)
+	{
 		switch ($action)
 		{
 			case 'add':
@@ -90,17 +107,11 @@ class bb_item_versions_module
 				}
 				else
 				{
-					confirm_box(false, $this->language->lang('CONFIRM_DELETE_VERSION'), build_hidden_fields([
-						'i'			=> $id,
-						'mode'		=> $mode,
-						'action'	=> $action,
-						'id'		=> $item_id
-					]));
+					confirm_box(false, $this->language->lang('CONFIRM_DELETE_VERSION'));
 				}
 			break;
 		}
 
-		// Manage item versions
 		$this->controller->display_versions();
 	}
 }

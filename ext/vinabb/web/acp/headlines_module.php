@@ -22,6 +22,12 @@ class headlines_module
 	/** @var \phpbb\request\request $request */
 	protected $request;
 
+	/** @var string $module */
+	protected $module;
+
+	/** @var string $mode */
+	protected $mode;
+
 	/** @var string $tpl_name */
 	public $tpl_name;
 
@@ -44,6 +50,8 @@ class headlines_module
 		$this->controller = $phpbb_container->get('vinabb.web.acp.headlines');
 		$this->language = $phpbb_container->get('language');
 		$this->request = $phpbb_container->get('request');
+		$this->module = $id;
+		$this->mode = $mode;
 
 		// ACP template file
 		$this->tpl_name = 'acp_headlines';
@@ -63,6 +71,18 @@ class headlines_module
 		]);
 
 		// Do actions via the controller
+		$this->do_actions($action, $lang, $headline_id);
+	}
+
+	/**
+	* Actions on the module
+	*
+	* @param string	$action			Action name
+	* @param string	$lang			2-letter language ISO code
+	* @param int	$headline_id	Headline ID
+	*/
+	protected function do_actions($action, $lang, $headline_id)
+	{
 		switch ($action)
 		{
 			case 'add':
@@ -94,17 +114,12 @@ class headlines_module
 				}
 				else
 				{
-					confirm_box(false, $this->language->lang('CONFIRM_DELETE_HEADLINE'), build_hidden_fields([
-						'i'			=> $id,
-						'mode'		=> $mode,
-						'action'	=> $action,
-						'id'		=> $headline_id
-					]));
+					confirm_box(false, $this->language->lang('CONFIRM_DELETE_HEADLINE'));
 				}
 			break;
 		}
 
-		// Manage headlines
+		// Select a language before doing something
 		if ($lang == '')
 		{
 			$this->controller->select_lang();

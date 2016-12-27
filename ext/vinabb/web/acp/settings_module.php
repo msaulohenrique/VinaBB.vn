@@ -19,6 +19,12 @@ class settings_module
 	/** @var \phpbb\language\language $language */
 	protected $language;
 
+	/** @var string $module */
+	protected $module;
+
+	/** @var string $mode */
+	protected $mode;
+
 	/** @var string $tpl_name */
 	public $tpl_name;
 
@@ -40,6 +46,8 @@ class settings_module
 
 		$this->controller = $phpbb_container->get('vinabb.web.acp.settings');
 		$this->language = $phpbb_container->get('language');
+		$this->module = $id;
+		$this->mode = $mode;
 
 		// ACP template file
 		$this->tpl_name = 'acp_settings';
@@ -50,7 +58,15 @@ class settings_module
 		$this->controller->set_form_action($this->u_action);
 
 		// Do actions via the controller
-		switch ($mode)
+		$this->do_actions();
+	}
+
+	/**
+	* Actions on the module
+	*/
+	protected function do_actions()
+	{
+		switch ($this->mode)
 		{
 			case 'version':
 				$this->page_title = $this->language->lang('ACP_VINABB_SETTINGS_VERSION');

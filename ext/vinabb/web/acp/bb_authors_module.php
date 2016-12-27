@@ -25,6 +25,12 @@ class bb_authors_module
 	/** @var \vinabb\web\controllers\helper_interface $ext_helper */
 	protected $ext_helper;
 
+	/** @var string $module */
+	protected $module;
+
+	/** @var string $mode */
+	protected $mode;
+
 	/** @var string $tpl_name */
 	public $tpl_name;
 
@@ -48,6 +54,8 @@ class bb_authors_module
 		$this->language = $phpbb_container->get('language');
 		$this->request = $phpbb_container->get('request');
 		$this->ext_helper = $phpbb_container->get('vinabb.web.helper');
+		$this->module = $id;
+		$this->mode = $mode;
 
 		// ACP template file
 		$this->tpl_name = 'acp_bb_authors';
@@ -63,6 +71,17 @@ class bb_authors_module
 		$this->controller->set_form_action($this->u_action);
 
 		// Do actions via the controller
+		$this->do_actions($action, $author_id);
+	}
+
+	/**
+	* Actions on the module
+	*
+	* @param string	$action		Action name
+	* @param int	$author_id	Author ID
+	*/
+	protected function do_actions($action, $author_id)
+	{
 		switch ($action)
 		{
 			case 'add':
@@ -86,17 +105,11 @@ class bb_authors_module
 				}
 				else
 				{
-					confirm_box(false, $this->language->lang('CONFIRM_DELETE_AUTHOR'), build_hidden_fields([
-						'i'			=> $id,
-						'mode'		=> $mode,
-						'action'	=> $action,
-						'id'		=> $author_id
-					]));
+					confirm_box(false, $this->language->lang('CONFIRM_DELETE_AUTHOR'));
 				}
 			break;
 		}
 
-		// Manage authors
 		$this->controller->display_authors();
 	}
 }

@@ -22,6 +22,12 @@ class portal_articles_module
 	/** @var \phpbb\request\request $request */
 	protected $request;
 
+	/** @var string $module */
+	protected $module;
+
+	/** @var string $mode */
+	protected $mode;
+
 	/** @var string $tpl_name */
 	public $tpl_name;
 
@@ -44,6 +50,8 @@ class portal_articles_module
 		$this->controller = $phpbb_container->get('vinabb.web.acp.portal_articles');
 		$this->language = $phpbb_container->get('language');
 		$this->request = $phpbb_container->get('request');
+		$this->module = $id;
+		$this->mode = $mode;
 
 		// ACP template file
 		$this->tpl_name = 'acp_portal_articles';
@@ -59,6 +67,17 @@ class portal_articles_module
 		$this->controller->set_form_action($this->u_action);
 
 		// Do actions via the controller
+		$this->do_actions($action, $article_id);
+	}
+
+	/**
+	* Actions on the module
+	*
+	* @param string	$action		Action name
+	* @param int	$article_id	Article ID
+	*/
+	protected function do_actions($action, $article_id)
+	{
 		switch ($action)
 		{
 			case 'add':
@@ -82,17 +101,11 @@ class portal_articles_module
 				}
 				else
 				{
-					confirm_box(false, $this->language->lang('CONFIRM_DELETE_ARTICLE'), build_hidden_fields([
-						'i'			=> $id,
-						'mode'		=> $mode,
-						'action'	=> $action,
-						'id'		=> $article_id
-					]));
+					confirm_box(false, $this->language->lang('CONFIRM_DELETE_ARTICLE'));
 				}
 			break;
 		}
 
-		// Manage articles
 		$this->controller->display_articles();
 	}
 }

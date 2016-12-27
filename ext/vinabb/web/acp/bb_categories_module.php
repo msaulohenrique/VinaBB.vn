@@ -25,6 +25,12 @@ class bb_categories_module
 	/** @var \vinabb\web\controllers\helper_interface $ext_helper */
 	protected $ext_helper;
 
+	/** @var string $module */
+	protected $module;
+
+	/** @var string $mode */
+	protected $mode;
+
 	/** @var string $tpl_name */
 	public $tpl_name;
 
@@ -48,14 +54,12 @@ class bb_categories_module
 		$this->language = $phpbb_container->get('language');
 		$this->request = $phpbb_container->get('request');
 		$this->ext_helper = $phpbb_container->get('vinabb.web.helper');
-
-		// phpBB resource types
-		$bb_type = $this->ext_helper->get_bb_type_constants($mode);
-		$lang_key = strtoupper($mode);
+		$this->module = $id;
+		$this->mode = $mode;
 
 		// ACP template file
 		$this->tpl_name = 'acp_bb_categories';
-		$this->page_title = $this->language->lang('ACP_BB_' . $lang_key . '_CATS');
+		$this->page_title = $this->language->lang('ACP_BB_' . strtoupper($mode) . '_CATS');
 
 		// Language
 		$this->language->add_lang('acp_bb', 'vinabb/web');
@@ -67,10 +71,21 @@ class bb_categories_module
 		$this->controller->set_form_data([
 			'u_action'	=> $this->u_action,
 			'mode'		=> $mode,
-			'bb_type'	=> $bb_type
+			'bb_type'	=> $this->ext_helper->get_bb_type_constants($mode)
 		]);
 
 		// Do actions via the controller
+		$this->do_actions($action, $cat_id);
+	}
+
+	/**
+	* Actions on the module
+	*
+	* @param string	$action	Action name
+	* @param int	$cat_id	Category ID
+	*/
+	protected function do_actions($action, $cat_id)
+	{
 		switch ($action)
 		{
 			case 'add':
@@ -102,17 +117,11 @@ class bb_categories_module
 				}
 				else
 				{
-					confirm_box(false, $this->language->lang('CONFIRM_DELETE_CAT'), build_hidden_fields([
-						'i'			=> $id,
-						'mode'		=> $mode,
-						'action'	=> $action,
-						'id'		=> $cat_id
-					]));
+					confirm_box(false, $this->language->lang('CONFIRM_DELETE_CAT'));
 				}
 			break;
 		}
 
-		// Manage categories
 		$this->controller->display_cats();
 	}
 }

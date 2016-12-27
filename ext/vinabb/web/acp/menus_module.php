@@ -22,6 +22,12 @@ class menus_module
 	/** @var \phpbb\request\request $request */
 	protected $request;
 
+	/** @var string $module */
+	protected $module;
+
+	/** @var string $mode */
+	protected $mode;
+
 	/** @var string $tpl_name */
 	public $tpl_name;
 
@@ -44,6 +50,8 @@ class menus_module
 		$this->controller = $phpbb_container->get('vinabb.web.acp.menus');
 		$this->language = $phpbb_container->get('language');
 		$this->request = $phpbb_container->get('request');
+		$this->module = $id;
+		$this->mode = $mode;
 
 		// ACP template file
 		$this->tpl_name = 'acp_menus';
@@ -60,6 +68,18 @@ class menus_module
 		$this->controller->set_form_action($this->u_action);
 
 		// Do actions via the controller
+		$this->do_actions($action, $parent_id, $menu_id);
+	}
+
+	/**
+	* Actions on the module
+	*
+	* @param string	$action		Action name
+	* @param int	$parent_id	Parent ID
+	* @param int	$menu_id	Menu ID
+	*/
+	protected function do_actions($action, $parent_id, $menu_id)
+	{
 		switch ($action)
 		{
 			case 'add':
@@ -83,17 +103,11 @@ class menus_module
 				}
 				else
 				{
-					confirm_box(false, $this->language->lang('CONFIRM_DELETE_MENU'), build_hidden_fields([
-						'i'			=> $id,
-						'mode'		=> $mode,
-						'action'	=> $action,
-						'id'		=> $menu_id
-					]));
+					confirm_box(false, $this->language->lang('CONFIRM_DELETE_MENU'));
 				}
 			break;
 		}
 
-		// Manage menus
 		$this->controller->display_menus($parent_id);
 	}
 }

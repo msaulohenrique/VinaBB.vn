@@ -22,6 +22,12 @@ class pages_module
 	/** @var \phpbb\request\request $request */
 	protected $request;
 
+	/** @var string $module */
+	protected $module;
+
+	/** @var string $mode */
+	protected $mode;
+
 	/** @var string $tpl_name */
 	public $tpl_name;
 
@@ -44,6 +50,8 @@ class pages_module
 		$this->controller = $phpbb_container->get('vinabb.web.acp.pages');
 		$this->language = $phpbb_container->get('language');
 		$this->request = $phpbb_container->get('request');
+		$this->module = $id;
+		$this->mode = $mode;
 
 		// ACP template file
 		$this->tpl_name = 'acp_pages';
@@ -59,6 +67,17 @@ class pages_module
 		$this->controller->set_form_action($this->u_action);
 
 		// Do actions via the controller
+		$this->do_actions($action, $page_id);
+	}
+
+	/**
+	* Actions on the module
+	*
+	* @param string	$action		Action name
+	* @param int	$page_id	Page ID
+	*/
+	protected function do_actions($action, $page_id)
+	{
 		switch ($action)
 		{
 			case 'add':
@@ -82,17 +101,11 @@ class pages_module
 				}
 				else
 				{
-					confirm_box(false, $this->language->lang('CONFIRM_DELETE_PAGE'), build_hidden_fields([
-						'i'			=> $id,
-						'mode'		=> $mode,
-						'action'	=> $action,
-						'id'		=> $page_id
-					]));
+					confirm_box(false, $this->language->lang('CONFIRM_DELETE_PAGE'));
 				}
 			break;
 		}
 
-		// Manage pages
 		$this->controller->display_pages();
 	}
 }

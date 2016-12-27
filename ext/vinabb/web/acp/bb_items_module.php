@@ -25,6 +25,12 @@ class bb_items_module
 	/** @var \vinabb\web\controllers\helper_interface $ext_helper */
 	protected $ext_helper;
 
+	/** @var string $module */
+	protected $module;
+
+	/** @var string $mode */
+	protected $mode;
+
 	/** @var string $tpl_name */
 	public $tpl_name;
 
@@ -48,14 +54,12 @@ class bb_items_module
 		$this->language = $phpbb_container->get('language');
 		$this->request = $phpbb_container->get('request');
 		$this->ext_helper = $phpbb_container->get('vinabb.web.helper');
-
-		// phpBB resource types
-		$bb_type = $this->ext_helper->get_bb_type_constants($mode);
-		$lang_key = strtoupper($mode);
+		$this->module = $id;
+		$this->mode = $mode;
 
 		// ACP template file
 		$this->tpl_name = 'acp_bb_items';
-		$this->page_title = $this->language->lang('ACP_BB_' . $lang_key . 'S');
+		$this->page_title = $this->language->lang('ACP_BB_' . strtoupper($mode) . 'S');
 
 		// Language
 		$this->language->add_lang('acp_bb', 'vinabb/web');
@@ -67,22 +71,33 @@ class bb_items_module
 		$this->controller->set_form_data([
 			'u_action'	=> $this->u_action,
 			'mode'		=> $mode,
-			'bb_type'	=> $bb_type
+			'bb_type'	=> $this->ext_helper->get_bb_type_constants($mode)
 		]);
 
 		// Do actions via the controller
+		$this->do_actions($action, $item_id);
+	}
+
+	/**
+	* Actions on the module
+	*
+	* @param string	$action		Action name
+	* @param int	$item_id	Item ID
+	*/
+	protected function do_actions($action, $item_id)
+	{
 		switch ($action)
 		{
 			case 'add':
 				$this->tpl_name = 'acp_bb_items_edit';
-				$this->page_title = $this->language->lang('ADD_BB_' . $lang_key);
+				$this->page_title = $this->language->lang('ADD_BB_' . strtoupper($this->mode));
 				$this->controller->add_item();
 			// Return to stop execution of this script
 			return;
 
 			case 'edit':
 				$this->tpl_name = 'acp_bb_items_edit';
-				$this->page_title = $this->language->lang('EDIT_BB_' . $lang_key);
+				$this->page_title = $this->language->lang('EDIT_BB_' . strtoupper($this->mode));
 				$this->controller->edit_item($item_id);
 			// Return to stop execution of this script
 			return;
@@ -94,17 +109,11 @@ class bb_items_module
 				}
 				else
 				{
-					confirm_box(false, $this->language->lang('CONFIRM_DELETE_BB_' . $lang_key), build_hidden_fields([
-						'i'			=> $id,
-						'mode'		=> $mode,
-						'action'	=> $action,
-						'id'		=> $item_id
-					]));
+					confirm_box(false, $this->language->lang('CONFIRM_DELETE_BB_' . strtoupper($this->mode)));
 				}
 			break;
 		}
 
-		// Manage items
 		$this->controller->display_items();
 	}
 }
