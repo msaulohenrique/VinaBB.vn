@@ -367,6 +367,12 @@ class bb_authors implements bb_authors_interface
 	*/
 	public function delete_author($author_id)
 	{
+		// Do not delete if the author has assigned items
+		if ($this->item_operator->count_items(0, 0, $author_id) > 0)
+		{
+			trigger_error($this->language->lang('ERROR_AUTHOR_DELETE_IN_USE') . adm_back_link($this->u_action), E_USER_WARNING);
+		}
+
 		/** @var \vinabb\web\entities\bb_author_interface $entity */
 		$entity = $this->container->get('vinabb.web.entities.bb_author')->load($author_id);
 
