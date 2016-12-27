@@ -40,6 +40,12 @@ class bb_authors_module
 	/** @var string $u_action */
 	public $u_action;
 
+	/** @var string $action */
+	private $action;
+
+	/** @var string $author_id */
+	private $author_id;
+
 	/**
 	* Main method of the module
 	*
@@ -65,51 +71,58 @@ class bb_authors_module
 		$this->language->add_lang('acp_bb', 'vinabb/web');
 
 		// Requests
-		$action = $this->request->variable('action', '');
-		$author_id = $this->request->variable('id', 0);
+		$this->action = $this->request->variable('action', 'display');
+		$this->author_id = $this->request->variable('id', 0);
 
+		// Form data
 		$this->controller->set_form_action($this->u_action);
 
 		// Do actions via the controller
-		$this->do_actions($action, $author_id);
+		$this->{'action_' . $this->action}();
 	}
 
 	/**
-	* Actions on the module
-	*
-	* @param string	$action		Action name
-	* @param int	$author_id	Author ID
+	* Module action: Display (Default)
 	*/
-	protected function do_actions($action, $author_id)
+	private function action_display()
 	{
-		switch ($action)
+		$this->controller->display_authors();
+	}
+
+	/**
+	* Module action: Add
+	*/
+	private function action_add()
+	{
+		$this->tpl_name = 'acp_bb_authors_edit';
+		$this->page_title = $this->language->lang('ADD_AUTHOR');
+		$this->controller->add_author();
+	}
+
+	/**
+	* Module action: Edit
+	*/
+	private function action_edit()
+	{
+		$this->tpl_name = 'acp_bb_authors_edit';
+		$this->page_title = $this->language->lang('EDIT_AUTHOR');
+		$this->controller->edit_author($this->author_id);
+	}
+
+	/**
+	* Module action: Delete
+	*/
+	private function action_delete()
+	{
+		if (confirm_box(true))
 		{
-			case 'add':
-				$this->tpl_name = 'acp_bb_authors_edit';
-				$this->page_title = $this->language->lang('ADD_AUTHOR');
-				$this->controller->add_author();
-			// Return to stop execution of this script
-			return;
-
-			case 'edit':
-				$this->tpl_name = 'acp_bb_authors_edit';
-				$this->page_title = $this->language->lang('EDIT_AUTHOR');
-				$this->controller->edit_author($author_id);
-			// Return to stop execution of this script
-			return;
-
-			case 'delete':
-				if (confirm_box(true))
-				{
-					$this->controller->delete_author($author_id);
-				}
-				else
-				{
-					confirm_box(false, $this->language->lang('CONFIRM_DELETE_AUTHOR'));
-				}
-			break;
+			$this->controller->delete_author($this->author_id);
+		}
+		else
+		{
+			confirm_box(false, $this->language->lang('CONFIRM_DELETE_AUTHOR'));
 		}
 
-		$this->controller->display_authors();
+		$this->action_display();
 	}
 }
