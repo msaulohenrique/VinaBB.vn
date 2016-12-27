@@ -167,7 +167,6 @@ class bb_items implements bb_items_interface
 				'GITHUB'	=> $entity->get_github(),
 				'ENABLE'	=> $entity->get_enable(),
 				'ADDED'		=> $this->user->format_date($entity->get_added()),
-				'UPDATED'	=> $this->user->format_date($entity->get_updated()),
 
 				'U_VERSION'	=> append_sid("index.{$this->php_ext}", "i=-vinabb-web-acp-bb_item_versions_module&mode={$this->mode}&id={$entity->get_id()}"),
 				'U_EDIT'	=> "{$this->u_action}&action=edit&id={$entity->get_id()}",
@@ -376,36 +375,27 @@ class bb_items implements bb_items_interface
 	protected function map_set_data(\vinabb\web\entities\bb_item_interface $entity)
 	{
 		$map_fields = [
-			'set_bb_type'			=> $this->bb_type,
-			'set_cat_id'			=> $this->data['cat_id'],
-			'set_author_id'			=> $this->data['author_id'],
-			'set_name'				=> $this->data['item_name'],
-			'set_varname'			=> $this->data['item_varname'],
-			'set_desc'				=> $this->data['item_desc'],
-			'set_desc_vi'			=> $this->data['item_desc_vi'],
-			'set_ext_style'			=> $this->data['item_ext_style'],
-			'set_ext_acp_style'		=> $this->data['item_ext_acp_style'],
-			'set_ext_lang'			=> $this->data['item_ext_lang'],
-			'set_ext_db_schema'		=> $this->data['item_ext_db_schema'],
-			'set_ext_db_data'		=> $this->data['item_ext_db_data'],
-			'set_style_presets'		=> $this->data['set_style_presets'],
-			'set_style_presets_aio'	=> $this->data['set_style_presets_aio'],
-			'set_style_source'		=> $this->data['set_style_source'],
-			'set_style_responsive'	=> $this->data['set_style_responsive'],
-			'set_style_bootstrap'	=> $this->data['set_style_bootstrap'],
-			'set_lang_iso'			=> $this->data['item_lang_iso'],
-			'set_tool_os'			=> $this->data['item_tool_os'],
-			'set_price'				=> $this->data['item_price'],
-			'set_url'				=> $this->data['item_url'],
-			'set_github'			=> $this->data['item_github'],
-			'set_enable'			=> $this->data['item_enable'],
-			'set_added'				=> null
+			'set_bb_type'	=> $this->bb_type,
+			'set_cat_id'	=> $this->data['cat_id'],
+			'set_author_id'	=> $this->data['author_id'],
+			'set_name'		=> $this->data['item_name'],
+			'set_varname'	=> $this->data['item_varname'],
+			'set_desc'		=> $this->data['item_desc'],
+			'set_desc_vi'	=> $this->data['item_desc_vi'],
+			'set_price'		=> $this->data['item_price'],
+			'set_url'		=> $this->data['item_url'],
+			'set_github'	=> $this->data['item_github'],
+			'set_enable'	=> $this->data['item_enable'],
+			'set_added'		=> null
 		];
+
+		// Add extra fields based on the item type
+		$map_fields = array_merge($map_fields, $this->get_extra_map_fields($this->mode));
 
 		// Do not change the adding time
 		if ($entity->get_id())
 		{
-			unset($map_fields[set_added]);
+			unset($map_fields['set_added']);
 		}
 
 		// Set the mapped data in the entity
@@ -429,6 +419,38 @@ class bb_items implements bb_items_interface
 		}
 
 		unset($map_fields);
+	}
+
+	/**
+	* Get extra set methods for item properties
+	*
+	* @param string $bb_mode phpBB resource type mode
+	* @return array
+	*/
+	protected function get_extra_map_fields($bb_mode)
+	{
+		$bb_mode = ($bb_mode == 'acp_style') ? 'style' : $bb_mode;
+
+		$data = [
+			'ext'	=> [
+				'set_ext_style'		=> $this->data['item_ext_style'],
+				'set_ext_acp_style'	=> $this->data['item_ext_acp_style'],
+				'set_ext_lang'		=> $this->data['item_ext_lang'],
+				'set_ext_db_schema'	=> $this->data['item_ext_db_schema'],
+				'set_ext_db_data'	=> $this->data['item_ext_db_data']
+			],
+			'style'	=> [
+				'set_style_presets'		=> $this->data['item_style_presets'],
+				'set_style_presets_aio'	=> $this->data['item_style_presets_aio'],
+				'set_style_source'		=> $this->data['item_style_source'],
+				'set_style_responsive'	=> $this->data['item_style_responsive'],
+				'set_style_bootstrap'	=> $this->data['item_style_bootstrap']
+			],
+			'lang'	=> ['set_lang_iso'	=> $this->data['item_lang_iso']],
+			'tool'	=> ['set_tool_os'	=> $this->data['item_tool_os']]
+		];
+
+		return isset($data[$bb_mode]) ? $data[$bb_mode] : [];
 	}
 
 	/**
