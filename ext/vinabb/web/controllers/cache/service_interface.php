@@ -52,6 +52,30 @@ interface service_interface
 	public function clear_lang_data();
 
 	/**
+	* Get cache from table: _groups
+	*
+	* @return array
+	*/
+	public function get_groups();
+
+	/**
+	* Clear cache from table: _groups
+	*/
+	public function clear_groups();
+
+	/**
+	* Get cache from table: _teampage
+	*
+	* @return array
+	*/
+	public function get_teams();
+
+	/**
+	* Clear cache from table: _teampage
+	*/
+	public function clear_teams();
+
+	/**
 	* Get cache from table: _forums
 	*
 	* @return array
