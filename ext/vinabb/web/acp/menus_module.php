@@ -37,6 +37,15 @@ class menus_module
 	/** @var string $u_action */
 	public $u_action;
 
+	/** @var string $action */
+	private $action;
+
+	/** @var int $parent_id */
+	private $parent_id;
+
+	/** @var int $menu_id */
+	private $menu_id;
+
 	/**
 	* Main method of the module
 	*
@@ -61,53 +70,77 @@ class menus_module
 		$this->language->add_lang('acp_menus', 'vinabb/web');
 
 		// Requests
-		$action = $this->request->variable('action', '');
-		$parent_id = $this->request->variable('parent_id', 0);
-		$menu_id = $this->request->variable('id', 0);
+		$this->action = $this->request->variable('action', 'display');
+		$this->parent_id = $this->request->variable('parent_id', 0);
+		$this->menu_id = $this->request->variable('id', 0);
 
+		// Form data
 		$this->controller->set_form_action($this->u_action);
 
 		// Do actions via the controller
-		$this->do_actions($action, $parent_id, $menu_id);
+		$this->{'action_' . $this->action}();
 	}
 
 	/**
-	* Actions on the module
-	*
-	* @param string	$action		Action name
-	* @param int	$parent_id	Parent ID
-	* @param int	$menu_id	Menu ID
+	* Module action: Display (Default)
 	*/
-	protected function do_actions($action, $parent_id, $menu_id)
+	private function action_display()
 	{
-		switch ($action)
+		$this->controller->display_menus($this->parent_id);
+	}
+
+	/**
+	* Module action: Add
+	*/
+	private function action_add()
+	{
+		$this->tpl_name = 'acp_menus_edit';
+		$this->page_title = $this->language->lang('ADD_MENU');
+		$this->controller->add_menu($this->parent_id);
+	}
+
+	/**
+	* Module action: Edit
+	*/
+	private function action_edit()
+	{
+		$this->tpl_name = 'acp_menus_edit';
+		$this->page_title = $this->language->lang('EDIT_MENU');
+		$this->controller->edit_menu($this->menu_id);
+	}
+
+	/**
+	* Module action: Move Down
+	*/
+	private function action_move_down()
+	{
+		$this->controller->move_menu($this->menu_id, 'down');
+		$this->action_display();
+	}
+
+	/**
+	* Module action: Move Up
+	*/
+	private function action_move_up()
+	{
+		$this->controller->move_menu($this->menu_id, 'up');
+		$this->action_display();
+	}
+
+	/**
+	* Module action: Delete
+	*/
+	private function action_delete()
+	{
+		if (confirm_box(true))
 		{
-			case 'add':
-				$this->tpl_name = 'acp_menus_edit';
-				$this->page_title = $this->language->lang('ADD_MENU');
-				$this->controller->add_menu($parent_id);
-			// Return to stop execution of this script
-			return;
-
-			case 'edit':
-				$this->tpl_name = 'acp_menus_edit';
-				$this->page_title = $this->language->lang('EDIT_MENU');
-				$this->controller->edit_menu($menu_id);
-			// Return to stop execution of this script
-			return;
-
-			case 'delete':
-				if (confirm_box(true))
-				{
-					$this->controller->delete_menu($menu_id);
-				}
-				else
-				{
-					confirm_box(false, $this->language->lang('CONFIRM_DELETE_MENU'));
-				}
-			break;
+			$this->controller->delete_menu($this->menu_id);
+		}
+		else
+		{
+			confirm_box(false, $this->language->lang('CONFIRM_DELETE_MENU'));
 		}
 
-		$this->controller->display_menus($parent_id);
+		$this->action_display();
 	}
 }
