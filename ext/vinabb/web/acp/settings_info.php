@@ -22,21 +22,21 @@ class settings_info
 	{
 		return [
 			'filename'	=> '\vinabb\web\acp\settings_module',
-			'title'		=> 'ACP_VINABB_SETTINGS',
+			'title'		=> 'ACP_VINABB_MAIN_SETTINGS',
 			'version'	=> '1.0.0',
 			'modes'		=> [
 				'main'	=> [
-					'title'	=> 'ACP_VINABB_SETTINGS',
+					'title'	=> 'ACP_VINABB_MAIN_SETTINGS',
 					'auth'	=> 'ext_vinabb/web && acl_a_board',
 					'cat'	=> ['ACP_CAT_VINABB_SETTINGS']
 				],
 				'version'	=> [
-					'title'	=> 'ACP_VINABB_SETTINGS_VERSION',
+					'title'	=> 'ACP_VINABB_VERSION_SETTINGS',
 					'auth'	=> 'ext_vinabb/web && acl_a_board',
 					'cat'	=> ['ACP_CAT_VINABB_SETTINGS']
 				],
 				'setup'	=> [
-					'title'	=> 'ACP_VINABB_SETTINGS_SETUP',
+					'title'	=> 'ACP_VINABB_SETUP_SETTINGS',
 					'auth'	=> 'ext_vinabb/web && acl_a_board',
 					'cat'	=> ['ACP_CAT_VINABB_SETTINGS']
 				]

@@ -51,6 +51,7 @@ class settings_module
 
 		// ACP template file
 		$this->tpl_name = 'acp_settings';
+		$this->page_title = $this->language->lang('ACP_VINABB_' . strtoupper($mode) . '_SETTINGS');
 
 		// Language
 		$this->language->add_lang('acp_settings', 'vinabb/web');
@@ -58,30 +59,6 @@ class settings_module
 		$this->controller->set_form_action($this->u_action);
 
 		// Do actions via the controller
-		$this->do_actions();
-	}
-
-	/**
-	* Actions on the module
-	*/
-	protected function do_actions()
-	{
-		switch ($this->mode)
-		{
-			case 'version':
-				$this->page_title = $this->language->lang('ACP_VINABB_SETTINGS_VERSION');
-				$this->controller->display_version_settings();
-			break;
-
-			case 'setup':
-				$this->page_title = $this->language->lang('ACP_VINABB_SETTINGS_SETUP');
-				$this->controller->display_setup_settings();
-			break;
-
-			case 'main':
-				$this->page_title = $this->language->lang('ACP_VINABB_SETTINGS');
-				$this->controller->display_main_settings();
-			break;
-		}
+		$this->controller->{'display_' . $mode . '_settings'}();
 	}
 }

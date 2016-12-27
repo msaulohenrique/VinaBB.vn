@@ -104,13 +104,13 @@ class settings extends \vinabb\web\controllers\acp\helper\setting_helper impleme
 	public function display_main_settings()
 	{
 		// Create a form key for preventing CSRF attacks
-		add_form_key('acp_vinabb_settings');
+		add_form_key('acp_vinabb_main_settings');
 
 		// Submit
 		if ($this->request->is_set_post('submit'))
 		{
 			// Test if the submitted form is valid
-			if (!check_form_key('acp_vinabb_settings'))
+			if (!check_form_key('acp_vinabb_main_settings'))
 			{
 				$this->errors[] = $this->language->lang('FORM_INVALID');
 			}
@@ -122,7 +122,7 @@ class settings extends \vinabb\web\controllers\acp\helper\setting_helper impleme
 			{
 				$this->run_tasks();
 				$this->set_group_settings();
-				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_SETTINGS');
+				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_MAIN_SETTINGS');
 
 				trigger_error($this->language->lang('MESSAGE_MAIN_SETTINGS_UPDATE') . adm_back_link($this->u_action));
 			}
@@ -132,8 +132,8 @@ class settings extends \vinabb\web\controllers\acp\helper\setting_helper impleme
 		$this->output_group_settings('main');
 
 		$this->template->assign_vars([
-			'PAGE_TITLE_EXPLAIN'	=> $this->language->lang('ACP_VINABB_SETTINGS_EXPLAIN'),
-			'FORM_NAME'				=> 'acp_vinabb_settings',
+			'PAGE_TITLE_EXPLAIN'	=> $this->language->lang('ACP_VINABB_MAIN_SETTINGS_EXPLAIN'),
+			'FORM_NAME'				=> 'acp_vinabb_main_settings',
 			'ERRORS'				=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
 
 			'U_ACTION'	=> $this->u_action
@@ -169,13 +169,13 @@ class settings extends \vinabb\web\controllers\acp\helper\setting_helper impleme
 	public function display_version_settings()
 	{
 		// Create a form key for preventing CSRF attacks
-		add_form_key('acp_vinabb_settings_version');
+		add_form_key('acp_vinabb_version_settings');
 
 		// Submit
 		if ($this->request->is_set_post('submit'))
 		{
 			// Test if the submitted form is valid
-			if (!check_form_key('acp_vinabb_settings_version'))
+			if (!check_form_key('acp_vinabb_version_settings'))
 			{
 				$this->errors[] = $this->language->lang('FORM_INVALID');
 			}
@@ -187,7 +187,7 @@ class settings extends \vinabb\web\controllers\acp\helper\setting_helper impleme
 			{
 				$this->run_tasks();
 				$this->set_group_settings();
-				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_SETTINGS_VERSION');
+				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_VERSION_SETTINGS');
 
 				trigger_error($this->language->lang('MESSAGE_VERSION_SETTINGS_UPDATE') . adm_back_link($this->u_action));
 			}
@@ -197,8 +197,8 @@ class settings extends \vinabb\web\controllers\acp\helper\setting_helper impleme
 		$this->output_group_settings('version');
 
 		$this->template->assign_vars([
-			'PAGE_TITLE_EXPLAIN'	=> $this->language->lang('ACP_VINABB_SETTINGS_VERSION_EXPLAIN'),
-			'FORM_NAME'				=> 'acp_vinabb_settings_version',
+			'PAGE_TITLE_EXPLAIN'	=> $this->language->lang('ACP_VINABB_VERSION_SETTINGS_EXPLAIN'),
+			'FORM_NAME'				=> 'acp_vinabb_version_settings',
 			'ERRORS'				=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
 
 			'U_ACTION'	=> $this->u_action
@@ -234,13 +234,13 @@ class settings extends \vinabb\web\controllers\acp\helper\setting_helper impleme
 	public function display_setup_settings()
 	{
 		// Create a form key for preventing CSRF attacks
-		add_form_key('acp_vinabb_settings_setup');
+		add_form_key('acp_vinabb_setup_settings');
 
 		// Submit
 		if ($this->request->is_set_post('submit'))
 		{
 			// Test if the submitted form is valid
-			if (!check_form_key('acp_vinabb_settings_setup'))
+			if (!check_form_key('acp_vinabb_setup_settings'))
 			{
 				$this->errors[] = $this->language->lang('FORM_INVALID');
 			}
@@ -252,7 +252,7 @@ class settings extends \vinabb\web\controllers\acp\helper\setting_helper impleme
 			{
 				$this->run_tasks();
 				$this->set_group_settings();
-				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_SETTINGS_SETUP');
+				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_VINABB_SETUP_SETTINGS');
 
 				trigger_error($this->language->lang('MESSAGE_SETUP_SETTINGS_UPDATE') . adm_back_link($this->u_action));
 			}
@@ -262,8 +262,8 @@ class settings extends \vinabb\web\controllers\acp\helper\setting_helper impleme
 		$this->output_group_settings('setup');
 
 		$this->template->assign_vars([
-			'PAGE_TITLE_EXPLAIN'	=> $this->language->lang('ACP_VINABB_SETTINGS_SETUP_EXPLAIN'),
-			'FORM_NAME'				=> 'acp_vinabb_settings_setup',
+			'PAGE_TITLE_EXPLAIN'	=> $this->language->lang('ACP_VINABB_SETUP_SETTINGS_EXPLAIN'),
+			'FORM_NAME'				=> 'acp_vinabb_setup_settings',
 			'ERRORS'				=> sizeof($this->errors) ? implode('<br>', $this->errors) : '',
 
 			'U_ACTION'	=> $this->u_action
