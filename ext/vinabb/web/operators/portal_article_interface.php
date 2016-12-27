@@ -23,6 +23,13 @@ interface portal_article_interface
 	public function count_articles($lang, $cat_id = 0);
 
 	/**
+	* Get article counter data by category
+	*
+	* @return array
+	*/
+	public function get_count_data_by_cat();
+
+	/**
 	* Get all articles
 	*
 	* @return array

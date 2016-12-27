@@ -61,6 +61,28 @@ class portal_article implements portal_article_interface
 	}
 
 	/**
+	* Get article counter data by category
+	*
+	* @return array
+	*/
+	public function get_count_data_by_cat()
+	{
+		$sql = 'SELECT cat_id, COUNT(article_id) AS counter
+			FROM ' . $this->table_name . '
+			GROUP BY cat_id';
+		$result = $this->db->sql_query($sql);
+
+		$counter = [];
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$counter[$row['cat_id']] = $row['counter'];
+		}
+		$this->db->sql_freeresult($result);
+
+		return $counter;
+	}
+
+	/**
 	* Get all articles
 	*
 	* @return array
