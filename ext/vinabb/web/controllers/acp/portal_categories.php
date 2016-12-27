@@ -416,6 +416,12 @@ class portal_categories implements portal_categories_interface
 	*/
 	public function delete_cat($cat_id)
 	{
+		// Do not delete if the category has assigned articles
+		if ($this->article_operator->count_articles('', $cat_id) > 0)
+		{
+			trigger_error($this->language->lang('ERROR_CAT_DELETE_IN_USE') . adm_back_link($this->u_action), E_USER_WARNING);
+		}
+
 		/** @var \vinabb\web\entities\portal_category_interface $entity */
 		$entity = $this->container->get('vinabb.web.entities.portal_category')->load($cat_id);
 
