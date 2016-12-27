@@ -1,7 +1,7 @@
 {% include 'overall_header.html' %}
 
-<h1>{{ ACP_PORTAL_CATS }}</h1>
-<p>{{ ACP_PORTAL_CATS_EXPLAIN }}</p>
+<h1>{{ lang('ACP_PORTAL_CATS') }}</h1>
+<p>{{ lang('ACP_PORTAL_CATS_EXPLAIN') }}</p>
 
 <form id="acp_portal_categories" method="post" action="{{ U_ACTION }}">
 	<fieldset class="quick">
@@ -13,9 +13,9 @@
 {% if breadcrumb %}
 <p>
 	<strong>
-		<a href="{{ U_ROOT }}">{{ lang('CATEGORIES') }}</a>
+		<a href="{{ U_ROOT }}">{{ lang('HOME') }}</a>
 		{% for item in breadcrumb %}
-		-&gt; {% if not item.S_CURRENT %}<a href="{{ item.URL }}">{% endif %}{{ item.NAME }}{% if not item.S_CURRENT %}</a>{% endif %}
+		&raquo; {% if not item.S_CURRENT %}<a href="{{ item.URL }}">{% endif %}{{ item.NAME }}{% if not item.S_CURRENT %}</a>{% endif %}
 		{% endfor %}
 	</strong>
 </p>
