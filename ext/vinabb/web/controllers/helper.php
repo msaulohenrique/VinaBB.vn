@@ -388,7 +388,7 @@ class helper implements helper_interface
 	public function get_group_legend()
 	{
 		$legend = [];
-		
+
 		foreach ($this->cache->get_groups() as $group_id => $group_data)
 		{
 			if ($group_data['legend'])
