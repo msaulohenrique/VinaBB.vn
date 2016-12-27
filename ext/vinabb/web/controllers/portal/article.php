@@ -25,17 +25,8 @@ class article implements article_interface
 	/** @var ContainerInterface */
 	protected $container;
 
-	/** @var \phpbb\db\driver\driver_interface */
-	protected $db;
-
 	/** @var \phpbb\language\language */
 	protected $language;
-
-	/** @var \vinabb\web\controllers\pagination */
-	protected $pagination;
-
-	/** @var \phpbb\request\request */
-	protected $request;
 
 	/** @var \phpbb\template\template */
 	protected $template;
@@ -50,9 +41,6 @@ class article implements article_interface
 	protected $ext_helper;
 
 	/** @var string */
-	protected $root_path;
-
-	/** @var string */
 	protected $php_ext;
 
 	/** @var array */
@@ -64,45 +52,33 @@ class article implements article_interface
 	* @param \vinabb\web\controllers\cache\service_interface	$cache			Cache service
 	* @param \phpbb\config\config								$config			Config object
 	* @param ContainerInterface									$container		Container object
-	* @param \phpbb\db\driver\driver_interface					$db				Database object
 	* @param \phpbb\language\language							$language		Language object
-	* @param \vinabb\web\controllers\pagination					$pagination		Pagination object
-	* @param \phpbb\request\request								$request		Request object
 	* @param \phpbb\template\template							$template		Template object
 	* @param \phpbb\user										$user			User  object
 	* @param \phpbb\controller\helper							$helper			Controller helper
 	* @param \vinabb\web\controllers\helper_interface			$ext_helper		Extension helper
-	* @param string												$root_path		phpBB root path
 	* @param string												$php_ext		PHP file extension
 	*/
 	public function __construct(
 		\vinabb\web\controllers\cache\service_interface $cache,
 		\phpbb\config\config $config,
 		ContainerInterface $container,
-		\phpbb\db\driver\driver_interface $db,
 		\phpbb\language\language $language,
-		\vinabb\web\controllers\pagination $pagination,
-		\phpbb\request\request $request,
 		\phpbb\template\template $template,
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
 		\vinabb\web\controllers\helper_interface $ext_helper,
-		$root_path,
 		$php_ext
 	)
 	{
 		$this->cache = $cache;
 		$this->config = $config;
 		$this->container = $container;
-		$this->db = $db;
 		$this->language = $language;
-		$this->pagination = $pagination;
-		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
 		$this->helper = $helper;
 		$this->ext_helper = $ext_helper;
-		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 
 		$this->portal_cats = $this->cache->get_portal_cats();

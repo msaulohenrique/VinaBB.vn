@@ -18,15 +18,11 @@ services:
             - '@vinabb.web.cache'
             - '@config'
             - '@service_container'
-            - '@dbal.conn'
             - '@language'
-            - '@vinabb.web.pagination'
-            - '@request'
             - '@template'
             - '@user'
             - '@controller.helper'
             - '@vinabb.web.helper'
-            - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.bb:
         class: vinabb\web\controllers\bb\bb
