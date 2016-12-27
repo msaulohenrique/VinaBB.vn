@@ -158,9 +158,11 @@ class service_core
 			foreach ($this->container->get('vinabb.web.operators.group')->get_groups() as $entity)
 			{
 				$rows[$entity->get_id()] = [
-					'name'	=> $entity->get_name(),
-					'type'	=> $entity->get_type(),
-					'desc'	=> $entity->get_desc_for_display()
+					'name'		=> $entity->get_name(),
+					'type'		=> $entity->get_type(),
+					'color'		=> $entity->get_colour(),
+					'desc'		=> $entity->get_desc_for_display(),
+					'legend'	=> $entity->get_legend()
 				];
 			}
 
