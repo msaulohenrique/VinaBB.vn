@@ -152,6 +152,19 @@ class bb_author implements bb_author_interface
 	}
 
 	/**
+	* Remove authors from a group
+	*
+	* @param int $id Author group ID
+	*/
+	public function unset_group($id)
+	{
+		$sql = 'UPDATE ' . $this->table_name . '
+			SET author_group = 0
+			WHERE author_group = ' . (int) $id;
+		$this->db->sql_query($sql);
+	}
+
+	/**
 	* Delete an author
 	*
 	* @param int $id Author ID

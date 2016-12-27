@@ -360,6 +360,7 @@ class bb_authors implements bb_authors_interface
 
 		try
 		{
+			$this->operator->unset_group($author_id);
 			$this->operator->delete_author($author_id);
 		}
 		catch (\vinabb\web\exceptions\base $e)

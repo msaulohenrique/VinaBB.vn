@@ -49,6 +49,13 @@ interface bb_author_interface
 	public function add_author(\vinabb\web\entities\bb_author_interface $entity);
 
 	/**
+	* Remove authors from a group
+	*
+	* @param int $id Author group ID
+	*/
+	public function unset_group($id);
+
+	/**
 	* Delete an author
 	*
 	* @param int $id Author ID
