@@ -15,6 +15,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 */
 class group
 {
+	/** @var \phpbb\config\config $config */
+	protected $config;
+
 	/** @var ContainerInterface $container */
 	protected $container;
 
@@ -24,11 +27,13 @@ class group
 	/**
 	* Constructor
 	*
+	* @param \phpbb\config\config				$config		Config object
 	* @param ContainerInterface					$container	Container object
 	* @param \phpbb\db\driver\driver_interface	$db			Database object
 	*/
-	public function __construct(ContainerInterface $container, \phpbb\db\driver\driver_interface $db)
+	public function __construct(\phpbb\config\config $config, ContainerInterface $container, \phpbb\db\driver\driver_interface $db)
 	{
+		$this->config = $config;
 		$this->container = $container;
 		$this->db = $db;
 	}
@@ -57,9 +62,11 @@ class group
 	public function get_groups()
 	{
 		$entities = [];
+		$order_legend = ($this->config['legend_sort_groupname']) ? 'group_name' : 'group_legend';
 
 		$sql = 'SELECT *
-			FROM ' . GROUPS_TABLE;
+			FROM ' . GROUPS_TABLE . "
+			ORDER BY $order_legend";
 		$result = $this->db->sql_query($sql);
 
 		while ($row = $this->db->sql_fetchrow($result))

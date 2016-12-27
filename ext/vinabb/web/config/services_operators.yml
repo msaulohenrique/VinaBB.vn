@@ -8,6 +8,7 @@ services:
     vinabb.web.operators.group:
         class: vinabb\web\operators\group
         arguments:
+            - '@config'
             - '@service_container'
             - '@dbal.conn'
     vinabb.web.operators.team:
