@@ -42,6 +42,8 @@ services:
             - '@vinabb.web.cache'
             - '@service_container'
             - '@language'
+            - '@vinabb.web.pagination'
+            - '@template'
             - '@user'
             - '@controller.helper'
             - '@vinabb.web.helper'

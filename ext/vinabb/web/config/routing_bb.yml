@@ -7,14 +7,14 @@ vinabb_web_bb_type_route:
         type: '(extensions|styles|acp-styles|languages|tools)'
         slash: '(|\/)'
 vinabb_web_bb_cat_route:
-    path: /{type}/{cat}{slash}
+    path: /{type}/{cat}/{page}
     defaults:
         _controller: vinabb.web.bb.category:main
-        slash: ''
+        page: ''
     requirements:
         type: '(extensions|styles|acp-styles|languages|tools)'
         cat: '[a-z0-9-]+'
-        slash: '(|\/)'
+        page: '(|((page-)(\d+)))'
 vinabb_web_bb_item_route:
     path: /{type}/{cat}/{item}{slash}
     defaults:

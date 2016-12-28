@@ -25,6 +25,12 @@ class category
 	/** @var \phpbb\language\language $language */
 	protected $language;
 
+	/** @var \vinabb\web\controllers\pagination */
+	protected $pagination;
+
+	/** @var \phpbb\template\template */
+	protected $template;
+
 	/** @var \phpbb\user $user */
 	protected $user;
 
@@ -43,6 +49,8 @@ class category
 	* @param \vinabb\web\controllers\cache\service_interface	$cache		Cache service
 	* @param ContainerInterface									$container	Service container
 	* @param \phpbb\language\language							$language	Language object
+	* @param \vinabb\web\controllers\pagination					$pagination	Pagination object
+	* @param \phpbb\template\template							$template	Template object
 	* @param \phpbb\user										$user		User object
 	* @param \phpbb\controller\helper							$helper		Controller helper
 	* @param \vinabb\web\controllers\helper_interface			$ext_helper	Extension helper
@@ -51,6 +59,8 @@ class category
 		\vinabb\web\controllers\cache\service_interface $cache,
 		ContainerInterface $container,
 		\phpbb\language\language $language,
+		\vinabb\web\controllers\pagination $pagination,
+		\phpbb\template\template $template,
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
 		\vinabb\web\controllers\helper_interface $ext_helper
@@ -59,6 +69,8 @@ class category
 		$this->cache = $cache;
 		$this->container = $container;
 		$this->language = $language;
+		$this->pagination = $pagination;
+		$this->template = $template;
 		$this->user = $user;
 		$this->helper = $helper;
 		$this->ext_helper = $ext_helper;
@@ -66,29 +78,69 @@ class category
 		$this->language->add_lang('bb', 'vinabb/web');
 	}
 
-	public function main($type, $cat)
+	public function main($type, $cat, $page)
 	{
-		$type = $this->ext_helper->convert_bb_type_varnames($type);
-		$this->cat_data = $this->cache->get_bb_cats($this->ext_helper->get_bb_type_constants($type));
+		$bb_mode = $this->ext_helper->convert_bb_type_varnames($type);
+		$bb_type = $this->ext_helper->get_bb_type_constants($bb_mode);
+		$this->cat_data = $this->cache->get_bb_cats($bb_type);
 
-		// Category name
-		$cat_name = '';
+		// Pagination
+		$page = max(1, floor(str_replace(constants::REWRITE_URL_PAGE, '', $page)));
+		$start = floor(($page - 1) * constants::NUM_ARTICLES_ON_INDEX);
 
-		if (isset($this->cat_data[$cat][($this->user->lang_name == constants::LANG_VIETNAMESE) ? 'name_vi' : 'name']))
+		// Get cat_id from $cat_varname
+		$current_cat_id = 0;
+		$current_cat_name = '';
+
+		foreach ($this->cat_data as $cat_id => $cat_data)
 		{
-			$cat_name = $this->cat_data[$cat][($this->user->lang_name == constants::LANG_VIETNAMESE) ? 'name_vi' : 'name'];
+			if ($cat == $cat_data['varname'])
+			{
+				$current_cat_id = $cat_id;
+				$current_cat_name = $this->cat_data[$cat_id][($this->user->lang_name == constants::LANG_VIETNAMESE) ? 'name_vi' : 'name'];
+			}
 		}
-		else
+
+		if (!$current_cat_id)
 		{
+			$this->template->assign_var('S_ERROR', true);
 			trigger_error('NO_BB_CAT');
 		}
 
 		// Breadcrumb
 		$this->ext_helper->set_breadcrumb($this->language->lang('BB'), $this->helper->route('vinabb_web_bb_route'));
-		$this->ext_helper->set_breadcrumb($this->language->lang('BB_' . strtoupper($type) . 'S'), $this->helper->route('vinabb_web_bb_type_route', ['type' => $this->ext_helper->get_bb_type_varnames($type)]));
-		$this->ext_helper->set_breadcrumb($cat_name);
+		$this->ext_helper->set_breadcrumb($this->language->lang('BB_' . strtoupper($bb_mode) . 'S'), $this->helper->route('vinabb_web_bb_type_route', ['type' => $type]));
+		$this->ext_helper->set_breadcrumb($current_cat_name);
 
-		trigger_error($this->language->lang('NO_BB_' . strtoupper($type) . 'S'));
+		// Display items
+		$items = [];
+		$item_count = 0;
+		$start = $this->list_bb_items($bb_type, $current_cat_id, $items, $item_count, constants::NUM_ARTICLES_ON_INDEX, $start);
+
+		foreach ($items as $row)
+		{
+			$this->template->assign_block_vars('items', [
+				'CATEGORY'	=> $this->cat_data[$row['cat_id']][($this->user->lang_name == constants::LANG_VIETNAMESE) ? 'name_vi' : 'name'],
+				'CAT_URL'	=> $this->helper->route('vinabb_web_bb_cat_route', ['type' => $type, 'cat' => $this->cat_data[$row['cat_id']]['varname']]),
+				'NAME'		=> $row['name'],
+				'PRICE'		=> $row['price'],
+				'TIME'		=> $this->user->format_date($row['added']),
+				'URL'		=> $this->helper->route('vinabb_web_bb_item_route', ['type' => $type, 'cat' => $this->cat_data[$row['cat_id']]['varname'], 'item' => $row['varname']]),
+				'DOWNLOADS'	=> 0,
+
+				'S_NEW'	=> ($row['added'] + (constants::FLAG_DAY_NEW_ARTICLE * 24 * 60 * 60)) > time()
+			]);
+		}
+
+		// Generate pagination
+		$this->pagination->generate_template_pagination('vinabb_web_bb_cat_route', ['type' => $type, 'cat' => $cat], 'pagination', $item_count, constants::BB_ITEMS_PER_PAGE, $start);
+
+		// Output
+		$this->template->assign_vars([
+			'NO_ITEMS_LANG'	=> $this->language->lang('NO_BB_' . strtoupper($bb_mode) . 'S')
+		]);
+
+		return $this->helper->render('bb_category.html', $current_cat_name);
 	}
 
 	/**
@@ -122,12 +174,12 @@ class category
 		foreach ($operators->list_items($bb_type, $cat_id, 'item_updated DESC', $limit, $offset) as $entity)
 		{
 			$items[] = [
+				'cat_id'	=> $entity->get_cat_id(),
 				'id'		=> $entity->get_id(),
 				'name'		=> $entity->get_name(),
 				'varname'	=> $entity->get_varname(),
 				'price'		=> $entity->get_price(),
-				'added'		=> $entity->get_added(),
-				'updated'	=> $entity->get_updated()
+				'added'		=> $entity->get_added()
 			];
 		}
 
