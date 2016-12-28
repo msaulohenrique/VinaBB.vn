@@ -294,9 +294,6 @@ class team implements team_interface
 							'GROUP_COLOR'	=> $groups_ary[$row['default_group']]['group_colour'],
 							'U_GROUP'		=> $groups_ary[$row['default_group']]['u_group'],
 
-							'RANK_IMG'		=> $user_rank_data['img'],
-							'RANK_IMG_SRC'	=> $user_rank_data['img_src'],
-
 							'S_INACTIVE'	=> $row['user_type'] == USER_INACTIVE,
 
 							'U_PM'	=> ($this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm') && ($row['user_allow_pm'] || $this->auth->acl_gets('a_', 'm_') || $this->auth->acl_getf_global('m_'))) ? $this->helper->route('vinabb_web_ucp_route', ['id' => 'pm', 'mode' => 'compose', 'u' => $row['user_id']]) : '',
