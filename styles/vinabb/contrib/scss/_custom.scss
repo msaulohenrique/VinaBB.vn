@@ -182,9 +182,11 @@
 }
 
 /* Set the fixed height for code blocks */
-.codebox {
-	code {
-		max-height: 250px;
+@media screen {
+	.codebox {
+		code {
+			max-height: 250px;
+		}
 	}
 }
 
