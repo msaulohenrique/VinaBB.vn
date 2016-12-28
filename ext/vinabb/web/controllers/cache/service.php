@@ -30,10 +30,10 @@ class service extends service_core implements service_interface
 			/** @var \vinabb\web\entities\bb_category_interface $entity */
 			foreach ($this->container->get('vinabb.web.operators.bb_category')->get_cats($bb_type) as $entity)
 			{
-				$rows[$entity->get_varname()] = [
-					'id'		=> $entity->get_id(),
+				$rows[$entity->get_id()] = [
 					'name'		=> $entity->get_name(),
 					'name_vi'	=> ($entity->get_name_vi() == '') ? $entity->get_name() : $entity->get_name_vi(),
+					'varname'	=> $entity->get_varname(),
 					'desc'		=> $entity->get_desc(),
 					'desc_vi'	=> $entity->get_desc_vi(),
 					'icon'		=> $entity->get_icon()
