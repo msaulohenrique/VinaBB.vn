@@ -1,0 +1,82 @@
+{% include 'overall_header.html' %}
+
+<div class="row margin-r-5">
+	{% if pagination %}{% include 'pagination.html' %}{% endif %}
+</div>
+
+<div class="row">
+	{% for item in items %}
+
+	{% set BG_COLOR = 'primary' %}
+	{% if row.RANK_TITLE_RAW in ['FOUNDER', 'ADMINISTRATOR'] %}
+		{% set BG_COLOR = 'danger' %}
+	{% elseif row.RANK_TITLE_RAW == 'DEVELOPER' %}
+		{% set BG_COLOR = 'teal' %}
+	{% elseif row.RANK_TITLE_RAW == 'MANAGER' %}
+		{% set BG_COLOR = 'success' %}
+	{% elseif row.RANK_TITLE_RAW == 'SUPPORTER' %}
+		{% set BG_COLOR = 'indigo' %}
+	{% elseif row.RANK_TITLE_RAW in ['GLOBAL_MODERATOR', 'MODERATOR'] %}
+		{% set BG_COLOR = 'warning' %}
+	{% elseif row.S_INACTIVE %}
+		{% set BG_COLOR = 'grey' %}
+	{% endif %}
+
+	<div class="col-md-3 col-sm-6">
+		<div class="panel panel-default">
+			<div class="panel-body text-center">
+				{% if row.AVATAR_IMG %}
+				<span class="avatar avatar-lg{% if row.S_ONLINE %} avatar-online{% endif %}">
+					<a href="{{ row.U_VIEW_PROFILE }}"><img alt="{{ row.USERNAME }}" class="bg-light-dark" src="{{ row.AVATAR_IMG }}"></a>
+					{% if row.S_ONLINE %}<i data-tooltip="true" data-placement="{{ S_LEFT }}" title="{{ lang('ONLINE') }}"></i>{% endif %}
+				</span>
+				{% else %}
+				<div class="avatar avatar-letter-lg{% if row.S_ONLINE %} avatar-online{% endif %} bg-{{ BG_COLOR ?: 'primary' }} opacity-80">
+					<a href="{{ row.U_VIEW_PROFILE }}"><span class="initials">{{ row.USERNAME|slice(0, 2)|upper }}</span></a>
+					{% if row.S_ONLINE %}<i data-tooltip="true" data-placement="{{ S_LEFT }}" title="{{ lang('ONLINE') }}"></i>{% endif %}
+				</div>
+				{% endif %}
+
+				<p class="lead margin-b-0 text-{{ BG_COLOR ?: 'info' }}">{{ item.NAME }}</p>
+				<p class="text-muted">{{ item.TIME }}</p>
+				{% if row.S_INACTIVE %}
+				<div class="ribbon ribbon-clip">
+					<span class="ribbon-inner">{{ lang('INACTIVE') }}</span>
+				</div>
+				{% elseif BG_COLOR %}
+				<div class="ribbon ribbon-clip ribbon-{{ BG_COLOR }}">
+					<span class="ribbon-inner">{{ row.RANK_TITLE }}</span>
+				</div>
+				{% endif %}
+			</div>
+			<div class="panel-footer{{ BG_COLOR ? ' bg-' ~ BG_COLOR : '' }}">
+				<ul class="list-unstyled margin-b-0 text-center row">
+					<li class="col-xs-4">
+						<span class="font-600">{{ item.DOWNLOADS }}</span>
+						<p class="{% if not BG_COLOR %}text-muted {% endif %}text-sm margin-b-0"><i class="fa fa-eye fa-2x"></i></p>
+					</li>
+					<li class="col-xs-4">
+						<span class="font-600">{{ item.DOWNLOADS }}</span>
+						<p class="{% if not BG_COLOR %}text-muted {% endif %}text-sm margin-b-0"><i class="fa fa-thumbs-up fa-2x"></i></p>
+					</li>
+					<li class="col-xs-4">
+						<span class="font-600">{{ item.DOWNLOADS|number_format }}</span>
+						<p class="{% if not BG_COLOR %}text-muted {% endif %}text-sm margin-b-0"><i class="fa fa-download fa-2x"></i></p>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	{% else %}
+	<div class="panel panel-primary">
+		<div class="panel-heading">{{ lang('INFORMATION') }}</div>
+		<div class="panel-body">{{ NO_ITEMS_LANG }}</div>
+	</div>
+	{% endfor %}
+</div>
+
+<div class="row margin-r-5">
+	{% if pagination %}{% include 'pagination.html' %}{% endif %}
+</div>
+
+{% include 'overall_footer.html' %}
