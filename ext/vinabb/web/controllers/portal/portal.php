@@ -194,15 +194,22 @@ class portal implements portal_interface
 
 		// Get cat_id from $cat_varname
 		$current_cat_id = 0;
-		$current_category_name = '';
+		$current_cat_name = '';
 
 		foreach ($this->portal_cats as $cat_id => $cat_data)
 		{
 			if ($varname == $cat_data['varname'])
 			{
 				$current_cat_id = $cat_id;
-				$current_category_name = ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->portal_cats[$cat_id]['name_vi'] : $this->portal_cats[$cat_id]['name'];
+				$current_cat_name = ($this->user->lang_name == constants::LANG_VIETNAMESE) ? $this->portal_cats[$cat_id]['name_vi'] : $this->portal_cats[$cat_id]['name'];
 			}
+		}
+
+		// Breadcrumb
+		if ($current_cat_id)
+		{
+			$this->ext_helper->set_breadcrumb($this->language->lang('NEWS'), $this->helper->route('vinabb_web_portal_route'));
+			$this->ext_helper->set_breadcrumb($current_cat_name);
 		}
 
 		// Display articles
@@ -229,14 +236,7 @@ class portal implements portal_interface
 		// Generate pagination
 		$this->pagination->generate_template_pagination('vinabb_web_portal_cat_route', ['varname' => $current_cat_id ? $varname : 'all'], 'pagination', $article_count, constants::NUM_ARTICLES_ON_INDEX, $start);
 
-		// Breadcrumb
-		if ($current_cat_id)
-		{
-			$this->ext_helper->set_breadcrumb($this->language->lang('NEWS'), $this->helper->route('vinabb_web_portal_route'));
-			$this->ext_helper->set_breadcrumb($current_category_name);
-		}
-
-		return $this->helper->render('portal.html', ($current_category_name != '') ? $current_category_name : $this->language->lang('NEWS'), 200, true);
+		return $this->helper->render('portal.html', ($current_cat_name != '') ? $current_cat_name : $this->language->lang('NEWS'), 200, true);
 	}
 
 	/**
