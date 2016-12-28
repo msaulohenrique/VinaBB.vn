@@ -133,6 +133,7 @@ class helper implements helper_interface
 			foreach ($this->cache->get_bb_cats($this->ext_helper->get_bb_type_constants($bb_type)) as $cat_id => $cat_data)
 			{
 				$this->template->assign_block_vars($bb_type . '_cats', [
+					'ID'		=> $cat_id,
 					'NAME'		=> $cat_data[($this->user->lang_name == constants::LANG_VIETNAMESE) ? 'name_vi' : 'name'],
 					'VARNAME'	=> $cat_data['varname'],
 					'DESC'		=> $cat_data[($this->user->lang_name == constants::LANG_VIETNAMESE) ? 'desc_vi' : 'desc'],
