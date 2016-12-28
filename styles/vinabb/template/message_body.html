@@ -1,7 +1,7 @@
 {% include 'overall_header.html' %}
 
 <div class="panel {{ S_ERROR ? 'panel-danger' : 'panel-primary' }}" id="message">
-	<div class="panel-heading">{{ MESSAGE_TITLE }}</div>
+	<div class="panel-heading">{{ (S_ERROR and MESSAGE_TITLE == lang('INFORMATION')) ? lang('ERROR') : MESSAGE_TITLE }}</div>
 	<div class="panel-body">{{ MESSAGE_TEXT }}</div>
 	{% if SCRIPT_NAME == 'search' and not S_BOARD_DISABLED and not S_NO_SEARCH %}<div class="panel-footer"><a href="{{ U_SEARCH }}">{{ lang('GO_TO_SEARCH_ADV') }}</a></div>{% endif %}
 </div>
