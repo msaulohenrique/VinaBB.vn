@@ -37,15 +37,18 @@
 				</div>
 				{% endif %}
 
-				<p class="lead margin-b-0 text-{{ BG_COLOR ?: 'info' }}">{{ item.NAME }}</p>
-				<p class="text-muted">{{ item.TIME }}</p>
-				{% if row.S_INACTIVE %}
-				<div class="ribbon ribbon-clip">
-					<span class="ribbon-inner">{{ lang('INACTIVE') }}</span>
+				<p class="lead margin-b-0 text-{{ BG_COLOR ?: 'info' }}">{{ item.NAME|length > 15 ? item.NAME|slice(0, 15) ~ '<span class="opacity-60">' ~ item.NAME|slice(15, 1) ~ '<span class="opacity-50">' ~ item.NAME|slice(16, 1) ~ '<span class="opacity-40">' ~ item.NAME|slice(17, 1) ~ '</span>' : item.NAME }}</p>
+				<p class="text-muted"><span class="label label-default">1.2.3</span> phpBB Group</p>
+				<p class="text-primary"><i class="fa fa-star fa-2x"></i> <i class="fa fa-star fa-2x"></i> <i class="fa fa-star fa-2x"></i> <i class="fa fa-star fa-2x"></i> <i class="fa fa-star-o fa-2x"></i></p>
+
+				{% if item.S_NEW %}
+				<div class="ribbon ribbon-clip ribbon-danger">
+					<span class="ribbon-inner">{{ lang('NEW') }}</span>
 				</div>
-				{% elseif BG_COLOR %}
-				<div class="ribbon ribbon-clip ribbon-{{ BG_COLOR }}">
-					<span class="ribbon-inner">{{ row.RANK_TITLE }}</span>
+				{% endif %}
+				{% if item.PRICE %}
+				<div class="ribbon ribbon-badge ribbon-reverse ribbon-success">
+					<span class="ribbon-inner">{{ item.PRICE }}</span>
 				</div>
 				{% endif %}
 			</div>
@@ -53,15 +56,15 @@
 				<ul class="list-unstyled margin-b-0 text-center row">
 					<li class="col-xs-4">
 						<span class="font-600">{{ item.DOWNLOADS }}</span>
-						<p class="{% if not BG_COLOR %}text-muted {% endif %}text-sm margin-b-0"><i class="fa fa-eye fa-2x"></i></p>
-					</li>
-					<li class="col-xs-4">
-						<span class="font-600">{{ item.DOWNLOADS }}</span>
 						<p class="{% if not BG_COLOR %}text-muted {% endif %}text-sm margin-b-0"><i class="fa fa-thumbs-up fa-2x"></i></p>
 					</li>
 					<li class="col-xs-4">
+						<span class="font-600">3.1.10</span>
+						<p class="{% if not BG_COLOR %}text-muted {% endif %}text-sm margin-b-0"><i class="fa fa-tags fa-2x"></i></p>
+					</li>
+					<li class="col-xs-4">
 						<span class="font-600">{{ item.DOWNLOADS|number_format }}</span>
-						<p class="{% if not BG_COLOR %}text-muted {% endif %}text-sm margin-b-0"><i class="fa fa-download fa-2x"></i></p>
+						<p class="{% if not BG_COLOR %}text-muted {% endif %}text-sm margin-b-0"><i class="fa fa-arrow-down fa-2x"></i></p>
 					</li>
 				</ul>
 			</div>
