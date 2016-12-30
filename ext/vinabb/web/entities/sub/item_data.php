@@ -131,6 +131,26 @@ class item_data extends item_ext
 	}
 
 	/**
+	* Get the number of downloads
+	*
+	* @return int
+	*/
+	public function get_downloads()
+	{
+		return isset($this->data['item_downloads']) ? (int) $this->data['item_downloads'] : 0;
+	}
+
+	/**
+	* Get the number of likes
+	*
+	* @return int
+	*/
+	public function get_likes()
+	{
+		return isset($this->data['item_likes']) ? (int) $this->data['item_likes'] : 0;
+	}
+
+	/**
 	* Get the time of adding item
 	*
 	* @return int
@@ -149,6 +169,29 @@ class item_data extends item_ext
 	{
 		// Set the value on our data array
 		$this->data['item_added'] = time();
+
+		return $this;
+	}
+
+	/**
+	* Get the time of updating item
+	*
+	* @return int
+	*/
+	public function get_updated()
+	{
+		return isset($this->data['item_updated']) ? (int) $this->data['item_updated'] : 0;
+	}
+
+	/**
+	* Set the time of updating item
+	*
+	* @return item_data $this Object for chaining calls: load()->set()->save()
+	*/
+	public function set_updated()
+	{
+		// Set the value on our data array
+		$this->data['item_updated'] = time();
 
 		return $this;
 	}

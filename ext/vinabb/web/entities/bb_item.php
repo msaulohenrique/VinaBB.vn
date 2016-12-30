@@ -68,12 +68,14 @@ class bb_item extends item_data implements bb_item_interface
 			'item_varname'	=> 'string',
 
 			// Entity: vinabb\web\entities\sub\item_data
-			'item_price'	=> 'integer',
-			'item_url'		=> 'string',
-			'item_github'	=> 'string',
-			'item_enable'	=> 'bool',
-			'item_added'	=> 'integer',
-			'item_updated'	=> 'integer',
+			'item_price'		=> 'integer',
+			'item_url'			=> 'string',
+			'item_github'		=> 'string',
+			'item_enable'		=> 'bool',
+			'item_downloads'	=> 'integer',
+			'item_likes'		=> 'integer',
+			'item_added'		=> 'integer',
+			'item_updated'		=> 'integer',
 
 			// Entity: vinabb\web\entities\sub\item_ext
 			'item_ext_style'		=> 'bool',

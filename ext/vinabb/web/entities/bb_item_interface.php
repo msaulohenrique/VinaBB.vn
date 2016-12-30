@@ -540,6 +540,20 @@ interface bb_item_interface
 	public function set_enable($value);
 
 	/**
+	* Get the number of downloads
+	*
+	* @return int
+	*/
+	public function get_downloads();
+
+	/**
+	* Get the number of likes
+	*
+	* @return int
+	*/
+	public function get_likes();
+
+	/**
 	* Get the time of adding item
 	*
 	* @return int
@@ -552,4 +566,18 @@ interface bb_item_interface
 	* @return bb_item_interface $this Object for chaining calls: load()->set()->save()
 	*/
 	public function set_added();
+
+	/**
+	* Get the time of updating item
+	*
+	* @return int
+	*/
+	public function get_updated();
+
+	/**
+	* Set the time of updating item
+	*
+	* @return bb_item_interface $this Object for chaining calls: load()->set()->save()
+	*/
+	public function set_updated();
 }
