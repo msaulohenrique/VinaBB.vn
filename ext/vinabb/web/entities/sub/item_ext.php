@@ -8,8 +8,6 @@
 
 namespace vinabb\web\entities\sub;
 
-use vinabb\web\includes\constants;
-
 /**
 * Sub-entity for item_ext + item_style + item_lang_tool + item_desc
 */
@@ -17,19 +15,6 @@ class item_ext extends item_style
 {
 	/** @var array $data */
 	protected $data;
-
-	/** @var \vinabb\web\entities\helper\helper_interface $entity_helper */
-	protected $entity_helper;
-
-	/**
-	* Constructor
-	*
-	* @param \vinabb\web\entities\helper\helper_interface $entity_helper Entity helper
-	*/
-	public function __construct(\vinabb\web\entities\helper\helper_interface $entity_helper)
-	{
-		$this->entity_helper = $entity_helper;
-	}
 
 	/**
 	* Get the extension property: Style Changes
@@ -50,16 +35,8 @@ class item_ext extends item_style
 	*/
 	public function set_ext_style($value)
 	{
-		$value = (bool) $value;
-
-		// This is a field only for extensions
-		if ($this->data['bb_type'] !== constants::BB_TYPE_EXT)
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('bb_typeff');
-		}
-
 		// Set the value on our data array
-		$this->data['item_ext_style'] = $value;
+		$this->data['item_ext_style'] = (bool) $value;
 
 		return $this;
 	}
@@ -83,16 +60,8 @@ class item_ext extends item_style
 	*/
 	public function set_ext_acp_style($value)
 	{
-		$value = (bool) $value;
-
-		// This is a field only for extensions
-		if ($this->data['bb_type'] !== constants::BB_TYPE_EXT)
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
-		}
-
 		// Set the value on our data array
-		$this->data['item_ext_acp_style'] = $value;
+		$this->data['item_ext_acp_style'] = (bool) $value;
 
 		return $this;
 	}
@@ -116,16 +85,8 @@ class item_ext extends item_style
 	*/
 	public function set_ext_lang($value)
 	{
-		$value = (bool) $value;
-
-		// This is a field only for extensions
-		if ($this->data['bb_type'] !== constants::BB_TYPE_EXT)
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
-		}
-
 		// Set the value on our data array
-		$this->data['item_ext_lang'] = $value;
+		$this->data['item_ext_lang'] = (bool) $value;
 
 		return $this;
 	}
@@ -149,16 +110,8 @@ class item_ext extends item_style
 	*/
 	public function set_ext_db_schema($value)
 	{
-		$value = (bool) $value;
-
-		// This is a field only for extensions
-		if ($this->data['bb_type'] !== constants::BB_TYPE_EXT)
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
-		}
-
 		// Set the value on our data array
-		$this->data['item_ext_db_schema'] = $value;
+		$this->data['item_ext_db_schema'] = (bool) $value;
 
 		return $this;
 	}
@@ -182,16 +135,8 @@ class item_ext extends item_style
 	*/
 	public function set_ext_db_data($value)
 	{
-		$value = (bool) $value;
-
-		// This is a field only for extensions
-		if ($this->data['bb_type'] !== constants::BB_TYPE_EXT)
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
-		}
-
 		// Set the value on our data array
-		$this->data['item_ext_db_data'] = $value;
+		$this->data['item_ext_db_data'] = (bool) $value;
 
 		return $this;
 	}
@@ -215,16 +160,8 @@ class item_ext extends item_style
 	*/
 	public function set_ext_event($value)
 	{
-		$value = (bool) $value;
-
-		// This is a field only for extensions
-		if ($this->data['bb_type'] !== constants::BB_TYPE_EXT)
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
-		}
-
 		// Set the value on our data array
-		$this->data['item_ext_event'] = $value;
+		$this->data['item_ext_event'] = (bool) $value;
 
 		return $this;
 	}
@@ -248,16 +185,8 @@ class item_ext extends item_style
 	*/
 	public function set_ext_event_style($value)
 	{
-		$value = (bool) $value;
-
-		// This is a field only for extensions
-		if ($this->data['bb_type'] !== constants::BB_TYPE_EXT)
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
-		}
-
 		// Set the value on our data array
-		$this->data['item_ext_event_style'] = $value;
+		$this->data['item_ext_event_style'] = (bool) $value;
 
 		return $this;
 	}
@@ -281,16 +210,8 @@ class item_ext extends item_style
 	*/
 	public function set_ext_event_acp_style($value)
 	{
-		$value = (bool) $value;
-
-		// This is a field only for extensions
-		if ($this->data['bb_type'] !== constants::BB_TYPE_EXT)
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
-		}
-
 		// Set the value on our data array
-		$this->data['item_ext_event_acp_style'] = $value;
+		$this->data['item_ext_event_acp_style'] = (bool) $value;
 
 		return $this;
 	}
@@ -314,16 +235,8 @@ class item_ext extends item_style
 	*/
 	public function set_ext_module_acp($value)
 	{
-		$value = (bool) $value;
-
-		// This is a field only for extensions
-		if ($this->data['bb_type'] !== constants::BB_TYPE_EXT)
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
-		}
-
 		// Set the value on our data array
-		$this->data['item_ext_module_acp'] = $value;
+		$this->data['item_ext_module_acp'] = (bool) $value;
 
 		return $this;
 	}
@@ -347,16 +260,8 @@ class item_ext extends item_style
 	*/
 	public function set_ext_module_mcp($value)
 	{
-		$value = (bool) $value;
-
-		// This is a field only for extensions
-		if ($this->data['bb_type'] !== constants::BB_TYPE_EXT)
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
-		}
-
 		// Set the value on our data array
-		$this->data['item_ext_module_mcp'] = $value;
+		$this->data['item_ext_module_mcp'] = (bool) $value;
 
 		return $this;
 	}
@@ -380,16 +285,8 @@ class item_ext extends item_style
 	*/
 	public function set_ext_module_ucp($value)
 	{
-		$value = (bool) $value;
-
-		// This is a field only for extensions
-		if ($this->data['bb_type'] !== constants::BB_TYPE_EXT)
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
-		}
-
 		// Set the value on our data array
-		$this->data['item_ext_module_ucp'] = $value;
+		$this->data['item_ext_module_ucp'] = (bool) $value;
 
 		return $this;
 	}
@@ -413,16 +310,8 @@ class item_ext extends item_style
 	*/
 	public function set_ext_notification($value)
 	{
-		$value = (bool) $value;
-
-		// This is a field only for extensions
-		if ($this->data['bb_type'] !== constants::BB_TYPE_EXT)
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
-		}
-
 		// Set the value on our data array
-		$this->data['item_ext_notification'] = $value;
+		$this->data['item_ext_notification'] = (bool) $value;
 
 		return $this;
 	}
@@ -446,16 +335,8 @@ class item_ext extends item_style
 	*/
 	public function set_ext_cron($value)
 	{
-		$value = (bool) $value;
-
-		// This is a field only for extensions
-		if ($this->data['bb_type'] !== constants::BB_TYPE_EXT)
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
-		}
-
 		// Set the value on our data array
-		$this->data['item_ext_cron'] = $value;
+		$this->data['item_ext_cron'] = (bool) $value;
 
 		return $this;
 	}
@@ -479,16 +360,8 @@ class item_ext extends item_style
 	*/
 	public function set_ext_console($value)
 	{
-		$value = (bool) $value;
-
-		// This is a field only for extensions
-		if ($this->data['bb_type'] !== constants::BB_TYPE_EXT)
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
-		}
-
 		// Set the value on our data array
-		$this->data['item_ext_console'] = $value;
+		$this->data['item_ext_console'] = (bool) $value;
 
 		return $this;
 	}
@@ -512,16 +385,8 @@ class item_ext extends item_style
 	*/
 	public function set_ext_ext_php($value)
 	{
-		$value = (bool) $value;
-
-		// This is a field only for extensions
-		if ($this->data['bb_type'] !== constants::BB_TYPE_EXT)
-		{
-			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
-		}
-
 		// Set the value on our data array
-		$this->data['item_ext_ext_php'] = $value;
+		$this->data['item_ext_ext_php'] = (bool) $value;
 
 		return $this;
 	}
