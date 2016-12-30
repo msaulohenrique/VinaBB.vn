@@ -318,14 +318,14 @@ interface bb_item_interface
 	public function set_ext_acp_style($value);
 
 	/**
-	* Get the extension property: Language Changes
+	* Get the extension property: Language Files
 	*
 	* @return bool
 	*/
 	public function get_ext_lang();
 
 	/**
-	* Set the extension property: Language Changes
+	* Set the extension property: Language Files
 	*
 	* @param bool				$value	true: yes; false: no
 	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
@@ -364,6 +364,166 @@ interface bb_item_interface
 	* @throws \vinabb\web\exceptions\out_of_bounds
 	*/
 	public function set_ext_db_data($value);
+
+	/**
+	* Get the extension property: PHP Events
+	*
+	* @return bool
+	*/
+	public function get_ext_event();
+
+	/**
+	* Set the extension property: PHP Events
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_ext_event($value);
+
+	/**
+	* Get the extension property: Template Events
+	*
+	* @return bool
+	*/
+	public function get_ext_event_style();
+
+	/**
+	* Set the extension property: Template Events
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_ext_event_style($value);
+
+	/**
+	* Get the extension property: ACP Template Events
+	*
+	* @return bool
+	*/
+	public function get_ext_event_acp_style();
+
+	/**
+	* Set the extension property: ACP Template Events
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_ext_event_acp_style($value);
+
+	/**
+	* Get the extension property: ACP Modules
+	*
+	* @return bool
+	*/
+	public function get_ext_module_acp();
+
+	/**
+	* Set the extension property: ACP Modules
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_ext_module_acp($value);
+
+	/**
+	* Get the extension property: MCP Modules
+	*
+	* @return bool
+	*/
+	public function get_ext_module_mcp();
+
+	/**
+	* Set the extension property: MCP Modules
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_ext_module_mcp($value);
+
+	/**
+	* Get the extension property: UCP Modules
+	*
+	* @return bool
+	*/
+	public function get_ext_module_ucp();
+
+	/**
+	* Set the extension property: UCP Modules
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_ext_module_ucp($value);
+
+	/**
+	* Get the extension property: Notifications
+	*
+	* @return bool
+	*/
+	public function get_ext_notification();
+
+	/**
+	* Set the extension property: Notifications
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_ext_notification($value);
+
+	/**
+	* Get the extension property: Cron Tasks
+	*
+	* @return bool
+	*/
+	public function get_ext_cron();
+
+	/**
+	* Set the extension property: Cron Tasks
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_ext_cron($value);
+
+	/**
+	* Get the extension property: Console Commands
+	*
+	* @return bool
+	*/
+	public function get_ext_console();
+
+	/**
+	* Set the extension property: Console Commands
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_ext_console($value);
+
+	/**
+	* Get the extension property: ext.php
+	*
+	* @return bool
+	*/
+	public function get_ext_ext_php();
+
+	/**
+	* Set the extension property: ext.php
+	*
+	* @param bool				$value	true: yes; false: no
+	* @return bb_item_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_ext_ext_php($value);
 
 	/**
 	* Get the style property: Number of Presets
