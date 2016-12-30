@@ -78,11 +78,21 @@ class bb_item extends item_data implements bb_item_interface
 			'item_updated'		=> 'integer',
 
 			// Entity: vinabb\web\entities\sub\item_ext
-			'item_ext_style'		=> 'bool',
-			'item_ext_acp_style'	=> 'bool',
-			'item_ext_lang'			=> 'bool',
-			'item_ext_db_schema'	=> 'bool',
-			'item_ext_db_data'		=> 'bool',
+			'item_ext_style'			=> 'bool',
+			'item_ext_acp_style'		=> 'bool',
+			'item_ext_lang'				=> 'bool',
+			'item_ext_db_schema'		=> 'bool',
+			'item_ext_db_data'			=> 'bool',
+			'item_ext_event'			=> 'bool',
+			'item_ext_event_style'		=> 'bool',
+			'item_ext_event_acp_style'	=> 'bool',
+			'item_ext_module_acp'		=> 'bool',
+			'item_ext_module_mcp'		=> 'bool',
+			'item_ext_module_ucp'		=> 'bool',
+			'item_ext_notification'		=> 'bool',
+			'item_ext_cron'				=> 'bool',
+			'item_ext_console'			=> 'bool',
+			'item_ext_ext_php'			=> 'bool',
 
 			// Entity: vinabb\web\entities\sub\item_style
 			'item_style_presets'		=> 'integer',

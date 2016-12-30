@@ -98,7 +98,7 @@ class item_ext extends item_style
 	}
 
 	/**
-	* Get the extension property: Language Changes
+	* Get the extension property: Language Files
 	*
 	* @return bool
 	*/
@@ -108,7 +108,7 @@ class item_ext extends item_style
 	}
 
 	/**
-	* Set the extension property: Language Changes
+	* Set the extension property: Language Files
 	*
 	* @param bool		$value	true: yes; false: no
 	* @return item_ext	$this	Object for chaining calls: load()->set()->save()
@@ -192,6 +192,336 @@ class item_ext extends item_style
 
 		// Set the value on our data array
 		$this->data['item_ext_db_data'] = $value;
+
+		return $this;
+	}
+
+	/**
+	* Get the extension property: PHP Events
+	*
+	* @return bool
+	*/
+	public function get_ext_event()
+	{
+		return isset($this->data['item_ext_event']) ? (bool) $this->data['item_ext_event'] : false;
+	}
+
+	/**
+	* Set the extension property: PHP Events
+	*
+	* @param bool		$value	true: yes; false: no
+	* @return item_ext	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_ext_event($value)
+	{
+		$value = (bool) $value;
+
+		// This is a field only for extensions
+		if ($this->data['bb_type'] !== constants::BB_TYPE_EXT)
+		{
+			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
+		}
+
+		// Set the value on our data array
+		$this->data['item_ext_event'] = $value;
+
+		return $this;
+	}
+
+	/**
+	* Get the extension property: Template Events
+	*
+	* @return bool
+	*/
+	public function get_ext_event_style()
+	{
+		return isset($this->data['item_ext_event_style']) ? (bool) $this->data['item_ext_event_style'] : false;
+	}
+
+	/**
+	* Set the extension property: Template Events
+	*
+	* @param bool		$value	true: yes; false: no
+	* @return item_ext	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_ext_event_style($value)
+	{
+		$value = (bool) $value;
+
+		// This is a field only for extensions
+		if ($this->data['bb_type'] !== constants::BB_TYPE_EXT)
+		{
+			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
+		}
+
+		// Set the value on our data array
+		$this->data['item_ext_event_style'] = $value;
+
+		return $this;
+	}
+
+	/**
+	* Get the extension property: ACP Template Events
+	*
+	* @return bool
+	*/
+	public function get_ext_event_acp_style()
+	{
+		return isset($this->data['item_ext_event_acp_style']) ? (bool) $this->data['item_ext_event_acp_style'] : false;
+	}
+
+	/**
+	* Set the extension property: ACP Template Events
+	*
+	* @param bool		$value	true: yes; false: no
+	* @return item_ext	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_ext_event_acp_style($value)
+	{
+		$value = (bool) $value;
+
+		// This is a field only for extensions
+		if ($this->data['bb_type'] !== constants::BB_TYPE_EXT)
+		{
+			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
+		}
+
+		// Set the value on our data array
+		$this->data['item_ext_event_acp_style'] = $value;
+
+		return $this;
+	}
+
+	/**
+	* Get the extension property: ACP Modules
+	*
+	* @return bool
+	*/
+	public function get_ext_module_acp()
+	{
+		return isset($this->data['item_ext_module_acp']) ? (bool) $this->data['item_ext_module_acp'] : false;
+	}
+
+	/**
+	* Set the extension property: ACP Modules
+	*
+	* @param bool		$value	true: yes; false: no
+	* @return item_ext	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_ext_module_acp($value)
+	{
+		$value = (bool) $value;
+
+		// This is a field only for extensions
+		if ($this->data['bb_type'] !== constants::BB_TYPE_EXT)
+		{
+			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
+		}
+
+		// Set the value on our data array
+		$this->data['item_ext_module_acp'] = $value;
+
+		return $this;
+	}
+
+	/**
+	* Get the extension property: MCP Modules
+	*
+	* @return bool
+	*/
+	public function get_ext_module_mcp()
+	{
+		return isset($this->data['item_ext_module_mcp']) ? (bool) $this->data['item_ext_module_mcp'] : false;
+	}
+
+	/**
+	* Set the extension property: MCP Modules
+	*
+	* @param bool		$value	true: yes; false: no
+	* @return item_ext	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_ext_module_mcp($value)
+	{
+		$value = (bool) $value;
+
+		// This is a field only for extensions
+		if ($this->data['bb_type'] !== constants::BB_TYPE_EXT)
+		{
+			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
+		}
+
+		// Set the value on our data array
+		$this->data['item_ext_module_mcp'] = $value;
+
+		return $this;
+	}
+
+	/**
+	* Get the extension property: UCP Modules
+	*
+	* @return bool
+	*/
+	public function get_ext_module_ucp()
+	{
+		return isset($this->data['item_ext_module_ucp']) ? (bool) $this->data['item_ext_module_ucp'] : false;
+	}
+
+	/**
+	* Set the extension property: UCP Modules
+	*
+	* @param bool		$value	true: yes; false: no
+	* @return item_ext	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_ext_module_ucp($value)
+	{
+		$value = (bool) $value;
+
+		// This is a field only for extensions
+		if ($this->data['bb_type'] !== constants::BB_TYPE_EXT)
+		{
+			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
+		}
+
+		// Set the value on our data array
+		$this->data['item_ext_module_ucp'] = $value;
+
+		return $this;
+	}
+
+	/**
+	* Get the extension property: Notifications
+	*
+	* @return bool
+	*/
+	public function get_ext_notification()
+	{
+		return isset($this->data['item_ext_notification']) ? (bool) $this->data['item_ext_notification'] : false;
+	}
+
+	/**
+	* Set the extension property: Notifications
+	*
+	* @param bool		$value	true: yes; false: no
+	* @return item_ext	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_ext_notification($value)
+	{
+		$value = (bool) $value;
+
+		// This is a field only for extensions
+		if ($this->data['bb_type'] !== constants::BB_TYPE_EXT)
+		{
+			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
+		}
+
+		// Set the value on our data array
+		$this->data['item_ext_notification'] = $value;
+
+		return $this;
+	}
+
+	/**
+	* Get the extension property: Cron Tasks
+	*
+	* @return bool
+	*/
+	public function get_ext_cron()
+	{
+		return isset($this->data['item_ext_cron']) ? (bool) $this->data['item_ext_cron'] : false;
+	}
+
+	/**
+	* Set the extension property: Cron Tasks
+	*
+	* @param bool		$value	true: yes; false: no
+	* @return item_ext	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_ext_cron($value)
+	{
+		$value = (bool) $value;
+
+		// This is a field only for extensions
+		if ($this->data['bb_type'] !== constants::BB_TYPE_EXT)
+		{
+			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
+		}
+
+		// Set the value on our data array
+		$this->data['item_ext_cron'] = $value;
+
+		return $this;
+	}
+
+	/**
+	* Get the extension property: Console Commands
+	*
+	* @return bool
+	*/
+	public function get_ext_console()
+	{
+		return isset($this->data['item_ext_console']) ? (bool) $this->data['item_ext_console'] : false;
+	}
+
+	/**
+	* Set the extension property: Console Commands
+	*
+	* @param bool		$value	true: yes; false: no
+	* @return item_ext	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_ext_console($value)
+	{
+		$value = (bool) $value;
+
+		// This is a field only for extensions
+		if ($this->data['bb_type'] !== constants::BB_TYPE_EXT)
+		{
+			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
+		}
+
+		// Set the value on our data array
+		$this->data['item_ext_console'] = $value;
+
+		return $this;
+	}
+
+	/**
+	* Get the extension property: ext.php
+	*
+	* @return bool
+	*/
+	public function get_ext_ext_php()
+	{
+		return isset($this->data['item_ext_ext_php']) ? (bool) $this->data['item_ext_ext_php'] : false;
+	}
+
+	/**
+	* Set the extension property: ext.php
+	*
+	* @param bool		$value	true: yes; false: no
+	* @return item_ext	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function set_ext_ext_php($value)
+	{
+		$value = (bool) $value;
+
+		// This is a field only for extensions
+		if ($this->data['bb_type'] !== constants::BB_TYPE_EXT)
+		{
+			throw new \vinabb\web\exceptions\out_of_bounds('bb_type');
+		}
+
+		// Set the value on our data array
+		$this->data['item_ext_ext_php'] = $value;
 
 		return $this;
 	}
