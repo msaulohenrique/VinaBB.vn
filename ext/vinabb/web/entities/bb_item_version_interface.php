@@ -106,7 +106,7 @@ interface bb_item_version_interface
 	public function set_version($text);
 
 	/**
-	* Get the item's downloadable file
+	* Get the version's downloadable file
 	*
 	* @param string	$bb_mode	phpBB resource mode (ext|style|acp_style|lang|tool)
 	* @param bool	$real_path	True to return the path on filesystem, false to return the web access path
@@ -116,9 +116,9 @@ interface bb_item_version_interface
 	public function get_file($bb_mode, $real_path = false, $full_path = true);
 
 	/**
-	* Set the item's downloadable file
+	* Set the version's downloadable file
 	*
-	* @param string						$text	Item filename
+	* @param string						$text	Release filename
 	* @return bb_item_version_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
@@ -132,16 +132,16 @@ interface bb_item_version_interface
 	public function get_downloads();
 
 	/**
-	* Get the last updated time
+	* Get the version time
 	*
 	* @return int
 	*/
-	public function get_updated();
+	public function get_time();
 
 	/**
-	* Set the last updated time
+	* Set the version time
 	*
 	* @return bb_item_version_interface $this Object for chaining calls: load()->set()->save()
 	*/
-	public function set_updated();
+	public function set_time();
 }

@@ -67,9 +67,9 @@ class bb_item_version implements bb_item_version_interface
 			'phpbb_branch'		=> 'string',
 			'phpbb_version'		=> 'string',
 			'item_version'		=> 'string',
-			'item_file'			=> 'string',
-			'item_price'		=> 'integer',
-			'item_downloads'	=> 'integer'
+			'version_file'		=> 'string',
+			'version_downloads'	=> 'integer',
+			'version_time'		=> 'integer'
 		];
 	}
 
@@ -316,7 +316,7 @@ class bb_item_version implements bb_item_version_interface
 	}
 
 	/**
-	* Get the item's downloadable file
+	* Get the version's downloadable file
 	*
 	* @param string	$bb_mode	phpBB resource mode (ext|style|acp_style|lang|tool)
 	* @param bool	$real_path	True to return the path on filesystem, false to return the web access path
@@ -327,13 +327,13 @@ class bb_item_version implements bb_item_version_interface
 	{
 		$path = $full_path ? (($real_path ? $this->ext_root_path : $this->ext_web_path) . constants::DIR_BB_FILES . $bb_mode . 's/') : '';
 
-		return !empty($this->data['item_file']) ? (string) $path . $this->data['item_file'] : '';
+		return !empty($this->data['version_file']) ? (string) $path . $this->data['version_file'] : '';
 	}
 
 	/**
-	* Set the item's downloadable file
+	* Set the version's downloadable file
 	*
-	* @param string						$text	Item filename
+	* @param string						$text	Release filename
 	* @return bb_item_version_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
@@ -344,17 +344,17 @@ class bb_item_version implements bb_item_version_interface
 		// This is a required field
 		if ($text == '')
 		{
-			throw new \vinabb\web\exceptions\unexpected_value(['item_file', 'EMPTY']);
+			throw new \vinabb\web\exceptions\unexpected_value(['version_file', 'EMPTY']);
 		}
 
 		// Check the max length
 		if (utf8_strlen($text) > constants::MAX_CONFIG_NAME)
 		{
-			throw new \vinabb\web\exceptions\unexpected_value(['item_file', 'TOO_LONG']);
+			throw new \vinabb\web\exceptions\unexpected_value(['version_file', 'TOO_LONG']);
 		}
 
 		// Set the value on our data array
-		$this->data['item_file'] = $text;
+		$this->data['version_file'] = $text;
 
 		return $this;
 	}
@@ -366,28 +366,28 @@ class bb_item_version implements bb_item_version_interface
 	*/
 	public function get_downloads()
 	{
-		return isset($this->data['item_downloads']) ? (int) $this->data['item_downloads'] : 0;
+		return isset($this->data['version_downloads']) ? (int) $this->data['version_downloads'] : 0;
 	}
 
 	/**
-	* Get the last updated time
+	* Get the version time
 	*
 	* @return int
 	*/
-	public function get_updated()
+	public function get_time()
 	{
-		return isset($this->data['item_updated']) ? (int) $this->data['item_updated'] : 0;
+		return isset($this->data['version_time']) ? (int) $this->data['version_time'] : 0;
 	}
 
 	/**
-	* Set the last updated time
+	* Set the version time
 	*
 	* @return bb_item_version_interface $this Object for chaining calls: load()->set()->save()
 	*/
-	public function set_updated()
+	public function set_time()
 	{
 		// Set the value on our data array
-		$this->data['item_updated'] = time();
+		$this->data['version_time'] = time();
 
 		return $this;
 	}
