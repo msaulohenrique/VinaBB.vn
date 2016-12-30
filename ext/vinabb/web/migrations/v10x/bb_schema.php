@@ -87,6 +87,16 @@ class bb_schema extends migration
 				'item_ext_lang'				=> ['BOOL', 0],
 				'item_ext_db_schema'		=> ['BOOL', 0],
 				'item_ext_db_data'			=> ['BOOL', 0],
+				'item_ext_event'			=> ['BOOL', 0],
+				'item_ext_event_style'		=> ['BOOL', 0],
+				'item_ext_event_acp_style'	=> ['BOOL', 0],
+				'item_ext_module_acp'		=> ['BOOL', 0],
+				'item_ext_module_mcp'		=> ['BOOL', 0],
+				'item_ext_module_ucp'		=> ['BOOL', 0],
+				'item_ext_notification'		=> ['BOOL', 0],
+				'item_ext_cron'				=> ['BOOL', 0],
+				'item_ext_console'			=> ['BOOL', 0],
+				'item_ext_ext_php'			=> ['BOOL', 0],
 				'item_style_presets'		=> ['UINT', 0],
 				'item_style_presets_aio'	=> ['BOOL', 0],
 				'item_style_source'			=> ['BOOL', 0],
@@ -98,7 +108,10 @@ class bb_schema extends migration
 				'item_url'					=> ['VCHAR', ''],
 				'item_github'				=> ['VCHAR', ''],
 				'item_enable'				=> ['BOOL', 1],
-				'item_added'				=> ['TIMESTAMP', 0]
+				'item_downloads'			=> ['ULINT', 0],
+				'item_likes'				=> ['ULINT', 0],
+				'item_added'				=> ['TIMESTAMP', 0],
+				'item_updated'				=> ['TIMESTAMP', 0]
 			],
 			'PRIMARY_KEY' => 'item_id',
 			'KEYS' => [
@@ -122,9 +135,9 @@ class bb_schema extends migration
 				'phpbb_branch'		=> ['VCHAR:20', ''],
 				'phpbb_version'		=> ['VCHAR:20', ''],
 				'item_version'		=> ['VCHAR:20', ''],
-				'item_file'			=> ['VCHAR', ''],
-				'item_downloads'	=> ['ULINT', 0],
-				'item_updated'		=> ['TIMESTAMP', 0]
+				'version_file'		=> ['VCHAR', ''],
+				'version_downloads'	=> ['ULINT', 0],
+				'version_time'		=> ['TIMESTAMP', 0]
 			],
 			'PRIMARY_KEY' => ['item_id', 'phpbb_branch']
 		];
