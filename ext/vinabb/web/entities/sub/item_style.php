@@ -18,19 +18,6 @@ class item_style extends item_lang_tool
 	/** @var array $data */
 	protected $data;
 
-	/** @var \vinabb\web\entities\helper\helper_interface $entity_helper */
-	protected $entity_helper;
-
-	/**
-	* Constructor
-	*
-	* @param \vinabb\web\entities\helper\helper_interface $entity_helper Entity helper
-	*/
-	public function __construct(\vinabb\web\entities\helper\helper_interface $entity_helper)
-	{
-		$this->entity_helper = $entity_helper;
-	}
-
 	/**
 	* Get the style property: Number of Presets
 	*
