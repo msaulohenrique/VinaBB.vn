@@ -9,6 +9,7 @@
 namespace vinabb\web\controllers\acp;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use vinabb\web\includes\constants;
 
 /**
 * Controller for the menus_module
@@ -178,6 +179,9 @@ class menus implements menus_interface
 		// Build the parent selection
 		$this->build_parent_options($entity, $parent_id, 'add');
 
+		// Build the type selection
+		$this->build_type_options($entity, $this->data['menu_type'], 'add');
+
 		$this->template->assign_vars([
 			'S_ADD'	=> true,
 
@@ -202,6 +206,9 @@ class menus implements menus_interface
 
 		// Build the parent selection
 		$this->build_parent_options($entity);
+
+		// Build the type selection
+		$this->build_type_options($entity);
 
 		$this->template->assign_vars([
 			'S_EDIT'	=> true,
@@ -502,6 +509,29 @@ class menus implements menus_interface
 
 				'S_DISABLED'	=> $mode == 'edit' && (($option->get_left_id() > $entity->get_left_id()) && ($option->get_right_id() < $entity->get_right_id()) || ($option->get_id() == $entity->get_id())),
 				'S_SELECTED'	=> $option->get_id() == $parent_id
+			]);
+		}
+	}
+
+	/**
+	* Generate options of available menu types
+	*
+	* @param \vinabb\web\entities\menu_interface	$entity 		Menu entity
+	* @param int									$current_type	Selected menu type
+	* @param string									$mode			Add or edit mode?
+	*/
+	protected function build_type_options(\vinabb\web\entities\menu_interface $entity, $current_type = 0, $mode = 'edit')
+	{
+		$options = [constants::MENU_TYPE_URL, constants::MENU_TYPE_ROUTE, constants::MENU_TYPE_PAGE, constants::MENU_TYPE_FORUM, constants::MENU_TYPE_USER, constants::MENU_TYPE_GROUP, constants::MENU_TYPE_BOARD, constants::MENU_TYPE_PORTAL, constants::MENU_TYPE_BB];
+		$current_type = ($mode == 'edit') ? $entity->get_type() : $current_type;
+
+		foreach ($options as $option)
+		{
+			$this->template->assign_block_vars('type_options', [
+				'ID'		=> $option,
+				'NAME'		=> $this->language->lang(['MENU_TYPES', $option]),
+
+				'S_SELECTED'	=> $option == $current_type
 			]);
 		}
 	}
