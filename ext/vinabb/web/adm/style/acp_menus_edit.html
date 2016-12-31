@@ -39,6 +39,65 @@
 			<dd><select name="menu_icon" id="menu_icon">{{ ICON_OPTIONS }}</select></dd>
 		</dl>
 	</fieldset>
+	<fieldset>
+		<legend>{{ lang('ACP_CAT_PERMISSIONS') }}</legend>
+		<dl>
+			<dt><label for="menu_enable_guest">{{ lang('G_GUESTS') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="menu_enable_guest" id="menu_enable_guest" value="1"{% if MENU_ENABLE_GUEST %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="menu_enable_guest" value="0"{% if not MENU_ENABLE_GUEST %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="menu_enable_bot">{{ lang('G_BOTS') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="menu_enable_bot" id="menu_enable_bot" value="1"{% if MENU_ENABLE_BOT %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="menu_enable_bot" value="0"{% if not MENU_ENABLE_BOT %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="menu_enable_new_user">{{ lang('G_NEWLY_REGISTERED') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="menu_enable_new_user" id="menu_enable_new_user" value="1"{% if MENU_ENABLE_NEW_USER %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="menu_enable_new_user" value="0"{% if not MENU_ENABLE_NEW_USER %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="menu_enable_user">{{ lang('G_REGISTERED') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="menu_enable_user" id="menu_enable_user" value="1"{% if MENU_ENABLE_USER %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="menu_enable_user" value="0"{% if not MENU_ENABLE_USER %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="menu_enable_mod">{{ lang('MODERATORS') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="menu_enable_mod" id="menu_enable_mod" value="1"{% if MENU_ENABLE_MOD %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="menu_enable_mod" value="0"{% if not MENU_ENABLE_MOD %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="menu_enable_global_mod">{{ lang('G_GLOBAL_MODERATORS') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="menu_enable_global_mod" id="menu_enable_global_mod" value="1"{% if MENU_ENABLE_GLOBAL_MOD %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="menu_enable_global_mod" value="0"{% if not MENU_ENABLE_GLOBAL_MOD %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="menu_enable_admin">{{ lang('G_ADMINISTRATORS') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="menu_enable_admin" id="menu_enable_admin" value="1"{% if MENU_ENABLE_ADMIN %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="menu_enable_admin" value="0"{% if not MENU_ENABLE_ADMIN %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="menu_enable_founder">{{ lang('G_FOUNDERS') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="menu_enable_founder" id="menu_enable_founder" value="1"{% if MENU_ENABLE_FOUNDER %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="menu_enable_founder" value="0"{% if not MENU_ENABLE_FOUNDER %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+	</fieldset>
 	<fieldset class="submit-buttons">
 		<input class="button1" type="submit" name="submit" value="{{ lang('SUBMIT') }}">
 		<input class="button2" type="reset" name="reset" value="{{ lang('RESET') }}">
