@@ -535,4 +535,23 @@ class menus implements menus_interface
 			]);
 		}
 	}
+
+	/**
+	* Generate options of available groups
+	*
+	* @param \vinabb\web\entities\menu_interface	$entity 	Menu entity
+	* @param int									$current_id	Selected group ID
+	*/
+	protected function build_group_options(\vinabb\web\entities\menu_interface $entity, $current_id = 0)
+	{
+		foreach ($this->cache->get_groups() as $group_id => $group_data)
+		{
+			$this->template->assign_block_vars('page_options', [
+				'ID'		=> $group_id,
+				'NAME'		=> $group_data['name'],
+
+				'S_SELECTED'	=> $group_id == $current_id
+			]);
+		}
+	}
 }
