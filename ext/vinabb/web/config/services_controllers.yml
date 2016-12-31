@@ -20,6 +20,7 @@ services:
             - '@config'
             - '@service_container'
             - '@language'
+            - '@request'
             - '@template'
             - '@user'
             - '@controller.helper'
