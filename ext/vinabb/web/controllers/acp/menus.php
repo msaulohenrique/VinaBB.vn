@@ -182,6 +182,9 @@ class menus implements menus_interface
 		// Build the type selection
 		$this->build_type_options($entity, $this->data['menu_type'], 'add');
 
+		// Build the data selection
+		$this->build_data_options($entity, (int) $this->data['menu_data'], 'add');
+
 		$this->template->assign_vars([
 			'S_ADD'	=> true,
 
@@ -209,6 +212,9 @@ class menus implements menus_interface
 
 		// Build the type selection
 		$this->build_type_options($entity);
+
+		// Build the data selection
+		$this->build_data_options($entity);
 
 		$this->template->assign_vars([
 			'S_EDIT'	=> true,
@@ -537,6 +543,20 @@ class menus implements menus_interface
 	}
 
 	/**
+	* Generate groups of options for each menu type
+	*
+	* @param \vinabb\web\entities\menu_interface	$entity 	Menu entity
+	* @param int									$current_id	Selected item ID
+	* @param string									$mode		Add or edit mode?
+	*/
+	protected function build_data_options(\vinabb\web\entities\menu_interface $entity, $current_id = 0, $mode = 'edit')
+	{
+		$current_id = ($mode == 'edit') ? (int) $entity->get_data() : $current_id;
+
+		$this->build_page_options($entity, $current_id);
+		$this->build_forum_options($entity, $current_id);
+		$this->build_group_options($entity, $current_id);
+	}
 
 	/**
 	* Generate options of available pages
