@@ -303,18 +303,18 @@ class portal_comments implements portal_comments_interface
 			// Save the edited entity to the database
 			$entity->save();
 
-			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_ARTICLE_EDIT', time(), [$entity->get_name()]);
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_COMMENT_EDIT', time(), [$entity->get_article_id()]);
 
-			$message = 'MESSAGE_ARTICLE_EDIT';
+			$message = 'MESSAGE_COMMENT_EDIT';
 		}
 		else
 		{
 			// Add the new entity to the database
 			$entity = $this->operator->add_article($entity);
 
-			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_ARTICLE_ADD', time(), [$entity->get_name()]);
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_COMMENT_ADD', time(), [$entity->get_article_id()]);
 
-			$message = 'MESSAGE_ARTICLE_ADD';
+			$message = 'MESSAGE_COMMENT_ADD';
 		}
 
 		trigger_error($this->language->lang($message) . adm_back_link($this->u_action));
@@ -361,7 +361,7 @@ class portal_comments implements portal_comments_interface
 			trigger_error($this->language->lang('ERROR_COMMENT_DELETE', $e->get_message($this->language)) . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
-		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_COMMENT_DELETE', time(), [$entity->get_name()]);
+		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_COMMENT_DELETE', time(), [$entity->get_article_id()]);
 
 		// If AJAX was used, show user a result message
 		if ($this->request->is_ajax())
