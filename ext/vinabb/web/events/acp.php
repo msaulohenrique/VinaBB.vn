@@ -15,29 +15,29 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 */
 class acp implements EventSubscriberInterface
 {
-	/** @var \phpbb\db\driver\driver_interface */
+	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
 
-	/** @var \vinabb\web\controllers\cache\service_interface */
+	/** @var \vinabb\web\controllers\cache\service_interface $cache */
 	protected $cache;
 
-	/** @var \phpbb\config\config */
+	/** @var \phpbb\config\config $config */
 	protected $config;
 
-	/** @var \phpbb\template\template */
+	/** @var \phpbb\template\template $template */
 	protected $template;
 
-	/** @var \phpbb\user */
+	/** @var \phpbb\user $user */
 	protected $user;
 
 	/**
 	* Constructor
 	*
-	* @param \phpbb\db\driver\driver_interface $db
-	* @param \vinabb\web\controllers\cache\service_interface $cache
-	* @param \phpbb\config\config $config
-	* @param \phpbb\template\template $template
-	* @param \phpbb\user $user
+	* @param \phpbb\db\driver\driver_interface					$db			Database object
+	* @param \vinabb\web\controllers\cache\service_interface	$cache		Cache service
+	* @param \phpbb\config\config								$config		Config object
+	* @param \phpbb\template\template							$template	Template object
+	* @param \phpbb\user										$user		User object
 	*/
 	public function __construct(
 		\phpbb\db\driver\driver_interface $db,

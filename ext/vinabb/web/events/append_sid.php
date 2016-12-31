@@ -16,31 +16,31 @@ use vinabb\web\includes\constants;
 */
 class append_sid implements EventSubscriberInterface
 {
-	/** @var \vinabb\web\controllers\cache\service_interface */
+	/** @var \vinabb\web\controllers\cache\service_interface $cache */
 	protected $cache;
 
-	/** @var \phpbb\extension\manager */
+	/** @var \phpbb\extension\manager $ext_manager */
 	protected $ext_manager;
 
-	/** @var \phpbb\controller\helper */
+	/** @var \phpbb\controller\helper $helper */
 	protected $helper;
 
-	/** @var string */
+	/** @var string $php_ext */
 	protected $php_ext;
 
-	/** @var string */
+	/** @var string $route_name */
 	private $route_name;
 
-	/** @var array */
+	/** @var array $route_data */
 	private $route_data;
 
 	/**
 	* Constructor
 	*
-	* @param \vinabb\web\controllers\cache\service_interface $cache
-	* @param \phpbb\extension\manager $ext_manager
-	* @param \phpbb\controller\helper $helper
-	* @param string $php_ext
+	* @param \vinabb\web\controllers\cache\service_interface	$cache			Cache service
+	* @param \phpbb\extension\manager							$ext_manager	Extension manager
+	* @param \phpbb\controller\helper							$helper			Controller helper
+	* @param string												$php_ext		PHP file extension
 	*/
 	public function __construct(
 		\vinabb\web\controllers\cache\service_interface $cache,

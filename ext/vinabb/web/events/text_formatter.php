@@ -15,25 +15,25 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 */
 class text_formatter implements EventSubscriberInterface
 {
-	/** @var \vinabb\web\controllers\cache\service_interface */
+	/** @var \vinabb\web\controllers\cache\service_interface $cache */
 	protected $cache;
 
-	/** @var \phpbb\language\language */
+	/** @var \phpbb\language\language $language */
 	protected $language;
 
-	/** @var \phpbb\template\template */
+	/** @var \phpbb\template\template $template */
 	protected $template;
 
-	/** @var \vinabb\web\events\helper\helper_interface */
+	/** @var \vinabb\web\events\helper\helper_interface $event_helper */
 	protected $event_helper;
 
 	/**
 	* Constructor
 	*
-	* @param \vinabb\web\controllers\cache\service_interface $cache
-	* @param \phpbb\language\language $language
-	* @param \phpbb\template\template $template
-	* @param \vinabb\web\events\helper\helper_interface $event_helper
+	* @param \vinabb\web\controllers\cache\service_interface	$cache			Cache service
+	* @param \phpbb\language\language							$language		Language object
+	* @param \phpbb\template\template							$template		Template object
+	* @param \vinabb\web\events\helper\helper_interface			$event_helper	Event helper
 	*/
 	public function __construct(
 		\vinabb\web\controllers\cache\service_interface $cache,

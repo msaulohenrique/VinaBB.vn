@@ -16,63 +16,63 @@ use vinabb\web\includes\constants;
 */
 class common implements EventSubscriberInterface
 {
-	/** @var \phpbb\auth\auth */
+	/** @var \phpbb\auth\auth $auth */
 	protected $auth;
 
-	/** @var \vinabb\web\controllers\cache\service_interface */
+	/** @var \vinabb\web\controllers\cache\service_interface $cache */
 	protected $cache;
 
-	/** @var \phpbb\config\config */
+	/** @var \phpbb\config\config $config */
 	protected $config;
 
-	/** @var \phpbb\extension\manager */
+	/** @var \phpbb\extension\manager $ext_manager */
 	protected $ext_manager;
 
-	/** @var \phpbb\language\language */
+	/** @var \phpbb\language\language $language */
 	protected $language;
 
-	/** @var \phpbb\template\template */
+	/** @var \phpbb\template\template $template */
 	protected $template;
 
-	/** @var \phpbb\user */
+	/** @var \phpbb\user $user */
 	protected $user;
 
-	/** @var \phpbb\controller\helper */
+	/** @var \phpbb\controller\helper $helper */
 	protected $helper;
 
-	/** @var \vinabb\web\events\helper\helper_interface */
+	/** @var \vinabb\web\events\helper\helper_interface $event_helper */
 	protected $event_helper;
 
-	/** @var \vinabb\web\controllers\helper_interface */
+	/** @var \vinabb\web\controllers\helper_interface $ext_helper */
 	protected $ext_helper;
 
-	/** @var \phpbb\path_helper */
+	/** @var \phpbb\path_helper $path_helper */
 	protected $path_helper;
 
-	/** @var string */
+	/** @var string $php_ext */
 	protected $php_ext;
 
-	/** @var string */
+	/** @var string $ext_root_path */
 	protected $ext_root_path;
 
-	/** @var string */
+	/** @var string $ext_web_path */
 	protected $ext_web_path;
 
 	/**
 	* Constructor
 	*
-	* @param \phpbb\auth\auth $auth
-	* @param \vinabb\web\controllers\cache\service_interface $cache
-	* @param \phpbb\config\config $config
-	* @param \phpbb\extension\manager $ext_manager
-	* @param \phpbb\language\language $language
-	* @param \phpbb\template\template $template
-	* @param \phpbb\user $user
-	* @param \phpbb\controller\helper $helper
-	* @param \vinabb\web\events\helper\helper_interface $event_helper
-	* @param \vinabb\web\controllers\helper_interface $ext_helper
-	* @param \phpbb\path_helper $path_helper
-	* @param string $php_ext
+	* @param \phpbb\auth\auth									$auth			Authentication object
+	* @param \vinabb\web\controllers\cache\service_interface	$cache			Cache service
+	* @param \phpbb\config\config								$config			Config object
+	* @param \phpbb\extension\manager							$ext_manager	Extension manager
+	* @param \phpbb\language\language							$language		Language object
+	* @param \phpbb\template\template							$template		Template object
+	* @param \phpbb\user										$user			User object
+	* @param \phpbb\controller\helper							$helper			Controller helper
+	* @param \vinabb\web\events\helper\helper_interface			$event_helper	Event helper
+	* @param \vinabb\web\controllers\helper_interface			$ext_helper		Extension helper
+	* @param \phpbb\path_helper									$path_helper	Path helper
+	* @param string												$php_ext		PHP file extension
 	*/
 	public function __construct(
 		\phpbb\auth\auth $auth,
