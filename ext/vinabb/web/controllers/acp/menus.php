@@ -569,18 +569,17 @@ class menus implements menus_interface
 	{
 		$current_id = ($mode == 'edit') ? (int) $entity->get_data() : $current_id;
 
-		$this->build_page_options($entity, $current_id);
-		$this->build_forum_options($entity, $current_id);
-		$this->build_group_options($entity, $current_id);
+		$this->build_page_options($current_id);
+		$this->build_forum_options($current_id);
+		$this->build_group_options($current_id);
 	}
 
 	/**
 	* Generate options of available pages
 	*
-	* @param \vinabb\web\entities\menu_interface	$entity 	Menu entity
-	* @param int									$current_id	Selected page ID
+	* @param int $current_id Selected page ID
 	*/
-	protected function build_page_options(\vinabb\web\entities\menu_interface $entity, $current_id = 0)
+	protected function build_page_options($current_id = 0)
 	{
 		foreach ($this->cache->get_pages() as $page_id => $page_data)
 		{
@@ -597,10 +596,9 @@ class menus implements menus_interface
 	/**
 	* Generate options of available forums
 	*
-	* @param \vinabb\web\entities\menu_interface	$entity 	Menu entity
-	* @param int									$current_id	Selected forum ID
+	* @param int $current_id Selected forum ID
 	*/
-	protected function build_forum_options(\vinabb\web\entities\menu_interface $entity, $current_id = 0)
+	protected function build_forum_options($current_id = 0)
 	{
 		$padding = '';
 		$padding_store = [];
@@ -632,10 +630,9 @@ class menus implements menus_interface
 	/**
 	* Generate options of available groups
 	*
-	* @param \vinabb\web\entities\menu_interface	$entity 	Menu entity
-	* @param int									$current_id	Selected group ID
+	* @param int $current_id Selected group ID
 	*/
-	protected function build_group_options(\vinabb\web\entities\menu_interface $entity, $current_id = 0)
+	protected function build_group_options($current_id = 0)
 	{
 		foreach ($this->cache->get_groups() as $group_id => $group_data)
 		{
