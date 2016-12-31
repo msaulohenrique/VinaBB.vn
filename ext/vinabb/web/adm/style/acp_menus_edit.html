@@ -60,7 +60,14 @@
 		<div id="type_options_{{ MENU_TYPE_PAGE }}"{% if not MENU_TYPE == MENU_TYPE_PAGE %} style="display: none;"{% endif %}>
 			<dl>
 				<dt><label for="menu_type_{{ MENU_TYPE_PAGE }}">{{ lang('PAGE') ~ lang('COLON') }}</label></dt>
-				<dd><input class="text medium" type="url" name="menu_data" id="menu_type_{{ MENU_TYPE_PAGE }}" value="{{ AUTHOR_WWW }}" maxlength="255"></dd>
+				<dd>
+					<select name="menu_data" id="menu_type_{{ MENU_TYPE_PAGE }}">
+						<option value="0">{{ lang('SELECT_PAGE') }}</option>
+						{% for option in page_options %}
+						<option value="{{ option.ID }}"{% if option.S_SELECTED %} selected{% endif %}>{{ option.NAME }}{% if option.NAME_VI != option.NAME %} ({{ option.NAME_VI }}){% endif %}</option>
+						{% endfor %}
+					</select>
+				</dd>
 			</dl>
 		</div>
 		<div id="type_options_{{ MENU_TYPE_FORUM }}"{% if not MENU_TYPE == MENU_TYPE_FORUM %} style="display: none;"{% endif %}>
