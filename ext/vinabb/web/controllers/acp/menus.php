@@ -398,6 +398,16 @@ class menus implements menus_interface
 			'MENU_ENABLE_ADMIN'			=> $entity->get_enable_admin(),
 			'MENU_ENABLE_FOUNDER'		=> $entity->get_enable_founder(),
 
+			'MENU_TYPE_URL'		=> constants::MENU_TYPE_URL,
+			'MENU_TYPE_ROUTE'	=> constants::MENU_TYPE_ROUTE,
+			'MENU_TYPE_PAGE'	=> constants::MENU_TYPE_PAGE,
+			'MENU_TYPE_FORUM'	=> constants::MENU_TYPE_FORUM,
+			'MENU_TYPE_USER'	=> constants::MENU_TYPE_USER,
+			'MENU_TYPE_GROUP'	=> constants::MENU_TYPE_GROUP,
+			'MENU_TYPE_BOARD'	=> constants::MENU_TYPE_BOARD,
+			'MENU_TYPE_PORTAL'	=> constants::MENU_TYPE_PORTAL,
+			'MENU_TYPE_BB'		=> constants::MENU_TYPE_BB,
+
 			'ICON_OPTIONS'	=> $this->ext_helper->build_icon_list($entity->get_icon())
 		]);
 	}
