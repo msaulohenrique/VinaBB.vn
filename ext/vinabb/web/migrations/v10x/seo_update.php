@@ -9,19 +9,12 @@
 namespace vinabb\web\migrations\v10x;
 
 use phpbb\db\migration\migration;
-use vinabb\web\includes\constants;
 
 /**
 * Update for existing forum/topic/post/user columns
 */
 class seo_update extends migration
 {
-	/** @var array */
-	protected $forum_seo_names;
-
-	/** @var array */
-	protected $duplicate_forum_seo_names;
-
 	/**
 	* List of required migrations
 	*
@@ -68,48 +61,6 @@ class seo_update extends migration
 				$sql = "UPDATE $table_name
 					SET $seo_column = '" . $clean_name . "'
 					WHERE $column_id = " . $row[$column_id];
-				$this->sql_query($sql);
-
-				if ($table_name == $this->table_prefix . 'forums')
-				{
-					$this->forum_seo_names[$row[$column_id]] = $clean_name;
-				}
-			}
-			$this->db->sql_freeresult($result);
-		}
-
-		// If there have more than 2 same forum SEO names, add parent forum SEO name as prefix
-		$this->update_duplicate_forum_seo_names();
-	}
-
-	/**
-	* Add parent forum SEO name as prefix
-	*/
-	protected function update_duplicate_forum_seo_names()
-	{
-		foreach (array_count_values($this->forum_seo_names) as $forum_seo_name => $count)
-		{
-			if ($count > 1)
-			{
-				$this->duplicate_forum_seo_names[] = $forum_seo_name;
-			}
-		}
-
-		if (sizeof($this->duplicate_forum_seo_names))
-		{
-			$sql = 'SELECT forum_id, parent_id
-				FROM ' . $this->table_prefix . 'forums
-				WHERE parent_id <> 0
-					AND ' . $this->db->sql_in_set('forum_name_seo', $this->duplicate_forum_seo_names);
-			$result = $this->db->sql_query($sql);
-
-			while ($row = $this->db->sql_fetchrow($result))
-			{
-				$new_clean_name = $this->forum_seo_names[$row['parent_id']] . constants::REWRITE_URL_FORUM_CAT . $this->forum_seo_names[$row['forum_id']];
-
-				$sql = 'UPDATE ' . $this->table_prefix . "forums
-					SET forum_name_seo = '" . $new_clean_name . "'
-					WHERE forum_id = " . $row['forum_id'];
 				$this->sql_query($sql);
 			}
 			$this->db->sql_freeresult($result);
