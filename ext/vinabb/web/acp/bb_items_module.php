@@ -68,7 +68,7 @@ class bb_items_module
 		$this->page_title = $this->language->lang('ACP_BB_' . strtoupper($mode) . 'S');
 
 		// Language
-		$this->language->add_lang('acp_bb', 'vinabb/web');
+		$this->language->add_lang(['acp_bb', 'bb'], 'vinabb/web');
 
 		// Requests
 		$this->action = $this->request->variable('action', 'display');
