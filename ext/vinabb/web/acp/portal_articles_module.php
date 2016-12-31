@@ -13,7 +13,7 @@ namespace vinabb\web\acp;
 */
 class portal_articles_module
 {
-	/** @var \vinabb\web\controllers\acp\portal_comments_interface $controller */
+	/** @var \vinabb\web\controllers\acp\portal_articles_interface $controller */
 	protected $controller;
 
 	/** @var \phpbb\language\language $language */
