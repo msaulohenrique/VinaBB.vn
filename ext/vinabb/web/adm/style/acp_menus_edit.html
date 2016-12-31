@@ -37,7 +37,7 @@
 		<dl>
 			<dt><label for="menu_type">{{ lang('MENU_TYPE') ~ lang('COLON') }}</label></dt>
 			<dd>
-				<select name="menu_type" id="menu_type">
+				<select name="menu_type" id="menu_type" onchange="set_data_options(this.value)">
 					<option value="0">{{ lang('SELECT_MENU_TYPE') }}</option>
 					{% for option in type_options %}
 					<option value="{{ option.ID }}"{% if option.S_SELECTED %} selected{% endif %}>{{ option.NAME }}{{ (option.FIRSTNAME or option.LASTNAME) ? ' (' ~ option.FIRSTNAME ~ (option.LASTNAME ? ' ' ~ option.LASTNAME : '') ~ ')' : '' }}</option>
@@ -122,5 +122,25 @@
 		{{ S_FORM_TOKEN }}
 	</fieldset>
 </form>
+
+<script>
+	function set_data_options($type)
+	{
+		var dataOptions = [{{ MENU_TYPE_URL }}, {{ MENU_TYPE_ROUTE }}, {{ MENU_TYPE_PAGE }}, {{ MENU_TYPE_FORUM }}, {{ MENU_TYPE_USER }}, {{ MENU_TYPE_GROUP }}, {{ MENU_TYPE_BOARD }}, {{ MENU_TYPE_PORTAL }}, {{ MENU_TYPE_BB }}];
+		var len = dataOptions.length;
+
+		for (var i = 0; i < len; i++)
+		{
+			if (dataOptions[i] == $type)
+			{
+				phpbb.toggleDisplay('type_options_' + dataOptions[i], 1);
+			}
+			else
+			{
+				phpbb.toggleDisplay('type_options_' + dataOptions[i], -1);
+			}
+		}
+	}
+</script>
 
 {% include 'overall_footer.html' %}
