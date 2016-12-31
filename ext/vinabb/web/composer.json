@@ -2,16 +2,20 @@
 	"name": "vinabb/web",
 	"type": "phpbb-extension",
 	"description": "VinaBB.vn source code.",
-	"homepage": "http://vinabb.vn/",
+	"homepage": "https://vinabb.vn/",
 	"version": "0.4.0",
 	"time": "2016-12-12",
 	"license": "GPL-2.0",
 	"authors": [{
 		"name": "nedka",
 		"email": "nedka@vinabb.vn",
-		"homepage": "http://nedka.vn/",
+		"homepage": "https://nedka.vn/",
 		"role": "Developer"
 	}],
+	"support": {
+		"issues": "https://github.com/VinaBB/VinaBB.vn/issues",
+		"forum": "https://vinabb.vn/board"
+	},
 	"require": {
 		"php": ">=5.4",
 		"composer/installers": "~1.0"
