@@ -235,6 +235,7 @@ class service_core
 					'right_id'			=> $entity->get_right_id(),
 					'name'				=> $entity->get_name(),
 					'name_seo'			=> $entity->get_name_seo(),
+					'lang'				=> $entity->get_lang(),
 					'desc'				=> $entity->get_desc_for_display(),
 					'desc_raw'			=> $entity->get_desc_for_edit(),
 					'rules'				=> $entity->get_rules_for_display(),

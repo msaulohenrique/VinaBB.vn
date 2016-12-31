@@ -52,6 +52,7 @@ class forum extends forum_data implements forum_interface
 			'forum_parents'		=> 'string',
 			'forum_name'		=> 'string',
 			'forum_name_seo'	=> 'string',
+			'forum_lang'		=> 'string',
 
 			// Entity: vinabb\web\entities\sub\forum_data
 			'forum_type'				=> 'integer',
@@ -363,6 +364,43 @@ class forum extends forum_data implements forum_interface
 
 		// Set the value on our data array
 		$this->data['forum_name_seo'] = $text;
+
+		return $this;
+	}
+
+	/**
+	* Get the forum language
+	*
+	* @return string
+	*/
+	public function get_lang()
+	{
+		return isset($this->data['forum_lang']) ? (string) $this->data['forum_lang'] : '';
+	}
+
+	/**
+	* Set the forum language
+	*
+	* @param string				$text	2-letter language ISO code
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_lang($text)
+	{
+		$text = (string) $text;
+
+		// This is a required field
+		if ($text == '')
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['forum_lang', 'EMPTY']);
+		}
+		else if (!$this->entity_helper->check_lang_iso($text))
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['forum_lang', 'NOT_EXISTS']);
+		}
+
+		// Set the value on our data array
+		$this->data['forum_lang'] = $text;
 
 		return $this;
 	}

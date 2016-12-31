@@ -126,6 +126,22 @@ interface forum_interface
 	public function set_name_seo($text);
 
 	/**
+	* Get the forum language
+	*
+	* @return string
+	*/
+	public function get_lang();
+
+	/**
+	* Set the forum language
+	*
+	* @param string				$text	2-letter language ISO code
+	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_lang($text);
+
+	/**
 	* Get the forum type
 	*
 	* @return int
