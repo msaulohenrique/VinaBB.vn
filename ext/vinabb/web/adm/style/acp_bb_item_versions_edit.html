@@ -36,16 +36,16 @@
 		</dl>
 	</fieldset>
 	<fieldset>
-		<legend>{{ lang('ITEM_FILE') }}</legend>
-		{% if ITEM_FILE %}
+		<legend>{{ lang('VERSION_FILE') }}</legend>
+		{% if VERSION_FILE %}
 		<dl>
 			<dt style="width: 150px;">{{ lang('CURRENT_FILE') ~ lang('COLON') }}</dt>
-			<dd style="margin-{{ S_CONTENT_FLOW_BEGIN }}: 150px;"><a href="{{ ITEM_FILE }}">{{ ITEM_FILENAME }}</a></dd>
+			<dd style="margin-{{ S_CONTENT_FLOW_BEGIN }}: 150px;"><a href="{{ VERSION_FILE }}">{{ VERSION_FILENAME }}</a></dd>
 		</dl>
 		{% endif %}
 		<dl>
-			<dt style="width: 150px;"><label for="item_file">{{ lang('UPLOAD_NEW_FILE') ~ lang('COLON') }}</label></dt>
-			<dd style="margin-{{ S_CONTENT_FLOW_BEGIN }}: 150px;"><input class="inputbox autowidth" type="file" name="item_file" id="item_file"></dd>
+			<dt style="width: 150px;"><label for="version_file">{{ lang('UPLOAD_NEW_FILE') ~ lang('COLON') }}</label></dt>
+			<dd style="margin-{{ S_CONTENT_FLOW_BEGIN }}: 150px;"><input class="inputbox autowidth" type="file" name="version_file" id="version_file"></dd>
 		</dl>
 	</fieldset>
 	<fieldset class="submit-buttons">

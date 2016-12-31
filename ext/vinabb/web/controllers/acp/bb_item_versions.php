@@ -283,8 +283,8 @@ class bb_item_versions implements bb_item_versions_interface
 			'phpbb_branch'	=> substr($phpbb_version, 0, strrpos($phpbb_version, '.')),
 			'phpbb_version'	=> $phpbb_version,
 			'item_version'	=> $this->request->variable('item_version', ''),
-			'item_file'		=> $this->request->file('item_file'),
-			'item_updated'	=> time()
+			'version_file'	=> $this->request->file('version_file'),
+			'version_time'	=> time()
 		];
 	}
 
@@ -298,7 +298,7 @@ class bb_item_versions implements bb_item_versions_interface
 		$map_fields = [
 			'set_phpbb_version'	=> $this->data['phpbb_version'],
 			'set_version'		=> $this->data['item_version'],
-			'set_updated'		=> $this->data['item_updated']
+			'set_time'			=> $this->data['version_time']
 		];
 
 		// Set the mapped data in the entity
@@ -331,21 +331,21 @@ class bb_item_versions implements bb_item_versions_interface
 	*/
 	protected function upload_data(\vinabb\web\entities\bb_item_version_interface $entity)
 	{
-		if ($this->data['item_file']['name'] == '')
+		if ($this->data['version_file']['name'] == '')
 		{
-			$this->errors[] = $this->language->lang('ERROR_ITEM_FILE_EMPTY');
+			$this->errors[] = $this->language->lang('ERROR_VERSION_FILE_EMPTY');
 		}
 
 		// If there are not any input errors, then begin to upload file
-		if ($this->can_upload() && $this->data['item_file']['name'] != '' && !sizeof($this->errors))
+		if ($this->can_upload() && $this->data['version_file']['name'] != '' && !sizeof($this->errors))
 		{
 			// Delete the old file if uploaded a new one
-			if ($this->data['item_file']['name'] != '' && $this->data['item_file']['name'] != $entity->get_file($this->mode, true, false))
+			if ($this->data['version_file']['name'] != '' && $this->data['version_file']['name'] != $entity->get_file($this->mode, true, false))
 			{
 				$this->filesystem->remove($entity->get_file($this->mode, true));
 			}
 
-			$entity->set_file($this->upload_item_file('item_file'));
+			$entity->set_file($this->upload_version_file('version_file'));
 		}
 	}
 
@@ -387,10 +387,10 @@ class bb_item_versions implements bb_item_versions_interface
 	protected function data_to_tpl(\vinabb\web\entities\bb_item_version_interface $entity)
 	{
 		$this->template->assign_vars([
-			'PHPBB_VERSION'	=> $entity->get_phpbb_version(),
-			'ITEM_VERSION'	=> $entity->get_version(),
-			'ITEM_FILE'		=> $entity->get_file($this->mode, true, true),
-			'ITEM_FILENAME'	=> $entity->get_file($this->mode, true, false)
+			'PHPBB_VERSION'		=> $entity->get_phpbb_version(),
+			'ITEM_VERSION'		=> $entity->get_version(),
+			'VERSION_FILE'		=> $entity->get_file($this->mode, true, true),
+			'VERSION_FILENAME'	=> $entity->get_file($this->mode, true, false)
 		]);
 	}
 
@@ -488,11 +488,11 @@ class bb_item_versions implements bb_item_versions_interface
 	}
 
 	/**
-	* Upload item file
+	* Upload version file
 	*
 	* @return string Filename, empty if there are errors
 	*/
-	protected function upload_item_file($form_name)
+	protected function upload_version_file($form_name)
 	{
 		$this->upload->set_error_prefix('ERROR_' . strtoupper($form_name) . '_')
 			->set_allowed_extensions(constants::FILE_EXTENSION_BB_FILES)
