@@ -27,6 +27,11 @@ Source code on VinaBB.vn without private bits.
 * Install the style "VinaBB".
 * Have done 😊
 
+## Patch phpBB bugs
+* `./phpbb/template/twig/extension.php`
+  * PHP Notice: Array to string conversion... when using `{{ lang(['ABC', 'X']) }}`
+    * Open this file, find `if (isset($context_vars['L_' . $key]))`, replace with `if (!is_array($key) && isset($context_vars['L_' . $key]))`.
+
 ## Patch minified JS files (When update a newer version)
 * `highlight.min.js`
   * Find `template_from_string`, add to range `lang`.
