@@ -34,6 +34,8 @@ $lang = array_merge($lang, [
 	'CAT_NAME'					=> 'Category name',
 	'CAT_PARENT'				=> 'Parent category',
 	'CAT_VARNAME'				=> 'Varname',
+	'COMMENT_STATUS_HIDE'		=> 'Hidden',
+	'COMMENT_STATUS_PENDING'	=> 'Pending',
 	'CONFIRM_DELETE_ARTICLE'	=> 'Are you sure you want to delete this article?',
 	'CONFIRM_DELETE_CAT'		=> 'Are you sure you want to delete this category?',
 

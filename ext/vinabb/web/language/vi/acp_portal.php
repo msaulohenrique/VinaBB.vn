@@ -34,6 +34,8 @@ $lang = array_merge($lang, [
 	'CAT_NAME'					=> 'Tên danh mục',
 	'CAT_PARENT'				=> 'Danh mục cha',
 	'CAT_VARNAME'				=> 'Tên biến',
+	'COMMENT_STATUS_HIDE'		=> 'Ẩn',
+	'COMMENT_STATUS_PENDING'	=> 'Chờ duyệt',
 	'CONFIRM_DELETE_ARTICLE'	=> 'Bạn chắc chắn muốn xóa bài viết này?',
 	'CONFIRM_DELETE_CAT'		=> 'Bạn chắc chắn muốn xóa danh mục này?',
 
