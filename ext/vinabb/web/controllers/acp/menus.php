@@ -266,10 +266,10 @@ class menus implements menus_interface
 	protected function request_data()
 	{
 		$this->data = [
+			'menu_type'					=> $this->request->variable('menu_type', 0),
 			'parent_id'					=> $this->request->variable('parent_id', 0),
 			'menu_name'					=> $this->request->variable('menu_name', '', true),
 			'menu_name_vi'				=> $this->request->variable('menu_name_vi', '', true),
-			'menu_type'					=> $this->request->variable('menu_type', 0),
 			'menu_icon'					=> $this->request->variable('menu_icon', ''),
 			'menu_data'					=> $this->request->variable('menu_data', ''),
 			'menu_target'				=> $this->request->variable('menu_target', false),
@@ -292,10 +292,10 @@ class menus implements menus_interface
 	protected function map_set_data(\vinabb\web\entities\menu_interface $entity)
 	{
 		$map_fields = [
+			'set_type'				=> $this->data['menu_type'],
 			'set_parent_id'			=> $this->data['parent_id'],
 			'set_name'				=> $this->data['menu_name'],
 			'set_name_vi'			=> $this->data['menu_name_vi'],
-			'set_type'				=> $this->data['menu_type'],
 			'set_icon'				=> $this->data['menu_icon'],
 			'set_data'				=> $this->data['menu_data'],
 			'set_target'			=> $this->data['menu_target'],
