@@ -275,12 +275,12 @@ class portal_comments implements portal_comments_interface
 		}
 
 		// Set the mapped data in the entity
-		foreach ($map_fields as $entity_function => $article_data)
+		foreach ($map_fields as $entity_function => $comment_data)
 		{
 			try
 			{
-				// Calling the $entity_function on the entity and passing it $article_data
-				$entity->$entity_function($article_data);
+				// Calling the $entity_function on the entity and passing it $comment_data
+				$entity->$entity_function($comment_data);
 			}
 			catch (\vinabb\web\exceptions\base $e)
 			{
@@ -310,7 +310,7 @@ class portal_comments implements portal_comments_interface
 		else
 		{
 			// Add the new entity to the database
-			$entity = $this->operator->add_article($entity);
+			$entity = $this->operator->add_comment($entity);
 
 			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PORTAL_COMMENT_ADD', time(), [$entity->get_article_id()]);
 
