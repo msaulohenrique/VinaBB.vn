@@ -6,7 +6,7 @@
 	{% set GROUP_BG_COLOR = '' %}
 	{% if team.GROUP_RANK_RAW in ['FOUNDER', 'ADMINISTRATOR'] %}
 		{% set GROUP_BG_COLOR = 'danger' %}
-	{% elseif team.GROUP_RANK_RAW == 'DEVELOPER' %}
+	{% elseif team.GROUP_RANK_RAW == 'RELEASE_MANAGER' %}
 		{% set GROUP_BG_COLOR = 'teal' %}
 	{% elseif team.GROUP_RANK_RAW == 'MANAGER' %}
 		{% set GROUP_BG_COLOR = 'success' %}
