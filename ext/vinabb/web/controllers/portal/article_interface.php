@@ -29,4 +29,19 @@ interface article_interface
 	* @return \Symfony\Component\HttpFoundation\Response
 	*/
 	public function print_page($article_id);
+
+	/**
+	* Generate template variables for the article author
+	*
+	* @param int $user_id User ID
+	*/
+	public function get_author_info($user_id);
+
+	/**
+	* Display comments from the article
+	*
+	* @param int	$article_id		Article ID
+	* @param int	$author_user_id	User ID
+	*/
+	public function display_comments($article_id, $author_user_id);
 }

@@ -16,54 +16,64 @@ use vinabb\web\includes\constants;
 */
 class article implements article_interface
 {
-	/** @var \vinabb\web\controllers\cache\service_interface */
+	/** @var \phpbb\auth\auth $auth */
+	protected $auth;
+
+	/** @var \vinabb\web\controllers\cache\service_interface $cache */
 	protected $cache;
 
-	/** @var \phpbb\config\config */
+	/** @var \phpbb\config\config $config */
 	protected $config;
 
-	/** @var ContainerInterface */
+	/** @var ContainerInterface $container */
 	protected $container;
 
-	/** @var \phpbb\language\language */
+	/** @var \phpbb\language\language $language */
 	protected $language;
 
-	/** @var \phpbb\template\template */
+	/** @var \phpbb\request\request $request */
+	protected $request;
+
+	/** @var \phpbb\template\template $template */
 	protected $template;
 
-	/** @var \phpbb\user */
+	/** @var \phpbb\user $user */
 	protected $user;
 
-	/** @var \phpbb\controller\helper */
+	/** @var \phpbb\controller\helper $helper */
 	protected $helper;
 
-	/** @var \vinabb\web\controllers\helper_interface */
+	/** @var \vinabb\web\controllers\helper_interface $ext_helper */
 	protected $ext_helper;
 
-	/** @var string */
+	/** @var string $php_ext */
 	protected $php_ext;
 
-	/** @var array */
+	/** @var array $portal_cats */
 	protected $portal_cats;
 
 	/**
 	* Constructor
 	*
+	* @param \phpbb\auth\auth									$auth			Authentication object
 	* @param \vinabb\web\controllers\cache\service_interface	$cache			Cache service
 	* @param \phpbb\config\config								$config			Config object
 	* @param ContainerInterface									$container		Container object
 	* @param \phpbb\language\language							$language		Language object
+	* @param \phpbb\request\request								$request		Request object
 	* @param \phpbb\template\template							$template		Template object
-	* @param \phpbb\user										$user			User  object
+	* @param \phpbb\user										$user			User object
 	* @param \phpbb\controller\helper							$helper			Controller helper
 	* @param \vinabb\web\controllers\helper_interface			$ext_helper		Extension helper
 	* @param string												$php_ext		PHP file extension
 	*/
 	public function __construct(
+		\phpbb\auth\auth $auth,
 		\vinabb\web\controllers\cache\service_interface $cache,
 		\phpbb\config\config $config,
 		ContainerInterface $container,
 		\phpbb\language\language $language,
+		\phpbb\request\request $request,
 		\phpbb\template\template $template,
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
@@ -71,10 +81,12 @@ class article implements article_interface
 		$php_ext
 	)
 	{
+		$this->auth = $auth;
 		$this->cache = $cache;
 		$this->config = $config;
 		$this->container = $container;
 		$this->language = $language;
+		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
 		$this->helper = $helper;
@@ -130,6 +142,10 @@ class article implements article_interface
 				// Author info
 				$this->get_author_info($entity->get_user_id());
 
+				// Comments
+				$this->display_comments($article_id, $entity->get_user_id());
+				$this->ext_helper->load_sceditor();
+
 				$this->template->assign_vars([
 					'ARTICLE_NAME'			=> $entity->get_name(),
 					'ARTICLE_NAME_SHARE'	=> html_entity_decode($entity->get_name()),
@@ -141,6 +157,7 @@ class article implements article_interface
 
 					'ARTICLE_SHARE_URL'	=> htmlspecialchars_decode($this->helper->get_current_url()),
 					'U_PRINT'			=> $this->helper->route('vinabb_web_portal_article_print_route', ['varname' => $cat_varname, 'seo' => $entity->get_name_seo() . constants::REWRITE_URL_SEO, 'article_id' => $article_id]),
+					'U_ACTION'			=> $this->helper->get_current_url(),
 
 					'S_PORTAL_ARTICLE'	=> true
 				]);
@@ -166,7 +183,7 @@ class article implements article_interface
 	*
 	* @param int $user_id User ID
 	*/
-	protected function get_author_info($user_id)
+	public function get_author_info($user_id)
 	{
 		/** @var \vinabb\web\entities\user_interface $entity */
 		$entity = $this->container->get('vinabb.web.entities.user')->load($user_id);
@@ -185,5 +202,28 @@ class article implements article_interface
 
 			'U_AUTHOR'	=> get_username_string('profile', $user_id, $entity->get_username(), $entity->get_colour()),
 		]);
+	}
+
+	/**
+	* Display comments from the article
+	*
+	* @param int	$article_id		Article ID
+	* @param int	$author_user_id	User ID
+	*/
+	public function display_comments($article_id, $author_user_id)
+	{
+		$entities = $this->container->get('vinabb.web.operators.portal_comment')->get_comments($article_id);
+
+		/** @var \vinabb\web\entities\portal_comment_interface $entity */
+		foreach ($entities as $entity)
+		{
+			$this->template->assign_block_vars('comments', [
+				'TEXT'	=> $entity->get_text_for_display(),
+				'TIME'	=> $this->user->format_date($entity->get_time()),
+
+				'S_AUTHOR'	=> $entity->get_user_id() == $author_user_id,
+				'S_PENDING'	=> $entity->get_pending() == constants::ARTICLE_COMMENT_MODE_PENDING
+			]);
+		}
 	}
 }
