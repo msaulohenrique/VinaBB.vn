@@ -598,7 +598,7 @@ class menus implements menus_interface
 	{
 		foreach ($this->cache->get_forum_data() as $forum_id => $forum_data)
 		{
-			$this->template->assign_block_vars('page_options', [
+			$this->template->assign_block_vars('forum_options', [
 				'ID'		=> $forum_id,
 				'NAME'		=> $forum_data['name'],
 
@@ -617,7 +617,7 @@ class menus implements menus_interface
 	{
 		foreach ($this->cache->get_groups() as $group_id => $group_data)
 		{
-			$this->template->assign_block_vars('page_options', [
+			$this->template->assign_block_vars('group_options', [
 				'ID'		=> $group_id,
 				'NAME'		=> $group_data['name'],
 
