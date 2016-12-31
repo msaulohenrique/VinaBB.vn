@@ -2,39 +2,37 @@
 
 {% if headlines %}
 <div class="row">
-	<div class="col-md-12">
-		<div class="panel panel-default">
-			<div id="myCarousel" class="carousel slide" data-ride="carousel">
-				<!-- Indicators -->
-				<ol class="carousel-indicators">
-					{% for headline in headlines %}
-					<li data-target="#myCarousel" data-slide-to="{{ loop.index0 }}"{% if loop.first %} class="active"{% endif %}></li>
-					{% endfor %}
-				</ol>
+	<div class="panel panel-default">
+		<div id="myCarousel" class="carousel slide" data-ride="carousel">
+			<!-- Indicators -->
+			<ol class="carousel-indicators">
+				{% for headline in headlines %}
+				<li data-target="#myCarousel" data-slide-to="{{ loop.index0 }}"{% if loop.first %} class="active"{% endif %}></li>
+				{% endfor %}
+			</ol>
 
-				<!-- Wrapper for slides -->
-				<div class="carousel-inner" role="listbox">
-					{% for headline in headlines %}
-					<div class="item{% if loop.first %} active{% endif %}">
-						{% if headline.URL %}<a href="{{ headline.URL }}" target="_blank">{% endif %}<img src="{{ headline.IMG }}" alt="{{ headline.NAME }}" class="img-responsive">{% if headline.URL %}</a>{% endif %}
-						<div class="carousel-caption">
-							<h3>{{ headline.NAME }}</h3>
-							<p>{{ headline.DESC }}</p>
-						</div>
+			<!-- Wrapper for slides -->
+			<div class="carousel-inner" role="listbox">
+				{% for headline in headlines %}
+				<div class="item{% if loop.first %} active{% endif %}">
+					{% if headline.URL %}<a href="{{ headline.URL }}" target="_blank">{% endif %}<img src="{{ headline.IMG }}" alt="{{ headline.NAME }}" class="img-responsive">{% if headline.URL %}</a>{% endif %}
+					<div class="carousel-caption">
+						<h3>{{ headline.NAME }}</h3>
+						<p>{{ headline.DESC }}</p>
 					</div>
-					{% endfor %}
 				</div>
-
-				<!-- Left and right controls -->
-				<a class="{{ S_LEFT }} carousel-control" href="#myCarousel" role="button" data-slide="prev">
-					<span class="glyphicon glyphicon-chevron-{{ S_LEFT }}" aria-hidden="true"></span>
-					<span class="sr-only">{{ lang('PREVIOUS') }}</span>
-				</a>
-				<a class="{{ S_RIGHT }} carousel-control" href="#myCarousel" role="button" data-slide="next">
-					<span class="glyphicon glyphicon-chevron-{{ S_RIGHT }}" aria-hidden="true"></span>
-					<span class="sr-only">{{ lang('NEXT') }}</span>
-				</a>
+				{% endfor %}
 			</div>
+
+			<!-- Left and right controls -->
+			<a class="{{ S_LEFT }} carousel-control" href="#myCarousel" role="button" data-slide="prev">
+				<span class="glyphicon glyphicon-chevron-{{ S_LEFT }}" aria-hidden="true"></span>
+				<span class="sr-only">{{ lang('PREVIOUS') }}</span>
+			</a>
+			<a class="{{ S_RIGHT }} carousel-control" href="#myCarousel" role="button" data-slide="next">
+				<span class="glyphicon glyphicon-chevron-{{ S_RIGHT }}" aria-hidden="true"></span>
+				<span class="sr-only">{{ lang('NEXT') }}</span>
+			</a>
 		</div>
 	</div>
 </div>
