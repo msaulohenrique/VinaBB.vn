@@ -277,6 +277,7 @@ $lang = array_merge($lang, [
 	'OS'			=> 'Hệ điều hành',
 	'OS_ALL'		=> 'Đa nền tảng',
 
+	'PAGE'						=> 'Trang',
 	'PAYPAL'					=> 'PayPal',
 	'PHONE'						=> 'Điện thoại',
 	'PHP_VERSION_X'				=> 'PHP %s',
@@ -305,6 +306,7 @@ $lang = array_merge($lang, [
 	],
 	'REAL_NAME'		=> 'Tên thật',
 	'RESOURCES'		=> 'Tài nguyên',
+	'ROUTE_NAME'	=> 'Tên đường dẫn',
 
 	'SAVE'					=> 'Lưu',
 	'SCRUTINIZER'			=> 'Scrutinizer',

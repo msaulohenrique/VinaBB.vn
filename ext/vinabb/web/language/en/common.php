@@ -277,6 +277,7 @@ $lang = array_merge($lang, [
 	'OS'			=> 'OS',
 	'OS_ALL'		=> 'Cross-platform',
 
+	'PAGE'						=> 'Page',
 	'PAYPAL'					=> 'PayPal',
 	'PHONE'						=> 'Phone',
 	'PHP_VERSION_X'				=> 'PHP %s',
@@ -305,6 +306,7 @@ $lang = array_merge($lang, [
 	],
 	'REAL_NAME'		=> 'Real name',
 	'RESOURCES'		=> 'Resources',
+	'ROUTE_NAME'	=> 'Route name',
 
 	'SAVE'					=> 'Save',
 	'SCRUTINIZER'			=> 'Scrutinizer',
