@@ -192,6 +192,19 @@ class helper_core
 		if (!isset($forum_ids))
 		{
 			$forum_ids = array_keys($this->auth->acl_getf('f_read', true));
+
+			// Only pick forums in the user language
+			$lang_forum_ids = [];
+
+			foreach ($this->cache->get_forum_data() as $forum_id => $forum_data)
+			{
+				if ($forum_data['lang'] == $this->user->lang_name)
+				{
+					$lang_forum_ids[] = $forum_id;
+				}
+			}
+
+			$forum_ids = array_intersect($forum_ids, $lang_forum_ids);
 		}
 
 		return $forum_ids;
