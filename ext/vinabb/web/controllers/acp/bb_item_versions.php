@@ -162,6 +162,8 @@ class bb_item_versions implements bb_item_versions_interface
 				'VERSION'		=> $entity->get_version(),
 				'FILE'			=> $entity->get_file($this->mode, true, true),
 				'FILENAME'		=> $entity->get_file($this->mode, true, false),
+				'DOWNLOADS'		=> $entity->get_downloads(),
+				'TIME'			=> $this->user->format_date($entity->get_time()),
 
 				'U_EDIT'	=> "{$this->u_action}&action=edit&branch={$entity->get_phpbb_branch()}",
 				'U_DELETE'	=> "{$this->u_action}&action=delete&branch={$entity->get_phpbb_branch()}"
