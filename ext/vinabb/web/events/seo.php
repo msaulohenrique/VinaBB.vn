@@ -22,20 +22,30 @@ class seo implements EventSubscriberInterface
 	/** @var \vinabb\web\controllers\cache\service_interface */
 	protected $cache;
 
+	/** @var \phpbb\request\request $request */
+	protected $request;
+
 	/** @var \vinabb\web\controllers\helper_interface */
 	protected $ext_helper;
 
 	/**
 	* Constructor
 	*
-	* @param \phpbb\db\driver\driver_interface $db
-	* @param \vinabb\web\controllers\cache\service_interface $cache
-	* @param \vinabb\web\controllers\helper_interface $ext_helper
+	* @param \phpbb\db\driver\driver_interface					$db				Database object
+	* @param \vinabb\web\controllers\cache\service_interface	$cache			Cache service
+	* @param \phpbb\request\request								$request		Request object
+	* @param \vinabb\web\controllers\helper_interface			$ext_helper		Extension helper
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \vinabb\web\controllers\cache\service_interface $cache, \vinabb\web\controllers\helper_interface $ext_helper)
+	public function __construct(
+		\phpbb\db\driver\driver_interface $db,
+		\vinabb\web\controllers\cache\service_interface $cache,
+		\phpbb\request\request $request,
+		\vinabb\web\controllers\helper_interface $ext_helper
+	)
 	{
 		$this->db = $db;
 		$this->cache = $cache;
+		$this->request = $request;
 		$this->ext_helper = $ext_helper;
 	}
 
@@ -47,8 +57,9 @@ class seo implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return [
-			'core.submit_post_modify_sql_data'			=> 'submit_post_modify_sql_data',
-			'core.acp_manage_forums_update_data_before'	=> 'acp_manage_forums_update_data_before'
+			'core.submit_post_modify_sql_data'		=> 'submit_post_modify_sql_data',
+			'core.acp_manage_forums_request_data'	=> 'acp_manage_forums_request_data',
+			'core.acp_manage_forums_display_form'	=> 'acp_manage_forums_display_form'
 		];
 	}
 
@@ -76,43 +87,27 @@ class seo implements EventSubscriberInterface
 	}
 
 	/**
-	* core.acp_manage_forums_update_data_before
+	* core.acp_manage_forums_request_data
 	*
 	* @param array $event Data from the PHP event
 	*/
-	public function acp_manage_forums_update_data_before($event)
+	public function acp_manage_forums_request_data($event)
 	{
-		// Adjust the column 'forum_name_seo' based on 'forum_name'
-		$forum_data_sql = $event['forum_data_sql'];
-		$forum_data_sql['forum_name_seo'] = $this->ext_helper->clean_url($forum_data_sql['forum_name']);
+		$forum_data = $event['forum_data'];
+		$forum_data['forum_name_seo'] = $this->ext_helper->clean_url($this->request->variable('forum_name_seo', ''));
+		$event['forum_data'] = $forum_data;
+	}
 
-		// If there have more than 2 same forum SEO names, add parent forum SEO name as prefix
-		if ($forum_data_sql['parent_id'])
-		{
-			$forum_data = $this->cache->get_forum_data();
-
-			$sql = 'SELECT forum_id, parent_id, forum_name_seo
-				FROM ' . FORUMS_TABLE . '
-				WHERE forum_id <> ' . $forum_data_sql['forum_id'] . "
-					AND forum_name = '" . $this->db->sql_escape($forum_data_sql['forum_name']) . "'";
-			$result = $this->db->sql_query($sql);
-			$rows = $this->db->sql_fetchrowset($result);
-			$this->db->sql_freeresult($result);
-
-			if (sizeof($rows))
-			{
-				foreach ($rows as $row)
-				{
-					$sql = 'UPDATE ' . FORUMS_TABLE . "
-						SET forum_name_seo = '" . $forum_data[$row['parent_id']]['name_seo'] . constants::REWRITE_URL_FORUM_CAT . $row['forum_name_seo'] . "'
-						WHERE forum_id = " . $row['forum_id'];
-					$this->db->sql_query($sql);
-				}
-
-				$forum_data_sql['forum_name_seo'] = $forum_data[$forum_data_sql['parent_id']]['name_seo'] . constants::REWRITE_URL_FORUM_CAT . $forum_data_sql['forum_name_seo'];
-			}
-		}
-
-		$event['forum_data_sql'] = $forum_data_sql;
+	/**
+	* core.acp_manage_forums_display_form
+	*
+	* @param array $event Data from the PHP event
+	*/
+	public function acp_manage_forums_display_form($event)
+	{
+		$forum_data = $event['forum_data'];
+		$template_data = $event['template_data'];
+		$template_data['FORUM_NAME_SEO'] = $forum_data['forum_name_seo'];
+		$event['template_data'] = $template_data;
 	}
 }
