@@ -16,18 +16,25 @@ interface portal_comment_interface
 	/**
 	* Get number of comments
 	*
-	* @param int	$article_id	Article ID
-	* @param int	$user_id	User ID
+	* @param int $article_id Article ID
 	* @return int
 	*/
-	public function count_comments($article_id = 0, $user_id = 0);
+	public function count_comments($article_id = 0);
 
 	/**
-	* Get all comments
+	* Get all comments from an article
+	*
+	* @param int $article_id Article ID
+	* @return array
+	*/
+	public function get_comments($article_id);
+
+	/**
+	* Get all pending comments
 	*
 	* @return array
 	*/
-	public function get_comments();
+	public function get_pending_comments();
 
 	/**
 	* Add a comment
