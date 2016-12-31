@@ -21,8 +21,14 @@ class seo implements EventSubscriberInterface
 	/** @var \vinabb\web\controllers\cache\service_interface */
 	protected $cache;
 
+	/** @var \phpbb\config\config $config */
+	protected $config;
+
 	/** @var \phpbb\request\request $request */
 	protected $request;
+
+	/** @var \phpbb\template\template $template */
+	protected $template;
 
 	/** @var \vinabb\web\controllers\helper_interface */
 	protected $ext_helper;
@@ -32,19 +38,25 @@ class seo implements EventSubscriberInterface
 	*
 	* @param \phpbb\db\driver\driver_interface					$db				Database object
 	* @param \vinabb\web\controllers\cache\service_interface	$cache			Cache service
+	* @param \phpbb\config\config								$config			Config object
 	* @param \phpbb\request\request								$request		Request object
+	* @param \phpbb\template\template							$template		Template object
 	* @param \vinabb\web\controllers\helper_interface			$ext_helper		Extension helper
 	*/
 	public function __construct(
 		\phpbb\db\driver\driver_interface $db,
 		\vinabb\web\controllers\cache\service_interface $cache,
+		\phpbb\config\config $config,
 		\phpbb\request\request $request,
+		\phpbb\template\template $template,
 		\vinabb\web\controllers\helper_interface $ext_helper
 	)
 	{
 		$this->db = $db;
 		$this->cache = $cache;
+		$this->config = $config;
 		$this->request = $request;
+		$this->template = $template;
 		$this->ext_helper = $ext_helper;
 	}
 
@@ -94,6 +106,7 @@ class seo implements EventSubscriberInterface
 	{
 		$forum_data = $event['forum_data'];
 		$forum_data['forum_name_seo'] = $this->ext_helper->clean_url($this->request->variable('forum_name_seo', ''));
+		$forum_data['forum_lang'] = $this->request->variable('forum_lang', '');
 		$event['forum_data'] = $forum_data;
 	}
 
@@ -108,5 +121,9 @@ class seo implements EventSubscriberInterface
 		$template_data = $event['template_data'];
 		$template_data['FORUM_NAME_SEO'] = $forum_data['forum_name_seo'];
 		$event['template_data'] = $template_data;
+
+		// Select the forum language
+		$action = $event['action'];
+		$this->template->assign_var('LANG_OPTIONS', $this->ext_helper->build_lang_list(($action == 'add') ? $this->config['default_lang'] : $forum_data['forum_lang']));
 	}
 }

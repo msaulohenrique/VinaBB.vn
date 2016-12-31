@@ -40,7 +40,9 @@ services:
         arguments:
             - '@dbal.conn'
             - '@vinabb.web.cache'
+            - '@config'
             - '@request'
+            - '@template'
             - '@vinabb.web.helper'
         tags:
             - { name: event.listener }
