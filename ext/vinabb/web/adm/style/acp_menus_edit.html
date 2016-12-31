@@ -49,6 +49,13 @@
 			<dt><label for="menu_icon">{{ lang('MENU_ICON') ~ lang('COLON') }}</label></dt>
 			<dd><select name="menu_icon" id="menu_icon">{{ ICON_OPTIONS }}</select></dd>
 		</dl>
+		<dl>
+			<dt><label for="menu_target">{{ lang('MENU_TARGET') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="menu_target" id="menu_target" value="1"{% if MENU_TARGET %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="menu_target" value="0"{% if not MENU_TARGET %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
 	</fieldset>
 	<fieldset>
 		<legend>{{ lang('ACP_CAT_PERMISSIONS') }}</legend>
