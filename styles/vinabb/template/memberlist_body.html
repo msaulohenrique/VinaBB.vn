@@ -10,7 +10,7 @@
 	{% set BG_COLOR = '' %}
 	{% if row.RANK_TITLE_RAW in ['FOUNDER', 'ADMINISTRATOR'] %}
 		{% set BG_COLOR = 'danger' %}
-	{% elseif row.RANK_TITLE_RAW == 'DEVELOPER' %}
+	{% elseif row.RANK_TITLE_RAW == 'RELEASE_MANAGER' %}
 		{% set BG_COLOR = 'teal' %}
 	{% elseif row.RANK_TITLE_RAW == 'MANAGER' %}
 		{% set BG_COLOR = 'success' %}

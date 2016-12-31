@@ -24,7 +24,7 @@
 			{% set USER_BG_COLOR = '' %}
 			{% if user.RANK_TITLE_RAW in ['FOUNDER', 'ADMINISTRATOR'] %}
 				{% set USER_BG_COLOR = 'danger' %}
-			{% elseif user.RANK_TITLE_RAW == 'DEVELOPER' %}
+			{% elseif user.RANK_TITLE_RAW == 'RELEASE_MANAGER' %}
 				{% set USER_BG_COLOR = 'teal' %}
 			{% elseif user.RANK_TITLE_RAW == 'MANAGER' %}
 				{% set USER_BG_COLOR = 'success' %}
