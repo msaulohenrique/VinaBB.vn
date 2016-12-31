@@ -163,7 +163,10 @@ class bb_items implements bb_items_interface
 				'URL'		=> $entity->get_url(),
 				'GITHUB'	=> $entity->get_github(),
 				'ENABLE'	=> $entity->get_enable(),
+				'DOWNLOADS'	=> $entity->get_downloads(),
+				'LIKES'		=> $entity->get_likes(),
 				'ADDED'		=> $this->user->format_date($entity->get_added()),
+				'UPDATED'	=> $this->user->format_date($entity->get_updated()),
 
 				'U_VERSION'	=> append_sid("index.{$this->php_ext}", "i=-vinabb-web-acp-bb_item_versions_module&mode={$this->mode}&id={$entity->get_id()}"),
 				'U_EDIT'	=> "{$this->u_action}&action=edit&id={$entity->get_id()}",
