@@ -9,8 +9,8 @@
 /* global navigator */
 /* global $l_copy_explain */
 /* global $l_copy_success */
-/* global $l_copy_error_prepend */
-/* global $l_copy_error_append */
+/* global $l_copy_error */
+/* global $l_copy_error_mac */
 /* global $load_sceditor */
 /* global $sceditor_lang */
 /* global $sceditor_smilies */
@@ -75,11 +75,10 @@ $(document).ready(function()
 
 		clipboard.on('error', function(event)
 		{
-			var modifierKey = /Mac/i.test(navigator.userAgent) ? '\u2318+' : 'Ctrl+';
-			var fallbackMsg = $l_copy_error_prepend + ' ' + modifierKey + $l_copy_error_append;
+			var errorMsg = /Mac/i.test(navigator.userAgent) ? $l_copy_error_mac : $l_copy_error;
 
 			$(event.trigger)
-				.attr('data-original-title', fallbackMsg)
+				.attr('data-original-title', errorMsg)
 				.tooltip('fixTitle')
 				.tooltip('show')
 				.attr('data-original-title', $l_copy_explain)
