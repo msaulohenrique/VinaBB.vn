@@ -31,6 +31,7 @@ $lang = array_merge($lang, [
 	'ERROR_MENU_NAME_EMPTY'			=> 'You must enter a menu title.',
 	'ERROR_MENU_NAME_TOO_LONG'		=> 'The menu title is too long.',
 	'ERROR_MENU_NAME_VI_TOO_LONG'	=> 'The Vietnamese menu title is too long.',
+	'ERROR_MENU_TYPE_EMPTY'			=> 'You must select a menu type.',
 
 	'MENU_DETAILS'			=> 'Menu details',
 	'MENU_ICON'				=> 'Menu icon',

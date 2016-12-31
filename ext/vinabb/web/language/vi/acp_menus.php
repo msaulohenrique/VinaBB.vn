@@ -31,6 +31,7 @@ $lang = array_merge($lang, [
 	'ERROR_MENU_NAME_EMPTY'			=> 'Chưa nhập tên trình đơn.',
 	'ERROR_MENU_NAME_TOO_LONG'		=> 'Tên trình đơn quá dài.',
 	'ERROR_MENU_NAME_VI_TOO_LONG'	=> 'Tên trình đơn tiếng Việt quá dài.',
+	'ERROR_MENU_TYPE_EMPTY'			=> 'Chưa chọn loại trình đơn.',
 
 	'MENU_DETAILS'			=> 'Dữ liệu trình đơn',
 	'MENU_ICON'				=> 'Biểu tượng',
