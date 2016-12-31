@@ -24,6 +24,9 @@ class seo implements EventSubscriberInterface
 	/** @var \phpbb\config\config $config */
 	protected $config;
 
+	/** @var \phpbb\language\language $language */
+	protected $language;
+
 	/** @var \phpbb\request\request $request */
 	protected $request;
 
@@ -39,6 +42,7 @@ class seo implements EventSubscriberInterface
 	* @param \phpbb\db\driver\driver_interface					$db				Database object
 	* @param \vinabb\web\controllers\cache\service_interface	$cache			Cache service
 	* @param \phpbb\config\config								$config			Config object
+	* @param \phpbb\language\language							$language		Language object
 	* @param \phpbb\request\request								$request		Request object
 	* @param \phpbb\template\template							$template		Template object
 	* @param \vinabb\web\controllers\helper_interface			$ext_helper		Extension helper
@@ -47,6 +51,7 @@ class seo implements EventSubscriberInterface
 		\phpbb\db\driver\driver_interface $db,
 		\vinabb\web\controllers\cache\service_interface $cache,
 		\phpbb\config\config $config,
+		\phpbb\language\language $language,
 		\phpbb\request\request $request,
 		\phpbb\template\template $template,
 		\vinabb\web\controllers\helper_interface $ext_helper
@@ -55,6 +60,7 @@ class seo implements EventSubscriberInterface
 		$this->db = $db;
 		$this->cache = $cache;
 		$this->config = $config;
+		$this->language = $language;
 		$this->request = $request;
 		$this->template = $template;
 		$this->ext_helper = $ext_helper;
@@ -70,7 +76,8 @@ class seo implements EventSubscriberInterface
 		return [
 			'core.submit_post_modify_sql_data'		=> 'submit_post_modify_sql_data',
 			'core.acp_manage_forums_request_data'	=> 'acp_manage_forums_request_data',
-			'core.acp_manage_forums_display_form'	=> 'acp_manage_forums_display_form'
+			'core.acp_manage_forums_display_form'	=> 'acp_manage_forums_display_form',
+			'core.acp_manage_forums_validate_data'	=> 'acp_manage_forums_validate_data'
 		];
 	}
 
@@ -117,6 +124,7 @@ class seo implements EventSubscriberInterface
 	*/
 	public function acp_manage_forums_display_form($event)
 	{
+		// Output the current forum SEO name to template variables
 		$forum_data = $event['forum_data'];
 		$template_data = $event['template_data'];
 		$template_data['FORUM_NAME_SEO'] = $forum_data['forum_name_seo'];
@@ -125,5 +133,23 @@ class seo implements EventSubscriberInterface
 		// Select the forum language
 		$action = $event['action'];
 		$this->template->assign_var('LANG_OPTIONS', $this->ext_helper->build_lang_list(($action == 'add') ? $this->config['default_lang'] : $forum_data['forum_lang']));
+	}
+
+	/**
+	* core.acp_manage_forums_validate_data
+	*
+	* @param array $event Data from the PHP event
+	*/
+	public function acp_manage_forums_validate_data($event)
+	{
+		$forum_data = $event['forum_data'];
+		$errors = $event['errors'];
+
+		if ($forum_data['forum_lang'] == '')
+		{
+			$errors[] = $this->language->lang('ERROR_FORUM_LANG_EMPTY');
+		}
+
+		$event['errors'] = $errors;
 	}
 }

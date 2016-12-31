@@ -41,6 +41,7 @@ services:
             - '@dbal.conn'
             - '@vinabb.web.cache'
             - '@config'
+            - '@language'
             - '@request'
             - '@template'
             - '@vinabb.web.helper'
