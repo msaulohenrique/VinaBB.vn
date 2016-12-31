@@ -125,13 +125,13 @@ class seo implements EventSubscriberInterface
 	public function acp_manage_forums_display_form($event)
 	{
 		// Output the current forum SEO name to template variables
+		$action = $event['action'];
 		$forum_data = $event['forum_data'];
 		$template_data = $event['template_data'];
-		$template_data['FORUM_NAME_SEO'] = $forum_data['forum_name_seo'];
+		$template_data['FORUM_NAME_SEO'] = ($action == 'add') ? '' : $forum_data['forum_name_seo'];
 		$event['template_data'] = $template_data;
 
 		// Select the forum language
-		$action = $event['action'];
 		$this->template->assign_var('LANG_OPTIONS', $this->ext_helper->build_lang_list(($action == 'add') ? $this->config['default_lang'] : $forum_data['forum_lang']));
 	}
 
