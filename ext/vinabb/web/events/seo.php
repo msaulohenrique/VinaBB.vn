@@ -9,7 +9,6 @@
 namespace vinabb\web\events;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use vinabb\web\includes\constants;
 
 /**
 * PHP events
