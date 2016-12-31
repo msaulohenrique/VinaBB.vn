@@ -46,3 +46,6 @@ Source code on VinaBB.vn without private bits.
   * Set emoticon width/height to 16x16 pixels.
     * Find `data-sceditor-emoticon="{key}"`, in-line add after ` width="16" height="16"`.
     * Find `src:d.url||d,`, in-line add after `width:16,height:16,`.
+* `jquery.slimscroll.min.js`
+  * Only display the scroll bar once the specified height is reached.
+    * Find `height:a.height` and replace with `"max-height":a.height` (2 times).
