@@ -19,6 +19,9 @@ class menu extends menu_enable implements menu_interface
 	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
 
+	/** @var \vinabb\web\entities\helper\helper_interface $entity_helper */
+	protected $entity_helper;
+
 	/** @var string $table_name */
 	protected $table_name;
 
@@ -28,12 +31,14 @@ class menu extends menu_enable implements menu_interface
 	/**
 	* Constructor
 	*
-	* @param \phpbb\db\driver\driver_interface	$db				Database object
-	* @param string								$table_name		Table name
+	* @param \phpbb\db\driver\driver_interface				$db				Database object
+	* @param \vinabb\web\entities\helper\helper_interface	$entity_helper	Entity helper
+	* @param string											$table_name		Table name
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, $table_name)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \vinabb\web\entities\helper\helper_interface $entity_helper, $table_name)
 	{
 		$this->db = $db;
+		$this->entity_helper = $entity_helper;
 		$this->table_name = $table_name;
 	}
 
@@ -212,6 +217,29 @@ class menu extends menu_enable implements menu_interface
 	public function get_parent_id()
 	{
 		return isset($this->data['parent_id']) ? (int) $this->data['parent_id'] : 0;
+	}
+
+	/**
+	* Set the parent menu ID
+	*
+	* @param int				$id		Parent ID
+	* @return menu_interface	$this	Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\unexpected_value
+	*/
+	public function set_parent_id($id)
+	{
+		$id = (int) $id;
+
+		// Check existing menu
+		if ($id && !$this->entity_helper->check_menu_id($id))
+		{
+			throw new \vinabb\web\exceptions\unexpected_value(['parent_id', 'NOT_EXISTS']);
+		}
+
+		// Set the value on our data array
+		$this->data['parent_id'] = $id;
+
+		return $this;
 	}
 
 	/**

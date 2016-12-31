@@ -149,6 +149,7 @@ services:
         shared: false
         arguments:
             - '@dbal.conn'
+            - '@vinabb.web.helper.entity'
             - '%vinabb.web.tables.menus%'
     vinabb.web.entities.headline:
         class: vinabb\web\entities\headline
