@@ -39,7 +39,20 @@ $lang = array_merge($lang, [
 	'MENU_PARENT'			=> 'Trình đơn cha',
 	'MENU_TARGET'			=> 'Mở trang mới',
 	'MENU_TYPE'				=> 'Loại trình đơn',
+	'MENU_TYPES'			=> [
+		1	=> 'Liên kết',
+		2	=> 'Đường dẫn',
+		3	=> 'Trang',
+		4	=> 'Trang chuyên mục',
+		5	=> 'Trang người dùng',
+		6	=> 'Trang nhóm',
+		7	=> 'Diễn đàn',
+		8	=> 'Tin tức',
+		9	=> 'Thư viện phpBB'
+	],
 	'MESSAGE_MENU_ADD'		=> 'Đã tạo trình đơn.',
 	'MESSAGE_MENU_DELETE'	=> 'Đã xóa trình đơn.',
-	'MESSAGE_MENU_EDIT'		=> 'Đã sửa trình đơn.'
+	'MESSAGE_MENU_EDIT'		=> 'Đã sửa trình đơn.',
+
+	'SELECT_MENU_TYPE'	=> 'Chọn loại trình đơn'
 ]);

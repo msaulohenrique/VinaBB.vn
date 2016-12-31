@@ -39,7 +39,20 @@ $lang = array_merge($lang, [
 	'MENU_PARENT'			=> 'Parent menu',
 	'MENU_TARGET'			=> 'Open in new tab',
 	'MENU_TYPE'				=> 'Menu type',
+	'MENU_TYPES'			=> [
+		1	=> 'Custom URL',
+		2	=> 'Route',
+		3	=> 'Page',
+		4	=> 'Forum page',
+		5	=> 'User page',
+		6	=> 'Group page',
+		7	=> 'Board',
+		8	=> 'Portal',
+		9	=> 'phpBB Resource'
+	],
 	'MESSAGE_MENU_ADD'		=> 'The menu has been created.',
 	'MESSAGE_MENU_DELETE'	=> 'The menu has been deleted.',
-	'MESSAGE_MENU_EDIT'		=> 'The menu has been edited.'
+	'MESSAGE_MENU_EDIT'		=> 'The menu has been edited.',
+
+	'SELECT_MENU_TYPE'	=> 'Select a menu type'
 ]);
