@@ -342,6 +342,13 @@ $(document).ready(function()
 		alwaysVisible: false
 	});
 
+	$('.scrollDiv-lg').slimScroll({
+		color: '#eee',
+		size: '5px',
+		height: '500px',
+		alwaysVisible: false
+	});
+
 	// iCheck
 	$('input').iCheck({
 		checkboxClass: 'icheckbox_flat-blue',
