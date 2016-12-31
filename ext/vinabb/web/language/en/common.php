@@ -205,11 +205,12 @@ $lang = array_merge($lang, [
 	'FORUM_LANG'			=> 'Forum language',
 	'FORUM_NAME_SEO'		=> 'Forum SEO name',
 
-	'G_DEVELOPMENT_TEAM'	=> 'Developers',
+	'G_DEVELOPMENT_TEAM'	=> 'Development Team',
 	'G_FOUNDERS'			=> 'Founders',
-	'G_MANAGEMENT_TEAM'		=> 'Managers',
+	'G_MANAGEMENT_TEAM'		=> 'Management Team',
 	'G_MODERATOR_TEAM'		=> 'Moderators',
-	'G_SUPPORT_TEAM'		=> 'Supporters',
+	'G_RELEASE_TEAM'		=> 'Release Team',
+	'G_SUPPORT_TEAM'		=> 'Support Team',
 	'GITHUB'				=> 'GitHub',
 
 	'INSIGHT'	=> 'SensioLabs Insight',

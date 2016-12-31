@@ -209,6 +209,7 @@ $lang = array_merge($lang, [
 	'G_FOUNDERS'			=> 'Sáng lập viên',
 	'G_MANAGEMENT_TEAM'		=> 'Nhóm quản lý',
 	'G_MODERATOR_TEAM'		=> 'Điều hành viên',
+	'G_RELEASE_TEAM'		=> 'Nhóm phát hành',
 	'G_SUPPORT_TEAM'		=> 'Nhóm hỗ trợ',
 	'GITHUB'				=> 'GitHub',
 
