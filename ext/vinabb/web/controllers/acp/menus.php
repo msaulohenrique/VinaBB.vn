@@ -43,6 +43,9 @@ class menus implements menus_interface
 	/** @var \vinabb\web\controllers\helper_interface $ext_helper */
 	protected $ext_helper;
 
+	/** @var \phpbb\group\helper $group_helper */
+	protected $group_helper;
+
 	/** @var string $u_action */
 	protected $u_action;
 
@@ -55,15 +58,16 @@ class menus implements menus_interface
 	/**
 	* Constructor
 	*
-	* @param \vinabb\web\controllers\cache\service_interface	$cache		Cache service
-	* @param ContainerInterface									$container	Container object
-	* @param \phpbb\language\language							$language	Language object
-	* @param \phpbb\log\log										$log		Log object
-	* @param \vinabb\web\operators\menu_interface				$operator	Menu operators
-	* @param \phpbb\request\request								$request	Request object
-	* @param \phpbb\template\template							$template	Template object
-	* @param \phpbb\user										$user		User object
-	* @param \vinabb\web\controllers\helper_interface			$ext_helper	Extension helper
+	* @param \vinabb\web\controllers\cache\service_interface	$cache			Cache service
+	* @param ContainerInterface									$container		Container object
+	* @param \phpbb\language\language							$language		Language object
+	* @param \phpbb\log\log										$log			Log object
+	* @param \vinabb\web\operators\menu_interface				$operator		Menu operators
+	* @param \phpbb\request\request								$request		Request object
+	* @param \phpbb\template\template							$template		Template object
+	* @param \phpbb\user										$user			User object
+	* @param \vinabb\web\controllers\helper_interface			$ext_helper		Extension helper
+	* @param \phpbb\group\helper								$group_helper	Group helper
 	*/
 	public function __construct(
 		\vinabb\web\controllers\cache\service_interface $cache,
@@ -74,7 +78,8 @@ class menus implements menus_interface
 		\phpbb\request\request $request,
 		\phpbb\template\template $template,
 		\phpbb\user $user,
-		\vinabb\web\controllers\helper_interface $ext_helper
+		\vinabb\web\controllers\helper_interface $ext_helper,
+		\phpbb\group\helper $group_helper
 	)
 	{
 		$this->cache = $cache;
@@ -86,6 +91,7 @@ class menus implements menus_interface
 		$this->template = $template;
 		$this->user = $user;
 		$this->ext_helper = $ext_helper;
+		$this->group_helper = $group_helper;
 	}
 
 	/**
@@ -635,7 +641,7 @@ class menus implements menus_interface
 		{
 			$this->template->assign_block_vars('group_options', [
 				'ID'		=> $group_id,
-				'NAME'		=> $group_data['name'],
+				'NAME'		=> $this->group_helper->get_name($group_data['name']),
 
 				'S_SELECTED'	=> $group_id == $current_id
 			]);

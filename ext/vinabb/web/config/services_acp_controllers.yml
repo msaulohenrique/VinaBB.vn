@@ -139,6 +139,7 @@ services:
             - '@template'
             - '@user'
             - '@vinabb.web.helper'
+            - '@group_helper'
     vinabb.web.acp.headlines:
         class: vinabb\web\controllers\acp\headlines
         arguments:
