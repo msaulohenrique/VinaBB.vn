@@ -305,6 +305,7 @@ $lang = array_merge($lang, [
 		'MANAGER'			=> 'Management Team',
 		'MEMBER'			=> 'Member',
 		'MODERATOR'			=> 'Moderator',
+		'RELEASE_MANAGER'	=> 'Release Team',
 		'SUPPORTER'			=> 'Support Team'
 	],
 	'REAL_NAME'		=> 'Real name',

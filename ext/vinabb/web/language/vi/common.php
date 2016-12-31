@@ -305,6 +305,7 @@ $lang = array_merge($lang, [
 		'MANAGER'			=> 'Nhóm quản lý',
 		'MEMBER'			=> 'Thành viên',
 		'MODERATOR'			=> 'Điều hành viên',
+		'RELEASE_MANAGER'	=> 'Nhóm phát hành',
 		'SUPPORTER'			=> 'Nhóm hỗ trợ'
 	],
 	'REAL_NAME'		=> 'Tên thật',
