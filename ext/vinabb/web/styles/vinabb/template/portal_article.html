@@ -1,44 +1,101 @@
 {% include 'overall_header.html' %}
 
-<div class="panel panel-default">
-	<div class="panel-body">
-		{% if not S_IS_BOT %}
-		<div class="pull-{{ S_RIGHT }}">
-			<button type="button" id="btnPrint" data-tooltip="true" data-placement="{{ S_LEFT }}" title="{{ lang('PRINT') }}" class="btn btn-border btn-primary btn-sm"><i class="fa fa-print"></i></button>
-		</div>
-		{% endif %}
-		<h3 class="font-300 text-primary">{{ ARTICLE_NAME }}</h3>
+<div class="row">
+	<div class="panel panel-default">
+		<div class="panel-body">
+			{% if not S_IS_BOT %}
+			<div class="pull-{{ S_RIGHT }}">
+				<button type="button" id="btnPrint" data-tooltip="true" data-placement="{{ S_LEFT }}" title="{{ lang('PRINT') }}" class="btn btn-border btn-primary btn-sm"><i class="fa fa-print"></i></button>
+			</div>
+			{% endif %}
+			<h3 class="font-300 text-primary">{{ ARTICLE_NAME }}</h3>
 
-		<hr class="clearfix">
+			<hr>
 
-		{% if ARTICLE_IMG %}
-		<img id="article_img" src="{{ ARTICLE_IMG }}" alt="{{ ARTICLE_NAME }}" class="img-responsive center-block">
-		{% endif %}
+			{% if ARTICLE_IMG %}
+			<img id="article_img" src="{{ ARTICLE_IMG }}" alt="{{ ARTICLE_NAME }}" class="img-responsive center-block">
+			{% endif %}
 
-		<div class="media margin-b-20">
-			<a class="pull-{{ S_LEFT }}" href="{{ U_AUTHOR }}"><img class="media-object img-circle" src="{{ AUTHOR_AVATAR }}" width="40" alt="{{ AUTHOR_USERNAME }}"></a>
-			<div class="media-body">
-				{% if not S_IS_BOT %}
-				<span class="pull-{{ S_RIGHT }}">
-					<a id="shareFacebook" href="https://www.facebook.com/sharer/sharer.php?u={{ ARTICLE_SHARE_URL|url_encode }}&title={{ ARTICLE_NAME_SHARE|url_encode }}&description={{ ARTICLE_DESC_SHARE|url_encode }}" target="_blank" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false;" data-tooltip="true" title="{{ lang('SHARE_ON', lang('FACEBOOK')) }}" class="btn btn-facebook"><i class="fa fa-fw fa-facebook"></i></a>
-					<a id="shareTwitter" href="https://twitter.com/share?url={{ ARTICLE_SHARE_URL|url_encode }}&text={{ ARTICLE_NAME_SHARE|url_encode }}" target="_blank" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false;" data-tooltip="true" title="{{ lang('SHARE_ON', lang('TWITTER')) }}" class="btn btn-twitter"><i class="fa fa-fw fa-twitter"></i></a>
-					<a id="shareGooglePlus" href="https://plus.google.com/share?url={{ ARTICLE_SHARE_URL|url_encode }}" target="_blank" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=400'); return false;" data-tooltip="true" title="{{ lang('SHARE_ON', lang('GOOGLEPLUS')) }}" class="btn btn-googleplus"><i class="fa fa-fw fa-google-plus"></i></a>
-				</span>
-				{% endif %}
-				<h4 class="font-400 margin-b-0">{{ AUTHOR }}</h4>
-				<small class="text-muted">{{ ARTICLE_TIME }}</small>
+			<div class="media margin-b-20">
+				<a class="pull-{{ S_LEFT }}" href="{{ U_AUTHOR }}"><img class="media-object img-circle" src="{{ AUTHOR_AVATAR }}" width="40" alt="{{ AUTHOR_USERNAME }}"></a>
+				<div class="media-body">
+					{% if not S_IS_BOT %}
+					<span class="pull-{{ S_RIGHT }}">
+						<a id="shareFacebook" href="https://www.facebook.com/sharer/sharer.php?u={{ ARTICLE_SHARE_URL|url_encode }}&title={{ ARTICLE_NAME_SHARE|url_encode }}&description={{ ARTICLE_DESC_SHARE|url_encode }}" target="_blank" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false;" data-tooltip="true" title="{{ lang('SHARE_ON', lang('FACEBOOK')) }}" class="btn btn-facebook"><i class="fa fa-fw fa-facebook"></i></a>
+						<a id="shareTwitter" href="https://twitter.com/share?url={{ ARTICLE_SHARE_URL|url_encode }}&text={{ ARTICLE_NAME_SHARE|url_encode }}" target="_blank" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false;" data-tooltip="true" title="{{ lang('SHARE_ON', lang('TWITTER')) }}" class="btn btn-twitter"><i class="fa fa-fw fa-twitter"></i></a>
+						<a id="shareGooglePlus" href="https://plus.google.com/share?url={{ ARTICLE_SHARE_URL|url_encode }}" target="_blank" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=400'); return false;" data-tooltip="true" title="{{ lang('SHARE_ON', lang('GOOGLEPLUS')) }}" class="btn btn-googleplus"><i class="fa fa-fw fa-google-plus"></i></a>
+					</span>
+					{% endif %}
+					<h4 class="font-400 margin-b-0">{{ AUTHOR }}</h4>
+					<small class="text-muted">{{ ARTICLE_TIME }}</small>
+				</div>
+			</div>
+
+			<div class="fontsize-15 text-justify">
+				<blockquote>{{ ARTICLE_DESC }}</blockquote>
+				<p>{{ ARTICLE_TEXT }}</p>
+			</div>
+
+			<hr>
+
+			<div class="margin-b-20 text-{{ S_RIGHT }}">
+				<span>{{ SITENAME }}</span>
 			</div>
 		</div>
+	</div>
+</div>
 
-		<div class="fontsize-15 text-justify">
-			<blockquote>{{ ARTICLE_DESC }}</blockquote>
-			<p>{{ ARTICLE_TEXT }}</p>
+<div class="row" id="comments">
+	<div class="panel panel-default padding-5">
+		<div class="panel-heading">
+			<h3 class="font-300 text-primary"><i class="fa fa-comments"></i> {{ lang('COMMENTS') }}</h3>
 		</div>
+		{% if comments %}
+		<div class="panel-body no-padding">
+			<div class="row scrollDiv-lg">
+				<div class="chat-room padding-20">
+					<ul class="chat-list list-unstyled">
+						{% for comment in comments %}
+						{% if comment.S_AUTHOR %}
+						<li class="clearfix chat-element {{ S_RIGHT }}">
+							<a href="{{ comment.U_PROFILE }}" class="pull-{{ S_RIGHT }}"><img src="{{ comment.AVATAR }}" alt="{{ comment.USERNAME }}" class="img-circle"></a>
+							<div class="media-body text-{{ S_RIGHT }}">
+								<div class="speech-box">
+									<small class="pull-{{ S_LEFT }} text-primary">{{ comment.TIME }}</small>
+									<strong>{{ comment.USERNAME_FULL }}</strong>
+									<p class="margin-b-0 text-right">{{ comment.TEXT }}</p>
+									<small class="text-info">{{ lang('ARTICLE_AUTHOR') }}</small>
+								</div>
+							</div>
+						</li>
+						{% else %}
+						<li class="clearfix chat-element">
+							<a href="{{ comment.U_PROFILE }}" class="pull-{{ S_LEFT }}"><img src="{{ comment.AVATAR }}" alt="{{ comment.USERNAME }}" class="img-circle"></a>
+							<div class="media-body ">
+								<div class="speech-box">
+									<small class="pull-{{ S_RIGHT }} text-primary">{{ comment.TIME }}</small>
+									<strong>{{ comment.USERNAME_FULL }}</strong>
+									<p class="margin-b-0">{{ comment.TEXT }}</p>
+									{% if comment.S_PENDING %}<small class="text-info">{{ lang('COMMENT_PENDING') }}</small>{% endif %}
+								</div>
+							</div>
+						</li>
+						{% endif %}
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+		<div class="panel-footer">
+			<form class="form-horizontal" method="post" action="{{ U_ACTION }}">
+				<textarea class="form-control" data-toggle="wysiwyg-editor" name="comment_text" rows="7"></textarea>
 
-		<hr>
-
-		<div class="margin-b-20 text-{{ S_RIGHT }}">
-			<span>{{ SITENAME }}</span>
+				<div class="mail-body text-center">
+					{{ S_FORM_TOKEN }}
+					<input class="btn btn-primary" type="submit" name="post" value="{{ lang('SUBMIT') }}">
+				</div>
+			</form>
 		</div>
 	</div>
 </div>
