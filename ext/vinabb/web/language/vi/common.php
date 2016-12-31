@@ -200,6 +200,7 @@ $lang = array_merge($lang, [
 		<li>Dù trong túi hết tiền thì diễn đàn phpBB của anh cũng phải ngay ngắn.</li>
 	',
 	'FOOTER_RULE_TITLE'		=> 'Quan điểm',
+	'FORUM_NAME_SEO'		=> 'Tên SEO chuyên mục',
 
 	'G_DEVELOPMENT_TEAM'	=> 'Nhóm phát triển',
 	'G_FOUNDERS'			=> 'Sáng lập viên',
@@ -333,6 +334,7 @@ $lang = array_merge($lang, [
 	'UPLOAD_NEW_IMAGE'	=> 'Tải hình mới lên',
 	'USER_ID'			=> 'ID tài khoản',
 
+	'VARNAME'			=> 'Tên biến',
 	'VERSION'			=> 'Phiên bản',
 	'VIETNAMESE'		=> 'Tiếng Việt',
 	'VIEW_DETAILS'		=> 'Xem chi tiết',
