@@ -201,6 +201,7 @@ $lang = array_merge($lang, [
 		<li>Dù trong túi hết tiền thì diễn đàn phpBB của anh cũng phải ngay ngắn.</li>
 	',
 	'FOOTER_RULE_TITLE'		=> 'Quan điểm',
+	'FORUM_LANG'			=> 'Ngôn ngữ',
 	'FORUM_NAME_SEO'		=> 'Tên SEO chuyên mục',
 
 	'G_DEVELOPMENT_TEAM'	=> 'Nhóm phát triển',

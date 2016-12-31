@@ -201,6 +201,7 @@ $lang = array_merge($lang, [
 		<li>Never confuse the size of your wallet with the size of your phpBB forum.</li>
 	',
 	'FOOTER_RULE_TITLE'		=> 'Rules',
+	'FORUM_LANG'			=> 'Forum language',
 	'FORUM_NAME_SEO'		=> 'Forum SEO name',
 
 	'G_DEVELOPMENT_TEAM'	=> 'Developers',
