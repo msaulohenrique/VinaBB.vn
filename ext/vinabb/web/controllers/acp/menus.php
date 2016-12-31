@@ -539,6 +539,26 @@ class menus implements menus_interface
 	/**
 
 	/**
+	* Generate options of available pages
+	*
+	* @param \vinabb\web\entities\menu_interface	$entity 	Menu entity
+	* @param int									$current_id	Selected page ID
+	*/
+	protected function build_page_options(\vinabb\web\entities\menu_interface $entity, $current_id = 0)
+	{
+		foreach ($this->cache->get_pages() as $page_id => $page_data)
+		{
+			$this->template->assign_block_vars('page_options', [
+				'ID'		=> $page_id,
+				'NAME'		=> $page_data['name'],
+				'NAME_VI'	=> $page_data['name_vi'],
+
+				'S_SELECTED'	=> $page_id == $current_id
+			]);
+		}
+	}
+
+	/**
 	* Generate options of available forums
 	*
 	* @param \vinabb\web\entities\menu_interface	$entity 	Menu entity
