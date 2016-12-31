@@ -73,7 +73,14 @@
 		<div id="type_options_{{ MENU_TYPE_FORUM }}"{% if not MENU_TYPE == MENU_TYPE_FORUM %} style="display: none;"{% endif %}>
 			<dl>
 				<dt><label for="menu_type_{{ MENU_TYPE_FORUM }}">{{ lang('FORUM') ~ lang('COLON') }}</label></dt>
-				<dd><input class="text medium" type="url" name="menu_data" id="menu_type_{{ MENU_TYPE_FORUM }}" value="{{ AUTHOR_WWW }}" maxlength="255"></dd>
+				<dd>
+					<select name="menu_data" id="menu_type_{{ MENU_TYPE_FORUM }}">
+						<option value="0">{{ lang('SELECT_FORUM') }}</option>
+						{% for option in forum_options %}
+						<option value="{{ option.ID }}"{% if option.S_SELECTED %} selected{% endif %}>{{ option.NAME }}</option>
+						{% endfor %}
+					</select>
+				</dd>
 			</dl>
 		</div>
 		<div id="type_options_{{ MENU_TYPE_USER }}"{% if not MENU_TYPE == MENU_TYPE_USER %} style="display: none;"{% endif %}>
