@@ -596,11 +596,27 @@ class menus implements menus_interface
 	*/
 	protected function build_forum_options(\vinabb\web\entities\menu_interface $entity, $current_id = 0)
 	{
+		$padding = '';
+		$padding_store = [];
+		$right = 0;
+
 		foreach ($this->cache->get_forum_data() as $forum_id => $forum_data)
 		{
+			if ($forum_data['left_id'] < $right)
+			{
+				$padding .= '&nbsp;&nbsp;';
+				$padding_store[$forum_data['parent_id']] = $padding;
+			}
+			else if ($forum_data['left_id'] > $right + 1)
+			{
+				$padding = isset($padding_store[$forum_data['parent_id']]) ? $padding_store[$forum_data['parent_id']] : '';
+			}
+
+			$right = $forum_data['right_id'];
+
 			$this->template->assign_block_vars('forum_options', [
 				'ID'		=> $forum_id,
-				'NAME'		=> $forum_data['name'],
+				'NAME'		=> $padding . $forum_data['name'],
 
 				'S_SELECTED'	=> $forum_id == $current_id
 			]);
