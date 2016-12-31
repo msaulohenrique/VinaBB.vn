@@ -96,7 +96,7 @@ class headlines_module
 		}
 		else
 		{
-			$this->controller->display_headlines($this->lang);
+			$this->controller->display_headlines();
 		}
 	}
 
@@ -107,7 +107,7 @@ class headlines_module
 	{
 		$this->tpl_name = 'acp_headlines_edit';
 		$this->page_title = $this->language->lang('ADD_HEADLINE');
-		$this->controller->add_headline($this->lang);
+		$this->controller->add_headline();
 	}
 
 	/**
@@ -125,7 +125,7 @@ class headlines_module
 	*/
 	private function action_move_down()
 	{
-		$this->controller->move_headline($this->lang, $this->headline_id, 'down');
+		$this->controller->move_headline($this->headline_id, 'down');
 		$this->action_display();
 	}
 
@@ -134,7 +134,7 @@ class headlines_module
 	*/
 	private function action_move_up()
 	{
-		$this->controller->move_headline($this->lang, $this->headline_id, 'up');
+		$this->controller->move_headline($this->headline_id, 'up');
 		$this->action_display();
 	}
 
