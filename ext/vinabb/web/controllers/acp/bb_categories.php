@@ -294,7 +294,7 @@ class bb_categories
 			// Save the edited entity to the database
 			$entity->save();
 
-			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_BB_CAT_EDIT', time(), [$entity->get_name()]);
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_BB_{$this->lang_key}_CAT_EDIT", time(), [$entity->get_name()]);
 
 			$message = 'MESSAGE_CAT_EDIT';
 		}
@@ -303,7 +303,7 @@ class bb_categories
 			// Add the new entity to the database
 			$entity = $this->operator->add_cat($entity, $this->bb_type);
 
-			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_BB_CAT_ADD', time(), [$entity->get_name()]);
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_BB_{$this->lang_key}_CAT_ADD", time(), [$entity->get_name()]);
 
 			$message = 'MESSAGE_CAT_ADD';
 		}
@@ -389,7 +389,7 @@ class bb_categories
 			trigger_error($this->language->lang('ERROR_CAT_DELETE', $e->get_message($this->language)) . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
-		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_BB_CAT_DELETE', time(), [$entity->get_name()]);
+		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, "LOG_BB_{$this->lang_key}_CAT_DELETE", time(), [$entity->get_name()]);
 		$this->cache->clear_bb_cats($this->bb_type);
 
 		// If AJAX was used, show user a result message
