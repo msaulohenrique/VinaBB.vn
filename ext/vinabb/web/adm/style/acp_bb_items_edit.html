@@ -123,32 +123,32 @@
 	<fieldset>
 		<legend>{{ lang('ITEM_STYLE_DETAILS') }}</legend>
 		<dl>
-			<dt><label for="item_style_presets">{{ lang('ITEM_STYLE_PRESETS') ~ lang('COLON') }}</label></dt>
+			<dt><label for="item_style_presets">{{ lang(['STYLE_PROPERTIES', 'PRESETS']) ~ lang('COLON') }}</label></dt>
 			<dd><input type="number" name="item_style_presets" id="item_style_presets" min="0" value="{{ ITEM_STYLE_PRESETS }}" maxlength="255"></dd>
 		</dl>
 		<dl>
-			<dt><label for="item_style_presets_aio">{{ lang('ITEM_STYLE_PRESETS_AIO') ~ lang('COLON') }}</label></dt>
+			<dt><label for="item_style_presets_aio">{{ lang(['STYLE_PROPERTIES', 'PRESETS_AIO']) ~ lang('COLON') }}</label></dt>
 			<dd>
 				<label><input type="radio" class="radio" name="item_style_presets_aio" id="item_style_presets_aio" value="1"{% if ITEM_STYLE_PRESETS_AIO %} checked{% endif %}> {{ lang('YES') }}</label>
 				<label><input type="radio" class="radio" name="item_style_presets_aio" value="0"{% if not ITEM_STYLE_PRESETS_AIO %} checked{% endif %}> {{ lang('NO') }}</label>
 			</dd>
 		</dl>
 		<dl>
-			<dt><label for="item_style_source">{{ lang('ITEM_STYLE_SOURCE') ~ lang('COLON') }}</label></dt>
+			<dt><label for="item_style_source">{{ lang(['STYLE_PROPERTIES', 'SOURCE']) ~ lang('COLON') }}</label></dt>
 			<dd>
 				<label><input type="radio" class="radio" name="item_style_source" id="item_style_source" value="1"{% if ITEM_STYLE_SOURCE %} checked{% endif %}> {{ lang('YES') }}</label>
 				<label><input type="radio" class="radio" name="item_style_source" value="0"{% if not ITEM_STYLE_SOURCE %} checked{% endif %}> {{ lang('NO') }}</label>
 			</dd>
 		</dl>
 		<dl>
-			<dt><label for="item_style_responsive">{{ lang('ITEM_STYLE_RESPONSIVE') ~ lang('COLON') }}</label></dt>
+			<dt><label for="item_style_responsive">{{ lang(['STYLE_PROPERTIES', 'RESPONSIVE']) ~ lang('COLON') }}</label></dt>
 			<dd>
 				<label><input type="radio" class="radio" name="item_style_responsive" id="item_style_responsive" value="1"{% if ITEM_STYLE_RESPONSIVE %} checked{% endif %}> {{ lang('YES') }}</label>
 				<label><input type="radio" class="radio" name="item_style_responsive" value="0"{% if not ITEM_STYLE_RESPONSIVE %} checked{% endif %}> {{ lang('NO') }}</label>
 			</dd>
 		</dl>
 		<dl>
-			<dt><label for="item_style_bootstrap">{{ lang('ITEM_STYLE_BOOTSTRAP') ~ lang('COLON') }}</label></dt>
+			<dt><label for="item_style_bootstrap">{{ lang(['STYLE_PROPERTIES', 'BOOTSTRAP']) ~ lang('COLON') }}</label></dt>
 			<dd>
 				<label><input type="radio" class="radio" name="item_style_bootstrap" id="item_style_bootstrap" value="1"{% if ITEM_STYLE_BOOTSTRAP %} checked{% endif %}> {{ lang('YES') }}</label>
 				<label><input type="radio" class="radio" name="item_style_bootstrap" value="0"{% if not ITEM_STYLE_BOOTSTRAP %} checked{% endif %}> {{ lang('NO') }}</label>
