@@ -175,6 +175,7 @@ $lang = array_merge($lang, [
 		'WTF'				=> 'WTF'
 	],
 	'ENGLISH'					=> 'English',
+	'ERROR_FORUM_LANG_EMPTY'	=> 'You must select a language.',
 	'ERROR_USER_ID_EMPTY'		=> 'No users specified.',
 	'ERROR_USER_ID_NOT_EXISTS'	=> 'The user does not exist.',
 

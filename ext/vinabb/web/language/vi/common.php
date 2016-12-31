@@ -175,6 +175,7 @@ $lang = array_merge($lang, [
 		'WTF'				=> 'Biến tìm muốn tắt tiếng'
 	],
 	'ENGLISH'					=> 'Tiếng Anh',
+	'ERROR_FORUM_LANG_EMPTY'	=> 'Chưa chọn ngôn ngữ.',
 	'ERROR_USER_ID_EMPTY'		=> 'Người dùng không xác định.',
 	'ERROR_USER_ID_NOT_EXISTS'	=> 'Người dùng không tồn tại.',
 
