@@ -83,38 +83,108 @@
 	<fieldset>
 		<legend>{{ lang('ITEM_EXT_DETAILS') }}</legend>
 		<dl>
-			<dt><label for="item_ext_style">{{ lang('ITEM_EXT_STYLE') ~ lang('COLON') }}</label></dt>
+			<dt><label for="item_ext_style">{{ lang(['EXT_PROPERTIES', 'STYLE']) ~ lang('COLON') }}</label><br><span>{{ lang(['EXT_PROPERTIES_EXPLAIN', 'STYLE']) }}</span></dt>
 			<dd>
 				<label><input type="radio" class="radio" name="item_ext_style" id="item_ext_style" value="1"{% if ITEM_EXT_STYLE %} checked{% endif %}> {{ lang('YES') }}</label>
 				<label><input type="radio" class="radio" name="item_ext_style" value="0"{% if not ITEM_EXT_STYLE %} checked{% endif %}> {{ lang('NO') }}</label>
 			</dd>
 		</dl>
 		<dl>
-			<dt><label for="item_ext_acp_style">{{ lang('ITEM_EXT_ACP_STYLE') ~ lang('COLON') }}</label></dt>
+			<dt><label for="item_ext_acp_style">{{ lang(['EXT_PROPERTIES', 'ACP_STYLE']) ~ lang('COLON') }}</label><br><span>{{ lang(['EXT_PROPERTIES_EXPLAIN', 'ACP_STYLE']) }}</span></dt>
 			<dd>
 				<label><input type="radio" class="radio" name="item_ext_acp_style" id="item_ext_acp_style" value="1"{% if ITEM_EXT_ACP_STYLE %} checked{% endif %}> {{ lang('YES') }}</label>
 				<label><input type="radio" class="radio" name="item_ext_acp_style" value="0"{% if not ITEM_EXT_ACP_STYLE %} checked{% endif %}> {{ lang('NO') }}</label>
 			</dd>
 		</dl>
 		<dl>
-			<dt><label for="item_ext_lang">{{ lang('ITEM_EXT_LANG') ~ lang('COLON') }}</label></dt>
+			<dt><label for="item_ext_lang">{{ lang(['EXT_PROPERTIES', 'LANG']) ~ lang('COLON') }}</label><br><span>{{ lang(['EXT_PROPERTIES_EXPLAIN', 'LANG']) }}</span></dt>
 			<dd>
 				<label><input type="radio" class="radio" name="item_ext_lang" id="item_ext_lang" value="1"{% if ITEM_EXT_LANG %} checked{% endif %}> {{ lang('YES') }}</label>
 				<label><input type="radio" class="radio" name="item_ext_lang" value="0"{% if not ITEM_EXT_LANG %} checked{% endif %}> {{ lang('NO') }}</label>
 			</dd>
 		</dl>
 		<dl>
-			<dt><label for="item_ext_db_schema">{{ lang('ITEM_EXT_DB_SCHEMA') ~ lang('COLON') }}</label></dt>
+			<dt><label for="item_ext_db_schema">{{ lang(['EXT_PROPERTIES', 'DB_SCHEMA']) ~ lang('COLON') }}</label><br><span>{{ lang(['EXT_PROPERTIES_EXPLAIN', 'DB_SCHEMA']) }}</span></dt>
 			<dd>
 				<label><input type="radio" class="radio" name="item_ext_db_schema" id="item_ext_db_schema" value="1"{% if ITEM_EXT_DB_SCHEMA %} checked{% endif %}> {{ lang('YES') }}</label>
 				<label><input type="radio" class="radio" name="item_ext_db_schema" value="0"{% if not ITEM_EXT_DB_SCHEMA %} checked{% endif %}> {{ lang('NO') }}</label>
 			</dd>
 		</dl>
 		<dl>
-			<dt><label for="item_ext_db_data">{{ lang('ITEM_EXT_DB_DATA') ~ lang('COLON') }}</label></dt>
+			<dt><label for="item_ext_db_data">{{ lang(['EXT_PROPERTIES', 'DB_DATA']) ~ lang('COLON') }}</label><br><span>{{ lang(['EXT_PROPERTIES_EXPLAIN', 'DB_DATA']) }}</span></dt>
 			<dd>
 				<label><input type="radio" class="radio" name="item_ext_db_data" id="item_ext_db_data" value="1"{% if ITEM_EXT_DB_DATA %} checked{% endif %}> {{ lang('YES') }}</label>
 				<label><input type="radio" class="radio" name="item_ext_db_data" value="0"{% if not ITEM_EXT_DB_DATA %} checked{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="item_ext_event">{{ lang(['EXT_PROPERTIES', 'EVENT']) ~ lang('COLON') }}</label><br><span>{{ lang(['EXT_PROPERTIES_EXPLAIN', 'EVENT']) }}</span></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="item_ext_event" id="item_ext_event" value="1"{% if ITEM_EXT_EVENT %} checked{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="item_ext_event" value="0"{% if not ITEM_EXT_EVENT %} checked{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="item_ext_event_style">{{ lang(['EXT_PROPERTIES', 'EVENT_STYLE']) ~ lang('COLON') }}</label><br><span>{{ lang(['EXT_PROPERTIES_EXPLAIN', 'EVENT_STYLE']) }}</span></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="item_ext_event_style" id="item_ext_event_style" value="1"{% if ITEM_EXT_EVENT_STYLE %} checked{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="item_ext_event_style" value="0"{% if not ITEM_EXT_EVENT_STYLE %} checked{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="item_ext_event_acp_style">{{ lang(['EXT_PROPERTIES', 'EVENT_ACP_STYLE']) ~ lang('COLON') }}</label><br><span>{{ lang(['EXT_PROPERTIES_EXPLAIN', 'EVENT_ACP_STYLE']) }}</span></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="item_ext_event_acp_style" id="item_ext_event_acp_style" value="1"{% if ITEM_EXT_EVENT_ACP_STYLE %} checked{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="item_ext_event_acp_style" value="0"{% if not ITEM_EXT_EVENT_ACP_STYLE %} checked{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="item_ext_module_acp">{{ lang(['EXT_PROPERTIES', 'MODULE_ACP']) ~ lang('COLON') }}</label><br><span>{{ lang(['EXT_PROPERTIES_EXPLAIN', 'MODULE_ACP']) }}</span></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="item_ext_module_acp" id="item_ext_module_acp" value="1"{% if ITEM_EXT_MODULE_ACP %} checked{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="item_ext_module_acp" value="0"{% if not ITEM_EXT_MODULE_ACP %} checked{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="item_ext_module_mcp">{{ lang(['EXT_PROPERTIES', 'MODULE_MCP']) ~ lang('COLON') }}</label><br><span>{{ lang(['EXT_PROPERTIES_EXPLAIN', 'MODULE_MCP']) }}</span></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="item_ext_module_mcp" id="item_ext_module_mcp" value="1"{% if ITEM_EXT_MODULE_MCP %} checked{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="item_ext_module_mcp" value="0"{% if not ITEM_EXT_MODULE_MCP %} checked{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="item_ext_module_ucp">{{ lang(['EXT_PROPERTIES', 'MODULE_UCP']) ~ lang('COLON') }}</label><br><span>{{ lang(['EXT_PROPERTIES_EXPLAIN', 'MODULE_UCP']) }}</span></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="item_ext_module_ucp" id="item_ext_module_ucp" value="1"{% if ITEM_EXT_MODULE_UCP %} checked{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="item_ext_module_ucp" value="0"{% if not ITEM_EXT_MODULE_UCP %} checked{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="item_ext_notification">{{ lang(['EXT_PROPERTIES', 'NOTIFICATION']) ~ lang('COLON') }}</label><br><span>{{ lang(['EXT_PROPERTIES_EXPLAIN', 'NOTIFICATION']) }}</span></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="item_ext_notification" id="item_ext_notification" value="1"{% if ITEM_EXT_NOTIFICATION %} checked{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="item_ext_notification" value="0"{% if not ITEM_EXT_NOTIFICATION %} checked{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="item_ext_cron">{{ lang(['EXT_PROPERTIES', 'CRON']) ~ lang('COLON') }}</label><br><span>{{ lang(['EXT_PROPERTIES_EXPLAIN', 'CRON']) }}</span></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="item_ext_cron" id="item_ext_cron" value="1"{% if ITEM_EXT_CRON %} checked{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="item_ext_cron" value="0"{% if not ITEM_EXT_CRON %} checked{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="item_ext_console">{{ lang(['EXT_PROPERTIES', 'CONSOLE']) ~ lang('COLON') }}</label><br><span>{{ lang(['EXT_PROPERTIES_EXPLAIN', 'CONSOLE']) }}</span></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="item_ext_console" id="item_ext_console" value="1"{% if ITEM_EXT_CONSOLE %} checked{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="item_ext_console" value="0"{% if not ITEM_EXT_CONSOLE %} checked{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="item_ext_ext_php">{{ lang(['EXT_PROPERTIES', 'EXT_PHP']) ~ lang('COLON') }}</label><br><span>{{ lang(['EXT_PROPERTIES_EXPLAIN', 'EXT_PHP']) }}</span></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="item_ext_ext_php" id="item_ext_ext_php" value="1"{% if ITEM_EXT_EXT_PHP %} checked{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="item_ext_ext_php" value="0"{% if not ITEM_EXT_EXT_PHP %} checked{% endif %}> {{ lang('NO') }}</label>
 			</dd>
 		</dl>
 	</fieldset>
