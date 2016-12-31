@@ -9,17 +9,24 @@
 namespace vinabb\web\operators;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use vinabb\web\includes\constants;
 
 /**
 * Operator for a set of article comments
 */
 class portal_comment implements portal_comment_interface
 {
+	/** @var \phpbb\auth\auth $auth */
+	protected $auth;
+
 	/** @var ContainerInterface $container */
 	protected $container;
 
 	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
+
+	/** @var \phpbb\user $user */
+	protected $user;
 
 	/** @var string $table_name */
 	protected $table_name;
@@ -27,28 +34,36 @@ class portal_comment implements portal_comment_interface
 	/**
 	* Constructor
 	*
+	* @param \phpbb\auth\auth					$auth		Authentication object
 	* @param ContainerInterface					$container	Container object
 	* @param \phpbb\db\driver\driver_interface	$db			Database object
+	* @param \phpbb\user						$user		User object
 	* @param string								$table_name	Table name
 	*/
-	public function __construct(ContainerInterface $container, \phpbb\db\driver\driver_interface $db, $table_name)
+	public function __construct(
+		\phpbb\auth\auth $auth,
+		ContainerInterface $container,
+		\phpbb\db\driver\driver_interface $db,
+		\phpbb\user $user,
+		$table_name
+	)
 	{
+		$this->auth = $auth;
 		$this->container = $container;
 		$this->db = $db;
+		$this->user = $user;
 		$this->table_name = $table_name;
 	}
 
 	/**
 	* Get number of comments
 	*
-	* @param int	$article_id	Article ID
-	* @param int	$user_id	User ID
+	* @param int $article_id Article ID
 	* @return int
 	*/
-	public function count_comments($article_id = 0, $user_id = 0)
+	public function count_comments($article_id = 0)
 	{
 		$sql_where = $article_id ? 'WHERE article_id = ' . (int) $article_id : 'WHERE article_id > 0';
-		$sql_where .= $user_id ? ' AND user_id = ' . (int) $user_id : ' AND user_id > 0';
 
 		$sql = 'SELECT COUNT(comment_id) AS counter
 			FROM ' . $this->table_name . "
@@ -61,16 +76,43 @@ class portal_comment implements portal_comment_interface
 	}
 
 	/**
-	* Get all comments
+	* Get all comments from an article
+	*
+	* @param int $article_id Article ID
+	* @return array
+	*/
+	public function get_comments($article_id)
+	{
+		$entities = [];
+		$sql_or = $this->auth->acl_get('a_') ? '' : 'comment_pending = ' . constants::ARTICLE_COMMENT_MODE_SHOW . ' OR user_id = ' . (int) $this->user->data['user_id'];
+
+		$sql = 'SELECT *
+			FROM ' . $this->table_name . '
+			WHERE article_id = ' . (int) $article_id . "
+				$sql_or";
+		$result = $this->db->sql_query($sql);
+
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$entities[] = $this->container->get('vinabb.web.entities.portal_comment')->import($row);
+		}
+		$this->db->sql_freeresult($result);
+
+		return $entities;
+	}
+
+	/**
+	* Get all pending comments
 	*
 	* @return array
 	*/
-	public function get_comments()
+	public function get_pending_comments()
 	{
 		$entities = [];
 
 		$sql = 'SELECT *
-			FROM ' . $this->table_name;
+			FROM ' . $this->table_name . '
+			WHERE comment_pending <> ' . constants::ARTICLE_COMMENT_MODE_SHOW;
 		$result = $this->db->sql_query($sql);
 
 		while ($row = $this->db->sql_fetchrow($result))
