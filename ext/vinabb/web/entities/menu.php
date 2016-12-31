@@ -289,7 +289,7 @@ class menu extends menu_enable implements menu_interface
 		$text = (string) $text;
 
 		// This is a required field
-		if ($text == '')
+		if (in_array($this->get_type(), [constants::MENU_TYPE_URL, constants::MENU_TYPE_ROUTE]) && $text == '')
 		{
 			throw new \vinabb\web\exceptions\unexpected_value(['menu_name', 'EMPTY']);
 		}
