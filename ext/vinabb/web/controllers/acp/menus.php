@@ -537,6 +537,27 @@ class menus implements menus_interface
 	}
 
 	/**
+
+	/**
+	* Generate options of available forums
+	*
+	* @param \vinabb\web\entities\menu_interface	$entity 	Menu entity
+	* @param int									$current_id	Selected forum ID
+	*/
+	protected function build_forum_options(\vinabb\web\entities\menu_interface $entity, $current_id = 0)
+	{
+		foreach ($this->cache->get_forum_data() as $forum_id => $forum_data)
+		{
+			$this->template->assign_block_vars('page_options', [
+				'ID'		=> $forum_id,
+				'NAME'		=> $forum_data['name'],
+
+				'S_SELECTED'	=> $forum_id == $current_id
+			]);
+		}
+	}
+
+	/**
 	* Generate options of available groups
 	*
 	* @param \vinabb\web\entities\menu_interface	$entity 	Menu entity
