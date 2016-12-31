@@ -15,6 +15,7 @@ services:
     vinabb.web.portal.article:
         class: vinabb\web\controllers\portal\article
         arguments:
+            - '@auth'
             - '@vinabb.web.cache'
             - '@config'
             - '@service_container'

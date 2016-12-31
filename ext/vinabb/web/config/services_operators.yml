@@ -99,8 +99,10 @@ services:
     vinabb.web.operators.portal_comment:
         class: vinabb\web\operators\portal_comment
         arguments:
+            - '@auth'
             - '@service_container'
             - '@dbal.conn'
+            - '@user'
             - '%vinabb.web.tables.portal_comments%'
     vinabb.web.operators.bb_category:
         class: vinabb\web\operators\bb_category
