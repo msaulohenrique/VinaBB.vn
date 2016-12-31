@@ -82,7 +82,7 @@ class portal_comments_module
 	*/
 	private function action_display()
 	{
-		$this->controller->display_comments();
+		$this->controller->display_pending_comments();
 	}
 
 	/**
