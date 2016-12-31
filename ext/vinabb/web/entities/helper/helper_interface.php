@@ -244,4 +244,12 @@ interface helper_interface
 	* @return bool
 	*/
 	public function check_page_varname($text, $id = 0);
+
+	/**
+	* Check the existing menu
+	*
+	* @param int $id Menu ID
+	* @return bool
+	*/
+	public function check_menu_id($id);
 }

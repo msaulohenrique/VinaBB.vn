@@ -383,6 +383,17 @@ class helper implements helper_interface
 	}
 
 	/**
+	* Check the existing menu
+	*
+	* @param int $id Menu ID
+	* @return bool
+	*/
+	public function check_menu_id($id)
+	{
+		return $this->check_column_for_id($this->container->getParameter('vinabb.web.tables.menus'), 'menu_id', $id);
+	}
+
+	/**
 	* Check the existing ID
 	*
 	* @param string	$table	Table name
