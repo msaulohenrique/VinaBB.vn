@@ -1,0 +1,56 @@
+{% include 'overall_header.html' %}
+
+<h1>{{ lang('ACP_MENUS') }}</h1>
+<p>{{ lang('ACP_MENUS_EXPLAIN') }}</p>
+
+<form id="acp_portal_categories" method="post" action="{{ U_ACTION }}">
+	<fieldset class="quick">
+		<input class="button2" type="submit" value="{{ lang('ADD_MENU') }}">
+		<input type="hidden" name="action" value="add">
+	</fieldset>
+</form>
+
+{% if breadcrumb %}
+<p>
+	<strong>
+		<a href="{{ U_ROOT }}">{{ lang('HOME') }}</a>
+		{% for item in breadcrumb %}
+		&raquo; {% if not item.S_CURRENT %}<a href="{{ item.URL }}">{% endif %}{{ item.NAME }}{% if not item.S_CURRENT %}</a>{% endif %}
+		{% endfor %}
+	</strong>
+</p>
+{% endif %}
+
+{% if menus %}
+<table class="table1 zebra-table">
+	<thead>
+	<tr>
+		<th>{{ lang('MENU_NAME') }}</th>
+		<th>{{ lang('MENU_NAME') ~ ' (' ~ lang('VIETNAMESE') ~ ')' }}</th>
+		<th>{{ lang('ACTIONS') }}</th>
+	</tr>
+	</thead>
+	<tbody>
+	{% for menu in menus %}
+	<tr>
+		<td style="text-align: center;"><a href="{{ menu.URL }}">{{ menu.NAME }}</a></td>
+		<td style="text-align: center;">{{ menu.NAME_VI }}</td>
+		<td class="actions">
+			<span class="up-disabled" style="display:none;">{{ ICON_MOVE_UP_DISABLED }}</span>
+			<span class="up"><a href="{{ menu.U_MOVE_UP }}" data-ajax="row_up">{{ ICON_MOVE_UP }}</a></span>
+			<span class="down-disabled" style="display:none;">{{ ICON_MOVE_DOWN_DISABLED }}</span>
+			<span class="down"><a href="{{ menu.U_MOVE_DOWN }}" data-ajax="row_down">{{ ICON_MOVE_DOWN }}</a></span>
+			<a href="{{ menu.U_EDIT }}">{{ ICON_EDIT }}</a>
+			{% if menu.U_DELETE %}<a href="{{ menu.U_DELETE }}" data-ajax="row_delete">{{ ICON_DELETE }}</a>{% else %}{{ ICON_DELETE_DISABLED }}{% endif %}
+		</td>
+	</tr>
+	{% else %}
+	<tr class="row3">
+		<td colspan="3">{{ lang('ACP_NO_ITEMS') }}</td>
+	</tr>
+	{% endfor %}
+	</tbody>
+</table>
+{% endif %}
+
+{% include 'overall_footer.html' %}
