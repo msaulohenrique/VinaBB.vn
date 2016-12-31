@@ -1,0 +1,49 @@
+{% include 'overall_header.html' %}
+
+<a href="{{ U_BACK }}" style="float: {{ S_CONTENT_FLOW_END }};">&laquo; {{ lang('BACK') }}</a>
+
+<h1>{{ lang('ACP_MENUS') }}</h1>
+<p>{{ lang('ACP_MENUS_EXPLAIN') }}</p>
+
+{% if ERRORS %}
+<div class="errorbox">
+	<h3>{{ lang('WARNING') }}</h3>
+	<p>{{ ERRORS }}</p>
+</div>
+{% endif %}
+
+<form id="acp_menus" method="post" action="{{ U_ACTION }}">
+	<fieldset>
+		<legend>{{ lang('MENU_DETAILS') }}</legend>
+		<dl>
+			<dt><label for="parent_id">{{ lang('MENU_PARENT') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<select name="parent_id" id="parent_id">
+					<option value="0">{{ lang('NONE') }}</option>
+					{% for option in parent_options %}
+					<option value="{{ option.ID }}"{% if option.S_SELECTED %} selected{% endif %}{% if option.S_DISABLED %} disabled class="disabled-option"{% endif %}>{{ option.NAME }}</option>
+					{% endfor %}
+				</select>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="menu_name">{{ lang('MENU_NAME') ~ ' (' ~ lang('ENGLISH') ~ ')' ~ lang('COLON') }}</label></dt>
+			<dd><input class="text" type="text" name="menu_name" id="menu_name" value="{{ MENU_NAME }}" maxlength="255"></dd>
+		</dl>
+		<dl>
+			<dt><label for="menu_name_vi">{{ lang('MENU_NAME') ~ ' (' ~ lang('VIETNAMESE') ~ ')' ~ lang('COLON') }}</label></dt>
+			<dd><input class="text" type="text" name="menu_name_vi" id="menu_name_vi" value="{{ MENU_NAME_VI }}" maxlength="255"></dd>
+		</dl>
+		<dl>
+			<dt><label for="menu_icon">{{ lang('MENU_ICON') ~ lang('COLON') }}</label></dt>
+			<dd><select name="menu_icon" id="menu_icon">{{ ICON_OPTIONS }}</select></dd>
+		</dl>
+	</fieldset>
+	<fieldset class="submit-buttons">
+		<input class="button1" type="submit" name="submit" value="{{ lang('SUBMIT') }}">
+		<input class="button2" type="reset" name="reset" value="{{ lang('RESET') }}">
+		{{ S_FORM_TOKEN }}
+	</fieldset>
+</form>
+
+{% include 'overall_footer.html' %}
