@@ -32,8 +32,11 @@ $lang = array_merge($lang, [
 	'ERROR_MENU_NAME_TOO_LONG'		=> 'The menu title is too long.',
 	'ERROR_MENU_NAME_VI_TOO_LONG'	=> 'The Vietnamese menu title is too long.',
 
+	'MENU_DETAILS'			=> 'Menu details',
+	'MENU_ICON'				=> 'Menu icon',
 	'MENU_LINK'				=> 'Menu link',
 	'MENU_NAME'				=> 'Menu title',
+	'MENU_PARENT'			=> 'Parent menu',
 	'MENU_TARGET'			=> 'Open in new tab',
 	'MENU_TYPE'				=> 'Menu type',
 	'MESSAGE_MENU_ADD'		=> 'The menu has been created.',

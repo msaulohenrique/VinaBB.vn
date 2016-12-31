@@ -32,8 +32,11 @@ $lang = array_merge($lang, [
 	'ERROR_MENU_NAME_TOO_LONG'		=> 'Tên trình đơn quá dài.',
 	'ERROR_MENU_NAME_VI_TOO_LONG'	=> 'Tên trình đơn tiếng Việt quá dài.',
 
+	'MENU_DETAILS'			=> 'Dữ liệu trình đơn',
+	'MENU_ICON'				=> 'Biểu tượng',
 	'MENU_LINK'				=> 'Liên kết',
 	'MENU_NAME'				=> 'Tên trình đơn',
+	'MENU_PARENT'			=> 'Trình đơn cha',
 	'MENU_TARGET'			=> 'Mở trang mới',
 	'MENU_TYPE'				=> 'Loại trình đơn',
 	'MESSAGE_MENU_ADD'		=> 'Đã tạo trình đơn.',
