@@ -92,7 +92,14 @@
 		<div id="type_options_{{ MENU_TYPE_GROUP }}"{% if not MENU_TYPE == MENU_TYPE_GROUP %} style="display: none;"{% endif %}>
 			<dl>
 				<dt><label for="menu_type_{{ MENU_TYPE_GROUP }}">{{ lang('GROUP') ~ lang('COLON') }}</label></dt>
-				<dd><input class="text medium" type="url" name="menu_data" id="menu_type_{{ MENU_TYPE_GROUP }}" value="{{ AUTHOR_WWW }}" maxlength="255"></dd>
+				<dd>
+					<select name="menu_data" id="menu_type_{{ MENU_TYPE_GROUP }}">
+						<option value="0">{{ lang('SELECT_GROUP') }}</option>
+						{% for option in group_options %}
+						<option value="{{ option.ID }}"{% if option.S_SELECTED %} selected{% endif %}>{{ option.NAME }}</option>
+						{% endfor %}
+					</select>
+				</dd>
 			</dl>
 		</div>
 		<div id="type_options_{{ MENU_TYPE_BOARD }}"{% if not MENU_TYPE == MENU_TYPE_BOARD %} style="display: none;"{% endif %}>
