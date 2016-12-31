@@ -354,7 +354,7 @@ class menu extends menu_enable implements menu_interface
 	*
 	* @param int				$value	Menu type
 	* @return menu_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\out_of_bounds
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_type($value)
 	{
@@ -362,7 +362,7 @@ class menu extends menu_enable implements menu_interface
 
 		if (!in_array($value, [constants::MENU_TYPE_URL, constants::MENU_TYPE_ROUTE, constants::MENU_TYPE_PAGE, constants::MENU_TYPE_FORUM, constants::MENU_TYPE_USER, constants::MENU_TYPE_GROUP, constants::MENU_TYPE_BOARD, constants::MENU_TYPE_PORTAL, constants::MENU_TYPE_BB]))
 		{
-			throw new \vinabb\web\exceptions\out_of_bounds('menu_type');
+			throw new \vinabb\web\exceptions\unexpected_value(['menu_type', 'EMPTY']);
 		}
 
 		// Set the value on our data array

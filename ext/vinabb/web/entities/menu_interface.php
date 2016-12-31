@@ -137,7 +137,7 @@ interface menu_interface
 	*
 	* @param int				$value	Menu type
 	* @return menu_interface	$this	Object for chaining calls: load()->set()->save()
-	* @throws \vinabb\web\exceptions\out_of_bounds
+	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
 	public function set_type($value);
 
