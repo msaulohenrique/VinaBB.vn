@@ -19,6 +19,9 @@ class menu extends menu_enable implements menu_interface
 	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
 
+	/** @var \phpbb\user $user */
+	protected $user;
+
 	/** @var \vinabb\web\entities\helper\helper_interface $entity_helper */
 	protected $entity_helper;
 
@@ -32,12 +35,14 @@ class menu extends menu_enable implements menu_interface
 	* Constructor
 	*
 	* @param \phpbb\db\driver\driver_interface				$db				Database object
+	* @param \phpbb\user									$user			User object
 	* @param \vinabb\web\entities\helper\helper_interface	$entity_helper	Entity helper
 	* @param string											$table_name		Table name
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \vinabb\web\entities\helper\helper_interface $entity_helper, $table_name)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \vinabb\web\entities\helper\helper_interface $entity_helper, $table_name)
 	{
 		$this->db = $db;
+		$this->user = $user;
 		$this->entity_helper = $entity_helper;
 		$this->table_name = $table_name;
 	}
