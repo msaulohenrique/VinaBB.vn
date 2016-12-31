@@ -45,6 +45,60 @@
 				</select>
 			</dd>
 		</dl>
+		<div id="type_options_{{ MENU_TYPE_URL }}"{% if not MENU_TYPE == MENU_TYPE_URL %} style="display: none;"{% endif %}>
+			<dl>
+				<dt><label for="menu_type_{{ MENU_TYPE_URL }}">{{ lang('URL') ~ lang('COLON') }}</label></dt>
+				<dd><input class="text medium" type="url" name="menu_data" id="menu_type_{{ MENU_TYPE_URL }}" value="{{ MENU_DATA }}" maxlength="255"></dd>
+			</dl>
+		</div>
+		<div id="type_options_{{ MENU_TYPE_ROUTE }}"{% if not MENU_TYPE == MENU_TYPE_ROUTE %} style="display: none;"{% endif %}>
+			<dl>
+				<dt><label for="menu_type_{{ MENU_TYPE_ROUTE }}">{{ lang('ROUTE_NAME') ~ lang('COLON') }}</label></dt>
+				<dd><input class="text medium" type="text" name="menu_data" id="menu_type_{{ MENU_TYPE_ROUTE }}" value="{{ MENU_DATA }}" maxlength="255"></dd>
+			</dl>
+		</div>
+		<div id="type_options_{{ MENU_TYPE_PAGE }}"{% if not MENU_TYPE == MENU_TYPE_PAGE %} style="display: none;"{% endif %}>
+			<dl>
+				<dt><label for="menu_type_{{ MENU_TYPE_PAGE }}">{{ lang('PAGE') ~ lang('COLON') }}</label></dt>
+				<dd><input class="text medium" type="url" name="menu_data" id="menu_type_{{ MENU_TYPE_PAGE }}" value="{{ AUTHOR_WWW }}" maxlength="255"></dd>
+			</dl>
+		</div>
+		<div id="type_options_{{ MENU_TYPE_FORUM }}"{% if not MENU_TYPE == MENU_TYPE_FORUM %} style="display: none;"{% endif %}>
+			<dl>
+				<dt><label for="menu_type_{{ MENU_TYPE_FORUM }}">{{ lang('FORUM') ~ lang('COLON') }}</label></dt>
+				<dd><input class="text medium" type="url" name="menu_data" id="menu_type_{{ MENU_TYPE_FORUM }}" value="{{ AUTHOR_WWW }}" maxlength="255"></dd>
+			</dl>
+		</div>
+		<div id="type_options_{{ MENU_TYPE_USER }}"{% if not MENU_TYPE == MENU_TYPE_USER %} style="display: none;"{% endif %}>
+			<dl>
+				<dt><label for="menu_type_{{ MENU_TYPE_USER }}">{{ lang('USER_ID') ~ lang('COLON') }}</label></dt>
+				<dd><input class="text medium" type="number" name="menu_data" id="menu_type_{{ MENU_TYPE_USER }}" value="{{ MENU_DATA }}" maxlength="255"></dd>
+			</dl>
+		</div>
+		<div id="type_options_{{ MENU_TYPE_GROUP }}"{% if not MENU_TYPE == MENU_TYPE_GROUP %} style="display: none;"{% endif %}>
+			<dl>
+				<dt><label for="menu_type_{{ MENU_TYPE_GROUP }}">{{ lang('GROUP') ~ lang('COLON') }}</label></dt>
+				<dd><input class="text medium" type="url" name="menu_data" id="menu_type_{{ MENU_TYPE_GROUP }}" value="{{ AUTHOR_WWW }}" maxlength="255"></dd>
+			</dl>
+		</div>
+		<div id="type_options_{{ MENU_TYPE_BOARD }}"{% if not MENU_TYPE == MENU_TYPE_BOARD %} style="display: none;"{% endif %}>
+			<dl>
+				<dt><label for="menu_type_{{ MENU_TYPE_BOARD }}">{{ lang('BOARD') ~ lang('COLON') }}</label></dt>
+				<dd><span id="menu_type_{{ MENU_TYPE_BOARD }}"></span></dd>
+			</dl>
+		</div>
+		<div id="type_options_{{ MENU_TYPE_PORTAL }}"{% if not MENU_TYPE == MENU_TYPE_PORTAL %} style="display: none;"{% endif %}>
+			<dl>
+				<dt><label for="menu_type_{{ MENU_TYPE_PORTAL }}">{{ lang('NEWS') ~ lang('COLON') }}</label></dt>
+				<dd><span id="menu_type_{{ MENU_TYPE_PORTAL }}"></span></dd>
+			</dl>
+		</div>
+		<div id="type_options_{{ MENU_TYPE_BB }}"{% if not MENU_TYPE == MENU_TYPE_BB %} style="display: none;"{% endif %}>
+			<dl>
+				<dt><label for="menu_type_{{ MENU_TYPE_BB }}">{{ lang('BB') ~ lang('COLON') }}</label></dt>
+				<dd><span id="menu_type_{{ MENU_TYPE_BB }}"></span></dd>
+			</dl>
+		</div>
 		<dl>
 			<dt><label for="menu_icon">{{ lang('MENU_ICON') ~ lang('COLON') }}</label></dt>
 			<dd><select name="menu_icon" id="menu_icon">{{ ICON_OPTIONS }}</select></dd>
