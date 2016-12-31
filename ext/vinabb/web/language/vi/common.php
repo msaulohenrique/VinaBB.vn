@@ -44,6 +44,7 @@ $lang = array_merge($lang, [
 	'CODE'					=> 'Mã',
 	'CODECLIMATE'			=> 'CodeClimate',
 	'COMMENT'				=> 'Bình luận',
+	'COMMENT_PENDING'		=> 'Bình luận chờ duyệt',
 	'COMMENTS'				=> 'Bình luận',
 	'COMMUNITY'				=> 'Cộng đồng',
 	'CONFIRM_LOGOUT'		=> 'Bạn chắc chắn muốn thoát?',

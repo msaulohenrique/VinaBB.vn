@@ -44,6 +44,7 @@ $lang = array_merge($lang, [
 	'CODE'					=> 'Code',
 	'CODECLIMATE'			=> 'CodeClimate',
 	'COMMENT'				=> 'Comment',
+	'COMMENT_PENDING'		=> 'Pending comment',
 	'COMMENTS'				=> 'Comments',
 	'COMMUNITY'				=> 'Community',
 	'CONFIRM_LOGOUT'		=> 'Are you sure you want to logout?',
