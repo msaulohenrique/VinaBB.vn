@@ -43,6 +43,19 @@ services:
             - '@vinabb.web.helper'
             - '%core.root_path%'
             - '%core.php_ext%'
+    vinabb.web.acp.portal_comments:
+        class: vinabb\web\controllers\acp\portal_comments
+        arguments:
+            - '@auth'
+            - '@service_container'
+            - '@language'
+            - '@log'
+            - '@vinabb.web.operators.portal_comment'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '%core.root_path%'
+            - '%core.php_ext%'
     vinabb.web.acp.bb_categories:
         class: vinabb\web\controllers\acp\bb_categories
         arguments:
