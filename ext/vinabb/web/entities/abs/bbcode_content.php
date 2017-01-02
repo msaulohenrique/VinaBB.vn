@@ -198,6 +198,28 @@ abstract class bbcode_content
 		// Set {$prefix}_options to 0 if it does not yet exist
 		$this->data[$prefix . '_options'] = isset($this->data[$prefix . '_options']) ? $this->data[$prefix . '_options'] : 0;
 
+		// Set the value
+		$this->set_options_value($prefix, $value, $negate);
+
+		// Reparse the content
+		if ($reparse && !empty($this->data[$prefix]))
+		{
+			$text = $this->data[$prefix];
+
+			decode_message($text, $this->data[$prefix . '_uid']);
+			$this->set($prefix, $text);
+		}
+	}
+
+	/**
+	* Sub-method for the set_options()
+	*
+	* @param string	$prefix		Column prefix
+	* @param int	$value		Value of the option
+	* @param bool	$negate		Negate (Unset) option
+	*/
+	protected function set_options_value($prefix, $value, $negate)
+	{
 		// If we're setting the option and the option is not already set
 		if (!$negate && !($this->data[$prefix . '_options'] & $value))
 		{
@@ -210,16 +232,6 @@ abstract class bbcode_content
 		{
 			// Subtract the option from the options
 			$this->data[$prefix . '_options'] -= $value;
-		}
-
-		// Reparse the content
-		if ($reparse && !empty($this->data[$prefix]))
-		{
-			$text = $this->data[$prefix];
-
-			decode_message($text, $this->data[$prefix . '_uid']);
-
-			$this->set($prefix, $text);
 		}
 	}
 }
