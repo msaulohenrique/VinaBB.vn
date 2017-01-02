@@ -33,6 +33,7 @@ vinabb_web_user_messenger_route:
         _controller: vinabb.web.user.messenger:main
         action: 'jabber'
     requirements:
+        action: 'jabber'
         user_id: '\d+'
 vinabb_web_user_email_route:
     path: /email/{type}/{id}
