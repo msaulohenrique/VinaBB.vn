@@ -16,16 +16,21 @@ class post_poster extends post_options
 	/** @var array $data */
 	protected $data;
 
+	/** @var \phpbb\language\language $language */
+	protected $language;
+
 	/** @var \vinabb\web\entities\helper\helper_interface $entity_helper */
 	protected $entity_helper;
 
 	/**
 	* Constructor
 	*
-	* @param \vinabb\web\entities\helper\helper_interface $entity_helper Entity helper
+	* @param \phpbb\language\language						$language		Language object
+	* @param \vinabb\web\entities\helper\helper_interface	$entity_helper	Entity helper
 	*/
-	public function __construct(\vinabb\web\entities\helper\helper_interface $entity_helper)
+	public function __construct(\phpbb\language\language $language, \vinabb\web\entities\helper\helper_interface $entity_helper)
 	{
+		$this->language = $language;
 		$this->entity_helper = $entity_helper;
 	}
 
@@ -102,7 +107,7 @@ class post_poster extends post_options
 	*/
 	public function get_username()
 	{
-		return isset($this->data['post_username']) ? (string) $this->data['post_username'] : '';
+		return !empty($this->data['post_username']) ? (string) $this->data['post_username'] : $this->language->lang('GUEST');
 	}
 
 	/**
@@ -114,20 +119,8 @@ class post_poster extends post_options
 	 */
 	public function set_username($text)
 	{
-		$text = (string) $text;
-
-		// This is a required field
-		if ($text == '')
-		{
-			throw new \vinabb\web\exceptions\unexpected_value(['post_username', 'EMPTY']);
-		}
-		else if (!$this->entity_helper->check_username($text, $this->get_poster_id()))
-		{
-			throw new \vinabb\web\exceptions\unexpected_value(['post_username', 'NOT_EXISTS']);
-		}
-
 		// Set the value on our data array
-		$this->data['post_username'] = $text;
+		$this->data['post_username'] = (string) $text;
 
 		return $this;
 	}

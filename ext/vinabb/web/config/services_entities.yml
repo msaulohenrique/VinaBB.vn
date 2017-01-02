@@ -46,6 +46,7 @@ services:
         shared: false
         arguments:
             - '@dbal.conn'
+            - '@language'
             - '@vinabb.web.helper.entity'
     vinabb.web.entities.draft:
         class: vinabb\web\entities\draft

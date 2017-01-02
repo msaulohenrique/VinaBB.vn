@@ -19,6 +19,9 @@ class post extends post_poster implements post_interface
 	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
 
+	/** @var \phpbb\language\language $language */
+	protected $language;
+
 	/** @var \vinabb\web\entities\helper\helper_interface $entity_helper */
 	protected $entity_helper;
 
@@ -29,11 +32,13 @@ class post extends post_poster implements post_interface
 	* Constructor
 	*
 	* @param \phpbb\db\driver\driver_interface				$db				Database object
+	* @param \phpbb\language\language						$language		Language object
 	* @param \vinabb\web\entities\helper\helper_interface	$entity_helper	Entity helper
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \vinabb\web\entities\helper\helper_interface $entity_helper)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\language\language $language, \vinabb\web\entities\helper\helper_interface $entity_helper)
 	{
 		$this->db = $db;
+		$this->language = $language;
 		$this->entity_helper = $entity_helper;
 	}
 
