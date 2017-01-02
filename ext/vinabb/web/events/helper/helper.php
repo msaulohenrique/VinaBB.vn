@@ -252,7 +252,7 @@ class helper implements helper_interface
 			'U_BB_ACP_STYLES'	=> $this->helper->route('vinabb_web_bb_type_route', ['type' => constants::BB_TYPE_VARNAME_ACP_STYLE]),
 			'U_BB_LANGS'		=> $this->helper->route('vinabb_web_bb_type_route', ['type' => constants::BB_TYPE_VARNAME_LANG]),
 			'U_BB_TOOLS'		=> $this->helper->route('vinabb_web_bb_type_route', ['type' => constants::BB_TYPE_VARNAME_TOOL]),
-			'U_FAQ_BBCODE'		=> $this->helper->route('phpbb_help_bbcode_controller'),
+			'U_FAQ_BBCODE'		=> $this->helper->route('phpbb_help_bbcode_controller')
 		]);
 	}
 
@@ -263,19 +263,14 @@ class helper implements helper_interface
 	{
 		global $msg_title;
 
-		if (!defined('IN_LOGIN') && (
-				($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_FOUNDER && $this->user->data['user_type'] != USER_FOUNDER)
-				|| ($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_ADMIN && !$this->auth->acl_gets('a_'))
-				|| ($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_MOD && !$this->auth->acl_gets('a_', 'm_') && !$this->auth->acl_getf_global('m_'))
-				|| ($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_USER && ($this->user->data['user_id'] == ANONYMOUS || $this->user->data['is_bot']))
-			))
+		if ($this->maintenance_mode_enabled())
 		{
 			// Get current time
 			$now = time();
-			$in_maintenance_time = ($this->config['vinabb_web_maintenance_time'] > $now) ? true : false;
+			$in_maintenance_time = $this->config['vinabb_web_maintenance_time'] > $now;
 
 			// Get maintenance text with/without the end time
-			if (empty($this->config_text['vinabb_web_maintenance_text']) || empty($this->config_text['vinabb_web_maintenance_text_vi']))
+			if ($this->config_text['vinabb_web_maintenance_text'] == '' || $this->config_text['vinabb_web_maintenance_text_vi'] == '')
 			{
 				if ($in_maintenance_time)
 				{
@@ -332,6 +327,21 @@ class helper implements helper_interface
 			$msg_title = $this->language->lang('MAINTENANCE_TITLE');
 			trigger_error($message, ($this->config['vinabb_web_maintenance_tpl']) ? E_USER_WARNING : E_USER_ERROR);
 		}
+	}
+
+	/**
+	* Is the maintenance mode enabled for the current user level?
+	*
+	* @return bool
+	*/
+	protected function maintenance_mode_enabled()
+	{
+		return !defined('IN_LOGIN') && (
+			($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_FOUNDER && $this->user->data['user_type'] != USER_FOUNDER)
+			|| ($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_ADMIN && !$this->auth->acl_gets('a_'))
+			|| ($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_MOD && !$this->auth->acl_gets('a_', 'm_') && !$this->auth->acl_getf_global('m_'))
+			|| ($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_USER && ($this->user->data['user_id'] == ANONYMOUS || $this->user->data['is_bot']))
+		);
 	}
 
 	/**
