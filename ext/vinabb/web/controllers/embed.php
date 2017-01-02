@@ -8,235 +8,161 @@
 
 namespace vinabb\web\controllers;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use vinabb\web\includes\constants;
+
 class embed
 {
-	/** @var \phpbb\auth\auth */
+	/** @var \phpbb\auth\auth $auth */
 	protected $auth;
 
-	/** @var \phpbb\db\driver\driver_interface */
-	protected $db;
+	/** @var ContainerInterface $container */
+	protected $container;
 
-	/** @var \phpbb\language\language */
+	/** @var \phpbb\language\language $language */
 	protected $language;
 
-	/** @var \phpbb\request\request */
-	protected $request;
-
-	/** @var \phpbb\template\template */
+	/** @var \phpbb\template\template $template */
 	protected $template;
 
-	/** @var \phpbb\user */
+	/** @var \phpbb\user $user */
 	protected $user;
 
-	/** @var \phpbb\controller\helper */
+	/** @var \phpbb\controller\helper $helper */
 	protected $helper;
-
-	/** @var string */
-	protected $root_path;
-
-	/** @var string */
-	protected $php_ext;
 
 	/**
 	* Constructor
 	*
 	* @param \phpbb\auth\auth $auth
-	* @param \phpbb\db\driver\driver_interface $db
+	* @param ContainerInterface									$container		Container object
 	* @param \phpbb\language\language $language
-	* @param \phpbb\request\request $request
 	* @param \phpbb\template\template $template
 	* @param \phpbb\user $user
 	* @param \phpbb\controller\helper $helper
-	* @param string $root_path
-	* @param string $php_ext
 	*/
 	public function __construct(
 		\phpbb\auth\auth $auth,
-		\phpbb\db\driver\driver_interface $db,
+		ContainerInterface $container,
 		\phpbb\language\language $language,
-		\phpbb\request\request $request,
 		\phpbb\template\template $template,
 		\phpbb\user $user,
-		\phpbb\controller\helper $helper,
-		$root_path,
-		$php_ext
+		\phpbb\controller\helper $helper
 	)
 	{
 		$this->auth = $auth;
-		$this->db = $db;
+		$this->container = $container;
 		$this->language = $language;
-		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
 		$this->helper = $helper;
-		$this->root_path = $root_path;
-		$this->php_ext = $php_ext;
 	}
 
 	/**
 	* Embed page of a forum
 	*
-	* @param $forum_id
-	*
+	* @param int $forum_id Forum ID
 	* @return \Symfony\Component\HttpFoundation\Response
+	* @throws \phpbb\exception\http_exception
 	*/
 	public function forum($forum_id)
 	{
-		$error = false;
-		$no_auth = false;
-
-		if (!$forum_id)
+		try
 		{
-			$error = true;
+			/** @var \vinabb\web\entities\forum_interface $entity */
+			$entity = $this->container->get('vinabb.web.entities.forum')->load($forum_id);
 		}
-		else
+		catch (\vinabb\web\exceptions\base $e)
 		{
-			$sql = 'SELECT *
-				FROM ' . FORUMS_TABLE . "
-				WHERE forum_id = $forum_id";
-			$result = $this->db->sql_query($sql);
-			$forum_data = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
-
-			if ($forum_data)
-			{
-				// Ok forum exists, but check forum permissions
-				if (!$this->auth->acl_gets('f_list', 'f_read', $forum_id) || ($forum_data['forum_type'] == FORUM_LINK && $forum_data['forum_link'] && !$this->auth->acl_get('f_read', $forum_id)))
-				{
-					$no_auth = true;
-				}
-				else
-				{
-					$this->template->assign_vars(array(
-						'FORUM_NAME'	=> $forum_data['forum_name'],
-						'FORUM_DESC'	=> truncate_string(strip_tags(generate_text_for_display($forum_data['forum_desc'], $forum_data['forum_desc_uid'], $forum_data['forum_desc_bitfield'], $forum_data['forum_desc_options'])), 200, 255, false, $this->language->lang('ELLIPSIS')),
-						'FORUM_URL'		=> $this->helper->route('vinabb_web_board_forum_route', array('forum_id' => $forum_id)),
-					));
-				}
-			}
-			else
-			{
-				$error = true;
-			}
+			throw new \phpbb\exception\http_exception(404, 'NO_FORUM');
 		}
 
-		if ($error)
+		// Ok forum exists, but check forum permissions
+		if (!$this->auth->acl_gets('f_list', 'f_read', $forum_id) || ($entity->get_type() == FORUM_LINK && $entity->get_link() && !$this->auth->acl_get('f_read', $forum_id)))
 		{
-			$this->template->assign_vars(array(
-				'ERROR'	=> ($no_auth) ? $this->language->lang('SORRY_AUTH_READ') : $this->language->lang('NO_FORUM'),
-			));
+			send_status_line(403, 'Forbidden');
+			trigger_error('SORRY_AUTH_READ');
 		}
 
-		return $this->helper->render(($error) ? 'embed_error.html' : 'embed_forum.html');
+		$this->template->assign_vars([
+			'FORUM_NAME'	=> $entity->get_name(),
+			'FORUM_DESC'	=> truncate_string(strip_tags($entity->get_desc_for_display()), 200, 255, false, $this->language->lang('ELLIPSIS')),
+			'FORUM_URL'		=> $this->helper->route('vinabb_web_board_forum_route', ['forum_id' => $forum_id, 'seo' => $entity->get_name_seo() . constants::REWRITE_URL_SEO])
+		]);
+
+		return $this->helper->render('embed_forum.html');
 	}
 
 	/**
 	* Embed page of a post, rediect to the first post
 	*
-	* @param $topic_id
-	*
-	* @return \Symfony\Component\HttpFoundation\Response
+	* @param int $topic_id Topic ID
+	* @throws \phpbb\exception\http_exception
 	*/
 	public function topic($topic_id)
 	{
-		$error = false;
-
-		if (!$topic_id)
+		try
 		{
-			$error = true;
+			/** @var \vinabb\web\entities\topic_interface $entity */
+			$entity = $this->container->get('vinabb.web.entities.topic')->load($topic_id);
 		}
-		else
+		catch (\vinabb\web\exceptions\base $e)
 		{
-			$sql = 'SELECT topic_first_post_id
-				FROM ' . TOPICS_TABLE . "
-				WHERE topic_id = $topic_id";
-			$result = $this->db->sql_query($sql);
-			$post_id = (int) $this->db->sql_fetchfield('topic_first_post_id');
-			$this->db->sql_freeresult($result);
-
-			if ($post_id)
-			{
-				redirect($this->helper->route('vinabb_web_embed_post_route', array('post_id' => $post_id)));
-			}
-			else
-			{
-				$error = true;
-			}
+			throw new \phpbb\exception\http_exception(404, 'NO_TOPIC');
 		}
 
-		if ($error)
-		{
-			$this->template->assign_vars(array(
-				'ERROR'	=> $this->language->lang('NO_TOPIC'),
-			));
-
-			return $this->helper->render('embed_error.html');
-		}
+		redirect($this->helper->route('vinabb_web_embed_post_route', ['post_id' => $entity->get_first_post_id()]));
 	}
 
 	/**
 	* Embed page of a post
 	*
-	* @param $post_id
-	*
+	* @param int $post_id Post ID
 	* @return \Symfony\Component\HttpFoundation\Response
+	* @throws \phpbb\exception\http_exception
 	*/
 	public function post($post_id)
 	{
-		$error = false;
-
-		if (!$post_id)
+		try
 		{
-			$error = true;
+			/** @var \vinabb\web\entities\post_interface $entity */
+			$entity = $this->container->get('vinabb.web.entities.post')->load($post_id);
+		}
+		catch (\vinabb\web\exceptions\base $e)
+		{
+			throw new \phpbb\exception\http_exception(404, 'NO_POST');
+		}
+
+		if ($entity->get_poster_id())
+		{
+			try
+			{
+				/** @var \vinabb\web\entities\user_interface $poster */
+				$poster = $this->container->get('vinabb.web.entities.user')->load($entity->get_poster_id());
+			}
+			catch (\vinabb\web\exceptions\base $e)
+			{
+				throw new \phpbb\exception\http_exception(404, 'NO_USER');
+			}
+
+			$poster_username = $poster->get_username();
+			$poster_url = $this->helper->route('vinabb_web_user_profile_route', ['username' => $poster_username]);
 		}
 		else
 		{
-			$sql = 'SELECT *
-				FROM ' . POSTS_TABLE . "
-				WHERE post_id = $post_id";
-			$result = $this->db->sql_query($sql);
-			$post_data = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
-
-			if ($post_data)
-			{
-				$enable_bbcode = ($post_data['enable_bbcode']) ? OPTION_FLAG_BBCODE : 0;
-				$enable_smilies = ($post_data['enable_smilies']) ? OPTION_FLAG_SMILIES : 0;
-				$enable_magic_url = ($post_data['enable_magic_url']) ? OPTION_FLAG_LINKS : 0;
-				$bbcode_options = $enable_bbcode ^ $enable_smilies ^ $enable_magic_url;
-
-				if ($post_data['poster_id'])
-				{
-					$sql = 'SELECT username, user_avatar
-						FROM ' . USERS_TABLE . '
-						WHERE user_id = ' . $post_data['poster_id'];
-					$result = $this->db->sql_query($sql);
-					$poster_data = $this->db->sql_fetchrow($result);
-					$this->db->sql_freeresult($result);
-				}
-
-				$this->template->assign_vars(array(
-					'POST_SUBJECT'	=>truncate_string(generate_text_for_display($post_data['post_subject'], $post_data['bbcode_uid'], $post_data['bbcode_bitfield'], $bbcode_options), 40, 255, false, $this->language->lang('ELLIPSIS')),
-					'POST_TEXT'		=> truncate_string(strip_tags(generate_text_for_display($post_data['post_text'], $post_data['bbcode_uid'], $post_data['bbcode_bitfield'], $bbcode_options)), 189, 255, false, $this->language->lang('ELLIPSIS')),
-					'POST_URL'		=> $this->helper->route('vinabb_web_board_topic_route', array('topic_id' => $post_data['topic_id'], '#' => 'p' . $post_data['post_id'])),
-					'POSTER'		=> ($post_data['poster_id']) ? $poster_data['username'] : ((!empty($post_data['post_username'])) ? $post_data['post_username'] : $this->language->lang('GUEST')),
-					'POSTER_URL'	=> ($post_data['poster_id']) ? $this->helper->route('vinabb_web_user_profile_route', array('username' => $post_data['username'])) : '',
-					'POST_TIME'		=> $this->user->format_date($post_data['post_time'], 'd/m/Y H:i')
-				));
-			}
-			else
-			{
-				$error = true;
-			}
+			$poster_username = $entity->get_username();
+			$poster_url = '';
 		}
 
-		if ($error)
-		{
-			$this->template->assign_vars(array(
-				'ERROR'	=> $this->language->lang('NO_POST'),
-			));
-		}
+		$this->template->assign_vars([
+			'POST_SUBJECT'	=> truncate_string($entity->get_subject(), 40, 255, false, $this->language->lang('ELLIPSIS')),
+			'POST_TEXT'		=> truncate_string(strip_tags($entity->get_text_for_display()), 189, 255, false, $this->language->lang('ELLIPSIS')),
+			'POST_URL'		=> $this->helper->route('vinabb_web_board_post_route', ['forum_id' => $entity->get_forum_id(), 'topic_id' => $entity->get_topic_id(), 'post_id' => $post_id, 'seo' => $entity->get_subject_seo() . constants::REWRITE_URL_SEO]),
+			'POSTER'		=> $poster_username,
+			'POSTER_URL'	=> $poster_url,
+			'POST_TIME'		=> $this->user->format_date($entity->get_time(), 'd/m/Y H:i')
+		]);
 
-		return $this->helper->render(($error) ? 'embed_error.html' : 'embed_post.html');
+		return $this->helper->render('embed_post.html');
 	}
 }
