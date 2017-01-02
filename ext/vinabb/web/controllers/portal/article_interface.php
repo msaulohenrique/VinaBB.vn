@@ -14,11 +14,12 @@ namespace vinabb\web\controllers\portal;
 interface article_interface
 {
 	/**
-	* View details an article
+	* View an article
 	*
 	* @param int	$article_id	Article ID
-	* @param bool	$print		Print mode
+	* @param bool	$print		true: Print mode; false: Normal mode
 	* @return \Symfony\Component\HttpFoundation\Response
+	* @throws \phpbb\exception\http_exception
 	*/
 	public function article($article_id, $print = false);
 

@@ -97,16 +97,24 @@ class article implements article_interface
 	}
 
 	/**
-	* View details an article
+	* View an article
 	*
 	* @param int	$article_id	Article ID
-	* @param bool	$print		Print mode
+	* @param bool	$print		true: Print mode; false: Normal mode
 	* @return \Symfony\Component\HttpFoundation\Response
+	* @throws \phpbb\exception\http_exception
 	*/
 	public function article($article_id, $print = false)
 	{
-		/** @var \vinabb\web\entities\portal_article_interface $entity */
-		$entity = $this->container->get('vinabb.web.entities.portal_article')->load($article_id);
+		try
+		{
+			/** @var \vinabb\web\entities\portal_article_interface $entity */
+			$entity = $this->container->get('vinabb.web.entities.portal_article')->load($article_id);
+		}
+		catch (\vinabb\web\exceptions\base $e)
+		{
+			throw new \phpbb\exception\http_exception(404, 'NO_PORTAL_ARTICLE');
+		}
 
 		// Category data
 		$category_name = $this->portal_cats[$entity->get_cat_id()][($this->user->lang_name == constants::LANG_VIETNAMESE) ? 'name_vi' : 'name'];

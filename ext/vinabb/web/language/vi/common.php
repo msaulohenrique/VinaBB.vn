@@ -270,6 +270,7 @@ $lang = array_merge($lang, [
 	'NO_BB_TOOL'			=> 'Công cụ không tồn tại.',
 	'NO_BB_TOOL_ID'			=> 'Công cụ không xác định.',
 	'NO_BB_TOOLS'			=> 'Không có công cụ nào.',
+	'NO_PORTAL_ARTICLE'		=> 'Bài viết không tồn tại.',
 	'NO_PORTAL_ARTICLES'	=> 'Không có bài viết nào.',
 	'NO_POST'				=> 'Bài viết không tồn tại.',
 	'NONE'					=> 'Không',
