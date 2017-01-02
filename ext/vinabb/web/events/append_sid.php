@@ -118,7 +118,7 @@ class append_sid implements EventSubscriberInterface
 		// Some cases: abc.php?&x=1
 		$event_params = (substr($event_params, 0, 1) == '&') ? substr($event_params, 1) : $event_params;
 
-		if (!empty($event_params))
+		if ($event_params != '')
 		{
 			$params = explode('&', $event_params);
 
