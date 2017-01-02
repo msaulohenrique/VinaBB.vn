@@ -389,7 +389,7 @@ class helper_core
 	{
 		$birthdays = [];
 
-		if ($this->config['load_birthdays'] && $this->config['allow_birthdays'] && $this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel'))
+		if ($this->get_birthdays_enabled())
 		{
 			$time = $this->user->create_datetime();
 			$now = phpbb_gmgetdate($time->getTimestamp() + $time->getOffset());
@@ -433,5 +433,15 @@ class helper_core
 		}
 
 		return $birthdays;
+	}
+
+	/**
+	* Is the birthday list enabled?
+	*
+	* @return bool
+	*/
+	protected function get_birthdays_enabled()
+	{
+		return $this->config['load_birthdays'] && $this->config['allow_birthdays'] && $this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel');
 	}
 }
