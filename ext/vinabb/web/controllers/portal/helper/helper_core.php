@@ -112,21 +112,29 @@ class helper_core
 	}
 
 	/**
+	* Requires guests to login to perform the action
+	*/
+	public function require_login()
+	{
+		if ($this->user->data['user_id'] == ANONYMOUS)
+		{
+			if ($this->request->is_ajax())
+			{
+				trigger_error('LOGIN_REQUIRED');
+			}
+
+			login_box('', $this->language->lang('LOGIN_REQUIRED'));
+		}
+	}
+
+	/**
 	* Mark notifications as read
 	*/
 	public function mark_read_notifications()
 	{
 		if (($mark_notification = $this->request->variable('mark_notification', 0)))
 		{
-			if ($this->user->data['user_id'] == ANONYMOUS)
-			{
-				if ($this->request->is_ajax())
-				{
-					trigger_error('LOGIN_REQUIRED');
-				}
-
-				login_box('', $this->language->lang('LOGIN_REQUIRED'));
-			}
+			$this->require_login();
 
 			if (check_link_hash($this->request->variable('hash', ''), 'mark_notification_read'))
 			{

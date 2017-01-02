@@ -14,6 +14,11 @@ namespace vinabb\web\controllers\portal\helper;
 interface helper_interface
 {
 	/**
+	* Requires guests to login to perform the action
+	*/
+	public function require_login();
+
+	/**
 	* Mark notifications as read
 	*/
 	public function mark_read_notifications();
