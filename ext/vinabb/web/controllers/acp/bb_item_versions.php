@@ -441,8 +441,6 @@ class bb_item_versions implements bb_item_versions_interface
 	*/
 	protected function build_phpbb_options(\vinabb\web\entities\bb_item_version_interface $entity, $current_version = '', $mode = 'edit')
 	{
-		$current_version = ($mode == 'edit') ? $entity->get_phpbb_version() : $current_version;
-
 		// Get existing branch versions
 		$existing_branches = [];
 		$branch_versions = $this->operator->get_versions($this->item_id);
@@ -456,6 +454,8 @@ class bb_item_versions implements bb_item_versions_interface
 		if ($mode == 'edit')
 		{
 			unset($existing_branches[array_search($entity->get_phpbb_branch(), $existing_branches)]);
+
+			$current_version = $entity->get_phpbb_version();
 		}
 
 		foreach ($this->ext_helper->get_phpbb_versions() as $branch => $branch_data)
