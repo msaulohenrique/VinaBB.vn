@@ -75,9 +75,7 @@ class acp implements EventSubscriberInterface
 	public function adm_page_header($event)
 	{
 		// Add template variables
-		$this->template->assign_vars([
-			'S_FOUNDER'	=> $this->user->data['user_type'] == USER_FOUNDER
-		]);
+		$this->template->assign_var('S_FOUNDER', $this->user->data['user_type'] == USER_FOUNDER);
 	}
 
 	/**
@@ -87,35 +85,74 @@ class acp implements EventSubscriberInterface
 	*/
 	public function add_log($event)
 	{
-		if (substr($event['log_operation'], 0, 14) == 'LOG_FORUM_DEL_')
+		$data = [
+			'LOG_FORUM_DEL_FORUM'					=> 'add_log_forum_del',
+			'LOG_FORUM_DEL_FORUMS'					=> 'add_log_forum_del',
+			'LOG_FORUM_DEL_MOVE_FORUMS'				=> 'add_log_forum_del',
+			'LOG_FORUM_DEL_MOVE_POSTS'				=> 'add_log_forum_del',
+			'LOG_FORUM_DEL_MOVE_POSTS_FORUMS'		=> 'add_log_forum_del',
+			'LOG_FORUM_DEL_MOVE_POSTS_MOVE_FORUMS'	=> 'add_log_forum_del',
+			'LOG_FORUM_DEL_POSTS'					=> 'add_log_forum_del',
+			'LOG_FORUM_DEL_POSTS_FORUMS'			=> 'add_log_forum_del',
+			'LOG_FORUM_DEL_POSTS_MOVE_FORUMS'		=> 'add_log_forum_del',
+			'LOG_FORUM_ADD'							=> 'add_log_forum_add',
+			'LOG_FORUM_EDIT'						=> 'add_log_forum_edit',
+			'LOG_LANGUAGE_PACK_INSTALLED'			=> 'add_log_lang',
+			'LOG_LANGUAGE_PACK_DELETED'				=> 'add_log_lang'
+		];
+
+		// Run methods depend on the log operation
+		if (isset($data[$event['log_operation']]))
 		{
-			// Update forum counter
-			$sql = 'SELECT COUNT(forum_id) AS num_forums
-				FROM ' . FORUMS_TABLE;
-			$result = $this->db->sql_query($sql);
-			$num_forums = $this->db->sql_fetchfield('num_forums');
-			$this->db->sql_freeresult($result);
-
-			$this->config->set('num_forums', $num_forums, true);
-
-			// Clear forum cache
-			$this->cache->clear_forum_data();
+			$this->{$data[$event['log_operation']]}();
 		}
-		else if ($event['log_operation'] == 'LOG_FORUM_ADD' || $event['log_operation'] == 'LOG_FORUM_EDIT')
-		{
-			// Update forum counter
-			if ($event['log_operation'] == 'LOG_FORUM_ADD')
-			{
-				$this->config->increment('num_forums', 1, true);
-			}
+	}
 
-			// Clear forum cache
-			$this->cache->clear_forum_data();
-		}
+	/**
+	* Do actions while deleting forums
+	*/
+	protected function add_log_forum_del()
+	{
+		// Update forum counter
+		$sql = 'SELECT COUNT(forum_id) AS num_forums
+			FROM ' . FORUMS_TABLE;
+		$result = $this->db->sql_query($sql);
+		$num_forums = $this->db->sql_fetchfield('num_forums');
+		$this->db->sql_freeresult($result);
+
+		$this->config->set('num_forums', $num_forums, true);
+
+		// Clear forum cache
+		$this->cache->clear_forum_data();
+	}
+
+	/**
+	* Do actions while adding forums
+	*/
+	protected function add_log_forum_add()
+	{
+		// Update forum counter
+		$this->config->increment('num_forums', 1, true);
+
+		// Clear forum cache
+		$this->cache->clear_forum_data();
+	}
+
+	/**
+	* Do actions while editing forums
+	*/
+	protected function add_log_forum_edit()
+	{
+		// Clear forum cache
+		$this->cache->clear_forum_data();
+	}
+
+	/**
+	* Do actions while installing/uninstalling language packages
+	*/
+	protected function add_log_lang()
+	{
 		// Clear language data cache
-		else if ($event['log_operation'] == 'LOG_LANGUAGE_PACK_INSTALLED' || $event['log_operation'] == 'LOG_LANGUAGE_PACK_DELETED')
-		{
-			$this->cache->clear_lang_data();
-		}
+		$this->cache->clear_lang_data();
 	}
 }
