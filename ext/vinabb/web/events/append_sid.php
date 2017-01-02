@@ -103,25 +103,11 @@ class append_sid implements EventSubscriberInterface
 			}
 
 			// Detect URLs
-			if (strpos($event['url'], "viewforum.{$this->php_ext}") !== false)
+			$php_filename = substr($event['url'], 0, strpos($event['url'], ".{$this->php_ext}"));
+
+			if (in_array($php_filename, ['viewforum', 'viewonline', 'mcp', 'ucp', 'memberlist']))
 			{
-				$this->convert_viewforum();
-			}
-			else if (strpos($event['url'], "viewonline.{$this->php_ext}") !== false)
-			{
-				$this->route_name = 'vinabb_web_user_online_route';
-			}
-			else if (strpos($event['url'], "mcp.{$this->php_ext}") !== false)
-			{
-				$this->convert_mcp();
-			}
-			else if (strpos($event['url'], "ucp.{$this->php_ext}") !== false)
-			{
-				$this->convert_ucp();
-			}
-			else if (strpos($event['url'], "memberlist.{$this->php_ext}") !== false)
-			{
-				$this->convert_memberlist();
+				$this->{'convert_' . $php_filename}();
 			}
 
 			// Replace by routes
@@ -158,6 +144,14 @@ class append_sid implements EventSubscriberInterface
 		}
 
 		$this->route_name = 'vinabb_web_board_forum_route';
+	}
+
+	/**
+	* Conversion rules for URLs from viewonline.php
+	*/
+	protected function convert_viewonline()
+	{
+		$this->route_name = 'vinabb_web_user_online_route';
 	}
 
 	/**
