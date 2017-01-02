@@ -105,61 +105,45 @@ class article implements article_interface
 	*/
 	public function article($article_id, $print = false)
 	{
-		$page_title = $this->language->lang('VINABB');
+		/** @var \vinabb\web\entities\portal_article_interface $entity */
+		$entity = $this->container->get('vinabb.web.entities.portal_article')->load($article_id);
 
-		if (!$article_id)
-		{
-			trigger_error('NO_PORTAL_ARTICLE_ID');
-		}
-		else
-		{
-			/** @var \vinabb\web\entities\portal_article_interface $entity */
-			$entity = $this->container->get('vinabb.web.entities.portal_article')->load($article_id);
+		// Category data
+		$category_name = $this->portal_cats[$entity->get_cat_id()][($this->user->lang_name == constants::LANG_VIETNAMESE) ? 'name_vi' : 'name'];
+		$cat_varname = $this->portal_cats[$entity->get_cat_id()]['varname'];
 
-			if (!$entity->get_id())
-			{
-				trigger_error('NO_PORTAL_ARTICLE');
-			}
-			else
-			{
-				$page_title = $entity->get_name();
-				$category_name = $this->portal_cats[$entity->get_cat_id()][($this->user->lang_name == constants::LANG_VIETNAMESE) ? 'name_vi' : 'name'];
-				$cat_varname = $this->portal_cats[$entity->get_cat_id()]['varname'];
+		// Tracking views
+		$this->update_view_counter($article_id);
 
-				// Tracking views
-				$this->update_view_counter($article_id);
+		// Breadcrumb
+		$this->ext_helper->set_breadcrumb($this->language->lang('NEWS'), $this->helper->route('vinabb_web_portal_route'));
+		$this->ext_helper->set_breadcrumb($category_name, $this->helper->route('vinabb_web_portal_cat_route', ['varname' => $cat_varname]));
+		$this->ext_helper->set_breadcrumb($this->language->lang('PORTAL_ARTICLE'));
 
-				// Breadcrumb
-				$this->ext_helper->set_breadcrumb($this->language->lang('NEWS'), $this->helper->route('vinabb_web_portal_route'));
-				$this->ext_helper->set_breadcrumb($category_name, $this->helper->route('vinabb_web_portal_cat_route', ['varname' => $cat_varname]));
-				$this->ext_helper->set_breadcrumb($this->language->lang('PORTAL_ARTICLE'));
+		// Author info
+		$this->get_author_info($entity->get_user_id());
 
-				// Author info
-				$this->get_author_info($entity->get_user_id());
+		// Comments
+		$this->display_comments($article_id, $entity->get_user_id());
+		$this->ext_helper->load_sceditor();
 
-				// Comments
-				$this->display_comments($article_id, $entity->get_user_id());
-				$this->ext_helper->load_sceditor();
+		$this->template->assign_vars([
+			'ARTICLE_NAME'			=> $entity->get_name(),
+			'ARTICLE_NAME_SHARE'	=> html_entity_decode($entity->get_name()),
+			'ARTICLE_IMG'			=> $entity->get_img(),
+			'ARTICLE_DESC'			=> $entity->get_desc(),
+			'ARTICLE_DESC_SHARE'	=> html_entity_decode($entity->get_desc()),
+			'ARTICLE_TEXT'			=> $entity->get_text_for_display(),
+			'ARTICLE_TIME'			=> $this->user->format_date($entity->get_time()),
 
-				$this->template->assign_vars([
-					'ARTICLE_NAME'			=> $entity->get_name(),
-					'ARTICLE_NAME_SHARE'	=> html_entity_decode($entity->get_name()),
-					'ARTICLE_IMG'			=> $entity->get_img(),
-					'ARTICLE_DESC'			=> $entity->get_desc(),
-					'ARTICLE_DESC_SHARE'	=> html_entity_decode($entity->get_desc()),
-					'ARTICLE_TEXT'			=> $entity->get_text_for_display(),
-					'ARTICLE_TIME'			=> $this->user->format_date($entity->get_time()),
+			'ARTICLE_SHARE_URL'	=> htmlspecialchars_decode($this->helper->get_current_url()),
+			'U_PRINT'			=> $this->helper->route('vinabb_web_portal_article_print_route', ['varname' => $cat_varname, 'seo' => $entity->get_name_seo() . constants::REWRITE_URL_SEO, 'article_id' => $article_id]),
+			'U_ACTION'			=> $this->helper->get_current_url(),
 
-					'ARTICLE_SHARE_URL'	=> htmlspecialchars_decode($this->helper->get_current_url()),
-					'U_PRINT'			=> $this->helper->route('vinabb_web_portal_article_print_route', ['varname' => $cat_varname, 'seo' => $entity->get_name_seo() . constants::REWRITE_URL_SEO, 'article_id' => $article_id]),
-					'U_ACTION'			=> $this->helper->get_current_url(),
+			'S_PORTAL_ARTICLE'	=> true
+		]);
 
-					'S_PORTAL_ARTICLE'	=> true
-				]);
-			}
-		}
-
-		return $this->helper->render($print ? 'portal_article_print.html' : 'portal_article.html', $page_title);
+		return $this->helper->render($print ? 'portal_article_print.html' : 'portal_article.html', $entity->get_name());
 	}
 
 	/**
