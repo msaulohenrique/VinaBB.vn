@@ -81,30 +81,16 @@ class append_sid implements EventSubscriberInterface
 			$this->route_name = '';
 			$this->route_data = [];
 
+			// Detect PHP filename
+			$php_filename = substr($event['url'], 0, strpos($event['url'], ".{$this->php_ext}"));
+
 			// Get parameters
-			if ($event['params'] !== false || strpos($event['url'], "ucp.{$this->php_ext}") !== false || strpos($event['url'], "mcp.{$this->php_ext}") !== false)
+			if ($event['params'] !== false || in_array($php_filename, ['mcp', 'ucp']))
 			{
-				$event_params = ($event['params'] !== false) ? $event['params'] : substr(strrchr($event['url'], '?'), 1);
-				$event_params = str_replace(['&amp;', '?'], ['&', ''], $event_params);
-
-				// Some cases: abc.php?&x=1
-				$event_params = (substr($event_params, 0, 1) == '&') ? substr($event_params, 1) : $event_params;
-
-				if (!empty($event_params))
-				{
-					$params = explode('&', $event_params);
-
-					foreach ($params as $param)
-					{
-						list($param_key, $param_value) = explode('=', $param);
-						$this->route_data[$param_key] = $param_value;
-					}
-				}
+				$this->set_route_data($event['params'], $event['url']);
 			}
 
 			// Detect URLs
-			$php_filename = substr($event['url'], 0, strpos($event['url'], ".{$this->php_ext}"));
-
 			if (in_array($php_filename, ['viewforum', 'viewonline', 'mcp', 'ucp', 'memberlist']))
 			{
 				$this->{'convert_' . $php_filename}();
@@ -114,6 +100,32 @@ class append_sid implements EventSubscriberInterface
 			if ($this->route_name != '')
 			{
 				$event['append_sid_overwrite'] = $this->helper->route($this->route_name, $this->route_data, false, $event['session_id']);
+			}
+		}
+	}
+
+	/**
+	* Set URL parameters to the route data
+	*
+	* @param string	$event_params	The value of $event['params']
+	* @param string	$event_url		The value of $event['url']
+	*/
+	protected function set_route_data($event_params, $event_url)
+	{
+		$event_params = ($event_params !== false) ? $event_params : substr(strrchr($event_url, '?'), 1);
+		$event_params = str_replace(['&amp;', '?'], ['&', ''], $event_params);
+
+		// Some cases: abc.php?&x=1
+		$event_params = (substr($event_params, 0, 1) == '&') ? substr($event_params, 1) : $event_params;
+
+		if (!empty($event_params))
+		{
+			$params = explode('&', $event_params);
+
+			foreach ($params as $param)
+			{
+				list($param_key, $param_value) = explode('=', $param);
+				$this->route_data[$param_key] = $param_value;
 			}
 		}
 	}
