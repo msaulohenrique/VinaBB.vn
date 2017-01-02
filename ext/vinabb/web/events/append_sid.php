@@ -135,7 +135,7 @@ class append_sid implements EventSubscriberInterface
 	/**
 	* Conversion rules for URLs from viewforum.php
 	*/
-	private function convert_viewforum()
+	protected function convert_viewforum()
 	{
 		// Get forum SEO names from cache
 		$forum_data = $this->cache->get_forum_data();
@@ -163,7 +163,7 @@ class append_sid implements EventSubscriberInterface
 	/**
 	* Conversion rules for URLs from mcp.php
 	*/
-	private function convert_mcp()
+	protected function convert_mcp()
 	{
 		if (isset($this->route_data['i']))
 		{
@@ -178,7 +178,7 @@ class append_sid implements EventSubscriberInterface
 	/**
 	* Conversion rules for URLs from ucp.php
 	*/
-	private function convert_ucp()
+	protected function convert_ucp()
 	{
 		if (isset($this->route_data['i']))
 		{
@@ -197,49 +197,13 @@ class append_sid implements EventSubscriberInterface
 	/**
 	* Conversion rules for URLs from memberlist.php
 	*/
-	private function convert_memberlist()
+	protected function convert_memberlist()
 	{
 		if (isset($this->route_data['mode']))
 		{
-			switch ($this->route_data['mode'])
+			if (in_array($this->route_data['mode'], ['contactadmin', 'email', 'contact', 'team']))
 			{
-				case 'contactadmin':
-					$this->route_name = 'vinabb_web_user_contact_route';
-				break;
-
-				case 'email':
-					if (isset($this->route_data['t']))
-					{
-						$this->route_data['type'] = 'topic';
-						$this->route_data['id'] = $this->route_data['t'];
-
-						unset($this->route_data['t']);
-					}
-					else if (isset($this->route_data['u']))
-					{
-						$this->route_data['type'] = 'user';
-						$this->route_data['id'] = $this->route_data['u'];
-
-						unset($this->route_data['u']);
-					}
-
-					$this->route_name = 'vinabb_web_user_email_route';
-				break;
-
-				case 'contact':
-					if (isset($this->route_data['u']))
-					{
-						$this->route_data['user_id'] = $this->route_data['u'];
-
-						unset($this->route_data['u']);
-					}
-
-					$this->route_name = 'vinabb_web_user_messenger_route';
-				break;
-
-				case 'team':
-					$this->route_name = 'vinabb_web_user_team_route';
-				break;
+				$this->{'convert_memberlist_' . $this->route_data['mode']}();
 			}
 
 			unset($this->route_data['mode']);
@@ -248,5 +212,59 @@ class append_sid implements EventSubscriberInterface
 		{
 			$this->route_name = 'vinabb_web_user_list_route';
 		}
+	}
+
+	/**
+	* Sub-method for $this->convert_memberlist() with mode = 'contactadmin'
+	*/
+	protected function convert_memberlist_contactadmin()
+	{
+		$this->route_name = 'vinabb_web_user_contact_route';
+	}
+
+	/**
+	* Sub-method for $this->convert_memberlist() with mode = 'email'
+	*/
+	protected function convert_memberlist_email()
+	{
+		if (isset($this->route_data['t']))
+		{
+			$this->route_data['type'] = 'topic';
+			$this->route_data['id'] = $this->route_data['t'];
+
+			unset($this->route_data['t']);
+		}
+		else if (isset($this->route_data['u']))
+		{
+			$this->route_data['type'] = 'user';
+			$this->route_data['id'] = $this->route_data['u'];
+
+			unset($this->route_data['u']);
+		}
+
+		$this->route_name = 'vinabb_web_user_email_route';
+	}
+
+	/**
+	* Sub-method for $this->convert_memberlist() with mode = 'contact'
+	*/
+	protected function convert_memberlist_contact()
+	{
+		if (isset($this->route_data['u']))
+		{
+			$this->route_data['user_id'] = $this->route_data['u'];
+
+			unset($this->route_data['u']);
+		}
+
+		$this->route_name = 'vinabb_web_user_messenger_route';
+	}
+
+	/**
+	* Sub-method for $this->convert_memberlist() with mode = 'team'
+	*/
+	protected function convert_memberlist_team()
+	{
+		$this->route_name = 'vinabb_web_user_team_route';
 	}
 }
