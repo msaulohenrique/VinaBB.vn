@@ -46,6 +46,9 @@ class messenger implements messenger_interface
 	/** @var array $recipient_data */
 	protected $recipient_data;
 
+	/** @var string $s_select */
+	protected $s_select;
+
 	/**
 	* Constructor
 	*
@@ -103,27 +106,15 @@ class messenger implements messenger_interface
 			trigger_error('NOT_AUTHORISED');
 		}
 
-		$s_select = (extension_loaded('xml') && $this->config['jab_enable']) ? 'S_SEND_JABBER' : 'S_NO_SEND_JABBER';
-		$s_action = $this->helper->route('vinabb_web_user_messenger_route', ['action' => $action, 'user_id' => $user_id]);
+		$this->s_select = 'S_SEND_JABBER';
+
+		if (!extension_loaded('xml') || !$this->config['jab_enable'])
+		{
+			$this->s_select = 'S_NO_SEND_JABBER';
+		}
 
 		$this->get_recipient_data($user_id);
-
-		// Post data grab actions
-		add_form_key('memberlist_messaging');
-
-		if ($this->request->is_set_post('submit') && extension_loaded('xml') && $this->config['jab_enable'])
-		{
-			if (check_form_key('memberlist_messaging'))
-			{
-				$this->send_message();
-
-				$s_select = 'S_SENT_JABBER';
-			}
-			else
-			{
-				trigger_error('FORM_INVALID');
-			}
-		}
+		$this->submit_form();
 
 		// Send vars to the template
 		$this->template->assign_vars([
@@ -137,8 +128,8 @@ class messenger implements messenger_interface
 			'L_SEND_IM_EXPLAIN'	=> $this->language->lang('IM_JABBER'),
 			'L_IM_SENT_JABBER'	=> $this->language->lang('IM_SENT_JABBER', $this->recipient_data['username']),
 
-			$s_select		=> true,
-			'S_IM_ACTION'	=> $s_action
+			$this->s_select		=> true,
+			'S_IM_ACTION'		=> $this->helper->route('vinabb_web_user_messenger_route', ['action' => $action, 'user_id' => $user_id])
 		]);
 
 		return $this->helper->render('memberlist_im.html', $this->language->lang('IM_USER'));
@@ -167,6 +158,28 @@ class messenger implements messenger_interface
 		else if (empty($this->recipient_data['user_jabber']))
 		{
 			trigger_error('IM_NO_DATA');
+		}
+	}
+
+	/**
+	* Actions when submitting
+	*/
+	protected function submit_form()
+	{
+		add_form_key('memberlist_messaging');
+
+		if ($this->request->is_set_post('submit') && extension_loaded('xml') && $this->config['jab_enable'])
+		{
+			if (check_form_key('memberlist_messaging'))
+			{
+				$this->send_message();
+
+				$this->s_select = 'S_SENT_JABBER';
+			}
+			else
+			{
+				trigger_error('FORM_INVALID');
+			}
 		}
 	}
 
