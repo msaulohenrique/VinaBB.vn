@@ -108,6 +108,9 @@ class constants
 	const PORTAL_ARTICLES_PER_PAGE = 20;
 	const BB_ITEMS_PER_PAGE = 10;
 
+	// Padding for the tree of nested items
+	const TREE_PADDING = '&nbsp;&nbsp;';
+
 	// Maximum length
 	const MAX_CONFIG_NAME = 255;
 	const MAX_VERSION_NUMBER = 20;

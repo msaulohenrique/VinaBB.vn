@@ -143,4 +143,17 @@ interface helper_interface
 	* @return string Gravatar URL
 	*/
 	public function get_gravatar_url($row);
+
+	/**
+	* Build the nested item list with padding for each tree level
+	*
+	* @param string	$padding		Current padding
+	* @param array	$padding_store	Padding data of the tree
+	* @param int	$right			Right ID of the tree
+	* @param int	$parent_id		Current parent ID of the item
+	* @param int	$left_id		Current left ID of the item
+	* @param int	$right_id		Current right ID of the item
+	* @return string
+	*/
+	public function build_parent_padding(&$padding, &$padding_store, &$right, $parent_id, $left_id, $right_id);
 }
