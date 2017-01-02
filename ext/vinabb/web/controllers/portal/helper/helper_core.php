@@ -422,12 +422,9 @@ class helper_core
 
 			foreach ($rows as $row)
 			{
-				$birthday_username = get_username_string('full', $row['user_id'], $row['username'], $row['user_colour']);
-				$birthday_year = (int) substr($row['user_birthday'], -4);
-				$birthday_age = ($birthday_year) ? max(0, $now['year'] - $birthday_year) : '';
 				$birthdays[] = [
-					'USERNAME'	=> $birthday_username,
-					'AGE'		=> $birthday_age
+					'USERNAME'	=> get_username_string('full', $row['user_id'], $row['username'], $row['user_colour']),
+					'AGE'		=> max(0, $now['year'] - (int) substr($row['user_birthday'], -4))
 				];
 			}
 		}
