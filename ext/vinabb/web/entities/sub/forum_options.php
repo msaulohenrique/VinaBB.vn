@@ -36,7 +36,7 @@ class forum_options extends forum_last_post
 	*
 	* @return string
 	*/
-	public function get_forum_link()
+	public function get_link()
 	{
 		return isset($this->data['forum_link']) ? (string) $this->data['forum_link'] : '';
 	}
@@ -48,7 +48,7 @@ class forum_options extends forum_last_post
 	* @return forum_options	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
-	public function set_forum_link($text)
+	public function set_link($text)
 	{
 		$text = (string) $text;
 
@@ -76,7 +76,7 @@ class forum_options extends forum_last_post
 	*
 	* @return string
 	*/
-	public function get_forum_password()
+	public function get_password()
 	{
 		return isset($this->data['forum_password']) ? (string) $this->data['forum_password'] : '';
 	}
@@ -88,7 +88,7 @@ class forum_options extends forum_last_post
 	* @return forum_options	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
-	public function set_forum_password($text)
+	public function set_password($text)
 	{
 		$text = (string) $text;
 
@@ -109,7 +109,7 @@ class forum_options extends forum_last_post
 	*
 	* @return int
 	*/
-	public function get_forum_style()
+	public function get_style()
 	{
 		return isset($this->data['forum_style']) ? (int) $this->data['forum_style'] : 0;
 	}
@@ -121,7 +121,7 @@ class forum_options extends forum_last_post
 	* @return forum_options	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
-	public function set_forum_style($id)
+	public function set_style($id)
 	{
 		$id = (int) $id;
 
@@ -142,7 +142,7 @@ class forum_options extends forum_last_post
 	*
 	* @return string
 	*/
-	public function get_forum_image()
+	public function get_image()
 	{
 		return isset($this->data['forum_image']) ? (string) $this->data['forum_image'] : '';
 	}
@@ -154,7 +154,7 @@ class forum_options extends forum_last_post
 	* @return forum_options	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
-	public function set_forum_image($text)
+	public function set_image($text)
 	{
 		$text = (string) $text;
 
@@ -175,7 +175,7 @@ class forum_options extends forum_last_post
 	*
 	* @return int
 	*/
-	public function get_forum_flags()
+	public function get_flags()
 	{
 		return isset($this->data['forum_flags']) ? (int) $this->data['forum_flags'] : 32;
 	}
@@ -186,7 +186,7 @@ class forum_options extends forum_last_post
 	* @param int			$value	Forum flags
 	* @return forum_options	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function set_forum_flags($value)
+	public function set_flags($value)
 	{
 		// Set the value on our data array
 		$this->data['forum_flags'] = (int) $value;
@@ -199,7 +199,7 @@ class forum_options extends forum_last_post
 	*
 	* @return int
 	*/
-	public function get_forum_options()
+	public function get_options()
 	{
 		return isset($this->data['forum_options']) ? (int) $this->data['forum_options'] : 0;
 	}
@@ -210,7 +210,7 @@ class forum_options extends forum_last_post
 	* @param int			$value	Forum options
 	* @return forum_options	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function set_forum_options($value)
+	public function set_options($value)
 	{
 		// Set the value on our data array
 		$this->data['forum_options'] = (int) $value;

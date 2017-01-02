@@ -283,7 +283,7 @@ interface forum_interface
 	*
 	* @return string
 	*/
-	public function get_forum_link();
+	public function get_link();
 
 	/**
 	* Set the forum redirect link
@@ -292,14 +292,14 @@ interface forum_interface
 	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
-	public function set_forum_link($text);
+	public function set_link($text);
 
 	/**
 	* Get the forum password
 	*
 	* @return string
 	*/
-	public function get_forum_password();
+	public function get_password();
 
 	/**
 	* Set the forum password
@@ -308,14 +308,14 @@ interface forum_interface
 	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
-	public function set_forum_password($text);
+	public function set_password($text);
 
 	/**
 	* Get the forum style
 	*
 	* @return int
 	*/
-	public function get_forum_style();
+	public function get_style();
 
 	/**
 	* Set the forum style
@@ -324,14 +324,14 @@ interface forum_interface
 	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
-	public function set_forum_style($id);
+	public function set_style($id);
 
 	/**
 	* Get the forum image
 	*
 	* @return string
 	*/
-	public function get_forum_image();
+	public function get_image();
 
 	/**
 	* Set the forum image
@@ -340,14 +340,14 @@ interface forum_interface
 	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
 	* @throws \vinabb\web\exceptions\unexpected_value
 	*/
-	public function set_forum_image($text);
+	public function set_image($text);
 
 	/**
 	* Get forum flags
 	*
 	* @return int
 	*/
-	public function get_forum_flags();
+	public function get_flags();
 
 	/**
 	* Set forum flags
@@ -355,14 +355,14 @@ interface forum_interface
 	* @param int				$value	Forum flags
 	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function set_forum_flags($value);
+	public function set_flags($value);
 
 	/**
 	* Get forum options
 	*
 	* @return int
 	*/
-	public function get_forum_options();
+	public function get_options();
 
 	/**
 	* Set forum options
@@ -370,7 +370,7 @@ interface forum_interface
 	* @param int				$value	Forum options
 	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function set_forum_options($value);
+	public function set_options($value);
 
 	/**
 	* Get the forum setting: Display on the board page
