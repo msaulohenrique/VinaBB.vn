@@ -67,8 +67,8 @@ class bb_item_versions implements bb_item_versions_interface
 	/** @var array $data */
 	protected $data;
 
-	/** @var array $errors Use [] because it will be merged to other arrays */
-	protected $errors = [];
+	/** @var array $errors */
+	protected $errors;
 
 	/** @var string $ext_root_path */
 	protected $ext_root_path;
@@ -505,33 +505,17 @@ class bb_item_versions implements bb_item_versions_interface
 		// Rename file
 		$file->clean_filename('avatar', str_replace(' ', '', $this->item_name) . '_', $this->data['item_version']);
 
-		// If there was an error during upload, then abort operation
-		if (sizeof($file->error))
-		{
-			$file->remove();
-			$this->errors = array_merge($this->errors, $file->error);
-
-			return '';
-		}
-
 		// Set new destination
 		$destination = $this->ext_helper->remove_trailing_slash($this->upload_dir_path);
 
 		// Move file and overwrite any existing image
-		if (!sizeof($this->errors))
-		{
-			$file->move_file($destination, true);
-		}
+		$file->move_file($destination, true);
 
-		// If there was an error during move, then clean up leftovers
+		// If there was an error during upload, then clean up leftovers
 		if (sizeof($file->error))
 		{
-			$this->errors = array_merge($this->errors, $file->error);
-		}
-
-		if (sizeof($this->errors))
-		{
 			$file->remove();
+			$this->errors += $file->error;
 
 			return '';
 		}
