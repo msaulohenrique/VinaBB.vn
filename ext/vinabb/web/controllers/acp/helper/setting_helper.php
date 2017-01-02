@@ -309,8 +309,17 @@ class setting_helper
 		// Normal radio with yes/no options
 		else
 		{
-			$yes_checked_html = ($value) ? ' checked' : '';
-			$no_checked_html = (!$value) ? ' checked' : '';
+			if ($value)
+			{
+				$yes_checked_html = ' checked';
+				$no_checked_html = '';
+			}
+			else
+			{
+				$no_checked_html = ' checked';
+				$yes_checked_html = '';
+			}
+
 			$html .= '<label><input type="radio" class="radio" name="' . $name . '" id="' . $name . '" value="1"' . $yes_checked_html . '> ' . $this->language->lang('YES') . '</label>';
 			$html .= '<label><input type="radio" class="radio" name="' . $name . '" value="0"' . $no_checked_html. '> ' . $this->language->lang('NO') . '</label>';
 		}
