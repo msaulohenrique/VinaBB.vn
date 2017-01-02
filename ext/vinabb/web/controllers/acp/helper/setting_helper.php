@@ -108,9 +108,9 @@ class setting_helper
 					'TITLE'		=> (substr($name, -3) == '_' . constants::LANG_VIETNAMESE) ? $this->language->lang(strtoupper(substr($name, 0, -3))) . ' (' . $this->language->lang('VIETNAMESE') . ')' : $this->language->lang(strtoupper($name)),
 					'EXPLAIN'	=> (isset($data['explain']) && $data['explain'] === true) ? ((substr($name, -3) == '_' . constants::LANG_VIETNAMESE) ? $this->language->lang(strtoupper(substr($name, 0, -3)) . '_EXPLAIN') : $this->language->lang(strtoupper($name) . '_EXPLAIN')) : '',
 					'HTML'		=> $this->return_input_html($name, $data),
-					'PREPEND'	=> (isset($data['prepend']) && $data['prepend'] != '') ? $data['prepend'] : '',
-					'APPEND'	=> (isset($data['append']) && $data['append'] != '') ? $data['append'] : '',
-					'EXTRA'		=> (isset($data['extra']) && $data['extra'] != '') ? $data['extra'] : ''
+					'PREPEND'	=> !empty($data['prepend']) ? $data['prepend'] : '',
+					'APPEND'	=> !empty($data['append']) ? $data['append'] : '',
+					'EXTRA'		=> !empty($data['extra']) ? $data['extra'] : ''
 				]);
 			}
 		}
