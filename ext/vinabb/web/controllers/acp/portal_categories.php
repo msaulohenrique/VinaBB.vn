@@ -468,17 +468,8 @@ class portal_categories implements portal_categories_interface
 		/** @var \vinabb\web\entities\portal_category_interface $option */
 		foreach ($options as $option)
 		{
-			if ($option->get_left_id() < $right)
-			{
-				$padding .= '&nbsp;&nbsp;';
-				$padding_store[$option->get_parent_id()] = $padding;
-			}
-			else if ($option->get_left_id() > $right + 1)
-			{
-				$padding = isset($padding_store[$option->get_parent_id()]) ? $padding_store[$option->get_parent_id()] : '';
-			}
-
-			$right = $option->get_right_id();
+			// Update padding for the current tree level
+			$this->ext_helper->build_parent_padding($padding, $padding_store, $right, $option->get_parent_id(), $option->get_left_id(), $option->get_right_id());
 
 			$this->template->assign_block_vars('parent_options', [
 				'ID'		=> $option->get_id(),

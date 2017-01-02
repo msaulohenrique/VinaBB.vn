@@ -512,17 +512,8 @@ class menus implements menus_interface
 		/** @var \vinabb\web\entities\menu_interface $option */
 		foreach ($options as $option)
 		{
-			if ($option->get_left_id() < $right)
-			{
-				$padding .= '&nbsp;&nbsp;';
-				$padding_store[$option->get_parent_id()] = $padding;
-			}
-			else if ($option->get_left_id() > $right + 1)
-			{
-				$padding = isset($padding_store[$option->get_parent_id()]) ? $padding_store[$option->get_parent_id()] : '';
-			}
-
-			$right = $option->get_right_id();
+			// Update padding for the current tree level
+			$this->ext_helper->build_parent_padding($padding, $padding_store, $right, $option->get_parent_id(), $option->get_left_id(), $option->get_right_id());
 
 			$this->template->assign_block_vars('parent_options', [
 				'ID'		=> $option->get_id(),
@@ -606,21 +597,12 @@ class menus implements menus_interface
 
 		foreach ($this->cache->get_forum_data() as $forum_id => $forum_data)
 		{
-			if ($forum_data['left_id'] < $right)
-			{
-				$padding .= '&nbsp;&nbsp;';
-				$padding_store[$forum_data['parent_id']] = $padding;
-			}
-			else if ($forum_data['left_id'] > $right + 1)
-			{
-				$padding = isset($padding_store[$forum_data['parent_id']]) ? $padding_store[$forum_data['parent_id']] : '';
-			}
-
-			$right = $forum_data['right_id'];
+			// Update padding for the current tree level
+			$this->ext_helper->build_parent_padding($padding, $padding_store, $right, $forum_data['parent_id'], $forum_data['left_id'], $forum_data['right_id']);
 
 			$this->template->assign_block_vars('forum_options', [
-				'ID'		=> $forum_id,
-				'NAME'		=> $padding . $forum_data['name'],
+				'ID'	=> $forum_id,
+				'NAME'	=> $padding . $forum_data['name'],
 
 				'S_SELECTED'	=> $forum_id == $current_id
 			]);
