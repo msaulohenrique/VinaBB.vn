@@ -67,8 +67,8 @@ class portal_articles implements portal_articles_interface
 	/** @var array $data */
 	protected $data;
 
-	/** @var array $errors Use [] because it will be merged to other arrays */
-	protected $errors = [];
+	/** @var array $errors */
+	protected $errors;
 
 	/** @var string $ext_root_path */
 	protected $ext_root_path;
@@ -541,33 +541,17 @@ class portal_articles implements portal_articles_interface
 		// Rename file
 		$file->clean_filename('avatar', date('Y-m-d-H-i-s_', time()), $this->user->data['user_id']);
 
-		// If there was an error during upload, then abort operation
-		if (sizeof($file->error))
-		{
-			$file->remove();
-			$this->errors = array_merge($this->errors, $file->error);
-
-			return '';
-		}
-
 		// Set new destination
 		$destination = $this->ext_helper->remove_trailing_slash($this->upload_dir_path);
 
 		// Move file and overwrite any existing image
-		if (!sizeof($this->errors))
-		{
-			$file->move_file($destination, true);
-		}
+		$file->move_file($destination, true);
 
-		// If there was an error during move, then clean up leftovers
+		// If there was an error during upload, then clean up leftovers
 		if (sizeof($file->error))
 		{
-			$this->errors = array_merge($this->errors, $file->error);
-		}
-
-		if (sizeof($this->errors))
-		{
 			$file->remove();
+			$this->errors += $file->error;
 
 			return '';
 		}
