@@ -870,6 +870,21 @@ class forum implements forum_interface
 		}
 
 		// Permissions check
+		$this->require_login_auth();
+
+		// Forum is passworded ... check whether access has been granted to this
+		// user this session, if not show login box
+		if ($this->forum_data['forum_password'])
+		{
+			login_forum_box($this->forum_data);
+		}
+	}
+
+	/**
+	* Sub-method for the require_login()
+	*/
+	protected function require_login_auth()
+	{
 		if (!$this->auth->acl_gets('f_list', 'f_read', $this->forum_data['forum_id']) || ($this->forum_data['forum_type'] == FORUM_LINK && $this->forum_data['forum_link'] && !$this->auth->acl_get('f_read', $this->forum_data['forum_id'])))
 		{
 			if ($this->user->data['user_id'] != ANONYMOUS)
@@ -879,13 +894,6 @@ class forum implements forum_interface
 			}
 
 			login_box('', $this->language->lang('LOGIN_VIEWFORUM'));
-		}
-
-		// Forum is passworded ... check whether access has been granted to this
-		// user this session, if not show login box
-		if ($this->forum_data['forum_password'])
-		{
-			login_forum_box($this->forum_data);
 		}
 	}
 
