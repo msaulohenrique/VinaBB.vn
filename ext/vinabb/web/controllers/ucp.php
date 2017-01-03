@@ -46,6 +46,15 @@ class ucp implements ucp_interface
 	/** @var string */
 	protected $php_ext;
 
+	/** @var \vinabb\web\includes\p_master $module */
+	protected $module;
+
+	/** @var string $id */
+	protected $id;
+
+	/** @var string $mode */
+	protected $mode;
+
 	/**
 	* Constructor
 	*
@@ -93,6 +102,7 @@ class ucp implements ucp_interface
 	*
 	* @param string	$id		Module basename
 	* @param string	$mode	Module mode
+	* @return mixed|bool
 	*/
 	public function main($id, $mode)
 	{
@@ -110,116 +120,26 @@ class ucp implements ucp_interface
 		// Setting a variable to let the style designer know where he is...
 		$this->template->assign_var('S_IN_UCP', true);
 
-		$module = new \vinabb\web\includes\p_master();
-		$default = false;
+		$this->module = new \vinabb\web\includes\p_master();
+		$this->id = $id;
+		$this->mode = $mode;
 
-		// Basic "global" modes
-		switch ($mode)
+		if (in_array($mode, ['activate', 'resend_act', 'sendpassword', 'register', 'confirm', 'login', 'login_link', 'logout', 'terms', 'privacy', 'delete_cookies', 'switch_perm', 'restore_perm']))
 		{
-			case 'activate':
-				$module->load('ucp', 'activate');
-				$module->display($this->language->lang('UCP_ACTIVATE'));
+			$this->{'ucp_' . $mode}();
 
-				redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
-			break;
-
-			case 'resend_act':
-				$module->load('ucp', 'resend');
-				$module->display($this->language->lang('UCP_RESEND'));
-			break;
-
-			case 'sendpassword':
-				$module->load('ucp', 'remind');
-				$module->display($this->language->lang('UCP_REMIND'));
-			break;
-
-			case 'register':
-				if ($this->user->data['is_registered'] || $this->request->is_set('not_agreed'))
-				{
-					redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
-				}
-
-				$module->load('ucp', 'register');
-				$module->display($this->language->lang('REGISTER'));
-			break;
-
-			case 'confirm':
-				$module->load('ucp', 'confirm');
-			break;
-
-			case 'login':
-				if ($this->user->data['is_registered'])
-				{
-					redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
-				}
-
-				login_box($this->request->variable('redirect', "index.{$this->php_ext}"));
-			break;
-
-			case 'login_link':
-				if ($this->user->data['is_registered'])
-				{
-					redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
-				}
-
-				$module->load('ucp', 'login_link');
-				$module->display($this->language->lang('UCP_LOGIN_LINK'));
-			break;
-
-			case 'logout':
-				$this->logout();
-			break;
-
-			case 'terms':
-			case 'privacy':
-				$this->display_agreement($mode);
-			break;
-
-			case 'delete_cookies':
-				$this->delete_cookies();
-			break;
-
-			case 'switch_perm':
-				$this->switch_perm();
-			break;
-
-			case 'restore_perm':
-				$this->restore_perm();
-			break;
-
-			default:
-				$default = true;
-			break;
-		}
-
-		// We use this approach because it does not impose large code changes
-		if (!$default)
-		{
+			// We use this approach because it does not impose large code changes
 			return true;
 		}
 
 		// Only registered users can go beyond this point
-		if (!$this->user->data['is_registered'])
-		{
-			if ($this->user->data['is_bot'])
-			{
-				redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
-			}
-
-			if ($id == 'pm' && $mode == 'view' && $this->request->is_set('p', \phpbb\request\request_interface::GET))
-			{
-				$redirect_url = $this->helper->route('vinabb_web_ucp_route', ['id' => 'pm', 'p' => $this->request->variable('p', 0)]);
-				login_box($redirect_url, $this->language->lang('LOGIN_EXPLAIN_UCP'));
-			}
-
-			login_box('', $this->language->lang('LOGIN_EXPLAIN_UCP'));
-		}
+		$this->require_login();
 
 		// Instantiate module system and generate list of available modules
-		$module->list_modules('ucp');
+		$this->module->list_modules('ucp');
 
 		// Check if the zebra module is set
-		if ($module->is_active('zebra', 'friends'))
+		if ($this->module->is_active('zebra', 'friends'))
 		{
 			$this->display_online_friends();
 		}
@@ -227,20 +147,98 @@ class ucp implements ucp_interface
 		// Do not display subscribed topics/forums if not allowed
 		if (!$this->config['allow_topic_notify'] && !$this->config['allow_forum_notify'])
 		{
-			$module->set_display('main', 'subscribed', false);
+			$this->module->set_display('main', 'subscribed', false);
 		}
 
 		// Select the active module
-		$module->set_active($id, $mode);
+		$this->module->set_active($id, $mode);
 
 		// Load and execute the relevant module
-		$module->load_active();
+		$this->module->load_active();
 
 		// Assign data to the template engine for the list of modules
-		$module->assign_tpl_vars("{$this->root_path}ucp.{$this->php_ext}");
+		$this->module->assign_tpl_vars("{$this->root_path}ucp.{$this->php_ext}");
 
 		// Generate the page, do not display/query online list
-		$module->display($module->get_page_title());
+		$this->module->display($this->module->get_page_title());
+	}
+
+	/**
+	* Sub-method for the main() with mode = activate
+	*/
+	protected function ucp_activate()
+	{
+		$this->module->load('ucp', 'activate');
+		$this->module->display($this->language->lang('UCP_ACTIVATE'));
+
+		redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
+	}
+
+	/**
+	* Sub-method for the main() with mode = resend_act
+	*/
+	protected function ucp_resend_act()
+	{
+		$this->module->load('ucp', 'resend');
+		$this->module->display($this->language->lang('UCP_RESEND'));
+	}
+
+	/**
+	* Sub-method for the main() with mode = sendpassword
+	*/
+	protected function ucp_sendpassword()
+	{
+		$this->module->load('ucp', 'remind');
+		$this->module->display($this->language->lang('UCP_REMIND'));
+	}
+
+	/**
+	* Sub-method for the main() with mode = register
+	*/
+	protected function ucp_register()
+	{
+		if ($this->user->data['is_registered'] || $this->request->is_set('not_agreed'))
+		{
+			redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
+		}
+
+		$this->module->load('ucp', 'register');
+		$this->module->display($this->language->lang('REGISTER'));
+	}
+
+	/**
+	* Sub-method for the main() with mode = confirm
+	*/
+	protected function ucp_confirm()
+	{
+		$this->module->load('ucp', 'confirm');
+	}
+
+	/**
+	* Sub-method for the main() with mode = login
+	*/
+	protected function ucp_login()
+	{
+		if ($this->user->data['is_registered'])
+		{
+			redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
+		}
+
+		login_box($this->request->variable('redirect', "index.{$this->php_ext}"));
+	}
+
+	/**
+	* Sub-method for the main() with mode = login_link
+	*/
+	protected function ucp_login_link()
+	{
+		if ($this->user->data['is_registered'])
+		{
+			redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
+		}
+
+		$this->module->load('ucp', 'login_link');
+		$this->module->display($this->language->lang('UCP_LOGIN_LINK'));
 	}
 
 	/**
@@ -264,24 +262,22 @@ class ucp implements ucp_interface
 	}
 
 	/**
+	* Sub-method for the main() with mode = logout
+	*/
+	protected function ucp_logout()
+	{
+		$this->logout();
+	}
+
+	/**
 	* Display agreement page
 	*
-	* @param string $mode Front mode (terms|privacy)
+	* @param string	$title		Page title
+	* @param string	$message	Page content
 	* @return \Symfony\Component\HttpFoundation\Response
 	*/
-	public function display_agreement($mode = 'terms')
+	public function display_agreement($title = 'TERMS_USE', $message = 'TERMS_OF_USE_CONTENT')
 	{
-		if ($mode == 'terms')
-		{
-			$message = 'TERMS_OF_USE_CONTENT';
-			$title = 'TERMS_USE';
-		}
-		else
-		{
-			$message = 'PRIVACY_POLICY';
-			$title = 'PRIVACY';
-		}
-
 		if (!$this->language->is_set($message))
 		{
 			if ($this->user->data['is_registered'])
@@ -296,15 +292,30 @@ class ucp implements ucp_interface
 			'S_AGREEMENT'		=> true,
 			'AGREEMENT_TITLE'	=> $this->language->lang($title),
 			'AGREEMENT_TEXT'	=> $this->language->lang($message, $this->config['sitename'], generate_board_url()),
-			'U_BACK'			=> $this->helper->route('vinabb_web_ucp_route', ['mode' => 'login']),
-			'L_BACK'			=> $this->language->lang('BACK_TO_LOGIN')
+			'U_BACK'			=> $this->helper->route('vinabb_web_ucp_route', ['mode' => 'login'])
 		]);
 
 		return $this->helper->render('ucp_agreement.html', $this->language->lang($title));
 	}
 
 	/**
-	* Delete Cookies with dynamic names (do NOT delete poll cookies)
+	* Sub-method for the main() with mode = terms
+	*/
+	protected function ucp_terms()
+	{
+		display_agreement('TERMS_USE', 'TERMS_OF_USE_CONTENT');
+	}
+
+	/**
+	* Sub-method for the main() with mode = privacy
+	*/
+	protected function ucp_privacy()
+	{
+		display_agreement('PRIVACY', 'PRIVACY_POLICY');
+	}
+
+	/**
+	* Delete Cookies with dynamic names (DO NOT delete poll cookies)
 	*/
 	public function delete_cookies()
 	{
@@ -352,6 +363,14 @@ class ucp implements ucp_interface
 	}
 
 	/**
+	* Sub-method for the main() with mode = delete_cookies
+	*/
+	protected function ucp_delete_cookies()
+	{
+		$this->delete_cookies();
+	}
+
+	/**
 	* Switch permissions to another user
 	*/
 	public function switch_perm()
@@ -386,6 +405,14 @@ class ucp implements ucp_interface
 	}
 
 	/**
+	* Sub-method for the main() with mode = switch_perm
+	*/
+	protected function ucp_switch_perm()
+	{
+		$this->switch_perm();
+	}
+
+	/**
 	* Restore original user permissions
 	*/
 	public function restore_perm()
@@ -408,6 +435,36 @@ class ucp implements ucp_interface
 
 		$message = $this->language->lang('PERMISSIONS_RESTORED') . '<br><br>' . $this->language->lang('RETURN_INDEX', '<a href="' . append_sid("{$this->root_path}index.{$this->php_ext}") . '">', '</a>');
 		trigger_error($message);
+	}
+
+	/**
+	* Sub-method for the main() with mode = restore_perm
+	*/
+	protected function ucp_restore_perm()
+	{
+		$this->restore_perm();
+	}
+
+	/**
+	* Requires guests to login
+	*/
+	protected function require_login()
+	{
+		if (!$this->user->data['is_registered'])
+		{
+			if ($this->user->data['is_bot'])
+			{
+				redirect(append_sid("{$this->root_path}index.{$this->php_ext}"));
+			}
+
+			if ($this->id == 'pm' && $this->mode == 'view' && $this->request->is_set('p'))
+			{
+				$redirect_url = $this->helper->route('vinabb_web_ucp_route', ['id' => 'pm', 'p' => $this->request->variable('p', 0)]);
+				login_box($redirect_url, $this->language->lang('LOGIN_EXPLAIN_UCP'));
+			}
+
+			login_box('', $this->language->lang('LOGIN_EXPLAIN_UCP'));
+		}
 	}
 
 	/**

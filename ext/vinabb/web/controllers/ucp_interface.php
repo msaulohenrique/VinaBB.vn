@@ -29,13 +29,14 @@ interface ucp_interface
 	/**
 	* Display agreement page
 	*
-	* @param string $mode Front mode (terms|privacy)
+	* @param string	$title		Page title
+	* @param string	$message	Page content
 	* @return \Symfony\Component\HttpFoundation\Response
 	*/
-	public function display_agreement($mode = 'terms');
+	public function display_agreement($title = 'TERMS_USE', $message = 'TERMS_OF_USE_CONTENT');
 
 	/**
-	* Delete Cookies with dynamic names (do NOT delete poll cookies)
+	* Delete Cookies with dynamic names (DO NOT delete poll cookies)
 	*/
 	public function delete_cookies();
 
