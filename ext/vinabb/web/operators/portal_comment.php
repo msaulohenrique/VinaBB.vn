@@ -84,12 +84,12 @@ class portal_comment implements portal_comment_interface
 	public function get_comments($article_id)
 	{
 		$entities = [];
-		$sql_or = $this->auth->acl_get('a_') ? '' : 'comment_pending = ' . constants::ARTICLE_COMMENT_MODE_SHOW . ' OR user_id = ' . (int) $this->user->data['user_id'];
+		$sql_and_or = $this->auth->acl_get('a_') ? '' : 'AND (comment_pending = ' . constants::ARTICLE_COMMENT_MODE_SHOW . ' OR user_id = ' . (int) $this->user->data['user_id'] . ')';
 
 		$sql = 'SELECT *
 			FROM ' . $this->table_name . '
 			WHERE article_id = ' . (int) $article_id . "
-				$sql_or";
+				$sql_and_or";
 		$result = $this->db->sql_query($sql);
 
 		while ($row = $this->db->sql_fetchrow($result))
