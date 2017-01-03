@@ -1,3 +1,5 @@
+{% import '_macros.html' as tpl %}
+
 {% include 'embed_header.html' %}
 
 <div>
@@ -8,7 +10,7 @@
 	<ul class="timeline">
 		<li>
 			<div class="avatar">
-				<img src="http://www.croop.cl/UI/twitter/images/doug.jpg">
+				<img src="{{ T_THEME_PATH }}/images/forum_icons/{{ FORUM_ID }}.png" alt="{{ FORUM_NAME }}">
 				<div class="hover">
 					<div class="logo"><i class="fa fa-vimeo"></i></div>
 				</div>
@@ -19,7 +21,7 @@
 						<div class="label-time">{{ POST_TIME }}</div>
 					</div>
 					<h3><i class="fa fa-user"></i> {{ POSTER }}</h3>
-					<p>{{ FORUM_DESC }}</p>
+					<p>{{ tpl.truncate(FORUM_DESC, 200) }}</p>
 					<div class="over-bubble">
 						<div class="back-link action"><i class="fa fa-external-link"></i></div>
 					</div>
@@ -48,7 +50,7 @@
 			$('.bubble-container').on('click',
 				function()
 				{
-					window.open('{{ FORUM_URL }}');
+					window.open('{{ U_FORUM }}');
 				}
 			);
 		}

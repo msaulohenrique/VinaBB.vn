@@ -1,14 +1,16 @@
+{% import '_macros.html' as tpl %}
+
 {% include 'embed_header.html' %}
 
 <div>
 	<span class="first">
-		{{ POST_SUBJECT }}
+		{{ tpl.truncate(POST_SUBJECT, 40) }}
 		<span class="new"><i class="fa fa-file-text-o"></i></span>
 	</span>
 	<ul class="timeline">
 		<li>
 			<div class="avatar">
-				<img src="http://vinabb.vn/download/file.php?avatar=8_1469723457.jpg">
+				<img src="{{ POSTER_AVATAR }}" alt="{{ POSTER_USERNAME }}">
 				<div class="hover">
 					<div class="logo"><i class="fa fa-vimeo"></i></div>
 				</div>
@@ -16,10 +18,10 @@
 			<div class="bubble-container">
 				<div class="bubble">
 					<div class="label">
-						<div class="label-time">{{ POST_TIME }}</div>
+						<div class="label-time">{{ POST_TIME_EMBED }}</div>
 					</div>
 					<h3><i class="fa fa-user"></i> {{ POSTER }}</h3>
-					<p>{{ POST_TEXT }}</p>
+					<p>{{ tpl.truncate(POST_TEXT, 180) }}</p>
 					<div class="over-bubble">
 						<div class="back-link action"><i class="fa fa-external-link"></i></div>
 					</div>
@@ -36,11 +38,11 @@
 	$(document).ready(
 		function()
 		{
-			{% if POSTER_URL %}
+			{% if U_POSTER %}
 			$('.avatar').on('click',
 				function()
 				{
-					window.open('{{ POSTER_URL }}');
+					window.open('{{ U_POSTER }}');
 				}
 			);
 			{% endif %}
@@ -48,7 +50,7 @@
 			$('.bubble-container').on('click',
 				function()
 				{
-					window.open('{{ POST_URL }}');
+					window.open('{{ U_POST }}');
 				}
 			);
 		}
