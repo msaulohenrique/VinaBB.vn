@@ -13,37 +13,37 @@ namespace vinabb\web\controllers;
 */
 class ucp implements ucp_interface
 {
-	/** @var \phpbb\auth\auth */
+	/** @var \phpbb\auth\auth $auth */
 	protected $auth;
 
-	/** @var \phpbb\config\config */
+	/** @var \phpbb\config\config $config */
 	protected $config;
 
-	/** @var \phpbb\db\driver\driver_interface */
+	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
 
-	/** @var \phpbb\language\language */
+	/** @var \phpbb\language\language $language */
 	protected $language;
 
-	/** @var \phpbb\log\log */
+	/** @var \phpbb\log\log $log */
 	protected $log;
 
-	/** @var \phpbb\request\request */
+	/** @var \phpbb\request\request $request */
 	protected $request;
 
-	/** @var \phpbb\template\template */
+	/** @var \phpbb\template\template $template */
 	protected $template;
 
-	/** @var \phpbb\user */
+	/** @var \phpbb\user $user */
 	protected $user;
 
-	/** @var \phpbb\controller\helper */
+	/** @var \phpbb\controller\helper $helper */
 	protected $helper;
 
-	/** @var string */
+	/** @var string $root_path */
 	protected $root_path;
 
-	/** @var string */
+	/** @var string $php_ext */
 	protected $php_ext;
 
 	/** @var \vinabb\web\includes\p_master $module */
@@ -58,17 +58,17 @@ class ucp implements ucp_interface
 	/**
 	* Constructor
 	*
-	* @param \phpbb\auth\auth $auth
-	* @param \phpbb\config\config $config
-	* @param \phpbb\db\driver\driver_interface $db
-	* @param \phpbb\language\language $language
-	* @param \phpbb\log\log $log
-	* @param \phpbb\request\request $request
-	* @param \phpbb\template\template $template
-	* @param \phpbb\user $user
-	* @param \phpbb\controller\helper $helper
-	* @param string $root_path
-	* @param string $php_ext
+	* @param \phpbb\auth\auth					$auth		Authentication object
+	* @param \phpbb\config\config				$config		Config object
+	* @param \phpbb\db\driver\driver_interface	$db			Database object
+	* @param \phpbb\language\language			$language	Language object
+	* @param \phpbb\log\log						$log		Log object
+	* @param \phpbb\request\request				$request	Request object
+	* @param \phpbb\template\template			$template	Template object
+	* @param \phpbb\user						$user		User object
+	* @param \phpbb\controller\helper			$helper		Controller helper
+	* @param string								$root_path	phpBB root path
+	* @param string								$php_ext	PHP file extension
 	*/
 	public function __construct(
 		\phpbb\auth\auth $auth,
