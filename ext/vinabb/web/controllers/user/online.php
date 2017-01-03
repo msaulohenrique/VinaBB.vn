@@ -57,6 +57,9 @@ class online implements online_interface
 	/** @var string */
 	protected $php_ext;
 
+	/** @var array $forum_data */
+	protected $forum_data;
+
 	/**
 	* Constructor
 	*
@@ -106,6 +109,8 @@ class online implements online_interface
 		$this->root_path = $root_path;
 		$this->admin_path = $admin_path;
 		$this->php_ext = $php_ext;
+
+		$this->forum_data = $this->cache->get_forum_data();
 	}
 
 	/**
@@ -127,16 +132,7 @@ class online implements online_interface
 		$show_guests = ($this->config['load_online_guests']) ? $this->request->variable('sg', 0) : 0;
 
 		// Can this user view profiles/memberlist?
-		if (!$this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel'))
-		{
-			if ($this->user->data['user_id'] != ANONYMOUS)
-			{
-				send_status_line(403, 'Forbidden');
-				trigger_error('NO_VIEW_USERS');
-			}
-
-			login_box('', $this->language->lang('LOGIN_EXPLAIN_VIEWONLINE'));
-		}
+		$this->require_login();
 
 		$sort_key_text = [
 			'a' => $this->language->lang('SORT_USERNAME'),
@@ -159,9 +155,6 @@ class online implements online_interface
 		$order_by = $sort_key_sql[$sort_key] . ' ' . (($sort_dir == 'a') ? 'ASC' : 'DESC');
 
 		$this->user->update_session_infos();
-
-		// Forum info
-		$forum_data = $this->cache->get_forum_data();
 
 		// Get number of online guests (if we do not display them)
 		$guest_counter = 0;
@@ -264,29 +257,29 @@ class online implements online_interface
 
 					if ($forum_id && $this->auth->acl_get('f_list', $forum_id))
 					{
-						$location_url = $this->helper->route('vinabb_web_board_forum_route', ['forum_id' => $forum_id, 'seo' => $forum_data[$forum_id]['forum_name_seo'] . constants::REWRITE_URL_SEO]);
+						$location_url = $this->helper->route('vinabb_web_board_forum_route', ['forum_id' => $forum_id, 'seo' => $this->forum_data[$forum_id]['forum_name_seo'] . constants::REWRITE_URL_SEO]);
 
-						if ($forum_data[$forum_id]['forum_type'] == FORUM_LINK)
+						if ($this->forum_data[$forum_id]['forum_type'] == FORUM_LINK)
 						{
-							$location = $this->language->lang('READING_LINK', $forum_data[$forum_id]['forum_name']);
+							$location = $this->language->lang('READING_LINK', $this->forum_data[$forum_id]['forum_name']);
 						}
 						else if (strpos($row['session_page'], "app.{$this->php_ext}/board/forum") !== false)
 						{
-							$location = $this->language->lang('READING_FORUM', $forum_data[$forum_id]['forum_name']);
+							$location = $this->language->lang('READING_FORUM', $this->forum_data[$forum_id]['forum_name']);
 						}
 						else if (strpos($row['session_page'], "app.{$this->php_ext}/board/topic") !== false)
 						{
-							$location = $this->language->lang('READING_TOPIC', $forum_data[$forum_id]['forum_name']);
+							$location = $this->language->lang('READING_TOPIC', $this->forum_data[$forum_id]['forum_name']);
 						}
 						else if (strpos($row['session_page'], "app.{$this->php_ext}/posting") !== false)
 						{
 							if (strpos($row['session_page'], "app.{$this->php_ext}/posting/reply") !== false || strpos($row['session_page'], "app.{$this->php_ext}/posting/quote") !== false)
 							{
-								$location = $this->language->lang('REPLYING_MESSAGE', $forum_data[$forum_id]['forum_name']);
+								$location = $this->language->lang('REPLYING_MESSAGE', $this->forum_data[$forum_id]['forum_name']);
 							}
 							else
 							{
-								$location = $this->language->lang('POSTING_MESSAGE', $forum_data[$forum_id]['forum_name']);
+								$location = $this->language->lang('POSTING_MESSAGE', $this->forum_data[$forum_id]['forum_name']);
 							}
 						}
 
@@ -323,7 +316,7 @@ class online implements online_interface
 				'U_FORUM_LOCATION'	=> $location_url,
 
 				'S_USER_HIDDEN'		=> $s_user_hidden,
-				'S_GUEST'			=> ($row['user_id'] == ANONYMOUS),
+				'S_GUEST'			=> $row['user_id'] == ANONYMOUS,
 				'S_USER_TYPE'		=> $row['user_type']
 			]);
 		}
@@ -357,6 +350,23 @@ class online implements online_interface
 		$this->config['load_online'] = false;
 
 		return $this->helper->render('viewonline_body.html', $this->language->lang('WHO_IS_ONLINE'));
+	}
+
+	/**
+	* Requires guests to login to view the online list
+	*/
+	protected function require_login()
+	{
+		if (!$this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel'))
+		{
+			if ($this->user->data['user_id'] != ANONYMOUS)
+			{
+				send_status_line(403, 'Forbidden');
+				trigger_error('NO_VIEW_USERS');
+			}
+
+			login_box('', $this->language->lang('LOGIN_EXPLAIN_VIEWONLINE'));
+		}
 	}
 
 	/**
