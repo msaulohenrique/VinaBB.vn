@@ -82,7 +82,7 @@ class append_sid implements EventSubscriberInterface
 			$this->route_data = [];
 
 			// Detect PHP filename
-			$php_filename = substr($event['url'], 0, strpos($event['url'], ".{$this->php_ext}"));
+			$php_filename = substr(basename($event['url']), 0, strpos(basename($event['url']), ".{$this->php_ext}"));
 
 			// Get parameters
 			if ($event['params'] !== false || in_array($php_filename, ['mcp', 'ucp']))
@@ -135,12 +135,12 @@ class append_sid implements EventSubscriberInterface
 	*/
 	protected function convert_viewforum()
 	{
-		// Get forum SEO names from cache
-		$forum_data = $this->cache->get_forum_data();
+		static $forum_data;
 
-		if (!sizeof($this->route_data))
+		// Get forum SEO names from cache
+		if (!isset($forum_data))
 		{
-			$this->route_data['f'] = '';
+			$forum_data = $this->cache->get_forum_data();
 		}
 
 		if (isset($this->route_data['f']))
@@ -153,9 +153,14 @@ class append_sid implements EventSubscriberInterface
 			{
 				$this->route_data['seo'] = $forum_data[$this->route_data['forum_id']]['name_seo'] . constants::REWRITE_URL_SEO;
 			}
-		}
 
-		$this->route_name = 'vinabb_web_board_forum_route';
+			$this->route_name = 'vinabb_web_board_forum_route';
+		}
+		// Some URLs of viewforum.php without f=...
+		else
+		{
+			$this->route_name = '';
+		}
 	}
 
 	/**
