@@ -99,12 +99,12 @@ class article implements article_interface
 	/**
 	* View an article
 	*
-	* @param int	$article_id	Article ID
-	* @param bool	$print		true: Print mode; false: Normal mode
+	* @param int	$article_id		Article ID
+	* @param string	$tpl_filename	Template filename
 	* @return \Symfony\Component\HttpFoundation\Response
 	* @throws \phpbb\exception\http_exception
 	*/
-	public function article($article_id, $print = false)
+	public function article($article_id, $tpl_filename = 'portal_article.html')
 	{
 		try
 		{
@@ -151,7 +151,7 @@ class article implements article_interface
 			'S_PORTAL_ARTICLE'	=> true
 		]);
 
-		return $this->helper->render($print ? 'portal_article_print.html' : 'portal_article.html', $entity->get_name());
+		return $this->helper->render($tpl_filename, $entity->get_name());
 	}
 
 	/**
@@ -162,7 +162,7 @@ class article implements article_interface
 	*/
 	public function print_page($article_id)
 	{
-		return $this->article($article_id, true);
+		return $this->article($article_id, 'portal_article_print.html');
 	}
 
 	/**
