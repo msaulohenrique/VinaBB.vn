@@ -36,6 +36,11 @@ interface helper_interface
 	public function config_to_template();
 
 	/**
+	* Common template variables
+	*/
+	public function add_common_tpl_vars();
+
+	/**
 	* Add our new links to the header
 	*/
 	public function add_new_routes();

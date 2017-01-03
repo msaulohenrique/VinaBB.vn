@@ -22,6 +22,9 @@ class helper implements helper_interface
 	/** @var \phpbb\config\config $config */
 	protected $config;
 
+	/** @var \phpbb\extension\manager $ext_manager */
+	protected $ext_manager;
+
 	/** @var \phpbb\language\language $language */
 	protected $language;
 
@@ -37,11 +40,20 @@ class helper implements helper_interface
 	/** @var \vinabb\web\controllers\helper_interface $ext_helper */
 	protected $ext_helper;
 
+	/** @var \phpbb\path_helper $path_helper */
+	protected $path_helper;
+
 	/** @var string $root_path */
 	protected $root_path;
 
 	/** @var string $php_ext */
 	protected $php_ext;
+
+	/** @var string $ext_root_path */
+	protected $ext_root_path;
+
+	/** @var string $ext_web_path */
+	protected $ext_web_path;
 
 	/** @var array $config_text */
 	protected $config_text;
@@ -49,26 +61,30 @@ class helper implements helper_interface
 	/**
 	* Constructor
 	*
-	* @param \phpbb\auth\auth									$auth		Authentication object
-	* @param \vinabb\web\controllers\cache\service_interface	$cache		Cache service
-	* @param \phpbb\config\config								$config		Config object
-	* @param \phpbb\language\language							$language	Language object
-	* @param \phpbb\template\template							$template	Template object
-	* @param \phpbb\user										$user		User object
-	* @param \phpbb\controller\helper							$helper		Controller helper
-	* @param \vinabb\web\controllers\helper_interface			$ext_helper	Extension helper
-	* @param string												$root_path	phpBB root path
-	* @param string												$php_ext	PHP file extension
+	* @param \phpbb\auth\auth									$auth			Authentication object
+	* @param \vinabb\web\controllers\cache\service_interface	$cache			Cache service
+	* @param \phpbb\config\config								$config			Config object
+	* @param \phpbb\extension\manager							$ext_manager	Extension manager
+	* @param \phpbb\language\language							$language		Language object
+	* @param \phpbb\template\template							$template		Template object
+	* @param \phpbb\user										$user			User object
+	* @param \phpbb\controller\helper							$helper			Controller helper
+	* @param \vinabb\web\controllers\helper_interface			$ext_helper		Extension helper
+	* @param \phpbb\path_helper									$path_helper	Path helper
+	* @param string												$root_path		phpBB root path
+	* @param string												$php_ext		PHP file extension
 	*/
 	public function __construct(
 		\phpbb\auth\auth $auth,
 		\vinabb\web\controllers\cache\service_interface $cache,
 		\phpbb\config\config $config,
+		\phpbb\extension\manager $ext_manager,
 		\phpbb\language\language $language,
 		\phpbb\template\template $template,
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
 		\vinabb\web\controllers\helper_interface $ext_helper,
+		\phpbb\path_helper $path_helper,
 		$root_path,
 		$php_ext
 	)
@@ -76,14 +92,18 @@ class helper implements helper_interface
 		$this->auth = $auth;
 		$this->cache = $cache;
 		$this->config = $config;
+		$this->ext_manager = $ext_manager;
 		$this->language = $language;
 		$this->template = $template;
 		$this->user = $user;
 		$this->helper = $helper;
 		$this->ext_helper = $ext_helper;
+		$this->path_helper = $path_helper;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 
+		$this->ext_root_path = $this->ext_manager->get_extension_path('vinabb/web', true);
+		$this->ext_web_path = $this->path_helper->update_web_root_path($this->ext_root_path);
 		$this->config_text = $this->cache->get_config_text();
 	}
 
@@ -235,6 +255,25 @@ class helper implements helper_interface
 			'TWITTER_URL'		=> htmlspecialchars_decode($this->config['vinabb_web_twitter_url']),
 			'GOOGLE_PLUS_URL'	=> htmlspecialchars_decode($this->config['vinabb_web_google_plus_url']),
 			'GITHUB_URL'		=> htmlspecialchars_decode($this->config['vinabb_web_github_url'])
+		]);
+	}
+
+	/**
+	* Common template variables
+	*/
+	public function add_common_tpl_vars()
+	{
+		$this->template->assign_vars([
+			'S_VIETNAMESE'	=> $this->user->lang_name == constants::LANG_VIETNAMESE,
+			'S_LEFT'		=> ($this->language->lang('DIRECTION') == 'ltr') ? 'left' : 'right',
+			'S_RIGHT'		=> ($this->language->lang('DIRECTION') == 'ltr') ? 'right' : 'left',
+
+			'T_LANG_PATH'	=> "{$this->ext_web_path}language/{$this->user->lang_name}",
+
+			'U_MCP'				=> ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? $this->helper->route('vinabb_web_mcp_route', [], true, $this->user->session_id) : '',
+			'U_CONTACT_PM'		=> ($this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm') && $this->config['vinabb_web_manager_user_id']) ? $this->helper->route('vinabb_web_ucp_route', ['id' => 'pm', 'mode' => 'compose', 'u' => $this->config['vinabb_web_manager_user_id']]) : '',
+			'U_LOGIN_ACTION'	=> $this->helper->route('vinabb_web_ucp_route', ['id' => 'front', 'mode' => 'login']),
+			'U_SEND_PASSWORD'	=> ($this->config['email_enable']) ? $this->helper->route('vinabb_web_ucp_route', ['id' => 'front', 'mode' => 'sendpassword']) : ''
 		]);
 	}
 

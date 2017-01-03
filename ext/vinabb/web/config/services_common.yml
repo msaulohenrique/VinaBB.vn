@@ -36,11 +36,13 @@ services:
             - '@auth'
             - '@vinabb.web.cache'
             - '@config'
+            - '@ext.manager'
             - '@language'
             - '@template'
             - '@user'
             - '@controller.helper'
             - '@vinabb.web.helper'
+            - '@path_helper'
             - '%core.root_path%'
             - '%core.php_ext%'
     vinabb.web.helper.entity:
