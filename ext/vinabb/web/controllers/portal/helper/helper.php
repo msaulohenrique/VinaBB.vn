@@ -148,13 +148,13 @@ class helper extends helper_core implements helper_interface
 		$phpbb_data = json_decode($raw, true);
 
 		// Latest version
-		$this->update_version_value('phpbb_version', isset($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_branch']]['current']) ? $phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_branch']]['current'] : '');
+		$this->update_version_value('phpbb_version', !empty($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_branch']]['current']) ? $phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_branch']]['current'] : '');
 
 		// Legacy version
-		$this->update_version_value('phpbb_legacy_version', isset($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_legacy_branch']]['current']) ? $phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_legacy_branch']]['current'] : '');
+		$this->update_version_value('phpbb_legacy_version', !empty($phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_legacy_branch']]['current']) ? $phpbb_data['stable'][$this->config['vinabb_web_check_phpbb_legacy_branch']]['current'] : '');
 
 		// Development version
-		$this->update_version_value('phpbb_dev_version', isset($phpbb_data['unstable'][$this->config['vinabb_web_check_phpbb_dev_branch']]['current']) ? $phpbb_data['unstable'][$this->config['vinabb_web_check_phpbb_dev_branch']]['current'] : '');
+		$this->update_version_value('phpbb_dev_version', !empty($phpbb_data['unstable'][$this->config['vinabb_web_check_phpbb_dev_branch']]['current']) ? $phpbb_data['unstable'][$this->config['vinabb_web_check_phpbb_dev_branch']]['current'] : '');
 	}
 
 	/**
@@ -167,28 +167,31 @@ class helper extends helper_core implements helper_interface
 
 		// Parse XML
 		$php_data = simplexml_load_string($raw);
-		$latest_php_version = $latest_php_version_url = $latest_php_legacy_version = $latest_php_legacy_version_url = '';
+		$latest_php_versions = [];
 
 		// Find the latest version from feed data
 		foreach ($php_data->entry as $entry)
 		{
-			$php_version = isset($entry->{'php-version'}) ? $entry->{'php-version'} : '';
-			$php_version_url = isset($entry->id) ? $entry->id : '';
+			$php_version = !empty($entry->{'php-version'}) ? $entry->{'php-version'} : '';
+			$php_branch = substr($php_version, 0, strrpos($php_version, '.'));
 
-			if (substr($php_version, 0, strlen($this->config['vinabb_web_check_php_branch'])) == $this->config['vinabb_web_check_php_branch'] && version_compare($php_version, $latest_php_version, '>'))
-			{
-				$latest_php_version = $php_version;
-				$latest_php_version_url = $php_version_url;
-			}
-			else if (substr($php_version, 0, strlen($this->config['vinabb_web_check_php_legacy_branch'])) == $this->config['vinabb_web_check_php_legacy_branch'] && version_compare($php_version, $latest_php_legacy_version, '>'))
-			{
-				$latest_php_legacy_version = $php_version;
-				$latest_php_legacy_version_url = $php_version_url;
-			}
+			$latest_php_versions[$php_branch] = [
+				'version'	=> $php_version,
+				'url'		=> !empty($entry->id) ? $entry->id : ''
+			];
 		}
 
-		$this->update_version_value('php_version', $latest_php_version, $latest_php_version_url);
-		$this->update_version_value('php_legacy_version', $latest_php_legacy_version, $latest_php_legacy_version_url);
+		// Latest version
+		if (isset($latest_php_versions[$this->config['vinabb_web_check_php_branch']]))
+		{
+			$this->update_version_value('php_version', $latest_php_versions[$this->config['vinabb_web_check_php_branch']]['version'], $latest_php_versions[$this->config['vinabb_web_check_php_branch']]['url']);
+		}
+
+		// Legacy version
+		if (isset($latest_php_versions[$this->config['vinabb_web_check_php_legacy_branch']]))
+		{
+			$this->update_version_value('php_legacy_version', $latest_php_versions[$this->config['vinabb_web_check_php_legacy_branch']]['version'], $latest_php_versions[$this->config['vinabb_web_check_php_legacy_branch']]['url']);
+		}
 	}
 
 	/**
@@ -201,7 +204,7 @@ class helper extends helper_core implements helper_interface
 		// Parse JSON
 		$vinabb_data = json_decode($raw, true);
 
-		$this->update_version_value('vinabb_version', isset($vinabb_data['version']) ? $vinabb_data['version'] : '');
+		$this->update_version_value('vinabb_version', !empty($vinabb_data['version']) ? $vinabb_data['version'] : '');
 	}
 
 	/**
