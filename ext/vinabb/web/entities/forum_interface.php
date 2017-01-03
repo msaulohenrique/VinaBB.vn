@@ -362,7 +362,7 @@ interface forum_interface
 	*
 	* @return int
 	*/
-	public function get_options();
+	public function get_forum_options();
 
 	/**
 	* Set forum options
@@ -370,7 +370,7 @@ interface forum_interface
 	* @param int				$value	Forum options
 	* @return forum_interface	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function set_options($value);
+	public function set_forum_options($value);
 
 	/**
 	* Get the forum setting: Display on the board page

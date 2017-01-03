@@ -199,7 +199,7 @@ class forum_options extends forum_last_post
 	*
 	* @return int
 	*/
-	public function get_options()
+	public function get_forum_options()
 	{
 		return isset($this->data['forum_options']) ? (int) $this->data['forum_options'] : 0;
 	}
@@ -210,7 +210,7 @@ class forum_options extends forum_last_post
 	* @param int			$value	Forum options
 	* @return forum_options	$this	Object for chaining calls: load()->set()->save()
 	*/
-	public function set_options($value)
+	public function set_forum_options($value)
 	{
 		// Set the value on our data array
 		$this->data['forum_options'] = (int) $value;
