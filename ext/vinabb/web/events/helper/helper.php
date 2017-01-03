@@ -8,7 +8,6 @@
 
 namespace vinabb\web\events\helper;
 
-use s9e\TextFormatter\Bundles\MediaPack;
 use vinabb\web\includes\constants;
 
 class helper implements helper_interface
@@ -342,14 +341,9 @@ class helper implements helper_interface
 			}
 
 			// Get timezone data
-			$dt = $this->user->create_datetime();
-			$timezone_offset = $this->language->lang(['timezones', 'UTC_OFFSET'], phpbb_format_timezone_offset($dt->getOffset()));
-			$timezone_name = $this->user->timezone->getName();
-
-			if ($this->language->is_set(['timezones', $timezone_name]))
-			{
-				$timezone_name = $this->language->lang(['timezones', $timezone_name]);
-			}
+			$datetime = $this->user->create_datetime();
+			$timezone_offset = $this->language->lang(['timezones', 'UTC_OFFSET'], phpbb_format_timezone_offset($datetime->getOffset()));
+			$timezone_name = $this->language->lang(['timezones', $this->user->timezone->getName()]);
 
 			if ($in_maintenance_time)
 			{
@@ -381,78 +375,5 @@ class helper implements helper_interface
 			|| ($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_MOD && !$this->auth->acl_gets('a_', 'm_') && !$this->auth->acl_getf_global('m_'))
 			|| ($this->config['vinabb_web_maintenance_mode'] == constants::MAINTENANCE_MODE_USER && ($this->user->data['user_id'] == ANONYMOUS || $this->user->data['is_bot']))
 		);
-	}
-
-	/**
-	* Render MediaEmbed markup tags when displaying text
-	*
-	* https://github.com/s9e/phpbb-ext-mediaembed
-	* @copyright Copyright (c) 2014-2016 The s9e Authors
-	*
-	* @param $text
-	* @return mixed
-	*/
-	public function render($text)
-	{
-		if (strpos($text, '<!-- s9e:mediaembed') === false)
-		{
-			return $text;
-		}
-
-		return preg_replace_callback(
-			'(<!-- s9e:mediaembed:([^ ]+) --><!-- m -->.*?<!-- m -->)',
-			function($m)
-			{
-				return MediaPack::render(base64_decode($m[1]));
-			},
-			$text
-		);
-	}
-
-	/**
-	* Insert MediaEmbed markup tags when saving text
-	*
-	* https://github.com/s9e/phpbb-ext-mediaembed
-	* @copyright Copyright (c) 2014-2016 The s9e Authors
-	*
-	* @param $text
-	* @return mixed
-	*/
-	public function parse($text)
-	{
-		if (strpos($text, '<!-- m -->') === false)
-		{
-			return $text;
-		}
-
-		return preg_replace_callback(
-			'(<!-- m -->.*?href="([^"]+).*?<!-- m -->)',
-			function($m)
-			{
-				$xml = MediaPack::parse(htmlspecialchars_decode($m[1]));
-
-				return ($xml[1] === 'r') ? '<!-- s9e:mediaembed:' . base64_encode($xml) . ' -->' . $m[0] : $m[0];
-			},
-			$text
-		);
-	}
-
-	/**
-	* Remove MediaEmbed markup tags when editing text
-	*
-	* https://github.com/s9e/phpbb-ext-mediaembed
-	* @copyright Copyright (c) 2014-2016 The s9e Authors
-	*
-	* @param $text
-	* @return mixed
-	*/
-	public function unparse($text)
-	{
-		if (strpos($text, '<!-- s9e:mediaembed') === false)
-		{
-			return $text;
-		}
-
-		return preg_replace('(<!-- s9e:mediaembed:([^ ]+) -->)', '', $text);
 	}
 }

@@ -50,6 +50,5 @@ services:
             - '@vinabb.web.cache'
             - '@language'
             - '@template'
-            - '@vinabb.web.helper.event'
         tags:
             - { name: event.listener }

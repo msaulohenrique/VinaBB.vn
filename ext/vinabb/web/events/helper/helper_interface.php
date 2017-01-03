@@ -49,37 +49,4 @@ interface helper_interface
 	* Maintenance mode by user levels
 	*/
 	public function maintenance_mode();
-
-	/**
-	* Render MediaEmbed markup tags when displaying text
-	*
-	* https://github.com/s9e/phpbb-ext-mediaembed
-	* @copyright Copyright (c) 2014-2016 The s9e Authors
-	*
-	* @param $text
-	* @return mixed
-	*/
-	public function render($text);
-
-	/**
-	* Insert MediaEmbed markup tags when saving text
-	*
-	* https://github.com/s9e/phpbb-ext-mediaembed
-	* @copyright Copyright (c) 2014-2016 The s9e Authors
-	*
-	* @param $text
-	* @return mixed
-	*/
-	public function parse($text);
-
-	/**
-	* Remove MediaEmbed markup tags when editing text
-	*
-	* https://github.com/s9e/phpbb-ext-mediaembed
-	* @copyright Copyright (c) 2014-2016 The s9e Authors
-	*
-	* @param $text
-	* @return mixed
-	*/
-	public function unparse($text);
 }

@@ -9,6 +9,7 @@
 namespace vinabb\web\events;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use s9e\TextFormatter\Bundles\MediaPack;
 
 /**
 * PHP events
@@ -24,28 +25,22 @@ class text_formatter implements EventSubscriberInterface
 	/** @var \phpbb\template\template $template */
 	protected $template;
 
-	/** @var \vinabb\web\events\helper\helper_interface $event_helper */
-	protected $event_helper;
-
 	/**
 	* Constructor
 	*
 	* @param \vinabb\web\controllers\cache\service_interface	$cache			Cache service
 	* @param \phpbb\language\language							$language		Language object
 	* @param \phpbb\template\template							$template		Template object
-	* @param \vinabb\web\events\helper\helper_interface			$event_helper	Event helper
 	*/
 	public function __construct(
 		\vinabb\web\controllers\cache\service_interface $cache,
 		\phpbb\language\language $language,
-		\phpbb\template\template $template,
-		\vinabb\web\events\helper\helper_interface $event_helper
+		\phpbb\template\template $template
 	)
 	{
 		$this->cache = $cache;
 		$this->language = $language;
 		$this->template = $template;
-		$this->event_helper = $event_helper;
 	}
 
 	/**
@@ -74,7 +69,7 @@ class text_formatter implements EventSubscriberInterface
 	*/
 	public function modify_format_display_text_after($event)
 	{
-		$event['text'] = $this->event_helper->render($this->event_helper->parse($event['text']));
+		$event['text'] = $this->render($this->parse($event['text']));
 	}
 
 	/**
@@ -85,7 +80,7 @@ class text_formatter implements EventSubscriberInterface
 	public function modify_submit_post_data($event)
 	{
 		$data = $event['data'];
-		$data['message'] = $this->event_helper->parse($data['message']);
+		$data['message'] = $this->parse($data['message']);
 		$event['data'] = $data;
 	}
 
@@ -96,7 +91,7 @@ class text_formatter implements EventSubscriberInterface
 	*/
 	public function modify_text_for_display_after($event)
 	{
-		$event['text'] = $this->event_helper->render($event['text']);
+		$event['text'] = $this->render($event['text']);
 
 		// Load highlight.js
 		$this->template->assign_var('S_LOAD_HIGHLIGHT', true);
@@ -109,7 +104,7 @@ class text_formatter implements EventSubscriberInterface
 	*/
 	public function modify_text_for_edit_before($event)
 	{
-		$event['text'] = $this->event_helper->unparse($event['text']);
+		$event['text'] = $this->unparse($event['text']);
 	}
 
 	/**
@@ -119,7 +114,7 @@ class text_formatter implements EventSubscriberInterface
 	*/
 	public function modify_text_for_storage_after($event)
 	{
-		$event['text'] = $this->event_helper->parse($event['text']);
+		$event['text'] = $this->parse($event['text']);
 	}
 
 	/**
@@ -130,7 +125,7 @@ class text_formatter implements EventSubscriberInterface
 	public function submit_pm_before($event)
 	{
 		$data = $event['data'];
-		$data['message'] = $this->event_helper->parse($data['message']);
+		$data['message'] = $this->parse($data['message']);
 		$event['data'] = $data;
 	}
 
@@ -218,5 +213,78 @@ class text_formatter implements EventSubscriberInterface
 		// Use EmojiOne
 		$configurator->Emoji->useEmojiOne();
 		$configurator->Emoji->setImageSize(16);
+	}
+
+	/**
+	* Render MediaEmbed markup tags when displaying text
+	*
+	* https://github.com/s9e/phpbb-ext-mediaembed
+	* @copyright Copyright (c) 2014-2016 The s9e Authors
+	*
+	* @param $text
+	* @return mixed
+	*/
+	protected function render($text)
+	{
+		if (strpos($text, '<!-- s9e:mediaembed') === false)
+		{
+			return $text;
+		}
+
+		return preg_replace_callback(
+			'(<!-- s9e:mediaembed:([^ ]+) --><!-- m -->.*?<!-- m -->)',
+			function($m)
+			{
+				return MediaPack::render(base64_decode($m[1]));
+			},
+			$text
+		);
+	}
+
+	/**
+	* Insert MediaEmbed markup tags when saving text
+	*
+	* https://github.com/s9e/phpbb-ext-mediaembed
+	* @copyright Copyright (c) 2014-2016 The s9e Authors
+	*
+	* @param $text
+	* @return mixed
+	*/
+	protected function parse($text)
+	{
+		if (strpos($text, '<!-- m -->') === false)
+		{
+			return $text;
+		}
+
+		return preg_replace_callback(
+			'(<!-- m -->.*?href="([^"]+).*?<!-- m -->)',
+			function($m)
+			{
+				$xml = MediaPack::parse(htmlspecialchars_decode($m[1]));
+
+				return ($xml[1] === 'r') ? '<!-- s9e:mediaembed:' . base64_encode($xml) . ' -->' . $m[0] : $m[0];
+			},
+			$text
+		);
+	}
+
+	/**
+	* Remove MediaEmbed markup tags when editing text
+	*
+	* https://github.com/s9e/phpbb-ext-mediaembed
+	* @copyright Copyright (c) 2014-2016 The s9e Authors
+	*
+	* @param $text
+	* @return mixed
+	*/
+	protected function unparse($text)
+	{
+		if (strpos($text, '<!-- s9e:mediaembed') === false)
+		{
+			return $text;
+		}
+
+		return preg_replace('(<!-- s9e:mediaembed:([^ ]+) -->)', '', $text);
 	}
 }
