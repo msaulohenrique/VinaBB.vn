@@ -19,14 +19,11 @@ class embed
 	/** @var ContainerInterface $container */
 	protected $container;
 
-	/** @var \phpbb\language\language $language */
-	protected $language;
+	/** @var \vinabb\web\controllers\board\post_interface $post */
+	protected $post;
 
 	/** @var \phpbb\template\template $template */
 	protected $template;
-
-	/** @var \phpbb\user $user */
-	protected $user;
 
 	/** @var \phpbb\controller\helper $helper */
 	protected $helper;
@@ -34,27 +31,24 @@ class embed
 	/**
 	* Constructor
 	*
-	* @param \phpbb\auth\auth $auth
-	* @param ContainerInterface									$container		Container object
-	* @param \phpbb\language\language $language
-	* @param \phpbb\template\template $template
-	* @param \phpbb\user $user
-	* @param \phpbb\controller\helper $helper
+	* @param \phpbb\auth\auth								$auth		Authentication object
+	* @param ContainerInterface								$container	Container object
+	* @param \vinabb\web\controllers\board\post_interface	$post		Post controller
+	* @param \phpbb\template\template						$template	Template object
+	* @param \phpbb\controller\helper						$helper		Controller helper
 	*/
 	public function __construct(
 		\phpbb\auth\auth $auth,
 		ContainerInterface $container,
-		\phpbb\language\language $language,
+		\vinabb\web\controllers\board\post_interface $post,
 		\phpbb\template\template $template,
-		\phpbb\user $user,
 		\phpbb\controller\helper $helper
 	)
 	{
 		$this->auth = $auth;
 		$this->container = $container;
-		$this->language = $language;
+		$this->post = $post;
 		$this->template = $template;
-		$this->user = $user;
 		$this->helper = $helper;
 	}
 
@@ -85,9 +79,11 @@ class embed
 		}
 
 		$this->template->assign_vars([
+			'FORUM_ID'		=> $forum_id,
 			'FORUM_NAME'	=> $entity->get_name(),
-			'FORUM_DESC'	=> truncate_string(strip_tags($entity->get_desc_for_display()), 200, 255, false, $this->language->lang('ELLIPSIS')),
-			'FORUM_URL'		=> $this->helper->route('vinabb_web_board_forum_route', ['forum_id' => $forum_id, 'seo' => $entity->get_name_seo() . constants::REWRITE_URL_SEO])
+			'FORUM_DESC'	=> $entity->get_desc_for_display(),
+
+			'U_FORUM'	=> $this->helper->route('vinabb_web_board_forum_route', ['forum_id' => $forum_id, 'seo' => $entity->get_name_seo() . constants::REWRITE_URL_SEO])
 		]);
 
 		return $this->helper->render('embed_forum.html');
@@ -119,50 +115,10 @@ class embed
 	*
 	* @param int $post_id Post ID
 	* @return \Symfony\Component\HttpFoundation\Response
-	* @throws \phpbb\exception\http_exception
 	*/
 	public function post($post_id)
 	{
-		try
-		{
-			/** @var \vinabb\web\entities\post_interface $entity */
-			$entity = $this->container->get('vinabb.web.entities.post')->load($post_id);
-		}
-		catch (\vinabb\web\exceptions\base $e)
-		{
-			throw new \phpbb\exception\http_exception(404, 'NO_POST');
-		}
-
-		if ($entity->get_poster_id())
-		{
-			try
-			{
-				/** @var \vinabb\web\entities\user_interface $poster */
-				$poster = $this->container->get('vinabb.web.entities.user')->load($entity->get_poster_id());
-			}
-			catch (\vinabb\web\exceptions\base $e)
-			{
-				throw new \phpbb\exception\http_exception(404, 'NO_USER');
-			}
-
-			$poster_username = $poster->get_username();
-			$poster_url = $this->helper->route('vinabb_web_user_profile_route', ['username' => $poster_username]);
-		}
-		else
-		{
-			$poster_username = $entity->get_username();
-			$poster_url = '';
-		}
-
-		$this->template->assign_vars([
-			'POST_SUBJECT'	=> truncate_string($entity->get_subject(), 40, 255, false, $this->language->lang('ELLIPSIS')),
-			'POST_TEXT'		=> truncate_string(strip_tags($entity->get_text_for_display()), 189, 255, false, $this->language->lang('ELLIPSIS')),
-			'POST_URL'		=> $this->helper->route('vinabb_web_board_post_route', ['forum_id' => $entity->get_forum_id(), 'topic_id' => $entity->get_topic_id(), 'post_id' => $post_id, 'seo' => $entity->get_subject_seo() . constants::REWRITE_URL_SEO]),
-			'POSTER'		=> $poster_username,
-			'POSTER_URL'	=> $poster_url,
-			'POST_TIME'		=> $this->user->format_date($entity->get_time(), 'd/m/Y H:i')
-		]);
-
-		return $this->helper->render('embed_post.html');
+		// Load the post controller
+		$this->post->main($post_id, 'embed_post.html');
 	}
 }

@@ -4,7 +4,6 @@ services:
         arguments:
             - '@auth'
             - '@service_container'
-            - '@language'
+            - '@vinabb.web.board.post'
             - '@template'
-            - '@user'
             - '@controller.helper'
