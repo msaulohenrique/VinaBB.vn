@@ -229,8 +229,8 @@ class profile
 		}
 
 		// Do the relevant calculations
-		$this->profile_datadays = max(1, round((time() - $this->profile_data['user_regdate']) / 86400));
-		$posts_per_day = $this->profile_data['user_posts'] / $this->profile_datadays;
+		$memberdays = max(1, round((time() - $this->profile_data['user_regdate']) / 86400));
+		$posts_per_day = $this->profile_data['user_posts'] / $memberdays;
 		$percentage = ($this->config['num_posts']) ? min(100, ($this->profile_data['user_posts'] / $this->config['num_posts']) * 100) : 0;
 
 		if ($this->profile_data['user_sig'])
