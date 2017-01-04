@@ -20,6 +20,7 @@ services:
         arguments:
             - '@auth'
             - '@config'
+            - '@service_container'
             - '@dbal.conn'
             - '@language'
             - '@profilefields.manager'

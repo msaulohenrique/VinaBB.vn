@@ -8,6 +8,8 @@
 
 namespace vinabb\web\controllers\user;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 class profile
 {
 	/** @var \phpbb\auth\auth */
@@ -15,6 +17,9 @@ class profile
 
 	/** @var \phpbb\config\config */
 	protected $config;
+
+	/** @var ContainerInterface $container */
+	protected $container;
 
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
@@ -49,11 +54,15 @@ class profile
 	/** @var string */
 	protected $php_ext;
 
+	/** @var array $profile_data */
+	protected $profile_data;
+
 	/**
 	* Constructor
 	*
 	* @param \phpbb\auth\auth $auth
 	* @param \phpbb\config\config $config
+	* @param ContainerInterface								$container	Container object
 	* @param \phpbb\db\driver\driver_interface $db
 	* @param \phpbb\language\language $language
 	* @param \phpbb\profilefields\manager $profile_fields
@@ -69,6 +78,7 @@ class profile
 	public function __construct(
 		\phpbb\auth\auth $auth,
 		\phpbb\config\config $config,
+		ContainerInterface $container,
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\language\language $language,
 		\phpbb\profilefields\manager $profile_fields,
@@ -84,6 +94,7 @@ class profile
 	{
 		$this->auth = $auth;
 		$this->config = $config;
+		$this->container = $container;
 		$this->db = $db;
 		$this->language = $language;
 		$this->profile_fields = $profile_fields;
@@ -107,40 +118,24 @@ class profile
 		// Setting a variable to let the style designer know where he is...
 		$this->template->assign_var('S_IN_MEMBERLIST', true);
 
-		// Display a profile
-		if ($username == '')
-		{
-			trigger_error('NO_USER');
-		}
-
 		// Get user...
-		$sql = 'SELECT *
-			FROM ' . USERS_TABLE . "
-			WHERE username_clean = '" . $this->db->sql_escape(utf8_clean_string($username)) . "'";
-		$result = $this->db->sql_query($sql);
-		$member = $this->db->sql_fetchrow($result);
-		$this->db->sql_freeresult($result);
-
-		if ($member === false)
-		{
-			trigger_error('NO_USER');
-		}
+		$this->get_user_data($username);
 
 		// a_user admins and founder are able to view inactive users and bots to be able to manage them more easily
 		// Normal users are able to see at least users having only changed their profile settings but not yet reactivated.
 		if (!$this->auth->acl_get('a_user') && $this->user->data['user_type'] != USER_FOUNDER)
 		{
-			if ($member['user_type'] == USER_IGNORE)
+			if ($this->profile_data['user_type'] == USER_IGNORE)
 			{
 				trigger_error('NO_USER');
 			}
-			else if ($member['user_type'] == USER_INACTIVE && $member['user_inactive_reason'] != INACTIVE_PROFILE)
+			else if ($this->profile_data['user_type'] == USER_INACTIVE && $this->profile_data['user_inactive_reason'] != INACTIVE_PROFILE)
 			{
 				trigger_error('NO_USER');
 			}
 		}
 
-		$user_id = (int) $member['user_id'];
+		$user_id = (int) $this->profile_data['user_id'];
 
 		// Get group memberships
 		// Also get visiting user's groups to determine hidden group memberships if necessary.
@@ -197,7 +192,7 @@ class profile
 		{
 			$row = $group_data[$group_id];
 
-			$group_options .= '<option value="' . $row['group_id'] . '"' . (($row['group_id'] == $member['group_id']) ? ' selected="selected"' : '') . '>' . $row['group_name'] . '</option>';
+			$group_options .= '<option value="' . $row['group_id'] . '"' . (($row['group_id'] == $this->profile_data['group_id']) ? ' selected="selected"' : '') . '>' . $row['group_name'] . '</option>';
 		}
 		unset($group_data);
 		unset($group_sort);
@@ -223,25 +218,25 @@ class profile
 			$row = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);
 
-			$member['session_time'] = (isset($row['session_time'])) ? $row['session_time'] : 0;
-			$member['session_viewonline'] = (isset($row['session_viewonline'])) ? $row['session_viewonline'] :	0;
+			$this->profile_data['session_time'] = (isset($row['session_time'])) ? $row['session_time'] : 0;
+			$this->profile_data['session_viewonline'] = (isset($row['session_viewonline'])) ? $row['session_viewonline'] :	0;
 			unset($row);
 		}
 
 		if ($this->config['load_user_activity'])
 		{
-			display_user_activity($member);
+			display_user_activity($this->profile_data);
 		}
 
 		// Do the relevant calculations
-		$memberdays = max(1, round((time() - $member['user_regdate']) / 86400));
-		$posts_per_day = $member['user_posts'] / $memberdays;
-		$percentage = ($this->config['num_posts']) ? min(100, ($member['user_posts'] / $this->config['num_posts']) * 100) : 0;
+		$this->profile_datadays = max(1, round((time() - $this->profile_data['user_regdate']) / 86400));
+		$posts_per_day = $this->profile_data['user_posts'] / $this->profile_datadays;
+		$percentage = ($this->config['num_posts']) ? min(100, ($this->profile_data['user_posts'] / $this->config['num_posts']) * 100) : 0;
 
-		if ($member['user_sig'])
+		if ($this->profile_data['user_sig'])
 		{
-			$parse_flags = ($member['user_sig_bbcode_bitfield'] ? OPTION_FLAG_BBCODE : 0) | OPTION_FLAG_SMILIES;
-			$member['user_sig'] = generate_text_for_display($member['user_sig'], $member['user_sig_bbcode_uid'], $member['user_sig_bbcode_bitfield'], $parse_flags, true);
+			$parse_flags = ($this->profile_data['user_sig_bbcode_bitfield'] ? OPTION_FLAG_BBCODE : 0) | OPTION_FLAG_SMILIES;
+			$this->profile_data['user_sig'] = generate_text_for_display($this->profile_data['user_sig'], $this->profile_data['user_sig_bbcode_uid'], $this->profile_data['user_sig_bbcode_bitfield'], $parse_flags, true);
 		}
 
 		// We need to check if the modules 'zebra' ('friends' & 'foes' mode),  'notes' ('user_notes' mode) and  'warn' ('warn_user' mode) are accessible to decide if we can display appropriate links
@@ -277,7 +272,7 @@ class profile
 			$profile_fields = (isset($profile_fields[$user_id])) ? $this->profile_fields->generate_profile_fields_template_data($profile_fields[$user_id]) : array();
 		}
 
-		$this->template->assign_vars(phpbb_show_profile($member, $user_notes_enabled, $warn_user_enabled));
+		$this->template->assign_vars(phpbb_show_profile($this->profile_data, $user_notes_enabled, $warn_user_enabled));
 
 		// If the user has m_approve permission or a_user permission, then list then display unapproved posts
 		if ($this->auth->acl_getf_global('m_approve') || $this->auth->acl_get('a_user'))
@@ -287,24 +282,24 @@ class profile
 				WHERE poster_id = ' . $user_id . '
 					AND ' . $this->db->sql_in_set('post_visibility', array(ITEM_UNAPPROVED, ITEM_REAPPROVE));
 			$result = $this->db->sql_query($sql);
-			$member['posts_in_queue'] = (int) $this->db->sql_fetchfield('posts_in_queue');
+			$this->profile_data['posts_in_queue'] = (int) $this->db->sql_fetchfield('posts_in_queue');
 			$this->db->sql_freeresult($result);
 		}
 		else
 		{
-			$member['posts_in_queue'] = 0;
+			$this->profile_data['posts_in_queue'] = 0;
 		}
 
 		$this->template->assign_vars([
-			'L_POSTS_IN_QUEUE'	=> $this->language->lang('NUM_POSTS_IN_QUEUE', $member['posts_in_queue']),
+			'L_POSTS_IN_QUEUE'	=> $this->language->lang('NUM_POSTS_IN_QUEUE', $this->profile_data['posts_in_queue']),
 
 			'POSTS_DAY'			=> $this->language->lang('POST_DAY', $posts_per_day),
 			'POSTS_PCT'			=> $this->language->lang('POST_PCT', $percentage),
 
-			'SIGNATURE'		=> $member['user_sig'],
-			'POSTS_IN_QUEUE'=> $member['posts_in_queue'],
+			'SIGNATURE'		=> $this->profile_data['user_sig'],
+			'POSTS_IN_QUEUE'=> $this->profile_data['posts_in_queue'],
 
-			'L_SEND_EMAIL_USER'	=> $this->language->lang('SEND_EMAIL_USER', $member['username']),
+			'L_SEND_EMAIL_USER'	=> $this->language->lang('SEND_EMAIL_USER', $this->profile_data['username']),
 
 			'S_PROFILE_ACTION'	=> append_sid("{$this->root_path}memberlist.{$this->php_ext}", 'mode=group'),
 			'S_GROUP_OPTIONS'	=> $group_options,
@@ -320,8 +315,8 @@ class profile
 			'S_USER_NOTES'		=> ($user_notes_enabled) ? true : false,
 			'S_WARN_USER'		=> ($warn_user_enabled) ? true : false,
 			'S_ZEBRA'			=> ($this->user->data['user_id'] != $user_id && $this->user->data['is_registered'] && $zebra_enabled) ? true : false,
-			'U_ADD_FRIEND'		=> (!$friend && !$foe && $friends_enabled) ? $this->helper->route('vinabb_web_ucp_route', ['id' => 'zebra', 'add' => urlencode(htmlspecialchars_decode($member['username']))]) : '',
-			'U_ADD_FOE'			=> (!$friend && !$foe && $foes_enabled) ? $this->helper->route('vinabb_web_ucp_route', ['id' => 'zebra', 'mode' => 'foes', 'add' => urlencode(htmlspecialchars_decode($member['username']))]) : '',
+			'U_ADD_FRIEND'		=> (!$friend && !$foe && $friends_enabled) ? $this->helper->route('vinabb_web_ucp_route', ['id' => 'zebra', 'add' => urlencode(htmlspecialchars_decode($this->profile_data['username']))]) : '',
+			'U_ADD_FOE'			=> (!$friend && !$foe && $foes_enabled) ? $this->helper->route('vinabb_web_ucp_route', ['id' => 'zebra', 'mode' => 'foes', 'add' => urlencode(htmlspecialchars_decode($this->profile_data['username']))]) : '',
 			'U_REMOVE_FRIEND'	=> ($friend && $friends_enabled) ? $this->helper->route('vinabb_web_ucp_route', ['id' => 'zebra', 'mode' => 'friends', 'remove' => 1, 'usernames[]' => $user_id]) : '',
 			'U_REMOVE_FOE'		=> ($foe && $foes_enabled) ? $this->helper->route('vinabb_web_ucp_route', ['id' => 'zebra', 'mode' => 'foes', 'remove' => 1, 'usernames[]' => $user_id]) : '',
 
@@ -342,35 +337,77 @@ class profile
 		}
 
 		// Inactive reason/account?
-		if ($member['user_type'] == USER_INACTIVE)
+		if ($this->profile_data['user_type'] == USER_INACTIVE)
 		{
-			$this->display_inactive_reason($member['user_inactive_reason']);
+			$this->display_inactive_reason($this->profile_data['user_inactive_reason']);
 		}
 
-		return $this->helper->render('memberlist_view.html', $this->language->lang('VIEWING_PROFILE', $member['username']));
+		return $this->helper->render('memberlist_view.html', $this->language->lang('VIEWING_PROFILE', $this->profile_data['username']));
 	}
 
+	/**
+	* Get user data by user ID
+	*
+	* @param int $user_id User ID
+	* @return \Symfony\Component\HttpFoundation\Response
+	* @throws \phpbb\exception\http_exception
+	*/
 	public function id($user_id)
 	{
 		// Display a profile
 		if ($user_id == ANONYMOUS)
 		{
-			trigger_error('NO_USER');
+			throw new \phpbb\exception\http_exception(404, 'NO_USER');
 		}
 
-		$sql = 'SELECT username
-			FROM ' . USERS_TABLE . "
-			WHERE user_id = $user_id";
-		$result = $this->db->sql_query($sql);
-		$username = (string) $this->db->sql_fetchfield('username');
-		$this->db->sql_freeresult($result);
-
-		if ($username === false)
+		try
 		{
-			trigger_error('NO_USER');
+			/** @var \vinabb\web\entities\user_interface $entity */
+			$entity = $this->container->get('vinabb.web.entities.user')->load($user_id);
+		}
+		catch (\vinabb\web\exceptions\base $e)
+		{
+			throw new \phpbb\exception\http_exception(404, 'NO_USER');
 		}
 
-		return $this->main($username);
+		return $this->main($entity->get_username());
+	}
+
+	/**
+	* Get user data
+	*
+	* @param string $username Username
+	* @throws \phpbb\exception\http_exception
+	*/
+	protected function get_user_data($username)
+	{
+		try
+		{
+			/** @var \vinabb\web\entities\user_interface $entity */
+			$entity = $this->container->get('vinabb.web.entities.user')->load_by_username($username);
+		}
+		catch (\vinabb\web\exceptions\base $e)
+		{
+			throw new \phpbb\exception\http_exception(404, 'NO_USER');
+		}
+
+		$this->profile_data = [
+			'user_id'				=> $entity->get_id(),
+			'group_id'				=> $entity->get_group_id(),
+			'username'				=> $entity->get_username(),
+			'user_type'				=> $entity->get_type(),
+			'user_birthday'			=> $entity->get_birthday(),
+			'user_regdate'			=> $entity->get_regdate(),
+			'user_colour'			=> $entity->get_colour(),
+			'user_posts'			=> $entity->get_posts(),
+			'user_sig'				=> $entity->get_sig_for_display(),
+			'user_jabber'			=> $entity->get_jabber(),
+			'user_avatar'			=> $entity->get_avatar(),
+			'user_avatar_type'		=> $entity->get_avatar_type(),
+			'user_avatar_width'		=> $entity->get_avatar_width(),
+			'user_avatar_height'	=> $entity->get_avatar_height(),
+			'user_allow_viewonline'	=> $entity->get_allow_viewonline()
+		];
 	}
 
 	/**
