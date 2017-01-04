@@ -22,6 +22,7 @@ services:
         shared: false
         arguments:
             - '@dbal.conn'
+            - '@user'
             - '@vinabb.web.helper.entity'
     vinabb.web.entities.forum:
         class: vinabb\web\entities\forum
