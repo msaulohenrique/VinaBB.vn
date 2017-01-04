@@ -157,6 +157,31 @@ class user extends user_data implements user_interface
 	}
 
 	/**
+	* Load the data from the database for an entity
+	*
+	* @param string				$username	Username
+	* @return user_interface	$this		Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function load_by_username($username)
+	{
+		$sql = 'SELECT *
+			FROM ' . USERS_TABLE . "
+			WHERE username_clean = '" . $this->db->sql_escape(utf8_clean_string($username)) . "'";
+		$result = $this->db->sql_query($sql);
+		$this->data = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+
+		// The entity does not exist
+		if ($this->data === false)
+		{
+			throw new \vinabb\web\exceptions\out_of_bounds('username');
+		}
+
+		return $this;
+	}
+
+	/**
 	* Import data for an entity
 	*
 	* Used when the data is already loaded externally.

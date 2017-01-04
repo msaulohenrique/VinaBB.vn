@@ -23,6 +23,15 @@ interface user_interface
 	public function load($id);
 
 	/**
+	* Load the data from the database for an entity
+	*
+	* @param string				$username	Username
+	* @return user_interface	$this		Object for chaining calls: load()->set()->save()
+	* @throws \vinabb\web\exceptions\out_of_bounds
+	*/
+	public function load_by_username($username);
+
+	/**
 	* Import data for an entity
 	*
 	* Used when the data is already loaded externally.
