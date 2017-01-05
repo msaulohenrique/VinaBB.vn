@@ -151,7 +151,6 @@ class mcp
 		// Do the quickmod action
 		if ($this->quickmod)
 		{
-			$this->mode = 'quickmod';
 			$quickmod_data = [
 				'lock'			=> 'quickmod',
 				'unlock'		=> 'quickmod',
@@ -386,24 +385,7 @@ class mcp
 	*/
 	protected function hide_mcp_modules()
 	{
-		$data = [
-			'unapproved_topics'	=> 'hide_approve_details',
-			'unapproved_posts'	=> 'hide_approve_details',
-			'deleted_topics'	=> 'hide_approve_details',
-			'deleted_posts'		=> 'hide_approve_details',
-			'reports'			=> 'hide_all_reports_details',
-			'reports_closed'	=> 'hide_all_reports_details',
-			'pm_reports'		=> 'hide_all_reports_details',
-			'pm_reports_closed'	=> 'hide_all_reports_details',
-			'report_details'	=> 'hide_pm_report_details',
-			'pm_report_details'	=> 'hide_report_details',
-			''					=> 'hide_all_details'
-		];
-
-		if (isset($data[$this->mode]))
-		{
-			$this->{$data[$this->mode]}();
-		}
+		$this->hide_mcp_details_modules();
 
 		if (!$this->forum_id)
 		{
@@ -427,6 +409,31 @@ class mcp
 		{
 			$this->module->set_display('notes', 'user_notes', false);
 			$this->module->set_display('warn', 'warn_user', false);
+		}
+	}
+
+	/**
+	* Sub-method for the hide_mcp_modules(): Hide details modules based on the module mode
+	*/
+	protected function hide_mcp_details_modules()
+	{
+		$data = [
+			'unapproved_topics'	=> 'hide_approve_details',
+			'unapproved_posts'	=> 'hide_approve_details',
+			'deleted_topics'	=> 'hide_approve_details',
+			'deleted_posts'		=> 'hide_approve_details',
+			'reports'			=> 'hide_all_reports_details',
+			'reports_closed'	=> 'hide_all_reports_details',
+			'pm_reports'		=> 'hide_all_reports_details',
+			'pm_reports_closed'	=> 'hide_all_reports_details',
+			'report_details'	=> 'hide_pm_report_details',
+			'pm_report_details'	=> 'hide_report_details',
+			''					=> 'hide_all_details'
+		];
+
+		if (isset($data[$this->mode]))
+		{
+			$this->{$data[$this->mode]}();
 		}
 	}
 
