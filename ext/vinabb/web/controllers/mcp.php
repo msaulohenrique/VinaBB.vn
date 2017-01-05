@@ -37,6 +37,15 @@ class mcp
 	/** @var string */
 	protected $php_ext;
 
+	/** @var \vinabb\web\includes\p_master $module */
+	protected $module;
+
+	/** @var string $id */
+	protected $id;
+
+	/** @var string $mode */
+	protected $mode;
+
 	/**
 	* Constructor
 	*
@@ -76,7 +85,7 @@ class mcp
 	public function main($id, $mode)
 	{
 		// If do not define global, the module mcp_main will not be accessed
-		global $module;
+		global $module, $action;
 
 		// Common functions
 		require "{$this->root_path}includes/functions_admin.{$this->php_ext}";
@@ -101,11 +110,11 @@ class mcp
 			login_box('', $this->language->lang('LOGIN_EXPLAIN_MCP'));
 		}
 
-		$quickmod = ($mode == 'quickmod');
+		$quickmod = (bool) $this->request->is_set('quickmod');
 		$action = $this->request->variable('action', '');
-		$action_ary = $this->request->variable('action', array('' => 0));
-		$forum_action = $this->request->variable('forum_action', '');
+		$action_ary = $this->request->variable('action', ['' => 0]);
 
+		$forum_action = $this->request->variable('forum_action', '');
 		if ($forum_action !== '' && $this->request->variable('sort', false, false, \phpbb\request\request_interface::POST))
 		{
 			$action = $forum_action;
@@ -113,7 +122,7 @@ class mcp
 
 		if (sizeof($action_ary))
 		{
-			list($action,) = each($action_ary);
+			list($action, ) = each($action_ary);
 		}
 		unset($action_ary);
 
@@ -123,9 +132,9 @@ class mcp
 			$quickmod = false;
 		}
 
-		$post_id = $this->request->variable('p', 0);
-		$topic_id = $this->request->variable('t', 0);
 		$forum_id = $this->request->variable('f', 0);
+		$topic_id = $this->request->variable('t', 0);
+		$post_id = $this->request->variable('p', 0);
 		$user_id = $this->request->variable('u', 0);
 		$username = $this->request->variable('username', '', true);
 
@@ -158,20 +167,18 @@ class mcp
 		if (!$this->auth->acl_getf_global('m_'))
 		{
 			// Except he is using one of the quickmod tools for users
-			$user_quickmod_actions = array(
+			$user_quickmod_actions = [
 				'lock'			=> 'f_user_lock',
 				'make_sticky'	=> 'f_sticky',
 				'make_announce'	=> 'f_announce',
 				'make_global'	=> 'f_announce_global',
-				'make_normal'	=> array('f_announce', 'f_announce_global', 'f_sticky')
-			);
+				'make_normal'	=> ['f_announce', 'f_announce_global', 'f_sticky']
+			];
 
 			$allow_user = false;
-
 			if ($quickmod && isset($user_quickmod_actions[$action]) && $this->user->data['is_registered'] && $this->auth->acl_gets($user_quickmod_actions[$action], $forum_id))
 			{
-				$topic_info = phpbb_get_topic_data(array($topic_id));
-
+				$topic_info = phpbb_get_topic_data([$topic_id]);
 				if ($topic_info[$topic_id]['topic_poster'] == $this->user->data['user_id'])
 				{
 					$allow_user = true;
@@ -299,12 +306,11 @@ class mcp
 		$module->assign_tpl_vars("{$this->root_path}mcp.{$this->php_ext}");
 
 		// Generate urls for letting the moderation control panel being accessed in different modes
-		$this->template->assign_vars(array(
-			'U_MCP'			=> $this->helper->route('vinabb_web_mcp_route', array('id' => 'main')),
-			'U_MCP_FORUM'	=> ($forum_id) ? $this->helper->route('vinabb_web_mcp_route', array('id' => 'main', 'mode' => 'forum_view', 'f' => $forum_id)) : '',
-			'U_MCP_TOPIC'	=> ($forum_id && $topic_id) ? $this->helper->route('vinabb_web_mcp_route', array('id' => 'main', 'mode' => 'topic_view', 't' => $topic_id)) : '',
-			'U_MCP_POST'	=> ($forum_id && $topic_id && $post_id) ? $this->helper->route('vinabb_web_mcp_route', array('id' => 'main', 'mode' => 'post_details', 't' => $topic_id, 'p' => $post_id)) : '',
-		));
+		$this->template->assign_vars([
+			'U_MCP_FORUM'	=> ($forum_id) ? $this->helper->route('vinabb_web_mcp_route', ['id' => 'main', 'mode' => 'forum_view', 'f' => $forum_id]) : '',
+			'U_MCP_TOPIC'	=> ($forum_id && $topic_id) ? $this->helper->route('vinabb_web_mcp_route', ['id' => 'main', 'mode' => 'topic_view', 't' => $topic_id]) : '',
+			'U_MCP_POST'	=> ($forum_id && $topic_id && $post_id) ? $this->helper->route('vinabb_web_mcp_route', ['id' => 'main', 'mode' => 'post_details', 't' => $topic_id, 'p' => $post_id]) : ''
+		]);
 
 		// Generate the page, do not display/query online list
 		$module->display($module->get_page_title());
