@@ -682,7 +682,8 @@ class topic implements topic_interface
 
 		$pagination_params = [
 			'forum_id'	=> $forum_id,
-			'topic_id'	=> $topic_id
+			'topic_id'	=> $topic_id,
+			'seo'		=> $topic_data['topic_title_seo'] . constants::REWRITE_URL_SEO
 		];
 
 		if (sizeof($u_sort_param_ary))
