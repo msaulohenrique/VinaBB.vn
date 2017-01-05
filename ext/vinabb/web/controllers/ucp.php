@@ -98,7 +98,7 @@ class ucp implements ucp_interface
 	}
 
 	/**
-	* UCP module
+	* Load an UCP module
 	*
 	* @param string	$id		Module basename
 	* @param string	$mode	Module mode
@@ -115,18 +115,16 @@ class ucp implements ucp_interface
 			define('IN_LOGIN', true);
 		}
 
+		// Language
 		$this->language->add_lang('ucp');
-
-		// Setting a variable to let the style designer know where he is...
-		$this->template->assign_var('S_IN_UCP', true);
 
 		$this->module = new \vinabb\web\includes\p_master();
 		$this->id = $id;
 		$this->mode = $mode;
 
-		if (in_array($mode, ['activate', 'resend_act', 'sendpassword', 'register', 'confirm', 'login', 'login_link', 'logout', 'terms', 'privacy', 'delete_cookies', 'switch_perm', 'restore_perm']))
+		if (in_array($this->mode, ['activate', 'resend_act', 'sendpassword', 'register', 'confirm', 'login', 'login_link', 'logout', 'terms', 'privacy', 'delete_cookies', 'switch_perm', 'restore_perm']))
 		{
-			$this->{'ucp_' . $mode}();
+			$this->{'ucp_' . $this->mode}();
 
 			// We use this approach because it does not impose large code changes
 			return true;
@@ -151,13 +149,16 @@ class ucp implements ucp_interface
 		}
 
 		// Select the active module
-		$this->module->set_active($id, $mode);
+		$this->module->set_active($this->id, $this->mode);
 
 		// Load and execute the relevant module
 		$this->module->load_active();
 
 		// Assign data to the template engine for the list of modules
 		$this->module->assign_tpl_vars("{$this->root_path}ucp.{$this->php_ext}");
+
+		// Setting a variable to let the style designer know where he is...
+		$this->template->assign_var('S_IN_UCP', true);
 
 		// Generate the page, do not display/query online list
 		$this->module->display($this->module->get_page_title());

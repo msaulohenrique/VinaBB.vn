@@ -14,7 +14,7 @@ namespace vinabb\web\controllers;
 interface ucp_interface
 {
 	/**
-	* UCP module
+	* Load an UCP module
 	*
 	* @param string	$id		Module basename
 	* @param string	$mode	Module mode
