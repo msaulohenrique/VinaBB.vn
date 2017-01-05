@@ -85,10 +85,7 @@ class append_sid implements EventSubscriberInterface
 			$php_filename = substr(basename($event['url']), 0, strpos(basename($event['url']), ".{$this->php_ext}"));
 
 			// Get parameters
-			if ($event['params'] !== false || in_array($php_filename, ['mcp', 'ucp']))
-			{
-				$this->set_route_data($event['params'], $event['url']);
-			}
+			$this->set_route_data($php_filename, $event['params'], $event['url']);
 
 			// Detect URLs
 			if (in_array($php_filename, ['viewforum', 'viewonline', 'mcp', 'ucp', 'memberlist']))
@@ -107,25 +104,29 @@ class append_sid implements EventSubscriberInterface
 	/**
 	* Set URL parameters to the route data
 	*
+	* @param string	$php_filename	PHP filename
 	* @param string	$event_params	The value of $event['params']
 	* @param string	$event_url		The value of $event['url']
 	*/
-	protected function set_route_data($event_params, $event_url)
+	protected function set_route_data($php_filename, $event_params, $event_url)
 	{
-		$event_params = ($event_params !== false) ? $event_params : substr(strrchr($event_url, '?'), 1);
-		$event_params = str_replace(['&amp;', '?'], ['&', ''], $event_params);
-
-		// Some cases: abc.php?&x=1
-		$event_params = (substr($event_params, 0, 1) == '&') ? substr($event_params, 1) : $event_params;
-
-		if ($event_params != '')
+		if ($event_params !== false || in_array($php_filename, ['mcp', 'ucp']))
 		{
-			$params = explode('&', $event_params);
+			$event_params = ($event_params !== false) ? $event_params : substr(strrchr($event_url, '?'), 1);
+			$event_params = str_replace(['&amp;', '?'], ['&', ''], $event_params);
 
-			foreach ($params as $param)
+			// Some cases: abc.php?&x=1
+			$event_params = (substr($event_params, 0, 1) == '&') ? substr($event_params, 1) : $event_params;
+
+			if ($event_params != '')
 			{
-				list($param_key, $param_value) = explode('=', $param);
-				$this->route_data[$param_key] = $param_value;
+				$params = explode('&', $event_params);
+
+				foreach ($params as $param)
+				{
+					list($param_key, $param_value) = explode('=', $param);
+					$this->route_data[$param_key] = $param_value;
+				}
 			}
 		}
 	}
