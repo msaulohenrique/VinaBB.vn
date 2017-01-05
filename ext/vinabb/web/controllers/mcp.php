@@ -351,7 +351,7 @@ class mcp
 	}
 
 	/**
-	* Sub-method for the main() with quickmod=1;action=lock|unlock|lock_post|unlock_post|make_sticky|make_announce|make_global|make_normal|fork|move|delete_post|delete_topic|restore_topic
+	* Sub-method for the main() with quickmod=1: Load the module basename=mcp_main;mode=quickmod
 	*/
 	protected function quickmod()
 	{
@@ -359,7 +359,7 @@ class mcp
 	}
 
 	/**
-	* Sub-method for the main() with quickmod=1;action=topic_logs
+	* Sub-method for the main() with quickmod=1: Switch to the module basename=mcp_logs;mode=topic_logs
 	*/
 	protected function quickmod_topic_logs()
 	{
@@ -373,7 +373,7 @@ class mcp
 	}
 
 	/**
-	* Sub-method for the main() with quickmod=1;action=merge_topic
+	* Sub-method for the main() with quickmod=1: Switch to the module basename=mcp_main;mode=forum_view
 	*/
 	protected function quickmod_merge_topic()
 	{
@@ -381,7 +381,7 @@ class mcp
 	}
 
 	/**
-	* Sub-method for the main() with quickmod=1;action=split|merge
+	* Sub-method for the main() with quickmod=1: Switch to the module basename=mcp_main;mode=topic_view
 	*/
 	protected function quickmod_split_merge()
 	{
@@ -393,19 +393,23 @@ class mcp
 	*/
 	protected function hide_mcp_modules()
 	{
-		if (in_array($this->mode, ['', 'unapproved_topics', 'unapproved_posts', 'deleted_topics' , 'deleted_posts']))
-		{
-			$this->module->set_display('queue', 'approve_details', false);
-		}
+		$data = [
+			'unapproved_topics'	=> 'hide_approve_details',
+			'unapproved_posts'	=> 'hide_approve_details',
+			'deleted_topics'	=> 'hide_approve_details',
+			'deleted_posts'		=> 'hide_approve_details',
+			'reports'			=> 'hide_all_reports_details',
+			'reports_closed'	=> 'hide_all_reports_details',
+			'pm_reports'		=> 'hide_all_reports_details',
+			'pm_reports_closed'	=> 'hide_all_reports_details',
+			'report_details'	=> 'hide_pm_report_details',
+			'pm_report_details'	=> 'hide_report_details',
+			''					=> 'hide_all_details'
+		];
 
-		if (in_array($this->mode, ['', 'reports', 'reports_closed', 'pm_reports' , 'pm_reports_closed', 'pm_report_details']))
+		if (isset($data[$this->mode]))
 		{
-			$this->module->set_display('reports', 'report_details', false);
-		}
-
-		if (in_array($this->mode, ['', 'reports', 'reports_closed', 'pm_reports' , 'pm_reports_closed', 'report_details']))
-		{
-			$this->module->set_display('pm_reports', 'pm_report_details', false);
+			$this->{$data[$this->mode]}();
 		}
 
 		if (!$this->forum_id)
@@ -431,6 +435,48 @@ class mcp
 			$this->module->set_display('notes', 'user_notes', false);
 			$this->module->set_display('warn', 'warn_user', false);
 		}
+	}
+
+	/**
+	* Sub-method for the hide_mcp_modules(): Hide the module basename=mcp_queue;mode=approve_details
+	*/
+	protected function hide_approve_details()
+	{
+		$this->module->set_display('queue', 'approve_details', false);
+	}
+
+	/**
+	* Sub-method for the hide_mcp_modules(): Hide the module basename=mcp_reports;mode=report_details
+	*/
+	protected function hide_report_details()
+	{
+		$this->module->set_display('reports', 'report_details', false);
+	}
+
+	/**
+	* Sub-method for the hide_mcp_modules(): Hide the module basename=mcp_pm_reports;mode=pm_report_details
+	*/
+	protected function hide_pm_report_details()
+	{
+		$this->module->set_display('pm_reports', 'pm_report_details', false);
+	}
+
+	/**
+	* Sub-method for the hide_mcp_modules(): Hide the module basename=mcp_reports;mode=report_details and basename=mcp_pm_reports;mode=pm_report_details
+	*/
+	protected function hide_all_reports_details()
+	{
+		$this->hide_report_details();
+		$this->hide_pm_report_details();
+	}
+
+	/**
+	* Sub-method for the hide_mcp_modules(): Call all hiding sub-methods above
+	*/
+	protected function hide_all_details()
+	{
+		$this->hide_approve_details();
+		$this->hide_all_reports_details();
 	}
 
 	/**
