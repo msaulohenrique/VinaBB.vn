@@ -8,33 +8,35 @@
 
 namespace vinabb\web\controllers;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 class mcp
 {
-	/** @var \phpbb\auth\auth */
+	/** @var \phpbb\auth\auth $auth */
 	protected $auth;
 
-	/** @var \phpbb\db\driver\driver_interface */
-	protected $db;
+	/** @var ContainerInterface $container */
+	protected $container;
 
-	/** @var \phpbb\language\language */
+	/** @var \phpbb\language\language $language */
 	protected $language;
 
-	/** @var \phpbb\request\request */
+	/** @var \phpbb\request\request $request */
 	protected $request;
 
-	/** @var \phpbb\template\template */
+	/** @var \phpbb\template\template $template */
 	protected $template;
 
-	/** @var \phpbb\user */
+	/** @var \phpbb\user $user */
 	protected $user;
 
-	/** @var \phpbb\controller\helper */
+	/** @var \phpbb\controller\helper $helper */
 	protected $helper;
 
-	/** @var string */
+	/** @var string $root_path */
 	protected $root_path;
 
-	/** @var string */
+	/** @var string $php_ext */
 	protected $php_ext;
 
 	/** @var \vinabb\web\includes\p_master $module */
@@ -46,22 +48,43 @@ class mcp
 	/** @var string $mode */
 	protected $mode;
 
+	/** @var bool $quickmod */
+	protected $quickmod;
+
+	/** @var string $action */
+	protected $action;
+
+	/** @var int $forum_id */
+	protected $forum_id;
+
+	/** @var int $topic_id */
+	protected $topic_id;
+
+	/** @var int $post_id */
+	protected $post_id;
+
+	/** @var int $user_id */
+	protected $user_id;
+
+	/** @var string $username */
+	protected $username;
+
 	/**
 	* Constructor
 	*
-	* @param \phpbb\auth\auth $auth
-	* @param \phpbb\db\driver\driver_interface $db
-	* @param \phpbb\language\language $language
-	* @param \phpbb\request\request $request
-	* @param \phpbb\template\template $template
-	* @param \phpbb\user $user
-	* @param \phpbb\controller\helper $helper
-	* @param string $root_path
-	* @param string $php_ext
+	* @param \phpbb\auth\auth			$auth		Authentication object
+	* @param ContainerInterface			$container	Container object
+	* @param \phpbb\language\language	$language	Language object
+	* @param \phpbb\request\request		$request	Request object
+	* @param \phpbb\template\template	$template	Template object
+	* @param \phpbb\user				$user		User object
+	* @param \phpbb\controller\helper	$helper		Controller helper
+	* @param string						$root_path	phpBB root path
+	* @param string						$php_ext	PHP file extension
 	*/
 	public function __construct(
 		\phpbb\auth\auth $auth,
-		\phpbb\db\driver\driver_interface $db,
+		ContainerInterface $container,
 		\phpbb\language\language $language,
 		\phpbb\request\request $request,
 		\phpbb\template\template $template,
@@ -72,7 +95,7 @@ class mcp
 	)
 	{
 		$this->auth = $auth;
-		$this->db = $db;
+		$this->container = $container;
 		$this->language = $language;
 		$this->request = $request;
 		$this->template = $template;
@@ -82,6 +105,12 @@ class mcp
 		$this->php_ext = $php_ext;
 	}
 
+	/**
+	* Load a MCP module
+	*
+	* @param string	$id		Module basename
+	* @param string	$mode	Module mode
+	*/
 	public function main($id, $mode)
 	{
 		// If do not define global, the module mcp_main will not be accessed
@@ -92,14 +121,93 @@ class mcp
 		require "{$this->root_path}includes/functions_mcp.{$this->php_ext}";
 		require "{$this->root_path}includes/functions_module.{$this->php_ext}";
 
+		// Language
 		$this->language->add_lang('mcp');
 
-		// Setting a variable to let the style designer know where he is...
-		$this->template->assign_var('S_IN_MCP', true);
-
-		$module = new \vinabb\web\includes\p_master();
+		$this->module = new \vinabb\web\includes\p_master();
+		$module = $this->module;
+		$this->id = $id;
+		$this->mode = $mode;
 
 		// Only Moderators can go beyond this point
+		$this->require_login();
+
+		// Get URL parameters
+		$this->request_data();
+		$action = $this->action;
+
+		// Adjust the module basename if mode = 'topic_logs'
+		$this->is_topic_logs();
+
+		// If the user doesn't have any moderator powers (globally or locally) he can't access the mcp
+		$this->check_mcp_auth();
+
+		// If the user cannot read the forum he tries to access then we won't allow mcp access either
+		$this->check_mcp_forum_auth();
+
+		// Instantiate module system and generate list of available modules
+		$this->module->list_modules('mcp');
+
+		// Do the quickmod action
+		if ($this->quickmod)
+		{
+			$this->mode = 'quickmod';
+			$quickmod_data = [
+				'lock'			=> 'quickmod',
+				'unlock'		=> 'quickmod',
+				'lock_post'		=> 'quickmod',
+				'unlock_post'	=> 'quickmod',
+				'make_sticky'	=> 'quickmod',
+				'make_announce'	=> 'quickmod',
+				'make_global'	=> 'quickmod',
+				'make_normal'	=> 'quickmod',
+				'fork'			=> 'quickmod',
+				'move'			=> 'quickmod',
+				'delete_post'	=> 'quickmod',
+				'delete_topic'	=> 'quickmod',
+				'restore_topic'	=> 'quickmod',
+				'topic_logs'	=> 'quickmod_topic_logs',
+				'merge_topic'	=> 'quickmod_merge_topic',
+				'split'			=> 'quickmod_split_merge',
+				'merge'			=> 'quickmod_split_merge'
+			];
+
+			if (isset($quickmod_data[$this->action]))
+			{
+				$this->{$quickmod_data[$this->action]}();
+			}
+			else
+			{
+				trigger_error($this->language->lang('QUICKMOD_ACTION_NOT_ALLOWED', $this->action), E_USER_ERROR);
+			}
+		}
+		// Or select the active module
+		else
+		{
+			$this->module->set_active($this->id, $this->mode);
+		}
+
+		// Hide some of the options if we don't have the relevant information to use them
+		$this->hide_mcp_modules();
+
+		// Load and execute the relevant module
+		$this->module->load_active();
+
+		// Assign data to the template engine for the list of modules
+		$this->module->assign_tpl_vars("{$this->root_path}mcp.{$this->php_ext}");
+
+		// Generate urls for letting the moderation control panel being accessed in different modes
+		$this->output_template();
+
+		// Generate the page, do not display/query online list
+		$this->module->display($this->module->get_page_title());
+	}
+
+	/**
+	* Requires guests to login
+	*/
+	protected function require_login()
+	{
 		if (!$this->user->data['is_registered'])
 		{
 			if ($this->user->data['is_bot'])
@@ -109,61 +217,91 @@ class mcp
 
 			login_box('', $this->language->lang('LOGIN_EXPLAIN_MCP'));
 		}
+	}
 
-		$quickmod = (bool) $this->request->is_set('quickmod');
-		$action = $this->request->variable('action', '');
-		$action_ary = $this->request->variable('action', ['' => 0]);
+	/**
+	* Request data
+	*
+	* @throws \phpbb\exception\http_exception
+	*/
+	protected function request_data()
+	{
+		$this->quickmod = (bool) $this->request->is_set('quickmod');
+		$this->action = $this->request->variable('action', '');
 
+		// Forum action
 		$forum_action = $this->request->variable('forum_action', '');
+
 		if ($forum_action !== '' && $this->request->variable('sort', false, false, \phpbb\request\request_interface::POST))
 		{
-			$action = $forum_action;
+			$this->action = $forum_action;
 		}
+
+		// Multiple actions
+		$action_ary = $this->request->variable('action', ['' => 0]);
 
 		if (sizeof($action_ary))
 		{
-			list($action, ) = each($action_ary);
+			list($this->action,) = each($action_ary);
 		}
+
 		unset($action_ary);
 
-		if ($mode == 'topic_logs')
+		// URL parameters
+		$this->forum_id = $this->request->variable('f', 0);
+		$this->topic_id = $this->request->variable('t', 0);
+		$this->post_id = $this->request->variable('p', 0);
+		$this->user_id = $this->request->variable('u', 0);
+		$this->username = $this->request->variable('username', '', true);
+
+		if ($this->post_id)
 		{
-			$id = 'logs';
-			$quickmod = false;
+			try
+			{
+				/** @var \vinabb\web\entities\post_interface $entity */
+				$entity = $this->container->get('vinabb.web.entities.post')->load($this->post_id);
+			}
+			catch (\vinabb\web\exceptions\base $e)
+			{
+				throw new \phpbb\exception\http_exception(404, 'NO_POST');
+			}
+
+			$this->forum_id = $entity->get_forum_id();
+			$this->topic_id = $entity->get_topic_id();
 		}
-
-		$forum_id = $this->request->variable('f', 0);
-		$topic_id = $this->request->variable('t', 0);
-		$post_id = $this->request->variable('p', 0);
-		$user_id = $this->request->variable('u', 0);
-		$username = $this->request->variable('username', '', true);
-
-		if ($post_id)
+		else if ($this->topic_id)
 		{
-			// We determine the topic and forum id here, to make sure the moderator really has moderative rights on this post
-			$sql = 'SELECT topic_id, forum_id
-				FROM ' . POSTS_TABLE . "
-				WHERE post_id = $post_id";
-			$result = $this->db->sql_query($sql);
-			$row = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
+			try
+			{
+				/** @var \vinabb\web\entities\topic_interface $entity */
+				$entity = $this->container->get('vinabb.web.entities.topic')->load($this->topic_id);
+			}
+			catch (\vinabb\web\exceptions\base $e)
+			{
+				throw new \phpbb\exception\http_exception(404, 'NO_TOPIC');
+			}
 
-			$topic_id = (int) $row['topic_id'];
-			$forum_id = (int) $row['forum_id'];
+			$this->forum_id = $entity->get_forum_id();
 		}
-		else if ($topic_id)
+	}
+
+	/**
+	* Switch to the module mcp_logs
+	*/
+	protected function is_topic_logs()
+	{
+		if ($this->mode == 'topic_logs')
 		{
-			$sql = 'SELECT forum_id
-				FROM ' . TOPICS_TABLE . "
-				WHERE topic_id = $topic_id";
-			$result = $this->db->sql_query($sql);
-			$row = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
-
-			$forum_id = (int) $row['forum_id'];
+			$this->id = 'logs';
+			$this->quickmod = false;
 		}
+	}
 
-		// If the user doesn't have any moderator powers (globally or locally) he can't access the mcp
+	/**
+	* Checking extra moderator permissions
+	*/
+	protected function check_mcp_auth()
+	{
 		if (!$this->auth->acl_getf_global('m_'))
 		{
 			// Except he is using one of the quickmod tools for users
@@ -176,10 +314,12 @@ class mcp
 			];
 
 			$allow_user = false;
-			if ($quickmod && isset($user_quickmod_actions[$action]) && $this->user->data['is_registered'] && $this->auth->acl_gets($user_quickmod_actions[$action], $forum_id))
+
+			if ($this->quickmod && isset($user_quickmod_actions[$this->action]) && $this->user->data['is_registered'] && $this->auth->acl_gets($user_quickmod_actions[$this->action], $this->forum_id))
 			{
-				$topic_info = phpbb_get_topic_data([$topic_id]);
-				if ($topic_info[$topic_id]['topic_poster'] == $this->user->data['user_id'])
+				$topic_info = phpbb_get_topic_data([$this->topic_id]);
+
+				if ($topic_info[$this->topic_id]['topic_poster'] == $this->user->data['user_id'])
 				{
 					$allow_user = true;
 				}
@@ -191,128 +331,119 @@ class mcp
 				trigger_error('NOT_AUTHORISED');
 			}
 		}
+	}
 
-		// If the user cannot read the forum he tries to access then we won't allow mcp access either
-		if ($forum_id && !$this->auth->acl_get('f_read', $forum_id))
+	/**
+	* Checking extra moderator permissions for the forum
+	*/
+	protected function check_mcp_forum_auth()
+	{
+		if ($this->forum_id && !$this->auth->acl_get('f_read', $this->forum_id))
 		{
 			send_status_line(403, 'Forbidden');
 			trigger_error('NOT_AUTHORISED');
 		}
 
-		if ($forum_id)
+		if ($this->forum_id)
 		{
-			$module->acl_forum_id = $forum_id;
+			$this->module->acl_forum_id = $this->forum_id;
+		}
+	}
+
+	/**
+	* Sub-method for the main() with quickmod=1;action=lock|unlock|lock_post|unlock_post|make_sticky|make_announce|make_global|make_normal|fork|move|delete_post|delete_topic|restore_topic
+	*/
+	protected function quickmod()
+	{
+		$this->module->load('mcp', 'main', 'quickmod');
+	}
+
+	/**
+	* Sub-method for the main() with quickmod=1;action=topic_logs
+	*/
+	protected function quickmod_topic_logs()
+	{
+		// Reset start parameter if we jumped from the quickmod dropdown
+		if ($this->request->variable('start', 0))
+		{
+			$this->request->overwrite('start', 0);
 		}
 
-		// Instantiate module system and generate list of available modules
-		$module->list_modules('mcp');
+		$this->module->set_active('logs', 'topic_logs');
+	}
 
-		if ($quickmod)
+	/**
+	* Sub-method for the main() with quickmod=1;action=merge_topic
+	*/
+	protected function quickmod_merge_topic()
+	{
+		$this->module->set_active('main', 'forum_view');
+	}
+
+	/**
+	* Sub-method for the main() with quickmod=1;action=split|merge
+	*/
+	protected function quickmod_split_merge()
+	{
+		$this->module->set_active('main', 'topic_view');
+	}
+
+	/**
+	* Hide MCP modules
+	*/
+	protected function hide_mcp_modules()
+	{
+		if (in_array($this->mode, ['', 'unapproved_topics', 'unapproved_posts', 'deleted_topics' , 'deleted_posts']))
 		{
-			$mode = 'quickmod';
-
-			switch ($action)
-			{
-				case 'lock':
-				case 'unlock':
-				case 'lock_post':
-				case 'unlock_post':
-				case 'make_sticky':
-				case 'make_announce':
-				case 'make_global':
-				case 'make_normal':
-				case 'fork':
-				case 'move':
-				case 'delete_post':
-				case 'delete_topic':
-				case 'restore_topic':
-					$module->load('mcp', 'main', 'quickmod');
-				return;
-
-				case 'topic_logs':
-					// Reset start parameter if we jumped from the quickmod dropdown
-					if ($this->request->variable('start', 0))
-					{
-						$this->request->overwrite('start', 0);
-					}
-
-					$module->set_active('logs', 'topic_logs');
-				break;
-
-				case 'merge_topic':
-					$module->set_active('main', 'forum_view');
-				break;
-
-				case 'split':
-				case 'merge':
-					$module->set_active('main', 'topic_view');
-				break;
-
-				default:
-					trigger_error($this->language->lang('QUICKMOD_ACTION_NOT_ALLOWED', $action), E_USER_ERROR);
-				break;
-			}
-		}
-		else
-		{
-			// Select the active module
-			$module->set_active($id, $mode);
+			$this->module->set_display('queue', 'approve_details', false);
 		}
 
-		// Hide some of the options if we don't have the relevant information to use them
-		if (!$post_id)
+		if (in_array($this->mode, ['', 'reports', 'reports_closed', 'pm_reports' , 'pm_reports_closed', 'pm_report_details']))
 		{
-			$module->set_display('main', 'post_details', false);
-			$module->set_display('warn', 'warn_post', false);
+			$this->module->set_display('reports', 'report_details', false);
 		}
 
-		if ($mode == '' || $mode == 'unapproved_topics' || $mode == 'unapproved_posts' || $mode == 'deleted_topics' || $mode == 'deleted_posts')
+		if (in_array($this->mode, ['', 'reports', 'reports_closed', 'pm_reports' , 'pm_reports_closed', 'report_details']))
 		{
-			$module->set_display('queue', 'approve_details', false);
+			$this->module->set_display('pm_reports', 'pm_report_details', false);
 		}
 
-		if ($mode == '' || $mode == 'reports' || $mode == 'reports_closed' || $mode == 'pm_reports' || $mode == 'pm_reports_closed' || $mode == 'pm_report_details')
+		if (!$this->forum_id)
 		{
-			$module->set_display('reports', 'report_details', false);
+			$this->module->set_display('main', 'forum_view', false);
+			$this->module->set_display('logs', 'forum_logs', false);
 		}
 
-		if ($mode == '' || $mode == 'reports' || $mode == 'reports_closed' || $mode == 'pm_reports' || $mode == 'pm_reports_closed' || $mode == 'report_details')
+		if (!$this->topic_id)
 		{
-			$module->set_display('pm_reports', 'pm_report_details', false);
+			$this->module->set_display('main', 'topic_view', false);
+			$this->module->set_display('logs', 'topic_logs', false);
 		}
 
-		if (!$topic_id)
+		if (!$this->post_id)
 		{
-			$module->set_display('main', 'topic_view', false);
-			$module->set_display('logs', 'topic_logs', false);
+			$this->module->set_display('main', 'post_details', false);
+			$this->module->set_display('warn', 'warn_post', false);
 		}
 
-		if (!$forum_id)
+		if (!$this->user_id && $this->username == '')
 		{
-			$module->set_display('main', 'forum_view', false);
-			$module->set_display('logs', 'forum_logs', false);
+			$this->module->set_display('notes', 'user_notes', false);
+			$this->module->set_display('warn', 'warn_user', false);
 		}
+	}
 
-		if (!$user_id && $username == '')
-		{
-			$module->set_display('notes', 'user_notes', false);
-			$module->set_display('warn', 'warn_user', false);
-		}
-
-		// Load and execute the relevant module
-		$module->load_active();
-
-		// Assign data to the template engine for the list of modules
-		$module->assign_tpl_vars("{$this->root_path}mcp.{$this->php_ext}");
-
-		// Generate urls for letting the moderation control panel being accessed in different modes
+	/**
+	* Generate template variables
+	*/
+	protected function output_template()
+	{
 		$this->template->assign_vars([
-			'U_MCP_FORUM'	=> ($forum_id) ? $this->helper->route('vinabb_web_mcp_route', ['id' => 'main', 'mode' => 'forum_view', 'f' => $forum_id]) : '',
-			'U_MCP_TOPIC'	=> ($forum_id && $topic_id) ? $this->helper->route('vinabb_web_mcp_route', ['id' => 'main', 'mode' => 'topic_view', 't' => $topic_id]) : '',
-			'U_MCP_POST'	=> ($forum_id && $topic_id && $post_id) ? $this->helper->route('vinabb_web_mcp_route', ['id' => 'main', 'mode' => 'post_details', 't' => $topic_id, 'p' => $post_id]) : ''
-		]);
+			'U_MCP_FORUM'	=> ($this->forum_id) ? $this->helper->route('vinabb_web_mcp_route', ['id' => 'main', 'mode' => 'forum_view', 'f' => $this->forum_id]) : '',
+			'U_MCP_TOPIC'	=> ($this->forum_id && $this->topic_id) ? $this->helper->route('vinabb_web_mcp_route', ['id' => 'main', 'mode' => 'topic_view', 't' => $this->topic_id]) : '',
+			'U_MCP_POST'	=> ($this->forum_id && $this->topic_id && $this->post_id) ? $this->helper->route('vinabb_web_mcp_route', ['id' => 'main', 'mode' => 'post_details', 't' => $this->topic_id, 'p' => $this->post_id]) : '',
 
-		// Generate the page, do not display/query online list
-		$module->display($module->get_page_title());
+			'S_IN_MCP'	=> true
+		]);
 	}
 }

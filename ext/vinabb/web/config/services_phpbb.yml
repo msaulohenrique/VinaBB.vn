@@ -132,7 +132,7 @@ services:
         class: vinabb\web\controllers\mcp
         arguments:
             - '@auth'
-            - '@dbal.conn'
+            - '@service_container'
             - '@language'
             - '@request'
             - '@template'
