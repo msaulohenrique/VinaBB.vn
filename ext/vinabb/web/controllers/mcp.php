@@ -312,7 +312,7 @@ class mcp
 				'make_normal'	=> ['f_announce', 'f_announce_global', 'f_sticky']
 			];
 
-			if ($this->quickmod && isset($user_quickmod_actions[$this->action]) && $this->user->data['is_registered'] && $this->auth->acl_gets($user_quickmod_actions[$this->action], $this->forum_id))
+			if ($this->quickmod && isset($user_quickmod_actions[$this->action]) && $this->auth->acl_gets($user_quickmod_actions[$this->action], $this->forum_id))
 			{
 				$topic_info = phpbb_get_topic_data([$this->topic_id]);
 
