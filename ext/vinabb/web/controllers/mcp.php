@@ -313,22 +313,15 @@ class mcp
 				'make_normal'	=> ['f_announce', 'f_announce_global', 'f_sticky']
 			];
 
-			$allow_user = false;
-
 			if ($this->quickmod && isset($user_quickmod_actions[$this->action]) && $this->user->data['is_registered'] && $this->auth->acl_gets($user_quickmod_actions[$this->action], $this->forum_id))
 			{
 				$topic_info = phpbb_get_topic_data([$this->topic_id]);
 
-				if ($topic_info[$this->topic_id]['topic_poster'] == $this->user->data['user_id'])
+				if ($topic_info[$this->topic_id]['topic_poster'] != $this->user->data['user_id'])
 				{
-					$allow_user = true;
+					send_status_line(403, 'Forbidden');
+					trigger_error('NOT_AUTHORISED');
 				}
-			}
-
-			if (!$allow_user)
-			{
-				send_status_line(403, 'Forbidden');
-				trigger_error('NOT_AUTHORISED');
 			}
 		}
 	}
