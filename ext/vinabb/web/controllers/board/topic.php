@@ -614,7 +614,7 @@ class topic implements topic_interface
 
 		// Quick mod tools
 		$allow_change_type = ($this->auth->acl_get('m_', $forum_id) || ($this->user->data['is_registered'] && $this->user->data['user_id'] == $topic_data['topic_poster'])) ? true : false;
-		$s_quickmod_action = $this->helper->route('vinabb_web_mcp_route', ['id' => 'front', 'mode' => 'quickmod', 'forum_id' => $forum_id, 'topic_id' => $topic_id, 'start' => $start, 'redirect' => urlencode(str_replace('&amp;', '&', $viewtopic_url))], true, $this->user->session_id);
+		$s_quickmod_action = $this->helper->route('vinabb_web_mcp_route', ['id' => 'main', 'mode' => 'quickmod', 'quickmod' => 1, 'f' => $forum_id, 't' => $topic_id, 'start' => $start, 'redirect' => urlencode(str_replace('&amp;', '&', $viewtopic_url))], true, $this->user->session_id);
 
 		$quickmod_array = [
 			'lock'			=> ['LOCK_TOPIC', ($topic_data['topic_status'] == ITEM_UNLOCKED) && ($this->auth->acl_get('m_lock', $forum_id) || ($this->auth->acl_get('f_user_lock', $forum_id) && $this->user->data['is_registered'] && $this->user->data['user_id'] == $topic_data['topic_poster']))],
