@@ -1174,7 +1174,6 @@ class topic implements topic_interface
 						'rank_title'		=> '',
 						'rank_image'		=> '',
 						'rank_image_src'	=> '',
-						'sig'				=> '',
 						'pm'				=> '',
 						'email'				=> '',
 						'jabber'			=> '',
